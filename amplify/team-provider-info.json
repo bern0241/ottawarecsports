@@ -10,6 +10,11 @@
       "StackName": "amplify-orsapp-dev-154029",
       "StackId": "arn:aws:cloudformation:us-east-1:188632207723:stack/amplify-orsapp-dev-154029/a1f29ea0-beba-11ed-aeef-12db10b1a56b",
       "AmplifyAppId": "d3an2jz455khp"
+    },
+    "categories": {
+      "auth": {
+        "orsapp159e10c3": {}
+      }
     }
   }
 }
