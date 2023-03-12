@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
-import {MdOutlineSportsSoccer, MdKeyboardArrowRight, MdKeyboardArrowDown} from "react-icons/md";
-
+import { IconBallFootball, IconChevronDown, IconChevronRight  } from '@tabler/icons-react';
 
 const SportsDropDown = () => {
   const [showMe, setShowMe] = useState(false);
@@ -9,14 +8,16 @@ const SportsDropDown = () => {
     setShowMe(!showMe);
 }
   return (
-    <div className="text-neutral-500 hover:text-neutral-50 focus:hover:text-neutral-50">
-      <button onClick={toggle} className="flex flex-row p-2 ">
-        <div className="pt-1 ">
-          <MdOutlineSportsSoccer size={'1.3em'}/>
-        </div>
-        <h1 className=" font-medium text-lg pl-2">Sports</h1>  
+    <div className="text-neutral-500 hover:text-neutral-50">
+      <button onClick={toggle} className="p-2 flex flex-row justify-between w-full">
+        <div className='flex flex-row align-middle'>
+          <div className="pt-1 ">
+          <IconBallFootball size={'1.3em'}/>
+          </div>
+          <h1 className=" font-medium text-lg pl-2">Sports</h1> 
+        </div>  
         <div className="pt-1">
-          {showMe?<MdKeyboardArrowRight size={'1.3em'}/>:<MdKeyboardArrowDown size={'1.3em'}/>}
+          {showMe?<IconChevronRight size={'1.3em'}/>:<IconChevronDown size={'1.3em'}/>}
         </div>
       </button>
       <div style={{

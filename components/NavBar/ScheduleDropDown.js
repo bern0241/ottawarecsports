@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import {MdEditCalendar, MdKeyboardArrowRight, MdKeyboardArrowDown} from "react-icons/md";
-
+import { IconCalendarEvent, IconChevronDown, IconChevronRight  } from '@tabler/icons-react';
 
 const ScheduleDropDown = () => {
   const [showMe, setShowMe] = useState(false);
@@ -9,14 +8,16 @@ const ScheduleDropDown = () => {
     setShowMe(!showMe);
   }
   return (
-    <div className="text-neutral-500 hover:text-neutral-50">
-      <button onClick={toggle} className="p-2 flex flex-row">
-        <div className="pt-1 ">
-          <MdEditCalendar size={'1.3em'}/>
+<div className="text-neutral-500 hover:text-neutral-50">
+      <button onClick={toggle} className="p-2 flex flex-row justify-between w-full">
+        <div className='flex flex-row align-middle'>
+          <div className="pt-1 ">
+            <IconCalendarEvent size={'1.3em'}/>
+          </div>
+          <h1 className=" font-medium text-lg pl-2">Schedule</h1> 
         </div>
-        <h1 className=" font-medium text-lg pl-2">Schedule</h1> 
         <div className="pt-1">
-          {showMe?<MdKeyboardArrowRight size={'1.3em'}/>:<MdKeyboardArrowDown size={'1.3em'}/>}
+          {showMe?<IconChevronRight size={'1.3em'}/>:<IconChevronDown size={'1.3em'}/>}
         </div> 
       </button>
       <div style={{
