@@ -9,6 +9,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Auth } from 'aws-amplify';
+import AWS from 'aws-sdk';
 // Components
 import TextField from './TextField';
 import PasswordField from './PasswordField';
@@ -35,6 +37,8 @@ export default function SignUpView({ setUiState, email, setEmail }) {
     const router = useRouter();
     // Message state for errors/succession notices
     const [message, setMessage] = useState(null);
+    //Important variable for using AWS SDK Cognitio services
+    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
     // Initialize Fields
     useEffect(() => {
@@ -52,12 +56,41 @@ export default function SignUpView({ setUiState, email, setEmail }) {
             return () => clearTimeout(timer);
     }, [message])
 
-    const signUp = () => {
+    const signUp = async () => {
         console.log('birthdate',birthdate);
         if (firstName === '' || lastName === '' || email === '' || phoneNumber === '' || location === '' || gender === '' || birthdate === '') {
             setMessage({status: 'error', message: 'Please fillout all required fields.'})
             return;
         }
+        try {
+            const newUser = await Auth.signUp({
+                username: email,
+                password: password,
+                attributes: {
+                    name: firstName,
+                    family_name: lastName,
+                    'custom:location': location,
+                    phone_number: phoneNumber,
+                    gender: gender,
+                    picture: 'none',
+                    birthdate: birthdate
+                }
+            })
+            addUserToGroup(newUser.userSub, 'User');
+            setUiState('confirmSignUp');
+        } catch (error) {
+            console.error(error);
+            setMessage({status: 'error', message: error.message});
+        }
+    }
+
+    const addUserToGroup = (username, role) => {
+        var params = {
+            UserPoolId: '',
+            GroupName: role,
+            Username: username,
+        };
+
     }
 
   return (
