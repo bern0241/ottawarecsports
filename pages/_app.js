@@ -6,20 +6,20 @@ import '@/styles/globals.css';
 // Amplify.configure({ ...config, ssr: false });
 Amplify.configure(config);
 
-var AWS = require('aws-sdk')
+var AWS = require('aws-sdk');
 AWS.config.update({
-  region: 'us-east-1',
-  apiVersion: 'latest',
-  credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
-    secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
-  },
-})
+	region: 'us-east-1',
+	apiVersion: 'latest',
+	credentials: {
+		accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+		secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
+	},
+});
 
 export default function App({ Component, pageProps }) {
 	return (
 		<UserContextProvider>
-		<Component {...pageProps} />
+			<Component {...pageProps} />
 		</UserContextProvider>
-	)
+	);
 }

@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-12
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import { Toast } from 'flowbite-react';
@@ -6,6 +13,7 @@ import { useUser } from '@/context/userContext';
 // Components
 import UserIdentifier from '@/components/common/UserIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
+import ViewUserGroups from '@/components/common/ViewUserGroups';
 
 export default function Home() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
@@ -19,10 +27,11 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
-				<div className='flex flex-col'>
+				<div className="flex flex-col">
 					<UserIdentifier />
 					<h1>Home Page</h1>
 					<button onClick={() => console.log(user)}>Click Me</button>
+					<ViewUserGroups />
 					<SignOutButton />
 				</div>
 			</main>
