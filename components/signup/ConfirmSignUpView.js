@@ -9,10 +9,11 @@ import React, { useState, useEffect } from 'react'
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useUser } from '@/context/userContext';
 // Icons 
 import { IconX } from '@tabler/icons-react';
 // Components
-import TextField from './TextField';
+import TextField from '../common/TextField';
 
 
 export default function ConfirmSignUpView({ setUiState, email }) {
@@ -57,7 +58,7 @@ export default function ConfirmSignUpView({ setUiState, email }) {
                     <IconX fontSize={'24px'} onClick={() => setUiState('signUp')} />
                 </div>
                 <div className='text-center'>
-                    <Image className='m-auto' width={94} height={94} src='/../public/images/ORS-Logo.png' />
+                    <Image className='m-auto' width={94} height={94} src='/../public/images/ORS-Logo.png' alt="ORS Logo"/>
                 </div>
                 <div className='mt-[1.5rem] w-[20rem]'>
                     <div className='mb-7'>

@@ -12,8 +12,8 @@ import Link from 'next/link';
 import { Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
 // Components
-import TextField from './TextField';
-import PasswordField from './PasswordField';
+import TextField from '../common/TextField';
+import PasswordField from '../common/PasswordField';
 import LocationDropDown from './LocationDropDown';
 import GenderDropDown from './GenderDropDown';
 import DatePicker from './DatePicker';
@@ -69,7 +69,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
                 attributes: {
                     name: firstName,
                     family_name: lastName,
-                    // 'custom:location': location,
+                    'custom:location': location,
                     phone_number: phoneNumber,
                     gender: gender,
                     picture: 'none',
@@ -105,7 +105,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
         <div className='h-[100vh] flex justify-center items-center px-[1rem]'>
             <div className='max-w-[33rem] py-[4rem] px-[3rem] mx-auto translate-y-[-20px]'>
                 <div className='text-center'>
-                    <Image onClick={() => router.push('/')} className='m-auto cursor-pointer' width={94} height={94} src='/../public/images/ORS-Logo.png' />
+                    <Image onClick={() => router.push('/')} className='m-auto cursor-pointer' width={94} height={94} src='/../public/images/ORS-Logo.png' alt='ORS Logo'/>
                     <p className='text-[1rem] mt-2 mb-3'>Create an account or <Link className='text-green-700 cursor-pointer font-bold underline italic' href="/login">Sign In</Link></p>
                 </div>
 
