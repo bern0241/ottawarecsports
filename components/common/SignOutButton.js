@@ -11,13 +11,14 @@ import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
 
 export default function SignOutButton() {
-	const [user, setUser] = useUser();
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const router = useRouter();
 
 	const signOut = async (e) => {
 		e.preventDefault();
 		await Auth.signOut();
 		setUser(null);
+		setAuthRoles(null);
 		router.push('/login');
 	};
 

@@ -12,7 +12,7 @@ const UserContext = createContext();
 
 function UserContextProvider(props) {
 	const [user, setUser] = useState('');
-	const [authRoles, setAuthRoles] = useState('');
+	const [authRoles, setAuthRoles] = useState();
 
 	useEffect(() => {
 		checkUser();

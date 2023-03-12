@@ -10,6 +10,7 @@ import styles from '@/styles/Home.module.css';
 import { Toast } from 'flowbite-react';
 import { IconShieldCheck } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
+import { useRouter } from 'next/router';
 // Components
 import UserIdentifier from '@/components/common/UserIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
@@ -17,6 +18,8 @@ import ViewUserGroups from '@/components/common/ViewUserGroups';
 
 export default function Home() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const router = useRouter();
+
 	return (
 		<>
 			<Head>
@@ -33,6 +36,7 @@ export default function Home() {
 					<button onClick={() => console.log(user)}>Click Me</button>
 					<ViewUserGroups />
 					<SignOutButton />
+					<button className='text-blue-600' onClick={() => router.push('/admin-portal')}>Go To Admin Portal Page</button>
 				</div>
 			</main>
 		</>
