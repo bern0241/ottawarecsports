@@ -3,6 +3,9 @@ import styles from '@/styles/Home.module.css';
 import { Toast } from 'flowbite-react';
 import { IconShieldCheck } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
+// Components
+import UserIdentifier from '@/components/common/UserIdentifier';
+import SignOutButton from '@/components/common/SignOutButton';
 
 export default function Home() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
@@ -16,9 +19,12 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
-			<div>
-			<h1>Login</h1>
-			</div>
+				<div className='flex flex-col'>
+					<UserIdentifier />
+					<h1>Home Page</h1>
+					<button onClick={() => console.log(user)}>Click Me</button>
+					<SignOutButton />
+				</div>
 			</main>
 		</>
 	);
