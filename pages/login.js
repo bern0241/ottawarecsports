@@ -10,6 +10,7 @@ import Head from 'next/head';
 import { useUser } from '@/context/userContext';
 // Components
 import SignInView from '@/components/login/SignInView';
+import ForgotPasswordView from '@/components/login/ForgotPasswordView';
 
 export default function Login() {
   const [uiState, setUiState] = useState(null);
