@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-12
+ * 
+ * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ */
+
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { IconUsers, IconChevronDown, IconChevronRight  } from '@tabler/icons-react';

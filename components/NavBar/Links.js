@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-12
+ * 
+ * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ */
+
 import Link from 'next/link'
 import React from 'react'
 import SportsDropDown from './SportsDropDown'

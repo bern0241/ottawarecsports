@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-12
+ * 
+ * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ */
+
 import React from 'react'
 
 const LogoutBtn = () => {

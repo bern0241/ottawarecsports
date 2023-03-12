@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-12
+ * 
+ * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ */
+
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import NavbarMenu from '@/components/NavBar';
@@ -14,7 +21,6 @@ export default function Home() {
 				<link rel="icon" href="/Logo.svg" />
 			</Head>
 			<main>
-				<NavbarMenu/>
 			</main>
 		</>
 	);
