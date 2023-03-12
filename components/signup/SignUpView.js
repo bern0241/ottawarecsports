@@ -69,7 +69,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
                 attributes: {
                     name: firstName,
                     family_name: lastName,
-                    'custom:location': location,
+                    // 'custom:location': location,
                     phone_number: phoneNumber,
                     gender: gender,
                     picture: 'none',
