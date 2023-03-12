@@ -13,7 +13,7 @@ import NavbarSetup from './Links';
 
 const NavbarMenu = () => {
 	return (
-		<div className="block bg-[#023059] h-screen py-3 w-64 flex flex-col justify-between text-neutral-500">
+		<div className="bg-[#023059] h-screen py-3 w-64 flex flex-col justify-between text-neutral-500">
 			<div className="flex flex-col self-center">
 				<Image
 					src="/Logo.svg"
@@ -25,7 +25,7 @@ const NavbarMenu = () => {
 				/>
 				<Link
 					href="./"
-					className="pb-5 self-center text-xs hover:text-neutral-50"
+					className="pb-5 self-center text-xs text-white/70 hover:text-white focus:text-white"
 				>
 					Visit Ottawa Rec Sports
 				</Link>
