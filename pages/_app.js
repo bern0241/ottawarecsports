@@ -1,7 +1,7 @@
-import '@/styles/globals.css';
-
 import { Amplify } from 'aws-amplify';
 import config from '../src/aws-exports.js';
+import { UserContextProvider } from '@/context/userContext.js';
+import '@/styles/globals.css';
 
 // Amplify.configure({ ...config, ssr: false });
 Amplify.configure(config);
@@ -17,5 +17,9 @@ AWS.config.update({
 })
 
 export default function App({ Component, pageProps }) {
-	return <Component {...pageProps} />;
+	return (
+		<UserContextProvider>
+		<Component {...pageProps} />
+		</UserContextProvider>
+	)
 }
