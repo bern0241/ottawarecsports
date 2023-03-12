@@ -12,8 +12,12 @@ export default function UserIdentifier() {
     const [user, setUser] = useUser();
 
   return (
-    <div>
-        <h2>Welcome <b>{user.attributes.name} {user.attributes.family_name}</b></h2>
-    </div>
+      <>
+    {user && (
+        <div>
+            <h2>Welcome <b>{user.attributes.name} {user.attributes.family_name}</b></h2>
+        </div>
+    )}
+    </>
   )
 }

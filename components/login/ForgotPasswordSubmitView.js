@@ -59,12 +59,13 @@ export default function ForgotPasswordSubmitView({ email, uiState, setUiState })
                         <div className='mt-[1.5rem]'>
                             <TextField label="Confirmation Code" 
                                     id='confirmationCode'
-                                    type="hidden" 
+                                    type="text" 
                                     state={confirmationCode}
                                     setState={setConfirmationCode} 
                                     autoComplete={true} />
 
-                            <PasswordField state={newPassword}
+                            <PasswordField label="New Password"
+                                state={newPassword}
                                 setState={setNewPassword}
                                 showPassword={showPassword}
                                 setShowPassword={setShowPassword} />
