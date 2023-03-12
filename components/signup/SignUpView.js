@@ -13,6 +13,8 @@ import Link from 'next/link';
 import TextField from './TextField';
 import PasswordField from './PasswordField';
 import LocationDropDown from './LocationDropDown';
+import GenderDropDown from './GenderDropDown';
+import DatePicker from './DatePicker';
 
 export default function SignUpView({ setUiState, email, setEmail }) {
     // Variable states for signing up
@@ -31,6 +33,32 @@ export default function SignUpView({ setUiState, email, setEmail }) {
     const [showPassword, setShowPassword] = useState(false);
     // Router constant used for changing pages
     const router = useRouter();
+    // Message state for errors/succession notices
+    const [message, setMessage] = useState(null);
+
+    // Initialize Fields
+    useEffect(() => {
+        function getCurrentDate() {
+            let current = new Date().toISOString().split('T')[0];
+            setBirthdate(current);
+        }
+        getCurrentDate();
+    }, [])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setMessage(null);
+            }, 5000);
+            return () => clearTimeout(timer);
+    }, [message])
+
+    const signUp = () => {
+        console.log('birthdate',birthdate);
+        if (firstName === '' || lastName === '' || email === '' || phoneNumber === '' || location === '' || gender === '' || birthdate === '') {
+            setMessage({status: 'error', message: 'Please fillout all required fields.'})
+            return;
+        }
+    }
 
   return (
     <main className='flex'>
@@ -74,6 +102,19 @@ export default function SignUpView({ setUiState, email, setEmail }) {
                         <LocationDropDown state={location}
                                         setState={setLocation}
                                         />
+                        <div className='flex justify-between gap-2'>
+                            <GenderDropDown state={gender} 
+                                            setState={setGender} 
+                                            />
+                            <DatePicker birthdateDisplay={birthdateDisplay}/>
+
+                        </div>
+                        {/* Message that pops up when error/succession occurs */}
+                        {message !== null && (<p id="message-notice" className={`ml-1 text-[.87rem] ${message.status === 'error' ? 'text-red-600': 'text-green-500' } relative top-1`}><span class="font-medium"></span> {message.message}</p>) }
+
+                        {/* Signup button */}
+                        <button type='submit' onClick={() => signUp()} className='mt-5 p-[10px] w-full bg-[#007916] text-white rounded-sm'>Sign Up</button>
+                        <p className='py-3 text-right'></p>
                     </div>
 
                 </div>

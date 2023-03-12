@@ -6,6 +6,8 @@
  */
 
 import React from 'react'
+import { IconEye } from '@tabler/icons-react';
+import { IconEyeOff } from '@tabler/icons-react';
 
 export default function PasswordField({ state, setState, showPassword, setShowPassword }) {
   return (
@@ -16,7 +18,7 @@ export default function PasswordField({ state, setState, showPassword, setShowPa
         </div>
         <div className={`absolute right-2 ${false ? 'bottom-[1px]' : 'bottom-[1px]'}`}>
             <button onClick={() => setShowPassword(!showPassword)} className='ml-3'>
-            <ion-icon style={{fontSize: '28px'}} className='items-center' name={showPassword ? 'eye-off-outline' : 'eye-outline' }></ion-icon>
+            {showPassword ? <IconEyeOff size={'28px'}/> : <IconEye size={'28px'}/>}
             </button>
         </div>
     </div>
