@@ -11,6 +11,7 @@ import { useUser } from '@/context/userContext';
 // Components
 import SignInView from '@/components/login/SignInView';
 import ForgotPasswordView from '@/components/login/ForgotPasswordView';
+import ForgotPasswordSubmitView from '@/components/login/ForgotPasswordSubmitView';
 
 export default function Login() {
   const [uiState, setUiState] = useState(null);
@@ -36,9 +37,9 @@ export default function Login() {
     {uiState === 'forgotPassword' && (
       <ForgotPasswordView email={email} setEmail={setEmail} setUiState={setUiState} />
     )}
-    {/* {uiState === 'forgotPasswordSubmit' && (
-      <ForgotPasswordSubmitView email={email} uiState={uiState} setUiState={setUiState}
-    )} */}
+    {uiState === 'forgotPasswordSubmit' && (
+      <ForgotPasswordSubmitView email={email} uiState={uiState} setUiState={setUiState} />
+    )}
   </>
   )
 }
