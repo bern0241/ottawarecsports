@@ -14,7 +14,7 @@ module.exports = {
 	],
 	theme: {
 		colors: {
-			neutral: {
+			'brand-neutral': {
 				50: '#f5f5f5',
 				100: '#f0f0f0',
 				200: '#e4e4e4',
@@ -26,7 +26,7 @@ module.exports = {
 				800: '#5a5a5a',
 				900: '#4e4e4e',
 			},
-			blue: {
+			'brand-blue': {
 				50: '#eff8ff',
 				100: '#e6f4ff',
 				200: '#b8e4ff',
@@ -38,7 +38,7 @@ module.exports = {
 				800: '#003F77',
 				900: '#023059',
 			},
-			amber: {
+			'brand-amber': {
 				50: '#fff9eb',
 				100: '#ffefc6',
 				200: '#ffdc88',
@@ -50,7 +50,7 @@ module.exports = {
 				800: '#94330c',
 				900: '#7a2b0d',
 			},
-			orange: {
+			'brand-orange': {
 				50: '#fff1ef',
 				100: '#ffe0dc',
 				200: '#ffc7bf',
@@ -63,7 +63,8 @@ module.exports = {
 				900: '#941a08',
 			},
 		},
-		extend: {},
+		extend: {
+		},
 	},
 	plugins: [require('flowbite/plugin')],
 };
