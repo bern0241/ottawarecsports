@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-10
+ * Last updated: 2023-03-11
  * 
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -86,11 +86,18 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 
     const addUserToGroup = (username, role) => {
         var params = {
-            UserPoolId: '',
+            UserPoolId: 'us-east-1_Xje34Qo2X',
             GroupName: role,
             Username: username,
         };
-
+        cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
+        if (err) {
+            console.log(err, err.stack);
+        }
+        else {
+            console.log({status: 'success', data: data})
+        }
+        });
     }
 
   return (

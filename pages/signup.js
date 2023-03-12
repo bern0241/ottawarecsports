@@ -9,13 +9,14 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 // Components
 import SignUpView from '@/components/signup/SignUpView';
+import ConfirmSignUpView from '@/components/signup/ConfirmSignUpView';
 
 export default function Signup() {
     const [uiState, setUiState] = useState(null);
     const [email, setEmail] = useState(''); // Email that gets passed between UI states/screens
 
     useEffect(() => {
-        setUiState('signUp');
+        setUiState('confirmSignUp');
     }, [])
 
   return (
@@ -31,12 +32,9 @@ export default function Signup() {
         {uiState === 'signUp' && (
                 <SignUpView email={email} setEmail={setEmail} setUiState={setUiState} />
             )}
-            {/* {uiState === 'confirmSignUp' && (
-                <ConfirmSignUpView email={email} setUiState={setUiState} />
-            )}
-            {uiState === 'reConfirmSignUp' && (
-                <ReConfirmSignUpView setUiState={setUiState} />
-            )} */}
+        {uiState === 'confirmSignUp' && (
+            <ConfirmSignUpView email={email} setUiState={setUiState} />
+        )}
     </>
   )
 }

@@ -5,8 +5,6 @@ import styles from '@/styles/Home.module.css';
 import { Toast } from 'flowbite-react';
 import { IconShieldCheck } from '@tabler/icons-react';
 
-const inter = Inter({ subsets: ['latin'] });
-
 export default function Home() {
 	return (
 		<>
