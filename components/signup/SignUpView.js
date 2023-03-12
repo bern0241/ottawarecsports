@@ -86,7 +86,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 
     const addUserToGroup = (username, role) => {
         var params = {
-            UserPoolId: 'us-east-1_Xje34Qo2X',
+            UserPoolId: 'us-east-1_bMXHV485G',
             GroupName: role,
             Username: username,
         };

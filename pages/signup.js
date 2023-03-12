@@ -16,7 +16,7 @@ export default function Signup() {
     const [email, setEmail] = useState(''); // Email that gets passed between UI states/screens
 
     useEffect(() => {
-        setUiState('confirmSignUp');
+        setUiState('signUp');
     }, [])
 
   return (
