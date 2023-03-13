@@ -8,10 +8,10 @@
 import { Breadcrumb } from 'flowbite-react'
 import React from 'react'
 
-const BreadCrumbs = (props) => {
+const BreadCrumbs = () => {
   return (
     <div className="p-1">
-      <Breadcrumb aria-label="Default breadcrumb example">
+      <Breadcrumb aria-label="Breadcrumb">
         <Breadcrumb.Item href="#">
           Home
         </Breadcrumb.Item>

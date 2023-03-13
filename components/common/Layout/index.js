@@ -11,9 +11,10 @@ import NavbarMenu from '../NavBar'
 
 const Layout = () => {
   return (
-    <div>
-      <div className="flex flex-row w-screen">
-          <Header/>
+    <div className="grid min-h-screen grid-rows-header bg-zinc-100">
+      <Header/>
+      <div className="grid md:grid-cols-sidebar">
+        <NavbarMenu/>
       </div>
     </div>
   )
