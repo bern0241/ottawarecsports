@@ -7,7 +7,7 @@
 
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
-import NavbarMenu from '@/components/NavBar';
+import Layout from '@/components/common/Layout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +21,7 @@ export default function Home() {
 				<link rel="icon" href="/Logo.svg" />
 			</Head>
 			<main>
+				<Layout/>
 			</main>
 		</>
 	);

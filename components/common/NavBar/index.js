@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-12
+ * Last updated: 2023-03-13
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -8,12 +8,12 @@
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import LogoutBtn from '../common/LogoutBtn';
+import LogoutBtn from './LogoutBtn';
 import NavbarSetup from './Links';
 
 const NavbarMenu = () => {
 	return (
-		<div className="bg-[#023059] h-screen py-3 w-64 flex flex-col justify-between text-neutral-500">
+		<div className="bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500">
 			<div className="flex flex-col self-center">
 				<Image
 					src="/Logo.svg"
