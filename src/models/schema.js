@@ -778,8 +778,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "away_colou": {
-                    "name": "away_colou",
+                "away_colour": {
+                    "name": "away_colour",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -1118,5 +1118,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.5",
-    "version": "0b18030824a3f031f4c2e31c6e07fa81"
+    "version": "d1fc3a7f1b7938501a1cf8894d70e550"
 };

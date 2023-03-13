@@ -288,7 +288,7 @@ type EagerTeams = {
   readonly name?: (string | null)[] | null;
   readonly founded?: number | null;
   readonly home_colour?: string | null;
-  readonly away_colou?: string | null;
+  readonly away_colour?: string | null;
   readonly division?: DivisionsEnum | keyof typeof DivisionsEnum | null;
   readonly team_captain?: (string | null)[] | null;
   readonly games_played?: number | null;
@@ -306,7 +306,7 @@ type LazyTeams = {
   readonly name?: (string | null)[] | null;
   readonly founded?: number | null;
   readonly home_colour?: string | null;
-  readonly away_colou?: string | null;
+  readonly away_colour?: string | null;
   readonly division?: DivisionsEnum | keyof typeof DivisionsEnum | null;
   readonly team_captain?: (string | null)[] | null;
   readonly games_played?: number | null;
