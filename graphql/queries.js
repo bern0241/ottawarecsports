@@ -691,7 +691,7 @@ export const getTeams = /* GraphQL */ `
       name
       founded
       home_colour
-      away_colou
+      away_colour
       division
       team_captain
       games_played
@@ -719,7 +719,7 @@ export const listTeams = /* GraphQL */ `
         name
         founded
         home_colour
-        away_colou
+        away_colour
         division
         team_captain
         games_played
@@ -752,7 +752,7 @@ export const syncTeams = /* GraphQL */ `
         name
         founded
         home_colour
-        away_colou
+        away_colour
         division
         team_captain
         games_played

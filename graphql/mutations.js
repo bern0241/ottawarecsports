@@ -1,11 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePlayersSoccer = /* GraphQL */ `
-  subscription OnCreatePlayersSoccer(
-    $filter: ModelSubscriptionPlayersSoccerFilterInput
+export const createPlayersSoccer = /* GraphQL */ `
+  mutation CreatePlayersSoccer(
+    $input: CreatePlayersSoccerInput!
+    $condition: ModelPlayersSoccerConditionInput
   ) {
-    onCreatePlayersSoccer(filter: $filter) {
+    createPlayersSoccer(input: $input, condition: $condition) {
       id
       user
       position
@@ -22,11 +23,12 @@ export const onCreatePlayersSoccer = /* GraphQL */ `
     }
   }
 `;
-export const onUpdatePlayersSoccer = /* GraphQL */ `
-  subscription OnUpdatePlayersSoccer(
-    $filter: ModelSubscriptionPlayersSoccerFilterInput
+export const updatePlayersSoccer = /* GraphQL */ `
+  mutation UpdatePlayersSoccer(
+    $input: UpdatePlayersSoccerInput!
+    $condition: ModelPlayersSoccerConditionInput
   ) {
-    onUpdatePlayersSoccer(filter: $filter) {
+    updatePlayersSoccer(input: $input, condition: $condition) {
       id
       user
       position
@@ -43,11 +45,12 @@ export const onUpdatePlayersSoccer = /* GraphQL */ `
     }
   }
 `;
-export const onDeletePlayersSoccer = /* GraphQL */ `
-  subscription OnDeletePlayersSoccer(
-    $filter: ModelSubscriptionPlayersSoccerFilterInput
+export const deletePlayersSoccer = /* GraphQL */ `
+  mutation DeletePlayersSoccer(
+    $input: DeletePlayersSoccerInput!
+    $condition: ModelPlayersSoccerConditionInput
   ) {
-    onDeletePlayersSoccer(filter: $filter) {
+    deletePlayersSoccer(input: $input, condition: $condition) {
       id
       user
       position
@@ -64,9 +67,12 @@ export const onDeletePlayersSoccer = /* GraphQL */ `
     }
   }
 `;
-export const onCreateGames = /* GraphQL */ `
-  subscription OnCreateGames($filter: ModelSubscriptionGamesFilterInput) {
-    onCreateGames(filter: $filter) {
+export const createGames = /* GraphQL */ `
+  mutation CreateGames(
+    $input: CreateGamesInput!
+    $condition: ModelGamesConditionInput
+  ) {
+    createGames(input: $input, condition: $condition) {
       id
       division
       date
@@ -90,9 +96,12 @@ export const onCreateGames = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateGames = /* GraphQL */ `
-  subscription OnUpdateGames($filter: ModelSubscriptionGamesFilterInput) {
-    onUpdateGames(filter: $filter) {
+export const updateGames = /* GraphQL */ `
+  mutation UpdateGames(
+    $input: UpdateGamesInput!
+    $condition: ModelGamesConditionInput
+  ) {
+    updateGames(input: $input, condition: $condition) {
       id
       division
       date
@@ -116,9 +125,12 @@ export const onUpdateGames = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteGames = /* GraphQL */ `
-  subscription OnDeleteGames($filter: ModelSubscriptionGamesFilterInput) {
-    onDeleteGames(filter: $filter) {
+export const deleteGames = /* GraphQL */ `
+  mutation DeleteGames(
+    $input: DeleteGamesInput!
+    $condition: ModelGamesConditionInput
+  ) {
+    deleteGames(input: $input, condition: $condition) {
       id
       division
       date
@@ -142,11 +154,12 @@ export const onDeleteGames = /* GraphQL */ `
     }
   }
 `;
-export const onCreateDivisions = /* GraphQL */ `
-  subscription OnCreateDivisions(
-    $filter: ModelSubscriptionDivisionsFilterInput
+export const createDivisions = /* GraphQL */ `
+  mutation CreateDivisions(
+    $input: CreateDivisionsInput!
+    $condition: ModelDivisionsConditionInput
   ) {
-    onCreateDivisions(filter: $filter) {
+    createDivisions(input: $input, condition: $condition) {
       id
       name
       abbreviation
@@ -165,11 +178,12 @@ export const onCreateDivisions = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateDivisions = /* GraphQL */ `
-  subscription OnUpdateDivisions(
-    $filter: ModelSubscriptionDivisionsFilterInput
+export const updateDivisions = /* GraphQL */ `
+  mutation UpdateDivisions(
+    $input: UpdateDivisionsInput!
+    $condition: ModelDivisionsConditionInput
   ) {
-    onUpdateDivisions(filter: $filter) {
+    updateDivisions(input: $input, condition: $condition) {
       id
       name
       abbreviation
@@ -188,11 +202,12 @@ export const onUpdateDivisions = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteDivisions = /* GraphQL */ `
-  subscription OnDeleteDivisions(
-    $filter: ModelSubscriptionDivisionsFilterInput
+export const deleteDivisions = /* GraphQL */ `
+  mutation DeleteDivisions(
+    $input: DeleteDivisionsInput!
+    $condition: ModelDivisionsConditionInput
   ) {
-    onDeleteDivisions(filter: $filter) {
+    deleteDivisions(input: $input, condition: $condition) {
       id
       name
       abbreviation
@@ -211,9 +226,12 @@ export const onDeleteDivisions = /* GraphQL */ `
     }
   }
 `;
-export const onCreateSeasons = /* GraphQL */ `
-  subscription OnCreateSeasons($filter: ModelSubscriptionSeasonsFilterInput) {
-    onCreateSeasons(filter: $filter) {
+export const createSeasons = /* GraphQL */ `
+  mutation CreateSeasons(
+    $input: CreateSeasonsInput!
+    $condition: ModelSeasonsConditionInput
+  ) {
+    createSeasons(input: $input, condition: $condition) {
       id
       league
       name
@@ -238,9 +256,12 @@ export const onCreateSeasons = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSeasons = /* GraphQL */ `
-  subscription OnUpdateSeasons($filter: ModelSubscriptionSeasonsFilterInput) {
-    onUpdateSeasons(filter: $filter) {
+export const updateSeasons = /* GraphQL */ `
+  mutation UpdateSeasons(
+    $input: UpdateSeasonsInput!
+    $condition: ModelSeasonsConditionInput
+  ) {
+    updateSeasons(input: $input, condition: $condition) {
       id
       league
       name
@@ -265,9 +286,12 @@ export const onUpdateSeasons = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSeasons = /* GraphQL */ `
-  subscription OnDeleteSeasons($filter: ModelSubscriptionSeasonsFilterInput) {
-    onDeleteSeasons(filter: $filter) {
+export const deleteSeasons = /* GraphQL */ `
+  mutation DeleteSeasons(
+    $input: DeleteSeasonsInput!
+    $condition: ModelSeasonsConditionInput
+  ) {
+    deleteSeasons(input: $input, condition: $condition) {
       id
       league
       name
@@ -292,9 +316,12 @@ export const onDeleteSeasons = /* GraphQL */ `
     }
   }
 `;
-export const onCreateLeagues = /* GraphQL */ `
-  subscription OnCreateLeagues($filter: ModelSubscriptionLeaguesFilterInput) {
-    onCreateLeagues(filter: $filter) {
+export const createLeagues = /* GraphQL */ `
+  mutation CreateLeagues(
+    $input: CreateLeaguesInput!
+    $condition: ModelLeaguesConditionInput
+  ) {
+    createLeagues(input: $input, condition: $condition) {
       id
       name
       sport
@@ -316,9 +343,12 @@ export const onCreateLeagues = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateLeagues = /* GraphQL */ `
-  subscription OnUpdateLeagues($filter: ModelSubscriptionLeaguesFilterInput) {
-    onUpdateLeagues(filter: $filter) {
+export const updateLeagues = /* GraphQL */ `
+  mutation UpdateLeagues(
+    $input: UpdateLeaguesInput!
+    $condition: ModelLeaguesConditionInput
+  ) {
+    updateLeagues(input: $input, condition: $condition) {
       id
       name
       sport
@@ -340,9 +370,12 @@ export const onUpdateLeagues = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteLeagues = /* GraphQL */ `
-  subscription OnDeleteLeagues($filter: ModelSubscriptionLeaguesFilterInput) {
-    onDeleteLeagues(filter: $filter) {
+export const deleteLeagues = /* GraphQL */ `
+  mutation DeleteLeagues(
+    $input: DeleteLeaguesInput!
+    $condition: ModelLeaguesConditionInput
+  ) {
+    deleteLeagues(input: $input, condition: $condition) {
       id
       name
       sport
@@ -364,11 +397,12 @@ export const onDeleteLeagues = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTeamNotes = /* GraphQL */ `
-  subscription OnCreateTeamNotes(
-    $filter: ModelSubscriptionTeamNotesFilterInput
+export const createTeamNotes = /* GraphQL */ `
+  mutation CreateTeamNotes(
+    $input: CreateTeamNotesInput!
+    $condition: ModelTeamNotesConditionInput
   ) {
-    onCreateTeamNotes(filter: $filter) {
+    createTeamNotes(input: $input, condition: $condition) {
       id
       date
       description
@@ -382,11 +416,12 @@ export const onCreateTeamNotes = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTeamNotes = /* GraphQL */ `
-  subscription OnUpdateTeamNotes(
-    $filter: ModelSubscriptionTeamNotesFilterInput
+export const updateTeamNotes = /* GraphQL */ `
+  mutation UpdateTeamNotes(
+    $input: UpdateTeamNotesInput!
+    $condition: ModelTeamNotesConditionInput
   ) {
-    onUpdateTeamNotes(filter: $filter) {
+    updateTeamNotes(input: $input, condition: $condition) {
       id
       date
       description
@@ -400,11 +435,12 @@ export const onUpdateTeamNotes = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTeamNotes = /* GraphQL */ `
-  subscription OnDeleteTeamNotes(
-    $filter: ModelSubscriptionTeamNotesFilterInput
+export const deleteTeamNotes = /* GraphQL */ `
+  mutation DeleteTeamNotes(
+    $input: DeleteTeamNotesInput!
+    $condition: ModelTeamNotesConditionInput
   ) {
-    onDeleteTeamNotes(filter: $filter) {
+    deleteTeamNotes(input: $input, condition: $condition) {
       id
       date
       description
@@ -418,14 +454,17 @@ export const onDeleteTeamNotes = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTeams = /* GraphQL */ `
-  subscription OnCreateTeams($filter: ModelSubscriptionTeamsFilterInput) {
-    onCreateTeams(filter: $filter) {
+export const createTeams = /* GraphQL */ `
+  mutation CreateTeams(
+    $input: CreateTeamsInput!
+    $condition: ModelTeamsConditionInput
+  ) {
+    createTeams(input: $input, condition: $condition) {
       id
       name
       founded
       home_colour
-      away_colou
+      away_colour
       division
       team_captain
       games_played
@@ -441,14 +480,17 @@ export const onCreateTeams = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTeams = /* GraphQL */ `
-  subscription OnUpdateTeams($filter: ModelSubscriptionTeamsFilterInput) {
-    onUpdateTeams(filter: $filter) {
+export const updateTeams = /* GraphQL */ `
+  mutation UpdateTeams(
+    $input: UpdateTeamsInput!
+    $condition: ModelTeamsConditionInput
+  ) {
+    updateTeams(input: $input, condition: $condition) {
       id
       name
       founded
       home_colour
-      away_colou
+      away_colour
       division
       team_captain
       games_played
@@ -464,14 +506,17 @@ export const onUpdateTeams = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTeams = /* GraphQL */ `
-  subscription OnDeleteTeams($filter: ModelSubscriptionTeamsFilterInput) {
-    onDeleteTeams(filter: $filter) {
+export const deleteTeams = /* GraphQL */ `
+  mutation DeleteTeams(
+    $input: DeleteTeamsInput!
+    $condition: ModelTeamsConditionInput
+  ) {
+    deleteTeams(input: $input, condition: $condition) {
       id
       name
       founded
       home_colour
-      away_colou
+      away_colour
       division
       team_captain
       games_played
@@ -487,11 +532,12 @@ export const onDeleteTeams = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUserNotes = /* GraphQL */ `
-  subscription OnCreateUserNotes(
-    $filter: ModelSubscriptionUserNotesFilterInput
+export const createUserNotes = /* GraphQL */ `
+  mutation CreateUserNotes(
+    $input: CreateUserNotesInput!
+    $condition: ModelUserNotesConditionInput
   ) {
-    onCreateUserNotes(filter: $filter) {
+    createUserNotes(input: $input, condition: $condition) {
       id
       user
       author
@@ -505,11 +551,12 @@ export const onCreateUserNotes = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUserNotes = /* GraphQL */ `
-  subscription OnUpdateUserNotes(
-    $filter: ModelSubscriptionUserNotesFilterInput
+export const updateUserNotes = /* GraphQL */ `
+  mutation UpdateUserNotes(
+    $input: UpdateUserNotesInput!
+    $condition: ModelUserNotesConditionInput
   ) {
-    onUpdateUserNotes(filter: $filter) {
+    updateUserNotes(input: $input, condition: $condition) {
       id
       user
       author
@@ -523,11 +570,12 @@ export const onUpdateUserNotes = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUserNotes = /* GraphQL */ `
-  subscription OnDeleteUserNotes(
-    $filter: ModelSubscriptionUserNotesFilterInput
+export const deleteUserNotes = /* GraphQL */ `
+  mutation DeleteUserNotes(
+    $input: DeleteUserNotesInput!
+    $condition: ModelUserNotesConditionInput
   ) {
-    onDeleteUserNotes(filter: $filter) {
+    deleteUserNotes(input: $input, condition: $condition) {
       id
       user
       author
@@ -541,9 +589,12 @@ export const onDeleteUserNotes = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUsers = /* GraphQL */ `
-  subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onCreateUsers(filter: $filter) {
+export const createUsers = /* GraphQL */ `
+  mutation CreateUsers(
+    $input: CreateUsersInput!
+    $condition: ModelUsersConditionInput
+  ) {
+    createUsers(input: $input, condition: $condition) {
       id
       first_name
       last_name
@@ -578,9 +629,12 @@ export const onCreateUsers = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUsers = /* GraphQL */ `
-  subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onUpdateUsers(filter: $filter) {
+export const updateUsers = /* GraphQL */ `
+  mutation UpdateUsers(
+    $input: UpdateUsersInput!
+    $condition: ModelUsersConditionInput
+  ) {
+    updateUsers(input: $input, condition: $condition) {
       id
       first_name
       last_name
@@ -615,9 +669,12 @@ export const onUpdateUsers = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUsers = /* GraphQL */ `
-  subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onDeleteUsers(filter: $filter) {
+export const deleteUsers = /* GraphQL */ `
+  mutation DeleteUsers(
+    $input: DeleteUsersInput!
+    $condition: ModelUsersConditionInput
+  ) {
+    deleteUsers(input: $input, condition: $condition) {
       id
       first_name
       last_name
