@@ -1,0 +1,125 @@
+type PlayersSoccer @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  user: String
+  position: String
+  goals: Int
+  assists: Int
+  yellow_cards: Int
+  red_cards: Int
+  roles: [String]
+}
+
+enum GameStatusEnum {
+  NOT_STARTED
+  STARTED
+  CANCELLED
+  SUBMITTED
+}
+
+type Games @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  division: ID! @index(name: "byDivisions")
+  date: AWSTimestamp
+  location: String
+  home_team: String
+  away_team: String
+  status: GameStatusEnum
+  home_roster: [AWSJSON]
+  away_roster: [AWSJSON]
+  home_score: Int
+  away_score: Int
+  season: ID! @index(name: "bySeasons")
+  year: Int
+  goals: [AWSJSON]
+  round: Int
+}
+
+type Divisions @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  abbreviation: String
+  level: DivisionsEnum
+  next_round: Int
+  season: ID! @index(name: "bySeasons")
+  Games: [Games] @hasMany(indexName: "byDivisions", fields: ["id"])
+}
+
+type Seasons @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  league: ID! @index(name: "byLeagues")
+  name: String
+  abbreviation: String
+  start_date: AWSTimestamp
+  end_date: AWSTimestamp
+  number_of_periods: Int
+  time_per_period: Int
+  Divisions: [Divisions] @hasMany(indexName: "bySeasons", fields: ["id"])
+  Games: [Games] @hasMany(indexName: "bySeasons", fields: ["id"])
+}
+
+type Leagues @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  sport: String
+  date_founded: AWSTimestamp
+  gender: GenderEnum
+  cost_per_individual: Float
+  cost_per_team: Float
+  coordinator: String
+  isCompleted: Boolean
+  Seasons: [Seasons] @hasMany(indexName: "byLeagues", fields: ["id"])
+}
+
+type TeamNotes @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  date: AWSTimestamp
+  description: String
+  team: ID! @index(name: "byTeams")
+  author: String
+}
+
+enum DivisionsEnum {
+  D
+  C
+  B
+  A
+  AA
+  AAA
+}
+
+type Teams @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: [AWSJSON]
+  founded: AWSTimestamp
+  home_colour: String
+  away_colour: String
+  division: DivisionsEnum
+  team_captain: [AWSJSON]
+  games_played: Int
+  TeamNotes: [TeamNotes] @hasMany(indexName: "byTeams", fields: ["id"])
+}
+
+type UserNotes @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  user: ID! @index(name: "byUsers")
+  author: String
+  date: AWSTimestamp
+  description: String
+}
+
+enum GenderEnum {
+  MALE
+  FEMALE
+}
+
+type Users @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  first_name: String
+  last_name: String
+  email: AWSEmail
+  gender: GenderEnum
+  date_of_birth: AWSTimestamp
+  UserNotes: [UserNotes] @hasMany(indexName: "byUsers", fields: ["id"])
+  PlayersSoccer: PlayersSoccer @hasOne
+}
+ 
