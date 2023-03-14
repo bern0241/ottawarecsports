@@ -10,19 +10,22 @@ import React from 'react';
 import Image from 'next/image';
 import LogoutBtn from './LogoutBtn';
 import NavbarSetup from './Links';
-import { IconX} from '@tabler/icons-react';
+import { IconX } from '@tabler/icons-react';
 
 const NavbarMenu = (props) => {
 	console.log(props.menuOpen);
-	function handleClick(){
+	function handleClick() {
 		props.showMenu(false);
 	}
 	return (
 		<div className="bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500">
 			<div>
-			<button className="visible center mt-1 mr-2 sm:hidden" onClick={handleClick} >
-        <IconX color="white" size={'2em'}/>
-      </button>
+				<button
+					className="visible center mt-1 mr-2 sm:hidden"
+					onClick={handleClick}
+				>
+					<IconX color="white" size={'2em'} />
+				</button>
 			</div>
 			<div className="flex flex-col self-center">
 				<Image

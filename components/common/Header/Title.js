@@ -5,14 +5,14 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import React from 'react'
+import React from 'react';
 
 const HeaderTitle = () => {
-  return (
-    <div className="p-1">
-      <p className="font-semibold text-lg">Title of Page</p>
-    </div>
-  )
-}
+	return (
+		<div className="p-1">
+			<p className="font-semibold text-lg">Title of Page</p>
+		</div>
+	);
+};
 
-export default HeaderTitle
+export default HeaderTitle;

@@ -21,7 +21,6 @@ export default function Home() {
 				<link rel="icon" href="/Logo.svg" />
 			</Head>
 			<main>
-				<Layout/>
 			</main>
 		</>
 	);

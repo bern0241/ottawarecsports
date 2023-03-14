@@ -63,8 +63,7 @@ module.exports = {
 				900: '#941a08',
 			},
 		},
-		extend: {
-		},
+		extend: {},
 	},
 	plugins: [require('flowbite/plugin')],
 };
