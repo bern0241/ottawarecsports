@@ -1,7 +1,22 @@
+/**
+ * Last updated: 2023-03-15
+ *
+ * Author(s):
+ * Verity Stevens <stev0298@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import { Amplify } from 'aws-amplify';
-import config from '../src/aws-exports.js';
+import awsconfig from '../src/aws-exports.js';
 import { UserContextProvider } from '@/context/userContext.js';
 import '@/styles/globals.css';
+import { Barlow } from 'next/font/google';
+const barlow = Barlow({
+	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+	subsets: ['latin'],
+});
+
+Amplify.configure(awsconfig);
 
 // Amplify.configure({ ...config, ssr: false });
 Amplify.configure(config);
@@ -18,8 +33,15 @@ AWS.config.update({
 
 export default function App({ Component, pageProps }) {
 	return (
+		<>
+			<style jsx global>{`
+				html {
+					font-family: ${barlow.style.fontFamily};
+				}
+			`}</style>
 		<UserContextProvider>
 			<Component {...pageProps} />
 		</UserContextProvider>
+		</>
 	);
 }

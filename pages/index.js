@@ -1,16 +1,17 @@
 /**
- * Last updated: 2023-03-12
+ * Last updated: 2023-03-15
  *
  * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
-import { Toast } from 'flowbite-react';
-import { IconShieldCheck } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
+
 // Components
 import UserIdentifier from '@/components/common/UserIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
