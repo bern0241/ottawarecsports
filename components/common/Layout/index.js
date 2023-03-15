@@ -6,11 +6,8 @@
  */
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Header from '../Header';
 import NavbarMenu from '../NavBar';
-import { IconMenu2 } from '@tabler/icons-react';
-import HeadLayout from '../Header/HeadLayout';
 
 const Layout = () => {
 const [menuOpen, setMenuOpen] = useState(true);

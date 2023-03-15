@@ -13,7 +13,6 @@ import NavbarSetup from './Links';
 import { IconX } from '@tabler/icons-react';
 
 const NavbarMenu = (props) => {
-	console.log(props.menuOpen);
 	function handleClick() {
 		props.showMenu(false);
 	}

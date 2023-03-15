@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { IconMenu2 } from '@tabler/icons-react';
 
 const HeadLayout = (props) => {
-  console.log(props.menuOpen);
 	function handleClick() {
 		props.showMenu(false);
 	}
