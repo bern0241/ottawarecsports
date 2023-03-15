@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NavbarMenu from '@/components/NavBar';
 import SearchInput from '@/components/players/SearchInput';
 import { IconCirclePlus } from '@tabler/icons-react';
+import PlayerRow from '@/components/players/PlayerRow';
 
 function Players() {
 	const playersList = [
@@ -115,7 +116,7 @@ function Players() {
 							</thead>
 							<tbody>
 								{players.map((player, index) => (
-									<tr key={index}>{player.firstName}</tr>
+									<PlayerRow key={player.id} player={player} index={index} />
 								))}
 							</tbody>
 						</table>
