@@ -75,7 +75,7 @@ export default function Players() {
 
 	/**
 	 * Filter users by first and last name using the search input value.
-	 * @param {object} ev Click event
+	 * @param {[Object]} ev Click event
 	 */
 	function handleSearch(ev) {
 		ev.preventDefault();
