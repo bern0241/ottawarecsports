@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconSearch } from '@tabler/icons-react';
 
-function SearchInput({id, placeholder, searchFunction}) {
+export default function SearchInput({id, placeholder, searchFunction}) {
 	return (
 		<form className="flex items-center">
 			<label htmlFor="search" className="sr-only">
@@ -28,5 +28,3 @@ function SearchInput({id, placeholder, searchFunction}) {
 		</form>
 	);
 }
-
-export default SearchInput;

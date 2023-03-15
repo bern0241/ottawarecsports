@@ -4,10 +4,11 @@ import SearchInput from '@/components/players/SearchInput';
 import { IconCirclePlus } from '@tabler/icons-react';
 import PlayerRow from '@/components/players/PlayerRow';
 
-function Players() {
+export default function Players() {
 	const playersList = [
 		{
 			id: 1,
+			avatar: 'https://api.lorem.space/image/face?w=60&h=60&hash=7F5AE56A',
 			firstName: 'Patrick',
 			lastName: 'King',
 			age: 33,
@@ -24,6 +25,7 @@ function Players() {
 		},
 		{
 			id: 2,
+			avatar: 'https://api.lorem.space/image/face?w=60&h=60&hash=8B7BCDC2',
 			firstName: 'Jessie',
 			lastName: 'Summers',
 			age: 30,
@@ -40,6 +42,7 @@ function Players() {
 		},
 		{
 			id: 3,
+			avatar: 'https://api.lorem.space/image/face?w=60&h=60&hash=500B67FB',
 			firstName: 'Laura',
 			lastName: 'Banks',
 			age: 28,
@@ -79,6 +82,7 @@ function Players() {
 	return (
 		<>
 			<div className="flex">
+				{/* TODO: Update layout with new NavbarMenu and Header. */}
 				<NavbarMenu />
 
 				{/* Content */}
@@ -86,20 +90,20 @@ function Players() {
 					{/* Search Bar */}
 					<SearchInput
 						id={'player-search'}
-						placeholder={'Search for a player...'}
+						placeholder={'Search'}
 						searchFunction={handleSearch}
 					/>
 					{/* Results */}
 					<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 						<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-							<h1 className="text-xl self-center">Players</h1>
+							<h1 className="text-lg self-center">All Players</h1>
 							<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
 								<IconCirclePlus className="mr-2 h-5 w-5" />
 								Add a Player
 							</button>
 						</div>
 
-						<table className="mb-32 table-auto">
+						<table className="table-auto">
 							<thead className="bg-brand-neutral-100">
 								<tr className="text-left">
 									<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
@@ -118,6 +122,15 @@ function Players() {
 								{players.map((player, index) => (
 									<PlayerRow key={player.id} player={player} index={index} />
 								))}
+
+								<tr>
+									<td
+										colSpan={6}
+										className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
+									>
+										End
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -126,5 +139,3 @@ function Players() {
 		</>
 	);
 }
-
-export default Players;
