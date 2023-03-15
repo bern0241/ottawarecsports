@@ -67,12 +67,4 @@ module.exports = {
 		},
 	},
 	plugins: [require('flowbite/plugin')],
-		// Flowbite:
-		'./node_modules/flowbite/**/*.js',
-		'./node_modules/flowbite-react/**/*.js',
-	],
-	theme: {
-		extend: {},
-	},
-	plugins: [require('flowbite/plugin')],
 };
