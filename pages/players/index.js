@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NavbarMenu from '@/components/NavBar';
 import SearchInput from '@/components/players/SearchInput';
+import { IconCirclePlus } from '@tabler/icons-react';
 
 function Players() {
 	const playersList = [
@@ -78,15 +79,47 @@ function Players() {
 		<>
 			<div className="flex">
 				<NavbarMenu />
-				<main className="p-8">
+
+				{/* Content */}
+				<main className="w-full p-8 flex flex-col gap-6">
 					{/* Search Bar */}
 					<SearchInput
 						id={'player-search'}
 						placeholder={'Search for a player...'}
 						searchFunction={handleSearch}
 					/>
-					{/* Content */}
-					This is some text.
+					{/* Results */}
+					<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
+						<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
+							<h1 className="text-xl self-center">Players</h1>
+							<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
+								<IconCirclePlus className="mr-2 h-5 w-5" />
+								Add a Player
+							</button>
+						</div>
+
+						<table className="mb-32 table-auto">
+							<thead className="bg-brand-neutral-100">
+								<tr className="text-left">
+									<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
+									<th className="py-3 px-5 text-sm font-light w-2/12">
+										Location
+									</th>
+									<th className="py-3 px-5 text-sm font-light w-2/12">
+										Sports
+									</th>
+									<th className="py-3 px-5 text-sm font-light w-2/12">Teams</th>
+									<th className="py-3 px-5 text-sm font-light w-2/12">Role</th>
+									<th className="py-3 px-5 text-sm font-light">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{players.map((player, index) => (
+									<tr key={index}>{player.firstName}</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
 				</main>
 			</div>
 		</>
