@@ -36,7 +36,12 @@ export default function Home() {
 					<button onClick={() => console.log(user)}>Click Me</button>
 					<ViewUserGroups />
 					<SignOutButton />
-					<button className='text-blue-600' onClick={() => router.push('/admin-portal')}>Go To Admin Portal Page</button>
+					<button
+						className="text-blue-600"
+						onClick={() => router.push('/admin-portal')}
+					>
+						Go To Admin Portal Page
+					</button>
 				</div>
 			</main>
 		</>

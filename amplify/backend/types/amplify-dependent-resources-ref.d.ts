@@ -1,6 +1,13 @@
 export type AmplifyDependentResourcesAttributes = {
+	api: {
+		orsapp: {
+			GraphQLAPIEndpointOutput: 'string';
+			GraphQLAPIIdOutput: 'string';
+			GraphQLAPIKeyOutput: 'string';
+		};
+	};
 	auth: {
-		orsapp159e10c3: {
+		orsapp00be8bc9: {
 			AppClientID: 'string';
 			AppClientIDWeb: 'string';
 			IdentityPoolId: 'string';

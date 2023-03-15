@@ -87,6 +87,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					birthdate: birthdate,
 				},
 			});
+			// console.log(newUser);
 			addUserToGroup(newUser.userSub, 'User');
 			setUiState('confirmSignUp');
 		} catch (error) {
@@ -97,7 +98,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 
 	const addUserToGroup = (username, role) => {
 		var params = {
-			UserPoolId: 'us-east-1_bMXHV485G',
+			UserPoolId: 'us-east-1_70GCK7G6t',
 			GroupName: role,
 			Username: username,
 		};

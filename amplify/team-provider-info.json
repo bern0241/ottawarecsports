@@ -13,7 +13,11 @@
 		},
 		"categories": {
 			"auth": {
-				"orsapp159e10c3": {}
+				"orsapp159e10c3": {},
+				"orsapp00be8bc9": {}
+			},
+			"api": {
+				"orsapp": {}
 			}
 		}
 	}
