@@ -8,7 +8,8 @@
 import '@/styles/globals.css';
 import { Barlow } from 'next/font/google';
 import { Amplify } from 'aws-amplify';
-import awsconfig from '../aws-exports';
+import awsconfig from '../src/aws-exports';
+
 const barlow = Barlow({
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 	subsets: ['latin'],
