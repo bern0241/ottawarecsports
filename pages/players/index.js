@@ -73,10 +73,27 @@ export default function Players() {
 
 	const [players, setPlayers] = useState(playersList);
 
+	/**
+	 * Filter users by first and last name using the search input value.
+	 * @param {object} ev Click event
+	 */
 	function handleSearch(ev) {
 		ev.preventDefault();
-		let search = document.getElementById('player-search').value;
-		console.log(search);
+		let searchValue = document
+			.getElementById('player-search')
+			.value.toLowerCase();
+
+		let filteredPlayers = playersList.filter((player) => {
+			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
+			const arr = searchValue.split(' ');
+			return arr.some(
+				(el) =>
+					player.firstName.toLowerCase().includes(el) ||
+					player.lastName.toLowerCase().includes(el)
+			);
+		});
+
+		setPlayers(filteredPlayers);
 	}
 
 	return (
