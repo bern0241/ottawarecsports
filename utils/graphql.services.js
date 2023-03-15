@@ -31,7 +31,6 @@ export const getAllUsers = async () => {
 		const resp = await API.graphql({
 			query: queries.listUsers,
 		});
-		console.log(resp.data.listUsers.items);
 		return resp.data.listUsers.items;
 	} catch (e) {
 		console.warn(err);
