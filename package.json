@@ -14,13 +14,15 @@
 		"@tabler/icons-react": "^2.7.0",
 		"aws-amplify": "^5.0.18",
 		"aws-sdk": "^2.1333.0",
+		"dayjs": "^1.11.6",
 		"eslint": "8.35.0",
 		"eslint-config-next": "13.2.3",
 		"flowbite": "^1.6.3",
 		"flowbite-react": "^0.4.1",
 		"next": "13.2.3",
 		"react": "18.2.0",
-		"react-dom": "18.2.0"
+		"react-dom": "18.2.0",
+		"react-tailwindcss-datepicker": "^1.5.1"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.13",

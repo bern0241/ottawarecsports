@@ -17,7 +17,7 @@ import AWS from 'aws-sdk';
 import PasswordField from '../common/PasswordField';
 import LocationDropDown from './LocationDropDown';
 import GenderDropDown from './GenderDropDown';
-import DatePicker from './DatePicker';
+import DobDatePicker from './DatePicker';
 import OrsLogo from '../common/OrsLogo';
 
 export default function SignUpView({ setUiState, email, setEmail }) {
@@ -39,6 +39,9 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	const router = useRouter();
 	// Message state for errors/succession notices
 	const [message, setMessage] = useState(null);
+
+
+	console.log(birthdateDisplay);
 	//Important variable for using AWS SDK Cognitio services
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
@@ -152,7 +155,8 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							</div>
 							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<GenderDropDown state={gender} setState={setGender} />
-								<DatePicker birthdateDisplay={birthdateDisplay} />
+								{/* <DatePicker birthdateDisplay={birthdateDisplay} /> */}
+								<DobDatePicker birthdateDisplay={birthdateDisplay}/>
 							</div>
 							<LocationDropDown state={location} setState={setLocation} />
 							<TextInput
