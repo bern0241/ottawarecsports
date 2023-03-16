@@ -17,7 +17,7 @@ export default function ForgotPasswordSubmitView({
 	email,
 	uiState,
 	setUiState,
-	confirmationCode
+	confirmationCode,
 }) {
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -40,22 +40,25 @@ export default function ForgotPasswordSubmitView({
 	const forgotPasswordSubmit = async (e) => {
 		e.preventDefault();
 		if (newPassword === '' || confirmPassword === '') {
-			setMessage({status: 'error', message: 'Please fill the required fields.'})
+			setMessage({
+				status: 'error',
+				message: 'Please fill the required fields.',
+			});
 			return;
 		}
 		if (newPassword !== confirmPassword) {
-			setMessage({status: 'error', message: 'Passwords should be the same.'})
+			setMessage({ status: 'error', message: 'Passwords should be the same.' });
 			return;
 		}
 		if (newPassword)
-		try {
-			await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword);
-			router.push('/');
-			// setUiState('signIn');
-		} catch (error) {
-			setMessage({ status: 'error', message: error.message });
-			console.log(error);
-		}
+			try {
+				await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword);
+				router.push('/');
+				// setUiState('signIn');
+			} catch (error) {
+				setMessage({ status: 'error', message: error.message });
+				console.log(error);
+			}
 	};
 
 	return (
@@ -85,8 +88,15 @@ export default function ForgotPasswordSubmitView({
 						/>
 						{message && (
 							<div>
-								<p className={`${message.status === 'error' ? 'text-red-500' : 'text-green-500'} text-center`}>
-									{message.message}</p>
+								<p
+									className={`${
+										message.status === 'error'
+											? 'text-red-500'
+											: 'text-green-500'
+									} text-center`}
+								>
+									{message.message}
+								</p>
 							</div>
 						)}
 						<div>

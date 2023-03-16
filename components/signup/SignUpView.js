@@ -59,7 +59,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log(firstName,lastName,email,location,gender, birthdate);
+		console.log(firstName, lastName, email, location, gender, birthdate);
 		if (
 			firstName === '' ||
 			lastName === '' ||
@@ -218,7 +218,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							</div>
 						</div>
 						<p className="font-normal text-base cursor-pointer">
-							Have an account?{" "}
+							Have an account?{' '}
 							<Link href="/login" className="font-bold">
 								Sign In
 							</Link>

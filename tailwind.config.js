@@ -13,7 +13,7 @@ module.exports = {
 		'./node_modules/flowbite-react/**/*.js',
 
 		//Datepicker
-		"./node_modules/tailwind-datepicker-react/dist/**/*.js",
+		'./node_modules/tailwind-datepicker-react/dist/**/*.js',
 	],
 	theme: {
 		colors: {

@@ -15,7 +15,12 @@ import OtpField from 'react-otp-field';
 // Components
 import OrsLogo from '../common/OrsLogo';
 
-export default function ConfirmSignUpView({ setUiState, email, confirmationCode, setConfirmationCode }) {
+export default function ConfirmSignUpView({
+	setUiState,
+	email,
+	confirmationCode,
+	setConfirmationCode,
+}) {
 	const [otp, setOtp] = useState('');
 	const [message, setMessage] = useState(null);
 	const [user, setUser] = useUser();
@@ -62,9 +67,11 @@ export default function ConfirmSignUpView({ setUiState, email, confirmationCode,
 				<div className="w-full sm:w-96 flex flex-col gap-5 sm:mt-40">
 					<OrsLogo />
 					<form className="flex flex-col gap-2">
-						<p className="font-semibold text-2xl">Enter Your Confirmation Code</p>
+						<p className="font-semibold text-2xl">
+							Enter Your Confirmation Code
+						</p>
 						<p>Enter the confirmation code that was sent to your email.</p>
-						
+
 						<OtpField
 							value={confirmationCode}
 							onChange={setConfirmationCode}
@@ -72,24 +79,26 @@ export default function ConfirmSignUpView({ setUiState, email, confirmationCode,
 							onChangeRegex={/^([0-9]{0,})$/}
 							autoFocus
 							separator={<span> </span>}
-							inputProps={{ className: 'otp-field__input w-12 h-16 border border-black rounded-md', disabled: false }}
+							inputProps={{
+								className:
+									'otp-field__input w-12 h-16 border border-black rounded-md',
+								disabled: false,
+							}}
 							classNames="flex flex-row gap-3"
 						/>
 
-							{message !== null && (
-								<p
-									id="message-notice"
-									className={`ml-1 text-[.87rem] ${
-										message.status === 'error'
-											? 'text-red-600'
-											: 'text-green-500'
-									} relative top-1`}
-								>
-									<span className="font-medium"></span> {message.message}
-								</p>
-							)}
-						
-							<div>
+						{message !== null && (
+							<p
+								id="message-notice"
+								className={`ml-1 text-[.87rem] ${
+									message.status === 'error' ? 'text-red-600' : 'text-green-500'
+								} relative top-1`}
+							>
+								<span className="font-medium"></span> {message.message}
+							</p>
+						)}
+
+						<div>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
 								type="button"
@@ -108,11 +117,11 @@ export default function ConfirmSignUpView({ setUiState, email, confirmationCode,
 							</button>
 						</div>
 						<p
-						className="text-center underline cursor-pointer text-[.92rem] text-brand-blue-900"
-						onClick={resendConfirmationCode}
-					>
-						Resend Verification Code
-					</p>
+							className="text-center underline cursor-pointer text-[.92rem] text-brand-blue-900"
+							onClick={resendConfirmationCode}
+						>
+							Resend Verification Code
+						</p>
 					</form>
 				</div>
 			</div>

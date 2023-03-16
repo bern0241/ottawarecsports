@@ -55,7 +55,7 @@ const NavbarMenu = (props) => {
 					className="py-3 self-center mb-5"
 				/>
 
-				<SignOutButton/>
+				<SignOutButton />
 			</div>
 		</div>
 	);

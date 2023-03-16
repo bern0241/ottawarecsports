@@ -33,7 +33,12 @@ export default function Signup() {
 				<SignUpView email={email} setEmail={setEmail} setUiState={setUiState} />
 			)}
 			{uiState === 'confirmSignUp' && (
-				<ConfirmSignUpView email={email} setUiState={setUiState} confirmationCode={confirmationCode} setConfirmationCode={setConfirmationCode} />
+				<ConfirmSignUpView
+					email={email}
+					setUiState={setUiState}
+					confirmationCode={confirmationCode}
+					setConfirmationCode={setConfirmationCode}
+				/>
 			)}
 		</>
 	);

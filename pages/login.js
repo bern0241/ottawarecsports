@@ -43,11 +43,10 @@ export default function Login() {
 				/>
 			)}
 			{uiState === 'emailConfirmation' && (
-				<ForgetPasswordConfirmView 
-				setUiState={setUiState}
-				confirmationCode={confirmationCode}
-				setConfirmationCode={setConfirmationCode}
-
+				<ForgetPasswordConfirmView
+					setUiState={setUiState}
+					confirmationCode={confirmationCode}
+					setConfirmationCode={setConfirmationCode}
 				/>
 			)}
 			{uiState === 'forgotPasswordSubmit' && (

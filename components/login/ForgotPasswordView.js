@@ -64,17 +64,15 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 						</div>
 
 						{message !== null && (
-								<p
-									id="message-notice"
-									className={`ml-1 text-[.87rem] ${
-										message.status === 'error'
-											? 'text-red-600'
-											: 'text-green-500'
-									} relative top-1`}
-								>
-									<span className="font-medium"></span> {message.message}
-								</p>
-							)}
+							<p
+								id="message-notice"
+								className={`ml-1 text-[.87rem] ${
+									message.status === 'error' ? 'text-red-600' : 'text-green-500'
+								} relative top-1`}
+							>
+								<span className="font-medium"></span> {message.message}
+							</p>
+						)}
 
 						<div>
 							<button

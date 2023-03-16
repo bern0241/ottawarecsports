@@ -80,12 +80,19 @@ export default function SignInView({ setUiState }) {
 								setShowPassword={setShowPassword}
 							/>
 
-						{message && (
-							<div>
-								<p className={`${message.status === 'error' ? 'text-red-500' : 'text-green-500'} text-center`}>
-									{message.message}</p>
-							</div>
-						)}
+							{message && (
+								<div>
+									<p
+										className={`${
+											message.status === 'error'
+												? 'text-red-500'
+												: 'text-green-500'
+										} text-center`}
+									>
+										{message.message}
+									</p>
+								</div>
+							)}
 
 							<div>
 								<button
@@ -113,7 +120,7 @@ export default function SignInView({ setUiState }) {
 							Forgot your password?
 						</p>
 						<p className="font-normal text-base cursor-pointer">
-							Need an account?{" "}
+							Need an account?{' '}
 							<Link href="/signup" className="font-bold">
 								Sign Up
 							</Link>

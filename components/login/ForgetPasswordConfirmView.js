@@ -13,7 +13,12 @@ import { TextInput } from 'flowbite-react';
 import OrsLogo from '../common/OrsLogo';
 import OtpField from 'react-otp-field';
 
-export default function ForgetPasswordConfirmView({ setUiState, email, confirmationCode, setConfirmationCode }) {
+export default function ForgetPasswordConfirmView({
+	setUiState,
+	email,
+	confirmationCode,
+	setConfirmationCode,
+}) {
 	const [otp, setOtp] = useState('');
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
@@ -58,16 +63,20 @@ export default function ForgetPasswordConfirmView({ setUiState, email, confirmat
 						<p className="font-semibold text-2xl">Verification</p>
 						<p>Enter the OTP that was sent to your email.</p>
 						<div>
-						<OtpField
-							value={confirmationCode}
-							onChange={setConfirmationCode}
-							numInputs={6}
-							onChangeRegex={/^([0-9]{0,})$/}
-							autoFocus
-							separator={<span> </span>}
-							inputProps={{ className: 'otp-field__input w-12 h-16 border border-black rounded-md', disabled: false }}
-							classNames="flex flex-row gap-3"
-						/>
+							<OtpField
+								value={confirmationCode}
+								onChange={setConfirmationCode}
+								numInputs={6}
+								onChangeRegex={/^([0-9]{0,})$/}
+								autoFocus
+								separator={<span> </span>}
+								inputProps={{
+									className:
+										'otp-field__input w-12 h-16 border border-black rounded-md',
+									disabled: false,
+								}}
+								classNames="flex flex-row gap-3"
+							/>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
 								type="button"
