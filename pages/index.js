@@ -17,7 +17,6 @@ import { useRouter } from 'next/router';
 import UserIdentifier from '@/components/common/UserIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
 import ViewUserGroups from '@/components/common/ViewUserGroups';
-import ConfirmSignUpView from '@/components/login/EmailConfirmation';
 
 export default function Home() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
@@ -33,8 +32,7 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
-				<ConfirmSignUpView/>
-				{/* <div className="flex flex-col">
+				<div className="flex flex-col">
 					<UserIdentifier />
 					<h1>Home Page</h1>
 					<button onClick={() => console.log(user)}>Click Me</button>
@@ -46,7 +44,7 @@ export default function Home() {
 					>
 						Go To Admin Portal Page
 					</button>
-				</div> */}
+				</div>
 			</main>
 		</>
 	);

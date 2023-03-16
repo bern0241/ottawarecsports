@@ -49,7 +49,7 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 		<div className="w-full sm:w-96 flex flex-col gap-5">
 			<OrsLogo/>
 			<form className="flex flex-col gap-2">
-				<p className="font-semibold text-2xl">Enter Your New Password</p>
+				<p className="font-semibold text-2xl">Verification</p>
         <p>Enter the OTP that was sent to your email.</p>
 				<div>
           <div className="flex gap-3 self-center">
@@ -114,7 +114,7 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 					<button
 						className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
 						type="button"
-						onClick={() => setUiState('signIn')}
+						onClick={() => setUiState('signUp')}
 					>
 						Cancel
 					</button>

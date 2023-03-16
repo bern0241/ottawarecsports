@@ -1,19 +1,15 @@
 /**
- * Last updated: 2023-03-11
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { useUser } from '@/context/userContext';
-// Icons
-import { IconX } from '@tabler/icons-react';
-// Components
-import TextField from '../common/TextField';
 
 export default function ConfirmSignUpView({ setUiState, email }) {
 	const [confirmationCode, setConfirmationCode] = useState('');
@@ -48,62 +44,81 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 		}
 	};
 
-	return (
-		<main className="flex">
-			<div className="h-[100vh] flex justify-center items-center px-[1rem]">
-				<div className="max-w-[33rem] py-[4rem] px-[3rem] mx-auto translate-y-[-20px]">
-					{/* Close Button */}
-					<div className="cursor-pointer absolute top-5 right-5">
-						<IconX fontSize={'24px'} onClick={() => setUiState('signUp')} />
-					</div>
-					<div className="text-center">
-						<Image
-							className="m-auto"
-							width={94}
-							height={94}
-							src="/../public/images/ORS-Logo.png"
-							alt="ORS Logo"
+	return(
+		<div className="w-full sm:w-96 flex flex-col gap-5">
+			<OrsLogo/>
+			<form className="flex flex-col gap-2">
+				<p className="font-semibold text-2xl">Enter Your New Password</p>
+        <p>Enter the OTP that was sent to your email.</p>
+				<div>
+          <div className="flex gap-3 self-center">
+          <TextInput
+              id="digit1"
+							type="text"
+              sizing="lg"
+							placeholder=""
+							required={true}
+							className="w-12 h-16 border-1 border-black rounded-md "
 						/>
-					</div>
-					<div className="mt-[1.5rem] w-[20rem]">
-						<div className="mb-7">
-							<TextField
-								label="Confirmation Code"
-								id="confirmationCode"
-								type="text"
-								state={confirmationCode}
-								setState={setConfirmationCode}
-							/>
-						</div>
-
-						{message !== null && (
-							<p
-								id="message-notice"
-								className={`ml-1 text-[.87rem] ${
-									message.status === 'error' ? 'text-red-600' : 'text-green-500'
-								} relative bottom-2`}
-							>
-								<span class="font-medium"></span> {message.message}
-							</p>
-						)}
-
-						<button
-							onClick={() => confirmSignUp()}
-							className="mt-5 p-[10px] w-full bg-[#007916] text-white rounded-sm"
-						>
-							Confirm Sign Up
-						</button>
-						<p className="py-3 text-right"></p>
-					</div>
-
-					<p
-						className="text-center underline cursor-pointer text-[.92rem] text-[#00440c]"
-						onClick={resendConfirmationCode}
+            <TextInput
+              id="digit2"
+							type="text"
+              sizing="lg"
+							placeholder=""
+							required={true}
+							className="w-12 h-16 border-1 border-black rounded-md "
+						/>
+            <TextInput
+              id="digit3"
+							type="text"
+              sizing="lg"
+							placeholder=""
+							required={true}
+							className="w-12 h-16 border-1 border-black rounded-md "
+						/>
+            <TextInput
+              id="digit4"
+							type="text"
+              sizing="lg"
+							placeholder=""
+							required={true}
+							className="w-12 h-16 border-1 border-black rounded-md "
+						/>
+            <TextInput
+              id="digit5"
+							type="text"
+              sizing="lg"
+							placeholder=""
+							required={true}
+							className="w-12 h-16 border-1 border-black rounded-md "
+						/>
+            <TextInput
+              id="digit6"
+							type="text"
+              sizing="lg"
+							placeholder=""
+							required={true}
+							className="w-12 h-16 border-1 border-black rounded-md "
+						/>
+            </div>
+					<button
+						className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+						type="button"
+						onClick={() => confirmSignUp()}
 					>
-						Resend Verification Code
-					</p>
+						Submit
+					</button>
 				</div>
-			</div>
-		</main>
-	);
+				<div>
+					<button
+						className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
+						type="button"
+						onClick={() => setUiState('signIn')}
+					>
+						Cancel
+					</button>
+				</div>
+			</form>
+		</div>
+	)
 }

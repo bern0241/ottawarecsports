@@ -1,24 +1,24 @@
 /**
- * Last updated: 2023-03-11
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+import { Select } from 'flowbite-react';
 import React from 'react';
 
 export default function GenderDropDown({ state, setState }) {
-	return (
-		<div className="">
-			<label for="underline_select" className="sr-only">
-				Underline select
-			</label>
-			<select
+	return(
+		<div>
+			<Select
 				onChange={(e) => setState(e.target.value)}
-				id="underline_select"
-				className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-			>
-				<option color="red" selected disabled>
+				id="gender"
+				required={true}
+				className="w-96 sm:w-44 border-2 border-black rounded-md "
+				>
+				<option color="red" className="text-slate-400" selected disabled>
 					Please choose gender *
 				</option>
 				<option className="text-black" value="Non-Binary">
@@ -31,17 +31,9 @@ export default function GenderDropDown({ state, setState }) {
 					Female
 				</option>
 				<option className="text-black" value="N/A">
-					Prefer not to say
+					Prefer not to set
 				</option>
-			</select>
-			{false && (
-				<p
-					id="standard_error_help"
-					className="mt-2 text-xs text-red-600 dark:text-red-400"
-				>
-					<span className="font-medium">Please select a gender.</span>
-				</p>
-			)}
+			</Select>
 		</div>
-	);
+	)
 }

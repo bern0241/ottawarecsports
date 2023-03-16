@@ -1,25 +1,24 @@
 /**
- * Last updated: 2023-03-11
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+import { Select } from 'flowbite-react';
 import React from 'react';
 
 export default function LocationDropDown({ state, setState }) {
-	return (
+	return(
 		<div>
-			<div className="relative z-0 my-6">
-				<label for="underline_select" className="sr-only">
-					Underline select
-				</label>
-				<select
-					onChange={(e) => setState(e.target.value)}
-					id="underline_select"
-					className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-				>
-					<option color="red" selected disabled>
+			<Select
+			onChange={(e) => setState(e.target.value)}
+			id="location"
+			required={true}
+			className="w-96 border-2 border-black rounded-md "
+			>
+			<option color="red" selected disabled>
 						Which area of Ottawa/Gatineau do you live in? *
 					</option>
 					<option className="text-black" value="East/Orleans area">
@@ -52,16 +51,7 @@ export default function LocationDropDown({ state, setState }) {
 					<option className="text-black" value="Other">
 						Other
 					</option>
-				</select>
-			</div>
-			{false && (
-				<p
-					id="standard_error_help"
-					className="relative bottom-[1.1rem] text-xs text-red-600 dark:text-red-400"
-				>
-					<span className="font-medium">Please select a location.</span>
-				</p>
-			)}
+			</Select>
 		</div>
-	);
+	)
 }
