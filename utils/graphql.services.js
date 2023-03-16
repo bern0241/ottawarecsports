@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-15
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com>
  */
 
 import { API } from 'aws-amplify';
@@ -18,7 +19,7 @@ export const getAllPlayers = async () => {
 			query: queries.listPlayersSoccers,
 		});
 		return resp.data.listPlayersSoccers.items;
-	} catch (e) {
+	} catch (err) {
 		console.warn(err);
 	}
 };
@@ -32,7 +33,7 @@ export const getAllUsers = async () => {
 			query: queries.listUsers,
 		});
 		return resp.data.listUsers.items;
-	} catch (e) {
+	} catch (err) {
 		console.warn(err);
 	}
 };
@@ -46,7 +47,7 @@ export const getAllTeams = async () => {
 			query: queries.listTeams,
 		});
 		return resp.data.listTeams.items;
-	} catch (e) {
+	} catch (err) {
 		console.warn(err);
 	}
 };
