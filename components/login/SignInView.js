@@ -1,20 +1,21 @@
 /**
- * Last updated: 2023-03-16
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import Link from 'next/link';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
+import { TextInput } from 'flowbite-react';
 // Components
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
-import { TextInput } from 'flowbite-react';
 
 export default function SignInView({ setUiState }) {
 	const [user, setUser] = useUser();
@@ -63,6 +64,7 @@ export default function SignInView({ setUiState }) {
 							className="w-96 border-2 border-black rounded-md "
 						/>
 						<PasswordField
+											label="Password"
 											state={password}
 											setState={setPassword}
 											showPassword={showPassword}

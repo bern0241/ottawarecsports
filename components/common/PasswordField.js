@@ -11,6 +11,7 @@ import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';
 
 export default function PasswordField({
+	label,
 	state,
 	setState,
 	showPassword,
@@ -30,7 +31,7 @@ export default function PasswordField({
 					name="password"
 					id="password"
 					className="w-96 border-2 border-black rounded-md "
-					placeholder="Password "
+					placeholder={label}
 					required
 				/>
 		</div>
