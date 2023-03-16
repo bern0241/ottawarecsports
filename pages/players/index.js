@@ -1,4 +1,11 @@
-import React, { useEffect, useState } from 'react';
+/**
+ * Last updated: 2023-03-15
+ *
+ * Author(s):
+ * Verity Stevens <stev0298@algonquinlive.com>
+ */
+
+import React, { useState } from 'react';
 import NavbarMenu from '@/components/NavBar';
 import SearchInput from '@/components/players/SearchInput';
 import { IconCirclePlus } from '@tabler/icons-react';
