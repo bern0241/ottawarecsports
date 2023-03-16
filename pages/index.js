@@ -8,6 +8,7 @@
  */
 
 import Head from 'next/head';
+import Layout from '@/components/common/Layout';
 import styles from '@/styles/Home.module.css';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
@@ -31,6 +32,8 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
+      <Layout/>
+      
 				<div className="flex flex-col">
 					<UserIdentifier />
 					<h1>Home Page</h1>

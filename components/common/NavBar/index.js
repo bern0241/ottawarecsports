@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-12
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -8,12 +8,24 @@
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import LogoutBtn from '../common/LogoutBtn';
+import LogoutBtn from './LogoutBtn';
 import NavbarSetup from './Links';
+import { IconX } from '@tabler/icons-react';
 
-const NavbarMenu = () => {
+const NavbarMenu = (props) => {
+	function handleClick() {
+		props.showMenu(false);
+	}
 	return (
-		<div className="bg-[#023059] h-screen py-3 w-64 flex flex-col justify-between text-neutral-500">
+		<div className="absolute inset-y-0 left-0 z-20 bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500">
+			<div>
+				<button
+					className="visible center mt-1 mr-2 sm:hidden"
+					onClick={handleClick}
+				>
+					<IconX color="white" size={'2em'} />
+				</button>
+			</div>
 			<div className="flex flex-col self-center">
 				<Image
 					src="/Logo.svg"
