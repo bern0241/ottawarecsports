@@ -13,13 +13,14 @@ import { IconMenu2 } from '@tabler/icons-react';
 
 const Header = (props) => {
 	console.log(props.menuOpen);
+	let menuState = props.menuOpen;
 	function handleClick() {
 		props.showMenu(true);
 	}
 	return (
 		<div>
-			<div>
-				<div className="w-full h-20 flex flex-row items-center bg-brand-blue-900 top-0 right-0 pl-2 pr-12 sm:hidden">
+			<div className="bg-white">
+				<div className="h-20 z-10 flex flex-row items-center bg-brand-blue-900 top-0 right-0 pl-2 pr-12 sm:hidden">
 					<div className="self-start">
 						<button className="visible center mt-4 mr-2" onClick={handleClick}>
 							<IconMenu2 color="white" size={'3em'} />
