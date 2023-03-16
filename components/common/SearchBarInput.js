@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconSearch } from '@tabler/icons-react';
 
-export default function SearchInput({id, placeholder, searchFunction}) {
+export default function SearchBarInput({ id, placeholder, searchFunction }) {
 	return (
 		<form className="flex items-center">
 			<label htmlFor="search" className="sr-only">

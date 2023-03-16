@@ -6,8 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import NavbarMenu from '@/components/NavBar';
-import SearchInput from '@/components/players/SearchInput';
+import SearchBarInput from '@/components/common/SearchBarInput';
 import { IconCirclePlus } from '@tabler/icons-react';
 import PlayerRow from '@/components/players/PlayerRow';
 
@@ -105,61 +104,54 @@ export default function Players() {
 
 	return (
 		<>
-			<div className="flex">
-				{/* TODO: Update layout with new NavbarMenu and Header. */}
-				<NavbarMenu />
-
-				{/* Content */}
-				<main className="w-full p-8 flex flex-col gap-6">
-					{/* Search Bar */}
-					<SearchInput
-						id={'player-search'}
-						placeholder={'Search'}
-						searchFunction={handleSearch}
-					/>
-					{/* Results */}
-					<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-						<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-							<h1 className="text-lg self-center">All Players</h1>
-							<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
-								<IconCirclePlus className="mr-2 h-5 w-5" />
-								Add a Player
-							</button>
-						</div>
-
-						<table className="table-auto">
-							<thead className="bg-brand-neutral-100">
-								<tr className="text-left">
-									<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-									<th className="py-3 px-5 text-sm font-light w-2/12">
-										Location
-									</th>
-									<th className="py-3 px-5 text-sm font-light w-2/12">
-										Sports
-									</th>
-									<th className="py-3 px-5 text-sm font-light w-2/12">Teams</th>
-									<th className="py-3 px-5 text-sm font-light w-2/12">Role</th>
-									<th className="py-3 px-5 text-sm font-light">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{players.map((player, index) => (
-									<PlayerRow key={player.id} player={player} index={index} />
-								))}
-
-								<tr>
-									<td
-										colSpan={6}
-										className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
-									>
-										End
-									</td>
-								</tr>
-							</tbody>
-						</table>
+			{/* Content */}
+			<main className="w-full flex flex-col gap-6 p-8">
+				{/* Search Bar */}
+				<SearchBarInput
+					id={'player-search'}
+					placeholder={'Search'}
+					searchFunction={handleSearch}
+				/>
+				{/* Results */}
+				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
+					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
+						<h1 className="text-lg self-center">All Players</h1>
+						<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
+							<IconCirclePlus className="mr-2 h-5 w-5" />
+							Add a Player
+						</button>
 					</div>
-				</main>
-			</div>
+
+					<table className="table-auto">
+						<thead className="bg-brand-neutral-100">
+							<tr className="text-left">
+								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
+								<th className="py-3 px-5 text-sm font-light w-2/12">
+									Location
+								</th>
+								<th className="py-3 px-5 text-sm font-light w-2/12">Sports</th>
+								<th className="py-3 px-5 text-sm font-light w-2/12">Teams</th>
+								<th className="py-3 px-5 text-sm font-light w-2/12">Role</th>
+								<th className="py-3 px-5 text-sm font-light">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{players.map((player, index) => (
+								<PlayerRow key={player.id} player={player} index={index} />
+							))}
+
+							<tr>
+								<td
+									colSpan={6}
+									className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
+								>
+									End
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</main>
 		</>
 	);
 }

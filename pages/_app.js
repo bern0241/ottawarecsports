@@ -11,6 +11,7 @@ import config from '../src/aws-exports.js';
 import { UserContextProvider } from '@/context/userContext.js';
 import '@/styles/globals.css';
 import { Barlow } from 'next/font/google';
+import Layout from '@/components/common/Layout/index.js';
 
 const barlow = Barlow({
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -39,7 +40,9 @@ export default function App({ Component, pageProps }) {
 				}
 			`}</style>
 			<UserContextProvider>
-				<Component {...pageProps} />
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
 			</UserContextProvider>
 		</>
 	);

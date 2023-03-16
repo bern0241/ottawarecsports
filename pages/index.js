@@ -32,8 +32,6 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
-      <Layout/>
-      
 				<div className="flex flex-col">
 					<UserIdentifier />
 					<h1>Home Page</h1>

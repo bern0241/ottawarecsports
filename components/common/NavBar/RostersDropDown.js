@@ -43,10 +43,10 @@ const RostersDropDown = () => {
 				}}
 			>
 				<div className="flex flex-col font-regular text-sm pl-10 bg-blue-100 text-black/70">
-					<Link href="./" className="my-1 hover:font-bold focus:font-bold">
+					<Link href="/players" className="my-1 hover:font-bold focus:font-bold">
 						Players
 					</Link>
-					<Link href="./" className="my-1 hover:font-bold focus:font-bold">
+					<Link href="/teams" className="my-1 hover:font-bold focus:font-bold">
 						Teams
 					</Link>
 				</div>

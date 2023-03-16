@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import Header from '../Header';
 import NavbarMenu from '../NavBar';
 
-const Layout = () => {
+const Layout = ({ children }) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	function showMenu() {
@@ -25,7 +25,7 @@ const Layout = () => {
 							<Header showMenu={menuOpen} showMenu={showMenu} />
 						</div>
 						<div className="h-screen items-center absolute inset-x-0 bottom-0 sm:grid sm:ml-80 z-0 bg-[#E7F4FF] ">
-							{/* Content Page goes here. */}
+							{children}
 						</div>
 					</div>
 					<NavbarMenu showMenu={menuOpen} showMenu={showMenu} />
@@ -37,7 +37,7 @@ const Layout = () => {
 							<Header showMenu={menuOpen} showMenu={showMenu} />
 						</div>
 						<div className="h-screen flex items-center absolute inset-x-0 bottom-0 sm:grid sm:ml-80 z-0 bg-[#E7F4FF] ">
-							{/* Content Page goes here. */}
+							{children}
 						</div>
 					</div>
 					<div className="hidden sm:block">
