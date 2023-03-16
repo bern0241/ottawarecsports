@@ -68,6 +68,7 @@ export default function SignInView({ setUiState }) {
 								id="email"
 								type="email"
 								placeholder="Email"
+								onChange={(e) => setEmail(e.target.value)}
 								required={true}
 								className="w-96 border-2 border-black rounded-md "
 							/>
@@ -78,6 +79,14 @@ export default function SignInView({ setUiState }) {
 								showPassword={showPassword}
 								setShowPassword={setShowPassword}
 							/>
+
+						{message && (
+							<div>
+								<p className={`${message.status === 'error' ? 'text-red-500' : 'text-green-500'} text-center`}>
+									{message.message}</p>
+							</div>
+						)}
+
 							<div>
 								<button
 									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"

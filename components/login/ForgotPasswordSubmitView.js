@@ -11,16 +11,19 @@ import { Auth } from 'aws-amplify';
 // Components
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
+import { useRouter } from 'next/router';
 
 export default function ForgotPasswordSubmitView({
 	email,
 	uiState,
 	setUiState,
+	confirmationCode
 }) {
-	const [confirmationCode, setConfirmationCode] = useState('');
 	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [message, setMessage] = useState(null);
+	const router = useRouter();
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -31,15 +34,24 @@ export default function ForgotPasswordSubmitView({
 
 	// Everytime the UI change to this view, reset these fields.
 	useEffect(() => {
-		setConfirmationCode('');
 		setNewPassword('');
 	}, [uiState]);
 
 	const forgotPasswordSubmit = async (e) => {
 		e.preventDefault();
+		if (newPassword === '' || confirmPassword === '') {
+			setMessage({status: 'error', message: 'Please fill the required fields.'})
+			return;
+		}
+		if (newPassword !== confirmPassword) {
+			setMessage({status: 'error', message: 'Passwords should be the same.'})
+			return;
+		}
+		if (newPassword)
 		try {
 			await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword);
-			setUiState('signIn');
+			router.push('/');
+			// setUiState('signIn');
 		} catch (error) {
 			setMessage({ status: 'error', message: error.message });
 			console.log(error);
@@ -66,11 +78,17 @@ export default function ForgotPasswordSubmitView({
 						/>
 						<PasswordField
 							label="Confirm new Password"
-							state={newPassword}
-							setState={setNewPassword}
+							state={confirmPassword}
+							setState={setConfirmPassword}
 							showPassword={showPassword}
 							setShowPassword={setShowPassword}
 						/>
+						{message && (
+							<div>
+								<p className={`${message.status === 'error' ? 'text-red-500' : 'text-green-500'} text-center`}>
+									{message.message}</p>
+							</div>
+						)}
 						<div>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"

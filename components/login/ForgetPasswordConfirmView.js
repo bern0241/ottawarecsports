@@ -5,15 +5,16 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { TextInput } from 'flowbite-react';
 // Components
 import OrsLogo from '../common/OrsLogo';
+import OtpField from 'react-otp-field';
 
-export default function ConfirmSignUpView({ setUiState, email }) {
-	const [confirmationCode, setConfirmationCode] = useState('');
+export default function ForgetPasswordConfirmView({ setUiState, email, confirmationCode, setConfirmationCode }) {
+	const [otp, setOtp] = useState('');
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
 
@@ -26,8 +27,7 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 
 	const confirmSignUp = async () => {
 		try {
-			await Auth.confirmSignUp(email, confirmationCode);
-			router.push('/login');
+			setUiState('forgotPasswordSubmit');
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -58,56 +58,16 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 						<p className="font-semibold text-2xl">Verification</p>
 						<p>Enter the OTP that was sent to your email.</p>
 						<div>
-							<div className="flex gap-3 self-center">
-								<TextInput
-									id="digit1"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit2"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit3"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit4"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit5"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit6"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-							</div>
+						<OtpField
+							value={confirmationCode}
+							onChange={setConfirmationCode}
+							numInputs={6}
+							onChangeRegex={/^([0-9]{0,})$/}
+							autoFocus
+							separator={<span> </span>}
+							inputProps={{ className: 'otp-field__input w-12 h-16 border border-black rounded-md', disabled: false }}
+							classNames="flex flex-row gap-3"
+						/>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
 								type="button"
@@ -120,7 +80,7 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 							<button
 								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
 								type="button"
-								onClick={() => setUiState('signUp')}
+								onClick={() => setUiState('signIn')}
 							>
 								Cancel
 							</button>

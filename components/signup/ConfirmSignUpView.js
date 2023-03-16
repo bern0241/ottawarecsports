@@ -11,12 +11,14 @@ import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useUser } from '@/context/userContext';
 import { TextInput } from 'flowbite-react';
+import OtpField from 'react-otp-field';
 // Components
 import OrsLogo from '../common/OrsLogo';
 
-export default function ConfirmSignUpView({ setUiState, email }) {
-	const [confirmationCode, setConfirmationCode] = useState('');
+export default function ConfirmSignUpView({ setUiState, email, confirmationCode, setConfirmationCode }) {
+	const [otp, setOtp] = useState('');
 	const [message, setMessage] = useState(null);
+	const [user, setUser] = useUser();
 	const router = useRouter();
 
 	useEffect(() => {
@@ -26,10 +28,11 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 		return () => clearTimeout(timer);
 	}, [message]);
 
-	const confirmSignUp = async () => {
+	const confirmEmailCode = async () => {
 		try {
-			await Auth.confirmSignUp(email, confirmationCode);
-			router.push('/login');
+			const user = await Auth.confirmSignUp(email, confirmationCode);
+			setUser(user);
+			router.push('/');
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -57,63 +60,38 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 				<div className="w-full sm:w-96 flex flex-col gap-5 sm:mt-40">
 					<OrsLogo />
 					<form className="flex flex-col gap-2">
-						<p className="font-semibold text-2xl">Enter Your New Password</p>
-						<p>Enter the OTP that was sent to your email.</p>
-						<div>
-							<div className="flex gap-3 self-center">
-								<TextInput
-									id="digit1"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit2"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit3"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit4"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit5"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-								<TextInput
-									id="digit6"
-									type="text"
-									sizing="lg"
-									placeholder=""
-									required={true}
-									className="w-12 h-16 border-1 border-black rounded-md "
-								/>
-							</div>
+						<p className="font-semibold text-2xl">Enter Your Confirmation Code</p>
+						<p>Enter the confirmation code that was sent to your email.</p>
+						
+						<OtpField
+							value={confirmationCode}
+							onChange={setConfirmationCode}
+							numInputs={6}
+							onChangeRegex={/^([0-9]{0,})$/}
+							autoFocus
+							separator={<span> </span>}
+							inputProps={{ className: 'otp-field__input w-12 h-16 border border-black rounded-md', disabled: false }}
+							classNames="flex flex-row gap-3"
+						/>
+
+							{message !== null && (
+								<p
+									id="message-notice"
+									className={`ml-1 text-[.87rem] ${
+										message.status === 'error'
+											? 'text-red-600'
+											: 'text-green-500'
+									} relative top-1`}
+								>
+									<span className="font-medium"></span> {message.message}
+								</p>
+							)}
+						
+							<div>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
 								type="button"
-								onClick={() => confirmSignUp()}
+								onClick={() => confirmEmailCode()}
 							>
 								Submit
 							</button>
@@ -122,7 +100,7 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 							<button
 								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
 								type="button"
-								onClick={() => setUiState('signIn')}
+								onClick={() => setUiState('signUp')}
 							>
 								Cancel
 							</button>

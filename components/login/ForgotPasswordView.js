@@ -26,7 +26,7 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 		e.preventDefault();
 		try {
 			await Auth.forgotPassword(email);
-			setUiState('forgotPasswordSubmit');
+			setUiState('emailConfirmation');
 		} catch (error) {
 			setMessage({ status: 'error', message: error.message });
 			console.error(error);
@@ -57,10 +57,25 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 								id="email"
 								type="email"
 								placeholder="Email"
+								onChange={(e) => setEmail(e.target.value)}
 								required={true}
 								className="border-2 border-black rounded-md "
 							/>
 						</div>
+
+						{message !== null && (
+								<p
+									id="message-notice"
+									className={`ml-1 text-[.87rem] ${
+										message.status === 'error'
+											? 'text-red-600'
+											: 'text-green-500'
+									} relative top-1`}
+								>
+									<span className="font-medium"></span> {message.message}
+								</p>
+							)}
+							
 						<div>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"

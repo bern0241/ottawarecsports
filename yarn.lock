@@ -5508,6 +5508,13 @@ react-native-get-random-values@^1.4.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
+react-otp-field@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-otp-field/-/react-otp-field-3.0.1.tgz#441ececa0fa71dea8dd332013ef88f9876cb0f8f"
+  integrity sha512-8ugpwp7RGhaxT1L6Ai9G0n4ELTpuRRX8OxBDsld9Se4nZlQp4rJvEoBMQ2w3ghXq935v2MNbBdj+SyZDKOOrBA==
+  dependencies:
+    classnames "^2.3.2"
+
 react-remove-scroll-bar@^2.3.3:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.4.tgz#53e272d7a5cb8242990c7f144c44d8bd8ab5afd9"
