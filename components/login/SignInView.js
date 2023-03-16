@@ -46,6 +46,10 @@ export default function SignInView({ setUiState }) {
 		}
 	};
 
+	const handleEnterAsGuest = async (e) => {
+		router.push('/');
+	};
+
 	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
@@ -87,6 +91,7 @@ export default function SignInView({ setUiState }) {
 								<button
 									className="text-brand-blue-800 border-2 border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
 									type="button"
+									onClick={() => handleEnterAsGuest()}
 								>
 									Enter as a Guest
 								</button>
@@ -99,7 +104,7 @@ export default function SignInView({ setUiState }) {
 							Forgot your password?
 						</p>
 						<p class="font-normal text-base cursor-pointer">
-							Need an account?
+							Need an account?{" "}
 							<Link href="/signup" className="font-bold">
 								Sign Up
 							</Link>

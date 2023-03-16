@@ -59,12 +59,12 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log('birthdate', birthdate);
+		console.log(firstName,lastName,email,location,gender, birthdate);
 		if (
 			firstName === '' ||
 			lastName === '' ||
 			email === '' ||
-			phoneNumber === '' ||
+			// phoneNumber === '' ||
 			location === '' ||
 			gender === '' ||
 			birthdate === ''
@@ -96,6 +96,10 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
 		}
+	};
+
+	const handleEnterAsGuest = async (e) => {
+		router.push('/');
 	};
 
 	const addUserToGroup = (username, role) => {
@@ -135,15 +139,15 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									id="firstname"
 									type="firstname"
 									placeholder="First Name *"
+									onChange={(e) => setFirstName(e.target.value)}
 									required={true}
 									className="w-96 sm:w-44 border-2 border-black rounded-md "
-									state={firstName}
-									setState={setFirstName}
 								/>
 								<TextInput
 									id="lastname"
 									type="lastname"
 									placeholder="Last Name *"
+									onChange={(e) => setLastName(e.target.value)}
 									required={true}
 									className="w-96 sm:w-44 border-2 border-black rounded-md "
 									state={lastName}
@@ -162,22 +166,21 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								id="email"
 								type="text"
 								placeholder="Phone Number (optional)"
+								onChange={(e) => setPhoneNumber(e.target.value)}
 								required={false}
 								className="w-96 border-2 border-black rounded-md "
-								state={phoneNumber}
-								setState={setPhoneNumber}
 							/>
 							<TextInput
 								id="email"
 								type="email"
 								placeholder="Email *"
+								onChange={(e) => setEmail(e.target.value)}
 								required={true}
 								className="w-96 border-2 border-black rounded-md "
-								state={email}
-								setState={setEmail}
 							/>
 							<PasswordField
 								label="Password *"
+								// onChange={(e) => setPassword(e.target.value)}
 								state={password}
 								setState={setPassword}
 								showPassword={showPassword}
@@ -208,13 +211,14 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								<button
 									className="text-brand-blue-800 border-2 border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
 									type="button"
+									onClick={() => handleEnterAsGuest()}
 								>
 									Enter as a Guest
 								</button>
 							</div>
 						</div>
 						<p class="font-normal text-base cursor-pointer">
-							Have an account?
+							Have an account?{" "}
 							<Link href="/login" className="font-bold">
 								Sign In
 							</Link>
