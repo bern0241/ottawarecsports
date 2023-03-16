@@ -91,7 +91,7 @@ export default function Teams() {
 						</Button>
 					</div>
 
-					<table className="mb-32 table-auto">
+					<table className="table-auto">
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
@@ -108,6 +108,15 @@ export default function Teams() {
 							{teams.map((team, index) => (
 								<TeamRow key={team.id} team={team} />
 							))}
+
+							<tr>
+								<td
+									colSpan={6}
+									className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
+								>
+									End
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
