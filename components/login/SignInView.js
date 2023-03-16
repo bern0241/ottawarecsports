@@ -99,11 +99,11 @@ export default function SignInView({ setUiState }) {
 						</form>
 						<p
 							onClick={() => setUiState('forgotPassword')}
-							class="font-normal text-base text-right cursor-pointer"
+							className="font-normal text-base text-right cursor-pointer"
 						>
 							Forgot your password?
 						</p>
-						<p class="font-normal text-base cursor-pointer">
+						<p className="font-normal text-base cursor-pointer">
 							Need an account?{" "}
 							<Link href="/signup" className="font-bold">
 								Sign Up

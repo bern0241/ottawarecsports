@@ -127,6 +127,12 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 								Cancel
 							</button>
 						</div>
+						<p
+						className="text-center underline cursor-pointer text-[.92rem] text-brand-blue-900"
+						onClick={resendConfirmationCode}
+					>
+						Resend Verification Code
+					</p>
 					</form>
 				</div>
 			</div>

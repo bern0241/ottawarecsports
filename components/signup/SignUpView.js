@@ -195,7 +195,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 											: 'text-green-500'
 									} relative top-1`}
 								>
-									<span class="font-medium"></span> {message.message}
+									<span className="font-medium"></span> {message.message}
 								</p>
 							)}
 							<div>
@@ -217,7 +217,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								</button>
 							</div>
 						</div>
-						<p class="font-normal text-base cursor-pointer">
+						<p className="font-normal text-base cursor-pointer">
 							Have an account?{" "}
 							<Link href="/login" className="font-bold">
 								Sign In
