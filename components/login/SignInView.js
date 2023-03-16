@@ -6,7 +6,6 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import Link from 'next/link';
@@ -47,7 +46,7 @@ export default function SignInView({ setUiState }) {
 		}
 	};
 
-	return(
+	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
@@ -56,7 +55,7 @@ export default function SignInView({ setUiState }) {
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
 				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
 					<div className="">
-						<OrsLogo/>
+						<OrsLogo />
 					</div>
 					<div className="">
 						<p className="text-lg sm:text-2xl font-semibold my-5">Sign In</p>
@@ -69,12 +68,12 @@ export default function SignInView({ setUiState }) {
 								className="w-96 border-2 border-black rounded-md "
 							/>
 							<PasswordField
-												label="Password"
-												state={password}
-												setState={setPassword}
-												showPassword={showPassword}
-												setShowPassword={setShowPassword}
-											/>
+								label="Password"
+								state={password}
+								setState={setPassword}
+								showPassword={showPassword}
+								setShowPassword={setShowPassword}
+							/>
 							<div>
 								<button
 									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
@@ -94,16 +93,14 @@ export default function SignInView({ setUiState }) {
 							</div>
 						</form>
 						<p
-									onClick={() => setUiState('forgotPassword')}
-									class="font-normal text-base text-right cursor-pointer"
-								>
-									Forgot your password?
+							onClick={() => setUiState('forgotPassword')}
+							class="font-normal text-base text-right cursor-pointer"
+						>
+							Forgot your password?
 						</p>
 						<p class="font-normal text-base cursor-pointer">
 							Need an account?
-							<Link
-							href="/signup"
-							className="font-bold">
+							<Link href="/signup" className="font-bold">
 								Sign Up
 							</Link>
 						</p>
@@ -111,5 +108,5 @@ export default function SignInView({ setUiState }) {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }

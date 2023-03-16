@@ -10,14 +10,14 @@ import { Select } from 'flowbite-react';
 import React from 'react';
 
 export default function GenderDropDown({ state, setState }) {
-	return(
+	return (
 		<div>
 			<Select
 				onChange={(e) => setState(e.target.value)}
 				id="gender"
 				required={true}
 				className="w-96 sm:w-44 border-2 border-black rounded-md "
-				>
+			>
 				<option color="red" className="text-slate-400" selected disabled>
 					Gender *
 				</option>
@@ -35,5 +35,5 @@ export default function GenderDropDown({ state, setState }) {
 				</option>
 			</Select>
 		</div>
-	)
+	);
 }

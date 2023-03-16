@@ -33,17 +33,17 @@ AWS.config.update({
 });
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter();
+	const router = useRouter();
 
 	if (router.pathname === '/signup' || router.pathname === '/login') {
-    return (
-		<>
-			<UserContextProvider>
+		return (
+			<>
+				<UserContextProvider>
 					<Component {...pageProps} />
-			</UserContextProvider>
-		</>
-		)
-  }
+				</UserContextProvider>
+			</>
+		);
+	}
 	return (
 		<>
 			<style jsx global>{`

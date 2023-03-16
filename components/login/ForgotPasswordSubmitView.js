@@ -6,7 +6,6 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 // Components
@@ -47,7 +46,7 @@ export default function ForgotPasswordSubmitView({
 		}
 	};
 
-	return(
+	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
@@ -55,23 +54,23 @@ export default function ForgotPasswordSubmitView({
 			</div>
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
 				<div className="flex flex-col gap-5  mt-10 w-96 sm:mt-40">
-					<OrsLogo/>
+					<OrsLogo />
 					<form className="flex flex-col gap-2">
 						<p className="font-semibold text-2xl">Enter Your New Password</p>
 						<PasswordField
-									label="New Password"
-									state={newPassword}
-									setState={setNewPassword}
-									showPassword={showPassword}
-									setShowPassword={setShowPassword}
-								/>
+							label="New Password"
+							state={newPassword}
+							setState={setNewPassword}
+							showPassword={showPassword}
+							setShowPassword={setShowPassword}
+						/>
 						<PasswordField
-								label="Confirm new Password"
-								state={newPassword}
-								setState={setNewPassword}
-								showPassword={showPassword}
-								setShowPassword={setShowPassword}
-							/>
+							label="Confirm new Password"
+							state={newPassword}
+							setState={setNewPassword}
+							showPassword={showPassword}
+							setShowPassword={setShowPassword}
+						/>
 						<div>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
@@ -94,5 +93,5 @@ export default function ForgotPasswordSubmitView({
 				</div>
 			</div>
 		</div>
-		)
+	);
 }

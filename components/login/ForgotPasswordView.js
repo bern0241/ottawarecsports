@@ -6,7 +6,6 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { TextInput } from 'flowbite-react';
@@ -34,7 +33,7 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 		}
 	};
 
-	return(
+	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
@@ -43,19 +42,24 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
 				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
 					<div className="">
-						<OrsLogo/>
+						<OrsLogo />
 					</div>
 					<form className="flex flex-col gap-2">
-						<p className="text-lg sm:text-2xl font-semibold my-5">Forgot Your Password?</p>
-						<p>Don’t worry, just enter your registered email address and we’ll send you an OTP to reset your password.</p>
+						<p className="text-lg sm:text-2xl font-semibold my-5">
+							Forgot Your Password?
+						</p>
+						<p>
+							Don’t worry, just enter your registered email address and we’ll
+							send you an OTP to reset your password.
+						</p>
 						<div>
 							<TextInput
-										id="email"
-										type="email"
-										placeholder="Email"
-										required={true}
-										className="border-2 border-black rounded-md "
-									/>
+								id="email"
+								type="email"
+								placeholder="Email"
+								required={true}
+								className="border-2 border-black rounded-md "
+							/>
 						</div>
 						<div>
 							<button
@@ -79,5 +83,5 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }

@@ -15,7 +15,7 @@ export default function PasswordField({
 	state,
 	setState,
 	showPassword,
-	setShowPassword
+	setShowPassword,
 }) {
 	const showPasswordToggle = (e) => {
 		e.preventDefault();
@@ -24,16 +24,16 @@ export default function PasswordField({
 
 	return (
 		<div>
-				<input
-					value={state}
-					onChange={(e) => setState(e.target.value)}
-					type={showPassword ? 'text' : 'password'}
-					name="password"
-					id="password"
-					className="w-96 border-2 border-black rounded-md "
-					placeholder={label}
-					required
-				/>
+			<input
+				value={state}
+				onChange={(e) => setState(e.target.value)}
+				type={showPassword ? 'text' : 'password'}
+				name="password"
+				id="password"
+				className="w-96 border-2 border-black rounded-md "
+				placeholder={label}
+				required
+			/>
 		</div>
 	);
 }

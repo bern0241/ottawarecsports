@@ -116,7 +116,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 		);
 	};
 
-	return(
+	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
@@ -125,7 +125,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
 				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
 					<div className="">
-						<OrsLogo/>
+						<OrsLogo />
 					</div>
 					<form className="">
 						<p className="text-lg sm:text-2xl font-semibold my-5">Sign Up</p>
@@ -152,17 +152,20 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							</div>
 							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<GenderDropDown state={gender} setState={setGender} />
-								<DobDatePicker state={birthdateProp} setState={setBirthdateProp}/>
+								<DobDatePicker
+									state={birthdateProp}
+									setState={setBirthdateProp}
+								/>
 							</div>
 							<LocationDropDown state={location} setState={setLocation} />
 							<TextInput
-							id="email"
-							type="text"
-							placeholder="Phone Number (optional)"
-							required={false}
-							className="w-96 border-2 border-black rounded-md "
-							state={phoneNumber}
-							setState={setPhoneNumber}
+								id="email"
+								type="text"
+								placeholder="Phone Number (optional)"
+								required={false}
+								className="w-96 border-2 border-black rounded-md "
+								state={phoneNumber}
+								setState={setPhoneNumber}
 							/>
 							<TextInput
 								id="email"
@@ -174,24 +177,24 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								setState={setEmail}
 							/>
 							<PasswordField
-												label="Password *"
-												state={password}
-												setState={setPassword}
-												showPassword={showPassword}
-												setShowPassword={setShowPassword}
-											/>
+								label="Password *"
+								state={password}
+								setState={setPassword}
+								showPassword={showPassword}
+								setShowPassword={setShowPassword}
+							/>
 							{message !== null && (
-									<p
-										id="message-notice"
-										className={`ml-1 text-[.87rem] ${
-											message.status === 'error'
-												? 'text-red-600'
-												: 'text-green-500'
-										} relative top-1`}
-									>
-										<span class="font-medium"></span> {message.message}
-									</p>
-								)}
+								<p
+									id="message-notice"
+									className={`ml-1 text-[.87rem] ${
+										message.status === 'error'
+											? 'text-red-600'
+											: 'text-green-500'
+									} relative top-1`}
+								>
+									<span class="font-medium"></span> {message.message}
+								</p>
+							)}
 							<div>
 								<button
 									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
@@ -212,9 +215,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 						</div>
 						<p class="font-normal text-base cursor-pointer">
 							Have an account?
-							<Link
-							href="/login"
-							className="font-bold">
+							<Link href="/login" className="font-bold">
 								Sign In
 							</Link>
 						</p>
@@ -222,5 +223,5 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }
