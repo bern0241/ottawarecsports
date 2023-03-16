@@ -18,7 +18,11 @@ export default function PlayerRow({ player, index }) {
 	};
 
 	return (
-		<tr key={player.id} className="border-b border-brand-neutral-300 hover:cursor-pointer" onClick={handleClick}>
+		<tr
+			key={player.id}
+			className="border-b border-brand-neutral-300 hover:cursor-pointer"
+			onClick={handleClick}
+		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 text-md">
 				<div className="flex items-center">

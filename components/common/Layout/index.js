@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import Header from '../Header';
 import NavbarMenu from '../NavBar';
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	function showMenu() {

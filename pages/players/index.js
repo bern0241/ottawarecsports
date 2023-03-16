@@ -6,10 +6,9 @@
  */
 
 import React, { useState } from 'react';
-import SearchInput from '@/components/players/SearchInput';
+import SearchBarInput from '@/components/common/SearchBarInput';
 import { IconCirclePlus } from '@tabler/icons-react';
 import PlayerRow from '@/components/players/PlayerRow';
-import Layout from '@/components/common/Layout';
 
 export default function Players() {
 	const playersList = [
@@ -108,7 +107,7 @@ export default function Players() {
 			{/* Content */}
 			<main className="w-full flex flex-col gap-6 p-8">
 				{/* Search Bar */}
-				<SearchInput
+				<SearchBarInput
 					id={'player-search'}
 					placeholder={'Search'}
 					searchFunction={handleSearch}
