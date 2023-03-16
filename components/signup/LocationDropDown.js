@@ -19,7 +19,7 @@ export default function LocationDropDown({ state, setState }) {
 			className="w-96 border-2 border-black rounded-md "
 			>
 			<option color="red" selected disabled>
-						Which area of Ottawa/Gatineau do you live in? *
+						Location *
 					</option>
 					<option className="text-black" value="East/Orleans area">
 						East/Orleans area

@@ -117,108 +117,109 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	};
 
 	return(
-		<div className="flex flex-col w-96 ">
-			<div className="mx-1.5 content-center mt-10 ">
-				<div className="">
-					<OrsLogo/>
-				</div>
-				<form className="">
-					<p className="text-lg sm:text-2xl font-semibold my-5">Sign In</p>
-					<div className="flex flex-col w-96 gap-3">
-						<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
-							<TextInput
-								id="firstname"
-								type="firstname"
-								placeholder="First Name *"
-								required={true}
-								className="w-96 sm:w-44 border-2 border-black rounded-md "
-								state={firstName}
-								setState={setFirstName}
-							/>
-							<TextInput
-								id="lastname"
-								type="lastname"
-								placeholder="Last Name *"
-								required={true}
-								className="w-96 sm:w-44 border-2 border-black rounded-md "
-								state={lastName}
-								setState={setLastName}
-							/>
-						</div>
-						<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
-							<GenderDropDown state={gender} setState={setGender} />
-							<DatePicker birthdateDisplay={birthdateDisplay} />
-						</div>
-						<LocationDropDown state={location} setState={setLocation} />
-						<TextInput
-						id="email"
-						type="text"
-						placeholder="Phone Number (optional)"
-						required={false}
-						className="w-96 border-2 border-black rounded-md "
-						state={phoneNumber}
-						setState={setPhoneNumber}
-						/>
-						<TextInput
-							id="email"
-							type="email"
-							placeholder="Email *"
-							required={true}
-							className="w-96 border-2 border-black rounded-md "
-							state={email}
-							setState={setEmail}
-						/>
-						<PasswordField
-											label="Password *"
-											state={password}
-											setState={setPassword}
-											showPassword={showPassword}
-											setShowPassword={setShowPassword}
-										/>
-						{message !== null && (
-								<p
-									id="message-notice"
-									className={`ml-1 text-[.87rem] ${
-										message.status === 'error'
-											? 'text-red-600'
-											: 'text-green-500'
-									} relative top-1`}
-								>
-									<span class="font-medium"></span> {message.message}
-								</p>
-							)}
-						<div>
-							<button
-								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-								type="button"
-							>
-								Sign In
-							</button>
-						</div>
-						<div>
-							<button
-								className="text-brand-blue-800 border-2 border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
-								type="button"
-							>
-								Enter as a Guest
-							</button>
-						</div>
+		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+			<div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+			</div>
+			<div className="flex flex-col pb-5 place-items-center w-full h-full">
+				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+					<div className="">
+						<OrsLogo/>
 					</div>
-					<p
-								onClick={() => setUiState('forgotPassword')}
-								class="font-normal text-base text-right cursor-pointer"
-							>
-								Forgot your password?
-					</p>
-					<p class="font-normal text-base cursor-pointer">
-						Need an account?
-						<Link
-						href="/signup"
-						className="font-bold">
-							Sign Up
-						</Link>
-					</p>
-				</form>
+					<form className="">
+						<p className="text-lg sm:text-2xl font-semibold my-5">Sign Up</p>
+						<div className="flex flex-col w-96 gap-3">
+							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
+								<TextInput
+									id="firstname"
+									type="firstname"
+									placeholder="First Name *"
+									required={true}
+									className="w-96 sm:w-44 border-2 border-black rounded-md "
+									state={firstName}
+									setState={setFirstName}
+								/>
+								<TextInput
+									id="lastname"
+									type="lastname"
+									placeholder="Last Name *"
+									required={true}
+									className="w-96 sm:w-44 border-2 border-black rounded-md "
+									state={lastName}
+									setState={setLastName}
+								/>
+							</div>
+							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
+								<GenderDropDown state={gender} setState={setGender} />
+								<DatePicker birthdateDisplay={birthdateDisplay} />
+							</div>
+							<LocationDropDown state={location} setState={setLocation} />
+							<TextInput
+							id="email"
+							type="text"
+							placeholder="Phone Number (optional)"
+							required={false}
+							className="w-96 border-2 border-black rounded-md "
+							state={phoneNumber}
+							setState={setPhoneNumber}
+							/>
+							<TextInput
+								id="email"
+								type="email"
+								placeholder="Email *"
+								required={true}
+								className="w-96 border-2 border-black rounded-md "
+								state={email}
+								setState={setEmail}
+							/>
+							<PasswordField
+												label="Password *"
+												state={password}
+												setState={setPassword}
+												showPassword={showPassword}
+												setShowPassword={setShowPassword}
+											/>
+							{message !== null && (
+									<p
+										id="message-notice"
+										className={`ml-1 text-[.87rem] ${
+											message.status === 'error'
+												? 'text-red-600'
+												: 'text-green-500'
+										} relative top-1`}
+									>
+										<span class="font-medium"></span> {message.message}
+									</p>
+								)}
+							<div>
+								<button
+									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+									type="button"
+									onClick={() => signUp()}
+								>
+									Sign Up
+								</button>
+							</div>
+							<div>
+								<button
+									className="text-brand-blue-800 border-2 border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+									type="button"
+								>
+									Enter as a Guest
+								</button>
+							</div>
+						</div>
+						<p class="font-normal text-base cursor-pointer">
+							Have an account?
+							<Link
+							href="/login"
+							className="font-bold">
+								Sign In
+							</Link>
+						</p>
+					</form>
+				</div>
 			</div>
 		</div>
 	)

@@ -35,39 +35,49 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 	};
 
 	return(
-		<div className="w-full sm:w-96 m-4 flex flex-col gap-5">
-			<OrsLogo/>
-			<form className="flex flex-col gap-2">
-				<p className="font-semibold text-2xl">Forgot Your Password?</p>
-				<p>Don’t worry, just enter your registered email address and we’ll send you an OTP to reset your password.</p>
-				<div>
-					<TextInput
-								id="email"
-								type="email"
-								placeholder="Email"
-								required={true}
-								className="border-2 border-black rounded-md "
-							/>
+		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+			<div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+			</div>
+			<div className="flex flex-col pb-5 place-items-center w-full h-full">
+				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+					<div className="">
+						<OrsLogo/>
+					</div>
+					<form className="flex flex-col gap-2">
+						<p className="text-lg sm:text-2xl font-semibold my-5">Forgot Your Password?</p>
+						<p>Don’t worry, just enter your registered email address and we’ll send you an OTP to reset your password.</p>
+						<div>
+							<TextInput
+										id="email"
+										type="email"
+										placeholder="Email"
+										required={true}
+										className="border-2 border-black rounded-md "
+									/>
+						</div>
+						<div>
+							<button
+								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+								type="button"
+								onClick={(e) => forgotPassword(e)}
+							>
+								Send
+							</button>
+						</div>
+						<div>
+							<button
+								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
+								type="button"
+								onClick={() => setUiState('signIn')}
+							>
+								Cancel
+							</button>
+						</div>
+					</form>
 				</div>
-				<div>
-					<button
-						className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-						type="button"
-						onClick={(e) => forgotPassword(e)}
-					>
-						Send
-					</button>
-				</div>
-				<div>
-					<button
-						className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
-						type="button"
-						onClick={() => setUiState('signIn')}
-					>
-						Cancel
-					</button>
-				</div>
-			</form>
+			</div>
 		</div>
 	)
 }

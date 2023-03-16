@@ -46,80 +46,88 @@ export default function ConfirmSignUpView({ setUiState, email }) {
 	};
 
   return(
-		<div className="w-full sm:w-96 flex flex-col gap-5">
-			<OrsLogo/>
-			<form className="flex flex-col gap-2">
-				<p className="font-semibold text-2xl">Verification</p>
-        <p>Enter the OTP that was sent to your email.</p>
-				<div>
-          <div className="flex gap-3 self-center">
-          <TextInput
-              id="digit1"
-							type="text"
-              sizing="lg"
-							placeholder=""
-							required={true}
-							className="w-12 h-16 border-1 border-black rounded-md "
-						/>
-            <TextInput
-              id="digit2"
-							type="text"
-              sizing="lg"
-							placeholder=""
-							required={true}
-							className="w-12 h-16 border-1 border-black rounded-md "
-						/>
-            <TextInput
-              id="digit3"
-							type="text"
-              sizing="lg"
-							placeholder=""
-							required={true}
-							className="w-12 h-16 border-1 border-black rounded-md "
-						/>
-            <TextInput
-              id="digit4"
-							type="text"
-              sizing="lg"
-							placeholder=""
-							required={true}
-							className="w-12 h-16 border-1 border-black rounded-md "
-						/>
-            <TextInput
-              id="digit5"
-							type="text"
-              sizing="lg"
-							placeholder=""
-							required={true}
-							className="w-12 h-16 border-1 border-black rounded-md "
-						/>
-            <TextInput
-              id="digit6"
-							type="text"
-              sizing="lg"
-							placeholder=""
-							required={true}
-							className="w-12 h-16 border-1 border-black rounded-md "
-						/>
-            </div>
-					<button
-						className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-						type="button"
-						onClick={() => confirmSignUp()}
-					>
-						Submit
-					</button>
+		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+			<div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+			</div>
+			<div className="flex flex-col pb-5 place-items-center w-full h-full">
+				<div className="w-full sm:w-96 flex flex-col gap-5 sm:mt-40">
+					<OrsLogo/>
+					<form className="flex flex-col gap-2">
+						<p className="font-semibold text-2xl">Verification</p>
+						<p>Enter the OTP that was sent to your email.</p>
+						<div>
+							<div className="flex gap-3 self-center">
+							<TextInput
+									id="digit1"
+									type="text"
+									sizing="lg"
+									placeholder=""
+									required={true}
+									className="w-12 h-16 border-1 border-black rounded-md "
+								/>
+								<TextInput
+									id="digit2"
+									type="text"
+									sizing="lg"
+									placeholder=""
+									required={true}
+									className="w-12 h-16 border-1 border-black rounded-md "
+								/>
+								<TextInput
+									id="digit3"
+									type="text"
+									sizing="lg"
+									placeholder=""
+									required={true}
+									className="w-12 h-16 border-1 border-black rounded-md "
+								/>
+								<TextInput
+									id="digit4"
+									type="text"
+									sizing="lg"
+									placeholder=""
+									required={true}
+									className="w-12 h-16 border-1 border-black rounded-md "
+								/>
+								<TextInput
+									id="digit5"
+									type="text"
+									sizing="lg"
+									placeholder=""
+									required={true}
+									className="w-12 h-16 border-1 border-black rounded-md "
+								/>
+								<TextInput
+									id="digit6"
+									type="text"
+									sizing="lg"
+									placeholder=""
+									required={true}
+									className="w-12 h-16 border-1 border-black rounded-md "
+								/>
+								</div>
+							<button
+								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+								type="button"
+								onClick={() => confirmSignUp()}
+							>
+								Submit
+							</button>
+						</div>
+						<div>
+							<button
+								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
+								type="button"
+								onClick={() => setUiState('signUp')}
+							>
+								Cancel
+							</button>
+						</div>
+					</form>
 				</div>
-				<div>
-					<button
-						className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
-						type="button"
-						onClick={() => setUiState('signUp')}
-					>
-						Cancel
-					</button>
-				</div>
-			</form>
+			</div>
 		</div>
 	)
 }

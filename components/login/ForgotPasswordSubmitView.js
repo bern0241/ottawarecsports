@@ -48,43 +48,51 @@ export default function ForgotPasswordSubmitView({
 	};
 
 	return(
-		<div className="w-full sm:w-96 flex flex-col gap-5">
-			<OrsLogo/>
-			<form className="flex flex-col gap-2">
-				<p className="font-semibold text-2xl">Enter Your New Password</p>
-				<PasswordField
-							label="New Password"
-							state={newPassword}
-							setState={setNewPassword}
-							showPassword={showPassword}
-							setShowPassword={setShowPassword}
-						/>
-				<PasswordField
-						label="Confirm new Password"
-						state={newPassword}
-						setState={setNewPassword}
-						showPassword={showPassword}
-						setShowPassword={setShowPassword}
-					/>
-				<div>
-					<button
-						className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-						type="button"
-						onClick={(e) => forgotPasswordSubmit(e)}
-					>
-						Submit
-					</button>
+		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+			<div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+			</div>
+			<div className="flex flex-col pb-5 place-items-center w-full h-full">
+				<div className="flex flex-col gap-5  mt-10 w-96 sm:mt-40">
+					<OrsLogo/>
+					<form className="flex flex-col gap-2">
+						<p className="font-semibold text-2xl">Enter Your New Password</p>
+						<PasswordField
+									label="New Password"
+									state={newPassword}
+									setState={setNewPassword}
+									showPassword={showPassword}
+									setShowPassword={setShowPassword}
+								/>
+						<PasswordField
+								label="Confirm new Password"
+								state={newPassword}
+								setState={setNewPassword}
+								showPassword={showPassword}
+								setShowPassword={setShowPassword}
+							/>
+						<div>
+							<button
+								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+								type="button"
+								onClick={(e) => forgotPasswordSubmit(e)}
+							>
+								Submit
+							</button>
+						</div>
+						<div>
+							<button
+								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
+								type="button"
+								onClick={() => setUiState('signIn')}
+							>
+								Cancel
+							</button>
+						</div>
+					</form>
 				</div>
-				<div>
-					<button
-						className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
-						type="button"
-						onClick={() => setUiState('signIn')}
-					>
-						Cancel
-					</button>
-				</div>
-			</form>
+			</div>
 		</div>
-	)
+		)
 }

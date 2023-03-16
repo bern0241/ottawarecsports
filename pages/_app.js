@@ -12,6 +12,7 @@ import { UserContextProvider } from '@/context/userContext.js';
 import '@/styles/globals.css';
 import { Barlow } from 'next/font/google';
 import Layout from '@/components/common/Layout/index.js';
+import { useRouter } from 'next/router';
 
 const barlow = Barlow({
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -32,6 +33,17 @@ AWS.config.update({
 });
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+
+	if (router.pathname === '/signup' || router.pathname === '/login') {
+    return (
+		<>
+			<UserContextProvider>
+					<Component {...pageProps} />
+			</UserContextProvider>
+		</>
+		)
+  }
 	return (
 		<>
 			<style jsx global>{`
