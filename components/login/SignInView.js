@@ -70,7 +70,7 @@ export default function SignInView({ setUiState }) {
 								placeholder="Email"
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
-								className="w-96 border-2 border-black rounded-md "
+								className="w-96 border border-black rounded-md "
 							/>
 							<PasswordField
 								label="Password"
@@ -98,7 +98,7 @@ export default function SignInView({ setUiState }) {
 							</div>
 							<div>
 								<button
-									className="text-brand-blue-800 border-2 border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+									className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
 									type="button"
 									onClick={() => handleEnterAsGuest()}
 								>

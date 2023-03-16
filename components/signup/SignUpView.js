@@ -141,7 +141,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									placeholder="First Name *"
 									onChange={(e) => setFirstName(e.target.value)}
 									required={true}
-									className="w-96 sm:w-44 border-2 border-black rounded-md "
+									className="w-96 sm:w-44 border border-black rounded-md "
 								/>
 								<TextInput
 									id="lastname"
@@ -149,7 +149,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									placeholder="Last Name *"
 									onChange={(e) => setLastName(e.target.value)}
 									required={true}
-									className="w-96 sm:w-44 border-2 border-black rounded-md "
+									className="w-96 sm:w-44 border border-black rounded-md "
 									state={lastName}
 									setState={setLastName}
 								/>
@@ -168,7 +168,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								placeholder="Phone Number (optional)"
 								onChange={(e) => setPhoneNumber(e.target.value)}
 								required={false}
-								className="w-96 border-2 border-black rounded-md "
+								className="w-96 border border-black rounded-md "
 							/>
 							<TextInput
 								id="email"
@@ -176,7 +176,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								placeholder="Email *"
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
-								className="w-96 border-2 border-black rounded-md "
+								className="w-96 border border-black rounded-md "
 							/>
 							<PasswordField
 								label="Password *"
@@ -209,7 +209,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							</div>
 							<div>
 								<button
-									className="text-brand-blue-800 border-2 border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+									className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
 									type="button"
 									onClick={() => handleEnterAsGuest()}
 								>

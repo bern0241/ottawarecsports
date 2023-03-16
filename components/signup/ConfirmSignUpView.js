@@ -30,9 +30,11 @@ export default function ConfirmSignUpView({ setUiState, email, confirmationCode,
 
 	const confirmEmailCode = async () => {
 		try {
-			const user = await Auth.confirmSignUp(email, confirmationCode);
-			setUser(user);
-			router.push('/');
+			await Auth.confirmSignUp(email, confirmationCode);
+			// const user = await Auth.currentAuthenticatedUser();
+			// setUser(user);
+			// console.log('USER!!', user);
+			router.push('/login');
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });

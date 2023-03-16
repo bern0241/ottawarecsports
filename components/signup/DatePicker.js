@@ -19,7 +19,7 @@ const options = {
 	maxDate: new Date("2030-01-01"),
 	minDate: new Date("1950-01-01"),
 	theme: {
-		background: "bg-white border-2 border-black",
+		background: "bg-white border border-black",
 		todayBtn: "",
 		clearBtn: "",
 		icons: "",
@@ -50,7 +50,7 @@ export default function DobDatePicker({ state, setState }) {
 
 	return (
 		<div>
-			<DatePicker classNames="w-96 sm:w-44 border-2 border-black rounded-md " options={options} onChange={handleChange} show={show} setShow={handleClose}/>
+			<DatePicker classNames="w-96 sm:w-44 border border-black rounded-md " options={options} onChange={handleChange} show={show} setShow={handleClose}/>
 		</div>
 	)
 }

@@ -19,7 +19,7 @@ const Profile = () => {
 				<Avatar
 					img=""
 					rounded={true}
-					className="border-2 rounded-full border-brand-blue-900"
+					className="border rounded-full border-brand-blue-900"
 				/>
 			</div>
 		</div>

@@ -16,7 +16,7 @@ export default function LocationDropDown({ state, setState }) {
 				onChange={(e) => setState(e.target.value)}
 				id="location"
 				required={true}
-				className="w-96 border-2 border-black rounded-md "
+				className="w-96 border border-black rounded-md "
 			>
 				<option color="red" selected disabled>
 					Location *

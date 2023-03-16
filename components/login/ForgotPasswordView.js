@@ -59,7 +59,7 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 								placeholder="Email"
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
-								className="border-2 border-black rounded-md "
+								className="border border-black rounded-md "
 							/>
 						</div>
 
@@ -75,7 +75,7 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 									<span className="font-medium"></span> {message.message}
 								</p>
 							)}
-							
+
 						<div>
 							<button
 								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
