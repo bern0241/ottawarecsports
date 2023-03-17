@@ -8,9 +8,9 @@
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import LogoutBtn from './LogoutBtn';
 import NavbarSetup from './Links';
 import { IconX } from '@tabler/icons-react';
+import SignOutButton from '../SignOutButton';
 
 const NavbarMenu = (props) => {
 	function handleClick() {
@@ -55,7 +55,7 @@ const NavbarMenu = (props) => {
 					className="py-3 self-center mb-5"
 				/>
 
-				<LogoutBtn />
+				<SignOutButton />
 			</div>
 		</div>
 	);

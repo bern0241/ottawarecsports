@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-11
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import React from 'react';
@@ -33,7 +34,7 @@ export default function SignOutButton() {
 				<button
 					onClick={(e) => signOut(e)}
 					type="button"
-					class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+					className="bg-brand-blue-800 h-9 w-full rounded text-white font-regular mb-3"
 				>
 					Sign Out
 				</button>
@@ -41,7 +42,7 @@ export default function SignOutButton() {
 				<button
 					onClick={(e) => signIn(e)}
 					type="button"
-					class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+					className="bg-brand-blue-800 h-9 w-full rounded text-white font-regular mb-3"
 				>
 					Sign In
 				</button>

@@ -1,22 +1,24 @@
 /**
- * Last updated: 2023-03-11
+ * Last updated: 2023-03-14
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import { TextInput } from 'flowbite-react';
 import { Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
 // Components
-import TextField from '../common/TextField';
 import PasswordField from '../common/PasswordField';
 import LocationDropDown from './LocationDropDown';
 import GenderDropDown from './GenderDropDown';
-import DatePicker from './DatePicker';
+import DobDatePicker from './DatePicker';
+import OrsLogo from '../common/OrsLogo';
 
 export default function SignUpView({ setUiState, email, setEmail }) {
 	// Variable states for signing up
@@ -57,12 +59,12 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log('birthdate', birthdate);
+		console.log(firstName, lastName, email, location, gender, birthdate);
 		if (
 			firstName === '' ||
 			lastName === '' ||
 			email === '' ||
-			phoneNumber === '' ||
+			// phoneNumber === '' ||
 			location === '' ||
 			gender === '' ||
 			birthdate === ''
@@ -96,6 +98,10 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 		}
 	};
 
+	const handleEnterAsGuest = async (e) => {
+		router.push('/');
+	};
+
 	const addUserToGroup = (username, role) => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
@@ -115,73 +121,71 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	};
 
 	return (
-		<main className="flex">
-			<div className="h-[100vh] flex justify-center items-center px-[1rem]">
-				<div className="max-w-[33rem] py-[4rem] px-[3rem] mx-auto translate-y-[-20px]">
-					<div className="text-center">
-						<Image
-							onClick={() => router.push('/')}
-							className="m-auto cursor-pointer"
-							width={94}
-							height={94}
-							src="/../public/images/ORS-Logo.png"
-							alt="ORS Logo"
-						/>
-						<p className="text-[1rem] mt-2 mb-3">
-							Create an account or{' '}
-							<Link
-								className="text-green-700 cursor-pointer font-bold underline italic"
-								href="/login"
-							>
-								Sign In
-							</Link>
-						</p>
+		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+			<div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+			</div>
+			<div className="flex flex-col pb-5 place-items-center w-full h-full">
+				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+					<div className="">
+						<OrsLogo />
 					</div>
-
-					<div className="mt-[4rem]">
-						<div className="flex gap-2">
-							<TextField
-								label="First Name *"
-								id="firstName"
+					<form className="">
+						<p className="text-lg sm:text-2xl font-semibold my-5">Sign Up</p>
+						<div className="flex flex-col w-96 gap-3">
+							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
+								<TextInput
+									id="firstname"
+									type="firstname"
+									placeholder="First Name *"
+									onChange={(e) => setFirstName(e.target.value)}
+									required={true}
+									className="w-96 sm:w-44 border border-black rounded-md "
+								/>
+								<TextInput
+									id="lastname"
+									type="lastname"
+									placeholder="Last Name *"
+									onChange={(e) => setLastName(e.target.value)}
+									required={true}
+									className="w-96 sm:w-44 border border-black rounded-md "
+									state={lastName}
+									setState={setLastName}
+								/>
+							</div>
+							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
+								<GenderDropDown state={gender} setState={setGender} />
+								<DobDatePicker
+									state={birthdateProp}
+									setState={setBirthdateProp}
+								/>
+							</div>
+							<LocationDropDown state={location} setState={setLocation} />
+							<TextInput
+								id="email"
 								type="text"
-								state={firstName}
-								setState={setFirstName}
+								placeholder="Phone Number (optional)"
+								onChange={(e) => setPhoneNumber(e.target.value)}
+								required={false}
+								className="w-96 border border-black rounded-md "
 							/>
-							<TextField
-								label="Last Name *"
-								id="lastName"
-								type="text"
-								state={lastName}
-								setState={setLastName}
-							/>
-						</div>
-						<div>
-							<TextField
-								label="Email *"
+							<TextInput
 								id="email"
 								type="email"
-								state={email}
-								setState={setEmail}
+								placeholder="Email *"
+								onChange={(e) => setEmail(e.target.value)}
+								required={true}
+								className="w-96 border border-black rounded-md "
 							/>
 							<PasswordField
+								label="Password *"
+								// onChange={(e) => setPassword(e.target.value)}
 								state={password}
 								setState={setPassword}
 								showPassword={showPassword}
 								setShowPassword={setShowPassword}
 							/>
-							<TextField
-								label="Phone Number"
-								id="phoneNumber"
-								type="text"
-								state={phoneNumber}
-								setState={setPhoneNumber}
-							/>
-							<LocationDropDown state={location} setState={setLocation} />
-							<div className="flex justify-between gap-2">
-								<GenderDropDown state={gender} setState={setGender} />
-								<DatePicker birthdateDisplay={birthdateDisplay} />
-							</div>
-							{/* Message that pops up when error/succession occurs */}
 							{message !== null && (
 								<p
 									id="message-notice"
@@ -191,23 +195,37 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 											: 'text-green-500'
 									} relative top-1`}
 								>
-									<span class="font-medium"></span> {message.message}
+									<span className="font-medium"></span> {message.message}
 								</p>
 							)}
-
-							{/* Signup button */}
-							<button
-								type="submit"
-								onClick={() => signUp()}
-								className="mt-5 p-[10px] w-full bg-[#007916] text-white rounded-sm"
-							>
-								Sign Up
-							</button>
-							<p className="py-3 text-right"></p>
+							<div>
+								<button
+									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+									type="button"
+									onClick={() => signUp()}
+								>
+									Sign Up
+								</button>
+							</div>
+							<div>
+								<button
+									className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+									type="button"
+									onClick={() => handleEnterAsGuest()}
+								>
+									Enter as a Guest
+								</button>
+							</div>
 						</div>
-					</div>
+						<p className="font-normal text-base cursor-pointer">
+							Have an account?{' '}
+							<Link href="/login" className="font-bold">
+								Sign In
+							</Link>
+						</p>
+					</form>
 				</div>
 			</div>
-		</main>
+		</div>
 	);
 }

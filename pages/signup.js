@@ -14,7 +14,7 @@ import ConfirmSignUpView from '@/components/signup/ConfirmSignUpView';
 export default function Signup() {
 	const [uiState, setUiState] = useState(null);
 	const [email, setEmail] = useState(''); // Email that gets passed between UI states/screens
-
+	const [confirmationCode, setConfirmationCode] = useState('');
 	useEffect(() => {
 		setUiState('signUp');
 	}, []);
@@ -33,7 +33,12 @@ export default function Signup() {
 				<SignUpView email={email} setEmail={setEmail} setUiState={setUiState} />
 			)}
 			{uiState === 'confirmSignUp' && (
-				<ConfirmSignUpView email={email} setUiState={setUiState} />
+				<ConfirmSignUpView
+					email={email}
+					setUiState={setUiState}
+					confirmationCode={confirmationCode}
+					setConfirmationCode={setConfirmationCode}
+				/>
 			)}
 		</>
 	);

@@ -34,9 +34,16 @@ function ArrayField({
 	defaultFieldValue,
 	lengthLimit,
 	getBadgeText,
+	errorMessage,
 }) {
 	const labelElement = <Text>{label}</Text>;
-	const { tokens } = useTheme();
+	const {
+		tokens: {
+			components: {
+				fieldmessages: { error: errorStyles },
+			},
+		},
+	} = useTheme();
 	const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
 	const [isEditing, setIsEditing] = React.useState();
 	React.useEffect(() => {
@@ -139,6 +146,11 @@ function ArrayField({
 					>
 						Add item
 					</Button>
+					{errorMessage && hasError && (
+						<Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+							{errorMessage}
+						</Text>
+					)}
 				</>
 			) : (
 				<Flex justifyContent="flex-end">
@@ -157,7 +169,6 @@ function ArrayField({
 					<Button
 						size="small"
 						variation="link"
-						color={tokens.colors.brand.primary[80]}
 						isDisabled={hasError}
 						onClick={addItem}
 					>
@@ -226,9 +237,10 @@ export default function PlayersSoccerCreateForm(props) {
 		currentValue,
 		getDisplayValue
 	) => {
-		const value = getDisplayValue
-			? getDisplayValue(currentValue)
-			: currentValue;
+		const value =
+			currentValue && getDisplayValue
+				? getDisplayValue(currentValue)
+				: currentValue;
 		let validationResponse = validateField(value, validations[fieldName]);
 		const customValidator = fetchByPath(onValidate, fieldName);
 		if (customValidator) {
@@ -516,7 +528,8 @@ export default function PlayersSoccerCreateForm(props) {
 				currentFieldValue={currentRolesValue}
 				label={'Roles'}
 				items={roles}
-				hasError={errors.roles?.hasError}
+				hasError={errors?.roles?.hasError}
+				errorMessage={errors?.roles?.errorMessage}
 				setFieldValue={setCurrentRolesValue}
 				inputFieldRef={rolesRef}
 				defaultFieldValue={''}

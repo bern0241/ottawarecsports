@@ -11,11 +11,13 @@ import { useUser } from '@/context/userContext';
 // Components
 import SignInView from '@/components/login/SignInView';
 import ForgotPasswordView from '@/components/login/ForgotPasswordView';
+import ForgetPasswordConfirmView from '@/components/login/ForgetPasswordConfirmView';
 import ForgotPasswordSubmitView from '@/components/login/ForgotPasswordSubmitView';
 
 export default function Login() {
 	const [uiState, setUiState] = useState(null);
 	const [email, setEmail] = useState('');
+	const [confirmationCode, setConfirmationCode] = useState('');
 	const [user, authRoles, setAuthRoles] = useUser();
 
 	useEffect(() => {
@@ -32,6 +34,7 @@ export default function Login() {
 			</Head>
 
 			{uiState === 'signIn' && <SignInView setUiState={setUiState} />}
+
 			{uiState === 'forgotPassword' && (
 				<ForgotPasswordView
 					email={email}
@@ -39,11 +42,20 @@ export default function Login() {
 					setUiState={setUiState}
 				/>
 			)}
+			{uiState === 'emailConfirmation' && (
+				<ForgetPasswordConfirmView
+					setUiState={setUiState}
+					confirmationCode={confirmationCode}
+					setConfirmationCode={setConfirmationCode}
+				/>
+			)}
 			{uiState === 'forgotPasswordSubmit' && (
 				<ForgotPasswordSubmitView
 					email={email}
 					uiState={uiState}
 					setUiState={setUiState}
+					confirmationCode={confirmationCode}
+					// setConfirmationCode={setConfirmationCode}
 				/>
 			)}
 		</>

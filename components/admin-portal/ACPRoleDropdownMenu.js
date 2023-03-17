@@ -13,7 +13,7 @@ export default function ACPRoleDropdownMenu({ defaultRole, changeUserRole }) {
 			onChange={(e) => {
 				setValue(e.target.value);
 			}}
-			className="w-3/4 rounded-3xl border-2 border-brand-neutral-300"
+			className="w-3/4 rounded-3xl border border-brand-neutral-300"
 		>
 			<option value="Administrator">Administrator</option>
 			<option value="User">User</option>
