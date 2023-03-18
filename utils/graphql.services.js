@@ -51,3 +51,23 @@ export const getAllTeams = async () => {
 		console.warn(err);
 	}
 };
+
+/**
+ * Sends an update request to the User table
+ * @param {String} id The id of the user that needs to be updated
+ * @param {Object} updatedData An object containing the fields that needs to be updated.
+ */
+export const updateUserInfo = async (id, updatedData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.updateUsers,
+			variables: {
+				input: { id, ...updatedData, userNotes: {}, PlayersSoccer: {} },
+			},
+		});
+		console.log(resp);
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
