@@ -20,7 +20,7 @@ const Header = (props) => {
 	return (
 		<div>
 			<div className="bg-white">
-				<div className="h-20 z-10 flex flex-row items-center bg-brand-blue-900 top-0 right-0 pl-2 pr-12 sm:hidden">
+				<div className="fixed right-0 left-0 h-20 z-10 flex flex-row items-center bg-brand-blue-900 top-0 pl-2 pr-12 sm:hidden ">
 					<div className="self-start">
 						<button className="visible center mt-4 mr-2" onClick={handleClick}>
 							<IconMenu2 color="white" size={'3em'} />
@@ -35,7 +35,7 @@ const Header = (props) => {
 						className="mx-auto"
 					/>
 				</div>
-				<div className="sm:fixed w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 bg-white">
+				<div className="fixed top-[5rem] sm:top-[0rem] w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 bg-white">
 					<HeaderTitle className="ml-4" />
 					<div className="flex-grow"></div>
 					<Profile className="ml-auto" />
