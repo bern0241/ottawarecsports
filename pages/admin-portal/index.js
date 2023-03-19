@@ -88,7 +88,7 @@ export default function AdminPortal() {
 
 	return (
 		<>
-			<main className="p-[4rem]">
+			<main className="p-[4rem 0rem]">
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-xl self-center">Users</h1>

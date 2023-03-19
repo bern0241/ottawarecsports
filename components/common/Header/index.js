@@ -35,7 +35,7 @@ const Header = (props) => {
 						className="mx-auto"
 					/>
 				</div>
-				<div className="sm:fixed w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 ">
+				<div className="sm:fixed w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 bg-white">
 					<HeaderTitle className="ml-4" />
 					<div className="flex-grow"></div>
 					<Profile className="ml-auto" />
