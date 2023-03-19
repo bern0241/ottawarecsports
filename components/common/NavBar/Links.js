@@ -28,7 +28,7 @@ const NavbarSetup = () => {
 			<ScheduleDropDown />
 			<RostersDropDown />
 			<Link
-				href="./"
+				href="./admin-portal"
 				className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
 			>
 				<div className="pt-1 ">

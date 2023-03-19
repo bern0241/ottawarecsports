@@ -24,7 +24,7 @@ export default function ACPUserRow({ user, index, handleSave }) {
 		<tr key={user.id} className="border-b border-brand-neutral-300">
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
-				{user.firstName.charAt(0)}. {user.lastName}
+				{user.Attributes.find(o => o.Name === 'name')['Value'].charAt(0)}. {user.Attributes.find(o => o.Name === 'family_name')['Value']}
 			</td>
 			<td className="p-5">
 				<ACPRoleDropdownMenu
@@ -33,10 +33,11 @@ export default function ACPUserRow({ user, index, handleSave }) {
 				/>
 			</td>
 			<td className="p-5">
-				<ACPLeagueDropdownMenu
+				{/* <ACPLeagueDropdownMenu
 					defaultLeague={user.leagues}
 					changeUserLeague={changeUserLeague}
-				/>
+				/> */}
+				{user.Attributes.find(o => o.Name === 'email')['Value']}
 			</td>
 			<td className="p-5">
 				<div className="flex">

@@ -6,11 +6,12 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminIdentifier from '@/components/admin-portal/AdminIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
 import ACPUserRow from '@/components/admin-portal/ACPUserRow';
 import { IconCirclePlus } from '@tabler/icons-react';
+import AWS from 'aws-sdk';
 
 export default function AdminPortal() {
 	const usersList = [
@@ -51,15 +52,35 @@ export default function AdminPortal() {
 		},
 	];
 
-	const [users, setUsers] = useState(usersList);
+	const [users, setUsers] = useState();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
 	const handleSave = (index, userRole, userLeague) => {
 		const updatedUsers = [...users]; // Make a copy of the array.
 		updatedUsers[index].role = userRole;
 		updatedUsers[index].leagues = userLeague;
-		setUsers(updatedUsers);
+		// setUsers(updatedUsers);
 		console.log(users);
 	};
+
+	useEffect(() => {
+		fetchUsers();
+	}, [])
+
+	const fetchUsers = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+		  };
+		cognitoidentityserviceprovider.listUsers(params, function(err, data) {
+		if (err) {
+			console.log(err, err.stack);
+		}
+		else {
+			console.log(data.Users);
+			setUsers(data.Users);
+		}
+		});
+	}
 
 	return (
 		<>
@@ -89,7 +110,7 @@ export default function AdminPortal() {
 							</tr>
 						</thead>
 						<tbody>
-							{users.map((user, index) => (
+							{users && users.map((user, index) => (
 								<ACPUserRow
 									key={user.id}
 									user={user}
