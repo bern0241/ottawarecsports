@@ -12,6 +12,7 @@ import AWS from 'aws-sdk';
 import DobDatePicker from './DatePicker';
 import GenderDropDown from './GenderDropDown';
 import LocationDropDown from './LocationDropDown';
+import UserGroupsDropDown from './UserGroupsDropDown';
 
 export default function ACPNewUserModal({ setOpenModal }) {
     // New User Variables
@@ -72,35 +73,60 @@ export default function ACPNewUserModal({ setOpenModal }) {
                 <div class="p-5 space-y-4">
                 <div className='flex gap-[1.1rem]'>
                     <div class="w-full">
-                        <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                        <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                        <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
 
                     <div class="w-full">
-                        <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                        <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                        <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" id="lastName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                 </div>
 
                 <div className='flex gap-[1.3rem] mb-3'>
                 <div className='w-full'>
-                    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthdate</label>
+                    <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthdate</label>
                     <DobDatePicker
                         state={birthDate}
                         setState={setBirthDate}
                     />
                 </div>
                 <div className='w-full'>
-                    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
                     <GenderDropDown state={gender} setState={setGender} />
                 </div>
                 </div>
-                    
+
+                <div className='flex gap-[1.1rem]'>
+                    <div class="w-full">
+                        <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                        <input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} type="text" id="phoneNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+
+                    <div class="w-full">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+                </div>
+
+                <div className='flex gap-[1.1rem]'>
+                    <div class="w-full">
+                        <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                        <LocationDropDown state={location} setState={setLocation} />
+                    </div>
+
+                    <div class="w-full">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Auth Roles (+)</label>
+                        <UserGroupsDropDown userGroups={userGroups} setUserGroups={setUserGroups} />
+                    </div>
+                </div>
+
+                    {/* Chips displaying which user groups were added */}
                     <div className='relative cursor-pointer'>
                         <div className='flex absolute top-[2.3rem]'>
-                            {userGroups && userGroups.map((user) => (
+                            {userGroups && userGroups.map((name) => (
                                 <>
-                                    <UserGroupChip user={user} userGroups={userGroups} setUserGroups={setUserGroups} />
+                                    <UserGroupChip name={name} userGroups={userGroups} setUserGroups={setUserGroups} />
                                 </>
                             ))}
                         </div>
