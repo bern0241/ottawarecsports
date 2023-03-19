@@ -14,7 +14,7 @@ import SettingPasswordField from './SettingPasswordField';
 
 export default function SettingsForm({setUiState}) {
   return(
-  <form className="grid grid-cols-2 gap-4">
+  <form className="grid lg:grid-cols-2 gap-4">
     <div>
       <div className="mb-2 block">
         <Label
@@ -27,7 +27,7 @@ export default function SettingsForm({setUiState}) {
         type="text"
         placeholder="First Name"
         required={true}
-        className="h-[40px] w-[300px]"
+        className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
       />
     </div>
     <div>
@@ -42,7 +42,7 @@ export default function SettingsForm({setUiState}) {
         type="text"
         placeholder="Last Name"
         required={true}
-        className="h-[40px] w-[300px]"
+        className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
       />
     </div>
     <div>
@@ -75,7 +75,7 @@ export default function SettingsForm({setUiState}) {
         type="text"
         placeholder="Phone Number"
         required={true}
-        className="h-[40px] w-[300px]"
+        className="h-[40px] xl:w--[300px]"
       />
     </div>
     <div>
@@ -99,7 +99,7 @@ export default function SettingsForm({setUiState}) {
         type="email"
         placeholder="Email"
         required={true}
-        className="h-[40px] w-[300px]"
+        className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
       />
     </div>
     <div>
@@ -111,11 +111,11 @@ export default function SettingsForm({setUiState}) {
       </div>
       <SettingPasswordField 
         placeholder="Password"
-        className="h-[40px] w-[300px]"/>
+        className="h-[40px] xl:w--[300px]"/>
     </div>
     <div>
       <button
-				className="bg-brand-blue-800 h-[30px] w-[300px] rounded-[50px] text-white font-regular my-4"
+				className="bg-brand-blue-800 h-[30px] w-full xl:w--[300px] rounded-[50px] text-white font-regular my-4"
 				type="button"
         onClick={() => setUiState('changeEmail')}
       >
@@ -124,7 +124,7 @@ export default function SettingsForm({setUiState}) {
     </div>
     <div>
       <button
-				className="bg-brand-blue-800 h-[30px] w-[300px] rounded-[50px] text-white font-regular my-4"
+				className="bg-brand-blue-800 h-[30px] w-full xl:w--[300px] rounded-[50px] text-white font-regular my-4"
 				type="button"
         onClick={() => setUiState('changePassword')}
       >

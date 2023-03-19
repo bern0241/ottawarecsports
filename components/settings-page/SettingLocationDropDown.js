@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-18
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -15,7 +15,7 @@ export default function SettingLocationDropDown({ state, setState }) {
 				onChange={(e) => setState(e.target.value)}
 				id="location"
 				required={true}
-				className="h-[40px] w-[300px]"
+				className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
 			>
 				<option color="red" selected disabled>
 					Location *

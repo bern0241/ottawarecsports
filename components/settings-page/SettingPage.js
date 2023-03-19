@@ -13,15 +13,15 @@ import {IconCameraPlus } from '@tabler/icons-react';
 export default function SettingsPage({setUiState}) {
   return(
     <>
-      <div className="bg-white m-16 p-3 ">
+      <div className="bg-white m-16 p-3 mt-[38rem] sm:mt-20">
         <div className="border-b border-[#c0c0c0] h-[50px] ">
           <p className="font-medium text-base self">My Profile</p>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-scroll">
           <div className="flex justify-center">
-            <div className="flex flex-row gap-[200px] m-5 place-content-evenly">
+            <div className="lg:flex lg:flex-row gap-4 m-5">
               <div>
-                <div style={{borderRadius: '100px', overflow: 'hidden'}}>
+                <div className="w-[200px] h-[200px] border rounded-full overflow-hidden">
                   <Image src={"/images/defaultProfilePic.jpeg"} width={200} height={200} />
                 </div>
                 <IconCameraPlus className="ml-40"/>
