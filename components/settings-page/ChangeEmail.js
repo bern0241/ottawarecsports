@@ -52,6 +52,7 @@ export default function ChangeEmail({setUiState}){
             <button
               className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
               type="button"
+              onClick={() => setUiState('verification')}
             >
               Save
             </button>

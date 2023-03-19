@@ -10,6 +10,7 @@ import Head from 'next/head';
 import SettingsPage from '@/components/settings-page/SettingPage';
 import ChangeEmail from '@/components/settings-page/ChangeEmail';
 import ChangePassword from '@/components/settings-page/ChangePassword';
+import EmailVerification from '@/components/settings-page/EmailVerification';
 
 export default function Setting(){
 	const [uiState, setUiState] = useState(null);
@@ -34,6 +35,9 @@ export default function Setting(){
 			)}
 			{uiState === 'changePassword' && (
 				<ChangePassword setUiState={setUiState}/>
+			)}
+			{uiState === 'verification' && (
+				<EmailVerification setUiState={setUiState}/>
 			)}
 		</>
   )
