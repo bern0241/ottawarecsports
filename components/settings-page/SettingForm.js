@@ -126,6 +126,7 @@ export default function SettingsForm({setUiState}) {
       <button
 				className="bg-brand-blue-800 h-[30px] w-[300px] rounded-[50px] text-white font-regular my-4"
 				type="button"
+        onClick={() => setUiState('changePassword')}
       >
 				Change Password
 			</button>
