@@ -8,6 +8,10 @@
 import React, { useState, useEffect } from 'react'
 import UserGroupChip from './UserGroupChip';
 import AWS from 'aws-sdk';
+// Components (Coming from 'components/signup' folder)
+import DobDatePicker from './DatePicker';
+import GenderDropDown from './GenderDropDown';
+import LocationDropDown from './LocationDropDown';
 
 export default function ACPNewUserModal({ setOpenModal }) {
     // New User Variables
@@ -40,7 +44,7 @@ export default function ACPNewUserModal({ setOpenModal }) {
      * @returns New user created!
      */
     const createUser = async () => {
-        if (leagueName === '' || numberOfTeams === '') {
+        if (firstName === '' || lastName === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
             return;
         }
@@ -49,12 +53,12 @@ export default function ACPNewUserModal({ setOpenModal }) {
   return (
     <>
     {/* // <!-- Main modal --> */}
-    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-[5rem] left-0 right-0 z-[30] p-4 w-[32rem] mx-auto">
+    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-[5rem] left-0 right-0 z-[30] p-4 w-[30rem] mx-auto">
         <div class="relative w-full h-full">
             {/* <!-- Modal content --> */}
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 {/* <!-- Modal header --> */}
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-md font-semibold text-gray-900 dark:text-white">
                         Add A User
                     </h3>
@@ -65,11 +69,32 @@ export default function ACPNewUserModal({ setOpenModal }) {
                 </div>
     
                 {/* <!-- Modal body --> */}
-                <div class="p-6 space-y-6">
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                        <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" id="name" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                <div class="p-5 space-y-4">
+                <div className='flex gap-[1.1rem]'>
+                    <div class="w-full">
+                        <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                        <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
+
+                    <div class="w-full">
+                        <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                        <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+                </div>
+
+                <div className='flex gap-[1.3rem] mb-3'>
+                <div className='w-full'>
+                    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthdate</label>
+                    <DobDatePicker
+                        state={birthDate}
+                        setState={setBirthDate}
+                    />
+                </div>
+                <div className='w-full'>
+                    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                    <GenderDropDown state={gender} setState={setGender} />
+                </div>
+                </div>
                     
                     <div className='relative cursor-pointer'>
                         <div className='flex absolute top-[2.3rem]'>
@@ -78,18 +103,6 @@ export default function ACPNewUserModal({ setOpenModal }) {
                                     <UserGroupChip user={user} userGroups={userGroups} setUserGroups={setUserGroups} />
                                 </>
                             ))}
-                        </div>
-                    </div>
-    
-                    <div className='flex justify-end'>
-                        <div>
-                        <label for="level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                        <div class="relative">
-                            <select value={gender} onChange={(e) => setGender(e.target.value)} class="block appearance-none w-full bg-gray-100 border border-gray-400 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="level">
-                            <option value="Male">Male</option>
-                            <option value="CompFemaleleted">Female</option>
-                            </select>
-                        </div>
                         </div>
                     </div>
     
