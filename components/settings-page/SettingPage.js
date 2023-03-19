@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-18
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -10,7 +10,7 @@ import Image from 'next/image';
 import React from 'react';
 import {IconCameraPlus } from '@tabler/icons-react';
 
-export default function SettingsPage() {
+export default function SettingsPage({setUiState}) {
   return(
     <>
       <div className="bg-white m-16 p-3 ">
@@ -26,7 +26,7 @@ export default function SettingsPage() {
                 </div>
                 <IconCameraPlus className="ml-40"/>
               </div>
-              <SettingsForm/>
+              <SettingsForm setUiState={setUiState} />
             </div>
           </div>
           <div className="flex justify-center">

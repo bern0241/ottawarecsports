@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-18
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SettingsPage from '@/components/settings-page/SettingPage';
+import ChangeEmail from '@/components/settings-page/ChangeEmail';
 
 export default function Setting(){
 	const [uiState, setUiState] = useState(null);
@@ -25,7 +26,10 @@ export default function Setting(){
 			</Head>
 
 			{uiState === 'settingPage' && (
-        <SettingsPage/>
+        <SettingsPage setUiState={setUiState} />
+			)}
+			{uiState === 'changeEmail' && (
+				<ChangeEmail setUiState={setUiState}/>
 			)}
 		</>
   )

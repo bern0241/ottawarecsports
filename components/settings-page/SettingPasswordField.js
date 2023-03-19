@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-18
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -10,7 +10,7 @@ import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';
 import { TextInput } from 'flowbite-react';
 
-export default function SettingPasswordField() {
+export default function SettingPasswordField({placeholder, className}) {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const showPasswordToggle = (e) => {
@@ -19,13 +19,13 @@ export default function SettingPasswordField() {
 	};
 
 	return (
-		<div className="relative w-[300px] border-no">
+		<div className="relative border-no">
       <TextInput
         type={showPassword ? 'text' : 'password'}
         name="password"
         id="password"
-        className="h-[40px] w-[300px]"
-        placeholder="Password"
+        className={className}
+        placeholder={placeholder}
         required={true}
       />
 			<div

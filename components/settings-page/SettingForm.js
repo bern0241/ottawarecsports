@@ -1,11 +1,10 @@
 /**
- * Last updated: 2023-03-18
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { PasswordField } from '@aws-amplify/ui-react';
 import { Label, TextInput } from 'flowbite-react';
 import React from 'react';
 import SettingDatePicker from './SettingDatePicker';
@@ -13,7 +12,7 @@ import SettingGenderDropDown from './SettingGenderDropDown';
 import SettingLocationDropDown from './SettingLocationDropDown';
 import SettingPasswordField from './SettingPasswordField';
 
-export default function SettingsForm() {
+export default function SettingsForm({setUiState}) {
   return(
   <form className="grid grid-cols-2 gap-4">
     <div>
@@ -110,12 +109,15 @@ export default function SettingsForm() {
           value="Password"
         />
       </div>
-      <SettingPasswordField/>
+      <SettingPasswordField 
+        placeholder="Password"
+        className="h-[40px] w-[300px]"/>
     </div>
     <div>
       <button
 				className="bg-brand-blue-800 h-[30px] w-[300px] rounded-[50px] text-white font-regular my-4"
 				type="button"
+        onClick={() => setUiState('changeEmail')}
       >
 				Change Email
 			</button>
