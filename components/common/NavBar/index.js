@@ -17,7 +17,7 @@ const NavbarMenu = (props) => {
 		props.showMenu(false);
 	}
 	return (
-		<div className={`absolute inset-y-0 left-0 bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500 ${props.showMenu ? 'z-[10]' : 'z-[-5]'}`}>
+		<div className={`fixed inset-y-0 left-0 bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500 ${props.showMenu ? 'z-[10]' : 'z-[-5]'}`}>
 			<div>
 				<button
 					className="visible center mt-1 mr-2 sm:hidden"

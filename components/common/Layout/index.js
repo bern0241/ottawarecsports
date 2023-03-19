@@ -19,7 +19,7 @@ const Layout = ({ children }) => {
 	return (
 		<div className="">
 			{menuOpen ? (
-				<div className="h-screen relative z-0 flex bg-gray-500 sm:bg-transparent">
+				<div className="h-[119vh] relative z-0 flex bg-transparent sm:bg-transparent">
 					<div className="w-full flex flex-col">
 						<div className="w-full z-10 bg-white">
 							<Header showMenu={menuOpen} showMenu={showMenu} />
