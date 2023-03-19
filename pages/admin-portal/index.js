@@ -9,9 +9,12 @@
 import React, { useState, useEffect } from 'react';
 import AdminIdentifier from '@/components/admin-portal/AdminIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
-import ACPUserRow from '@/components/admin-portal/ACPUserRow';
 import { IconCirclePlus } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
+//Components
+import ACPUserRow from '@/components/admin-portal/ACPUserRow';
+import ACPNewUserModal from '@/components/admin-portal/ACPNewUserModal';
+
 
 export default function AdminPortal() {
 	const usersList = [
@@ -53,6 +56,7 @@ export default function AdminPortal() {
 	];
 
 	const [users, setUsers] = useState();
+	const [addUserModal, setAddUserModal] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
 	const handleSave = (index, userRole, userLeague) => {
@@ -88,7 +92,7 @@ export default function AdminPortal() {
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-xl self-center">Users</h1>
-						<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
+						<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800" onClick={() => setAddUserModal(true)}>
 							<IconCirclePlus className="mr-2 h-5 w-5" />
 							Add a User
 						</button>
@@ -122,6 +126,10 @@ export default function AdminPortal() {
 					</table>
 				</section>
 			</main>
+			{/* Add User modal */}
+			{addUserModal && (
+				<ACPNewUserModal setOpenModal={setAddUserModal} />
+			)}
 		</>
 	);
 }
