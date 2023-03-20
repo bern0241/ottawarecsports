@@ -85,7 +85,7 @@ export default function AdminPortal() {
 
 			<main className="p-[4rem 0rem]">
 				<ACPSearchUserBar setSearchResult={setSearchResult} />
-				
+
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-xl self-center">Users</h1>
@@ -111,7 +111,13 @@ export default function AdminPortal() {
 							</tr>
 						</thead>
 						<tbody>
-							{users && users.map((user, index) => (
+							{users && users.filter((user) => {
+								const searchItem = searchResult.toLocaleLowerCase();
+								const v = `${user.Attributes.find(o => o.Name === 'name')['Value'].toLocaleLowerCase()} ${user.Attributes.find(o => o.Name === 'family_name')['Value'].toLocaleLowerCase()}`;
+								if (!searchItem) return true;
+								return v.startsWith(searchItem);
+							})
+							.map((user, index) => (
 								<ACPUserRow
 									key={user.Username}
 									user={user}
@@ -119,6 +125,14 @@ export default function AdminPortal() {
 									handleSave={handleSave}
 								/>
 							))}
+							{/* {users && users.map((user, index) => (
+								<ACPUserRow
+									key={user.Username}
+									user={user}
+									index={index}
+									handleSave={handleSave}
+								/>
+							))} */}
 						</tbody>
 					</table>
 				</section>
