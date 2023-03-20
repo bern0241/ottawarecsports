@@ -17,9 +17,6 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
     /**
      * Auth roles always consist of User!
      */
-    useEffect(() => {
-        setUserGroups(['User']);
-    }, [])
 
     const addNewUserGroup = (e, newGroup) => {
         e.preventDefault();

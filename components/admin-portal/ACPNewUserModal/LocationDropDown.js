@@ -14,6 +14,7 @@ export default function LocationDropDown({ state, setState }) {
 	return (
 		<div>
 			<Select
+				value={state}
 				onChange={(e) => setState(e.target.value)}
 				id="location"
 				required={true}

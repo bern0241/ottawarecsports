@@ -14,6 +14,7 @@ export default function GenderDropDown({ state, setState }) {
 	return (
 		<div className=''>
 			<Select
+				value={state}
 				onChange={(e) => setState(e.target.value)}
 				id="gender"
 				required={true}

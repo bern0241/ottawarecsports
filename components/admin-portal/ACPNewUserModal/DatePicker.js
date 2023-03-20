@@ -16,42 +16,6 @@ import {
 } from '@tabler/icons-react';
 import DatePicker from 'tailwind-datepicker-react';
 
-const options = {
-	title: 'Date of Birth',
-	autoHide: true,
-	todayBtn: false,
-	clearBtn: true,
-	maxDate: new Date('2030-01-01'),
-	minDate: new Date('1950-01-01'),
-	theme: {
-		background: 'bg-white border border-black',
-		todayBtn: '',
-		clearBtn: '',
-		icons: '',
-		text: '',
-		disabledText: '',
-		input: '',
-		inputIcon: '',
-		selected: '',
-	},
-	icons: {
-		prev: () => (
-			<span>
-				<IconChevronLeft />
-			</span>
-		),
-		next: () => (
-			<span>
-				<IconChevronRight />
-			</span>
-		),
-	},
-	datepickerClassNames: 'top-12',
-	defaultDate: new Date(),
-	// defaultDate: new Date('2023/01/01'),
-	language: 'en',
-};
-
 export default function DobDatePicker({ state, setState }) {
 	const [show, setShow] = useState(false);
 
@@ -61,6 +25,42 @@ export default function DobDatePicker({ state, setState }) {
 	};
 	const handleClose = () => {
 		setShow(!show);
+	};
+
+	const options = {
+		title: 'Date of Birth',
+		autoHide: true,
+		todayBtn: false,
+		clearBtn: true,
+		maxDate: new Date('2030-01-01'),
+		minDate: new Date('1950-01-01'),
+		theme: {
+			background: 'bg-white border border-black',
+			todayBtn: '',
+			clearBtn: '',
+			icons: '',
+			text: '',
+			disabledText: '',
+			input: '',
+			inputIcon: '',
+			selected: '',
+		},
+		icons: {
+			prev: () => (
+				<span>
+					<IconChevronLeft />
+				</span>
+			),
+			next: () => (
+				<span>
+					<IconChevronRight />
+				</span>
+			),
+		},
+		datepickerClassNames: 'top-12',
+		defaultDate: new Date(state),
+		// defaultDate: new Date('2023/01/01'),
+		language: 'en',
 	};
 
 	return (
