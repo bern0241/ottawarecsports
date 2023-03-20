@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-20
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import React from 'react'
 
 export default function ChangePasswordModal({ setUiState }) {

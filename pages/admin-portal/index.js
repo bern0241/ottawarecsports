@@ -17,6 +17,7 @@ import AWS from 'aws-sdk';
 import SuccessMessage from '@/components/common/SuccessMessage';
 import ACPUserRow from '@/components/admin-portal/ACPUserRow';
 import ACPNewUserModal from '@/components/admin-portal/ACPNewUserModal';
+import ACPSearchUserBar from '@/components/admin-portal/ACPSearchUserBar';
 
 
 export default function AdminPortal() {
@@ -32,6 +33,7 @@ export default function AdminPortal() {
 
 	const [users, setUsers] = useState();
 	const [addUserModal, setAddUserModal] = useState(false);
+	const [searchResult, setSearchResult] = useState('');
 	// When a user gets created successfully, a message pops up in the browser
 	const [successMessage, setSuccessMessage] = useState(false);
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
@@ -82,6 +84,8 @@ export default function AdminPortal() {
 			</Head>
 
 			<main className="p-[4rem 0rem]">
+				<ACPSearchUserBar setSearchResult={setSearchResult} />
+				
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-xl self-center">Users</h1>
