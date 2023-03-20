@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-12
+ * Last updated: 2023-03-18
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -37,7 +37,7 @@ const NavbarSetup = () => {
 				<p className="pl-2">Admin Portal</p>
 			</Link>
 			<Link
-				href="./"
+				href="./settings"
 				className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
 			>
 				<div className="pt-1 ">
