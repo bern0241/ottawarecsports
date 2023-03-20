@@ -5,15 +5,21 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { Label, TextInput } from 'flowbite-react';
-import React from 'react';
+import { Label, Modal, TextInput } from 'flowbite-react';
+import React, { useState } from 'react';
+import ChangeEmailSetup from './ChangeEmail';
+import ChangePasswordSetup from './ChangePassword';
 import SettingDatePicker from './SettingDatePicker';
 import SettingGenderDropDown from './SettingGenderDropDown';
 import SettingLocationDropDown from './SettingLocationDropDown';
 import SettingPasswordField from './SettingPasswordField';
 
 export default function SettingsForm({setUiState}) {
+  const [emailModal, setEmailModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
+
   return(
+  <div>
   <form className="grid lg:grid-cols-2 gap-4">
     <div>
       <div className="mb-2 block">
@@ -111,13 +117,16 @@ export default function SettingsForm({setUiState}) {
       </div>
       <SettingPasswordField 
         placeholder="Password"
+        id="password"
         className="h-[40px] xl:w--[300px]"/>
     </div>
     <div>
       <button
 				className="bg-brand-blue-800 h-[30px] w-full xl:w--[300px] rounded-[50px] text-white font-regular my-4"
 				type="button"
-        onClick={() => setUiState('changeEmail')}
+        onClick={() => 
+          setEmailModal(true)
+        }
       >
 				Change Email
 			</button>
@@ -126,11 +135,31 @@ export default function SettingsForm({setUiState}) {
       <button
 				className="bg-brand-blue-800 h-[30px] w-full xl:w--[300px] rounded-[50px] text-white font-regular my-4"
 				type="button"
-        onClick={() => setUiState('changePassword')}
+        onClick={() => 
+          setPasswordModal(true)
+        }
       >
 				Change Password
 			</button>
     </div>
   </form>
+    <Modal
+      show={emailModal}
+      popup={true}
+      position="bottom-center"
+    >
+      <Modal.Body>
+        <ChangeEmailSetup setEmailModal={setEmailModal}/>
+      </Modal.Body>
+    </Modal>
+    <Modal
+      show={passwordModal}
+      popup={true}
+    >
+      <Modal.Body>
+        <ChangePasswordSetup setPasswordModal={setPasswordModal}/>
+      </Modal.Body>
+    </Modal>
+  </div>
   )
 }

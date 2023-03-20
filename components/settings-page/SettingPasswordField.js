@@ -10,7 +10,7 @@ import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';
 import { TextInput } from 'flowbite-react';
 
-export default function SettingPasswordField({placeholder, className}) {
+export default function SettingPasswordField({id, placeholder, className}) {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const showPasswordToggle = (e) => {
@@ -23,7 +23,7 @@ export default function SettingPasswordField({placeholder, className}) {
       <TextInput
         type={showPassword ? 'text' : 'password'}
         name="password"
-        id="password"
+        id={id}
         className={className}
         placeholder={placeholder}
         required={true}

@@ -10,7 +10,7 @@ import Image from 'next/image';
 import React from 'react';
 import {IconCameraPlus } from '@tabler/icons-react';
 
-export default function SettingsPage({setUiState}) {
+export default function SettingsPage() {
   return(
     <>
       <div className="bg-white m-16 p-3 mt-[38rem] sm:mt-20">
@@ -22,11 +22,11 @@ export default function SettingsPage({setUiState}) {
             <div className="lg:flex lg:flex-row gap-4 m-5">
               <div>
                 <div className="w-[200px] h-[200px] border rounded-full overflow-hidden">
-                  <Image src={"/images/defaultProfilePic.jpeg"} width={200} height={200} />
+                  <Image src={"/images/defaultProfilePic.jpeg"} alt="profile pic" width={200} height={200} priority/>
                 </div>
                 <IconCameraPlus className="ml-40"/>
               </div>
-              <SettingsForm setUiState={setUiState} />
+              <SettingsForm />
             </div>
           </div>
           <div className="flex justify-center">

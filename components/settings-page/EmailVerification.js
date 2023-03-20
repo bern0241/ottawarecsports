@@ -8,7 +8,7 @@
 import React from 'react';
 import OtpField from 'react-otp-field';
 
-export default function EmailVerification({setUiState}) {
+export default function EmailVerification({setVerificationModal}) {
   return (
     <div className="">
       <div className="flex justify-center">
@@ -43,7 +43,9 @@ export default function EmailVerification({setUiState}) {
               <button
                 className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
                 type="button"
-                onClick={() => setUiState('changeEmail')}
+                onClick={() => 
+                  setVerificationModal(false)
+                }
               >
                 Cancel
               </button>

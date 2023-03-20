@@ -8,7 +8,7 @@
 import React from 'react';
 import SettingPasswordField from './SettingPasswordField';
 
-export default function ChangePassword({setUiState}){
+export default function ChangePasswordSetup({setPasswordModal}){
   return(
     <div className="flex justify-center">
     <div className="bg-white md:w-[463px] w-[360px]">
@@ -18,14 +18,17 @@ export default function ChangePassword({setUiState}){
         </p>
         <div className="flex flex-col gap-5">
           <SettingPasswordField 
+            id="currentPassword"
             placeholder="Enter your Password"  
             className="h-[40px] w-full"
           />
           <SettingPasswordField 
+            id="newPassword"
             placeholder="New Password"  
             className="h-[40px] w-full"
           />
           <SettingPasswordField 
+            id="confirmPassword"
             placeholder="Confirm Password"  
             className="h-[40px] w-full"
           />
@@ -35,7 +38,9 @@ export default function ChangePassword({setUiState}){
             <button
               className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
               type="button"
-              onClick={() => setUiState('settingPage')}
+              onClick={() => 
+                setPasswordModal(false)
+              }
             >
               Cancel
             </button>
