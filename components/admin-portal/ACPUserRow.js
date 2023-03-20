@@ -6,30 +6,48 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
-import ACPRoleDropdownMenu from './ACPRoleDropdownMenu';
+import React, { useEffect, useState } from 'react';
+// import ACPRoleDropdownMenu from './ACPRoleDropdownMenu';
 // import ACPLeagueDropdownMenu from './ACPLeagueDropdownMenu';
 // import { IconDeviceFloppy } from '@tabler/icons-react';
 import ACPDeleteUserModal from './ACPDeleteUserModal';
+import AWS from 'aws-sdk';
 import { IconTrash } from '@tabler/icons-react';
 import { IconEdit } from '@tabler/icons-react';
 
-export default function ACPUserRow({ user, index, handleSave }) {
-	const [userRole, setUserRole] = useState(user.role);
-	const [userLeague, setUserLeague] = useState(user.leagues);
+export default function ACPUserRow({ user, index }) {
+	const [userGroups, setUserGroups] = useState([]);
 	const [deleteUserModal, setDeleteUserModal] = useState(false);
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-	function changeUserRole(role) {
-		setUserRole(role);
-	}
+	useEffect(() => {
+		getGroupsForUser();
+	}, [])
 
-	function changeUserLeague(league) {
-		setUserLeague(league);
-	}
+	const getGroupsForUser = () => {
+	var params = {
+		Username: user.Username,
+		UserPoolId: 'us-east-1_70GCK7G6t',
+	};
+	cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+		if (err) console.log(err, err.stack); // an error occurred
+		else  { // successful response
+			setUserGroups(data.Groups)
+		}
+	  });
+	  }
 
-	function saveChanges(index) {
-		handleSave(index, userRole, userLeague);
-	}
+	// function changeUserRole(role) {
+	// 	setUserRole(role);
+	// }
+
+	// function changeUserLeague(league) {
+	// 	setUserLeague(league);
+	// }
+
+	// function saveChanges(index) {
+	// 	handleSave(index, userRole, userLeague);
+	// }
 
 	return (
 		<>
@@ -38,11 +56,12 @@ export default function ACPUserRow({ user, index, handleSave }) {
 			<td className="p-5 font-medium">
 				{user.Attributes.find(o => o.Name === 'name')['Value'].charAt(0)}. {user.Attributes.find(o => o.Name === 'family_name')['Value']}
 			</td>
-			<td className="p-5">
-				<ACPRoleDropdownMenu
-					defaultRole={user.role}
-					changeUserRole={changeUserRole}
-				/>
+			<td className="p-5 flex flex-col">
+				{userGroups && userGroups.map((group) => (
+					<>
+					<p>{group.GroupName}</p>
+					</>
+				))}
 			</td>
 			<td className="p-5">
 				{/* <ACPLeagueDropdownMenu

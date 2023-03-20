@@ -6,8 +6,9 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import UserGroupChip from './UserGroupChip';
+import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
+import makeid from '@/utils/makeId';
 // Components (Coming from 'components/signup' folder)
 import DobDatePicker from './DatePicker';
 import GenderDropDown from './GenderDropDown';
@@ -16,11 +17,15 @@ import UserGroupsDropDown from './UserGroupsDropDown';
 import UserProfilePicture from './UserProfilePicture';
 import TempPasswordField from './TempPasswordField';
 
-export default function ACPNewUserModal({ setOpenModal }) {
+export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
     // New User Variables
+    const [profilePic, setProfilePic] = useState(null);
+    const [profilePicId, setProfilePicId] = useState('none');
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [birthDate, setBirthDate] = useState('');
+    // const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0]);
+    const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0].replaceAll('-', '/'));
     const [gender, setGender] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
@@ -28,6 +33,7 @@ export default function ACPNewUserModal({ setOpenModal }) {
     const [location, setLocation] = useState('');
     
     const [userGroups, setUserGroups] = useState([]);
+    const router = useRouter();
     const [message, setMessage] = useState(null);
 
     const [openNewUserModal, setOpenNewUserModal] = useState(false);
@@ -49,22 +55,111 @@ export default function ACPNewUserModal({ setOpenModal }) {
      * @returns New user created!
      */
     const createUser = async () => {
-        if (firstName === '' || lastName === '') {
+        console.log('Birthdate test',birthDate);
+        if (firstName === '' || lastName === '' || birthDate === '' || tempPassword === '' || email === '' || location === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
             return;
         }
+        try {
+            let uniqueId = makeid(15); //Meant for making random imageURI
+            let profile_pic_id = 'user_' + uniqueId;
+
+            // If profile picture is NOT null, set the ID to it's newly generated id
+            if (profilePic !== null) {
+                setProfilePicId(profile_pic_id);
+            } else {
+                setProfilePicId('none');
+            }
+            var params = {
+                UserPoolId: 'us-east-1_70GCK7G6t',
+                // Username: uniqueId,
+                Username: email,
+                TemporaryPassword: tempPassword,
+                UserAttributes: [
+                    {
+                        Name: 'name',
+                        Value: firstName,
+                    },
+                    {
+                        Name: 'family_name',
+                        Value: lastName
+                    },
+                    {
+                        Name: 'gender',
+                        Value: gender
+                    },
+                    {
+                        Name: 'custom:location',
+                        Value: location,
+                    },
+                    {
+                        // Name: 'custom:birthdate',
+                        Name: 'birthdate',
+                        Value: birthDate.toString(),
+                    },
+                    {
+                        Name: 'phone_number',
+                        Value: phoneNumber 
+                    },
+                    {
+                        Name: 'picture',
+                        Value: profilePicId
+                    },
+                ],
+                // DesiredDeliveryMediums: [
+                //     SMS | EMAIL,
+                // ]
+            }
+            cognitoidentityserviceprovider.adminCreateUser(params, async function(err, data) {
+                if (err) {
+                    console.log(err, err.stack);
+                    setMessage({status: 'error', message: err.message});
+                } 
+                else { 
+                    console.log('New User', data); // successful response
+                    await addUserToGroups(data.User.Username);
+                    if (profilePic !== null) {
+                        await uploadNewProfileImageToS3(profilePicId)
+                    }
+                    setOpenModal(false);
+                    setSuccessMessage(true);
+                    router.reload();
+                }
+              });
+        } catch (error) {
+            setMessage({status: 'error', message: error.message});
+            console.error(error);
+        }
     }
 
-    const uploadNewProfileImageToS3 = () => {
-        if (!newImage) return;
+    const addUserToGroups = async (newUsername) => {
+        userGroups.forEach((group) => {
+
+            var params = {
+                UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+                GroupName: group,
+                Username: newUsername,
+            };
+            cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
+            if (err) {
+                console.log(err, err.stack);
+            }
+            else {
+                console.log({status: 'success', data: data})
+            }
+            });
+        })
+    }
+
+    const uploadNewProfileImageToS3 = async (newProfilePicId) => {
+        if (!profilePic) return;
 
         try {
-            let uniqueId = makeid(15);
             const params = {
                 Bucket: bucketName,
-                Key: `user_${uniqueId}`,
+                Key: newProfilePicId,
                 Body: newImage,
-                ContentType: newImage.type
+                ContentType: profilePic.type
               };
               // Upload the image to S3
             s3.upload(params, (err, data) => {
@@ -98,40 +193,40 @@ export default function ACPNewUserModal({ setOpenModal }) {
                 </div>
     
                 {/* <!-- Modal body --> */}
-                <UserProfilePicture />
+                <UserProfilePicture profilePic={profilePic} setProfilePic={setProfilePic} />
 
                 <div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 
                     
                     <div class="w-full ">
-                        <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                        <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name *</label>
                         <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
 
                     <div class="w-full">
-                        <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                        <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name *</label>
                         <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" id="lastName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
 
                 <div className='w-full'>
-                    <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthdate</label>
+                    <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthdate *</label>
                     <DobDatePicker
                         state={birthDate}
                         setState={setBirthDate}
                     />
                 </div>
                 <div className='w-full'>
-                    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender *</label>
                     <GenderDropDown state={gender} setState={setGender} />
                 </div>
 
                     <div class="w-full">
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email *</label>
                         <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
 
                     <div class="w-full">
-                        <label for="tempPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Temporary Password</label>
+                        <label for="tempPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Temporary Password *</label>
                         <TempPasswordField state={tempPassword} setState={setTempPassword} />
                     </div>
 
@@ -141,7 +236,7 @@ export default function ACPNewUserModal({ setOpenModal }) {
                     </div>
 
                     <div class="w-full">
-                        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location *</label>
                         <LocationDropDown state={location} setState={setLocation} />
                     </div>
                 

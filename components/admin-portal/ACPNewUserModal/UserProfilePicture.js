@@ -10,9 +10,7 @@ const s3 = new AWS.S3({
     region: 'us-east-1',
 })
 
-export default function UserProfilePicture() {
-    const [userImage, setUserImage] = useState();
-    const [grabImage, setGrabImage] = useState();
+export default function UserProfilePicture({ profilePic, setProfilePic }) {
     const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
     const imageKey = 'pantocrator-dome.jpg';
     // const signedUrlExpireSeconds = 60 * 1;
@@ -30,21 +28,14 @@ export default function UserProfilePicture() {
         console.log(url);
     }
 
-    useEffect(() => {
-        if (userImage !== undefined) {
-            setGrabImage(userImage);
-            console.log(userImage);
-        }
-    }, [userImage])
-
   return (
     <div className='w-[12rem] mx-auto'>
         {/* <button onClick={(e) => console.log(grabImage)}>CLick me</button> */}
         <label className='cursor-pointer'>
                 <input className='hidden' id='file' type="file" accept={"image/*"} 
-                onChange={(e) => setUserImage(e.target.files[0])} />
+                onChange={(e) => setProfilePic(e.target.files[0])} />
                 
-                <Image style={{objectFit: 'cover'}} width={132} height={132} className="w-[10rem] h-[10rem] hover:opacity-80 rounded-full shadow-lg border border-black" src={userImage ? URL.createObjectURL(userImage) : '/../public/images/image-placeholder.png'} alt="user photo" />
+                <Image style={{objectFit: 'cover'}} width={132} height={132} className="w-[10rem] h-[10rem] hover:opacity-80 rounded-full shadow-lg border border-black" src={profilePic ? URL.createObjectURL(profilePic) : '/../public/images/image-placeholder.png'} alt="user photo" />
 
         <div className='absolute translate-x-[10.5rem] translate-y-[-1.5rem]'>
             <ion-icon style={{fontSize: '2rem'}} name="camera"></ion-icon>
