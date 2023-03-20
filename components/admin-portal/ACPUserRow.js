@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 // import { IconDeviceFloppy } from '@tabler/icons-react';
 import ACPEditUserModal from './ACPEditUserModal';
 import ACPDeleteUserModal from './ACPDeleteUserModal';
+import ACPDEnableDisableUserSwitcher from './ACPEnableDisableUserSwitcher';
 import AWS from 'aws-sdk';
 import { IconTrash } from '@tabler/icons-react';
 import { IconEdit } from '@tabler/icons-react';
@@ -38,18 +39,6 @@ export default function ACPUserRow({ user, index }) {
 		}
 	  });
 	}
-
-	// function changeUserRole(role) {
-	// 	setUserRole(role);
-	// }
-
-	// function changeUserLeague(league) {
-	// 	setUserLeague(league);
-	// }
-
-	// function saveChanges(index) {
-	// 	handleSave(index, userRole, userLeague);
-	// }
 
 	return (
 		<>
@@ -81,12 +70,13 @@ export default function ACPUserRow({ user, index }) {
 							setEditUserModal(true);
 						}}
 					/>
-					<IconTrash 
+					{/* <IconTrash 
 						className="text-brand-orange-800 hover:bg-blue-400 cursor-pointer" 
 						onClick={(e) => {
 							e.stopPropagation(); //Prevents pressing through the item (under UI) 
 							setDeleteUserModal(true);
-						}}/>
+						}}/> */}
+						<ACPDEnableDisableUserSwitcher user={user} />
 				</div>
 			</td>
 		</tr>

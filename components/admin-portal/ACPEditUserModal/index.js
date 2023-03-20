@@ -172,6 +172,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                         await uploadNewProfileImageToS3(profile_pic_id)
                     }
                     setMessage({status: 'success', message: 'User updated!'});
+                    router.reload();
                     // await confirmTempUserPassword(data.User.Username);
                     // setOpenModal(false);
                     // setSuccessMessage(true);

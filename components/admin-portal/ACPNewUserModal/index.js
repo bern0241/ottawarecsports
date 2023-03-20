@@ -224,6 +224,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                     if (err) console.log(err, err.stack); // an error occurred
                     else   {
                         console.log(data);
+                        setMessage({status: 'success', message: 'New user has been created!'});
                         router.reload();
                     }           // successful response
                   });

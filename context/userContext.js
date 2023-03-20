@@ -26,7 +26,7 @@ function UserContextProvider(props) {
 		try {
 			const user = await Auth.currentAuthenticatedUser();
 			setUser(user);
-			console.log('Auth User', user);
+			// console.log('Auth User', user);
 			getAuthRole(user);
 		} catch (error) {
 			setUser(null);
