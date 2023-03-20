@@ -17,6 +17,12 @@ import LocationDropDown from './LocationDropDown';
 import UserGroupsDropDown from './UserGroupsDropDown';
 import UserProfilePicture from './UserProfilePicture';
 import TempPasswordField from './TempPasswordField';
+const s3 = new AWS.S3({
+    accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
+    signatureVersion: 'v4', 
+    region: 'us-east-1',
+})
 
 export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
     // New User Variables
@@ -58,7 +64,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
      * @returns New user created!
      */
     const createUser = async () => {
-        // console.log('Session',user.signInUserSession.refreshToken.token);
+        // console.log('Session',profilePic);
         // return;
         if (firstName === '' || lastName === '' || birthDate === '' || tempPassword === '' || email === '' || location === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
@@ -128,7 +134,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                     await confirmTempUserPassword(data.User.Username);
                     setOpenModal(false);
                     // setSuccessMessage(true);
-                    router.reload();
                 }
               });
         } catch (error) {
@@ -157,13 +162,16 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
     }
 
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-        if (!profilePic) return;
+        if (profilePic === null) return;
+
+        const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+        const signedUrlExpireSeconds = 60 * 1;
 
         try {
             const params = {
                 Bucket: bucketName,
                 Key: newProfilePicId,
-                Body: newImage,
+                Body: profilePic,
                 ContentType: profilePic.type
               };
               // Upload the image to S3
@@ -200,7 +208,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
             if (err) {
                 console.log('Error authenticating user: ', err);
             } else {
-                // console.log('DATA', authResult);
                 // console.log('Session Auth Reached:', authResult.Session)
 
                 // Second layer deep - uses Session provided from above
@@ -212,15 +219,12 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                       NEW_PASSWORD: tempPassword
                     },
                     Session: authResult.Session
-                    // Session: 'xxxxxxxxxxZDMcRu-5u...sCvrmZb6tHY'
                 };
-                // console.log('Session Auth:', authResult.Session)
-                  
                   cognitoidentityserviceprovider.respondToAuthChallenge(params, function(err, data) {
                     if (err) console.log(err, err.stack); // an error occurred
                     else   {
                         console.log(data);
-                        // router.reload();
+                        router.reload();
                     }           // successful response
                   });
             }

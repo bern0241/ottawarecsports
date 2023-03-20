@@ -15,9 +15,16 @@ import DobDatePicker from '../ACPNewUserModal/DatePicker';
 import GenderDropDown from '../ACPNewUserModal/GenderDropDown';
 import LocationDropDown from '../ACPNewUserModal/LocationDropDown';
 import UserGroupsDropDown from '../ACPNewUserModal/UserGroupsDropDown';
-import UserProfilePicture from '../ACPNewUserModal/UserProfilePicture';
+import UserProfilePictureEdit from './UserProfilePictureEdit';
+// import UserProfilePicture from '../ACPNewUserModal/UserProfilePicture';
 import TempPasswordField from '../ACPNewUserModal/TempPasswordField';
 import ChangePasswordModal from './ChangePasswordModal';
+const s3 = new AWS.S3({
+    accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
+    signatureVersion: 'v4', 
+    region: 'us-east-1',
+})
 
 export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage }) {
     // New User Variables
@@ -91,7 +98,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
      * @returns New user created!
      */
     const createUser = async () => {
-        // console.log('Session',user.signInUserSession.refreshToken.token);
+        console.log('Pic',user.Username);
         // return;
         if (firstName === '' || lastName === '' || birthDate === '' || email === '' || location === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
@@ -102,17 +109,18 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
             let profile_pic_id = 'user_' + uniqueId;
 
             // If profile picture is NOT null, set the ID to it's newly generated id
-            if (profilePic !== null) {
-                setProfilePicId(profile_pic_id);
-            } else {
-                setProfilePicId('none');
+            if (profilePic === null) {
+                profile_pic_id = 'none';
             }
+
             var params = {
                 UserPoolId: 'us-east-1_70GCK7G6t',
-                // Username: uniqueId,
-                Username: email,
-                TemporaryPassword: tempPassword,
+                Username: user.Username,
                 UserAttributes: [
+                    {
+                        Name: 'picture',
+                        Value: profile_pic_id
+                    },
                     {
                         Name: 'name',
                         Value: firstName,
@@ -138,30 +146,25 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                         Name: 'phone_number',
                         Value: phoneNumber 
                     },
-                    {
-                        Name: 'picture',
-                        Value: profilePicId
-                    },
                 ],
                 // DesiredDeliveryMediums: [
                 //     SMS | EMAIL,
                 // ]
             }
-            cognitoidentityserviceprovider.adminCreateUser(params, async function(err, data) {
+            cognitoidentityserviceprovider.adminUpdateUserAttributes(params, async function(err, data) {
                 if (err) {
                     console.log(err, err.stack);
                     setMessage({status: 'error', message: err.message});
                 } 
                 else { 
                     console.log('New User', data); // successful response
-                    await addUserToGroups(data.User.Username);
+                    await addUserToGroups(user.Username);
                     if (profilePic !== null) {
-                        await uploadNewProfileImageToS3(profilePicId)
+                        await uploadNewProfileImageToS3(profile_pic_id)
                     }
-                    await confirmTempUserPassword(data.User.Username);
+                    // await confirmTempUserPassword(data.User.Username);
                     setOpenModal(false);
                     // setSuccessMessage(true);
-                    router.reload();
                 }
               });
         } catch (error) {
@@ -170,13 +173,30 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
         }
     }
 
-    const addUserToGroups = async (newUsername) => {
-        userGroups.forEach((group) => {
+    const addUserToGroups = async (username) => {
+        await userGroups.forEach((group) => {
+            if (group !== 'User') {
+                var params = {
+                    UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+                    GroupName: group,
+                    Username: username,
+                };
+                cognitoidentityserviceprovider.adminRemoveUserFromGroup(params, function(err, data) {
+                if (err) {
+                    console.log(err, err.stack);
+                }
+                else {
+                    console.log({status: 'success remove from group', data: data})
+                }
+                });
+            }
+        })
 
+        userGroups.forEach((group) => {
             var params = {
                 UserPoolId: 'us-east-1_70GCK7G6t', /* required */
                 GroupName: group,
-                Username: newUsername,
+                Username: username,
             };
             cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
             if (err) {
@@ -190,13 +210,16 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
     }
 
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-        if (!profilePic) return;
+        if (profilePic === null) return;
+
+        const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+        const signedUrlExpireSeconds = 60 * 1;
 
         try {
             const params = {
                 Bucket: bucketName,
                 Key: newProfilePicId,
-                Body: newImage,
+                Body: profilePic,
                 ContentType: profilePic.type
               };
               // Upload the image to S3
@@ -205,6 +228,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 console.log('Error uploading image: ', err);
                 } else {
                 console.log('Image uploaded successfully!');
+                router.reload();
                 }
             });
         } catch (error) {
@@ -315,7 +339,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 {/* <!-- Modal header --> */}
                 <div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-md font-semibold text-gray-900 dark:text-white">
-                        Add A User
+                        Edit A User
                     </h3>
                     <button onClick={() => setOpenModal(false)} type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -325,7 +349,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
     
                 {/* <!-- Modal body --> */}
                 <button onClick={(e) => console.log(user)}>On Click</button>
-                <UserProfilePicture profilePic={profilePic} setProfilePic={setProfilePic} />
+                <UserProfilePictureEdit user={user} profilePic={profilePic} setProfilePic={setProfilePic} />
 
                 <div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 
@@ -385,7 +409,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 {/* <!-- Modal footer --> */}
                 <div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button onClick={() => setOpenModal(false)} data-modal-hide="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
-                    <button onClick={(e) => createUser(e)} data-modal-hide="defaultModal" type="button" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800">Save</button>
+                    <button onClick={(e) => createUser(e)} data-modal-hide="defaultModal" type="button" class="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800">Save</button>
                 </div>
             </div>
         </div>
