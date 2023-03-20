@@ -1,83 +1,39 @@
 /**
- * Last updated: 2023-03-15
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchBarInput from '@/components/common/SearchBarInput';
-import { IconCirclePlus } from '@tabler/icons-react';
 import PlayerRow from '@/components/players/PlayerRow';
+import AWS from 'aws-sdk';
 
 export default function Players() {
-	const playersList = [
-		{
-			id: 1,
-			avatar: 'https://api.lorem.space/image/face?w=60&h=60&hash=7F5AE56A',
-			firstName: 'Patrick',
-			lastName: 'King',
-			age: 33,
-			gender: 'Male',
-			location: 'North Gatineau',
-			teams: [
-				{
-					id: 'a',
-					name: 'The Juggernauts',
-					sport: 'Pick-up Sport',
-					role: 'Captain',
-				},
-			],
-		},
-		{
-			id: 2,
-			avatar: 'https://api.lorem.space/image/face?w=60&h=60&hash=8B7BCDC2',
-			firstName: 'Jessie',
-			lastName: 'Summers',
-			age: 30,
-			gender: 'Female',
-			location: 'Westboro',
-			teams: [
-				{
-					id: 'b',
-					name: 'Lady Spikers',
-					sport: 'Volleyball',
-					role: 'Player',
-				},
-			],
-		},
-		{
-			id: 3,
-			avatar: 'https://api.lorem.space/image/face?w=60&h=60&hash=500B67FB',
-			firstName: 'Laura',
-			lastName: 'Banks',
-			age: 28,
-			gender: 'Female',
-			location: 'Kanata',
-			teams: [
-				{
-					id: '123',
-					name: 'Goody2Shoes',
-					sport: 'Soccer',
-					role: 'Player',
-				},
-				{
-					id: '456',
-					name: 'Lady Spikers',
-					sport: 'Volleyball',
-					role: 'Captain',
-				},
-				{
-					id: '789',
-					name: 'The Benchwarmers',
-					sport: 'Soccer',
-					role: 'Player',
-				},
-			],
-		},
-	];
+	const [players, setPlayers] = useState([]);
+	const [filteredPlayers, filterPlayers] = useState([]);
 
-	const [players, setPlayers] = useState(playersList);
+	// Fetch users in AWS Cognito user pool:
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+	useEffect(() => {
+		fetchUsers();
+	}, []);
+
+	const fetchUsers = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+		};
+		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				filterPlayers(data.Users);
+				setPlayers(data.Users);
+			}
+		});
+	};
 
 	/**
 	 * Filter users by first and last name using the search input value.
@@ -89,23 +45,30 @@ export default function Players() {
 			.getElementById('player-search')
 			.value.toLowerCase();
 
-		let filteredPlayers = playersList.filter((player) => {
+		let filteredPlayers = players.filter((player) => {
+			const firstName = player.Attributes.find((o) => o.Name === 'name')[
+				'Value'
+			];
+			const lastName = player.Attributes.find((o) => o.Name === 'family_name')[
+				'Value'
+			];
+
 			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
 			const arr = searchValue.split(' ');
 			return arr.some(
 				(el) =>
-					player.firstName.toLowerCase().includes(el) ||
-					player.lastName.toLowerCase().includes(el)
+					firstName.toLowerCase().includes(el) ||
+					lastName.toLowerCase().includes(el)
 			);
 		});
 
-		setPlayers(filteredPlayers);
+		filterPlayers(filteredPlayers);
 	}
 
 	return (
 		<>
 			{/* Content */}
-			<main className="w-full flex flex-col gap-6 p-8">
+			<main className="w-full h-screen mt-16 flex flex-col gap-6 p-8">
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'player-search'}
@@ -116,10 +79,6 @@ export default function Players() {
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-lg self-center">All Players</h1>
-						<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
-							<IconCirclePlus className="mr-2 h-5 w-5" />
-							Add a Player
-						</button>
 					</div>
 
 					<table className="table-auto">
@@ -132,12 +91,15 @@ export default function Players() {
 								<th className="py-3 px-5 text-sm font-light w-2/12">Sports</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">Teams</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">Role</th>
-								<th className="py-3 px-5 text-sm font-light">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							{players.map((player, index) => (
-								<PlayerRow key={player.id} player={player} index={index} />
+							{filteredPlayers.map((player, index) => (
+								<PlayerRow
+									key={player.Username}
+									player={player}
+									index={index}
+								/>
 							))}
 
 							<tr>
