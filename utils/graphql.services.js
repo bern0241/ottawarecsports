@@ -8,6 +8,7 @@
 
 import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
 
 /**
  * Returns all players in the database
@@ -62,7 +63,26 @@ export const updateUserInfo = async (id, updatedData) => {
 		const resp = await API.graphql({
 			query: mutations.updateUsers,
 			variables: {
-				input: { id, ...updatedData, userNotes: {}, PlayersSoccer: {} },
+				input: {
+					id,
+					...updatedData,
+					// userNotes: {},
+					// PlayersSoccer: {
+					// 	PlayerDivisionStats: [
+					// 		{
+					// 			id,
+					// 			team: '123',
+					// 			division: '123',
+					// 			position: 'Goalie',
+					// 			goals: 55,
+					// 			assists: 12,
+					// 			yellow_cards: 1,
+					// 			red_cards: 1,
+					// 			games_played: 12,
+					// 		},
+					// 	],
+					// },
+				},
 			},
 		});
 		console.log(resp);
