@@ -6,10 +6,11 @@
  */
 
 import React, { useEffect } from 'react';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
+import Image from 'next/image';
 
 export default function PlayerProfile({ user }) {
 	const router = useRouter();
@@ -41,11 +42,18 @@ export default function PlayerProfile({ user }) {
 
 					<div className="grid grid-cols-3 gap-4 p-8">
 						{/* Player Avatar */}
-						<div className="col-span-3 sm:col-span-1 row-span-2 flex justify-center">
+						<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 							<img
 								src={'https://api.lorem.space/image/face?w=200&h=200'}
-								className="rounded-full"
+								className="rounded-full self-center"
+								width="200"
+								height="200"
 							></img>
+							<div className="flex justify-center gap-1">
+								<Image src="/images/medal.png" width="26" height="26" />
+								<Image src="/images/medal.png" width="26" height="26" />
+								<Image src="/images/medal.png" width="26" height="26" />
+							</div>
 						</div>
 
 						{/* Player Information */}
