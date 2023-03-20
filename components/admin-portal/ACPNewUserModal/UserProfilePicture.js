@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from '@aws-amplify/ui-react'
-import { Storage } from 'aws-amplify';
-import Image2 from 'next/image';
-import makeid from '@/utils/makeId';
+import Image from 'next/image';
+// import makeid from '@/utils/makeId';
 //AWS Imports
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3({
@@ -13,14 +11,14 @@ const s3 = new AWS.S3({
 })
 
 export default function UserProfilePicture() {
-    const [userImage, setUserImage] = useState(null);
-    const [newImage, setNewImage] = useState(null);
+    const [userImage, setUserImage] = useState();
+    const [grabImage, setGrabImage] = useState();
     const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
     const imageKey = 'pantocrator-dome.jpg';
-    const signedUrlExpireSeconds = 60 * 1;
+    // const signedUrlExpireSeconds = 60 * 1;
 
     useEffect(() => {
-        getImageFromS3();
+        // getImageFromS3();
     }, [])
 
     const getImageFromS3 = () => {
@@ -32,18 +30,26 @@ export default function UserProfilePicture() {
         console.log(url);
     }
 
+    useEffect(() => {
+        if (userImage !== undefined) {
+            setGrabImage(userImage);
+            console.log(userImage);
+        }
+    }, [userImage])
+
   return (
     <div className='w-[12rem] mx-auto'>
-                <input className='hidden' id='file' type="file" multiple accept={"image/*"} 
-                onChange={(e) => setNewImage(e.target.files[0])}/>
-                <label className='cursor-pointer' for='file'>
+        {/* <button onClick={(e) => console.log(grabImage)}>CLick me</button> */}
+        <label className='cursor-pointer'>
+                <input className='hidden' id='file' type="file" accept={"image/*"} 
+                onChange={(e) => setUserImage(e.target.files[0])} />
+                
+                <Image style={{objectFit: 'cover'}} width={132} height={132} className="w-[10rem] h-[10rem] hover:opacity-80 rounded-full shadow-lg border border-black" src={userImage ? URL.createObjectURL(userImage) : '/../public/images/image-placeholder.png'} alt="user photo" />
 
-                <Image2 style={{objectFit: 'cover'}} width={132} height={132} className="w-[10rem] h-[10rem] hover:opacity-80 rounded-full shadow-lg border border-black" src={newImage ? URL.createObjectURL(newImage) : '/../public/images/image-placeholder.png'} alt="user photo" />
-            </label>
-            {/* </label> */}
         <div className='absolute translate-x-[10.5rem] translate-y-[-1.5rem]'>
             <ion-icon style={{fontSize: '2rem'}} name="camera"></ion-icon>
         </div>
+            </label>
     </div>
   )
 }

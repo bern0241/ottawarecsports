@@ -14,17 +14,18 @@ import UserGroupChip from './UserGroupChip';
 export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
     const [openModal, setOpenModal] = useState(false);
 
+    /**
+     * Auth roles always consist of User!
+     */
+    useEffect(() => {
+        setUserGroups(['User']);
+    }, [])
+
     const addNewUserGroup = (e, newGroup) => {
         e.preventDefault();
         setOpenModal(false);
-        // const found = userGroups.some(el => el.group === user.Username);
         const found = userGroups.includes(newGroup);
-        console.log('Contains?', found);
         if (!found) {
-            // let newCoordinatorInfo = {
-            //     name: `${user.Attributes.find(o => o.Name === 'name')['Value']} ${user.Attributes.find(o => o.Name === 'family_name')['Value']}`,
-            //     username: user.Username,
-            // }
             setUserGroups(userGroups => [...userGroups, newGroup] );
         } else {
             const arr2 = userGroups.filter(item => item !== newGroup);
@@ -53,7 +54,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
             <div id="dropdown" className="z-[100] absolute bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44  border border-gray-400">
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 <li>
-                    <p onClick={(e) => addNewUserGroup(e, 'User')} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">User</p>
+                    <p onClick={(e) => e.preventDefault()} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">User</p>
                 </li>
                 <li>
                     <p onClick={(e) => addNewUserGroup(e, 'Captain')}  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Captain</p>

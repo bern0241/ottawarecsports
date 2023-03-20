@@ -4,6 +4,7 @@ import { IconX } from '@tabler/icons-react';
 export default function UserGroupChip({ name, userGroups, setUserGroups }) {
     const removeChip = (e) => {
         e.stopPropagation()
+        if (name === 'User') return; //Can't delete user chip!
         const arr2 = userGroups.filter(item => item !== name);
         setUserGroups(arr2);
     }
@@ -14,7 +15,9 @@ export default function UserGroupChip({ name, userGroups, setUserGroups }) {
         <p type="button">{name}</p>
         </div>
         <div>
-        <IconX size={'12px'}/>
+        {name !== 'User' && (
+            <IconX size={'12px'}/>
+        )}
         </div>
     </div>
     )
