@@ -9,6 +9,7 @@
 import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
+import { Auth } from 'aws-amplify';
 
 /**
  * Returns all players in the database
@@ -87,6 +88,39 @@ export const updateUserInfo = async (id, updatedData) => {
 		});
 		console.log(resp);
 		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+export const getCurrentUser = async () => {
+	try {
+		const user = await Auth.currentAuthenticatedUser();
+		return user;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+// Reference https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
+export const changeUserEmail = async (newEmail) => {
+	try {
+		const user = await Auth.currentAuthenticatedUser();
+		const result = await Auth.updateUserAttributes(user, {
+			email: newEmail,
+		});
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+// Reference https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
+export const changeUserPassword = async (oldPassword, newPassword) => {
+	try {
+		const resp = await Auth.currentAuthenticatedUser().then((user) => {
+			return Auth.changePassword(user, oldPassword, newPassword);
+		});
+		console.log(resp);
 	} catch (err) {
 		console.warn(err);
 	}
