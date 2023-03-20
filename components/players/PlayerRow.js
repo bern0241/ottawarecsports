@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function PlayerRow({ player, index }) {
 	const router = useRouter();
@@ -27,7 +28,7 @@ export default function PlayerRow({ player, index }) {
 
 	return (
 		<tr
-			key={player.id}
+			key={player.Username}
 			className="border-b border-brand-neutral-300 hover:cursor-pointer"
 			onClick={handleClick}
 		>
