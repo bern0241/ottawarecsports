@@ -19,9 +19,20 @@ export default function SettingsForm({ setUiState }) {
 	const [emailModal, setEmailModal] = useState(false);
 	const [passwordModal, setPasswordModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [birthDate, setBirthDate] = useState('');
+	const [gender, setGender] = useState('');
+	const [phone, setPhone] = useState('');
+	const [location, setLocation] = useState('');
+	const [email, setEmail] = useState('');
 	const getUserAttributes = async () => {
 		const { attributes } = await getCurrentUser();
-		console.log(attributes);
+		setFirstName(attributes.name);
+		setLastName(attributes.family_name);
+		setBirthDate(attributes.birthdate);
+		setGender(attributes.gender);
+		setLocation(attributes['custom:location']);
+		setEmail(attributes.email);
 	};
 	useEffect(() => {
 		getUserAttributes();
@@ -39,6 +50,8 @@ export default function SettingsForm({ setUiState }) {
 						placeholder="First Name"
 						required={true}
 						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+						value={firstName}
+						onChange={(e) => setFirstName(e.target.value)}
 					/>
 				</div>
 				<div>
@@ -51,13 +64,15 @@ export default function SettingsForm({ setUiState }) {
 						placeholder="Last Name"
 						required={true}
 						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+						value={lastName}
+						onChange={(e) => setLastName(e.target.value)}
 					/>
 				</div>
 				<div>
 					<div className="mb-2 block">
 						<Label htmlFor="" value="Birthdate" />
 					</div>
-					<SettingDatePicker />
+					<SettingDatePicker state={birthDate} setState={setBirthDate} />
 				</div>
 				<div>
 					<div className="mb-2 block">
@@ -75,13 +90,15 @@ export default function SettingsForm({ setUiState }) {
 						placeholder="Phone Number"
 						required={true}
 						className="h-[40px] xl:w--[300px]"
+						value={phone}
+						onChange={(e) => setPHone(e.target.value)}
 					/>
 				</div>
 				<div>
 					<div className="mb-2 block">
 						<Label htmlFor="location" value="Location" />
 					</div>
-					<SettingLocationDropDown />
+					<SettingLocationDropDown state={location} setState={setLocation} />
 				</div>
 				<div>
 					<div className="mb-2 block">
@@ -93,6 +110,8 @@ export default function SettingsForm({ setUiState }) {
 						placeholder="Email"
 						required={true}
 						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</div>
 				<div>
