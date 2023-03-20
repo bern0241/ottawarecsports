@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 import makeid from '@/utils/makeId';
+import { useUser } from '@/context/userContext';
 // Components (Coming from 'components/signup' folder)
 import DobDatePicker from './DatePicker';
 import GenderDropDown from './GenderDropDown';
@@ -19,6 +20,8 @@ import TempPasswordField from './TempPasswordField';
 
 export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
     // New User Variables
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    
     const [profilePic, setProfilePic] = useState(null);
     const [profilePicId, setProfilePicId] = useState('none');
 
@@ -55,7 +58,8 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
      * @returns New user created!
      */
     const createUser = async () => {
-        console.log('Birthdate test',birthDate);
+        // console.log('Session',user.signInUserSession.refreshToken.token);
+        // return;
         if (firstName === '' || lastName === '' || birthDate === '' || tempPassword === '' || email === '' || location === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
             return;
@@ -123,7 +127,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                     }
                     await confirmTempUserPassword(data.User.Username);
                     setOpenModal(false);
-                    setSuccessMessage(true);
+                    // setSuccessMessage(true);
                     router.reload();
                 }
               });
@@ -175,21 +179,52 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
         }
     }
 
-    const confirmTempUserPassword = async (username) => {
-        var params = {
-            ChallengeName: 'NEW_PASSWORD_REQUIRED', 
+    const confirmTempUserPassword = async (username) => 
+    {
+        // FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
+        // Set the authentication parameters for the user
+        const authParams = {
+            // AuthFlow: 'REFRESH_TOKEN',
+            AuthFlow: 'USER_PASSWORD_AUTH',
             ClientId: '40c4imoa859dtlo5iveig35dr1',
-            ChallengeResponses: {
-              USERNAME: username,
-              NEW_PASSWORD: tempPassword
-            },
-            Session: 'xxxxxxxxxxZDMcRu-5u...sCvrmZb6tHY'
-          };
-          
-          cognitoidentityserviceprovider.respondToAuthChallenge(params, function(err, data) {
-            if (err) console.log(err, err.stack); // an error occurred
-            else     console.log(data);           // successful response
-          });
+            // AuthParameters: {
+            //     REFRESH_TOKEN: user.signInUserSession.refreshToken.token
+            // },
+            AuthParameters: {
+                USERNAME: username,
+                PASSWORD: tempPassword
+              }
+        };        
+
+        cognitoidentityserviceprovider.initiateAuth(authParams, function(err, authResult) {
+            if (err) {
+                console.log('Error authenticating user: ', err);
+            } else {
+                // console.log('DATA', authResult);
+                // console.log('Session Auth Reached:', authResult.Session)
+
+                // Second layer deep - uses Session provided from above
+                var params = {
+                    ChallengeName: 'NEW_PASSWORD_REQUIRED', 
+                    ClientId: '40c4imoa859dtlo5iveig35dr1',
+                    ChallengeResponses: {
+                      USERNAME: username,
+                      NEW_PASSWORD: tempPassword
+                    },
+                    Session: authResult.Session
+                    // Session: 'xxxxxxxxxxZDMcRu-5u...sCvrmZb6tHY'
+                };
+                // console.log('Session Auth:', authResult.Session)
+                  
+                  cognitoidentityserviceprovider.respondToAuthChallenge(params, function(err, data) {
+                    if (err) console.log(err, err.stack); // an error occurred
+                    else   {
+                        console.log(data);
+                        // router.reload();
+                    }           // successful response
+                  });
+            }
+        })
     }
 
   return (
@@ -244,7 +279,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                     </div>
 
                     <div class="w-full">
-                        <label for="tempPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Temporary Password *</label>
+                        <label for="tempPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password *</label>
                         <TempPasswordField state={tempPassword} setState={setTempPassword} />
                     </div>
 

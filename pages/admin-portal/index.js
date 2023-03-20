@@ -59,7 +59,6 @@ export default function AdminPortal() {
 			console.log(err, err.stack);
 		}
 		else {
-			console.log(data.Users);
 			setUsers(data.Users);
 		}
 		});
