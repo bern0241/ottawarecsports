@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-15
+ * Last updated: 2023-03-19
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -7,7 +7,6 @@
 
 import React, { useEffect, useState } from 'react';
 import SearchBarInput from '@/components/common/SearchBarInput';
-import { IconCirclePlus } from '@tabler/icons-react';
 import PlayerRow from '@/components/players/PlayerRow';
 import AWS from 'aws-sdk';
 
@@ -72,10 +71,6 @@ export default function Players() {
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-lg self-center">All Players</h1>
-						<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800">
-							<IconCirclePlus className="mr-2 h-5 w-5" />
-							Add a Player
-						</button>
 					</div>
 
 					<table className="table-auto">
