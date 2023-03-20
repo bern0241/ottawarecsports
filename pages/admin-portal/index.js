@@ -25,38 +25,11 @@ export default function AdminPortal() {
 			role: 'User',
 			leagues: 'League A',
 		},
-		{
-			id: 2,
-			firstName: 'Michelle',
-			lastName: 'Yeoh',
-			role: 'Administrator',
-			leagues: 'League C',
-		},
-		{
-			id: 3,
-			firstName: 'Brendan',
-			lastName: 'Fraser',
-			role: 'User',
-			leagues: '',
-		},
-		{
-			id: 4,
-			firstName: 'Michael',
-			lastName: 'Fassbender',
-			role: 'Administrator',
-			leagues: 'League A',
-		},
-		{
-			id: 5,
-			firstName: 'Charlize',
-			lastName: 'Theron',
-			role: 'User',
-			leagues: 'League B',
-		},
 	];
 
 	const [users, setUsers] = useState();
 	const [addUserModal, setAddUserModal] = useState(false);
+
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
 	const handleSave = (index, userRole, userLeague) => {
@@ -127,6 +100,10 @@ export default function AdminPortal() {
 				</section>
 			</main>
 			{/* Add User modal */}
+			{addUserModal && (
+				<ACPNewUserModal setOpenModal={setAddUserModal} />
+			)}
+			{/* Delete User modal */}
 			{addUserModal && (
 				<ACPNewUserModal setOpenModal={setAddUserModal} />
 			)}
