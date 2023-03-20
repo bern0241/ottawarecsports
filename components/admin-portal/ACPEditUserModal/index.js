@@ -67,6 +67,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
     useEffect(() => {
         if (uiState) {
             setMessage(null);
+            setNewPassword('');
         }
     }, [uiState])
 
@@ -130,6 +131,14 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                         Value: lastName
                     },
                     {
+                        Name: 'email',
+                        Value: email,
+                    },
+                    {
+                        Name: "email_verified",
+                        Value: "true"
+                    },
+                    {
                         Name: 'gender',
                         Value: gender
                     },
@@ -162,8 +171,9 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                     if (profilePic !== null) {
                         await uploadNewProfileImageToS3(profile_pic_id)
                     }
+                    setMessage({status: 'success', message: 'User updated!'});
                     // await confirmTempUserPassword(data.User.Username);
-                    setOpenModal(false);
+                    // setOpenModal(false);
                     // setSuccessMessage(true);
                 }
               });
