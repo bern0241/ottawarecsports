@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { useUser } from '@/context/userContext';
 import AdminIdentifier from '@/components/admin-portal/AdminIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
 import { IconCirclePlus } from '@tabler/icons-react';
@@ -32,7 +33,8 @@ export default function AdminPortal() {
 	const [users, setUsers] = useState();
 	const [addUserModal, setAddUserModal] = useState(false);
 	// When a user gets created successfully, a message pops up in the browser
-	const [displayNewUserSuccess, setDisplayNewUserSuccess] = useState(false);
+	const [successMessage, setSuccessMessage] = useState(false);
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
 
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
@@ -61,6 +63,14 @@ export default function AdminPortal() {
 			setUsers(data.Users);
 		}
 		});
+	}
+
+	if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
+		return (
+			<div className='flex items-center justify-center h-[50vh]'>
+				<h2>You do not have access for this page</h2>
+			</div>
+		)
 	}
 
 	return (
@@ -112,14 +122,14 @@ export default function AdminPortal() {
 			</main>
 			{/* Add User modal */}
 			{addUserModal && (
-				<ACPNewUserModal setOpenModal={setAddUserModal} setSuccessMessage={setDisplayNewUserSuccess} />
+				<ACPNewUserModal setOpenModal={setAddUserModal} setSuccessMessage={setSuccessMessage} />
 			)}
 			{/* Delete User modal */}
 			{addUserModal && (
 				<ACPNewUserModal setOpenModal={setAddUserModal} />
 			)}
 			{/* Success Message */}
-			{displayNewUserSuccess && (
+			{successMessage && (
 				<SuccessMessage title={'Success!'} message={'User has been successfully created!'} setDisplay={setDisplayNewUserSuccess} />
 			)}
 		</>

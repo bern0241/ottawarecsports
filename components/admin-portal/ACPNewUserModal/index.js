@@ -121,6 +121,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                     if (profilePic !== null) {
                         await uploadNewProfileImageToS3(profilePicId)
                     }
+                    await confirmTempUserPassword(data.User.Username);
                     setOpenModal(false);
                     setSuccessMessage(true);
                     router.reload();
@@ -172,6 +173,23 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const confirmTempUserPassword = async (username) => {
+        var params = {
+            ChallengeName: 'NEW_PASSWORD_REQUIRED', 
+            ClientId: '40c4imoa859dtlo5iveig35dr1',
+            ChallengeResponses: {
+              USERNAME: username,
+              NEW_PASSWORD: tempPassword
+            },
+            Session: 'xxxxxxxxxxZDMcRu-5u...sCvrmZb6tHY'
+          };
+          
+          cognitoidentityserviceprovider.respondToAuthChallenge(params, function(err, data) {
+            if (err) console.log(err, err.stack); // an error occurred
+            else     console.log(data);           // successful response
+          });
     }
 
   return (
