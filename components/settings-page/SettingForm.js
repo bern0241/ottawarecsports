@@ -34,6 +34,14 @@ export default function SettingsForm({ setUiState }) {
 		setLocation(attributes['custom:location']);
 		setEmail(attributes.email);
 	};
+	// Converts date formats to yyyy-mm-dd
+	const customSetBirthDate = (date) => {
+		let localeDate = date.toLocaleDateString();
+		let dateToArr = localeDate.split('/');
+		let year = dateToArr.splice(-1, 1);
+		dateToArr.unshift(...year);
+		setBirthDate(dateToArr.join('-'));
+	};
 	useEffect(() => {
 		getUserAttributes();
 	}, []);
@@ -72,13 +80,13 @@ export default function SettingsForm({ setUiState }) {
 					<div className="mb-2 block">
 						<Label htmlFor="" value="Birthdate" />
 					</div>
-					<SettingDatePicker state={birthDate} setState={setBirthDate} />
+					<SettingDatePicker state={birthDate} setState={customSetBirthDate} />
 				</div>
 				<div>
 					<div className="mb-2 block">
 						<Label htmlFor="gender" value="Gender" />
 					</div>
-					<SettingGenderDropDown />
+					<SettingGenderDropDown state={gender} setState={setGender} />
 				</div>
 				<div>
 					<div className="mb-2 block">
@@ -91,7 +99,7 @@ export default function SettingsForm({ setUiState }) {
 						required={true}
 						className="h-[40px] xl:w--[300px]"
 						value={phone}
-						onChange={(e) => setPHone(e.target.value)}
+						onChange={(e) => setPhone(e.target.value)}
 					/>
 				</div>
 				<div>
