@@ -54,10 +54,10 @@ export default function ACPNewUserModal({ setOpenModal }) {
   return (
     <>
     {/* // <!-- Main modal --> */}
-    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-[5rem] left-0 right-0 z-[30] p-4 max-w-[37rem] mx-auto w-full h-[40rem] overflow-auto">
+    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-[5rem] left-0 right-0 z-[30] p-4 max-w-[42rem] mx-auto w-full h-[40rem] overflow-auto">
         <div class="relative w-full h-full">
             {/* <!-- Modal content --> */}
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 pb-[7rem] ">
                 {/* <!-- Modal header --> */}
                 <div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-md font-semibold text-gray-900 dark:text-white">
@@ -108,26 +108,16 @@ export default function ACPNewUserModal({ setOpenModal }) {
                         <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
                         <LocationDropDown state={location} setState={setLocation} />
                     </div>
+                
+                </div>
 
-                    <div class="w-full">
+                    <div class="px-5">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Auth Roles (+)</label>
                         <UserGroupsDropDown userGroups={userGroups} setUserGroups={setUserGroups} />
-                    </div>
-
-                    {/* Chips displaying which user groups were added */}
-                    <div className='relative cursor-pointer'>
-                        <div className='flex absolute top-[2.3rem]'>
-                            {userGroups && userGroups.map((name) => (
-                                <>
-                                    <UserGroupChip name={name} userGroups={userGroups} setUserGroups={setUserGroups} />
-                                </>
-                            ))}
-                        </div>
                     </div>
     
                     {message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
                     
-                </div>
     
                 {/* <!-- Modal footer --> */}
                 <div class="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
