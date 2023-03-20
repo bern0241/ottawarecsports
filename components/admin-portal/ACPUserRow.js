@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import ACPRoleDropdownMenu from './ACPRoleDropdownMenu';
 import ACPLeagueDropdownMenu from './ACPLeagueDropdownMenu';
-import { IconDeviceFloppy } from '@tabler/icons-react';
+// import { IconDeviceFloppy } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 
 export default function ACPUserRow({ user, index, handleSave }) {
 	const [userRole, setUserRole] = useState(user.role);
@@ -41,7 +42,7 @@ export default function ACPUserRow({ user, index, handleSave }) {
 			</td>
 			<td className="p-5">
 				<div className="flex">
-					<IconDeviceFloppy
+					<IconEdit
 						className="text-brand-blue-900 mr-3"
 						onClick={() => {
 							saveChanges(index);
