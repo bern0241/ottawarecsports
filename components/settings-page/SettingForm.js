@@ -53,7 +53,6 @@ export default function SettingsForm({ setUiState, setUserAttributes }) {
 			birthdate: birthDate,
 			email,
 			gender,
-			phone,
 			'custom:location': location,
 		});
 	}, [firstName, lastName, birthDate, email, gender, phone, location]);

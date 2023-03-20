@@ -9,9 +9,14 @@ import SettingsForm from '@/components/settings-page/SettingForm';
 import Image from 'next/image';
 import { useState } from 'react';
 import { IconCameraPlus } from '@tabler/icons-react';
+import { changeUserAttributes } from '@/utils/graphql.services';
 
 export default function SettingsPage() {
 	const [userAttributes, setUserAttributes] = useState({});
+
+	const saveAttributes = async () => {
+		await changeUserAttributes(userAttributes);
+	};
 	return (
 		<>
 			<div className="bg-white m-16 p-3 mt-[38rem] sm:mt-20">
@@ -49,6 +54,7 @@ export default function SettingsPage() {
 							<button
 								className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 								type="button"
+								onClick={saveAttributes}
 							>
 								Save
 							</button>
