@@ -9,8 +9,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 export default function PlayerRow({ player, index }) {
-	console.log(player);
-
 	const router = useRouter();
 
 	// Reference: Stack Overflow/Roy <https://stackoverflow.com/questions/73598303/calculate-age-in-js-given-the-birth-date-in-dd-mm-yyyy-format>

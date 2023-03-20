@@ -12,6 +12,7 @@ import AWS from 'aws-sdk';
 
 export default function Players() {
 	const [players, setPlayers] = useState([]);
+	const [filteredPlayers, filterPlayers] = useState([]);
 
 	// Fetch users in AWS Cognito user pool:
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
@@ -28,7 +29,7 @@ export default function Players() {
 			if (err) {
 				console.log(err, err.stack);
 			} else {
-				console.log(data.Users);
+				filterPlayers(data.Users);
 				setPlayers(data.Users);
 			}
 		});
@@ -44,23 +45,30 @@ export default function Players() {
 			.getElementById('player-search')
 			.value.toLowerCase();
 
-		let filteredPlayers = playersList.filter((player) => {
+		let filteredPlayers = players.filter((player) => {
+			const firstName = player.Attributes.find((o) => o.Name === 'name')[
+				'Value'
+			];
+			const lastName = player.Attributes.find((o) => o.Name === 'family_name')[
+				'Value'
+			];
+
 			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
 			const arr = searchValue.split(' ');
 			return arr.some(
 				(el) =>
-					player.firstName.toLowerCase().includes(el) ||
-					player.lastName.toLowerCase().includes(el)
+					firstName.toLowerCase().includes(el) ||
+					lastName.toLowerCase().includes(el)
 			);
 		});
 
-		setPlayers(filteredPlayers);
+		filterPlayers(filteredPlayers);
 	}
 
 	return (
 		<>
 			{/* Content */}
-			<main className="w-full flex flex-col gap-6 p-8">
+			<main className="w-full h-screen mt-16 flex flex-col gap-6 p-8">
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'player-search'}
@@ -86,7 +94,7 @@ export default function Players() {
 							</tr>
 						</thead>
 						<tbody>
-							{players.map((player, index) => (
+							{filteredPlayers.map((player, index) => (
 								<PlayerRow
 									key={player.Username}
 									player={player}
