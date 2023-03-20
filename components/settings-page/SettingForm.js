@@ -15,7 +15,7 @@ import SettingLocationDropDown from './SettingLocationDropDown';
 import SettingPasswordField from './SettingPasswordField';
 import { getCurrentUser } from '@/utils/graphql.services';
 
-export default function SettingsForm({ setUiState }) {
+export default function SettingsForm({ setUiState, setUserAttributes }) {
 	const [emailModal, setEmailModal] = useState(false);
 	const [passwordModal, setPasswordModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
@@ -45,6 +45,18 @@ export default function SettingsForm({ setUiState }) {
 	useEffect(() => {
 		getUserAttributes();
 	}, []);
+	// Update attributes object in the parent component
+	useEffect(() => {
+		setUserAttributes({
+			name: firstName,
+			family_name: lastName,
+			birthdate: birthDate,
+			email,
+			gender,
+			phone,
+			'custom:location': location,
+		});
+	}, [firstName, lastName, birthDate, email, gender, phone, location]);
 	return (
 		<div>
 			<form className="grid lg:grid-cols-2 gap-4">
