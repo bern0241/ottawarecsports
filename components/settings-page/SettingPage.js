@@ -5,6 +5,7 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+
 import {Modal} from 'flowbite-react';
 import React, { useState } from 'react';
 import ChangeEmailSetup from './ChangeEmail';
@@ -17,10 +18,15 @@ export default function SettingsPage() {
   const [enterPasswordModal2, setEnterPasswordModal2] = useState(false);
   const [emailModal, setEmailModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
+  const [userAttributes, setUserAttributes] = useState({});
+
+	const saveAttributes = async () => {
+		await changeUserAttributes(userAttributes);
+	};
 
   return(
   <div className="flex items-center">
-    <SettingsForm setEnterPasswordModal={setEnterPasswordModal} setEnterPasswordModal2={setEnterPasswordModal2}/>
+    <SettingsForm setEnterPasswordModal={setEnterPasswordModal} setEnterPasswordModal2={setEnterPasswordModal2} setUserAttributes={setUserAttributes}/>
 
   {/* MODALS */}
     <div>
@@ -57,8 +63,10 @@ export default function SettingsPage() {
                 <button
                   className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
                   type="button"
-                  onClick={() => 
+                  onClick={() => {
+                    saveAttributes()
                     setEmailModal(true)
+                    }
                   }
                 >
                   Ok

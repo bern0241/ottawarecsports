@@ -13,6 +13,7 @@ export default function SettingLocationDropDown({ state, setState }) {
 		<div>
 			<Select
 				onChange={(e) => setState(e.target.value)}
+				value={state}
 				id="location"
 				required={true}
 				className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
