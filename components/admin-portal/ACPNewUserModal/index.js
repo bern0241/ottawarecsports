@@ -72,20 +72,24 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
         }
         try {
             let uniqueId = makeid(15); //Meant for making random imageURI
-            let profile_pic_id = 'user_' + uniqueId;
+            let profile_pic_id = 'none';
 
             // If profile picture is NOT null, set the ID to it's newly generated id
             if (profilePic !== null) {
-                setProfilePicId(profile_pic_id);
-            } else {
-                setProfilePicId('none');
+                profile_pic_id = 'user_' + uniqueId;
+                console.log(profile_pic_id);
             }
+
             var params = {
                 UserPoolId: 'us-east-1_70GCK7G6t',
                 // Username: uniqueId,
                 Username: email,
                 TemporaryPassword: tempPassword,
                 UserAttributes: [
+                    {
+                        Name: 'picture',
+                        Value: profile_pic_id
+                    },
                     {
                         Name: 'name',
                         Value: firstName,
@@ -119,10 +123,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                         Name: 'phone_number',
                         Value: phoneNumber 
                     },
-                    {
-                        Name: 'picture',
-                        Value: profilePicId
-                    },
                 ],
                 DesiredDeliveryMediums: [
                     'EMAIL'
@@ -139,9 +139,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                 else { 
                     console.log('New User', data); // successful response
                     await addUserToGroups(data.User.Username);
-                    if (profilePic !== null) {
-                        await uploadNewProfileImageToS3(profilePicId)
-                    }
+                    await uploadNewProfileImageToS3(profile_pic_id)
                     await confirmTempUserPassword(data.User.Username);
                     setOpenModal(false);
                     // setSuccessMessage(true);
@@ -173,12 +171,12 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
     }
 
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-        if (profilePic === null) return;
-
         const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
         const signedUrlExpireSeconds = 60 * 1;
 
         try {
+            if (profilePic === null) { return; }
+
             const params = {
                 Bucket: bucketName,
                 Key: newProfilePicId,

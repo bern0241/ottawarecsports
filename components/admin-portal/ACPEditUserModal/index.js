@@ -119,7 +119,6 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
             // If profile picture is NOT null, set the ID to it's newly generated id
             if (profilePic !== null) {
                 profile_pic_id = 'user_' + uniqueId;
-                console.log(profile_pic_id);
             }
 
             var params = {
@@ -259,7 +258,6 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
     }
 
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-        
         const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
         const signedUrlExpireSeconds = 60 * 1;
         
