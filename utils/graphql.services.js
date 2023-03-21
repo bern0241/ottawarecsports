@@ -131,9 +131,9 @@ export const changeUserAttributes = async (newAttributes) => {
 	}
 };
 
-export const verifyUserAttributes = async (email, code) => {
+export const verifyUserAttributes = async (code) => {
 	try {
-		const result = await Auth.verifyCurrentUserAttributeSubmit(email, code);
+		const result = await Auth.verifyCurrentUserAttributeSubmit('email', code);
 		return result;
 	} catch (err) {
 		console.warn(err);
