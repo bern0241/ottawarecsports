@@ -46,3 +46,14 @@ export declare type TeamsCreateFormProps = React.PropsWithChildren<{
     onValidate?: TeamsCreateFormValidationValues;
 } & React.CSSProperties>;
 export default function TeamsCreateForm(props: TeamsCreateFormProps): React.ReactElement;
+export declare type TeamsCreateFormProps = React.PropsWithChildren<{
+    overrides?: TeamsCreateFormOverridesProps | undefined | null;
+} & {
+    clearOnSuccess?: boolean;
+    onSubmit?: (fields: TeamsCreateFormInputValues) => TeamsCreateFormInputValues;
+    onSuccess?: (fields: TeamsCreateFormInputValues) => void;
+    onError?: (fields: TeamsCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: TeamsCreateFormInputValues) => TeamsCreateFormInputValues;
+    onValidate?: TeamsCreateFormValidationValues;
+} & React.CSSProperties>;
+export default function TeamsCreateForm(props: TeamsCreateFormProps): React.ReactElement;
