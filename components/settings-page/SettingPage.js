@@ -14,11 +14,6 @@ export default function SettingsPage() {
 	const [enterPasswordModal, setEnterPasswordModal] = useState(false);
 	const [enterPasswordModal2, setEnterPasswordModal2] = useState(false);
 	const [userAttributes, setUserAttributes] = useState({});
-
-	const saveAttributes = async () => {
-		await changeUserAttributes(userAttributes);
-	};
-
 	return (
 		<div className="flex items-center">
 			<SettingsForm
