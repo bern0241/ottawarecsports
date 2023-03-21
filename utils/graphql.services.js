@@ -103,24 +103,33 @@ export const getCurrentUser = async () => {
 };
 
 // Reference https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
-export const changeUserEmail = async (newEmail) => {
+/**
+ * Update the user attributes in cognito
+ * @param {Object} updatedData An object containing the fields that needs to be updated.
+ * @returns {String} The result of the update operation as a string.
+ */
+export const changeUserAttributes = async (newAttributes) => {
 	try {
 		const user = await Auth.currentAuthenticatedUser();
-		const result = await Auth.updateUserAttributes(user, {
-			email: newEmail,
-		});
+		const result = await Auth.updateUserAttributes(user, newAttributes);
+		return result;
 	} catch (err) {
 		console.warn(err);
 	}
 };
 
 // Reference https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
+/**
+ * Update the user's password
+ * @param {String} oldPassword An object containing the fields that needs to be updated.
+ * @param {String} newPassword An object containing the fields that needs to be updated.
+ * @returns {String} The result of the update operation as a string.
+ */
 export const changeUserPassword = async (oldPassword, newPassword) => {
 	try {
-		const resp = await Auth.currentAuthenticatedUser().then((user) => {
-			return Auth.changePassword(user, oldPassword, newPassword);
-		});
-		console.log(resp);
+		const user = await Auth.currentAuthenticatedUser();
+		const result = await Auth.changePassword(user, oldPassword, newPassword);
+		return result;
 	} catch (err) {
 		console.warn(err);
 	}
