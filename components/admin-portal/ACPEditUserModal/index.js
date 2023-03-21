@@ -169,9 +169,6 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                     // },
                 ],
                 // DesiredDeliveryMediums: [
-                //     EMAIL,
-                // ]
-                // DesiredDeliveryMediums: [
                 //     SMS | EMAIL,
                 // ]
             }
@@ -182,12 +179,9 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 } 
                 else { 
                     await addUserToGroups(user.Username);
+                    await deleteCurrentProfileImageS3();
                     await uploadNewProfileImageToS3(profile_pic_id)
                     setMessage({status: 'success', message: 'User updated!'});
-                    // router.reload();
-                    // await confirmTempUserPassword(data.User.Username);
-                    // setOpenModal(false);
-                    // setSuccessMessage(true);
                 }
               });
         } catch (error) {
@@ -239,6 +233,31 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
     // router.reload();
     }
 
+    const deleteCurrentProfileImageS3 = async () => {
+        const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+
+        try {
+            if (profilePic === null) { return; }
+
+            const params = {
+                Bucket: bucketName,
+                Key: user.Attributes.find(o => o.Name === 'picture')['Value'],
+            };
+            s3.deleteObject(params, function(err, data) {
+                if (err) {
+                  console.log('Error deleting object: ', err);
+                } else {
+                  uploadNewProfileImageToS3();
+                  console.log('Object deleted successfully');
+                }
+            });
+        } catch (error) {
+            setMessage({status: 'error', message: error});
+            console.error(error);
+        }
+        
+    }
+
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
         
         const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
@@ -256,8 +275,8 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
               // Upload the image to S3
             s3.upload(params, (err, data) => {
                 if (err) {
-                    router.reload();
-                console.log('Error uploading image: ', err);
+                    // router.reload();
+                // console.log('Error uploading image: ', err);
                 } else {
                 console.log('Image uploaded successfully!');
                     router.reload();
@@ -265,57 +284,11 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
             });
         } catch (error) {
             console.error(error);
-            router.reload();
+            // router.reload();
         }
     }
 
-    const confirmTempUserPassword = async (username) => 
-    {
-        // FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
-        // Set the authentication parameters for the user
-        const authParams = {
-            // AuthFlow: 'REFRESH_TOKEN',
-            AuthFlow: 'USER_PASSWORD_AUTH',
-            ClientId: '40c4imoa859dtlo5iveig35dr1',
-            // AuthParameters: {
-            //     REFRESH_TOKEN: user.signInUserSession.refreshToken.token
-            // },
-            AuthParameters: {
-                USERNAME: username,
-                PASSWORD: tempPassword
-              }
-        };        
-
-        cognitoidentityserviceprovider.initiateAuth(authParams, function(err, authResult) {
-            if (err) {
-                console.log('Error authenticating user: ', err);
-            } else {
-                // console.log('DATA', authResult);
-                // console.log('Session Auth Reached:', authResult.Session)
-
-                // Second layer deep - uses Session provided from above
-                var params = {
-                    ChallengeName: 'NEW_PASSWORD_REQUIRED', 
-                    ClientId: '40c4imoa859dtlo5iveig35dr1',
-                    ChallengeResponses: {
-                      USERNAME: username,
-                      NEW_PASSWORD: tempPassword
-                    },
-                    Session: authResult.Session
-                    // Session: 'xxxxxxxxxxZDMcRu-5u...sCvrmZb6tHY'
-                };
-                // console.log('Session Auth:', authResult.Session)
-                  
-                  cognitoidentityserviceprovider.respondToAuthChallenge(params, function(err, data) {
-                    if (err) console.log(err, err.stack); // an error occurred
-                    else   {
-                        console.log(data);
-                        // router.reload();
-                    }           // successful response
-                  });
-            }
-        })
-    }
+    // const confirmTempUserPassword = async (username) => 
 
     const setPassword = (e) => {
         e.preventDefault();  
@@ -381,7 +354,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 </div>
     
                 {/* <!-- Modal body --> */}
-                <button className='absolute left-0 right-0' onClick={(e) => console.log(user)}>On Click</button>
+                {/* <button className='absolute left-0 right-0' onClick={(e) => console.log(user)}>On Click</button> */}
                 <UserProfilePictureEdit user={user} profilePic={profilePic} setProfilePic={setProfilePic} />
 
                 <div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
