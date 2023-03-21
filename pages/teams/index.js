@@ -10,9 +10,10 @@ import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
-import { getAllTeams } from '@/utils/graphql.services';
+import { getAllTeams, createTeam } from '@/utils/graphql.services';
 export default function Teams() {
 	const [teams, setTeams] = useState([]);
+	const [modalVisible, setModalVisible] = useState(false);
 
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
@@ -31,7 +32,7 @@ export default function Teams() {
 			.getElementById('team-search')
 			.value.toLowerCase();
 
-		let filteredTeams = teamsList.filter((team) => {
+		let filteredTeams = teams.filter((team) => {
 			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
 			const arr = searchValue.split(' ');
 			return arr.some((el) => team.name.toLowerCase().includes(el));
@@ -39,6 +40,18 @@ export default function Teams() {
 
 		setTeams(filteredTeams);
 	}
+
+	const addNewTeam = async () => {
+		const resp = await createTeam({
+			name: 'test team',
+			founded: Date.now(),
+			home_colour: 'Red',
+			away_colour: 'Green',
+			team_history: [],
+			team_picture: '',
+		});
+		console.log(resp);
+	};
 
 	return (
 		<>
@@ -56,6 +69,7 @@ export default function Teams() {
 						<Button
 							pill={true}
 							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							onClick={() => addNewTeam()}
 						>
 							<IconCirclePlus className="mr-2 h-5 w-5" />
 							Add A Team
