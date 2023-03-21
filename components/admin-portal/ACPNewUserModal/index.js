@@ -137,12 +137,8 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                     setMessage({status: 'error', message: err.message});
                 } 
                 else { 
-                    console.log('New User', data); // successful response
-                    await addUserToGroups(data.User.Username);
-                    await uploadNewProfileImageToS3(profile_pic_id)
-                    await confirmTempUserPassword(data.User.Username);
+                    await addUserToGroups(data.User.Username, profile_pic_id);
                     setOpenModal(false);
-                    // setSuccessMessage(true);
                 }
               });
         } catch (error) {
@@ -151,7 +147,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
         }
     }
 
-    const addUserToGroups = async (newUsername) => {
+    const addUserToGroups = async (newUsername, profile_pic_id) => {
         userGroups.forEach((group) => {
 
             var params = {
@@ -159,23 +155,60 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                 GroupName: group,
                 Username: newUsername,
             };
-            cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
+            cognitoidentityserviceprovider.adminAddUserToGroup(params, async function(err, data) {
             if (err) {
                 console.log(err, err.stack);
             }
             else {
                 console.log({status: 'success', data: data})
+                await confirmTempUserPassword(newUsername, profile_pic_id); // Calls upload S3 image
             }
             });
         })
     }
 
+    const confirmTempUserPassword = async (username, profile_pic_id) => 
+    {
+        // FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
+        const authParams = {
+            AuthFlow: 'USER_PASSWORD_AUTH',
+            ClientId: '40c4imoa859dtlo5iveig35dr1',
+            AuthParameters: {
+                USERNAME: username,
+                PASSWORD: tempPassword
+              }
+        };        
+
+        cognitoidentityserviceprovider.initiateAuth(authParams, function(err, authResult) {
+            if (err) {
+                console.log('Error authenticating user: ', err);
+            } else {
+                // Second layer deep - uses Session provided from above
+                var params = {
+                    ChallengeName: 'NEW_PASSWORD_REQUIRED', 
+                    ClientId: '40c4imoa859dtlo5iveig35dr1',
+                    ChallengeResponses: {
+                      USERNAME: username,
+                      NEW_PASSWORD: tempPassword
+                    },
+                    Session: authResult.Session
+                };
+                  cognitoidentityserviceprovider.respondToAuthChallenge(params, async function(err, data) {
+                    if (err) console.log(err, err.stack); // an error occurred
+                    else   {
+                        console.log(data);
+                        await uploadNewProfileImageToS3(profile_pic_id);
+                        setMessage({status: 'success', message: 'New user has been created!'});
+                    }           // successful response
+                  });
+            }
+        })
+    }
+
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
         const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-        const signedUrlExpireSeconds = 60 * 1;
-
         try {
-            if (profilePic === null) { return; }
+            if (profilePic === null) { router.reload(); return; }
 
             const params = {
                 Bucket: bucketName,
@@ -188,57 +221,13 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                 if (err) {
                 console.log('Error uploading image: ', err);
                 } else {
-                console.log('Image uploaded successfully!');
+                    console.log('Image uploaded successfully!');
+                    router.reload();
                 }
             });
         } catch (error) {
             console.error(error);
         }
-    }
-
-    const confirmTempUserPassword = async (username) => 
-    {
-        // FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
-        // Set the authentication parameters for the user
-        const authParams = {
-            // AuthFlow: 'REFRESH_TOKEN',
-            AuthFlow: 'USER_PASSWORD_AUTH',
-            ClientId: '40c4imoa859dtlo5iveig35dr1',
-            // AuthParameters: {
-            //     REFRESH_TOKEN: user.signInUserSession.refreshToken.token
-            // },
-            AuthParameters: {
-                USERNAME: username,
-                PASSWORD: tempPassword
-              }
-        };        
-
-        cognitoidentityserviceprovider.initiateAuth(authParams, function(err, authResult) {
-            if (err) {
-                console.log('Error authenticating user: ', err);
-            } else {
-                // console.log('Session Auth Reached:', authResult.Session)
-
-                // Second layer deep - uses Session provided from above
-                var params = {
-                    ChallengeName: 'NEW_PASSWORD_REQUIRED', 
-                    ClientId: '40c4imoa859dtlo5iveig35dr1',
-                    ChallengeResponses: {
-                      USERNAME: username,
-                      NEW_PASSWORD: tempPassword
-                    },
-                    Session: authResult.Session
-                };
-                  cognitoidentityserviceprovider.respondToAuthChallenge(params, function(err, data) {
-                    if (err) console.log(err, err.stack); // an error occurred
-                    else   {
-                        console.log(data);
-                        setMessage({status: 'success', message: 'New user has been created!'});
-                        router.reload();
-                    }           // successful response
-                  });
-            }
-        })
     }
 
   return (
