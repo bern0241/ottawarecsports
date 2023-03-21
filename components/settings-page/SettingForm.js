@@ -3,6 +3,7 @@
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Son Tran <tran0460@algonquinlive.com>
  */
 
 import { Label, Modal, TextInput } from 'flowbite-react';
