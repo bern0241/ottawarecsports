@@ -18,10 +18,17 @@ import UserIdentifier from '@/components/common/UserIdentifier';
 import SignOutButton from '@/components/common/SignOutButton';
 import ViewUserGroups from '@/components/common/ViewUserGroups';
 
+import { useEffect } from 'react';
+import { updateUserInfo } from '../utils/graphql.services';
 export default function Home() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const router = useRouter();
-
+	useEffect(() => {
+		updateUserInfo('38447de6-cafd-4932-9860-988fdefdf92b', {
+			first_name: 'John',
+			last_name: 'Doe',
+		});
+	}, []);
 	return (
 		<>
 			<Head>
