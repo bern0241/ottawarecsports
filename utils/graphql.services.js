@@ -131,8 +131,8 @@ export const changeUserAttributes = async (newAttributes) => {
 	}
 };
 
-export const verifyUserAttributes = async (email, password) => {
-	const result = await Auth.verifyCurrentUserAttributeSubmit(email, password);
+export const verifyUserAttributes = async (email, code) => {
+	const result = await Auth.verifyCurrentUserAttributeSubmit(email, code);
 	return result;
 };
 // Reference https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
