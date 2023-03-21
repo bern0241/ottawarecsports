@@ -22,9 +22,9 @@ export default function TeamRow({ team }) {
 					{team.name}
 				</div>
 			</td>
-			<td className="p-5">
+			{/* <td className="p-5">
 				{team.captain.firstName.charAt(0)}. {team.captain.lastName}
-			</td>
+			</td> */}
 			<td className="p-5">{team.sports}</td>
 			<td className="p-5">{team.teamMembers}/15</td>
 			<td className="p-5">{team.notes}</td>

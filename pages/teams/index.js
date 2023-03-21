@@ -14,14 +14,13 @@ import { getAllTeams } from '@/utils/graphql.services';
 export default function Teams() {
 	const [teams, setTeams] = useState([]);
 
-	const getTeamsData = () => {
-		const response = getAllTeams();
+	const getTeamsData = async () => {
+		const response = await getAllTeams();
 		setTeams(response);
 	};
 	useEffect(() => {
 		getTeamsData();
 	}, []);
-	console.log(teams);
 	/**
 	 * Filter teams by name using the search input value.
 	 * @param {[Object]} ev Click event
