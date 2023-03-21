@@ -34,6 +34,8 @@ export default function UsersCreateForm(props) {
     email: "",
     gender: undefined,
     date_of_birth: "",
+    profile_picture: "",
+    username: "",
   };
   const [first_name, setFirst_name] = React.useState(initialValues.first_name);
   const [last_name, setLast_name] = React.useState(initialValues.last_name);
@@ -42,6 +44,10 @@ export default function UsersCreateForm(props) {
   const [date_of_birth, setDate_of_birth] = React.useState(
     initialValues.date_of_birth
   );
+  const [profile_picture, setProfile_picture] = React.useState(
+    initialValues.profile_picture
+  );
+  const [username, setUsername] = React.useState(initialValues.username);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setFirst_name(initialValues.first_name);
@@ -49,6 +55,8 @@ export default function UsersCreateForm(props) {
     setEmail(initialValues.email);
     setGender(initialValues.gender);
     setDate_of_birth(initialValues.date_of_birth);
+    setProfile_picture(initialValues.profile_picture);
+    setUsername(initialValues.username);
     setErrors({});
   };
   const validations = {
@@ -57,16 +65,17 @@ export default function UsersCreateForm(props) {
     email: [{ type: "Email" }],
     gender: [],
     date_of_birth: [],
+    profile_picture: [],
+    username: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -90,7 +99,7 @@ export default function UsersCreateForm(props) {
       minute: "2-digit",
       calendar: "iso8601",
       numberingSystem: "latn",
-      hourCycle: "h23",
+      hour12: false,
     });
     const parts = df.formatToParts(date).reduce((acc, part) => {
       acc[part.type] = part.value;
@@ -112,6 +121,8 @@ export default function UsersCreateForm(props) {
           email,
           gender,
           date_of_birth,
+          profile_picture,
+          username,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -171,6 +182,8 @@ export default function UsersCreateForm(props) {
               email,
               gender,
               date_of_birth,
+              profile_picture,
+              username,
             };
             const result = onChange(modelFields);
             value = result?.first_name ?? value;
@@ -199,6 +212,8 @@ export default function UsersCreateForm(props) {
               email,
               gender,
               date_of_birth,
+              profile_picture,
+              username,
             };
             const result = onChange(modelFields);
             value = result?.last_name ?? value;
@@ -227,6 +242,8 @@ export default function UsersCreateForm(props) {
               email: value,
               gender,
               date_of_birth,
+              profile_picture,
+              username,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -255,6 +272,8 @@ export default function UsersCreateForm(props) {
               email,
               gender: value,
               date_of_birth,
+              profile_picture,
+              username,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -298,6 +317,8 @@ export default function UsersCreateForm(props) {
               email,
               gender,
               date_of_birth: value,
+              profile_picture,
+              username,
             };
             const result = onChange(modelFields);
             value = result?.date_of_birth ?? value;
@@ -311,6 +332,66 @@ export default function UsersCreateForm(props) {
         errorMessage={errors.date_of_birth?.errorMessage}
         hasError={errors.date_of_birth?.hasError}
         {...getOverrideProps(overrides, "date_of_birth")}
+      ></TextField>
+      <TextField
+        label="Profile picture"
+        isRequired={false}
+        isReadOnly={false}
+        value={profile_picture}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              first_name,
+              last_name,
+              email,
+              gender,
+              date_of_birth,
+              profile_picture: value,
+              username,
+            };
+            const result = onChange(modelFields);
+            value = result?.profile_picture ?? value;
+          }
+          if (errors.profile_picture?.hasError) {
+            runValidationTasks("profile_picture", value);
+          }
+          setProfile_picture(value);
+        }}
+        onBlur={() => runValidationTasks("profile_picture", profile_picture)}
+        errorMessage={errors.profile_picture?.errorMessage}
+        hasError={errors.profile_picture?.hasError}
+        {...getOverrideProps(overrides, "profile_picture")}
+      ></TextField>
+      <TextField
+        label="Username"
+        isRequired={false}
+        isReadOnly={false}
+        value={username}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              first_name,
+              last_name,
+              email,
+              gender,
+              date_of_birth,
+              profile_picture,
+              username: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.username ?? value;
+          }
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
+          }
+          setUsername(value);
+        }}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
       ></TextField>
       <Flex
         justifyContent="space-between"

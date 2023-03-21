@@ -30,9 +30,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	const [gender, setGender] = useState('');
 	// const [currentDate, setCurrentDate] = useState({}); //Delete if not used later
 	// Birthdate variables/states
-	const [birthdate, setBirthdate] = useState('');
-	const [birthdateProp, setBirthdateProp] = useState('');
-	const [birthdateDisplay, setBirthdateDisplay] = useState('');
+    const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0].replaceAll('-', '/'));
 	// Displays Password field
 	const [showPassword, setShowPassword] = useState(false);
 	// Router constant used for changing pages
@@ -42,15 +40,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	//Important variable for using AWS SDK Cognitio services
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-	// Initialize Fields
-	useEffect(() => {
-		function getCurrentDate() {
-			let current = new Date().toISOString().split('T')[0];
-			setBirthdate(current);
-		}
-		getCurrentDate();
-	}, []);
-
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setMessage(null);
@@ -59,7 +48,8 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log(firstName, lastName, email, location, gender, birthdate);
+		console.log(birthDate);
+
 		if (
 			firstName === '' ||
 			lastName === '' ||
@@ -67,7 +57,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 			// phoneNumber === '' ||
 			location === '' ||
 			gender === '' ||
-			birthdate === ''
+			birthDate === ''
 		) {
 			setMessage({
 				status: 'error',
@@ -86,7 +76,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					phone_number: phoneNumber,
 					gender: gender,
 					picture: 'none',
-					birthdate: birthdate,
+					birthdate: birthDate,
 				},
 			});
 			// console.log(newUser);
@@ -157,8 +147,8 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<GenderDropDown state={gender} setState={setGender} />
 								<DobDatePicker
-									state={birthdateProp}
-									setState={setBirthdateProp}
+									state={birthDate}
+									setState={setBirthDate}
 								/>
 							</div>
 							<LocationDropDown state={location} setState={setLocation} />

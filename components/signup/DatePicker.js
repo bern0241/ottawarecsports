@@ -46,15 +46,16 @@ const options = {
 		),
 	},
 	datepickerClassNames: 'top-12',
-	defaultDate: new Date('2023-01-01'),
+	defaultDate: new Date(),
 	language: 'en',
 };
 
 export default function DobDatePicker({ state, setState }) {
 	const [show, setShow] = useState(false);
+
 	const handleChange = (selectedDate) => {
-		setState(selectedDate);
-		console.log(selectedDate);
+		setState(selectedDate.toISOString().split('T')[0]);
+		console.log(selectedDate.toISOString().split('T')[0]);
 	};
 	const handleClose = () => {
 		setShow(!show);

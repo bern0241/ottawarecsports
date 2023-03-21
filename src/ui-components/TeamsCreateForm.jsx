@@ -27,6 +27,7 @@ export default function TeamsCreateForm(props) {
     founded: "",
     home_colour: "",
     away_colour: "",
+    team_picture: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [founded, setFounded] = React.useState(initialValues.founded);
@@ -36,12 +37,16 @@ export default function TeamsCreateForm(props) {
   const [away_colour, setAway_colour] = React.useState(
     initialValues.away_colour
   );
+  const [team_picture, setTeam_picture] = React.useState(
+    initialValues.team_picture
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setFounded(initialValues.founded);
     setHome_colour(initialValues.home_colour);
     setAway_colour(initialValues.away_colour);
+    setTeam_picture(initialValues.team_picture);
     setErrors({});
   };
   const validations = {
@@ -49,16 +54,16 @@ export default function TeamsCreateForm(props) {
     founded: [],
     home_colour: [],
     away_colour: [],
+    team_picture: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -82,7 +87,7 @@ export default function TeamsCreateForm(props) {
       minute: "2-digit",
       calendar: "iso8601",
       numberingSystem: "latn",
-      hourCycle: "h23",
+      hour12: false,
     });
     const parts = df.formatToParts(date).reduce((acc, part) => {
       acc[part.type] = part.value;
@@ -103,6 +108,7 @@ export default function TeamsCreateForm(props) {
           founded,
           home_colour,
           away_colour,
+          team_picture,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -161,6 +167,7 @@ export default function TeamsCreateForm(props) {
               founded,
               home_colour,
               away_colour,
+              team_picture,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -190,6 +197,7 @@ export default function TeamsCreateForm(props) {
               founded: value,
               home_colour,
               away_colour,
+              team_picture,
             };
             const result = onChange(modelFields);
             value = result?.founded ?? value;
@@ -217,6 +225,7 @@ export default function TeamsCreateForm(props) {
               founded,
               home_colour: value,
               away_colour,
+              team_picture,
             };
             const result = onChange(modelFields);
             value = result?.home_colour ?? value;
@@ -244,6 +253,7 @@ export default function TeamsCreateForm(props) {
               founded,
               home_colour,
               away_colour: value,
+              team_picture,
             };
             const result = onChange(modelFields);
             value = result?.away_colour ?? value;
@@ -257,6 +267,34 @@ export default function TeamsCreateForm(props) {
         errorMessage={errors.away_colour?.errorMessage}
         hasError={errors.away_colour?.hasError}
         {...getOverrideProps(overrides, "away_colour")}
+      ></TextField>
+      <TextField
+        label="Team picture"
+        isRequired={false}
+        isReadOnly={false}
+        value={team_picture}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              founded,
+              home_colour,
+              away_colour,
+              team_picture: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.team_picture ?? value;
+          }
+          if (errors.team_picture?.hasError) {
+            runValidationTasks("team_picture", value);
+          }
+          setTeam_picture(value);
+        }}
+        onBlur={() => runValidationTasks("team_picture", team_picture)}
+        errorMessage={errors.team_picture?.errorMessage}
+        hasError={errors.team_picture?.hasError}
+        {...getOverrideProps(overrides, "team_picture")}
       ></TextField>
       <Flex
         justifyContent="space-between"

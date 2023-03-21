@@ -762,6 +762,13 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
+                "team_picture": {
+                    "name": "team_picture",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -973,6 +980,20 @@ export const schema = {
                             "usersPlayersSoccerId"
                         ]
                     }
+                },
+                "profile_picture": {
+                    "name": "profile_picture",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "username": {
+                    "name": "username",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -1201,6 +1222,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.3.6",
-    "version": "2ace31a1e62fec2c1855226562a715ca"
+    "codegenVersion": "3.3.5",
+    "version": "70e35d709d6f02d40355af38f9ad9c5d"
 };

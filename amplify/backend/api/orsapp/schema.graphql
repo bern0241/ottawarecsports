@@ -116,6 +116,7 @@ type Teams @model @auth(rules: [{allow: public}]) {
   away_colour: String
   TeamNotes: [TeamNotes] @hasMany(indexName: "byTeams", fields: ["id"])
   team_history: [TeamDivisionStats]
+  team_picture: String
 }
 
 type UserNotes @model @auth(rules: [{allow: public}]) {
@@ -140,4 +141,7 @@ type Users @model @auth(rules: [{allow: public}]) {
   date_of_birth: AWSTimestamp
   UserNotes: [UserNotes] @hasMany(indexName: "byUsers", fields: ["id"])
   PlayersSoccer: PlayersSoccer @hasOne
+  profile_picture: String
+  username: String
 }
+ 

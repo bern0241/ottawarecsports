@@ -11,8 +11,11 @@ import SportsDropDown from './SportsDropDown';
 import { IconHome, IconShieldChevron, IconSettings } from '@tabler/icons-react';
 import ScheduleDropDown from './ScheduleDropDown';
 import RostersDropDown from './RostersDropDown';
+import { useUser } from '@/context/userContext';
 
 const NavbarSetup = () => {
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	
 	return (
 		<div className="flex flex-col font-medium text-md">
 			<Link
@@ -27,15 +30,17 @@ const NavbarSetup = () => {
 			<SportsDropDown />
 			<ScheduleDropDown />
 			<RostersDropDown />
-			<Link
-				href="./"
-				className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
-			>
-				<div className="pt-1 ">
-					<IconShieldChevron size={'1.2em'} />
-				</div>
-				<p className="pl-2">Admin Portal</p>
-			</Link>
+			{user && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
+				<Link
+					href="./admin-portal"
+					className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
+				>
+					<div className="pt-1 ">
+						<IconShieldChevron size={'1.2em'} />
+					</div>
+					<p className="pl-2">Admin Portal</p>
+				</Link>
+			)}
 			<Link
 				href="./settings"
 				className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"

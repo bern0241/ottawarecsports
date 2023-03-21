@@ -338,6 +338,7 @@ type EagerTeams = {
   readonly away_colour?: string | null;
   readonly TeamNotes?: (TeamNotes | null)[] | null;
   readonly team_history?: (TeamDivisionStats | null)[] | null;
+  readonly team_picture?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -354,6 +355,7 @@ type LazyTeams = {
   readonly away_colour?: string | null;
   readonly TeamNotes: AsyncCollection<TeamNotes>;
   readonly team_history?: (TeamDivisionStats | null)[] | null;
+  readonly team_picture?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -411,6 +413,8 @@ type EagerUsers = {
   readonly date_of_birth?: number | null;
   readonly UserNotes?: (UserNotes | null)[] | null;
   readonly PlayersSoccer?: PlayersSoccer | null;
+  readonly profile_picture?: string | null;
+  readonly username?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly usersPlayersSoccerId?: string | null;
@@ -429,6 +433,8 @@ type LazyUsers = {
   readonly date_of_birth?: number | null;
   readonly UserNotes: AsyncCollection<UserNotes>;
   readonly PlayersSoccer: AsyncItem<PlayersSoccer | undefined>;
+  readonly profile_picture?: string | null;
+  readonly username?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly usersPlayersSoccerId?: string | null;

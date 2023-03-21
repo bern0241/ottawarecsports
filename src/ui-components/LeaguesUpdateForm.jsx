@@ -35,16 +35,9 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
-  errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
+  const { tokens } = useTheme();
   const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
   const [isEditing, setIsEditing] = React.useState();
   React.useEffect(() => {
@@ -147,11 +140,6 @@ function ArrayField({
           >
             Add item
           </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
         </>
       ) : (
         <Flex justifyContent="flex-end">
@@ -170,6 +158,7 @@ function ArrayField({
           <Button
             size="small"
             variation="link"
+            color={tokens.colors.brand.primary[80]}
             isDisabled={hasError}
             onClick={addItem}
           >
@@ -258,10 +247,9 @@ export default function LeaguesUpdateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -285,7 +273,7 @@ export default function LeaguesUpdateForm(props) {
       minute: "2-digit",
       calendar: "iso8601",
       numberingSystem: "latn",
-      hourCycle: "h23",
+      hour12: false,
     });
     const parts = df.formatToParts(date).reduce((acc, part) => {
       acc[part.type] = part.value;
@@ -582,8 +570,7 @@ export default function LeaguesUpdateForm(props) {
         currentFieldValue={currentCoordinatorValue}
         label={"Coordinator"}
         items={coordinator}
-        hasError={errors?.coordinator?.hasError}
-        errorMessage={errors?.coordinator?.errorMessage}
+        hasError={errors.coordinator?.hasError}
         setFieldValue={setCurrentCoordinatorValue}
         inputFieldRef={coordinatorRef}
         defaultFieldValue={""}
