@@ -5,51 +5,23 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
-
+import { getAllTeams } from '@/utils/graphql.services';
 export default function Teams() {
-	const teamsList = [
-		{
-			id: 1,
-			name: 'The A Team',
-			captain: {
-				firstName: 'Steve',
-				lastName: 'Boggers',
-			},
-			sports: 'Multi-Sport',
-			teamMembers: 13,
-			notes: 'Co-Ed',
-		},
-		{
-			id: 1,
-			name: 'The Mighty Quacks',
-			captain: {
-				firstName: 'Barry',
-				lastName: 'Lewis',
-			},
-			sports: 'Soccer',
-			teamMembers: 15,
-			notes: 'Co-Ed',
-		},
-		{
-			id: 1,
-			name: 'Killer Heels',
-			captain: {
-				firstName: 'Tara',
-				lastName: 'Jones',
-			},
-			sports: 'Soccer',
-			teamMembers: 15,
-			notes: 'Women Only',
-		},
-	];
+	const [teams, setTeams] = useState([]);
 
-	const [teams, setTeams] = useState(teamsList);
-
+	const getTeamsData = () => {
+		const response = getAllTeams();
+		setTeams(response);
+	};
+	useEffect(() => {
+		getTeamsData();
+	}, []);
+	console.log(teams);
 	/**
 	 * Filter teams by name using the search input value.
 	 * @param {[Object]} ev Click event
