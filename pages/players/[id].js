@@ -5,19 +5,16 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
 
-export default function PlayerProfile({ user }) {
+export default function PlayerProfile() {
 	const router = useRouter();
-
-	useEffect(() => {
-		console.log(user);
-	}, []);
+	const userId = router.query.id;
 
 	return (
 		<>
@@ -27,8 +24,7 @@ export default function PlayerProfile({ user }) {
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-lg self-center font-medium">
-							{user.find((o) => o.Name === 'name')['Value']}{' '}
-							{user.find((o) => o.Name === 'family_name')['Value']}
+							First Last
 						</h1>
 						<Button
 							pill={true}
@@ -61,28 +57,28 @@ export default function PlayerProfile({ user }) {
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">First Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user.find((o) => o.Name === 'name')['Value']}
+									First Name
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Last Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user.find((o) => o.Name === 'family_name')['Value']}
+									Family Name
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Location</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user.find((o) => o.Name === 'custom:location')['Value']}
+									Location
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user.find((o) => o.Name === 'gender')['Value']}
+									Gender
 								</div>
 							</div>
 						</div>
@@ -147,77 +143,4 @@ export default function PlayerProfile({ user }) {
 			</main>
 		</>
 	);
-}
-
-export async function getStaticPaths() {
-	// Fetch users in AWS Cognito user pool:
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const resp = async () => {
-		try {
-			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
-			};
-			const data = await cognitoidentityserviceprovider
-				.listUsers(params)
-				.promise();
-			console.log(data.Users);
-			return data.Users;
-		} catch (err) {
-			console.log(err);
-			throw err;
-		}
-	};
-
-	const data = await resp();
-
-	// Use map to extract an array of usernames:
-	const paths = data.map((item) => {
-		return {
-			params: { id: item.Username.toString() },
-		};
-	});
-
-	// Pass usernames to next function:
-	return {
-		paths,
-		fallback: false,
-	};
-}
-
-export async function getStaticProps(context) {
-	const id = context.params.id;
-	console.log(id);
-
-	// Fetch user whose username matches the page's query parameters:
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const resp = async () => {
-		try {
-			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
-				Username: id /* required */,
-			};
-			const data = await cognitoidentityserviceprovider
-				.adminGetUser(params)
-				.promise();
-			console.log(data.UserAttributes);
-			return data.UserAttributes;
-		} catch (err) {
-			console.log(err);
-			throw err;
-		}
-	};
-
-	const data = await resp();
-
-	if (!data) {
-		return {
-			notFound: true,
-		};
-	}
-
-	return {
-		props: {
-			user: data,
-		},
-	};
 }
