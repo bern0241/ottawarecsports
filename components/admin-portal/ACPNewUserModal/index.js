@@ -99,6 +99,14 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                         Value: gender
                     },
                     {
+                        Name: "email",
+                        Value: email
+                    },
+                    {
+                        Name: "email_verified",
+                        Value: "true"
+                    },
+                    {
                         Name: 'custom:location',
                         Value: location,
                     },
@@ -116,6 +124,9 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
                         Value: profilePicId
                     },
                 ],
+                DesiredDeliveryMediums: [
+                    'EMAIL'
+                ]
                 // DesiredDeliveryMediums: [
                 //     SMS | EMAIL,
                 // ]

@@ -98,7 +98,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
      * 
      * @returns New user created!
      */
-    const createUser = async () => {
+    const editUser = async () => {
         console.log('Pic',user.Username);
         // return;
         if (firstName === '' || lastName === '' || birthDate === '' || email === '' || location === '') {
@@ -107,11 +107,19 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
         }
         try {
             let uniqueId = makeid(15); //Meant for making random imageURI
-            let profile_pic_id = 'user_' + uniqueId;
+            let profile_pic_id;
 
-            // If profile picture is NOT null, set the ID to it's newly generated id
-            if (profilePic === null) {
+            // If picture exists, use that one!
+            if (user.Attributes.find(o => o.Name === 'picture')['Value'] !== 'none') {
+                profile_pic_id = user.Attributes.find(o => o.Name === 'picture')['Value'];
+            } else { //Else set picture to default 'none'
                 profile_pic_id = 'none';
+            }
+            
+            // If profile picture is NOT null, set the ID to it's newly generated id
+            if (profilePic !== null) {
+                profile_pic_id = 'user_' + uniqueId;
+                console.log(profile_pic_id);
             }
 
             var params = {
@@ -155,7 +163,14 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                         Name: 'phone_number',
                         Value: phoneNumber 
                     },
+                    // {
+                    //     Name: "phone_number_verified",
+                    //     Value: "true"
+                    // },
                 ],
+                // DesiredDeliveryMediums: [
+                //     EMAIL,
+                // ]
                 // DesiredDeliveryMediums: [
                 //     SMS | EMAIL,
                 // ]
@@ -166,13 +181,10 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                     setMessage({status: 'error', message: err.message});
                 } 
                 else { 
-                    console.log('New User', data); // successful response
                     await addUserToGroups(user.Username);
-                    if (profilePic !== null) {
-                        await uploadNewProfileImageToS3(profile_pic_id)
-                    }
+                    await uploadNewProfileImageToS3(profile_pic_id)
                     setMessage({status: 'success', message: 'User updated!'});
-                    router.reload();
+                    // router.reload();
                     // await confirmTempUserPassword(data.User.Username);
                     // setOpenModal(false);
                     // setSuccessMessage(true);
@@ -185,12 +197,15 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
     }
 
     const addUserToGroups = async (username) => {
-        await userGroups.forEach((group) => {
+        // console.log('Groups',userGroups);
+        // return;
+        const removeTheseGroups = ['User', 'Captain', 'Referee', 'Coordinator', 'Admin']
+        await removeTheseGroups.forEach((group) => {
             if (group !== 'User') {
                 var params = {
                     UserPoolId: 'us-east-1_70GCK7G6t', /* required */
                     GroupName: group,
-                    Username: username,
+                    Username: user.Username,
                 };
                 cognitoidentityserviceprovider.adminRemoveUserFromGroup(params, function(err, data) {
                 if (err) {
@@ -203,30 +218,35 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
             }
         })
 
-        userGroups.forEach((group) => {
-            var params = {
-                UserPoolId: 'us-east-1_70GCK7G6t', /* required */
-                GroupName: group,
-                Username: username,
-            };
-            cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
-            if (err) {
-                console.log(err, err.stack);
-            }
-            else {
-                console.log({status: 'success', data: data})
-            }
+        await userGroups.forEach((group) => {
+            if (group !== 'User') {
+                var params = {
+                    UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+                    GroupName: group,
+                    Username: username,
+                };
+                cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
+                if (err) {
+                    console.log(err, err.stack);
+                }
+                else {
+                    console.log({status: 'success', data: data})
+                    
+                }
             });
-        })
+        }
+    })
+    // router.reload();
     }
 
     const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-        if (profilePic === null) return;
-
+        
         const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
         const signedUrlExpireSeconds = 60 * 1;
-
+        
         try {
+            if (profilePic === null) { router.reload(); return; }
+
             const params = {
                 Bucket: bucketName,
                 Key: newProfilePicId,
@@ -236,14 +256,16 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
               // Upload the image to S3
             s3.upload(params, (err, data) => {
                 if (err) {
+                    router.reload();
                 console.log('Error uploading image: ', err);
                 } else {
                 console.log('Image uploaded successfully!');
-                router.reload();
+                    router.reload();
                 }
             });
         } catch (error) {
             console.error(error);
+            router.reload();
         }
     }
 
@@ -359,7 +381,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 </div>
     
                 {/* <!-- Modal body --> */}
-                <button onClick={(e) => console.log(user)}>On Click</button>
+                <button className='absolute left-0 right-0' onClick={(e) => console.log(user)}>On Click</button>
                 <UserProfilePictureEdit user={user} profilePic={profilePic} setProfilePic={setProfilePic} />
 
                 <div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
@@ -420,7 +442,7 @@ export default function ACPEditUserModal({ user, setOpenModal, setSuccessMessage
                 {/* <!-- Modal footer --> */}
                 <div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button onClick={() => setOpenModal(false)} data-modal-hide="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
-                    <button onClick={(e) => createUser(e)} data-modal-hide="defaultModal" type="button" class="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800">Save</button>
+                    <button onClick={(e) => editUser(e)} data-modal-hide="defaultModal" type="button" class="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800">Save</button>
                 </div>
             </div>
         </div>
