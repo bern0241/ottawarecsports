@@ -1,5 +1,5 @@
 /**
-* Last updated: 2023-03-19
+* Last updated: 2023-03-20
 *
 * Author(s):
 * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -17,11 +17,6 @@ export default function ChangePasswordSetup({setPasswordModal}){
           Change Password
         </p>
         <div className="flex flex-col gap-5">
-          <SettingPasswordField 
-            id="currentPassword"
-            placeholder="Enter your Password"  
-            className="h-[40px] w-full"
-          />
           <SettingPasswordField 
             id="newPassword"
             placeholder="New Password"  
@@ -50,7 +45,7 @@ export default function ChangePasswordSetup({setPasswordModal}){
               className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
               type="button"
             >
-              Save
+              Update
             </button>
           </div>
         </div>
