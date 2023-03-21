@@ -138,3 +138,21 @@ export const changeUserPassword = async (oldPassword, newPassword) => {
 		console.warn(err);
 	}
 };
+/**
+ * Update the user's password
+ * @param {object} teamData An object containing the team data.
+ * @returns {String} The result of the operation.
+ */
+export const createTeam = async (teamData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.createTeams,
+			variables: {
+				input: teamData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
