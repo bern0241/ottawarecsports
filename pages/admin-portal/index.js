@@ -19,7 +19,6 @@ import ACPUserRow from '@/components/admin-portal/ACPUserRow';
 import ACPNewUserModal from '@/components/admin-portal/ACPNewUserModal';
 import ACPSearchUserBar from '@/components/admin-portal/ACPSearchUserBar';
 
-
 export default function AdminPortal() {
 	const usersList = [
 		{
@@ -50,28 +49,27 @@ export default function AdminPortal() {
 
 	useEffect(() => {
 		fetchUsers();
-	}, [])
+	}, []);
 
 	const fetchUsers = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t', /* required */
-		  };
-		cognitoidentityserviceprovider.listUsers(params, function(err, data) {
-		if (err) {
-			console.log(err, err.stack);
-		}
-		else {
-			setUsers(data.Users);
-		}
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+		};
+		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				setUsers(data.Users);
+			}
 		});
-	}
+	};
 
 	if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
 		return (
-			<div className='flex items-center justify-center h-[50vh]'>
+			<div className="flex items-center justify-center h-[50vh]">
 				<h2>You do not have access for this page</h2>
 			</div>
-		)
+		);
 	}
 
 	return (
@@ -89,7 +87,10 @@ export default function AdminPortal() {
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-xl self-center">Users</h1>
-						<button className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800" onClick={() => setAddUserModal(true)}>
+						<button
+							className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800"
+							onClick={() => setAddUserModal(true)}
+						>
 							<IconCirclePlus className="mr-2 h-5 w-5" />
 							Add a User
 						</button>
@@ -111,20 +112,26 @@ export default function AdminPortal() {
 							</tr>
 						</thead>
 						<tbody>
-							{users && users.filter((user) => {
-								const searchItem = searchResult.toLocaleLowerCase();
-								const v = `${user.Attributes.find(o => o.Name === 'name')['Value'].toLocaleLowerCase()} ${user.Attributes.find(o => o.Name === 'family_name')['Value'].toLocaleLowerCase()}`;
-								if (!searchItem) return true;
-								return v.startsWith(searchItem);
-							})
-							.map((user, index) => (
-								<ACPUserRow
-									key={user.Username}
-									user={user}
-									index={index}
-									handleSave={handleSave}
-								/>
-							))}
+							{users &&
+								users
+									.filter((user) => {
+										const searchItem = searchResult.toLocaleLowerCase();
+										const v = `${user.Attributes.find((o) => o.Name === 'name')[
+											'Value'
+										].toLocaleLowerCase()} ${user.Attributes.find(
+											(o) => o.Name === 'family_name'
+										)['Value'].toLocaleLowerCase()}`;
+										if (!searchItem) return true;
+										return v.startsWith(searchItem);
+									})
+									.map((user, index) => (
+										<ACPUserRow
+											key={user.Username}
+											user={user}
+											index={index}
+											handleSave={handleSave}
+										/>
+									))}
 							{/* {users && users.map((user, index) => (
 								<ACPUserRow
 									key={user.Username}
@@ -139,15 +146,20 @@ export default function AdminPortal() {
 			</main>
 			{/* Add User modal */}
 			{addUserModal && (
-				<ACPNewUserModal setOpenModal={setAddUserModal} setSuccessMessage={setSuccessMessage} />
+				<ACPNewUserModal
+					setOpenModal={setAddUserModal}
+					setSuccessMessage={setSuccessMessage}
+				/>
 			)}
 			{/* Delete User modal */}
-			{addUserModal && (
-				<ACPNewUserModal setOpenModal={setAddUserModal} />
-			)}
+			{addUserModal && <ACPNewUserModal setOpenModal={setAddUserModal} />}
 			{/* Success Message */}
 			{successMessage && (
-				<SuccessMessage title={'Success!'} message={'User has been successfully created!'} setDisplay={setDisplayNewUserSuccess} />
+				<SuccessMessage
+					title={'Success!'}
+					message={'User has been successfully created!'}
+					setDisplay={setDisplayNewUserSuccess}
+				/>
 			)}
 		</>
 	);

@@ -5,12 +5,12 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { Modal, TextInput, Label } from 'flowbite-react';
 import React, { useState } from 'react';
-import EmailVerification from './EmailVerification';
+import ChangePasswordSetup from './ChangePassword';
+import SettingPasswordField from './SettingPasswordField';
 
-export default function ChangeEmailSetup({ setEmailModal }) {
-	const [verificationModal, setVerificationModal] = useState(false);
+export default function PasswordModal({ setEnterPasswordModal2 }) {
+	const [passwordModal, setPasswordModal] = useState(false);
 
 	return (
 		<>
@@ -27,37 +27,16 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 						{/* <!-- Modal header --> */}
 						<div class="flex items-start justify-between p-4 pb-0 border-b dark:border-gray-600">
 							<h3 class="text-lg sm:text-2xl my-5 font-semibold text-gray-900 dark:text-white">
-								Change Email
+								Enter You Password
 							</h3>
 						</div>
 						{/* <!-- Modal body --> */}
 						<div class="p-6 space-y-6">
-							<div className="flex flex-col gap-5">
-								<div>
-									<div className="mb-2 block">
-										<Label htmlFor="email" value="Current Email" />
-									</div>
-									<TextInput
-										id="email"
-										type="email"
-										placeholder="Current Email"
-										required={true}
-										className="h-[40px] w-full"
-									/>
-								</div>
-								<div>
-									<div className="mb-2 block">
-										<Label htmlFor="email" value="Confirm Email" />
-									</div>
-									<TextInput
-										id="confirmEmail"
-										type="email"
-										placeholder="Confirm Email"
-										required={true}
-										className="h-[40px] w-full"
-									/>
-								</div>
-							</div>
+							<SettingPasswordField
+								id="currentPassword2"
+								placeholder="Password"
+								className="h-[40px] w-full"
+							/>
 						</div>
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center gap-3">
@@ -65,7 +44,7 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 								<button
 									className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
 									type="button"
-									onClick={() => setEmailModal(false)}
+									onClick={() => setEnterPasswordModal2(false)}
 								>
 									Cancel
 								</button>
@@ -75,7 +54,8 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
 									onClick={() => {
-										setVerificationModal(true);
+										// setEnterPasswordModal2(false)
+										setPasswordModal(true);
 									}}
 								>
 									Ok
@@ -86,12 +66,12 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 				</div>
 			</div>
 			<div
-				onClick={(e) => setEmailModal(false)}
+				onClick={(e) => setEnterPasswordModal2(false)}
 				class="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 
-			{verificationModal && (
-				<EmailVerification setVerificationModal={setVerificationModal} />
+			{passwordModal && (
+				<ChangePasswordSetup setPasswordModal={setPasswordModal} />
 			)}
 		</>
 	);

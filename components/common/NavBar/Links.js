@@ -15,7 +15,7 @@ import { useUser } from '@/context/userContext';
 
 const NavbarSetup = () => {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
-	
+
 	return (
 		<div className="flex flex-col font-medium text-md">
 			<Link

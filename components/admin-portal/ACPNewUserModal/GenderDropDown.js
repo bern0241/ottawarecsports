@@ -12,7 +12,7 @@ import React from 'react';
 
 export default function GenderDropDown({ state, setState }) {
 	return (
-		<div className=''>
+		<div className="">
 			<Select
 				value={state}
 				onChange={(e) => setState(e.target.value)}

@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-21
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -81,7 +81,7 @@ export default function ConfirmSignUpView({
 							separator={<span> </span>}
 							inputProps={{
 								className:
-									'otp-field__input w-12 h-16 border border-black rounded-md',
+									'otp-field__input w-12 h-16 border border-black rounded-md pl-5',
 								disabled: false,
 							}}
 							classNames="flex flex-row gap-3"

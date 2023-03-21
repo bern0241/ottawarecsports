@@ -10,7 +10,7 @@ import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';
 import { Label, TextInput } from 'flowbite-react';
 
-export default function SettingPasswordField({id, placeholder, className}) {
+export default function SettingPasswordField({ id, placeholder, className }) {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const showPasswordToggle = (e) => {
@@ -21,19 +21,16 @@ export default function SettingPasswordField({id, placeholder, className}) {
 	return (
 		<div className="relative border-no">
 			<div className="mb-2 block">
-        <Label
-          htmlFor={id}
-          value={placeholder}
-        />
-      </div>
-      <TextInput
-        type={showPassword ? 'text' : 'password'}
-        name="password"
-        id={id}
-        className={className}
-        placeholder={placeholder}
-        required={true}
-      />
+				<Label htmlFor={id} value={placeholder} />
+			</div>
+			<TextInput
+				type={showPassword ? 'text' : 'password'}
+				name="password"
+				id={id}
+				className={className}
+				placeholder={placeholder}
+				required={true}
+			/>
 			<div
 				onClick={(e) => showPasswordToggle(e)}
 				className="absolute right-[.5rem] top-[2.2rem] cursor-pointer"

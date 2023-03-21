@@ -64,7 +64,7 @@ export default function DobDatePicker({ state, setState }) {
 	};
 
 	return (
-		<div className=''>
+		<div className="">
 			<DatePicker
 				classNames=""
 				options={options}
