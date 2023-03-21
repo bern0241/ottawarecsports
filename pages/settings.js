@@ -19,7 +19,6 @@ export default function Setting() {
 	const [userAttributes, setUserAttributes] = useState({});
 
 	const saveAttributes = async () => {
-		console.log(userAttributes);
 		await changeUserAttributes(userAttributes);
 	};
 	if (!user) {

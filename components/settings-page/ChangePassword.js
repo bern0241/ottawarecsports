@@ -6,10 +6,17 @@
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 
-import React from 'react';
+import { useState } from 'react';
 import SettingPasswordField from './SettingPasswordField';
+import { changeUserPassword } from '@/utils/graphql.services';
 
 export default function ChangePasswordSetup({ setPasswordModal }) {
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const changePassword = async () => {
+		const resp = await changePassword(currentPassword, newPassword);
+		console.log(resp);
+	};
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
