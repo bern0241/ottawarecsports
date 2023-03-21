@@ -1,11 +1,11 @@
 /**
- * Last updated: 2023-03-19
+ * Last updated: 2023-03-20
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { Modal, TextInput } from 'flowbite-react';
+import { Modal, TextInput, Label } from 'flowbite-react';
 import React, { useState } from 'react';
 import EmailVerification from './EmailVerification';
 import SettingPasswordField from './SettingPasswordField';
@@ -20,25 +20,36 @@ export default function ChangeEmailSetup({setEmailModal}){
           Change Email
         </p>
         <div className="flex flex-col gap-5">
-          <SettingPasswordField 
-            id="currentPassword2"
-            placeholder="Enter your Password"  
-            className="sm:w-[463px] w-[360px] h-[40px]"
-          />
-          <TextInput
-            id="email"
-            type="email"
-            placeholder="New Email"
-            required={true}  
-            className="sm:w-[463px] w-[360px] h-[40px]"
-          />
-          <TextInput
-            id="confirmEmail"
-            type="email"
-            placeholder="Confirm Email"
-            required={true}  
-            className="sm:w-[463px] w-[360px] h-[40px]"
-          />
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="email"
+                value="Current Email"
+              />
+            </div>
+            <TextInput
+                  id="email"
+                  type="email"
+                  placeholder="Current Email"
+                  required={true}  
+                  className="sm:w-[463px] w-[360px] h-[40px]"
+                />
+          </div>
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="email"
+                value="Confirm Email"
+              />
+            </div>
+            <TextInput
+              id="confirmEmail"
+              type="email"
+              placeholder="Confirm Email"
+              required={true}  
+              className="sm:w-[463px] w-[360px] h-[40px]"
+            />
+          </div>
         </div>
         <div className="flex justify-center gap-3">
           <div>
@@ -60,7 +71,7 @@ export default function ChangeEmailSetup({setEmailModal}){
                 setVerificationModal(true)
               }
             >
-              Save
+              Update
             </button>
           </div>
         </div>

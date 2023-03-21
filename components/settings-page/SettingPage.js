@@ -1,67 +1,148 @@
 /**
- * Last updated: 2023-03-19
+ * Last updated: 2023-03-20
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import SettingsForm from '@/components/settings-page/SettingForm';
-import Image from 'next/image';
-import { useState } from 'react';
-import { IconCameraPlus } from '@tabler/icons-react';
-import { changeUserAttributes } from '@/utils/graphql.services';
+
+import {Modal} from 'flowbite-react';
+import React, { useState } from 'react';
+import ChangeEmailSetup from './ChangeEmail';
+import ChangePasswordSetup from './ChangePassword';
+import SettingsForm from './SettingForm';
+import SettingPasswordField from './SettingPasswordField';
 
 export default function SettingsPage() {
-	const [userAttributes, setUserAttributes] = useState({});
+  const [enterPasswordModal, setEnterPasswordModal] = useState(false);
+  const [enterPasswordModal2, setEnterPasswordModal2] = useState(false);
+  const [emailModal, setEmailModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
+  const [userAttributes, setUserAttributes] = useState({});
 
 	const saveAttributes = async () => {
 		await changeUserAttributes(userAttributes);
 	};
-	return (
-		<>
-			<div className="bg-white m-16 p-3 mt-[38rem] sm:mt-20">
-				<div className="border-b border-[#c0c0c0] h-[50px] ">
-					<p className="font-medium text-base self">My Profile</p>
-				</div>
-				<div className="flex flex-col overflow-y-scroll">
-					<div className="flex justify-center">
-						<div className="lg:flex lg:flex-row gap-4 m-5">
-							<div>
-								<div className="w-[200px] h-[200px] border rounded-full overflow-hidden">
-									<Image
-										src={'/images/defaultProfilePic.jpeg'}
-										alt="profile pic"
-										width={200}
-										height={200}
-										priority
-									/>
-								</div>
-								<IconCameraPlus className="ml-40" />
-							</div>
-							<SettingsForm setUserAttributes={setUserAttributes} />
-						</div>
-					</div>
-					<div className="flex justify-center">
-						<div>
-							<button
-								className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-								type="button"
-							>
-								Cancel
-							</button>
-						</div>
-						<div>
-							<button
-								className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
-								type="button"
-								onClick={saveAttributes}
-							>
-								Save
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	);
+
+  return(
+  <div className="flex items-center">
+    <SettingsForm setEnterPasswordModal={setEnterPasswordModal} setEnterPasswordModal2={setEnterPasswordModal2} setUserAttributes={setUserAttributes}/>
+
+  {/* MODALS */}
+    <div>
+    {/* Email Change */}
+    <Modal
+      show={enterPasswordModal}
+      popup={true}
+      position="center"
+    >
+      <Modal.Body>
+        <div className="flex justify-center">
+          <form className="m-5">
+            <p className="text-lg sm:text-2xl font-semibold my-5">
+              Enter Your Password
+            </p>
+            <SettingPasswordField 
+              id="currentPassword2"
+              placeholder="Password"  
+              className="sm:w-[463px] w-[360px] h-[40px]"
+            />
+            <div className="flex justify-center gap-3">
+              <div>
+                <button
+                  className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+                  type="button"
+                  onClick={() => 
+                    setEnterPasswordModal(false)
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+              <div>
+                <button
+                  className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
+                  type="button"
+                  onClick={() => {
+                    saveAttributes()
+                    setEmailModal(true)
+                    }
+                  }
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </Modal.Body>
+    </Modal>
+    <Modal
+      show={emailModal}
+      popup={true}
+      position="center"
+    >
+      <Modal.Body>
+        <ChangeEmailSetup setEmailModal={setEmailModal}/>
+      </Modal.Body>
+    </Modal>
+
+    {/* Password Change */}
+    <Modal
+      show={enterPasswordModal2}
+      popup={true}
+      position="center"
+    >
+      <Modal.Body>
+        <div className="flex justify-center">
+          <form className="m-5">
+            <p className="text-lg sm:text-2xl font-semibold my-5">
+              Enter Your Password
+            </p>
+            <SettingPasswordField 
+              id="currentPassword2"
+              placeholder="Password"  
+              className="sm:w-[463px] w-[360px] h-[40px]"
+            />
+            <div className="flex justify-center gap-3">
+              <div>
+                <button
+                  className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+                  type="button"
+                  onClick={() => 
+                    setEnterPasswordModal2(false)
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+              <div>
+                <button
+                  className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
+                  type="button"
+                  onClick={() => 
+                    setPasswordModal(true)
+                  }
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </Modal.Body>
+    </Modal>
+
+    <Modal
+      show={passwordModal}
+      popup={true}
+      position="center"
+    >
+      <Modal.Body>
+        <ChangePasswordSetup setPasswordModal={setPasswordModal}/>
+      </Modal.Body>
+    </Modal>
+    </div>
+  </div>
+  )
 }
