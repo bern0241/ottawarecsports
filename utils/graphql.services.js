@@ -93,6 +93,10 @@ export const updateUserInfo = async (id, updatedData) => {
 	}
 };
 
+/**
+ * Returns the current authenticated user
+ * @returns {Object} the current authenticated user object.
+ */
 export const getCurrentUser = async () => {
 	try {
 		const user = await Auth.currentAuthenticatedUser();
