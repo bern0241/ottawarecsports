@@ -11,8 +11,20 @@ import React, { useState } from 'react';
 import EmailVerification from './EmailVerification';
 
 export default function ChangeEmailSetup({ setEmailModal }) {
+	const [currentEmail, setCurrentEmail] = useState('');
+	const [confirmEmail, setConfirmEmail] = useState('');
+	const [verificationCode, setVerificationCode] = useState('');
 	const [verificationModal, setVerificationModal] = useState(false);
 
+	const updateUserEmail = async () => {
+		const resp = changeUserAttributes({
+			email: confirmEmail,
+		});
+	};
+	const confirmNewEmail = async () => {
+		const resp = await verifyUserAttributes(verificationCode);
+		if (resp === 'SUCCESS') setVerificationModal(false);
+	};
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
