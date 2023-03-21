@@ -43,6 +43,10 @@ export default function SettingsForm({
 		let localeDate = date.toLocaleDateString();
 		let dateToArr = localeDate.split('/');
 		let year = dateToArr.splice(-1, 1);
+		// check if the date or month has 1 characters, if yes add 0
+		dateToArr = dateToArr.map((item) => {
+			if (item.length === 1) return `0${item}`;
+		});
 		dateToArr.unshift(...year);
 		setBirthDate(dateToArr.join('-'));
 	};
