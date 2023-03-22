@@ -19,7 +19,7 @@ const s3 = new AWS.S3({
 	signatureVersion: 'v4',
 	region: 'us-east-1',
 });
-const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b15402s9-dev';
+const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 const signedUrlExpireSeconds = 60 * 1;
 /**
  * Returns all players in the database
@@ -185,12 +185,12 @@ export const updateTeam = async (teamData) => {
 	}
 };
 
-export const uploadNewImageToS3 = async (imageId = makeid(15), image) => {
+export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 	try {
 		if (!image) return;
 		const params = {
 			Bucket: bucketName,
-			Key: imageId,
+			Key: imageKey,
 			Body: image,
 			ContentType: image.type,
 		};
@@ -198,11 +198,13 @@ export const uploadNewImageToS3 = async (imageId = makeid(15), image) => {
 		s3.upload(params, (err, data) => {
 			if (err) {
 				// fail
+				console.warn(err);
 			} else {
 				// success
-				return imageId;
+				return data.Location;
 			}
 		});
+		return imageKey;
 	} catch (error) {
 		console.error(error);
 	}

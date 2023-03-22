@@ -5,30 +5,33 @@
  * Son Tran <tran0460@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
  */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
 import PlayersTable from './PlayersTable';
 import UserProfilePictureEdit from '../admin-portal/ACPEditUserModal/UserProfilePictureEdit';
-import { createTeam } from '@/utils/graphql.services';
+import { createTeam, uploadNewImageToS3 } from '@/utils/graphql.services';
+import makeid from '@/utils/makeId';
+import TeamsImage from './TeamsImage';
 
 const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState('');
 	const [teamCaptain, setTeamCaptain] = useState('');
-	const [homeColour, setHomeColour] = useState('');
-	const [awayColour, setAwayColour] = useState('');
+	const [homeColour, setHomeColour] = useState('Red');
+	const [awayColour, setAwayColour] = useState('Blue');
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
 	const addNewTeam = async () => {
+		const imageKey = await uploadNewImageToS3(makeid(15), profilePic);
 		const teamData = {
 			name: teamName,
 			founded: Date.now(),
 			home_colour: homeColour,
 			away_colour: awayColour,
-			team_picture: profilePic,
+			team_picture: imageKey,
 			team_history: {
 				captains: [teamCaptain],
 				team: '',
@@ -82,7 +85,10 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 								Add A Team
 							</h3>
 							<button
-								onClick={() => setIsVisible(false)}
+								onClick={() => {
+									resetData();
+									setIsVisible(false);
+								}}
 								type="button"
 								className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 								data-modal-hide="defaultModal"
@@ -105,10 +111,11 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 						</div>
 
 						{/* <!-- Modal body --> */}
-						<UserProfilePictureEdit
+						<TeamsImage profilePic={profilePic} setProfilePic={setProfilePic} />
+						{/* <UserProfilePictureEdit
 							profilePic={profilePic}
 							setProfilePic={setProfilePic}
-						/>
+						/> */}
 
 						<div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 							<div className="w-full ">
