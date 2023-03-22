@@ -10,6 +10,7 @@ import { IconEdit } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
 
 export default function TeamRow({ team, setCurrentTeam }) {
+	console.log(team);
 	return (
 		<tr key={team.id} className="border-b border-brand-neutral-300">
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
