@@ -8,13 +8,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import AWS from 'aws-sdk';
-const s3 = new AWS.S3({
-	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
-	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
-	signatureVersion: 'v4',
-	region: 'us-east-1',
-});
 
 export default function UserProfilePictureEdit({
 	teamData,
@@ -24,25 +17,11 @@ export default function UserProfilePictureEdit({
 	const [defaultPic, setDefaultPic] = useState(
 		'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg'
 	);
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b15402s9-dev';
-	const signedUrlExpireSeconds = 60 * 1;
-
 	useEffect(() => {
 		if (teamData && !teamData.team_picture) {
 			getImageFromS3();
 		}
 	}, []);
-
-	const getImageFromS3 = () => {
-		const url = s3.getSignedUrl('getObject', {
-			Bucket: bucketName,
-			Key: user.Attributes.find((o) => o.Name === 'picture')['Value'],
-			Expires: signedUrlExpireSeconds,
-		});
-		if (user.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none') {
-			setDefaultPic(url);
-		}
-	};
 
 	return (
 		<div className="w-[12rem] mx-auto">
@@ -54,7 +33,6 @@ export default function UserProfilePictureEdit({
 					accept={'image/*'}
 					onChange={(e) => setProfilePic(e.target.files[0])}
 				/>
-
 				{profilePic === null && (
 					<img
 						style={{ objectFit: 'cover' }}
