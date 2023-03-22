@@ -5,9 +5,10 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import React from 'react';
+import { useState } from 'react';
 
-const PlayersTable = ({ data = Array(5) }) => {
+const PlayersTable = ({ data = Array(1), selectPlayer = () => {} }) => {
+	const [input, setInput] = useState('');
 	return (
 		<div className=" w-full border rounded">
 			<table className="table-auto w-full ">
@@ -17,6 +18,14 @@ const PlayersTable = ({ data = Array(5) }) => {
 							type="text"
 							className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
 							placeholder="Search"
+							value={input}
+							onChange={(e) => setInput(e.target.value)}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									selectPlayer(input);
+									setInput('');
+								}
+							}}
 						/>
 					</tr>
 				</thead>
@@ -28,7 +37,7 @@ const PlayersTable = ({ data = Array(5) }) => {
 								index % 2 === 0 ? `` : `bg-brand-neutral-100`
 							}
 						>
-							<p className="px-5 py-2">{item}</p>
+							<p className="px-5 py-2">{item.user}</p>
 						</tr>
 					))}
 				</tbody>

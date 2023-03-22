@@ -13,7 +13,7 @@ import PlayersTable from './PlayersTable';
 import UserProfilePicture from '../admin-portal/ACPNewUserModal/UserProfilePicture';
 import { createTeam } from '@/utils/graphql.services';
 
-const NewTeamModal = ({ isVisible, setIsVisible }) => {
+const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState('');
 	const [teamCaptain, setTeamCaptain] = useState('');
@@ -22,6 +22,7 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
+	console.log(players);
 	const addNewTeam = async () => {
 		const teamData = {
 			name: teamName,
@@ -56,6 +57,13 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 		setSelectedOption('');
 		setProfilePic('');
 		setTeamRoster([]);
+	};
+	const selectPlayer = (name) => {
+		const playerObj = players.find((e) => e.user === name);
+		// if player is not found or is already in the roster, stop
+		if (!playerObj || teamRoster.filter((e) => e.user === name).length > 0)
+			return;
+		teamRoster.push(playerObj);
 	};
 	if (!isVisible) return;
 	return (
@@ -234,7 +242,7 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 								>
 									Add Members
 								</label>
-								<PlayersTable />
+								<PlayersTable data={teamRoster} selectPlayer={selectPlayer} />
 							</div>
 						</div>
 
