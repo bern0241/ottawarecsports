@@ -30,7 +30,9 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	const [gender, setGender] = useState('');
 	// const [currentDate, setCurrentDate] = useState({}); //Delete if not used later
 	// Birthdate variables/states
-    const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0].replaceAll('-', '/'));
+	const [birthDate, setBirthDate] = useState(
+		new Date().toISOString().split('T')[0].replaceAll('-', '/')
+	);
 	// Displays Password field
 	const [showPassword, setShowPassword] = useState(false);
 	// Router constant used for changing pages
@@ -146,10 +148,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							</div>
 							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<GenderDropDown state={gender} setState={setGender} />
-								<DobDatePicker
-									state={birthDate}
-									setState={setBirthDate}
-								/>
+								<DobDatePicker state={birthDate} setState={setBirthDate} />
 							</div>
 							<LocationDropDown state={location} setState={setLocation} />
 							<TextInput
