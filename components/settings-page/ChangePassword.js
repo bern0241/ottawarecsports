@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-21
+ * Last updated: 2023-03-22
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 
 import React from 'react';
@@ -14,21 +15,21 @@ export default function ChangePasswordSetup({ setPasswordModal }) {
 			{/* // <!-- Main modal --> */}
 			<div
 				id="defaultModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-hidden="true"
-				class="fixed top-0 bottom-0 left-0 right-0 z-[30] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+				className="fixed top-0 bottom-0 left-0 right-0 z-[30] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
 			>
-				<div class="relative w-full h-full">
+				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
-					<div class="relative bg-white shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+					<div className="relative bg-white shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 						{/* <!-- Modal header --> */}
-						<div class="flex items-start justify-between p-4 pb-0 border-b dark:border-gray-600">
-							<h3 class="text-lg sm:text-2xl my-5 font-semibold text-gray-900 dark:text-white">
+						<div className="flex items-start justify-between p-4 pb-0 border-b dark:border-gray-600">
+							<h3 className="text-lg sm:text-2xl my-5 font-semibold text-gray-900 dark:text-white">
 								Change Password
 							</h3>
 						</div>
 						{/* <!-- Modal body --> */}
-						<div class="p-6 space-y-6">
+						<div className="p-6 space-y-6">
 							<div className="flex flex-col gap-5">
 								<SettingPasswordField
 									id="newPassword"
@@ -67,7 +68,7 @@ export default function ChangePasswordSetup({ setPasswordModal }) {
 			</div>
 			<div
 				onClick={(e) => setPasswordModal(false)}
-				class="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);
