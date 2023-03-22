@@ -1,6 +1,68 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getSportsmanshipPoint = /* GraphQL */ `
+	query GetSportsmanshipPoint($id: ID!) {
+		getSportsmanshipPoint(id: $id) {
+			id
+			createdAt
+			updatedAt
+			_version
+			_deleted
+			_lastChangedAt
+		}
+	}
+`;
+export const listSportsmanshipPoints = /* GraphQL */ `
+	query ListSportsmanshipPoints(
+		$filter: ModelSportsmanshipPointFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		listSportsmanshipPoints(
+			filter: $filter
+			limit: $limit
+			nextToken: $nextToken
+		) {
+			items {
+				id
+				createdAt
+				updatedAt
+				_version
+				_deleted
+				_lastChangedAt
+			}
+			nextToken
+			startedAt
+		}
+	}
+`;
+export const syncSportsmanshipPoints = /* GraphQL */ `
+	query SyncSportsmanshipPoints(
+		$filter: ModelSportsmanshipPointFilterInput
+		$limit: Int
+		$nextToken: String
+		$lastSync: AWSTimestamp
+	) {
+		syncSportsmanshipPoints(
+			filter: $filter
+			limit: $limit
+			nextToken: $nextToken
+			lastSync: $lastSync
+		) {
+			items {
+				id
+				createdAt
+				updatedAt
+				_version
+				_deleted
+				_lastChangedAt
+			}
+			nextToken
+			startedAt
+		}
+	}
+`;
 export const getPlayersSoccer = /* GraphQL */ `
 	query GetPlayersSoccer($id: ID!) {
 		getPlayersSoccer(id: $id) {
@@ -684,6 +746,18 @@ export const listTeams = /* GraphQL */ `
 				team_picture
 				createdAt
 				updatedAt
+				team_history {
+					id
+					team
+					division
+					roster
+					goals
+					assists
+					yellow_cards
+					red_cards
+					games_played
+					captains
+				}
 				_version
 				_deleted
 				_lastChangedAt
