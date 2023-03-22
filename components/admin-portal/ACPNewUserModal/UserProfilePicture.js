@@ -14,6 +14,7 @@ export default function UserProfilePicture({
 	user,
 	profilePic,
 	setProfilePic,
+	autoCenter = true,
 }) {
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
@@ -43,7 +44,7 @@ export default function UserProfilePicture({
 	};
 
 	return (
-		<div className="w-[12rem] mx-auto">
+		<div className={autoCenter ? 'w-[12rem] mx-auto' : 'w-[12rem'}>
 			{/* <button onClick={(e) => console.log(grabImage)}>CLick me</button> */}
 			<label className="cursor-pointer">
 				<input
