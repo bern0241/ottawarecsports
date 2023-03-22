@@ -10,7 +10,6 @@ import { IconEdit } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
 
 export default function TeamRow({ team, setCurrentTeam }) {
-	console.log(team);
 	return (
 		<tr key={team.id} className="border-b border-brand-neutral-300">
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
@@ -26,7 +25,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			{/* <td className="p-5">
 				{team.captain.firstName.charAt(0)}. {team.captain.lastName}
 			</td> */}
-			<td className="p-5">{team.sports}</td>
+			<td className="p-5">{team.sports || 'Soccer'}</td>
 			<td className="p-5">{team.teamMembers}/15</td>
 			<td className="p-5">{team.notes}</td>
 			<td className="p-5">
