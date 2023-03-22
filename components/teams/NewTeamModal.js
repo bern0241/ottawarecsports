@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-21
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
 import React from 'react';
 
 const NewTeamModal = ({ isVisible, setIsVisible }) => {
