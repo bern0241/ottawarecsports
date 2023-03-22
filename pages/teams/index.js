@@ -10,7 +10,11 @@ import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
-import { getAllTeams, createTeam } from '@/utils/graphql.services';
+import {
+	getAllTeams,
+	createTeam,
+	getAllPlayers,
+} from '@/utils/graphql.services';
 import NewTeamModal from '@/components/teams/NewTeamModal';
 import CurrentTeamView from '@/components/teams/CurrentTeamView';
 
@@ -18,13 +22,19 @@ export default function Teams() {
 	const [teams, setTeams] = useState([]);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [currentTeam, setCurrentTeam] = useState(null);
+	const [players, setPlayers] = useState([]);
 
+	const getPlayersData = async () => {
+		const response = await getAllPlayers();
+		setPlayers(response);
+	};
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
 		setTeams(response);
 	};
 	useEffect(() => {
 		getTeamsData();
+		getPlayersData();
 	}, []);
 	/**
 	 * Filter teams by name using the search input value.
@@ -64,7 +74,11 @@ export default function Teams() {
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8">
-				<NewTeamModal isVisible={modalVisible} setIsVisible={setModalVisible} />
+				<NewTeamModal
+					isVisible={modalVisible}
+					setIsVisible={setModalVisible}
+					players={players}
+				/>
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'team-search'}
