@@ -210,7 +210,7 @@ export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 	}
 };
 
-export const getImageFromS3 = (key) => {
+export const getImageFromS3 = async (key) => {
 	const url = s3.getSignedUrl('getObject', {
 		Bucket: bucketName,
 		Key: key,
