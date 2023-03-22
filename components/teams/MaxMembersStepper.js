@@ -1,6 +1,10 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 const MaxMembersStepper = ({ state = 0, setState }) => {
+	useEffect(() => {
+		if (state < 0) return setState(0);
+		if (state > 20) return setState(20);
+	}, [state]);
 	const MinusSvg = () => (
 		<button onClick={() => setState(state--)}>
 			<svg
@@ -41,7 +45,9 @@ const MaxMembersStepper = ({ state = 0, setState }) => {
 		<div className="relative">
 			<input
 				value={state}
-				onChange={(e) => setState(e.target.value)}
+				onChange={(e) => {
+					setState(e.target.value);
+				}}
 				type="number"
 				class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 				min={0}
