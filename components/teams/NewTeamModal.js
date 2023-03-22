@@ -248,7 +248,11 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 								>
 									Add Members
 								</label>
-								<PlayersTable data={teamRoster} selectPlayer={selectPlayer} />
+								<PlayersTable
+									data={teamRoster}
+									selectPlayer={selectPlayer}
+									setTeamRoster={setTeamRoster}
+								/>
 							</div>
 						</div>
 

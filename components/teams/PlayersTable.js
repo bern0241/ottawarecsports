@@ -7,8 +7,13 @@
 
 import { useState } from 'react';
 
-const PlayersTable = ({ data = Array(1), selectPlayer = () => {} }) => {
+const PlayersTable = ({
+	data = Array(1),
+	selectPlayer = () => {},
+	setTeamRoster,
+}) => {
 	const [input, setInput] = useState('');
+	const removePlayerFromRoster = () => {};
 	return (
 		<div className=" w-full border rounded">
 			<table className="table-auto w-full ">
