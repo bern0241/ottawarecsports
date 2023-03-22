@@ -17,7 +17,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState('');
 	const [teamCaptain, setTeamCaptain] = useState('');
-	const [teamColour, setTeamColour] = useState('');
+	const [homeColour, setHomeColour] = useState('');
+	const [awayColour, setAwayColour] = useState('');
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
@@ -25,8 +26,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 		const teamData = {
 			name: teamName,
 			founded: Date.now(),
-			home_colour: 'Black',
-			away_colour: 'Red',
+			home_colour: homeColour,
+			away_colour: awayColour,
 			team_picture: profilePic,
 			team_history: {
 				captains: [teamCaptain],
@@ -156,18 +157,47 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 								/>
 							</div>
 
-							<div class="w-full">
-								<label
-									for="email"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									Team colours
-								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={teamColour}
-									setValue={setTeamColour}
-								/>
+							<div class="w-full flex flex-row gap-2">
+								<div class="w-1/2">
+									<label
+										for="email"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									>
+										Home colour
+									</label>
+									<DropdownInput
+										options={[
+											'Red',
+											'Green',
+											'Blue',
+											'Yellow',
+											'Black',
+											'White',
+										]}
+										value={homeColour}
+										setValue={setHomeColour}
+									/>
+								</div>
+								<div class="w-1/2">
+									<label
+										for="email"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									>
+										Away colour
+									</label>
+									<DropdownInput
+										options={[
+											'Red',
+											'Green',
+											'Blue',
+											'Yellow',
+											'Black',
+											'White',
+										]}
+										value={awayColour}
+										setValue={setAwayColour}
+									/>
+								</div>
 							</div>
 
 							<div class="w-full">
