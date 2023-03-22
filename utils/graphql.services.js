@@ -156,3 +156,21 @@ export const createTeam = async (teamData) => {
 		console.warn(err);
 	}
 };
+/**
+ * Update a team
+ * @param {object} teamData An object containing the fields that needs to be updated.
+ * @returns {String} The result of the operation.
+ */
+export const updateTeam = async (teamData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.updateTeams,
+			variables: {
+				input: teamData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
