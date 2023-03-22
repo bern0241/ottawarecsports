@@ -11,6 +11,7 @@ import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
 import PlayersTable from './PlayersTable';
 import UserProfilePicture from '../admin-portal/ACPNewUserModal/UserProfilePicture';
+import { createTeam } from '@/utils/graphql.services';
 
 const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
@@ -19,6 +20,41 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [teamColour, setTeamColour] = useState('');
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
+	const [teamRoster, setTeamRoster] = useState([]);
+	const addNewTeam = async () => {
+		const teamData = {
+			name: teamName,
+			founded: Date.now(),
+			home_colour: 'Black',
+			away_colour: 'Red',
+			team_picture: profilePic,
+			team_history: {
+				captains: [teamCaptain],
+				team: '',
+				division: '',
+				roster: teamRoster,
+				goals: 0,
+				assists: 0,
+				yellow_cards: 0,
+				red_cards: 0,
+				games_played: 0,
+			},
+		};
+		const resp = await createTeam(teamData);
+		if (resp) {
+			setIsVisible(false);
+			resetData();
+		}
+	};
+	const resetData = () => {
+		setMaxMembers(0);
+		setTeamName('');
+		setTeamCaptain('');
+		setTeamColour('');
+		setSelectedOption('');
+		setProfilePic('');
+		setTeamRoster([]);
+	};
 	if (!isVisible) return;
 	return (
 		<>
@@ -187,7 +223,10 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 						{/* <!-- Modal footer --> */}
 						<div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 							<button
-								onClick={() => setIsVisible(false)}
+								onClick={() => {
+									setIsVisible(false);
+									resetData();
+								}}
 								data-modal-hide="defaultModal"
 								type="button"
 								class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
@@ -195,7 +234,9 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 								Cancel
 							</button>
 							<button
-								// onClick={(e) => createUser(e)}
+								onClick={(e) => {
+									addNewTeam();
+								}}
 								data-modal-hide="defaultModal"
 								type="button"
 								class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
