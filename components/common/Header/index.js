@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-20
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -12,7 +12,6 @@ import Image from 'next/image';
 import { IconMenu2 } from '@tabler/icons-react';
 
 const Header = (props) => {
-	console.log(props.menuOpen);
 	let menuState = props.menuOpen;
 	function handleClick() {
 		props.showMenu(true);

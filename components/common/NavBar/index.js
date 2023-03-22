@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-21
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -37,7 +37,7 @@ const NavbarMenu = (props) => {
 					width={80}
 					height={80}
 					priority
-					className="py-3 self-center"
+					className="py-3 self-center w-auto h-auto"
 				/>
 				<Link
 					href="./"
@@ -53,10 +53,10 @@ const NavbarMenu = (props) => {
 				<Image
 					src="/TrophyIcon.svg"
 					alt="Trophy"
-					width={80}
-					height={80}
+					width={158}
+					height={158}
 					priority
-					className="py-3 self-center mb-5"
+					className="py-3 self-center mb-5 w-auto h-auto"
 				/>
 
 				<SignOutButton />

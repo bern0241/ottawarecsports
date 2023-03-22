@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-21
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -11,6 +11,7 @@ import Image from 'next/image';
 const OrsLogo = () => {
 	return (
 		<div className="flex flex-wrap gap-5 sm:justify-between items-center">
+			<div className=" w-auto h-auto">
 			<Image
 				src="/Logo.svg"
 				alt="ORS Logo"
@@ -19,6 +20,7 @@ const OrsLogo = () => {
 				priority
 				className="self-center"
 			/>
+			</div>
 			<p className="text-xl sm:text-3xl font-semibold text-center ">
 				Ottawa Rec Sports <br />
 				League App
