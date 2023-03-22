@@ -184,7 +184,30 @@ export const updateTeam = async (teamData) => {
 		console.warn(err);
 	}
 };
-
+/**
+ * Update a soccer player
+ * @param {object} teamData An object containing the fields that needs to be updated.
+ * @returns {String} The result of the operation.
+ */
+export const updatePlayerSoccer = async (newData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.updatePlayersSoccer,
+			variables: {
+				input: newData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+/**
+ * Uploads an image to s3
+ * @param {String} imageKey An unique identifier for the file.
+ * @param {Object} image The image object
+ * @returns {String} The file url
+ */
 export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 	try {
 		if (!image) return;
@@ -209,7 +232,11 @@ export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 		console.error(error);
 	}
 };
-
+/**
+ * Gets a file from s3
+ * @param {String} Key An unique identifier for the file.
+ * @returns {String} The file url
+ */
 export const getImageFromS3 = async (key) => {
 	const url = s3.getSignedUrl('getObject', {
 		Bucket: bucketName,
