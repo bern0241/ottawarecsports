@@ -51,7 +51,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 		setMaxMembers(0);
 		setTeamName('');
 		setTeamCaptain('');
-		setTeamColour('');
+		setHomeColour('');
+		setAwayColour('');
 		setSelectedOption('');
 		setProfilePic('');
 		setTeamRoster([]);
