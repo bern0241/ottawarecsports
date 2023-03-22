@@ -11,7 +11,7 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState(teamData.name);
 	const [teamCaptain, setTeamCaptain] = useState(teamData.captain);
-	const [teamColour, setTeamColour] = useState('');
+	const [teamColour, setTeamColour] = useState(teamData.home_colour);
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	return (
@@ -97,6 +97,8 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 								</label>
 								<DropdownInput
 									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+									value={teamColour}
+									setValue={setTeamColour}
 								/>
 							</div>
 							<div class="w-full">
@@ -132,14 +134,13 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 									Members
 								</label>
 								<TeamsTable />
-								{/* <LocationDropDown state={location} setState={setLocation} /> */}
 							</div>
 							<div class="mt-auto col-span-2 flex justify-center items-end space-x-2  border-gray-200 rounded-b dark:border-gray-600">
 								<button
-									onClick={() => setIsVisible(false)}
 									data-modal-hide="defaultModal"
 									type="button"
 									className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+									onClick={() => setCurrentTeam(null)}
 								>
 									Cancel
 								</button>
