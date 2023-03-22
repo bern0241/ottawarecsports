@@ -5,9 +5,15 @@
  * Son Tran <tran0460@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
  */
-import React from 'react';
+import { useState } from 'react';
+import DropdownInput from '../common/DropdownInput';
+import MaxMembersStepper from './MaxMembersStepper';
 
 const NewTeamModal = ({ isVisible, setIsVisible }) => {
+	const [maxMembers, setMaxMembers] = useState(0);
+	const [teamNAme, setTeamName] = useState('');
+	const [teamCaptains, setTeamCaptains] = useState('');
+	const [teamColour, setTeamColour] = useState('');
 	if (!isVisible) return;
 	return (
 		<>
@@ -92,17 +98,21 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 									for="birthdate"
 									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Birthdate *
+									Sport
 								</label>
+								<DropdownInput options={['Soccer']} />
 							</div>
 							<div className="w-full">
 								<label
 									for="gender"
 									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Gender *
+									Max members
 								</label>
-								{/* <GenderDropDown state={gender} setState={setGender} /> */}
+								<MaxMembersStepper
+									state={maxMembers}
+									setState={setMaxMembers}
+								/>
 							</div>
 
 							<div class="w-full">
@@ -110,24 +120,11 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 									for="email"
 									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Email *
+									Team colours
 								</label>
-								<input
-									// value={email}
-									// onChange={(e) => setEmail(e.target.value)}
-									type="email"
-									id="email"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								<DropdownInput
+									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
 								/>
-							</div>
-
-							<div class="w-full">
-								<label
-									for="tempPassword"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									Password *
-								</label>
 							</div>
 
 							<div class="w-full">
@@ -135,15 +132,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 									for="phoneNumber"
 									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Phone Number
+									Who can join
 								</label>
-								<input
-									// value={phoneNumber}
-									// onChange={(e) => setPhoneNumber(e.target.value)}
-									type="text"
-									id="phoneNumber"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								/>
 							</div>
 
 							<div class="w-full">
