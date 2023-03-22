@@ -22,7 +22,6 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
-	console.log(players);
 	const addNewTeam = async () => {
 		const teamData = {
 			name: teamName,
