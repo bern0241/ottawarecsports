@@ -12,10 +12,12 @@ import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
 import { getAllTeams, createTeam } from '@/utils/graphql.services';
 import NewTeamModal from '@/components/teams/NewTeamModal';
+import CurrentTeamView from '@/components/teams/CurrentTeamView';
 
 export default function Teams() {
 	const [teams, setTeams] = useState([]);
 	const [modalVisible, setModalVisible] = useState(false);
+	const [currentTeam, setCurrentTeam] = useState(null);
 
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
@@ -54,6 +56,10 @@ export default function Teams() {
 		});
 		console.log(resp);
 	};
+	if (currentTeam)
+		return (
+			<CurrentTeamView teamData={currentTeam} setCurrentTeam={setCurrentTeam} />
+		);
 
 	return (
 		<>
@@ -94,7 +100,11 @@ export default function Teams() {
 						</thead>
 						<tbody>
 							{teams.map((team, index) => (
-								<TeamRow key={team.id} team={team} />
+								<TeamRow
+									key={team.id}
+									team={team}
+									setCurrentTeam={setCurrentTeam}
+								/>
 							))}
 
 							<tr>
