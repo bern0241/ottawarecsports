@@ -139,7 +139,7 @@ export const changeUserPassword = async (oldPassword, newPassword) => {
 	}
 };
 /**
- * Update the user's password
+ * Create a team object
  * @param {object} teamData An object containing the team data.
  * @returns {String} The result of the operation.
  */
