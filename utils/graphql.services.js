@@ -20,7 +20,8 @@ export const getAllPlayers = async () => {
 		const resp = await API.graphql({
 			query: queries.listPlayersSoccers,
 		});
-		return resp.data.listPlayersSoccers.items;
+		console.log(resp);
+		return resp.data.listPlayersSoccers.items.filter((item) => !item._deleted);
 	} catch (err) {
 		console.warn(err);
 	}
