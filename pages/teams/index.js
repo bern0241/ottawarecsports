@@ -11,6 +11,8 @@ import { IconCirclePlus } from '@tabler/icons-react';
 import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
 import { getAllTeams, createTeam } from '@/utils/graphql.services';
+import NewTeamModal from '@/components/teams/NewTeamModal';
+
 export default function Teams() {
 	const [teams, setTeams] = useState([]);
 	const [modalVisible, setModalVisible] = useState(false);
@@ -56,6 +58,7 @@ export default function Teams() {
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8">
+				<NewTeamModal isVisible={modalVisible} setIsVisible={setModalVisible} />
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'team-search'}
@@ -69,7 +72,7 @@ export default function Teams() {
 						<Button
 							pill={true}
 							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
-							onClick={() => addNewTeam()}
+							onClick={() => setModalVisible(true)}
 						>
 							<IconCirclePlus className="mr-2 h-5 w-5" />
 							Add A Team
