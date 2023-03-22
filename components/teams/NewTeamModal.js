@@ -10,6 +10,7 @@ import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
 import TeamsTable from './TeamsTable';
+import UserProfilePicture from '../admin-portal/ACPNewUserModal/UserProfilePicture';
 
 const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
@@ -17,6 +18,7 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [teamCaptain, setTeamCaptain] = useState('');
 	const [teamColour, setTeamColour] = useState('');
 	const [selectedOption, setSelectedOption] = useState('');
+	const [profilePic, setProfilePic] = useState('');
 	if (!isVisible) return;
 	return (
 		<>
@@ -58,10 +60,10 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 						</div>
 
 						{/* <!-- Modal body --> */}
-						{/* <UserProfilePicture
+						<UserProfilePicture
 							profilePic={profilePic}
 							setProfilePic={setProfilePic}
-						/> */}
+						/>
 
 						<div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 							<div class="w-full ">
