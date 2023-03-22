@@ -5,7 +5,7 @@ import UserProfilePicture from '../admin-portal/ACPNewUserModal/UserProfilePictu
 import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
-import TeamsTable from './TeamsTable';
+import PlayersTable from './PlayersTable';
 
 const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
@@ -133,7 +133,7 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 								>
 									Members
 								</label>
-								<TeamsTable />
+								<PlayersTable />
 							</div>
 							<div class="mt-auto col-span-2 flex justify-center items-end space-x-2  border-gray-200 rounded-b dark:border-gray-600">
 								<button

@@ -9,7 +9,7 @@ import { useState } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
-import TeamsTable from './TeamsTable';
+import PlayersTable from './PlayersTable';
 import UserProfilePicture from '../admin-portal/ACPNewUserModal/UserProfilePicture';
 
 const NewTeamModal = ({ isVisible, setIsVisible }) => {
@@ -129,6 +129,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 								</label>
 								<DropdownInput
 									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+									value={teamColour}
+									setValue={setTeamColour}
 								/>
 							</div>
 
@@ -165,8 +167,7 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 								>
 									Add Members
 								</label>
-								<TeamsTable />
-								{/* <LocationDropDown state={location} setState={setLocation} /> */}
+								<PlayersTable />
 							</div>
 						</div>
 

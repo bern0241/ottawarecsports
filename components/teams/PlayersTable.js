@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-const TeamsTable = ({ data = Array(5) }) => {
+const PlayersTable = ({ data = Array(5) }) => {
 	return (
 		<div className=" w-full border rounded">
 			<table className="table-auto w-full ">
@@ -37,4 +37,4 @@ const TeamsTable = ({ data = Array(5) }) => {
 	);
 };
 
-export default TeamsTable;
+export default PlayersTable;
