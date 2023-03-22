@@ -7,13 +7,16 @@
  */
 import { useState } from 'react';
 import DropdownInput from '../common/DropdownInput';
+import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
+import TeamsTable from './TeamsTable';
 
 const NewTeamModal = ({ isVisible, setIsVisible }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
-	const [teamNAme, setTeamName] = useState('');
-	const [teamCaptains, setTeamCaptains] = useState('');
+	const [teamName, setTeamName] = useState('');
+	const [teamCaptain, setTeamCaptain] = useState('');
 	const [teamColour, setTeamColour] = useState('');
+	const [selectedOption, setSelectedOption] = useState('');
 	if (!isVisible) return;
 	return (
 		<>
@@ -69,8 +72,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 									Team Name
 								</label>
 								<input
-									// value={firstName}
-									// onChange={(e) => setFirstName(e.target.value)}
+									value={teamName}
+									onChange={(e) => setTeamName(e.target.value)}
 									type="text"
 									id="firstName"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -85,8 +88,8 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 									Captain
 								</label>
 								<input
-									// value={lastName}
-									// onChange={(e) => setLastName(e.target.value)}
+									value={teamCaptain}
+									onChange={(e) => setTeamCaptain(e.target.value)}
 									type="text"
 									id="lastName"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -134,15 +137,33 @@ const NewTeamModal = ({ isVisible, setIsVisible }) => {
 								>
 									Who can join
 								</label>
+								<div className="flex flex-row gap-10">
+									<CustomRadioButton
+										setSelected={setSelectedOption}
+										selected={selectedOption}
+										content={'Men'}
+									/>
+									<CustomRadioButton
+										setSelected={setSelectedOption}
+										selected={selectedOption}
+										content={'Women'}
+									/>
+									<CustomRadioButton
+										setSelected={setSelectedOption}
+										selected={selectedOption}
+										content={'Anyone'}
+									/>
+								</div>
 							</div>
 
-							<div class="w-full">
+							<div class="w-full col-span-2">
 								<label
 									for="location"
 									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Location *
+									Add Members
 								</label>
+								<TeamsTable />
 								{/* <LocationDropDown state={location} setState={setLocation} /> */}
 							</div>
 						</div>
