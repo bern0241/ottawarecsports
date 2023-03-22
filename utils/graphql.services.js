@@ -10,7 +10,17 @@ import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 import { Auth } from 'aws-amplify';
+import makeid from '@/utils/makeId';
+import AWS from 'aws-sdk';
 
+const s3 = new AWS.S3({
+	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
+	signatureVersion: 'v4',
+	region: 'us-east-1',
+});
+const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b15402s9-dev';
+const signedUrlExpireSeconds = 60 * 1;
 /**
  * Returns all players in the database
  * @returns {[Object]} Player objects in an array
@@ -173,4 +183,36 @@ export const updateTeam = async (teamData) => {
 	} catch (err) {
 		console.warn(err);
 	}
+};
+
+export const uploadNewImageToS3 = async (imageId = makeid(15), image) => {
+	try {
+		if (!image) return;
+		const params = {
+			Bucket: bucketName,
+			Key: imageId,
+			Body: image,
+			ContentType: image.type,
+		};
+		// Upload the image to S3
+		s3.upload(params, (err, data) => {
+			if (err) {
+				// fail
+			} else {
+				// success
+				return imageId;
+			}
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const getImageFromS3 = (key) => {
+	const url = s3.getSignedUrl('getObject', {
+		Bucket: bucketName,
+		Key: key,
+		Expires: signedUrlExpireSeconds,
+	});
+	return url;
 };
