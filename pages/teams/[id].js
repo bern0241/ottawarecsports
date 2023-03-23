@@ -89,7 +89,7 @@ export default function TeamProfile() {
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Colours</h3>
-							<div className="flex gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+							<div className="flex flex-wrap gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 								{/* Home Colour */}
 								<div className="flex items-center gap-2">
 									<div className="w-4 h-4 bg-red-500 rounded-sm border border-black"></div>{' '}
@@ -105,7 +105,7 @@ export default function TeamProfile() {
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Who Can Join?</h3>
-							<div className="flex gap-4 py-2 px-3 font-medium">
+							<div className="flex flex-wrap gap-4 py-2 px-3 font-medium">
 								{/* Men Checkbox */}
 								<div class="flex items-center">
 									<input
