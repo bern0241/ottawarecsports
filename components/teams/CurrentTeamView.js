@@ -36,11 +36,11 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 							profilePic={profilePic}
 							setProfilePic={setProfilePic}
 						/>
-						<div class="px-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
-							<div class="w-full ">
+						<div className="px-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
+							<div className="w-full ">
 								<label
 									for="firstName"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Team Name
 								</label>
@@ -49,13 +49,13 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 									onChange={(e) => setTeamName(e.target.value)}
 									type="text"
 									id="firstName"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
-							<div class="w-full">
+							<div className="w-full">
 								<label
 									for="lastName"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Captain
 								</label>
@@ -64,13 +64,13 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 									onChange={(e) => setTeamCaptain(e.target.value)}
 									type="text"
 									id="lastName"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
 							<div className="w-full">
 								<label
 									for="birthdate"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Sport
 								</label>
@@ -79,7 +79,7 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 							<div className="w-full">
 								<label
 									for="gender"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Max members
 								</label>
@@ -88,10 +88,10 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 									setState={setMaxMembers}
 								/>
 							</div>
-							<div class="w-full">
+							<div className="w-full">
 								<label
 									for="email"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Team colours
 								</label>
@@ -101,10 +101,10 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 									setValue={setTeamColour}
 								/>
 							</div>
-							<div class="w-full">
+							<div className="w-full">
 								<label
 									for="phoneNumber"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Who can join
 								</label>
@@ -126,16 +126,16 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 									/>
 								</div>
 							</div>
-							<div class="w-full col-span-2">
+							<div className="w-full col-span-2">
 								<label
 									for="location"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Members
 								</label>
 								<PlayersTable />
 							</div>
-							<div class="mt-auto col-span-2 flex justify-center items-end space-x-2  border-gray-200 rounded-b dark:border-gray-600">
+							<div className="mt-auto col-span-2 flex justify-center items-end space-x-2  border-gray-200 rounded-b dark:border-gray-600">
 								<button
 									data-modal-hide="defaultModal"
 									type="button"

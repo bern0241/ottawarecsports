@@ -129,7 +129,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 									xmlns="http://www.w3.org/2000/svg"
 								>
 									<path
-										fill-rule="evenodd"
+										fillRule="evenodd"
 										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
 										clipRule="evenodd"
 									></path>
@@ -148,7 +148,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 						<div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 							<div className="w-full ">
 								<label
-									for="firstName"
+									htmlFor="firstName"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Team Name
@@ -164,7 +164,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 
 							<div className="w-full">
 								<label
-									for="lastName"
+									htmlFor="lastName"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Captain
@@ -180,7 +180,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 
 							<div className="w-full">
 								<label
-									for="birthdate"
+									htmlFor="birthdate"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Sport
@@ -189,7 +189,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 							</div>
 							<div className="w-full">
 								<label
-									for="gender"
+									htmlFor="gender"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Max members
@@ -203,7 +203,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 							<div className="w-full flex flex-row gap-2">
 								<div className="w-1/2">
 									<label
-										for="email"
+										htmlFor="email"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Home colour
@@ -223,7 +223,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 								</div>
 								<div className="w-1/2">
 									<label
-										for="email"
+										htmlFor="email"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Away colour
@@ -245,7 +245,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 
 							<div className="w-full">
 								<label
-									for="phoneNumber"
+									htmlFor="phoneNumber"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Who can join
@@ -271,7 +271,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 
 							<div className="w-full col-span-2">
 								<label
-									for="location"
+									htmlFor="location"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Add Members

@@ -59,7 +59,7 @@ const PlayersTable = ({ data, selectPlayer = () => {}, setTeamRoster }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{roster.map((item, index) => (
+					{roster && roster.map((item, index) => (
 						<tr
 							className={
 								// Make every odd row dark
