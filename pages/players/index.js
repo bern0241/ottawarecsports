@@ -9,30 +9,24 @@ import React, { useEffect, useState } from 'react';
 import SearchBarInput from '@/components/common/SearchBarInput';
 import PlayerRow from '@/components/players/PlayerRow';
 import AWS from 'aws-sdk';
+import { getAllPlayers } from '@/utils/graphql.services';
 
 export default function Players() {
 	const [players, setPlayers] = useState([]);
 	const [filteredPlayers, filterPlayers] = useState([]);
+	const [searchValue, setSearchValue] = useState('');
 
 	// Fetch users in AWS Cognito user pool:
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	// var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
 		fetchUsers();
 	}, []);
 
 	const fetchUsers = async () => {
-		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
-		};
-		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
-			if (err) {
-				console.log(err, err.stack);
-			} else {
-				filterPlayers(data.Users);
-				setPlayers(data.Users);
-			}
-		});
+		const data = await getAllPlayers();
+		setPlayers(data);
+		filterPlayers(data);
 	};
 
 	/**
@@ -41,25 +35,26 @@ export default function Players() {
 	 */
 	function handleSearch(ev) {
 		ev.preventDefault();
-		let searchValue = document
+		// let searchValue = document
+		setSearchValue(document
 			.getElementById('player-search')
-			.value.toLowerCase();
+			.value.toLowerCase());
 
 		let filteredPlayers = players.filter((player) => {
-			const firstName = player.Attributes.find((o) => o.Name === 'name')[
-				'Value'
-			];
-			const lastName = player.Attributes.find((o) => o.Name === 'family_name')[
-				'Value'
-			];
+			// const user = player.Attributes.find((o) => o.Name === 'name')[
+			// 	'Value'
+			// ];
+			// const lastName = player.Attributes.find((o) => o.Name === 'family_name')[
+			// 	'Value'
+			// ];
 
 			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
-			const arr = searchValue.split(' ');
-			return arr.some(
-				(el) =>
-					firstName.toLowerCase().includes(el) ||
-					lastName.toLowerCase().includes(el)
-			);
+			// const arr = searchValue;
+			// return arr.some(
+			// 	(el) =>
+			// 	player.user.toLowerCase().includes(el)
+			// 		// lastName.toLowerCase().includes(el)
+			// );
 		});
 
 		filterPlayers(filteredPlayers);
@@ -94,13 +89,19 @@ export default function Players() {
 							</tr>
 						</thead>
 						<tbody>
-							{filteredPlayers.map((player, index) => (
+							{players && players.filter((player) => {
+								const searchItem = searchValue.toLocaleLowerCase();
+								const v = `${player.user.toLocaleLowerCase()}`
+								if(!searchItem) return true;
+								return v.startsWith(searchItem);
+							}).map((player, index) => (
 								<PlayerRow
-									key={player.Username}
+									key={player.id}
 									player={player}
 									index={index}
 								/>
-							))}
+							))
+							}
 
 							<tr>
 								<td

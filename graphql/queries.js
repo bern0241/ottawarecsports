@@ -99,6 +99,18 @@ export const listPlayersSoccers = /* GraphQL */ `
 				id
 				user
 				position
+				PlayerDivisionStats {
+					id
+					team
+					division
+					position
+					goals
+					assists
+					yellow_cards
+					red_cards
+					games_played
+				}
+				location
 				createdAt
 				updatedAt
 				_version
