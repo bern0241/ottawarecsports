@@ -21,8 +21,6 @@ export default function SettingsForm({
 	setEnterPasswordModal2,
 	setUserAttributes,
 }) {
-	const [emailModal, setEmailModal] = useState(false);
-	const [passwordModal, setPasswordModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [birthDate, setBirthDate] = useState('');
@@ -61,7 +59,6 @@ export default function SettingsForm({
 			name: firstName,
 			family_name: lastName,
 			birthdate: birthDate,
-			email,
 			gender,
 			'custom:location': location,
 		});
@@ -141,6 +138,7 @@ export default function SettingsForm({
 						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
+						readOnly
 					/>
 				</div>
 				<div>
