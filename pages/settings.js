@@ -17,7 +17,6 @@ import { changeUserAttributes } from '@/utils/graphql.services';
 export default function Setting() {
 	const [user] = useUser();
 	const [userAttributes, setUserAttributes] = useState({});
-
 	const saveAttributes = async () => {
 		await changeUserAttributes(userAttributes);
 	};
@@ -68,7 +67,10 @@ export default function Setting() {
 										</div>
 										<IconCameraPlus className="ml-40" />
 									</div>
-									<SettingsPage setUserAttributes={setUserAttributes} />
+									<SettingsPage
+										saveAttributes={saveAttributes}
+										setUserAttributes={setUserAttributes}
+									/>
 								</div>
 							</div>
 							<div className="flex justify-center">

@@ -10,10 +10,10 @@ import EmailModal from './EmailModal';
 import PasswordModal from './PasswordModal';
 import SettingsForm from './SettingForm';
 
-export default function SettingsPage() {
+export default function SettingsPage({ setUserAttributes, saveAttributes }) {
 	const [enterPasswordModal, setEnterPasswordModal] = useState(false);
 	const [enterPasswordModal2, setEnterPasswordModal2] = useState(false);
-	const [userAttributes, setUserAttributes] = useState({});
+	const [password, setPassword] = useState('');
 	return (
 		<div className="flex items-center">
 			<SettingsForm

@@ -9,11 +9,14 @@
 import { Modal, TextInput, Label } from 'flowbite-react';
 import React, { useState } from 'react';
 import EmailVerification from './EmailVerification';
+import {
+	changeUserAttributes,
+	verifyUserAttributes,
+} from '@/utils/graphql.services';
 
 export default function ChangeEmailSetup({ setEmailModal }) {
 	const [currentEmail, setCurrentEmail] = useState('');
 	const [confirmEmail, setConfirmEmail] = useState('');
-	const [verificationCode, setVerificationCode] = useState('');
 	const [verificationModal, setVerificationModal] = useState(false);
 
 	const updateUserEmail = async () => {
@@ -21,8 +24,8 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 			email: confirmEmail,
 		});
 	};
-	const confirmNewEmail = async () => {
-		const resp = await verifyUserAttributes(verificationCode);
+	const confirmNewEmail = async (confirmationCode) => {
+		const resp = await verifyUserAttributes(confirmationCode);
 		if (resp === 'SUCCESS') setVerificationModal(false);
 	};
 	return (
@@ -56,6 +59,8 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 										placeholder="Current Email"
 										required={true}
 										className="h-[40px] w-full"
+										value={currentEmail}
+										onChange={(e) => setCurrentEmail(e.target.value)}
 									/>
 								</div>
 								<div>
@@ -68,6 +73,8 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 										placeholder="Confirm Email"
 										required={true}
 										className="h-[40px] w-full"
+										value={confirmEmail}
+										onChange={(e) => setConfirmEmail(e.target.value)}
 									/>
 								</div>
 							</div>
@@ -88,6 +95,7 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
 									onClick={() => {
+										updateUserEmail();
 										setVerificationModal(true);
 									}}
 								>
@@ -104,7 +112,10 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 			/>
 
 			{verificationModal && (
-				<EmailVerification setVerificationModal={setVerificationModal} />
+				<EmailVerification
+					setVerificationModal={setVerificationModal}
+					confirmNewEmail={confirmNewEmail}
+				/>
 			)}
 		</>
 	);

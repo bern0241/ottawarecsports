@@ -9,7 +9,10 @@
 import React, { useState } from 'react';
 import OtpField from 'react-otp-field';
 
-export default function EmailVerification({ setVerificationModal }) {
+export default function EmailVerification({
+	setVerificationModal,
+	confirmNewEmail,
+}) {
 	const [confirmationCode, setConfirmationCode] = useState('');
 	return (
 		<>
@@ -69,6 +72,7 @@ export default function EmailVerification({ setVerificationModal }) {
 								<button
 									className="bg-brand-blue-800 h-10 w-[90px] rounded-3xl text-white font-regular mt-3"
 									type="button"
+									onClick={() => confirmNewEmail(confirmationCode)}
 								>
 									Submit
 								</button>
