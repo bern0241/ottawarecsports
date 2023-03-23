@@ -23,8 +23,16 @@ export default function Setting() {
 	const [userAttributes, setUserAttributes] = useState({});
 	const [profilePic, setProfilePic] = useState('');
 	const saveAttributes = async () => {
-		const imageKey = await uploadNewImageToS3(makeid(15), profilePic);
-		await changeUserAttributes({ ...userAttributes, picture: imageKey });
+		if (profilePic) {
+			const imageKey = await uploadNewImageToS3(makeid(15), profilePic);
+			await changeUserAttributes({
+				...userAttributes,
+				picture: imageKey,
+			});
+		}
+		await changeUserAttributes({
+			...userAttributes,
+		});
 	};
 	if (!user) {
 		return (
