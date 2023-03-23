@@ -108,7 +108,7 @@ export const updateUserInfo = async (id, updatedData) => {
  */
 export const getCurrentUser = async () => {
 	try {
-		const user = await Auth.currentAuthenticatedUser();
+		const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
 		return user;
 	} catch (err) {
 		console.warn(err);
@@ -131,11 +131,19 @@ export const changeUserAttributes = async (newAttributes) => {
 	}
 };
 
+export const verifyUserAttributes = async (code) => {
+	try {
+		const result = await Auth.verifyCurrentUserAttributeSubmit('email', code);
+		return result;
+	} catch (err) {
+		console.warn(err);
+	}
+};
 // Reference https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
 /**
  * Update the user's password
- * @param {String} oldPassword An object containing the fields that needs to be updated.
- * @param {String} newPassword An object containing the fields that needs to be updated.
+ * @param {String} oldPassword The user's old password.
+ * @param {String} newPassword The user's new password.
  * @returns {String} The result of the update operation as a string.
  */
 export const changeUserPassword = async (oldPassword, newPassword) => {

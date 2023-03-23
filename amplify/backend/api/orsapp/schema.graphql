@@ -32,6 +32,7 @@ type PlayersSoccer @model @auth(rules: [{allow: public}]) {
   user: String
   position: String
   PlayerDivisionStats: [PlayerDivisionStats]
+  location: String
 }
 
 enum GameStatusEnum {

@@ -12,6 +12,7 @@ import SettingPasswordField from './SettingPasswordField';
 
 export default function EmailModal({ setEnterPasswordModal, saveAttributes }) {
 	const [emailModal, setEmailModal] = useState(false);
+	const [password, setPassword] = useState('');
 
 	return (
 		<>
@@ -37,6 +38,8 @@ export default function EmailModal({ setEnterPasswordModal, saveAttributes }) {
 								id="currentPassword2"
 								placeholder="Password"
 								className="h-[40px] w-full"
+								state={password}
+								setState={setPassword}
 							/>
 						</div>
 						{/* <!-- Modal footer --> */}

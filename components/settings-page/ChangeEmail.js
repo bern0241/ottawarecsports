@@ -9,10 +9,30 @@
 import { Modal, TextInput, Label } from 'flowbite-react';
 import React, { useState } from 'react';
 import EmailVerification from './EmailVerification';
+import {
+	changeUserAttributes,
+	verifyUserAttributes,
+} from '@/utils/graphql.services';
+import { useRouter } from 'next/router';
 
 export default function ChangeEmailSetup({ setEmailModal }) {
+	const router = useRouter();
+	const [currentEmail, setCurrentEmail] = useState('');
+	const [confirmEmail, setConfirmEmail] = useState('');
 	const [verificationModal, setVerificationModal] = useState(false);
 
+	const updateUserEmail = async () => {
+		const resp = changeUserAttributes({
+			email: confirmEmail,
+		});
+	};
+	const confirmNewEmail = async (confirmationCode) => {
+		const resp = await verifyUserAttributes(confirmationCode);
+		if (resp === 'SUCCESS') {
+			setVerificationModal(false);
+			router.reload();
+		}
+	};
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
@@ -44,11 +64,13 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 										placeholder="Current Email"
 										required={true}
 										className="h-[40px] w-full"
+										value={currentEmail}
+										onChange={(e) => setCurrentEmail(e.target.value)}
 									/>
 								</div>
 								<div>
 									<div className="mb-2 block">
-										<Label htmlFor="email" value="Confirm Email" />
+										<Label htmlFor="email" value="New Email" />
 									</div>
 									<TextInput
 										id="confirmEmail"
@@ -56,6 +78,8 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 										placeholder="Confirm Email"
 										required={true}
 										className="h-[40px] w-full"
+										value={confirmEmail}
+										onChange={(e) => setConfirmEmail(e.target.value)}
 									/>
 								</div>
 							</div>
@@ -76,6 +100,7 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
 									onClick={() => {
+										updateUserEmail();
 										setVerificationModal(true);
 									}}
 								>
@@ -92,7 +117,10 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 			/>
 
 			{verificationModal && (
-				<EmailVerification setVerificationModal={setVerificationModal} />
+				<EmailVerification
+					setVerificationModal={setVerificationModal}
+					confirmNewEmail={confirmNewEmail}
+				/>
 			)}
 		</>
 	);

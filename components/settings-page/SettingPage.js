@@ -10,15 +10,9 @@ import EmailModal from './EmailModal';
 import PasswordModal from './PasswordModal';
 import SettingsForm from './SettingForm';
 
-export default function SettingsPage() {
+export default function SettingsPage({ setUserAttributes, saveAttributes }) {
 	const [enterPasswordModal, setEnterPasswordModal] = useState(false);
 	const [enterPasswordModal2, setEnterPasswordModal2] = useState(false);
-	const [userAttributes, setUserAttributes] = useState({});
-
-	const saveAttributes = async () => {
-		await changeUserAttributes(userAttributes);
-	};
-
 	return (
 		<div className="flex items-center">
 			<SettingsForm
@@ -26,7 +20,6 @@ export default function SettingsPage() {
 				setEnterPasswordModal2={setEnterPasswordModal2}
 				setUserAttributes={setUserAttributes}
 			/>
-
 			{/* MODALS */}
 			<div>
 				{/* Email Change */}
@@ -34,9 +27,9 @@ export default function SettingsPage() {
 					<EmailModal
 						setEnterPasswordModal={setEnterPasswordModal}
 						saveAttributes={saveAttributes}
+						setUserAttributes={setUserAttributes}
 					/>
 				)}
-
 				{/* Password Change */}
 				{enterPasswordModal2 && (
 					<PasswordModal setEnterPasswordModal2={setEnterPasswordModal2} />

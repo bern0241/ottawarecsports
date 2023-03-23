@@ -6,6 +6,7 @@
  */
 
 import React, { useState } from 'react';
+import { TextInput } from 'flowbite-react';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import DatePicker from 'tailwind-datepicker-react';
 
@@ -48,21 +49,47 @@ export default function SettingDatePicker({ state, setState }) {
 	const [show, setShow] = useState(false);
 	const handleChange = (selectedDate) => {
 		setState(selectedDate);
-		console.log(selectedDate);
 	};
 	const handleClose = () => {
 		setShow(!show);
 	};
-
-	return (
-		<div>
-			<DatePicker
-				classNames="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
-				options={options}
-				onChange={handleChange}
-				show={show}
-				setShow={handleClose}
+	const CalendarIcon = () => (
+		<svg width={20} height={20} fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				fillRule="evenodd"
+				clipRule="evenodd"
+				d="M18 6V3h-2v1h-2V3H6v1H4V3H2v3h16Zm0 2H2v10h16V8Zm-2-7h2a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h2V0h2v1h8V0h2v1ZM7 12H5v-2h2v2Zm4 0H9v-2h2v2Zm4 0h-2v-2h2v2Zm-8 4H5v-2h2v2Zm4 0H9v-2h2v2Z"
+				fill="#000"
+				fillOpacity={0.8}
 			/>
+		</svg>
+	);
+	return (
+		<div className="relative mb-12">
+			<div className="absolute z-10 w-full">
+				<TextInput
+					id="date"
+					type="text"
+					placeholder="Pick a date"
+					required={true}
+					className="h-[40px] xl:w--[300px] cursor-pointer ms"
+					value={state}
+					onClick={() => setShow(true)}
+					readOnly
+				/>
+				<span className="absolute right-2 top-1/2 -translate-y-1/2">
+					<CalendarIcon />
+				</span>
+			</div>
+			<div className={show === true ? '' : 'hidden'}>
+				<DatePicker
+					classNames="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+					options={options}
+					onChange={handleChange}
+					show={show}
+					setShow={handleClose}
+				/>
+			</div>
 		</div>
 	);
 }

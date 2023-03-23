@@ -6,10 +6,34 @@
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 
-import React from 'react';
+import { useState } from 'react';
 import SettingPasswordField from './SettingPasswordField';
+import { changeUserPassword } from '@/utils/graphql.services';
 
-export default function ChangePasswordSetup({ setPasswordModal }) {
+export default function ChangePasswordSetup({ oldPassword, setPasswordModal }) {
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [errorMessage, setErrorMessage] = useState('');
+	const changePassword = async () => {
+		checkPasswords();
+		if (errorMessage !== '') return;
+		const resp = await changeUserPassword(oldPassword, newPassword);
+		if (resp === 'SUCCESS') return setPasswordModal(false);
+		setErrorMessage('Something went wrong');
+	};
+	const checkPasswords = () => {
+		if (newPassword !== confirmPassword)
+			return setErrorMessage('Passwords do not match');
+		// reference for checking special characters
+		// Answer by Magus
+		// https://stackoverflow.com/a/32311200
+		const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+		if (newPassword.length < 8 || !format.test(newPassword))
+			return setErrorMessage(
+				'Must be 8 or more characters and contain at least 1 number and 1 special character.'
+			);
+		setErrorMessage('');
+	};
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
@@ -35,12 +59,17 @@ export default function ChangePasswordSetup({ setPasswordModal }) {
 									id="newPassword"
 									placeholder="New Password"
 									className="h-[40px] w-full"
+									state={newPassword}
+									setState={setNewPassword}
 								/>
 								<SettingPasswordField
 									id="confirmPassword"
 									placeholder="Confirm Password"
 									className="h-[40px] w-full"
+									state={confirmPassword}
+									setState={setConfirmPassword}
 								/>
+								<p className="text-red-700 text-xs">{errorMessage}</p>
 							</div>
 						</div>
 						{/* <!-- Modal footer --> */}
@@ -58,6 +87,7 @@ export default function ChangePasswordSetup({ setPasswordModal }) {
 								<button
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
+									onClick={changePassword}
 								>
 									Update
 								</button>

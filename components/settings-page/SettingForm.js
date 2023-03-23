@@ -3,6 +3,7 @@
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Son Tran <tran0460@algonquinlive.com>
  */
 
 import { Label, Modal, TextInput } from 'flowbite-react';
@@ -20,8 +21,6 @@ export default function SettingsForm({
 	setEnterPasswordModal2,
 	setUserAttributes,
 }) {
-	const [emailModal, setEmailModal] = useState(false);
-	const [passwordModal, setPasswordModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [birthDate, setBirthDate] = useState('');
@@ -43,6 +42,11 @@ export default function SettingsForm({
 		let localeDate = date.toLocaleDateString();
 		let dateToArr = localeDate.split('/');
 		let year = dateToArr.splice(-1, 1);
+		// check if the date or month has 1 characters, if yes add 0
+		dateToArr = dateToArr.map((item) => {
+			if (item.length === 1) return `0${item}`;
+			return item;
+		});
 		dateToArr.unshift(...year);
 		setBirthDate(dateToArr.join('-'));
 	};
@@ -55,7 +59,6 @@ export default function SettingsForm({
 			name: firstName,
 			family_name: lastName,
 			birthdate: birthDate,
-			email,
 			gender,
 			'custom:location': location,
 		});
@@ -135,6 +138,7 @@ export default function SettingsForm({
 						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
+						readOnly
 					/>
 				</div>
 				<div>
