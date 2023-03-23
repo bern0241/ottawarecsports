@@ -26,9 +26,11 @@ export default function PlayersSoccerUpdateForm(props) {
   const initialValues = {
     user: "",
     position: "",
+    location: "",
   };
   const [user, setUser] = React.useState(initialValues.user);
   const [position, setPosition] = React.useState(initialValues.position);
+  const [location, setLocation] = React.useState(initialValues.location);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = playersSoccerRecord
@@ -36,6 +38,7 @@ export default function PlayersSoccerUpdateForm(props) {
       : initialValues;
     setUser(cleanValues.user);
     setPosition(cleanValues.position);
+    setLocation(cleanValues.location);
     setErrors({});
   };
   const [playersSoccerRecord, setPlayersSoccerRecord] =
@@ -53,6 +56,7 @@ export default function PlayersSoccerUpdateForm(props) {
   const validations = {
     user: [],
     position: [],
+    location: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -81,6 +85,7 @@ export default function PlayersSoccerUpdateForm(props) {
         let modelFields = {
           user,
           position,
+          location,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -138,6 +143,7 @@ export default function PlayersSoccerUpdateForm(props) {
             const modelFields = {
               user: value,
               position,
+              location,
             };
             const result = onChange(modelFields);
             value = result?.user ?? value;
@@ -163,6 +169,7 @@ export default function PlayersSoccerUpdateForm(props) {
             const modelFields = {
               user,
               position: value,
+              location,
             };
             const result = onChange(modelFields);
             value = result?.position ?? value;
@@ -176,6 +183,32 @@ export default function PlayersSoccerUpdateForm(props) {
         errorMessage={errors.position?.errorMessage}
         hasError={errors.position?.hasError}
         {...getOverrideProps(overrides, "position")}
+      ></TextField>
+      <TextField
+        label="Location"
+        isRequired={false}
+        isReadOnly={false}
+        value={location}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              user,
+              position,
+              location: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.location ?? value;
+          }
+          if (errors.location?.hasError) {
+            runValidationTasks("location", value);
+          }
+          setLocation(value);
+        }}
+        onBlur={() => runValidationTasks("location", location)}
+        errorMessage={errors.location?.errorMessage}
+        hasError={errors.location?.hasError}
+        {...getOverrideProps(overrides, "location")}
       ></TextField>
       <Flex
         justifyContent="space-between"

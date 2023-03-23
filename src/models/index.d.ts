@@ -117,6 +117,7 @@ type EagerPlayersSoccer = {
   readonly user?: string | null;
   readonly position?: string | null;
   readonly PlayerDivisionStats?: (PlayerDivisionStats | null)[] | null;
+  readonly location?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -130,6 +131,7 @@ type LazyPlayersSoccer = {
   readonly user?: string | null;
   readonly position?: string | null;
   readonly PlayerDivisionStats?: (PlayerDivisionStats | null)[] | null;
+  readonly location?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
