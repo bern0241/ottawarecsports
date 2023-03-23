@@ -1,9 +1,10 @@
 /**
- * Last updated: 2023-03-21
+ * Last updated: 2023-03-23
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
@@ -99,7 +100,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 		<>
 			<div
 				id="defaultModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-hidden="true"
 				className="fixed top-0 bottom-0 left-0 right-0 z-[30] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
 			>

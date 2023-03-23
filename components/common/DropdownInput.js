@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-21
+ * Last updated: 2023-03-23
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 
 import React from 'react';
@@ -26,8 +27,8 @@ const DropdownInput = ({ options, value, setValue }) => {
 				}}
 				className="w-3/4 rounded border border-brand-neutral-300 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 			>
-				{options.map((option) => (
-					<option value={option}>{option}</option>
+				{options.map((option, index) => (
+					<option key={index} value={option}>{option}</option>
 				))}
 			</select>
 			<span className="absolute right-2 top-1/2 -translate-y-1/2">
