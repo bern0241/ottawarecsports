@@ -70,7 +70,7 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 								</div>
 								<div>
 									<div className="mb-2 block">
-										<Label htmlFor="email" value="Confirm Email" />
+										<Label htmlFor="email" value="New Email" />
 									</div>
 									<TextInput
 										id="confirmEmail"
