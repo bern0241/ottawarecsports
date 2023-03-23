@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-15
+ * Last updated: 2023-03-22
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
@@ -96,7 +96,6 @@ export const updateUserInfo = async (id, updatedData) => {
 				},
 			},
 		});
-		console.log(resp);
 		return resp;
 	} catch (err) {
 		console.warn(err);

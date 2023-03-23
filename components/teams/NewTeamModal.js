@@ -11,9 +11,14 @@ import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
 import PlayersTable from './PlayersTable';
 import UserProfilePictureEdit from '../admin-portal/ACPEditUserModal/UserProfilePictureEdit';
-import { createTeam, uploadNewImageToS3 } from '@/utils/graphql.services';
+import {
+	createTeam,
+	uploadNewImageToS3,
+	updatePlayerSoccer,
+} from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
+const { v4: uuidv4 } = require('uuid');
 
 const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 	const [maxMembers, setMaxMembers] = useState(0);
@@ -24,9 +29,30 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
+	const addTeamToPlayerProfile = (teamId) => {
+		if (!teamRoster) return;
+		const playerDivisionStat = {
+			id: uuidv4(),
+			team: teamId,
+			division: '',
+			goals: 0,
+			assists: 0,
+			yellow_cards: 0,
+			red_cards: 0,
+			games_played: 0,
+		};
+		teamRoster.forEach((player) => {
+			updatePlayerSoccer({
+				id: player.id,
+				PlayerDivisionStats: playerDivisionStat,
+			});
+		});
+	};
 	const addNewTeam = async () => {
+		const randomId = uuidv4();
 		const imageKey = await uploadNewImageToS3(makeid(15), profilePic);
 		const teamData = {
+			id: randomId,
 			name: teamName,
 			founded: Date.now(),
 			home_colour: homeColour,
@@ -34,7 +60,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 			team_picture: imageKey,
 			team_history: {
 				captains: [teamCaptain],
-				team: '',
+				team: randomId,
 				division: '',
 				roster: teamRoster,
 				goals: 0,
@@ -45,6 +71,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 			},
 		};
 		const resp = await createTeam(teamData);
+		addTeamToPlayerProfile();
 		if (resp) {
 			setIsVisible(false);
 			resetData();
