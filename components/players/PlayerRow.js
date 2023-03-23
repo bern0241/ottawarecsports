@@ -11,6 +11,7 @@ import Link from 'next/link';
 
 export default function PlayerRow({ player, index }) {
 	const router = useRouter();
+	console.log(player);
 
 	// Reference: Stack Overflow/Roy <https://stackoverflow.com/questions/73598303/calculate-age-in-js-given-the-birth-date-in-dd-mm-yyyy-format>
 	function calculateAge(dob) {
@@ -41,47 +42,40 @@ export default function PlayerRow({ player, index }) {
 					></img>
 					<div className="flex flex-col gap-1">
 						<h1 className="font-medium">
-							{player.Attributes.find((o) => o.Name === 'name')['Value']}{' '}
-							{player.Attributes.find((o) => o.Name === 'family_name')['Value']}
+							{player.user.slice(0,1)}{". "}
+							{player.user.split(' ')[1]}
+							
 						</h1>
 						<div className="flex text-sm font-light">
-							<span className="mr-5">
+							{/* <span className="mr-5">
 								{calculateAge(
 									player.Attributes.find((o) => o.Name === 'birthdate')['Value']
 								)}
 							</span>
 							<span>
 								{player.Attributes.find((o) => o.Name === 'gender')['Value']}
-							</span>
+							</span> */}
 						</div>
 					</div>
 				</div>
 			</td>
 			<td className="p-5 font-light">
-				{player.Attributes.find((o) => o.Name === 'custom:location')['Value']}
+				{/* {player.Attributes.find((o) => o.Name === 'custom:location')['Value']} */}
+				{player.location}
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{/* {player.teams.slice(0, 2).map((team) => (
-						<div key={team.id}>{team.sport}</div>
-					))} */}
-					...sports
+					Soccer
 				</div>
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{/* {player.teams.slice(0, 2).map((team) => (
-						<div key={team.id}>{team.name}</div>
-					))} */}
-					...teams
+					{player.PlayerDivisionStats[0].team}
 				</div>
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{/* {player.teams.slice(0, 2).map((team) => (
-						<div key={team.id}>{team.role}</div>
-					))} */}
-					...roles
+					{player.PlayerDivisionStats[0].position}
 				</div>
 			</td>
 		</tr>

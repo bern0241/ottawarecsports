@@ -16,16 +16,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type PlayersSoccerUpdateFormInputValues = {
     user?: string;
     position?: string;
+    location?: string;
 };
 export declare type PlayersSoccerUpdateFormValidationValues = {
     user?: ValidationFunction<string>;
     position?: ValidationFunction<string>;
+    location?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PlayersSoccerUpdateFormOverridesProps = {
     PlayersSoccerUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     user?: PrimitiveOverrideProps<TextFieldProps>;
     position?: PrimitiveOverrideProps<TextFieldProps>;
+    location?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PlayersSoccerUpdateFormProps = React.PropsWithChildren<{
     overrides?: PlayersSoccerUpdateFormOverridesProps | undefined | null;
