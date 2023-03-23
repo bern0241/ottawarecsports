@@ -12,13 +12,19 @@ import { IconCameraPlus } from '@tabler/icons-react';
 import Head from 'next/head';
 import SettingsPage from '@/components/settings-page/SettingPage';
 import { useUser } from '@/context/userContext';
-import { changeUserAttributes } from '@/utils/graphql.services';
-
+import {
+	changeUserAttributes,
+	uploadNewImageToS3,
+} from '@/utils/graphql.services';
+import SettingsProfileImage from '../components/settings-page/SettingsProfileImage';
+import makeid from '@/utils/makeId';
 export default function Setting() {
 	const [user] = useUser();
 	const [userAttributes, setUserAttributes] = useState({});
+	const [profilePic, setProfilePic] = useState('');
 	const saveAttributes = async () => {
-		await changeUserAttributes(userAttributes);
+		const imageKey = await uploadNewImageToS3(makeid(15), profilePic);
+		await changeUserAttributes({ ...userAttributes, picture: imageKey });
 	};
 	if (!user) {
 		return (
@@ -56,14 +62,24 @@ export default function Setting() {
 							<div className="flex justify-center">
 								<div className="lg:flex lg:flex-row gap-4 m-5">
 									<div>
-										<div className="w-[200px] h-[200px] border rounded-full overflow-hidden">
-											<Image
-												src={'/images/defaultProfilePic.jpeg'}
-												alt="profile pic"
-												width={200}
-												height={200}
-												priority
-											/>
+										<div className="w-[200px] h-[200px] rounded-full overflow-hidden">
+											{user.attributes.profilePicture === 'none' ? (
+												<Image
+													src={'/images/defaultProfilePic.jpeg'}
+													alt="profile pic"
+													width={200}
+													height={200}
+													priority
+												/>
+											) : (
+												<>
+													<SettingsProfileImage
+														userAttributes={user.attributes}
+														profilePic={profilePic}
+														setProfilePic={setProfilePic}
+													/>
+												</>
+											)}
 										</div>
 										<IconCameraPlus className="ml-40" />
 									</div>
