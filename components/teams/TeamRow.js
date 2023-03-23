@@ -23,6 +23,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 	useEffect(() => {
 		getPicture();
 	}, []);
+
 	return (
 		<tr key={team.id} className="border-b border-brand-neutral-300">
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
@@ -36,11 +37,16 @@ export default function TeamRow({ team, setCurrentTeam }) {
 				</div>
 			</td>
 			<td className="p-5">
-				{currentSeason.captains[0].charAt(0) || 'J'}.{' '}
-				{currentSeason.captains[0].split(' ')[1] || 'Doe'}
+				{currentSeason
+					? currentSeason.captains.map((captain, index) => (
+							<span key={index}>{captain}</span>
+					  ))
+					: 'John Doe'}
 			</td>
 			<td className="p-5">{team.sports || 'Soccer'}</td>
-			<td className="p-5">{currentSeason.roster.length || 0}/15</td>
+			<td className="p-5">
+				{currentSeason ? currentSeason.roster.length : 0}/15
+			</td>
 			<td className="p-5">{team.notes}</td>
 			<td className="p-5">
 				<div className="flex">
