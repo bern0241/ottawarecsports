@@ -9,9 +9,11 @@
 import React, { useState } from 'react';
 import ChangePasswordSetup from './ChangePassword';
 import SettingPasswordField from './SettingPasswordField';
+import { changeUserPassword } from '@/utils/graphql.services';
 
 export default function PasswordModal({ setEnterPasswordModal2 }) {
 	const [passwordModal, setPasswordModal] = useState(false);
+	const [password, setPassword] = useState('');
 
 	return (
 		<>
@@ -37,6 +39,8 @@ export default function PasswordModal({ setEnterPasswordModal2 }) {
 								id="currentPassword2"
 								placeholder="Password"
 								className="h-[40px] w-full"
+								state={password}
+								setState={setPassword}
 							/>
 						</div>
 						{/* <!-- Modal footer --> */}
@@ -72,7 +76,10 @@ export default function PasswordModal({ setEnterPasswordModal2 }) {
 			/>
 
 			{passwordModal && (
-				<ChangePasswordSetup setPasswordModal={setPasswordModal} />
+				<ChangePasswordSetup
+					oldPassword={password}
+					setPasswordModal={setPasswordModal}
+				/>
 			)}
 		</>
 	);

@@ -13,7 +13,6 @@ import SettingsForm from './SettingForm';
 export default function SettingsPage({ setUserAttributes, saveAttributes }) {
 	const [enterPasswordModal, setEnterPasswordModal] = useState(false);
 	const [enterPasswordModal2, setEnterPasswordModal2] = useState(false);
-	const [password, setPassword] = useState('');
 	return (
 		<div className="flex items-center">
 			<SettingsForm
