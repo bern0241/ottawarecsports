@@ -1,5 +1,9 @@
 import React from 'react';
 
 export default function TeamProfile() {
-	return <div>The team profile goes here.</div>;
+	return(
+		<main className="w-full h-screen flex flex-col gap-6 p-8">
+			Here
+		</main>
+	);
 }

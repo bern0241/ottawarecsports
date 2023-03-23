@@ -68,7 +68,7 @@ export default function Players() {
 	return (
 		<>
 			{/* Content */}
-			<main className="w-full h-screen mt-16 flex flex-col gap-6 p-8">
+			<main className="w-full h-screen flex flex-col gap-6 p-8">
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'player-search'}

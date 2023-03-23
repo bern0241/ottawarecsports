@@ -19,7 +19,7 @@ export default function PlayerProfile() {
 	return (
 		<>
 			{/* Content */}
-			<main className="w-full h-screen mt-16 flex flex-col gap-6 p-8">
+			<main className="w-full h-screen flex flex-col gap-6 p-8">
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
