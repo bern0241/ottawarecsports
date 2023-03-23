@@ -3,10 +3,26 @@ import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import Image from 'next/image';
+import TeamMembers from '@/components/team-profile/TeamMembers';
 
 export default function TeamProfile() {
 	const router = useRouter();
 	const teamId = router.query.id;
+
+	const members = [
+		{
+			name: "John",
+			lastName: "Doe"
+		},
+		{
+			name: "Jane",
+			lastName: "Doe"
+		},
+		{
+			name: "Emma",
+			lastName: "Smith"
+		}
+	]
 
 	return (
 		<main className="w-full h-screen flex flex-col gap-6 p-8">
@@ -131,14 +147,16 @@ export default function TeamProfile() {
 										class="w-4 h-4 text-brand-blue-800 bg-gray-100 border-gray-300 rounded"
 										checked
 									/>
-									<label
-										for="all-checkbox"
-										class="ml-2 text-gray-900"
-									>
+									<label for="all-checkbox" class="ml-2 text-gray-900">
 										Anyone
 									</label>
 								</div>
 							</div>
+						</div>
+						{/* Player Teams */}
+						<div className="col-span-2">
+							<h2 className="mb-1 font-light">Members</h2>
+							<TeamMembers members={members} />
 						</div>
 					</div>
 				</div>

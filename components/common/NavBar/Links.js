@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-18
+ * Last updated: 2023-03-23
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com>
  */
 
 import Link from 'next/link';
