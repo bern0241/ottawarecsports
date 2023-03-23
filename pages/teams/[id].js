@@ -48,11 +48,12 @@ export default function TeamProfile() {
 							className="rounded-full self-center"
 							width="200"
 							height="200"
+							alt="Team profile image."
 						></img>
 						<div className="flex justify-center gap-1">
-							<Image src="/images/medal.png" width="26" height="26" />
-							<Image src="/images/medal.png" width="26" height="26" />
-							<Image src="/images/medal.png" width="26" height="26" />
+							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
 					</div>
 
@@ -145,7 +146,7 @@ export default function TeamProfile() {
 										type="checkbox"
 										value=""
 										class="w-4 h-4 text-brand-blue-800 bg-gray-100 border-gray-300 rounded"
-										checked
+										defaultChecked
 									/>
 									<label for="all-checkbox" class="ml-2 text-gray-900">
 										Anyone

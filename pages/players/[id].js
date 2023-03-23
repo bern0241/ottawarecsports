@@ -42,11 +42,12 @@ export default function PlayerProfile() {
 								className="rounded-full self-center"
 								width="200"
 								height="200"
+								alt="Player profile image."
 							></img>
 							<div className="flex justify-center gap-1">
-								<Image src="/images/medal.png" width="26" height="26" />
-								<Image src="/images/medal.png" width="26" height="26" />
-								<Image src="/images/medal.png" width="26" height="26" />
+								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							</div>
 						</div>
 

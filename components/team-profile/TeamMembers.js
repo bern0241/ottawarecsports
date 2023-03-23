@@ -20,7 +20,7 @@ export default function TeamMembers({ members }) {
 								type="text"
 								className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
 								placeholder="Search"
-								value=""
+								defaultValue=""
 							/>
 							<span className="absolute right-2 top-1/2 -translate-y-1/2">
 								<IconSearch />
