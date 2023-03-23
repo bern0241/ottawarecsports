@@ -6,15 +6,15 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { Button, Flex, Grid } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { PlayersSoccer } from "../models";
+import { SportsmanshipPoint } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PlayersSoccerUpdateForm(props) {
+export default function SportsmanshipPointUpdateForm(props) {
   const {
     id: idProp,
-    playersSoccer,
+    sportsmanshipPoint,
     onSuccess,
     onError,
     onSubmit,
@@ -23,37 +23,27 @@ export default function PlayersSoccerUpdateForm(props) {
     overrides,
     ...rest
   } = props;
-  const initialValues = {
-    user: "",
-    position: "",
-  };
-  const [user, setUser] = React.useState(initialValues.user);
-  const [position, setPosition] = React.useState(initialValues.position);
+  const initialValues = {};
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = playersSoccerRecord
-      ? { ...initialValues, ...playersSoccerRecord }
+    const cleanValues = sportsmanshipPointRecord
+      ? { ...initialValues, ...sportsmanshipPointRecord }
       : initialValues;
-    setUser(cleanValues.user);
-    setPosition(cleanValues.position);
     setErrors({});
   };
-  const [playersSoccerRecord, setPlayersSoccerRecord] =
-    React.useState(playersSoccer);
+  const [sportsmanshipPointRecord, setSportsmanshipPointRecord] =
+    React.useState(sportsmanshipPoint);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(PlayersSoccer, idProp)
-        : playersSoccer;
-      setPlayersSoccerRecord(record);
+        ? await DataStore.query(SportsmanshipPoint, idProp)
+        : sportsmanshipPoint;
+      setSportsmanshipPointRecord(record);
     };
     queryData();
-  }, [idProp, playersSoccer]);
-  React.useEffect(resetStateValues, [playersSoccerRecord]);
-  const validations = {
-    user: [],
-    position: [],
-  };
+  }, [idProp, sportsmanshipPoint]);
+  React.useEffect(resetStateValues, [sportsmanshipPointRecord]);
+  const validations = {};
   const runValidationTasks = async (
     fieldName,
     currentValue,
@@ -78,10 +68,7 @@ export default function PlayersSoccerUpdateForm(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {
-          user,
-          position,
-        };
+        let modelFields = {};
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
@@ -111,7 +98,7 @@ export default function PlayersSoccerUpdateForm(props) {
             }
           });
           await DataStore.save(
-            PlayersSoccer.copyOf(playersSoccerRecord, (updated) => {
+            SportsmanshipPoint.copyOf(sportsmanshipPointRecord, (updated) => {
               Object.assign(updated, modelFields);
             })
           );
@@ -124,59 +111,9 @@ export default function PlayersSoccerUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PlayersSoccerUpdateForm")}
+      {...getOverrideProps(overrides, "SportsmanshipPointUpdateForm")}
       {...rest}
     >
-      <TextField
-        label="User"
-        isRequired={false}
-        isReadOnly={false}
-        value={user}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              user: value,
-              position,
-            };
-            const result = onChange(modelFields);
-            value = result?.user ?? value;
-          }
-          if (errors.user?.hasError) {
-            runValidationTasks("user", value);
-          }
-          setUser(value);
-        }}
-        onBlur={() => runValidationTasks("user", user)}
-        errorMessage={errors.user?.errorMessage}
-        hasError={errors.user?.hasError}
-        {...getOverrideProps(overrides, "user")}
-      ></TextField>
-      <TextField
-        label="Position"
-        isRequired={false}
-        isReadOnly={false}
-        value={position}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              user,
-              position: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.position ?? value;
-          }
-          if (errors.position?.hasError) {
-            runValidationTasks("position", value);
-          }
-          setPosition(value);
-        }}
-        onBlur={() => runValidationTasks("position", position)}
-        errorMessage={errors.position?.errorMessage}
-        hasError={errors.position?.hasError}
-        {...getOverrideProps(overrides, "position")}
-      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -188,7 +125,7 @@ export default function PlayersSoccerUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || playersSoccer)}
+          isDisabled={!(idProp || sportsmanshipPoint)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -200,7 +137,7 @@ export default function PlayersSoccerUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || playersSoccer) ||
+              !(idProp || sportsmanshipPoint) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

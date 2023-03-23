@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-15
+ * Last updated: 2023-03-22
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
@@ -10,7 +10,17 @@ import { API } from 'aws-amplify';
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 import { Auth } from 'aws-amplify';
+import makeid from '@/utils/makeId';
+import AWS from 'aws-sdk';
 
+const s3 = new AWS.S3({
+	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
+	signatureVersion: 'v4',
+	region: 'us-east-1',
+});
+const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+const signedUrlExpireSeconds = 60 * 1;
 /**
  * Returns all players in the database
  * @returns {[Object]} Player objects in an array
@@ -20,7 +30,7 @@ export const getAllPlayers = async () => {
 		const resp = await API.graphql({
 			query: queries.listPlayersSoccers,
 		});
-		return resp.data.listPlayersSoccers.items;
+		return resp.data.listPlayersSoccers.items.filter((item) => !item._deleted);
 	} catch (err) {
 		console.warn(err);
 	}
@@ -86,13 +96,16 @@ export const updateUserInfo = async (id, updatedData) => {
 				},
 			},
 		});
-		console.log(resp);
 		return resp;
 	} catch (err) {
 		console.warn(err);
 	}
 };
 
+/**
+ * Returns the current authenticated user
+ * @returns {Object} the current authenticated user object.
+ */
 export const getCurrentUser = async () => {
 	try {
 		const user = await Auth.currentAuthenticatedUser();
@@ -133,4 +146,101 @@ export const changeUserPassword = async (oldPassword, newPassword) => {
 	} catch (err) {
 		console.warn(err);
 	}
+};
+/**
+ * Create a team object
+ * @param {object} teamData An object containing the team data.
+ * @returns {String} The result of the operation.
+ */
+export const createTeam = async (teamData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.createTeams,
+			variables: {
+				input: teamData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+/**
+ * Update a team
+ * @param {object} teamData An object containing the fields that needs to be updated.
+ * @returns {String} The result of the operation.
+ */
+export const updateTeam = async (teamData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.updateTeams,
+			variables: {
+				input: teamData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+/**
+ * Update a soccer player
+ * @param {object} teamData An object containing the fields that needs to be updated.
+ * @returns {String} The result of the operation.
+ */
+export const updatePlayerSoccer = async (newData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.updatePlayersSoccer,
+			variables: {
+				input: newData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+/**
+ * Uploads an image to s3
+ * @param {String} imageKey An unique identifier for the file.
+ * @param {Object} image The image object
+ * @returns {String} The file url
+ */
+export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
+	try {
+		if (!image) return;
+		const params = {
+			Bucket: bucketName,
+			Key: imageKey,
+			Body: image,
+			ContentType: image.type,
+		};
+		// Upload the image to S3
+		s3.upload(params, (err, data) => {
+			if (err) {
+				// fail
+				console.warn(err);
+			} else {
+				// success
+				return data.Location;
+			}
+		});
+		return imageKey;
+	} catch (error) {
+		console.error(error);
+	}
+};
+/**
+ * Gets a file from s3
+ * @param {String} Key An unique identifier for the file.
+ * @returns {String} The file url
+ */
+export const getImageFromS3 = async (key) => {
+	const url = s3.getSignedUrl('getObject', {
+		Bucket: bucketName,
+		Key: key,
+		Expires: signedUrlExpireSeconds,
+	});
+	return url;
 };

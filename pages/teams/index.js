@@ -5,51 +5,37 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
+import {
+	getAllTeams,
+	createTeam,
+	getAllPlayers,
+} from '@/utils/graphql.services';
+import NewTeamModal from '@/components/teams/NewTeamModal';
+import CurrentTeamView from '@/components/teams/CurrentTeamView';
 
 export default function Teams() {
-	const teamsList = [
-		{
-			id: 1,
-			name: 'The A Team',
-			captain: {
-				firstName: 'Steve',
-				lastName: 'Boggers',
-			},
-			sports: 'Multi-Sport',
-			teamMembers: 13,
-			notes: 'Co-Ed',
-		},
-		{
-			id: 1,
-			name: 'The Mighty Quacks',
-			captain: {
-				firstName: 'Barry',
-				lastName: 'Lewis',
-			},
-			sports: 'Soccer',
-			teamMembers: 15,
-			notes: 'Co-Ed',
-		},
-		{
-			id: 1,
-			name: 'Killer Heels',
-			captain: {
-				firstName: 'Tara',
-				lastName: 'Jones',
-			},
-			sports: 'Soccer',
-			teamMembers: 15,
-			notes: 'Women Only',
-		},
-	];
+	const [teams, setTeams] = useState([]);
+	const [modalVisible, setModalVisible] = useState(false);
+	const [currentTeam, setCurrentTeam] = useState(null);
+	const [players, setPlayers] = useState([]);
 
-	const [teams, setTeams] = useState(teamsList);
-
+	const getPlayersData = async () => {
+		const response = await getAllPlayers();
+		setPlayers(response);
+	};
+	const getTeamsData = async () => {
+		const response = await getAllTeams();
+		setTeams(response);
+	};
+	useEffect(() => {
+		getTeamsData();
+		getPlayersData();
+	}, []);
 	/**
 	 * Filter teams by name using the search input value.
 	 * @param {[Object]} ev Click event
@@ -60,7 +46,7 @@ export default function Teams() {
 			.getElementById('team-search')
 			.value.toLowerCase();
 
-		let filteredTeams = teamsList.filter((team) => {
+		let filteredTeams = teams.filter((team) => {
 			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
 			const arr = searchValue.split(' ');
 			return arr.some((el) => team.name.toLowerCase().includes(el));
@@ -69,9 +55,30 @@ export default function Teams() {
 		setTeams(filteredTeams);
 	}
 
+	const addNewTeam = async () => {
+		const resp = await createTeam({
+			name: 'test team',
+			founded: Date.now(),
+			home_colour: 'Red',
+			away_colour: 'Green',
+			team_history: [],
+			team_picture: '',
+		});
+		console.log(resp);
+	};
+	if (currentTeam)
+		return (
+			<CurrentTeamView teamData={currentTeam} setCurrentTeam={setCurrentTeam} />
+		);
+
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8">
+				<NewTeamModal
+					isVisible={modalVisible}
+					setIsVisible={setModalVisible}
+					players={players}
+				/>
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'team-search'}
@@ -85,6 +92,7 @@ export default function Teams() {
 						<Button
 							pill={true}
 							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							onClick={() => setModalVisible(true)}
 						>
 							<IconCirclePlus className="mr-2 h-5 w-5" />
 							Add A Team
@@ -106,7 +114,11 @@ export default function Teams() {
 						</thead>
 						<tbody>
 							{teams.map((team, index) => (
-								<TeamRow key={team.id} team={team} />
+								<TeamRow
+									key={team.id}
+									team={team}
+									setCurrentTeam={setCurrentTeam}
+								/>
 							))}
 
 							<tr>
