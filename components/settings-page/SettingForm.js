@@ -47,6 +47,7 @@ export default function SettingsForm({
 		// check if the date or month has 1 characters, if yes add 0
 		dateToArr = dateToArr.map((item) => {
 			if (item.length === 1) return `0${item}`;
+			return item;
 		});
 		dateToArr.unshift(...year);
 		setBirthDate(dateToArr.join('-'));
