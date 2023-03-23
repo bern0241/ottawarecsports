@@ -10,8 +10,10 @@ import { useState, useEffect } from 'react';
 import { IconEdit } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
 import { getImageFromS3 } from '@/utils/graphql.services';
+import { useRouter } from 'next/router';
 
 export default function TeamRow({ team, setCurrentTeam }) {
+	const router = useRouter();
 	const [profileImage, setProfileImage] = useState('');
 	const currentSeason = team.team_history[0];
 	const getPicture = async () => {
@@ -20,12 +22,22 @@ export default function TeamRow({ team, setCurrentTeam }) {
 		const url = await getImageFromS3(team.team_picture);
 		setProfileImage(url);
 	};
+
 	useEffect(() => {
 		getPicture();
 	}, []);
 
+	const navigateToProfile = () => {
+		router.push(`/teams/${team.id}`);
+		// Alternatively, we could use: team.name.replace(/\s+/g, '-').toLowerCase()
+	};
+
 	return (
-		<tr key={team.id} className="border-b border-brand-neutral-300">
+		<tr
+			key={team.id}
+			className="border-b border-brand-neutral-300"
+			onClick={navigateToProfile}
+		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
 				<div className="flex items-center">
@@ -47,8 +59,8 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			<td className="p-5">
 				{currentSeason ? currentSeason.roster.length : 0}/15
 			</td>
-			<td className="p-5">{team.notes}</td>
-			<td className="p-5">
+			<td className="p-5">{team.notes ? team.notes : "N/A"}</td>
+			{/* <td className="p-5">
 				<div className="flex">
 					<IconEdit
 						className="text-brand-blue-900 mr-3"
@@ -56,7 +68,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 					/>
 					<IconTrash className="text-brand-orange-800 hover:bg-blue-400" />
 				</div>
-			</td>
+			</td> */}
 		</tr>
 	);
 }

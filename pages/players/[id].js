@@ -19,7 +19,7 @@ export default function PlayerProfile() {
 	return (
 		<>
 			{/* Content */}
-			<main className="w-full h-screen mt-16 flex flex-col gap-6 p-8">
+			<main className="w-full h-screen flex flex-col gap-6 p-8">
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
@@ -42,11 +42,12 @@ export default function PlayerProfile() {
 								className="rounded-full self-center"
 								width="200"
 								height="200"
+								alt="Player profile image."
 							></img>
 							<div className="flex justify-center gap-1">
-								<Image src="/images/medal.png" width="26" height="26" />
-								<Image src="/images/medal.png" width="26" height="26" />
-								<Image src="/images/medal.png" width="26" height="26" />
+								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							</div>
 						</div>
 

@@ -20,6 +20,7 @@ import CurrentTeamView from '@/components/teams/CurrentTeamView';
 
 export default function Teams() {
 	const [teams, setTeams] = useState([]);
+	const [filteredTeams, filterTeams] = useState([]);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [currentTeam, setCurrentTeam] = useState(null);
 	const [players, setPlayers] = useState([]);
@@ -31,11 +32,13 @@ export default function Teams() {
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
 		setTeams(response);
+		filterTeams(response);
 	};
 	useEffect(() => {
 		getTeamsData();
 		getPlayersData();
 	}, []);
+
 	/**
 	 * Filter teams by name using the search input value.
 	 * @param {[Object]} ev Click event
@@ -52,7 +55,7 @@ export default function Teams() {
 			return arr.some((el) => team.name.toLowerCase().includes(el));
 		});
 
-		setTeams(filteredTeams);
+		filterTeams(filteredTeams);
 	}
 
 	const addNewTeam = async () => {
@@ -109,11 +112,11 @@ export default function Teams() {
 									Team Members
 								</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">Notes</th>
-								<th className="py-3 px-5 text-sm font-light">Action</th>
+								{/* <th className="py-3 px-5 text-sm font-light">Action</th> */}
 							</tr>
 						</thead>
 						<tbody>
-							{teams.map((team, index) => (
+							{filteredTeams.map((team, index) => (
 								<TeamRow
 									key={team.id}
 									team={team}
