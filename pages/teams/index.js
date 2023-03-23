@@ -109,7 +109,7 @@ export default function Teams() {
 									Team Members
 								</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">Notes</th>
-								<th className="py-3 px-5 text-sm font-light">Action</th>
+								{/* <th className="py-3 px-5 text-sm font-light">Action</th> */}
 							</tr>
 						</thead>
 						<tbody>
