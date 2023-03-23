@@ -13,8 +13,10 @@ import {
 	changeUserAttributes,
 	verifyUserAttributes,
 } from '@/utils/graphql.services';
+import { useRouter } from 'next/router';
 
 export default function ChangeEmailSetup({ setEmailModal }) {
+	const router = useRouter();
 	const [currentEmail, setCurrentEmail] = useState('');
 	const [confirmEmail, setConfirmEmail] = useState('');
 	const [verificationModal, setVerificationModal] = useState(false);
@@ -26,7 +28,10 @@ export default function ChangeEmailSetup({ setEmailModal }) {
 	};
 	const confirmNewEmail = async (confirmationCode) => {
 		const resp = await verifyUserAttributes(confirmationCode);
-		if (resp === 'SUCCESS') setVerificationModal(false);
+		if (resp === 'SUCCESS') {
+			setVerificationModal(false);
+			router.reload();
+		}
 	};
 	return (
 		<>

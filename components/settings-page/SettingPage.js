@@ -20,7 +20,6 @@ export default function SettingsPage({ setUserAttributes, saveAttributes }) {
 				setEnterPasswordModal2={setEnterPasswordModal2}
 				setUserAttributes={setUserAttributes}
 			/>
-
 			{/* MODALS */}
 			<div>
 				{/* Email Change */}
@@ -28,9 +27,9 @@ export default function SettingsPage({ setUserAttributes, saveAttributes }) {
 					<EmailModal
 						setEnterPasswordModal={setEnterPasswordModal}
 						saveAttributes={saveAttributes}
+						setUserAttributes={setUserAttributes}
 					/>
 				)}
-
 				{/* Password Change */}
 				{enterPasswordModal2 && (
 					<PasswordModal setEnterPasswordModal2={setEnterPasswordModal2} />

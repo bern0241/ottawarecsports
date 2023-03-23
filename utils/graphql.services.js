@@ -108,7 +108,7 @@ export const updateUserInfo = async (id, updatedData) => {
  */
 export const getCurrentUser = async () => {
 	try {
-		const user = await Auth.currentAuthenticatedUser();
+		const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
 		return user;
 	} catch (err) {
 		console.warn(err);
