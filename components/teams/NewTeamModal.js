@@ -71,7 +71,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 			},
 		};
 		const resp = await createTeam(teamData);
-		addTeamToPlayerProfile();
+		addTeamToPlayerProfile(randomId);
 		if (resp) {
 			setIsVisible(false);
 			resetData();
