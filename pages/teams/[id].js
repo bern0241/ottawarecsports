@@ -4,7 +4,7 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import Image from 'next/image';
 import TeamMembers from '@/components/team-profile/TeamMembers';
-import { getAllPlayers, getAllTeams } from '@/utils/graphql.services';
+import { getAllTeams } from '@/utils/graphql.services';
 
 export default function TeamProfile() {
 	const router = useRouter();
@@ -100,79 +100,36 @@ export default function TeamProfile() {
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Max Members</h3>
+							<h3 className="mb-1 font-light">Members</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 								15
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Team Colours</h3>
+							<h3 className="mb-1 font-light">Home Colours</h3>
 							<div className="flex flex-wrap gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{/* Home Colour */}
-								<div className="flex items-center gap-2">
-									<div className="w-4 h-4 bg-red-500 rounded-sm border border-black"></div>{' '}
-									Red
+							<div className={team[0] ? `bg-${team[0].home_colour.toLocaleLowerCase()}-700 text-${team[0].home_colour.toLocaleLowerCase()}-700`: ''}>
+									HH
 								</div>
-								{/* Away Colour */}
-								<div className="flex items-center gap-2">
-									<div className="w-4 h-4 bg-white rounded-sm border border-black"></div>{' '}
-									White
+								<div>
+									{team[0] ? team[0].home_colour : " "}
 								</div>
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Who Can Join?</h3>
-							<div className="flex flex-wrap gap-4 py-2 px-3 font-medium">
-								{/* Men Checkbox */}
-								<div class="flex items-center">
-									<input
-										id="men-checkbox"
-										type="checkbox"
-										value=""
-										class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-										disabled
-									/>
-									<label
-										for="men-checkbox"
-										class="ml-2 text-gray-900 dark:text-gray-300"
-									>
-										Men
-									</label>
+							<h3 className="mb-1 font-light">Away Colours</h3>
+							<div className="flex flex-wrap gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div className={team[0] ? `bg-${team[0].away_colour.toLocaleLowerCase()}-700 text-${team[0].away_colour.toLocaleLowerCase()}-700`: ''}>
+									HH
 								</div>
-
-								{/* Women Checkbox */}
-								<div class="flex items-center">
-									<input
-										id="women-checkbox"
-										type="checkbox"
-										value=""
-										class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-										disabled
-									/>
-									<label
-										for="women-checkbox"
-										class="ml-2 text-gray-900 dark:text-gray-300"
-									>
-										Women
-									</label>
-								</div>
-								{/* Anyone Checkbox */}
-								<div class="flex items-center">
-									<input
-										id="all-checkbox"
-										type="checkbox"
-										value=""
-										class="w-4 h-4 text-brand-blue-800 bg-gray-100 border-gray-300 rounded"
-										defaultChecked
-									/>
-									<label for="all-checkbox" class="ml-2 text-gray-900">
-										Anyone
-									</label>
+								<div>
+									{team[0] ? team[0].away_colour : " "}
 								</div>
 							</div>
 						</div>
+
 						{/* Player Teams */}
 						<div className="col-span-2">
 							<h2 className="mb-1 font-light">Members</h2>
