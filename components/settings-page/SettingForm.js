@@ -50,6 +50,7 @@ export default function SettingsForm({
 		});
 		dateToArr.unshift(...year);
 		setBirthDate(dateToArr.join('-'));
+		setBirthDate(date);
 	};
 	useEffect(() => {
 		getUserAttributes();

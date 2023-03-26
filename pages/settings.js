@@ -76,10 +76,10 @@ export default function Setting() {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<link rel="icon" href="/images/ORS-Logo.png" />
 				</Head>
-				<main className='mx-auto w-full'>
-					<div className="bg-white m-3 p-3 lg:max-w-[50em] max-w-[26em] mx-auto">
+				<main className='mx-auto w-full m-4'>
+					<div className="bg-white lg:max-w-[50em] max-w-[26em] mx-auto border-gray-500 border-[.1px] ">
 						<div className="border-b border-[#c0c0c0] h-[50px] ">
-							<p className="font-medium text-base self">My Profile</p>
+							<p className="font-medium text-base self p-3 ml-3">My Profile</p>
 						</div>
 						<div className="flex flex-col">
 							<div className="flex justify-center w-full">

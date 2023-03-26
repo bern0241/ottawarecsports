@@ -9,8 +9,11 @@ import React from 'react';
 
 const HeaderTitle = () => {
 	return (
-		<div className="p-1">
-			<p className="font-semibold text-lg">Title of Page</p>
+		<div className="p-1 pt-0 pl-7">
+			<div className='flex flex-col gap-3'>
+				<p className="font-light text-[.8rem]">Home / Settings</p>
+				<p className="font-semibold text-[1.8rem]">Settings</p>
+			</div>
 		</div>
 	);
 };

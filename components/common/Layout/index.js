@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
 	}
 
 	return (
-		<div className="">
+		<div className="mt-7">
 			{menuOpen ? (
 				<div className="h-[118.3vh] relative z-0 flex bg-transparent sm:bg-transparent">
 					<div className="w-full flex flex-col">
