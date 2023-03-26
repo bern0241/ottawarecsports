@@ -30,19 +30,12 @@ const RostersDropDown = () => {
 					<h1 className=" font-medium text-md pl-2">Rosters</h1>
 				</div>
 				<div className="pt-1 mr-2">
-					{showMe ? (
-						<IconChevronDown size={'1.2em'} />
-					) : (
-						<IconChevronRight size={'1.2em'} />
-					)}
+					<IconChevronRight style={{transition: '320ms', transform: showMe ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />
 				</div>
 			</button>
 			<div
-				style={{
-					display: showMe ? 'block' : 'none',
-				}}
 			>
-				<div className="border border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70">
+				<div className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${showMe ? 'h-[3.65rem]' : 'h-0'}`}>
 					<Link
 						href="/players"
 						className="my-1 hover:font-bold focus:font-bold"
