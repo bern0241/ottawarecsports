@@ -1,13 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import Image from 'next/image';
 import TeamMembers from '@/components/team-profile/TeamMembers';
+import { getAllPlayers, getAllTeams } from '@/utils/graphql.services';
 
 export default function TeamProfile() {
 	const router = useRouter();
 	const teamId = router.query.id;
+	const [team, setTeam] = useState([]);
+
+	useEffect(() => {
+		if(!teamId) {
+			return
+		}
+
+		fetchTeams();
+	}, [teamId]);
+
+	const fetchTeams = async () => {
+		const data = await getAllTeams();
+
+		const reqTeam = data.filter(function(data){
+			return data.id == teamId;
+		})
+		setTeam(reqTeam);
+	};
 
 	const members = [
 		{
@@ -62,21 +81,21 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Name</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								The A-Team
+								{team[0] ? team[0].name : " "}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Captain</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								John Doe
+								{team[0] ? team[0].team_history[0].captains[0] : " "}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Sport</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								Volleyball
+								Soccer
 							</div>
 						</div>
 
