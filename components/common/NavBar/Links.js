@@ -19,9 +19,10 @@ const NavbarSetup = () => {
 
 	return (
 		<div className="flex flex-col font-medium text-md">
+			<div>
 			<Link
 				href="./"
-				className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
+				className="flex flex-row p-2 ml-2 text-white/70 hover:text-white focus:text-white"
 			>
 				<div className="pt-1 ">
 					<IconHome size={'1.2em'} />
@@ -34,7 +35,7 @@ const NavbarSetup = () => {
 			{user && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
 				<Link
 					href="./admin-portal"
-					className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
+					className="flex flex-row p-2 ml-2 text-white/70 hover:text-white focus:text-white"
 				>
 					<div className="pt-1 ">
 						<IconShieldChevron size={'1.2em'} />
@@ -45,7 +46,7 @@ const NavbarSetup = () => {
 			{user ? (
 				<Link
 					href="./settings"
-					className="flex flex-row p-2 text-white/70 hover:text-white focus:text-white"
+					className="flex flex-row p-2 ml-2 text-white/70 hover:text-white focus:text-white"
 				>
 					<div className="pt-1 ">
 						<IconSettings size={'1.2em'} />
@@ -55,6 +56,7 @@ const NavbarSetup = () => {
 			) : (
 				''
 			)}
+			</div>
 		</div>
 	);
 };

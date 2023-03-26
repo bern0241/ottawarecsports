@@ -22,7 +22,7 @@ const SportsDropDown = () => {
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
 				onClick={toggle}
-				className="p-2 flex flex-row justify-between w-full"
+				className="p-2 flex flex-row ml-2 justify-between w-full"
 			>
 				<div className="flex flex-row align-middle">
 					<div className="pt-1 ">
@@ -30,7 +30,7 @@ const SportsDropDown = () => {
 					</div>
 					<h1 className=" font-medium text-md pl-2">Sports</h1>
 				</div>
-				<div className="pt-1">
+				<div className="pt-1 mr-2">
 					{showMe ? (
 						<IconChevronDown size={'1.2em'} />
 					) : (
@@ -43,7 +43,7 @@ const SportsDropDown = () => {
 					display: showMe ? 'block' : 'none',
 				}}
 			>
-				<div className="flex flex-col font-regular text-sm pl-10 bg-blue-100 text-black/70">
+				<div className="border border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70">
 					<Link href="./sports/soccer" className="my-1 hover:font-bold focus:font-bold">
 						Soccer
 					</Link>
