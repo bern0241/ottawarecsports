@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-26
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 export default function makeid(length) {
 	let result = '';
 	const characters =

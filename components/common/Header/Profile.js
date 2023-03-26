@@ -10,7 +10,7 @@ import React from 'react';
 
 const Profile = () => {
 	return (
-		<div className="flex flex-wrap gap-4 p-1 mr-2">
+		<div className="flex flex-wrap gap-4 p-1 mr-2 items-center">
 			<div className="text-black text-right">
 				<p className="font-medium text-base">Name</p>
 				<p className="font-regular text-xs">Role</p>

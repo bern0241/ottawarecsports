@@ -1,50 +1,55 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-26
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../Header';
 import NavbarMenu from '../NavBar';
+import useWindowSize from '@/utils/useWindowSize';
 
 const Layout = ({ children }) => {
-	const [menuOpen, setMenuOpen] = useState(false);
+	const [openMenu, setOpenMenu] = useState(false);
+	const [laptopSize, setLaptopSize] = useState(false);
+	const size = useWindowSize(); // Determines size of browser window
 
-	function showMenu() {
-		setMenuOpen(!menuOpen);
-	}
+	// Checks size of window screen and sets laptopSize state
+	useEffect(() => {
+		console.log(size.width);
+        if (size.width >= 640) {
+			setLaptopSize(true);
+        } else {
+			setLaptopSize(false);
+		}
+    }, [size.width])
+
+	useEffect(() => {
+		if (laptopSize) {
+			setOpenMenu(true);
+		}
+		if (!laptopSize) {
+			setOpenMenu(false);
+		}
+	}, [laptopSize])
 
 	return (
-		<div className="mt-7">
-			{menuOpen ? (
-				<div className="h-[118.3vh] relative z-0 flex bg-transparent sm:bg-transparent">
-					<div className="w-full flex flex-col">
-						<div className=" z-10 bg-white">
-							<Header showMenu={menuOpen} showMenu={showMenu} />
-						</div>
-						<div className="h-screen items-center absolute inset-x-0 bottom-0 sm:grid sm:ml-80 pb-0 bg-[#E7F4FF] ">
-							{children}
-						</div>
+		<div className="mt-7"> 
+			<div>
+				<div className="flex flex-col">
+					<div className=" bg-white">
+						<Header openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} />
 					</div>
-					<NavbarMenu showMenu={menuOpen} showMenu={showMenu} />
-				</div>
-			) : (
-				<div>
-					<div className="flex flex-col">
-						<div className="z-[10] bg-white">
-							<Header showMenu={menuOpen} showMenu={showMenu} />
-						</div>
-						<div className="flex items-center absolute inset-x-0 sm:grid sm:ml-80 mt-[10rem] sm:mt-[5rem] bg-[#E7F4FF]">
-							{children}
-						</div>
-					</div>
-					<div className="hidden sm:block z-10">
-						<NavbarMenu showMenu={menuOpen} showMenu={showMenu} />
+					<div className="flex items-center absolute inset-x-0 sm:grid sm:ml-80 mt-[10rem] sm:mt-[5rem] bg-[#E7F4FF]">
+						{children}
 					</div>
 				</div>
-			)}
+				<div className="sm:block ">
+					<NavbarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+				</div>
+			</div>
 		</div>
 	);
 };

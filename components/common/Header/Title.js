@@ -19,8 +19,8 @@ const HeaderTitle = () => {
 	return (
 		<>
 		{router.pathname === '/' && (
-			<div className="p-1 pt-0 pl-7">
-				<div className='flex flex-col gap-3'>
+			<div className="p-1 pt-0 pl-2 sm:pl-7">
+				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
 					</div>
@@ -29,8 +29,8 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/sports/soccer' && (
-			<div className="p-1 pt-0 pl-7">
-				<div className='flex flex-col gap-3'>
+			<div className="p-1 pt-0 pl-2 sm:pl-7">
+				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
@@ -43,8 +43,8 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/players' && (
-			<div className="p-1 pt-0 pl-7">
-				<div className='flex flex-col gap-3'>
+			<div className="p-1 pt-0 pl-2 sm:pl-7">
+				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
@@ -57,8 +57,8 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/teams' && (
-			<div className="p-1 pt-0 pl-7">
-				<div className='flex flex-col gap-3'>
+			<div className="p-1 pt-0 pl-2 sm:pl-7">
+				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
@@ -71,8 +71,8 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/settings' && (
-			<div className="p-1 pt-0 pl-7">
-				<div className='flex flex-col gap-3'>
+			<div className="p-1 pt-0 pl-2 sm:pl-7">
+				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>

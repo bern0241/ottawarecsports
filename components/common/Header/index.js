@@ -10,20 +10,27 @@ import Profile from './Profile';
 import HeaderTitle from './Title';
 import Image from 'next/image';
 import { IconMenu2 } from '@tabler/icons-react';
+import { IconX } from '@tabler/icons-react';
 
-const Header = (props) => {
-	let menuState = props.menuOpen;
-	function handleClick() {
-		props.showMenu(true);
-	}
+const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 	return (
+		<>
 		<div>
+			{!laptopSize && (
+				<div className="fixed z-[200] top-[.1rem] left-3">
+					<button onClick={(e) => setOpenMenu(!openMenu)} className="visible center mt-4 mr-2">
+						{openMenu ? (
+							<IconX color="white" size={'2.7rem'} />
+						) : (
+							<IconMenu2 color="white" size={'2.7rem'} />
+						)}
+					</button>
+				</div>
+			)}
+
 			<div className="bg-white">
-				<div className="fixed right-0 left-0 h-20 z-10 flex flex-row items-center bg-brand-blue-900 top-0 pl-2 pr-12 sm:hidden ">
-					<div className="self-start">
-						<button className="visible center mt-4 mr-2" onClick={handleClick}>
-							<IconMenu2 color="white" size={'3em'} />
-						</button>
+				<div className="fixed z-[100] right-0 left-0 h-20 flex flex-row items-center bg-brand-blue-900 top-0 pl-2 pr-12 sm:hidden">
+					<div className="w-[3.5em]">
 					</div>
 					<Image
 						src="/Logo.svg"
@@ -34,13 +41,14 @@ const Header = (props) => {
 						className="mx-auto"
 					/>
 				</div>
-				<div className="fixed top-[5rem] sm:top-[0rem] w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 bg-white">
-					<HeaderTitle className="ml-4" />
+				<div className="fixed top-[5rem] sm:top-[0rem] w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 bg-white z-[100]">
+					<HeaderTitle/>
 					<div className="flex-grow"></div>
-					<Profile className="ml-auto" />
+					<Profile />
 				</div>
 			</div>
 		</div>
+		</>
 	);
 };
 
