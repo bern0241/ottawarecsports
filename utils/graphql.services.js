@@ -128,6 +128,7 @@ export const changeUserAttributes = async (newAttributes) => {
 		return result;
 	} catch (err) {
 		console.warn(err);
+		throw new Error(err.message);
 	}
 };
 

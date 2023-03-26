@@ -17,8 +17,8 @@ import SettingPasswordField from './SettingPasswordField';
 import { getCurrentUser } from '@/utils/graphql.services';
 
 export default function SettingsForm({
-	setEnterPasswordModal,
-	setEnterPasswordModal2,
+	setEmailModal,
+	setPasswordModal,
 	setUserAttributes,
 }) {
 	const [firstName, setFirstName] = useState('');
@@ -34,6 +34,7 @@ export default function SettingsForm({
 		setLastName(attributes.family_name);
 		setBirthDate(attributes.birthdate);
 		setGender(attributes.gender);
+		setPhone(attributes.phone_number)
 		setLocation(attributes['custom:location']);
 		setEmail(attributes.email);
 	};
@@ -55,12 +56,16 @@ export default function SettingsForm({
 	}, []);
 	// Update attributes object in the parent component
 	useEffect(() => {
+		if (phone === undefined) {
+			setPhone('');
+		}
 		setUserAttributes({
 			name: firstName,
 			family_name: lastName,
 			birthdate: birthDate,
 			gender,
 			'custom:location': location,
+			phone_number: phone,
 		});
 	}, [firstName, lastName, birthDate, email, gender, phone, location]);
 	return (
@@ -75,7 +80,8 @@ export default function SettingsForm({
 						type="text"
 						placeholder="First Name"
 						required={true}
-						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+						className="h-[40px] w-full"
+						// className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
 						value={firstName}
 						onChange={(e) => setFirstName(e.target.value)}
 					/>
@@ -89,7 +95,8 @@ export default function SettingsForm({
 						type="text"
 						placeholder="Last Name"
 						required={true}
-						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+						className="h-[40px] w-full"
+						// className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
 						value={lastName}
 						onChange={(e) => setLastName(e.target.value)}
 					/>
@@ -115,7 +122,7 @@ export default function SettingsForm({
 						type="text"
 						placeholder="Phone Number"
 						required={true}
-						className="h-[40px] xl:w--[300px]"
+						className="h-[40px] w-full"
 						value={phone}
 						onChange={(e) => setPhone(e.target.value)}
 					/>
@@ -135,33 +142,34 @@ export default function SettingsForm({
 						type="email"
 						placeholder="Email"
 						required={true}
-						className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+						className="h-[40px] w-full"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						readOnly
+						disabled
 					/>
 				</div>
 				<div>
-					<SettingPasswordField
+					{/* <SettingPasswordField
 						placeholder="Password"
 						id="password"
-						className="h-[40px] xl:w--[300px]"
-					/>
+						className="h-[40px] w-full"
+					/> */}
 				</div>
-				<div>
+				<div className='my-2 lg:my-3'>
 					<button
-						className="bg-brand-blue-800 h-[30px] w-full xl:w--[300px] rounded-[50px] text-white font-regular my-4"
+						className="bg-brand-blue-800 h-[36px] w-full rounded-[10px] text-white font-regular"
 						type="button"
-						onClick={() => setEnterPasswordModal(true)}
+						onClick={() => setEmailModal(true)}
 					>
 						Change Email
 					</button>
 				</div>
-				<div>
+				<div className='mb-1 lg:my-3'>
 					<button
-						className="bg-brand-blue-800 h-[30px] w-full xl:w--[300px] rounded-[50px] text-white font-regular my-4"
+						className="bg-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] text-white font-regular"
 						type="button"
-						onClick={() => setEnterPasswordModal2(true)}
+						onClick={() => setPasswordModal(true)}
 					>
 						Change Password
 					</button>
