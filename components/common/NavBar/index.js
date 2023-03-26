@@ -12,13 +12,9 @@ import NavbarSetup from './Links';
 import { IconX } from '@tabler/icons-react';
 import SignOutButton from '../SignOutButton';
 
-const NavbarMenu = ({ openMenu, setOpenMenu }) => {
-
-	useEffect(() => {
-		console.log(openMenu);
-	}, [openMenu])
-
+const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize }) => {
 	return (
+		<>
 		<div
 			className={`fixed inset-y-0 bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500 z-[100] transition-all duration-500 ${
 				openMenu ? 'left-0' : 'left-[-20rem]'
@@ -59,6 +55,13 @@ const NavbarMenu = ({ openMenu, setOpenMenu }) => {
 				<SignOutButton />
 			</div>
 		</div>
+		{(!laptopSize && openMenu) && (
+			<div
+			onClick={(e) => setOpenMenu(false)}
+			class="z-[50] opacity-50 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+			/>
+		)}
+	</>
 	);
 };
 

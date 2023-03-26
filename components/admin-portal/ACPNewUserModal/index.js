@@ -260,7 +260,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				id="defaultModal"
 				tabindex="-1"
 				aria-hidden="true"
-				class="fixed top-0 bottom-0 left-0 right-0 z-[30] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+				class="fixed top-0 bottom-0 left-0 right-0 p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-aut z-[150]"
 			>
 				<div class="relative w-full h-full">
 					{/* <!-- Modal content --> */}
@@ -457,7 +457,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			</div>
 			<div
 				onClick={(e) => setOpenModal(false)}
-				class="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				class="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);

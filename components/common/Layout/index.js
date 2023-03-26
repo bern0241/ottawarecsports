@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
 					</div>
 				</div>
 				<div className="sm:block ">
-					<NavbarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+					<NavbarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} />
 				</div>
 			</div>
 		</div>

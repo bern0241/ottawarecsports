@@ -42,7 +42,7 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-[10rem]  bottom-0 left-0 right-0 z-[30] p-4 max-w-[33rem] mx-auto w-full h-[26rem]"
+				className="fixed top-[10rem] bottom-0 left-0 right-0 z-[150] p-4 max-w-[33rem] mx-auto w-full h-[26rem]"
 			>
 				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
@@ -99,7 +99,7 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 			</div>
 			<div
 				onClick={(e) => setPasswordModal(false)}
-				className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);

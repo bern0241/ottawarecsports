@@ -41,7 +41,7 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-[10rem] left-0 right-0 z-[30] max-w-[33rem] mx-auto w-full h-[20rem]"
+				className="fixed top-[10rem] left-0 right-0 z-[150] max-w-[33rem] mx-auto w-full h-[20rem]"
 			>
 				<div className="relative w-full h-full p-5">
 					{/* <!-- Modal content --> */}
@@ -114,7 +114,7 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 			</div>
 			<div
 				onClick={(e) => setEmailModal(false)}
-				className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 
 			{verificationModal && (

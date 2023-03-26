@@ -44,16 +44,16 @@ const SportsDropDown = () => {
 				}}
 			>
 				<div className="border border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70">
-					<Link href="./sports/soccer" className="my-1 hover:font-bold focus:font-bold">
+					<Link href="/sports/soccer" className="my-1 hover:font-bold focus:font-bold">
 						Soccer
 					</Link>
-					<Link href="./sports/volleyball" className="my-1 hover:font-bold focus:font-bold">
+					<Link href="/sports/volleyball" className="my-1 hover:font-bold focus:font-bold">
 						Volleyball
 					</Link>
-					<Link href="./sports/multi-sport" className="my-1 hover:font-bold focus:font-bold">
+					<Link href="/sports/multi-sport" className="my-1 hover:font-bold focus:font-bold">
 						Multi-Sport
 					</Link>
-					<Link href="./sports/pickup-sport" className="my-1 hover:font-bold focus:font-bold">
+					<Link href="/sports/pickup-sport" className="my-1 hover:font-bold focus:font-bold">
 						Pick-up Sport
 					</Link>
 				</div>
