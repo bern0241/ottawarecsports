@@ -70,6 +70,20 @@ const HeaderTitle = () => {
 				</div>
 			</div>
 		)}
+		{router.pathname === '/admin-portal/users' && (
+			<div className="p-1 pt-0 pl-2 sm:pl-7">
+				<div className='flex flex-col gap-2'>
+					<div className='flex flex-row'>
+						<Link href="/" className="font-light text-[.8rem]">Home</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+						<p className="font-light text-[.8rem]">Admin Portal</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+						<Link href="/admin-portal/users" className="font-light text-[.8rem]">Users</Link>
+					</div>
+					<p className="font-semibold text-[1.8rem]">Users</p>
+				</div>
+			</div>
+		)}
 		{router.pathname === '/settings' && (
 			<div className="p-1 pt-0 pl-2 sm:pl-7">
 				<div className='flex flex-col gap-2'>

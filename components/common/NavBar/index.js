@@ -9,10 +9,19 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import NavbarSetup from './Links';
-import { IconX } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
 import SignOutButton from '../SignOutButton';
 
 const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize }) => {
+	const router = useRouter();
+
+	// Hide sidebar menu everytime new page loads (in mobile screen mode)
+	useEffect(() => {
+		if (!laptopSize) {
+			setOpenMenu(false);
+		}
+	}, [router.pathname])
+
 	return (
 		<>
 		<div
@@ -58,7 +67,7 @@ const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize }) => {
 		{(!laptopSize && openMenu) && (
 			<div
 			onClick={(e) => setOpenMenu(false)}
-			class="z-[50] opacity-50 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+			class="z-[50] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		)}
 	</>
