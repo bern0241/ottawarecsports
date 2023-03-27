@@ -32,7 +32,8 @@ export default function SettingsForm({
 		const { attributes } = await getCurrentUser();
 		setFirstName(attributes.name);
 		setLastName(attributes.family_name);
-		setBirthDate(attributes.birthdate);
+		let stringDate = new Date(attributes.birthdate).toDateString();
+		setBirthDate(stringDate.substring(stringDate.indexOf(' ') + 1));
 		setGender(attributes.gender);
 		setPhone(attributes.phone_number)
 		setLocation(attributes['custom:location']);
@@ -40,18 +41,12 @@ export default function SettingsForm({
 	};
 	// Converts date formats to yyyy-mm-dd
 	const customSetBirthDate = (date) => {
-		let localeDate = date.toLocaleDateString();
-		let dateToArr = localeDate.split('/');
-		let year = dateToArr.splice(-1, 1);
-		// check if the date or month has 1 characters, if yes add 0
-		dateToArr = dateToArr.map((item) => {
-			if (item.length === 1) return `0${item}`;
-			return item;
-		});
-		dateToArr.unshift(...year);
-		setBirthDate(dateToArr.join('-'));
-		setBirthDate(date);
+		setBirthDate(date.toISOString().split('T')[0]);
+		// let stringDate = new Date(date).toDateString();
+		// setBirthDate(stringDate.substring(stringDate.indexOf(' ') + 1));
+		return;
 	};
+
 	useEffect(() => {
 		getUserAttributes();
 	}, []);
@@ -106,6 +101,7 @@ export default function SettingsForm({
 					<div className="mb-2 block">
 						<Label htmlFor="" value="Birthdate" />
 					</div>
+					{/* <SettingDatePicker state={birthDate} setState={setBirthDate} /> */}
 					<SettingDatePicker state={birthDate} setState={customSetBirthDate} />
 				</div>
 				<div>
