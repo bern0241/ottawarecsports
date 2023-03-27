@@ -53,7 +53,7 @@ const Profile = () => {
 			<div className="text-black text-right">
 				{user && ( <p className="font-medium text-base">{`${user?.attributes?.name} ${user?.attributes?.family_name} `}</p> ) }
 				{!user && ( <p className="font-medium text-base">{`Guest`}</p> ) }
-				<p className="font-regular text-xs">{authRoles}</p>
+				<p className="font-regular text-xs">{authRoles && authRoles.join(', ')}</p>
 			</div>
 			<div>
 				<img

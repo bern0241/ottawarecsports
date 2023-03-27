@@ -1,9 +1,10 @@
 /**
- * Last updated: 2023-03-22
+ * Last updated: 2023-03-27
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
  * Verity Stevens <stev0298@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 import { API } from 'aws-amplify';
@@ -253,3 +254,27 @@ export const getImageFromS3 = async (key) => {
 	});
 	return url;
 };
+
+/**
+ * 
+ * @param {String} Key The file's name that will be deleted from S3 Bucket 
+ */
+export const deleteImageFromS3 = async (key) => {
+	try {
+		const params = {
+			Bucket: bucketName,
+			Key: key,
+		};
+		s3.deleteObject(params, (err, data) => {
+			if (err) {
+				// fail
+				console.warn(err);
+			} else {
+				// success
+				console.log('Object deleted successfully');
+			}
+		});
+	} catch (error) {
+		console.error(error);
+	}
+}
