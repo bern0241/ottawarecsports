@@ -4,12 +4,15 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import Image from 'next/image';
 import TeamMembers from '@/components/team-profile/TeamMembers';
-import { getAllTeams } from '@/utils/graphql.services';
+import { getAllPlayers, getAllTeams } from '@/utils/graphql.services';
 
 export default function TeamProfile() {
 	const router = useRouter();
 	const teamId = router.query.id;
 	const [team, setTeam] = useState([]);
+	const [captain, setCaptain] = useState("");
+	const [player, setPlayer] = useState([]);
+	const [member, setMember] = useState([]);
 
 	useEffect(() => {
 		if(!teamId) {
@@ -17,6 +20,7 @@ export default function TeamProfile() {
 		}
 
 		fetchTeams();
+		fetchPlayer();
 	}, [teamId]);
 
 	const fetchTeams = async () => {
@@ -27,6 +31,26 @@ export default function TeamProfile() {
 		})
 		setTeam(reqTeam);
 	};
+
+	const fetchPlayer = async () => {
+		const data = await getAllPlayers();
+		setPlayer(data);
+
+		//Get captain name
+		if (team[0] !== undefined) {
+			
+			const reqId =  team[0].team_history[0].captains[0]
+			
+			const reqData = data.filter(function (el) {
+				return el.id == reqId;
+			})
+			console.log(reqData[0].user);
+			setCaptain(reqData[0].user);
+		}
+		else {
+			setCaptain("N/A");
+		}
+	}
 
 	const members = [
 		{
@@ -88,7 +112,7 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Captain</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{team[0] ? team[0].team_history[0].captains[0] : " "}
+								{team[0] ? captain : " "}
 							</div>
 						</div>
 
@@ -102,16 +126,14 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Members</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								15
+								{team[0] ? team[0].team_history[0].roster.length : " "}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Home Colours</h3>
-							<div className="flex flex-wrap gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-							<div className={team[0] ? `bg-${team[0].home_colour.toLocaleLowerCase()}-700 text-${team[0].home_colour.toLocaleLowerCase()}-700`: ''}>
-									HH
-								</div>
+							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div className={team[0] ? `bg-${team[0].home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div>
 								<div>
 									{team[0] ? team[0].home_colour : " "}
 								</div>
@@ -120,10 +142,8 @@ export default function TeamProfile() {
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Away Colours</h3>
-							<div className="flex flex-wrap gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								<div className={team[0] ? `bg-${team[0].away_colour.toLocaleLowerCase()}-700 text-${team[0].away_colour.toLocaleLowerCase()}-700`: ''}>
-									HH
-								</div>
+							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div className={team[0] ? `bg-${team[0].away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div>
 								<div>
 									{team[0] ? team[0].away_colour : " "}
 								</div>
