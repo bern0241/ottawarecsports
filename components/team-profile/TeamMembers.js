@@ -14,9 +14,9 @@ export default function TeamMembers({ members }) {
 		<div className=" w-full border border-brand-blue-900/25 rounded overflow-hidden">
 			<table className="table-auto w-full ">
 				<thead className="bg-brand-neutral-100">
-					<tr className="text-left">
-						<div className="w-full relative">
-							<input
+					<tr className="text-left w-full relative">
+						{/* <div className="w-full relative"> */}
+							{/* <input
 								type="text"
 								className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
 								placeholder="Search"
@@ -24,24 +24,16 @@ export default function TeamMembers({ members }) {
 							/>
 							<span className="absolute right-2 top-1/2 -translate-y-1/2">
 								<IconSearch />
-							</span>
-						</div>
+							</span> */}
+						{/* </div> */}
 					</tr>
 				</thead>
 				<tbody>
 					{members &&
 						members.map((item, index) => (
-							<tr
-								className={
-									// Make every odd row dark
-									index % 2 === 0 ? `` : `bg-brand-neutral-100`
-								}
-							>
-								<div className={'relative border-t border-brand-blue-900/25'}>
-									<p className="px-5 py-2">
-										{item.name} {item.lastName}
-									</p>
-								</div>
+							<tr key={index}
+								className='relative border-t border-brand-blue-900/25 px-5 py-2' >
+									{item.name} {item.lastName}
 							</tr>
 						))}
 				</tbody>

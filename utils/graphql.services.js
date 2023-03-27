@@ -21,6 +21,7 @@ const s3 = new AWS.S3({
 });
 const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 const signedUrlExpireSeconds = 60 * 1;
+var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 /**
  * Returns all players in the database
  * @returns {[Object]} Player objects in an array
@@ -49,6 +50,24 @@ export const getAllUsers = async () => {
 		console.warn(err);
 	}
 };
+
+/**
+ * 
+ * @param {String} _id Retrieves team with ID 
+ * @returns 
+ */
+export const getTeam = async (_id) => {
+	try {
+		const resp = await API.graphql({
+			query: queries.getTeams,
+			variables: { id: _id}
+		});
+		return resp.data.getTeams;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
 /**
  * Returns all teams in the database
  * @returns {[Object]} Team objects in an array
@@ -252,3 +271,16 @@ export const getImageFromS3 = async (key) => {
 	});
 	return url;
 };
+
+export const getUser = async (username, setState) => {
+	const params = {
+		Username: username,
+		UserPoolId: 'us-east-1_70GCK7G6t'
+	}
+	cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+		if (err) console.log(err, err.stack); // an error occurred
+		else     {
+			return data;
+		}          // successful response
+	});
+}

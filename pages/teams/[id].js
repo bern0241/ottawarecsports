@@ -4,52 +4,83 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import Image from 'next/image';
 import TeamMembers from '@/components/team-profile/TeamMembers';
-import { getAllPlayers, getAllTeams } from '@/utils/graphql.services';
+import { getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
+import AWS from 'aws-sdk';
 
 export default function TeamProfile() {
 	const router = useRouter();
 	const teamId = router.query.id;
-	const [team, setTeam] = useState([]);
-	const [captain, setCaptain] = useState("");
-	const [player, setPlayer] = useState([]);
+	const [team, setTeam] = useState();
+	const [captains, setCaptains] = useState([]);
 	const [member, setMember] = useState([]);
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
 
 	useEffect(() => {
 		if(!teamId) {
 			return
 		}
-
-		fetchTeams();
+		fetchTeam();
 		fetchPlayer();
 	}, [teamId]);
 
-	const fetchTeams = async () => {
-		const data = await getAllTeams();
+	useEffect(() => {
+		if (team) {
+			fetchCaptains();
+		}
+	}, [team])
 
-		const reqTeam = data.filter(function(data){
-			return data.id == teamId;
-		})
-		setTeam(reqTeam);
+	useEffect(() => {
+		if (captains) {
+			console.log('Captains',captains);
+		}
+	}, [captains])
+
+
+	const fetchTeam = async () => {
+		const data = await getTeam(teamId);
+		setTeam(data);
+		console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
 		const data = await getAllPlayers();
-		setPlayer(data);
+		// setPlayer(data);//
 
 		//Get captain name
-		if (team[0] !== undefined) {
+		// if (team !== undefined) {
 			
-			const reqId =  team[0].team_history[0].captains[0]
+		// 	const reqId =  team.team_history.captains
 			
-			const reqData = data.filter(function (el) {
-				return el.id == reqId;
-			})
-			console.log(reqData[0].user);
-			setCaptain(reqData[0].user);
-		}
-		else {
-			setCaptain("N/A");
-		}
+		// 	const reqData = data.filter(function (el) {
+		// 		return el.id == reqId;
+		// 	})
+		// 	// console.log(reqData.user);
+		// 	// setCaptains(reqData.user);
+		// }
+		// else {
+		// 	setCaptains([]);
+		// }
+	}
+
+	const fetchCaptains = async () => {
+		if (!team) return; //
+		setCaptains([]);
+		team.team_history[0].captains.forEach(async captain => {
+			const params = {
+				Username: captain,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     {
+					// setCaptains(data);
+					setCaptains(captains => [...captains, data] );
+					return;
+				}          // successful response
+			});
+		})
+		// console.log('Captains', captains);
 	}
 
 	const members = [
@@ -105,14 +136,16 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Name</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{team[0] ? team[0].name : " "}
+								{team && team.name}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Captain</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{team[0] ? captain : " "}
+							{/* {captains.UserAttributes && (
+								<p>{captains.UserAttributes.find(o => o.Name === 'name')['Value']} {captains.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+							)} */}
 							</div>
 						</div>
 
@@ -126,16 +159,16 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Members</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{team[0] ? team[0].team_history[0].roster.length : " "}
+								{(team && team.team_history) && team.team_history[0].roster.length}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Home Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								<div className={team[0] ? `bg-${team[0].home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div>
+								<div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div>
 								<div>
-									{team[0] ? team[0].home_colour : " "}
+									{team ? team.home_colour : " "}
 								</div>
 							</div>
 						</div>
@@ -143,9 +176,9 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Away Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								<div className={team[0] ? `bg-${team[0].away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div>
+								<div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div>
 								<div>
-									{team[0] ? team[0].away_colour : " "}
+									{team ? team.away_colour : " "}
 								</div>
 							</div>
 						</div>
@@ -153,7 +186,12 @@ export default function TeamProfile() {
 						{/* Player Teams */}
 						<div className="col-span-2">
 							<h2 className="mb-1 font-light">Members</h2>
-							<TeamMembers members={members} />
+							{/* <TeamMembers members={members} /> */}
+							{members && members.map((member) => (
+								<>
+									<p>{member.name}</p>
+								</>
+							))}
 						</div>
 					</div>
 				</div>
