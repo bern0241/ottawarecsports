@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 
-export default function ProfileDropdown({ openDropdown, setOpenDropdown, user, setUser }) {
+export default function ProfileDropdown({ openDropdown, setOpenDropdown, user, setUser, setProfileImage }) {
     const router = useRouter();
 
     const signIn = async () => {
@@ -22,8 +22,9 @@ export default function ProfileDropdown({ openDropdown, setOpenDropdown, user, s
         try {
             await Auth.signOut();
             setUser(null);
+            setProfileImage(null);
             setOpenDropdown(false);
-            // router.push('/login');
+            router.push('/login');
         } catch (error) {
             console.log(error.message);
         }

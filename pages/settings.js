@@ -34,13 +34,13 @@ export default function Setting() {
 			if (profilePic) {
 				const imageKey = `user_${makeid(15)}`;
 				// const imageKey = await uploadNewImageToS3(profilePic);
-				if (user.attributes.picture !== 'none') {
-					await deleteImageFromS3(user.attributes.picture);
-				}
 				await changeUserAttributes({
 					...userAttributes,
 					picture: imageKey,
 				})
+				if (user.attributes.picture !== 'none') {
+					await deleteImageFromS3(user.attributes.picture);
+				}
 				await uploadNewImageToS3(imageKey, profilePic);
 				setMessage({status: 'success', message: 'Profile updated successfully.'})
 				return;
@@ -92,15 +92,6 @@ export default function Setting() {
 								<div className="lg:flex lg:flex-row gap-4 m-5">
 									<div>
 										<div className="w-full h-[200px] rounded-full overflow-hidden">
-											{user.attributes.picture === 'none' ? (
-												<Image
-													src={'/images/defaultProfilePic.jpeg'}
-													alt="profile pic"
-													width={200}
-													height={200}
-													priority
-												/>
-											) : (
 												<>
 													<SettingsProfileImage
 														userAttributes={user.attributes}
@@ -108,7 +99,6 @@ export default function Setting() {
 														setProfilePic={setProfilePic}
 													/>
 												</>
-											)}
 										</div>
 										<IconCameraPlus className="ml-40" />
 									</div>

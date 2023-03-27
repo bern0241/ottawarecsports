@@ -14,7 +14,7 @@ import { getCurrentUser, getImageFromS3 } from '@/utils/graphql.services';
 import { useUser } from '@/context/userContext';
 
 const Profile = () => {
-	const [profileImage, setProfileImage] = useState('');
+	const [profileImage, setProfileImage] = useState(null);
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	
@@ -22,7 +22,7 @@ const Profile = () => {
 		if (!user) return;
 
 		if (user?.attributes?.picture === 'none') {
-			return setProfileImage('');
+			return setProfileImage(null);
 		} else {
 			const url = getImageFromS3(user?.attributes?.picture);
 			setProfileImage(url);
@@ -53,7 +53,7 @@ const Profile = () => {
 			<div className="text-black text-right">
 				{user && ( <p className="font-medium text-base">{`${user?.attributes?.name} ${user?.attributes?.family_name} `}</p> ) }
 				{!user && ( <p className="font-medium text-base">{`Guest`}</p> ) }
-				<p className="font-regular text-xs">{authRoles && authRoles.join(', ')}</p>
+				{user && ( <p className="font-regular text-xs">{authRoles && authRoles.join(', ')}</p> ) }
 			</div>
 			<div>
 				<img
@@ -67,7 +67,7 @@ const Profile = () => {
 					className="w-[2.7rem] h-[2.7rem] rounded-full border border-brand-blue-900 cursor-pointer"
 					src={profileImage ? profileImage : '/images/defaultProfilePic.jpeg'}
 				/>
-				<ProfileDropdown user={user} setUser={setUser} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} />
+				<ProfileDropdown user={user} setUser={setUser} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setProfileImage={setProfileImage} />
 			</div>
 		</div>
 		</>
