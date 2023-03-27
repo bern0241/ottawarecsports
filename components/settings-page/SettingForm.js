@@ -32,8 +32,7 @@ export default function SettingsForm({
 		const { attributes } = await getCurrentUser();
 		setFirstName(attributes.name);
 		setLastName(attributes.family_name);
-		let stringDate = new Date(attributes.birthdate).toDateString();
-		setBirthDate(stringDate.substring(stringDate.indexOf(' ') + 1));
+		setBirthDate(attributes.birthdate);
 		setGender(attributes.gender);
 		setPhone(attributes.phone_number)
 		setLocation(attributes['custom:location']);

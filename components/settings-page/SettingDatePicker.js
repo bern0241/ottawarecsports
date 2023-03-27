@@ -64,6 +64,11 @@ export default function SettingDatePicker({ state, setState }) {
 			/>
 		</svg>
 	);
+	const displayDate = (date) => {
+		let stringDate = date.replaceAll('-', '/');
+		stringDate = new Date(stringDate).toDateString();
+		return (stringDate.substring(stringDate.indexOf(' ') + 1));
+	}
 	return (
 		<div className="relative mb-12">
 			<div className="absolute z-10 w-full">
@@ -73,7 +78,7 @@ export default function SettingDatePicker({ state, setState }) {
 					placeholder="Pick a date"
 					required={true}
 					className="h-[40px] xl:w--[300px] cursor-pointer ms"
-					value={state}
+					value={displayDate(state)}
 					onClick={() => setShow(true)}
 					readOnly
 				/>
