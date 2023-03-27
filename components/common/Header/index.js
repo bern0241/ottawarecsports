@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-03-27
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 import React from 'react';

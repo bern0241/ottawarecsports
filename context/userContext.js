@@ -33,10 +33,6 @@ function UserContextProvider(props) {
 		}
 	};
 
-	// useEffect(() => {
-	// 	console.log('Auth User', user);
-	// }, [user])
-
 	const getAuthRole = async (user) => {
 		try {
 			const groups =

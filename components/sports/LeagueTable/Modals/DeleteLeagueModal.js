@@ -1,3 +1,9 @@
+/**
+ * Last updated: 2023-03-23
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
 
 
 function DeleteLeagueModal() {

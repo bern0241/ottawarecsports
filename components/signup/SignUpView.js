@@ -153,7 +153,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							<LocationDropDown state={location} setState={setLocation} />
 							<TextInput
 								id="email"
-								type="text"
+								type="tel"
 								placeholder="Phone Number (optional)"
 								onChange={(e) => setPhoneNumber(e.target.value)}
 								required={false}
