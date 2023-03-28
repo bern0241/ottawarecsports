@@ -97,22 +97,6 @@ export const updateUserInfo = async (id, updatedData) => {
 				input: {
 					id,
 					...updatedData,
-					// userNotes: {},
-					// PlayersSoccer: {
-					// 	PlayerDivisionStats: [
-					// 		{
-					// 			id,
-					// 			team: '123',
-					// 			division: '123',
-					// 			position: 'Goalie',
-					// 			goals: 55,
-					// 			assists: 12,
-					// 			yellow_cards: 1,
-					// 			red_cards: 1,
-					// 			games_played: 12,
-					// 		},
-					// 	],
-					// },
 				},
 			},
 		});
