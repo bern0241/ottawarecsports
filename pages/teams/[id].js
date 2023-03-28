@@ -2,8 +2,8 @@ import React, {useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import { IconSearch } from '@tabler/icons-react';
 import Image from 'next/image';
-import TeamMembers from '@/components/team-profile/TeamMembers';
 import { getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 
@@ -186,12 +186,24 @@ export default function TeamProfile() {
 						{/* Player Teams */}
 						<div className="col-span-2">
 							<h2 className="mb-1 font-light">Members</h2>
-							{/* <TeamMembers members={members} /> */}
-							{members && members.map((member) => (
-								<>
-									<p>{member.name}</p>
-								</>
-							))}
+							<div className=" w-full border border-brand-blue-900/25 rounded overflow-hidden">
+								<div className="w-full relative">
+									<input
+										type="text"
+										className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
+										placeholder="Search"
+										defaultValue=""
+									/>
+									<span className="absolute right-2 top-1/2 -translate-y-1/2">
+										<IconSearch />
+									</span>
+								</div>
+								{members && members.map((member) => (
+									<>
+										<p className='relative border-t border-brand-blue-900/25 px-5 py-2'>{member.name}</p>
+									</>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
