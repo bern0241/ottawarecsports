@@ -259,6 +259,21 @@ export const getImageFromS3 = async (key) => {
 };
 
 /**
+ * Get all matches
+ * @returns {Array} An array of all available matches.
+ */
+export const getAllMatches = async () => {
+	try {
+		const resp = await API.graphql({
+			query: queries.listGames,
+		});
+		return resp.data.listGames.items.filter((item) => !item._deleted);
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+/**
  * 
  * @param {String} Key The file's name that will be deleted from S3 Bucket 
  */
