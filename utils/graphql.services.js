@@ -274,6 +274,44 @@ export const getAllMatches = async () => {
 };
 
 /**
+ * Create a match object
+ * @param {object} matchData An object containing the match data.
+ * @returns {String} The result of the operation.
+ */
+export const createMatch = async (matchData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.createGames,
+			variables: {
+				input: matchData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+/**
+ * Create a match object
+ * @param {object} matchData An object containing the match data.
+ * @returns {String} The result of the operation.
+ */
+export const createMatch = async (matchData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.createGames,
+			variables: {
+				input: matchData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+/**
  * 
  * @param {String} Key The file's name that will be deleted from S3 Bucket 
  */
