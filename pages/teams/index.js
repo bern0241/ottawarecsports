@@ -116,7 +116,7 @@ export default function Teams() {
 							</tr>
 						</thead>
 						<tbody>
-							{filteredTeams.map((team, index) => (
+							{filteredTeams && filteredTeams.map((team, index) => (
 								<TeamRow
 									key={team.id}
 									team={team}
