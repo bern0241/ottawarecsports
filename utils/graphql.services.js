@@ -296,6 +296,7 @@ export const deleteImageFromS3 = async (key) => {
 	} catch (error) {
 		console.error(error);
 	}
+};
 
 export const getUser = async (username, setState) => {
 	const params = {
@@ -308,7 +309,7 @@ export const getUser = async (username, setState) => {
 			return data;
 		}          // successful response
 	});
-}
+};
 
 export const createPlayer = async (username) => {
 	try {
@@ -323,4 +324,4 @@ export const createPlayer = async (username) => {
 	} catch (error) {
 		console.error(error);
 	}
-}
+};

@@ -29,6 +29,7 @@ const HeadLayout = (props) => {
 		// 		className="mx-auto"
 		// 	/>
 		// </div>
+		<></>
 	);
 };
 

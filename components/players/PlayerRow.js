@@ -91,7 +91,7 @@ export default function PlayerRow({ player, index }) {
 			</td>
 			<td className="p-5 font-light">
 				{/* {player.Attributes.find((o) => o.Name === 'custom:location')['Value']} */}
-				{player.location}
+				{player.Attributes.find(o => o.Name === 'custom:location')['Value']}
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
