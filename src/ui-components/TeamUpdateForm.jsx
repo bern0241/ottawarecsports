@@ -8,13 +8,13 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Teams } from "../models";
+import { Team } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function TeamsUpdateForm(props) {
+export default function TeamUpdateForm(props) {
   const {
     id: idProp,
-    teams,
+    team,
     onSuccess,
     onError,
     onSubmit,
@@ -43,8 +43,8 @@ export default function TeamsUpdateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = teamsRecord
-      ? { ...initialValues, ...teamsRecord }
+    const cleanValues = teamRecord
+      ? { ...initialValues, ...teamRecord }
       : initialValues;
     setName(cleanValues.name);
     setFounded(cleanValues.founded);
@@ -53,15 +53,15 @@ export default function TeamsUpdateForm(props) {
     setTeam_picture(cleanValues.team_picture);
     setErrors({});
   };
-  const [teamsRecord, setTeamsRecord] = React.useState(teams);
+  const [teamRecord, setTeamRecord] = React.useState(team);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Teams, idProp) : teams;
-      setTeamsRecord(record);
+      const record = idProp ? await DataStore.query(Team, idProp) : team;
+      setTeamRecord(record);
     };
     queryData();
-  }, [idProp, teams]);
-  React.useEffect(resetStateValues, [teamsRecord]);
+  }, [idProp, team]);
+  React.useEffect(resetStateValues, [teamRecord]);
   const validations = {
     name: [],
     founded: [],
@@ -84,12 +84,6 @@ export default function TeamsUpdateForm(props) {
     }
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
-  };
-  const convertTimeStampToDate = (ts) => {
-    if (Math.abs(Date.now() - ts) < Math.abs(Date.now() - ts * 1000)) {
-      return new Date(ts);
-    }
-    return new Date(ts * 1000);
   };
   const convertToLocal = (date) => {
     const df = new Intl.DateTimeFormat("default", {
@@ -152,7 +146,7 @@ export default function TeamsUpdateForm(props) {
             }
           });
           await DataStore.save(
-            Teams.copyOf(teamsRecord, (updated) => {
+            Team.copyOf(teamRecord, (updated) => {
               Object.assign(updated, modelFields);
             })
           );
@@ -165,7 +159,7 @@ export default function TeamsUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TeamsUpdateForm")}
+      {...getOverrideProps(overrides, "TeamUpdateForm")}
       {...rest}
     >
       <TextField
@@ -201,10 +195,10 @@ export default function TeamsUpdateForm(props) {
         isRequired={false}
         isReadOnly={false}
         type="datetime-local"
-        value={founded && convertToLocal(convertTimeStampToDate(founded))}
+        value={founded && convertToLocal(new Date(founded))}
         onChange={(e) => {
           let value =
-            e.target.value === "" ? "" : Number(new Date(e.target.value));
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
               name,
@@ -321,7 +315,7 @@ export default function TeamsUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || teams)}
+          isDisabled={!(idProp || team)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -333,7 +327,7 @@ export default function TeamsUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || teams) ||
+              !(idProp || team) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

@@ -11,11 +11,15 @@ import { IconEdit } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
+import AWS from 'aws-sdk';
 
 export default function TeamRow({ team, setCurrentTeam }) {
 	const router = useRouter();
 	const [profileImage, setProfileImage] = useState('');
 	const currentSeason = team.team_history[0];
+	const [userName, setUserName] = useState('');
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
 	const getPicture = async () => {
 		if (!team.team_picture)
 			return setProfileImage('http://via.placeholder.com/60x60');
@@ -25,7 +29,22 @@ export default function TeamRow({ team, setCurrentTeam }) {
 
 	useEffect(() => {
 		getPicture();
+		fetchUser(currentSeason.captains[0]);
 	}, []);
+
+	const fetchUser = (captainUsername) => {
+		const params = {
+			Username: captainUsername,
+			UserPoolId: 'us-east-1_70GCK7G6t'
+		}
+		cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else     {
+				console.log('My data',data);
+				setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
+			}          // successful response
+		});
+	}
 
 	const navigateToProfile = () => {
 		router.push(`/teams/${team.id}`);
@@ -43,7 +62,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 				<div className="flex items-center">
 					<img
 						src={profileImage}
-						className="rounded-full mr-5 w-[3.75rem] h-[3.75rem]"
+						className="rounded-full mr-5 w-[60px] h-[60px] object-cover"
 					></img>
 					{team.name}
 				</div>
@@ -51,7 +70,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			<td className="p-5">
 				{currentSeason
 					? currentSeason.captains.map((captain, index) => (
-							<span key={index}>{captain}</span>
+							<span key={index}>{userName}</span>
 					  ))
 					: 'John Doe'}
 			</td>

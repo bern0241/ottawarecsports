@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid } from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { SportsmanshipPoint } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -22,21 +22,26 @@ export default function SportsmanshipPointCreateForm(props) {
     overrides,
     ...rest
   } = props;
-  const initialValues = {};
+  const initialValues = {
+    points: "",
+  };
+  const [points, setPoints] = React.useState(initialValues.points);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setPoints(initialValues.points);
     setErrors({});
   };
-  const validations = {};
+  const validations = {
+    points: [],
+  };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -53,7 +58,9 @@ export default function SportsmanshipPointCreateForm(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {};
+        let modelFields = {
+          points,
+        };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
@@ -98,6 +105,34 @@ export default function SportsmanshipPointCreateForm(props) {
       {...getOverrideProps(overrides, "SportsmanshipPointCreateForm")}
       {...rest}
     >
+      <TextField
+        label="Points"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={points}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              points: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.points ?? value;
+          }
+          if (errors.points?.hasError) {
+            runValidationTasks("points", value);
+          }
+          setPoints(value);
+        }}
+        onBlur={() => runValidationTasks("points", points)}
+        errorMessage={errors.points?.errorMessage}
+        hasError={errors.points?.hasError}
+        {...getOverrideProps(overrides, "points")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

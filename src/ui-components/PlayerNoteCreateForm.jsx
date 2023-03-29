@@ -8,13 +8,12 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { PlayersSoccer } from "../models";
+import { PlayerNote } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PlayersSoccerUpdateForm(props) {
+export default function PlayerNoteCreateForm(props) {
   const {
-    id: idProp,
-    playersSoccer,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -24,39 +23,30 @@ export default function PlayersSoccerUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    user: "",
-    position: "",
-    location: "",
+    player_id: "",
+    date: "",
+    description: "",
+    author_id: "",
   };
-  const [user, setUser] = React.useState(initialValues.user);
-  const [position, setPosition] = React.useState(initialValues.position);
-  const [location, setLocation] = React.useState(initialValues.location);
+  const [player_id, setPlayer_id] = React.useState(initialValues.player_id);
+  const [date, setDate] = React.useState(initialValues.date);
+  const [description, setDescription] = React.useState(
+    initialValues.description
+  );
+  const [author_id, setAuthor_id] = React.useState(initialValues.author_id);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = playersSoccerRecord
-      ? { ...initialValues, ...playersSoccerRecord }
-      : initialValues;
-    setUser(cleanValues.user);
-    setPosition(cleanValues.position);
-    setLocation(cleanValues.location);
+    setPlayer_id(initialValues.player_id);
+    setDate(initialValues.date);
+    setDescription(initialValues.description);
+    setAuthor_id(initialValues.author_id);
     setErrors({});
   };
-  const [playersSoccerRecord, setPlayersSoccerRecord] =
-    React.useState(playersSoccer);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? await DataStore.query(PlayersSoccer, idProp)
-        : playersSoccer;
-      setPlayersSoccerRecord(record);
-    };
-    queryData();
-  }, [idProp, playersSoccer]);
-  React.useEffect(resetStateValues, [playersSoccerRecord]);
   const validations = {
-    user: [],
-    position: [],
-    location: [],
+    player_id: [],
+    date: [],
+    description: [],
+    author_id: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -74,6 +64,23 @@ export default function PlayersSoccerUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  const convertToLocal = (date) => {
+    const df = new Intl.DateTimeFormat("default", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      calendar: "iso8601",
+      numberingSystem: "latn",
+      hour12: false,
+    });
+    const parts = df.formatToParts(date).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+  };
   return (
     <Grid
       as="form"
@@ -83,9 +90,10 @@ export default function PlayersSoccerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          user,
-          position,
-          location,
+          player_id,
+          date,
+          description,
+          author_id,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -115,13 +123,12 @@ export default function PlayersSoccerUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(
-            PlayersSoccer.copyOf(playersSoccerRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await DataStore.save(new PlayerNote(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -129,100 +136,131 @@ export default function PlayersSoccerUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PlayersSoccerUpdateForm")}
+      {...getOverrideProps(overrides, "PlayerNoteCreateForm")}
       {...rest}
     >
       <TextField
-        label="User"
+        label="Player id"
         isRequired={false}
         isReadOnly={false}
-        value={user}
+        value={player_id}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              user: value,
-              position,
-              location,
+              player_id: value,
+              date,
+              description,
+              author_id,
             };
             const result = onChange(modelFields);
-            value = result?.user ?? value;
+            value = result?.player_id ?? value;
           }
-          if (errors.user?.hasError) {
-            runValidationTasks("user", value);
+          if (errors.player_id?.hasError) {
+            runValidationTasks("player_id", value);
           }
-          setUser(value);
+          setPlayer_id(value);
         }}
-        onBlur={() => runValidationTasks("user", user)}
-        errorMessage={errors.user?.errorMessage}
-        hasError={errors.user?.hasError}
-        {...getOverrideProps(overrides, "user")}
+        onBlur={() => runValidationTasks("player_id", player_id)}
+        errorMessage={errors.player_id?.errorMessage}
+        hasError={errors.player_id?.hasError}
+        {...getOverrideProps(overrides, "player_id")}
       ></TextField>
       <TextField
-        label="Position"
+        label="Date"
         isRequired={false}
         isReadOnly={false}
-        value={position}
+        type="datetime-local"
+        value={date && convertToLocal(new Date(date))}
         onChange={(e) => {
-          let { value } = e.target;
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              user,
-              position: value,
-              location,
+              player_id,
+              date: value,
+              description,
+              author_id,
             };
             const result = onChange(modelFields);
-            value = result?.position ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.position?.hasError) {
-            runValidationTasks("position", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setPosition(value);
+          setDate(value);
         }}
-        onBlur={() => runValidationTasks("position", position)}
-        errorMessage={errors.position?.errorMessage}
-        hasError={errors.position?.hasError}
-        {...getOverrideProps(overrides, "position")}
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
       ></TextField>
       <TextField
-        label="Location"
+        label="Description"
         isRequired={false}
         isReadOnly={false}
-        value={location}
+        value={description}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              user,
-              position,
-              location: value,
+              player_id,
+              date,
+              description: value,
+              author_id,
             };
             const result = onChange(modelFields);
-            value = result?.location ?? value;
+            value = result?.description ?? value;
           }
-          if (errors.location?.hasError) {
-            runValidationTasks("location", value);
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
           }
-          setLocation(value);
+          setDescription(value);
         }}
-        onBlur={() => runValidationTasks("location", location)}
-        errorMessage={errors.location?.errorMessage}
-        hasError={errors.location?.hasError}
-        {...getOverrideProps(overrides, "location")}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
+      ></TextField>
+      <TextField
+        label="Author id"
+        isRequired={false}
+        isReadOnly={false}
+        value={author_id}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              player_id,
+              date,
+              description,
+              author_id: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.author_id ?? value;
+          }
+          if (errors.author_id?.hasError) {
+            runValidationTasks("author_id", value);
+          }
+          setAuthor_id(value);
+        }}
+        onBlur={() => runValidationTasks("author_id", author_id)}
+        errorMessage={errors.author_id?.errorMessage}
+        hasError={errors.author_id?.hasError}
+        {...getOverrideProps(overrides, "author_id")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || playersSoccer)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -232,10 +270,7 @@ export default function PlayersSoccerUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || playersSoccer) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -12,6 +12,8 @@ import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
 import PlayersTable from './PlayersTable';
 import UserProfilePictureEdit from '../admin-portal/ACPEditUserModal/UserProfilePictureEdit';
+import { useUser } from '@/context/userContext';
+import { useRouter } from 'next/router';
 import {
 	createTeam,
 	uploadNewImageToS3,
@@ -21,15 +23,22 @@ import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
 const { v4: uuidv4 } = require('uuid');
 
-const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
+const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
+	const [user] = useUser();
 	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState('');
-	const [teamCaptain, setTeamCaptain] = useState('');
+	const [teamCaptain, setTeamCaptain] = useState();
 	const [homeColour, setHomeColour] = useState('Red');
 	const [awayColour, setAwayColour] = useState('Blue');
 	const [selectedOption, setSelectedOption] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
+	const [message, setMessage] = useState(null);
+
+	useEffect(() => {
+		setTeamCaptain(user);
+	}, [user])
+
 	const addTeamToPlayerProfile = (teamId) => {
 		if (!teamRoster) return;
 		const playerDivisionStat = {
@@ -55,12 +64,12 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 		const teamData = {
 			id: randomId,
 			name: teamName,
-			founded: Date.now(),
+			founded: new Date(Date.now()),
 			home_colour: homeColour,
 			away_colour: awayColour,
 			team_picture: imageKey,
 			team_history: {
-				captains: [teamCaptain],
+				captains: [teamCaptain.username],
 				team: randomId,
 				division: '',
 				roster: teamRoster,
@@ -76,6 +85,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 		if (resp) {
 			setIsVisible(false);
 			resetData();
+			getTeamsData();
 		}
 	};
 	const resetData = () => {
@@ -169,8 +179,8 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 								>
 									Captain
 								</label>
-								<input
-									value={teamCaptain}
+								<input disabled
+									value={teamCaptain && (teamCaptain.attributes.name + " " + teamCaptain.attributes.family_name)}
 									onChange={(e) => setTeamCaptain(e.target.value)}
 									type="text"
 									id="lastName"
@@ -186,18 +196,6 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 									Sport
 								</label>
 								<DropdownInput options={['Soccer']} />
-							</div>
-							<div className="w-full">
-								<label
-									htmlFor="gender"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									Max members
-								</label>
-								<MaxMembersStepper
-									state={maxMembers}
-									setState={setMaxMembers}
-								/>
 							</div>
 
 							<div className="w-full flex flex-row gap-2">
@@ -243,32 +241,6 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 								</div>
 							</div>
 
-							<div className="w-full">
-								<label
-									htmlFor="phoneNumber"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									Who can join
-								</label>
-								<div className="flex flex-row gap-10">
-									<CustomRadioButton
-										setSelected={setSelectedOption}
-										selected={selectedOption}
-										content={'Men'}
-									/>
-									<CustomRadioButton
-										setSelected={setSelectedOption}
-										selected={selectedOption}
-										content={'Women'}
-									/>
-									<CustomRadioButton
-										setSelected={setSelectedOption}
-										selected={selectedOption}
-										content={'Anyone'}
-									/>
-								</div>
-							</div>
-
 							<div className="w-full col-span-2">
 								<label
 									htmlFor="location"
@@ -296,6 +268,8 @@ const NewTeamModal = ({ isVisible, setIsVisible, players }) => {
 								<span className="font-medium">{message.message}</span>
 							</p>
 						)} */}
+
+						{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
 
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">

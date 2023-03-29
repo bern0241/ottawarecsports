@@ -8,13 +8,12 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Teams } from "../models";
+import { Team } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function TeamsUpdateForm(props) {
+export default function TeamCreateForm(props) {
   const {
-    id: idProp,
-    teams,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -43,25 +42,13 @@ export default function TeamsUpdateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = teamsRecord
-      ? { ...initialValues, ...teamsRecord }
-      : initialValues;
-    setName(cleanValues.name);
-    setFounded(cleanValues.founded);
-    setHome_colour(cleanValues.home_colour);
-    setAway_colour(cleanValues.away_colour);
-    setTeam_picture(cleanValues.team_picture);
+    setName(initialValues.name);
+    setFounded(initialValues.founded);
+    setHome_colour(initialValues.home_colour);
+    setAway_colour(initialValues.away_colour);
+    setTeam_picture(initialValues.team_picture);
     setErrors({});
   };
-  const [teamsRecord, setTeamsRecord] = React.useState(teams);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp ? await DataStore.query(Teams, idProp) : teams;
-      setTeamsRecord(record);
-    };
-    queryData();
-  }, [idProp, teams]);
-  React.useEffect(resetStateValues, [teamsRecord]);
   const validations = {
     name: [],
     founded: [],
@@ -84,12 +71,6 @@ export default function TeamsUpdateForm(props) {
     }
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
-  };
-  const convertTimeStampToDate = (ts) => {
-    if (Math.abs(Date.now() - ts) < Math.abs(Date.now() - ts * 1000)) {
-      return new Date(ts);
-    }
-    return new Date(ts * 1000);
   };
   const convertToLocal = (date) => {
     const df = new Intl.DateTimeFormat("default", {
@@ -151,13 +132,12 @@ export default function TeamsUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(
-            Teams.copyOf(teamsRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await DataStore.save(new Team(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -165,7 +145,7 @@ export default function TeamsUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TeamsUpdateForm")}
+      {...getOverrideProps(overrides, "TeamCreateForm")}
       {...rest}
     >
       <TextField
@@ -201,10 +181,10 @@ export default function TeamsUpdateForm(props) {
         isRequired={false}
         isReadOnly={false}
         type="datetime-local"
-        value={founded && convertToLocal(convertTimeStampToDate(founded))}
+        value={founded && convertToLocal(new Date(founded))}
         onChange={(e) => {
           let value =
-            e.target.value === "" ? "" : Number(new Date(e.target.value));
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
               name,
@@ -315,14 +295,13 @@ export default function TeamsUpdateForm(props) {
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || teams)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -332,10 +311,7 @@ export default function TeamsUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || teams) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

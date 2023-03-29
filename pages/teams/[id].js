@@ -1,28 +1,90 @@
-import React from 'react';
+import React, {useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import { IconSearch } from '@tabler/icons-react';
 import Image from 'next/image';
-import TeamMembers from '@/components/team-profile/TeamMembers';
+import { getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
+import AWS from 'aws-sdk';
 
 export default function TeamProfile() {
 	const router = useRouter();
 	const teamId = router.query.id;
+	const [team, setTeam] = useState();
+	const [captains, setCaptains] = useState([]);
+	const [members, setMembers] = useState([]);
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-	const members = [
-		{
-			name: "John",
-			lastName: "Doe"
-		},
-		{
-			name: "Jane",
-			lastName: "Doe"
-		},
-		{
-			name: "Emma",
-			lastName: "Smith"
+
+	useEffect(() => {
+		if(!teamId) {
+			return
 		}
-	]
+		fetchTeam();
+		fetchPlayer();
+	}, [teamId]);
+
+	useEffect(() => {
+		if (team) {
+			console.log('MY TEAM', team);
+			fetchCaptains();
+		}
+	}, [team])
+
+	useEffect(() => {
+		if (captains) {
+			console.log('Captains',captains);
+		}
+	}, [captains])
+
+	useEffect(() => {
+		console.log('MEMBERS',members);
+	}, [members])
+
+
+	const fetchTeam = async () => {
+		const data = await getTeam(teamId);
+		setTeam(data);
+		console.log('TEAM', data);
+	};
+
+	const fetchPlayer = async () => {
+		const data = await getAllPlayers();
+		data.forEach(async playerUsername => {
+			const params = {
+				Username: playerUsername,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     {
+					// setCaptains(data);
+					setMembers(members => [...members, data] );
+					return;
+				}          // successful response
+			});
+		})
+	}
+
+	const fetchCaptains = async () => {
+		if (!team) return; //
+		setCaptains([]);
+		team.team_history[0].captains.forEach(async captain => {
+			const params = {
+				Username: captain,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     {
+					// setCaptains(data);
+					setCaptains(captains => [...captains, data] );
+					return;
+				}          // successful response
+			});
+		})
+		// console.log('Captains', captains);
+	}
 
 	return (
 		<main className="w-full h-screen flex flex-col gap-6 p-8">
@@ -62,102 +124,76 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Name</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								The A-Team
+								{team && team.name}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Captain</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								John Doe
+							{captains && captains.map((captain) => (
+								<>
+								<p>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+								</>
+							))}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Sport</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								Volleyball
+								Soccer
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Max Members</h3>
+							<h3 className="mb-1 font-light">Members</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								15
+								{(team && team.team_history) && team.team_history[0].roster.length}
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Team Colours</h3>
-							<div className="flex flex-wrap gap-8 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{/* Home Colour */}
-								<div className="flex items-center gap-2">
-									<div className="w-4 h-4 bg-red-500 rounded-sm border border-black"></div>{' '}
-									Red
-								</div>
-								{/* Away Colour */}
-								<div className="flex items-center gap-2">
-									<div className="w-4 h-4 bg-white rounded-sm border border-black"></div>{' '}
-									White
+							<h3 className="mb-1 font-light">Home Colours</h3>
+							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div>
+								<div>
+									{team ? team.home_colour : " "}
 								</div>
 							</div>
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Who Can Join?</h3>
-							<div className="flex flex-wrap gap-4 py-2 px-3 font-medium">
-								{/* Men Checkbox */}
-								<div class="flex items-center">
-									<input
-										id="men-checkbox"
-										type="checkbox"
-										value=""
-										class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-										disabled
-									/>
-									<label
-										for="men-checkbox"
-										class="ml-2 text-gray-900 dark:text-gray-300"
-									>
-										Men
-									</label>
-								</div>
-
-								{/* Women Checkbox */}
-								<div class="flex items-center">
-									<input
-										id="women-checkbox"
-										type="checkbox"
-										value=""
-										class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-										disabled
-									/>
-									<label
-										for="women-checkbox"
-										class="ml-2 text-gray-900 dark:text-gray-300"
-									>
-										Women
-									</label>
-								</div>
-								{/* Anyone Checkbox */}
-								<div class="flex items-center">
-									<input
-										id="all-checkbox"
-										type="checkbox"
-										value=""
-										class="w-4 h-4 text-brand-blue-800 bg-gray-100 border-gray-300 rounded"
-										defaultChecked
-									/>
-									<label for="all-checkbox" class="ml-2 text-gray-900">
-										Anyone
-									</label>
+							<h3 className="mb-1 font-light">Away Colours</h3>
+							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div>
+								<div>
+									{team ? team.away_colour : " "}
 								</div>
 							</div>
 						</div>
+
 						{/* Player Teams */}
 						<div className="col-span-2">
 							<h2 className="mb-1 font-light">Members</h2>
-							<TeamMembers members={members} />
+							<div className=" w-full border border-brand-blue-900/25 rounded overflow-hidden">
+								<div className="w-full relative">
+									<input
+										type="text"
+										className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
+										placeholder="Search"
+										defaultValue=""
+									/>
+									<span className="absolute right-2 top-1/2 -translate-y-1/2">
+										<IconSearch />
+									</span>
+								</div>
+								{members && members.map((member) => (
+									<>
+										{/* <p className='relative border-t border-brand-blue-900/25 px-5 py-2'>{member.UserAttributes.find(o => o.Name === 'name')['Value']}</p> */}
+									</>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>

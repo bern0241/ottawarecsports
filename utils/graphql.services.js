@@ -7,8 +7,8 @@
  */
 
 import { API } from 'aws-amplify';
-import * as queries from '../graphql/queries';
-import * as mutations from '../graphql/mutations';
+import * as queries from '../src/graphql/queries';
+import * as mutations from '../src/graphql/mutations';
 import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
@@ -21,6 +21,7 @@ const s3 = new AWS.S3({
 });
 const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 const signedUrlExpireSeconds = 60 * 1;
+var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 /**
  * Returns all players in the database
  * @returns {[Object]} Player objects in an array
@@ -28,9 +29,9 @@ const signedUrlExpireSeconds = 60 * 1;
 export const getAllPlayers = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listPlayersSoccers,
+			query: queries.listPlayers,
 		});
-		return resp.data.listPlayersSoccers.items.filter((item) => !item._deleted);
+		return resp.data.listPlayers.items.filter((item) => !item._deleted);
 	} catch (err) {
 		console.warn(err);
 	}
@@ -49,6 +50,24 @@ export const getAllUsers = async () => {
 		console.warn(err);
 	}
 };
+
+/**
+ * 
+ * @param {String} _id Retrieves team with ID 
+ * @returns 
+ */
+export const getTeam = async (_id) => {
+	try {
+		const resp = await API.graphql({
+			query: queries.getTeam,
+			variables: { id: _id}
+		});
+		return resp.data.getTeam;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
 /**
  * Returns all teams in the database
  * @returns {[Object]} Team objects in an array
@@ -163,7 +182,7 @@ export const changeUserPassword = async (oldPassword, newPassword) => {
 export const createTeam = async (teamData) => {
 	try {
 		const resp = await API.graphql({
-			query: mutations.createTeams,
+			query: mutations.createTeam,
 			variables: {
 				input: teamData,
 			},
@@ -252,3 +271,32 @@ export const getImageFromS3 = async (key) => {
 	});
 	return url;
 };
+
+export const getUser = async (username, setState) => {
+	const params = {
+		Username: username,
+		UserPoolId: 'us-east-1_70GCK7G6t'
+	}
+	cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+		if (err) console.log(err, err.stack); // an error occurred
+		else     {
+			return data;
+		}          // successful response
+	});
+}
+
+export const createPlayer = async (username) => {
+	try {
+		const data = {
+			user_id: username,
+		}
+		const apiData = await API.graphql({
+			query: mutations.createPlayer,
+			variables: { input: data },
+		});
+		return apiData;
+	} catch (error) {
+		console.error(error);
+	}
+
+}

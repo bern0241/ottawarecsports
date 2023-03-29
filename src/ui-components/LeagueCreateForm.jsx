@@ -14,13 +14,12 @@ import {
   Grid,
   Icon,
   ScrollView,
-  SelectField,
   Text,
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Leagues } from "../models";
+import { League } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -170,7 +169,7 @@ function ArrayField({
     </React.Fragment>
   );
 }
-export default function LeaguesCreateForm(props) {
+export default function LeagueCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -185,49 +184,63 @@ export default function LeaguesCreateForm(props) {
     name: "",
     sport: "",
     date_founded: "",
-    gender: undefined,
     cost_per_individual: "",
     cost_per_team: "",
-    coordinator: [],
+    coordinators: [],
+    description: "",
+    number_of_periods: "",
+    time_per_period: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [sport, setSport] = React.useState(initialValues.sport);
   const [date_founded, setDate_founded] = React.useState(
     initialValues.date_founded
   );
-  const [gender, setGender] = React.useState(initialValues.gender);
   const [cost_per_individual, setCost_per_individual] = React.useState(
     initialValues.cost_per_individual
   );
   const [cost_per_team, setCost_per_team] = React.useState(
     initialValues.cost_per_team
   );
-  const [coordinator, setCoordinator] = React.useState(
-    initialValues.coordinator
+  const [coordinators, setCoordinators] = React.useState(
+    initialValues.coordinators
+  );
+  const [description, setDescription] = React.useState(
+    initialValues.description
+  );
+  const [number_of_periods, setNumber_of_periods] = React.useState(
+    initialValues.number_of_periods
+  );
+  const [time_per_period, setTime_per_period] = React.useState(
+    initialValues.time_per_period
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setSport(initialValues.sport);
     setDate_founded(initialValues.date_founded);
-    setGender(initialValues.gender);
     setCost_per_individual(initialValues.cost_per_individual);
     setCost_per_team(initialValues.cost_per_team);
-    setCoordinator(initialValues.coordinator);
-    setCurrentCoordinatorValue("");
+    setCoordinators(initialValues.coordinators);
+    setCurrentCoordinatorsValue("");
+    setDescription(initialValues.description);
+    setNumber_of_periods(initialValues.number_of_periods);
+    setTime_per_period(initialValues.time_per_period);
     setErrors({});
   };
-  const [currentCoordinatorValue, setCurrentCoordinatorValue] =
+  const [currentCoordinatorsValue, setCurrentCoordinatorsValue] =
     React.useState("");
-  const coordinatorRef = React.createRef();
+  const coordinatorsRef = React.createRef();
   const validations = {
     name: [],
     sport: [],
     date_founded: [],
-    gender: [],
     cost_per_individual: [],
     cost_per_team: [],
-    coordinator: [],
+    coordinators: [],
+    description: [],
+    number_of_periods: [],
+    time_per_period: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -244,12 +257,6 @@ export default function LeaguesCreateForm(props) {
     }
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
-  };
-  const convertTimeStampToDate = (ts) => {
-    if (Math.abs(Date.now() - ts) < Math.abs(Date.now() - ts * 1000)) {
-      return new Date(ts);
-    }
-    return new Date(ts * 1000);
   };
   const convertToLocal = (date) => {
     const df = new Intl.DateTimeFormat("default", {
@@ -280,10 +287,12 @@ export default function LeaguesCreateForm(props) {
           name,
           sport,
           date_founded,
-          gender,
           cost_per_individual,
           cost_per_team,
-          coordinator,
+          coordinators,
+          description,
+          number_of_periods,
+          time_per_period,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -313,7 +322,7 @@ export default function LeaguesCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Leagues(modelFields));
+          await DataStore.save(new League(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -326,7 +335,7 @@ export default function LeaguesCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "LeaguesCreateForm")}
+      {...getOverrideProps(overrides, "LeagueCreateForm")}
       {...rest}
     >
       <TextField
@@ -341,10 +350,12 @@ export default function LeaguesCreateForm(props) {
               name: value,
               sport,
               date_founded,
-              gender,
               cost_per_individual,
               cost_per_team,
-              coordinator,
+              coordinators,
+              description,
+              number_of_periods,
+              time_per_period,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -371,10 +382,12 @@ export default function LeaguesCreateForm(props) {
               name,
               sport: value,
               date_founded,
-              gender,
               cost_per_individual,
               cost_per_team,
-              coordinator,
+              coordinators,
+              description,
+              number_of_periods,
+              time_per_period,
             };
             const result = onChange(modelFields);
             value = result?.sport ?? value;
@@ -394,21 +407,21 @@ export default function LeaguesCreateForm(props) {
         isRequired={false}
         isReadOnly={false}
         type="datetime-local"
-        value={
-          date_founded && convertToLocal(convertTimeStampToDate(date_founded))
-        }
+        value={date_founded && convertToLocal(new Date(date_founded))}
         onChange={(e) => {
           let value =
-            e.target.value === "" ? "" : Number(new Date(e.target.value));
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
               name,
               sport,
               date_founded: value,
-              gender,
               cost_per_individual,
               cost_per_team,
-              coordinator,
+              coordinators,
+              description,
+              number_of_periods,
+              time_per_period,
             };
             const result = onChange(modelFields);
             value = result?.date_founded ?? value;
@@ -423,47 +436,6 @@ export default function LeaguesCreateForm(props) {
         hasError={errors.date_founded?.hasError}
         {...getOverrideProps(overrides, "date_founded")}
       ></TextField>
-      <SelectField
-        label="Gender"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={gender}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              sport,
-              date_founded,
-              gender: value,
-              cost_per_individual,
-              cost_per_team,
-              coordinator,
-            };
-            const result = onChange(modelFields);
-            value = result?.gender ?? value;
-          }
-          if (errors.gender?.hasError) {
-            runValidationTasks("gender", value);
-          }
-          setGender(value);
-        }}
-        onBlur={() => runValidationTasks("gender", gender)}
-        errorMessage={errors.gender?.errorMessage}
-        hasError={errors.gender?.hasError}
-        {...getOverrideProps(overrides, "gender")}
-      >
-        <option
-          children="Male"
-          value="MALE"
-          {...getOverrideProps(overrides, "genderoption0")}
-        ></option>
-        <option
-          children="Female"
-          value="FEMALE"
-          {...getOverrideProps(overrides, "genderoption1")}
-        ></option>
-      </SelectField>
       <TextField
         label="Cost per individual"
         isRequired={false}
@@ -480,10 +452,12 @@ export default function LeaguesCreateForm(props) {
               name,
               sport,
               date_founded,
-              gender,
               cost_per_individual: value,
               cost_per_team,
-              coordinator,
+              coordinators,
+              description,
+              number_of_periods,
+              time_per_period,
             };
             const result = onChange(modelFields);
             value = result?.cost_per_individual ?? value;
@@ -516,10 +490,12 @@ export default function LeaguesCreateForm(props) {
               name,
               sport,
               date_founded,
-              gender,
               cost_per_individual,
               cost_per_team: value,
-              coordinator,
+              coordinators,
+              description,
+              number_of_periods,
+              time_per_period,
             };
             const result = onChange(modelFields);
             value = result?.cost_per_team ?? value;
@@ -542,47 +518,155 @@ export default function LeaguesCreateForm(props) {
               name,
               sport,
               date_founded,
-              gender,
               cost_per_individual,
               cost_per_team,
-              coordinator: values,
+              coordinators: values,
+              description,
+              number_of_periods,
+              time_per_period,
             };
             const result = onChange(modelFields);
-            values = result?.coordinator ?? values;
+            values = result?.coordinators ?? values;
           }
-          setCoordinator(values);
-          setCurrentCoordinatorValue("");
+          setCoordinators(values);
+          setCurrentCoordinatorsValue("");
         }}
-        currentFieldValue={currentCoordinatorValue}
-        label={"Coordinator"}
-        items={coordinator}
-        hasError={errors.coordinator?.hasError}
-        setFieldValue={setCurrentCoordinatorValue}
-        inputFieldRef={coordinatorRef}
+        currentFieldValue={currentCoordinatorsValue}
+        label={"Coordinators"}
+        items={coordinators}
+        hasError={errors.coordinators?.hasError}
+        setFieldValue={setCurrentCoordinatorsValue}
+        inputFieldRef={coordinatorsRef}
         defaultFieldValue={""}
       >
         <TextField
-          label="Coordinator"
+          label="Coordinators"
           isRequired={false}
           isReadOnly={false}
-          value={currentCoordinatorValue}
+          value={currentCoordinatorsValue}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.coordinator?.hasError) {
-              runValidationTasks("coordinator", value);
+            if (errors.coordinators?.hasError) {
+              runValidationTasks("coordinators", value);
             }
-            setCurrentCoordinatorValue(value);
+            setCurrentCoordinatorsValue(value);
           }}
           onBlur={() =>
-            runValidationTasks("coordinator", currentCoordinatorValue)
+            runValidationTasks("coordinators", currentCoordinatorsValue)
           }
-          errorMessage={errors.coordinator?.errorMessage}
-          hasError={errors.coordinator?.hasError}
-          ref={coordinatorRef}
+          errorMessage={errors.coordinators?.errorMessage}
+          hasError={errors.coordinators?.hasError}
+          ref={coordinatorsRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "coordinator")}
+          {...getOverrideProps(overrides, "coordinators")}
         ></TextField>
       </ArrayField>
+      <TextField
+        label="Description"
+        isRequired={false}
+        isReadOnly={false}
+        value={description}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              sport,
+              date_founded,
+              cost_per_individual,
+              cost_per_team,
+              coordinators,
+              description: value,
+              number_of_periods,
+              time_per_period,
+            };
+            const result = onChange(modelFields);
+            value = result?.description ?? value;
+          }
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
+          }
+          setDescription(value);
+        }}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
+      ></TextField>
+      <TextField
+        label="Number of periods"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={number_of_periods}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              sport,
+              date_founded,
+              cost_per_individual,
+              cost_per_team,
+              coordinators,
+              description,
+              number_of_periods: value,
+              time_per_period,
+            };
+            const result = onChange(modelFields);
+            value = result?.number_of_periods ?? value;
+          }
+          if (errors.number_of_periods?.hasError) {
+            runValidationTasks("number_of_periods", value);
+          }
+          setNumber_of_periods(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("number_of_periods", number_of_periods)
+        }
+        errorMessage={errors.number_of_periods?.errorMessage}
+        hasError={errors.number_of_periods?.hasError}
+        {...getOverrideProps(overrides, "number_of_periods")}
+      ></TextField>
+      <TextField
+        label="Time per period"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={time_per_period}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              sport,
+              date_founded,
+              cost_per_individual,
+              cost_per_team,
+              coordinators,
+              description,
+              number_of_periods,
+              time_per_period: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.time_per_period ?? value;
+          }
+          if (errors.time_per_period?.hasError) {
+            runValidationTasks("time_per_period", value);
+          }
+          setTime_per_period(value);
+        }}
+        onBlur={() => runValidationTasks("time_per_period", time_per_period)}
+        errorMessage={errors.time_per_period?.errorMessage}
+        hasError={errors.time_per_period?.hasError}
+        {...getOverrideProps(overrides, "time_per_period")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
