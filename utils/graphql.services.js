@@ -343,3 +343,18 @@ export const createPlayer = async (username) => {
 		console.error(error);
 	}
 };
+
+/**
+ * get all leagues in the database
+ * @returns {Array} an array of league objects
+ */
+export const getLeagues = async () => {
+	try {
+		const resp = await API.graphql({
+			query: queries.listLeagues,
+		});
+		return resp.data.listLeagues.items;
+	} catch (err) {
+		console.warn(err);
+	}
+};
