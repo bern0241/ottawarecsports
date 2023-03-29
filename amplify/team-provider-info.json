@@ -16,11 +16,11 @@
         "orsapp159e10c3": {},
         "orsapp00be8bc9": {}
       },
-      "api": {
-        "orsapp": {}
-      },
       "storage": {
         "orsresources": {}
+      },
+      "api": {
+        "orsapp": {}
       }
     }
   }

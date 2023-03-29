@@ -81,6 +81,7 @@ export default function Teams() {
 					isVisible={modalVisible}
 					setIsVisible={setModalVisible}
 					players={players}
+					getTeamsData={getTeamsData}
 				/>
 				{/* Search Bar */}
 				<SearchBarInput
@@ -116,7 +117,7 @@ export default function Teams() {
 							</tr>
 						</thead>
 						<tbody>
-							{filteredTeams.map((team, index) => (
+							{filteredTeams && filteredTeams.map((team, index) => (
 								<TeamRow
 									key={team.id}
 									team={team}

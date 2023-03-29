@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { SportsmanshipPoint } from "../models";
 export declare type ValidationResponse = {
@@ -13,11 +13,16 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type SportsmanshipPointUpdateFormInputValues = {};
-export declare type SportsmanshipPointUpdateFormValidationValues = {};
+export declare type SportsmanshipPointUpdateFormInputValues = {
+    points?: number;
+};
+export declare type SportsmanshipPointUpdateFormValidationValues = {
+    points?: ValidationFunction<number>;
+};
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type SportsmanshipPointUpdateFormOverridesProps = {
     SportsmanshipPointUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    points?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type SportsmanshipPointUpdateFormProps = React.PropsWithChildren<{
     overrides?: SportsmanshipPointUpdateFormOverridesProps | undefined | null;
