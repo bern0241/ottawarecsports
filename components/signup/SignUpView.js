@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { TextInput } from 'flowbite-react';
 import { Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
+import { createPlayer } from '@/utils/graphql.services';
 // Components
 import PasswordField from '../common/PasswordField';
 import LocationDropDown from './LocationDropDown';
@@ -81,8 +82,8 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					birthdate: birthDate,
 				},
 			});
-			// console.log(newUser);
 			addUserToGroup(newUser.userSub, 'User');
+			const apiData = await createPlayer(newUser.userSub);
 			setUiState('confirmSignUp');
 		} catch (error) {
 			console.error(error);

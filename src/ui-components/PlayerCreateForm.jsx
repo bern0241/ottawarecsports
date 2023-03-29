@@ -8,10 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { SportsmanshipPoint } from "../models";
+import { Player } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function SportsmanshipPointCreateForm(props) {
+export default function PlayerCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,16 +23,16 @@ export default function SportsmanshipPointCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    points: "",
+    user_id: "",
   };
-  const [points, setPoints] = React.useState(initialValues.points);
+  const [user_id, setUser_id] = React.useState(initialValues.user_id);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setPoints(initialValues.points);
+    setUser_id(initialValues.user_id);
     setErrors({});
   };
   const validations = {
-    points: [],
+    user_id: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -59,7 +59,7 @@ export default function SportsmanshipPointCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          points,
+          user_id,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -89,7 +89,7 @@ export default function SportsmanshipPointCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new SportsmanshipPoint(modelFields));
+          await DataStore.save(new Player(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -102,36 +102,32 @@ export default function SportsmanshipPointCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "SportsmanshipPointCreateForm")}
+      {...getOverrideProps(overrides, "PlayerCreateForm")}
       {...rest}
     >
       <TextField
-        label="Points"
+        label="User id"
         isRequired={false}
         isReadOnly={false}
-        type="number"
-        step="any"
-        value={points}
+        value={user_id}
         onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              points: value,
+              user_id: value,
             };
             const result = onChange(modelFields);
-            value = result?.points ?? value;
+            value = result?.user_id ?? value;
           }
-          if (errors.points?.hasError) {
-            runValidationTasks("points", value);
+          if (errors.user_id?.hasError) {
+            runValidationTasks("user_id", value);
           }
-          setPoints(value);
+          setUser_id(value);
         }}
-        onBlur={() => runValidationTasks("points", points)}
-        errorMessage={errors.points?.errorMessage}
-        hasError={errors.points?.hasError}
-        {...getOverrideProps(overrides, "points")}
+        onBlur={() => runValidationTasks("user_id", user_id)}
+        errorMessage={errors.user_id?.errorMessage}
+        hasError={errors.user_id?.hasError}
+        {...getOverrideProps(overrides, "user_id")}
       ></TextField>
       <Flex
         justifyContent="space-between"
