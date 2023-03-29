@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'flowbite-react';
+import MatchRow from './MatchRow';
 
 const MatchesTable = () => {
 	const CircleArrowDown = () => (
@@ -14,28 +14,25 @@ const MatchesTable = () => {
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
+				<div className="flex justify-between py-[15px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
+					<h1 className="text-base self-center font-medium">
+						Scheduled matches
+					</h1>
+					<button
+						className="flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900"
+						// onClick={() => setModalVisible(true)}
+					>
+						March 10, 2023
+						<span>
+							<CircleArrowDown />
+						</span>
+					</button>
+				</div>
 				<table className="table-auto">
-					<thead className="">
-						<tr className="flex justify-between py-[15px] px-[20px] border-b border-brand-neutral-300 items-center">
-							<th>
-								<h1 className="text-base self-center font-medium">
-									Scheduled matches
-								</h1>
-							</th>
-							<th>
-								<button
-									className="flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900"
-									// onClick={() => setModalVisible(true)}
-								>
-									March 10, 2023
-									<span>
-										<CircleArrowDown />
-									</span>
-								</button>
-							</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
+					<thead className="w-full"></thead>
+					<tbody>
+						<MatchRow />
+					</tbody>
 				</table>
 			</div>
 		</>
