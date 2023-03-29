@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'flowbite-react';
 import { IconRepeat } from '@tabler/icons-react';
+import DivisionRow from '@/components/schedule/DivisionRow';
 
 const soccer = () => {
 	return (
@@ -32,6 +33,9 @@ const soccer = () => {
 							</tr>
 						</thead>
 						<tbody>
+							<DivisionRow />
+							<DivisionRow />
+							<DivisionRow />
 							<tr>
 								<td
 									colSpan={6}
