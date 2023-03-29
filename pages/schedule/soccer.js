@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'flowbite-react';
-import { IconCirclePlus } from '@tabler/icons-react';
+import { IconRepeat } from '@tabler/icons-react';
 
 const soccer = () => {
 	return (
@@ -8,15 +8,15 @@ const soccer = () => {
 			<main className="w-full flex flex-col gap-6 p-8">
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
+					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 items-center">
 						<h1 className="text-xl self-center">Spring Season Divisions</h1>
 						<Button
 							pill={true}
-							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							className="px-[1.75rem] bg-blue-900 hover:bg-blue-800 px-4"
 							// onClick={() => setModalVisible(true)}
 						>
-							<IconCirclePlus className="mr-2 h-5 w-5" />
-							Add A Team
+							<IconRepeat className="mr-2 h-5 w-5" />
+							Change
 						</Button>
 					</div>
 
