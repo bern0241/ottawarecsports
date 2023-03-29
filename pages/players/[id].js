@@ -11,10 +11,24 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
+import { getPlayerFunc } from '@/utils/graphql.services';
 
 export default function PlayerProfile() {
 	const router = useRouter();
 	const userId = router.query.id;
+	const [player, setPlayer] = useState();
+
+	useEffect(() => {
+		if(!userId) {
+			return
+		}
+		fetchPlayer();
+	}, [userId])
+
+	const fetchPlayer = async () => {
+		const data = await getPlayerFunc(userId);
+		console.log(data);
+	}
 
 	return (
 		<>
