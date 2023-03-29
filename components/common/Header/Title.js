@@ -12,10 +12,6 @@ import { useRouter } from 'next/router';
 const HeaderTitle = () => {
 	const router = useRouter();
 
-	useEffect(() => {
-		console.log('Pathname:', router.pathname);
-	}, [router.pathname])
-
 	return (
 		<>
 		{router.pathname === '/' && (

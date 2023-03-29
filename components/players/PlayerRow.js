@@ -22,7 +22,6 @@ export default function PlayerRow({ player, index }) {
 	const router = useRouter();
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
-	console.log('Player Stats',player);
 
 	useEffect(() => {
 		if (player.Attributes.find(o => o.Name === 'picture')['Value'] === 'none') {
@@ -35,7 +34,6 @@ export default function PlayerRow({ player, index }) {
 			});
 			setProfileImage(url);
 		}
-		console.log('Profile Pic', profileImage);
 	},[])
 
 	useEffect(() => {
@@ -66,7 +64,7 @@ export default function PlayerRow({ player, index }) {
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 text-md">
 				<div className="flex items-center">
-					<img onClick={(e) => console.log(player)}
+					<img
 						src={`${profileImage ? profileImage : "/images/defaultProfilePic.jpeg"}`}
 						className="rounded-full mr-5 w-10 h-10"
 					></img>
@@ -91,7 +89,7 @@ export default function PlayerRow({ player, index }) {
 			</td>
 			<td className="p-5 font-light">
 				{/* {player.Attributes.find((o) => o.Name === 'custom:location')['Value']} */}
-				{player.location}
+				{player.Attributes.find(o => o.Name === 'custom:location')['Value']}
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
