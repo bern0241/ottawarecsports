@@ -12,7 +12,7 @@ export default function TeamProfile() {
 	const teamId = router.query.id;
 	const [team, setTeam] = useState();
 	const [captains, setCaptains] = useState([]);
-	const [member, setMember] = useState([]);
+	const [members, setMembers] = useState([]);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 
@@ -26,6 +26,7 @@ export default function TeamProfile() {
 
 	useEffect(() => {
 		if (team) {
+			console.log('MY TEAM', team);
 			fetchCaptains();
 		}
 	}, [team])
@@ -36,6 +37,10 @@ export default function TeamProfile() {
 		}
 	}, [captains])
 
+	useEffect(() => {
+		console.log('MEMBERS',members);
+	}, [members])
+
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
@@ -45,22 +50,20 @@ export default function TeamProfile() {
 
 	const fetchPlayer = async () => {
 		const data = await getAllPlayers();
-		// setPlayer(data);//
-
-		//Get captain name
-		// if (team !== undefined) {
-			
-		// 	const reqId =  team.team_history.captains
-			
-		// 	const reqData = data.filter(function (el) {
-		// 		return el.id == reqId;
-		// 	})
-		// 	// console.log(reqData.user);
-		// 	// setCaptains(reqData.user);
-		// }
-		// else {
-		// 	setCaptains([]);
-		// }
+		data.forEach(async playerUsername => {
+			const params = {
+				Username: playerUsername,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     {
+					// setCaptains(data);
+					setMembers(members => [...members, data] );
+					return;
+				}          // successful response
+			});
+		})
 	}
 
 	const fetchCaptains = async () => {
@@ -82,21 +85,6 @@ export default function TeamProfile() {
 		})
 		// console.log('Captains', captains);
 	}
-
-	const members = [
-		{
-			name: "John",
-			lastName: "Doe"
-		},
-		{
-			name: "Jane",
-			lastName: "Doe"
-		},
-		{
-			name: "Emma",
-			lastName: "Smith"
-		}
-	]
 
 	return (
 		<main className="w-full h-screen flex flex-col gap-6 p-8">
@@ -143,9 +131,11 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Captain</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-							{/* {captains.UserAttributes && (
-								<p>{captains.UserAttributes.find(o => o.Name === 'name')['Value']} {captains.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
-							)} */}
+							{captains && captains.map((captain) => (
+								<>
+								<p>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+								</>
+							))}
 							</div>
 						</div>
 
@@ -200,7 +190,7 @@ export default function TeamProfile() {
 								</div>
 								{members && members.map((member) => (
 									<>
-										<p className='relative border-t border-brand-blue-900/25 px-5 py-2'>{member.name}</p>
+										{/* <p className='relative border-t border-brand-blue-900/25 px-5 py-2'>{member.UserAttributes.find(o => o.Name === 'name')['Value']}</p> */}
 									</>
 								))}
 							</div>

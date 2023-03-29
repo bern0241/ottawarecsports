@@ -81,6 +81,7 @@ export default function Teams() {
 					isVisible={modalVisible}
 					setIsVisible={setModalVisible}
 					players={players}
+					getTeamsData={getTeamsData}
 				/>
 				{/* Search Bar */}
 				<SearchBarInput

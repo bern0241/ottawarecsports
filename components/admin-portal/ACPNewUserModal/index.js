@@ -17,6 +17,7 @@ import LocationDropDown from './LocationDropDown';
 import UserGroupsDropDown from './UserGroupsDropDown';
 import UserProfilePicture from './UserProfilePicture';
 import TempPasswordField from './TempPasswordField';
+import { createPlayer } from '@/utils/graphql.services';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -148,6 +149,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 						setMessage({ status: 'error', message: err.message });
 					} else {
 						await addUserToGroups(data.User.Username, profile_pic_id);
+						await createPlayer(data.User.Username);
 						setOpenModal(false);
 					}
 				}

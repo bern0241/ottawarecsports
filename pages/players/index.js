@@ -17,16 +17,24 @@ export default function Players() {
 	const [searchValue, setSearchValue] = useState('');
 
 	// Fetch users in AWS Cognito user pool:
-	// var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
 		fetchUsers();
 	}, []);
 
 	const fetchUsers = async () => {
-		const data = await getAllPlayers();
-		setPlayers(data);
-		filterPlayers(data);
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+		};
+		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				setPlayers(data.Users);
+				filterPlayers(data.Users);
+			}
+		});
 	};
 
 	/**
@@ -89,20 +97,13 @@ export default function Players() {
 							</tr>
 						</thead>
 						<tbody>
-							{players && players.filter((player) => {
-								const searchItem = searchValue.toLocaleLowerCase();
-								const v = `${player.user.toLocaleLowerCase()}`
-								if(!searchItem) return true;
-								return v.startsWith(searchItem);
-							}).map((player, index) => (
+							{players && players.map((player) => (
 								<PlayerRow
-									key={player.id}
-									player={player}
-									index={index}
-								/>
-							))
-							}
-
+								key={player.id}
+								player={player}
+								index={player.id}
+							/>
+							))}
 							<tr>
 								<td
 									colSpan={6}

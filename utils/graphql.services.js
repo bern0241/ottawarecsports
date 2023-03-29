@@ -7,8 +7,8 @@
  */
 
 import { API } from 'aws-amplify';
-import * as queries from '../graphql/queries';
-import * as mutations from '../graphql/mutations';
+import * as queries from '../src/graphql/queries';
+import * as mutations from '../src/graphql/mutations';
 import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
@@ -29,9 +29,9 @@ var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 export const getAllPlayers = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listPlayersSoccers,
+			query: queries.listPlayers,
 		});
-		return resp.data.listPlayersSoccers.items.filter((item) => !item._deleted);
+		return resp.data.listPlayers.items.filter((item) => !item._deleted);
 	} catch (err) {
 		console.warn(err);
 	}
@@ -59,10 +59,10 @@ export const getAllUsers = async () => {
 export const getTeam = async (_id) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.getTeams,
+			query: queries.getTeam,
 			variables: { id: _id}
 		});
-		return resp.data.getTeams;
+		return resp.data.getTeam;
 	} catch (err) {
 		console.warn(err);
 	}
@@ -182,7 +182,7 @@ export const changeUserPassword = async (oldPassword, newPassword) => {
 export const createTeam = async (teamData) => {
 	try {
 		const resp = await API.graphql({
-			query: mutations.createTeams,
+			query: mutations.createTeam,
 			variables: {
 				input: teamData,
 			},
@@ -283,4 +283,20 @@ export const getUser = async (username, setState) => {
 			return data;
 		}          // successful response
 	});
+}
+
+export const createPlayer = async (username) => {
+	try {
+		const data = {
+			user_id: username,
+		}
+		const apiData = await API.graphql({
+			query: mutations.createPlayer,
+			variables: { input: data },
+		});
+		return apiData;
+	} catch (error) {
+		console.error(error);
+	}
+
 }
