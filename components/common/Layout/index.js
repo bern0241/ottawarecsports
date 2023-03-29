@@ -18,7 +18,6 @@ const Layout = ({ children }) => {
 
 	// Checks size of window screen and sets laptopSize state
 	useEffect(() => {
-		console.log(size.width);
         if (size.width >= 640) {
 			setLaptopSize(true);
         } else {

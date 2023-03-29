@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react';
 import SearchBarInput from '@/components/common/SearchBarInput';
 import PlayerRow from '@/components/players/PlayerRow';
 import AWS from 'aws-sdk';
-import { getAllPlayers } from '@/utils/graphql.services';
 
 export default function Players() {
 	const [players, setPlayers] = useState([]);
@@ -99,9 +98,9 @@ export default function Players() {
 							{filteredPlayers &&
 								filteredPlayers.map((player) => (
 									<PlayerRow
-										key={player.id}
+										key={player.Username}
 										player={player}
-										index={player.id}
+										index={player.Username}
 									/>
 								))}
 							<tr>
