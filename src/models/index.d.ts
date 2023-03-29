@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
 export enum GameStatusEnum {
   NOT_STARTED = "NOT_STARTED",
@@ -19,12 +19,7 @@ export enum DivisionsEnum {
   AAA = "AAA"
 }
 
-export enum GenderEnum {
-  MALE = "MALE",
-  FEMALE = "FEMALE"
-}
-
-type EagerTeamDivisionStats = {
+type EagerSoccerTeamStat = {
   readonly id?: string | null;
   readonly team?: string | null;
   readonly division?: string | null;
@@ -37,7 +32,7 @@ type EagerTeamDivisionStats = {
   readonly captains?: (string | null)[] | null;
 }
 
-type LazyTeamDivisionStats = {
+type LazySoccerTeamStat = {
   readonly id?: string | null;
   readonly team?: string | null;
   readonly division?: string | null;
@@ -50,11 +45,11 @@ type LazyTeamDivisionStats = {
   readonly captains?: (string | null)[] | null;
 }
 
-export declare type TeamDivisionStats = LazyLoading extends LazyLoadingDisabled ? EagerTeamDivisionStats : LazyTeamDivisionStats
+export declare type SoccerTeamStat = LazyLoading extends LazyLoadingDisabled ? EagerSoccerTeamStat : LazySoccerTeamStat
 
-export declare const TeamDivisionStats: (new (init: ModelInit<TeamDivisionStats>) => TeamDivisionStats)
+export declare const SoccerTeamStat: (new (init: ModelInit<SoccerTeamStat>) => SoccerTeamStat)
 
-type EagerPlayerDivisionStats = {
+type EagerSoccerDivisionStat = {
   readonly id?: string | null;
   readonly team?: string | null;
   readonly division?: string | null;
@@ -66,7 +61,7 @@ type EagerPlayerDivisionStats = {
   readonly games_played?: number | null;
 }
 
-type LazyPlayerDivisionStats = {
+type LazySoccerDivisionStat = {
   readonly id?: string | null;
   readonly team?: string | null;
   readonly division?: string | null;
@@ -78,9 +73,9 @@ type LazyPlayerDivisionStats = {
   readonly games_played?: number | null;
 }
 
-export declare type PlayerDivisionStats = LazyLoading extends LazyLoadingDisabled ? EagerPlayerDivisionStats : LazyPlayerDivisionStats
+export declare type SoccerDivisionStat = LazyLoading extends LazyLoadingDisabled ? EagerSoccerDivisionStat : LazySoccerDivisionStat
 
-export declare const PlayerDivisionStats: (new (init: ModelInit<PlayerDivisionStats>) => PlayerDivisionStats)
+export declare const SoccerDivisionStat: (new (init: ModelInit<SoccerDivisionStat>) => SoccerDivisionStat)
 
 type EagerSportsmanshipPoint = {
   readonly [__modelMeta__]: {
@@ -88,6 +83,7 @@ type EagerSportsmanshipPoint = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly points?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -98,6 +94,7 @@ type LazySportsmanshipPoint = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly points?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -108,51 +105,45 @@ export declare const SportsmanshipPoint: (new (init: ModelInit<SportsmanshipPoin
   copyOf(source: SportsmanshipPoint, mutator: (draft: MutableModel<SportsmanshipPoint>) => MutableModel<SportsmanshipPoint> | void): SportsmanshipPoint;
 }
 
-type EagerPlayersSoccer = {
+type EagerPlayer = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<PlayersSoccer, 'id'>;
+    identifier: ManagedIdentifier<Player, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly user?: string | null;
-  readonly position?: string | null;
-  readonly PlayerDivisionStats?: (PlayerDivisionStats | null)[] | null;
-  readonly location?: string | null;
+  readonly user_id?: string | null;
+  readonly soccer_stats?: (SoccerDivisionStat | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyPlayersSoccer = {
+type LazyPlayer = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<PlayersSoccer, 'id'>;
+    identifier: ManagedIdentifier<Player, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly user?: string | null;
-  readonly position?: string | null;
-  readonly PlayerDivisionStats?: (PlayerDivisionStats | null)[] | null;
-  readonly location?: string | null;
+  readonly user_id?: string | null;
+  readonly soccer_stats?: (SoccerDivisionStat | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type PlayersSoccer = LazyLoading extends LazyLoadingDisabled ? EagerPlayersSoccer : LazyPlayersSoccer
+export declare type Player = LazyLoading extends LazyLoadingDisabled ? EagerPlayer : LazyPlayer
 
-export declare const PlayersSoccer: (new (init: ModelInit<PlayersSoccer>) => PlayersSoccer) & {
-  copyOf(source: PlayersSoccer, mutator: (draft: MutableModel<PlayersSoccer>) => MutableModel<PlayersSoccer> | void): PlayersSoccer;
+export declare const Player: (new (init: ModelInit<Player>) => Player) & {
+  copyOf(source: Player, mutator: (draft: MutableModel<Player>) => MutableModel<Player> | void): Player;
 }
 
-type EagerGames = {
+type EagerGame = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Games, 'id'>;
+    identifier: ManagedIdentifier<Game, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly division: string;
-  readonly date?: number | null;
+  readonly date?: string | null;
   readonly location?: string | null;
-  readonly home_team?: string | null;
-  readonly away_team?: string | null;
   readonly status?: GameStatusEnum | keyof typeof GameStatusEnum | null;
   readonly home_roster?: (string | null)[] | null;
   readonly away_roster?: (string | null)[] | null;
@@ -161,21 +152,23 @@ type EagerGames = {
   readonly goals?: (string | null)[] | null;
   readonly round?: number | null;
   readonly referees?: (string | null)[] | null;
+  readonly HomeTeam: Team;
+  readonly AwayTeam: Team;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly gameHomeTeamId: string;
+  readonly gameAwayTeamId: string;
 }
 
-type LazyGames = {
+type LazyGame = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Games, 'id'>;
+    identifier: ManagedIdentifier<Game, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly division: string;
-  readonly date?: number | null;
+  readonly date?: string | null;
   readonly location?: string | null;
-  readonly home_team?: string | null;
-  readonly away_team?: string | null;
   readonly status?: GameStatusEnum | keyof typeof GameStatusEnum | null;
   readonly home_roster?: (string | null)[] | null;
   readonly away_roster?: (string | null)[] | null;
@@ -184,292 +177,290 @@ type LazyGames = {
   readonly goals?: (string | null)[] | null;
   readonly round?: number | null;
   readonly referees?: (string | null)[] | null;
+  readonly HomeTeam: AsyncItem<Team>;
+  readonly AwayTeam: AsyncItem<Team>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly gameHomeTeamId: string;
+  readonly gameAwayTeamId: string;
 }
 
-export declare type Games = LazyLoading extends LazyLoadingDisabled ? EagerGames : LazyGames
+export declare type Game = LazyLoading extends LazyLoadingDisabled ? EagerGame : LazyGame
 
-export declare const Games: (new (init: ModelInit<Games>) => Games) & {
-  copyOf(source: Games, mutator: (draft: MutableModel<Games>) => MutableModel<Games> | void): Games;
+export declare const Game: (new (init: ModelInit<Game>) => Game) & {
+  copyOf(source: Game, mutator: (draft: MutableModel<Game>) => MutableModel<Game> | void): Game;
 }
 
-type EagerDivisions = {
+type EagerDivision = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Divisions, 'id'>;
+    identifier: ManagedIdentifier<Division, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name?: string | null;
   readonly abbreviation?: string | null;
   readonly teams?: (string | null)[] | null;
-  readonly next_round?: number | null;
   readonly season: string;
-  readonly Games?: (Games | null)[] | null;
-  readonly number_of_periods?: number | null;
-  readonly time_per_period?: number | null;
+  readonly Games?: (Game | null)[] | null;
   readonly level?: DivisionsEnum | keyof typeof DivisionsEnum | null;
+  readonly description?: string | null;
+  readonly is_playoff?: boolean | null;
+  readonly Teams?: (DivisionTeam | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyDivisions = {
+type LazyDivision = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Divisions, 'id'>;
+    identifier: ManagedIdentifier<Division, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name?: string | null;
   readonly abbreviation?: string | null;
   readonly teams?: (string | null)[] | null;
-  readonly next_round?: number | null;
   readonly season: string;
-  readonly Games: AsyncCollection<Games>;
+  readonly Games: AsyncCollection<Game>;
+  readonly level?: DivisionsEnum | keyof typeof DivisionsEnum | null;
+  readonly description?: string | null;
+  readonly is_playoff?: boolean | null;
+  readonly Teams: AsyncCollection<DivisionTeam>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Division = LazyLoading extends LazyLoadingDisabled ? EagerDivision : LazyDivision
+
+export declare const Division: (new (init: ModelInit<Division>) => Division) & {
+  copyOf(source: Division, mutator: (draft: MutableModel<Division>) => MutableModel<Division> | void): Division;
+}
+
+type EagerSeason = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Season, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly league: string;
+  readonly name?: string | null;
+  readonly abbreviation?: string | null;
+  readonly start_date?: string | null;
+  readonly end_date?: string | null;
+  readonly Divisions?: (Division | null)[] | null;
+  readonly is_completed?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySeason = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Season, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly league: string;
+  readonly name?: string | null;
+  readonly abbreviation?: string | null;
+  readonly start_date?: string | null;
+  readonly end_date?: string | null;
+  readonly Divisions: AsyncCollection<Division>;
+  readonly is_completed?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Season = LazyLoading extends LazyLoadingDisabled ? EagerSeason : LazySeason
+
+export declare const Season: (new (init: ModelInit<Season>) => Season) & {
+  copyOf(source: Season, mutator: (draft: MutableModel<Season>) => MutableModel<Season> | void): Season;
+}
+
+type EagerLeague = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<League, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name?: string | null;
+  readonly sport?: string | null;
+  readonly date_founded?: string | null;
+  readonly cost_per_individual?: number | null;
+  readonly cost_per_team?: number | null;
+  readonly coordinators?: (string | null)[] | null;
+  readonly Seasons?: (Season | null)[] | null;
+  readonly description?: string | null;
   readonly number_of_periods?: number | null;
   readonly time_per_period?: number | null;
-  readonly level?: DivisionsEnum | keyof typeof DivisionsEnum | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type Divisions = LazyLoading extends LazyLoadingDisabled ? EagerDivisions : LazyDivisions
-
-export declare const Divisions: (new (init: ModelInit<Divisions>) => Divisions) & {
-  copyOf(source: Divisions, mutator: (draft: MutableModel<Divisions>) => MutableModel<Divisions> | void): Divisions;
-}
-
-type EagerSeasons = {
+type LazyLeague = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Seasons, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly league: string;
-  readonly name?: string | null;
-  readonly abbreviation?: string | null;
-  readonly start_date?: number | null;
-  readonly end_date?: number | null;
-  readonly Divisions?: (Divisions | null)[] | null;
-  readonly is_completed?: boolean | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazySeasons = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Seasons, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly league: string;
-  readonly name?: string | null;
-  readonly abbreviation?: string | null;
-  readonly start_date?: number | null;
-  readonly end_date?: number | null;
-  readonly Divisions: AsyncCollection<Divisions>;
-  readonly is_completed?: boolean | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Seasons = LazyLoading extends LazyLoadingDisabled ? EagerSeasons : LazySeasons
-
-export declare const Seasons: (new (init: ModelInit<Seasons>) => Seasons) & {
-  copyOf(source: Seasons, mutator: (draft: MutableModel<Seasons>) => MutableModel<Seasons> | void): Seasons;
-}
-
-type EagerLeagues = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Leagues, 'id'>;
+    identifier: ManagedIdentifier<League, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name?: string | null;
   readonly sport?: string | null;
-  readonly date_founded?: number | null;
-  readonly gender?: GenderEnum | keyof typeof GenderEnum | null;
+  readonly date_founded?: string | null;
   readonly cost_per_individual?: number | null;
   readonly cost_per_team?: number | null;
-  readonly coordinator?: (string | null)[] | null;
-  readonly Seasons?: (Seasons | null)[] | null;
+  readonly coordinators?: (string | null)[] | null;
+  readonly Seasons: AsyncCollection<Season>;
+  readonly description?: string | null;
+  readonly number_of_periods?: number | null;
+  readonly time_per_period?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyLeagues = {
+export declare type League = LazyLoading extends LazyLoadingDisabled ? EagerLeague : LazyLeague
+
+export declare const League: (new (init: ModelInit<League>) => League) & {
+  copyOf(source: League, mutator: (draft: MutableModel<League>) => MutableModel<League> | void): League;
+}
+
+type EagerTeamNote = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Leagues, 'id'>;
+    identifier: ManagedIdentifier<TeamNote, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly date?: string | null;
+  readonly description?: string | null;
+  readonly team_id: string;
+  readonly author_id?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyTeamNote = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<TeamNote, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly date?: string | null;
+  readonly description?: string | null;
+  readonly team_id: string;
+  readonly author_id?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type TeamNote = LazyLoading extends LazyLoadingDisabled ? EagerTeamNote : LazyTeamNote
+
+export declare const TeamNote: (new (init: ModelInit<TeamNote>) => TeamNote) & {
+  copyOf(source: TeamNote, mutator: (draft: MutableModel<TeamNote>) => MutableModel<TeamNote> | void): TeamNote;
+}
+
+type EagerTeam = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Team, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly sport?: string | null;
-  readonly date_founded?: number | null;
-  readonly gender?: GenderEnum | keyof typeof GenderEnum | null;
-  readonly cost_per_individual?: number | null;
-  readonly cost_per_team?: number | null;
-  readonly coordinator?: (string | null)[] | null;
-  readonly Seasons: AsyncCollection<Seasons>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Leagues = LazyLoading extends LazyLoadingDisabled ? EagerLeagues : LazyLeagues
-
-export declare const Leagues: (new (init: ModelInit<Leagues>) => Leagues) & {
-  copyOf(source: Leagues, mutator: (draft: MutableModel<Leagues>) => MutableModel<Leagues> | void): Leagues;
-}
-
-type EagerTeamNotes = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<TeamNotes, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly date?: number | null;
-  readonly description?: string | null;
-  readonly team: string;
-  readonly author?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyTeamNotes = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<TeamNotes, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly date?: number | null;
-  readonly description?: string | null;
-  readonly team: string;
-  readonly author?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type TeamNotes = LazyLoading extends LazyLoadingDisabled ? EagerTeamNotes : LazyTeamNotes
-
-export declare const TeamNotes: (new (init: ModelInit<TeamNotes>) => TeamNotes) & {
-  copyOf(source: TeamNotes, mutator: (draft: MutableModel<TeamNotes>) => MutableModel<TeamNotes> | void): TeamNotes;
-}
-
-type EagerTeams = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Teams, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name?: string | null;
-  readonly founded?: number | null;
+  readonly founded?: string | null;
   readonly home_colour?: string | null;
   readonly away_colour?: string | null;
-  readonly TeamNotes?: (TeamNotes | null)[] | null;
-  readonly team_history?: (TeamDivisionStats | null)[] | null;
+  readonly TeamNotes?: (TeamNote | null)[] | null;
+  readonly team_history?: (SoccerTeamStat | null)[] | null;
   readonly team_picture?: string | null;
+  readonly divisions?: (DivisionTeam | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyTeams = {
+type LazyTeam = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Teams, 'id'>;
+    identifier: ManagedIdentifier<Team, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly founded?: number | null;
+  readonly founded?: string | null;
   readonly home_colour?: string | null;
   readonly away_colour?: string | null;
-  readonly TeamNotes: AsyncCollection<TeamNotes>;
-  readonly team_history?: (TeamDivisionStats | null)[] | null;
+  readonly TeamNotes: AsyncCollection<TeamNote>;
+  readonly team_history?: (SoccerTeamStat | null)[] | null;
   readonly team_picture?: string | null;
+  readonly divisions: AsyncCollection<DivisionTeam>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type Teams = LazyLoading extends LazyLoadingDisabled ? EagerTeams : LazyTeams
+export declare type Team = LazyLoading extends LazyLoadingDisabled ? EagerTeam : LazyTeam
 
-export declare const Teams: (new (init: ModelInit<Teams>) => Teams) & {
-  copyOf(source: Teams, mutator: (draft: MutableModel<Teams>) => MutableModel<Teams> | void): Teams;
+export declare const Team: (new (init: ModelInit<Team>) => Team) & {
+  copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
 }
 
-type EagerUserNotes = {
+type EagerPlayerNote = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<UserNotes, 'id'>;
+    identifier: ManagedIdentifier<PlayerNote, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly user: string;
-  readonly author?: string | null;
-  readonly date?: number | null;
+  readonly player_id?: string | null;
+  readonly date?: string | null;
   readonly description?: string | null;
+  readonly author_id?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyUserNotes = {
+type LazyPlayerNote = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<UserNotes, 'id'>;
+    identifier: ManagedIdentifier<PlayerNote, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly user: string;
-  readonly author?: string | null;
-  readonly date?: number | null;
+  readonly player_id?: string | null;
+  readonly date?: string | null;
   readonly description?: string | null;
+  readonly author_id?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type UserNotes = LazyLoading extends LazyLoadingDisabled ? EagerUserNotes : LazyUserNotes
+export declare type PlayerNote = LazyLoading extends LazyLoadingDisabled ? EagerPlayerNote : LazyPlayerNote
 
-export declare const UserNotes: (new (init: ModelInit<UserNotes>) => UserNotes) & {
-  copyOf(source: UserNotes, mutator: (draft: MutableModel<UserNotes>) => MutableModel<UserNotes> | void): UserNotes;
+export declare const PlayerNote: (new (init: ModelInit<PlayerNote>) => PlayerNote) & {
+  copyOf(source: PlayerNote, mutator: (draft: MutableModel<PlayerNote>) => MutableModel<PlayerNote> | void): PlayerNote;
 }
 
-type EagerUsers = {
+type EagerDivisionTeam = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Users, 'id'>;
+    identifier: ManagedIdentifier<DivisionTeam, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly first_name?: string | null;
-  readonly last_name?: string | null;
-  readonly email?: string | null;
-  readonly gender?: GenderEnum | keyof typeof GenderEnum | null;
-  readonly date_of_birth?: number | null;
-  readonly UserNotes?: (UserNotes | null)[] | null;
-  readonly PlayersSoccer?: PlayersSoccer | null;
-  readonly profile_picture?: string | null;
-  readonly username?: string | null;
+  readonly divisionId?: string | null;
+  readonly teamId?: string | null;
+  readonly division: Division;
+  readonly team: Team;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly usersPlayersSoccerId?: string | null;
 }
 
-type LazyUsers = {
+type LazyDivisionTeam = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Users, 'id'>;
+    identifier: ManagedIdentifier<DivisionTeam, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly first_name?: string | null;
-  readonly last_name?: string | null;
-  readonly email?: string | null;
-  readonly gender?: GenderEnum | keyof typeof GenderEnum | null;
-  readonly date_of_birth?: number | null;
-  readonly UserNotes: AsyncCollection<UserNotes>;
-  readonly PlayersSoccer: AsyncItem<PlayersSoccer | undefined>;
-  readonly profile_picture?: string | null;
-  readonly username?: string | null;
+  readonly divisionId?: string | null;
+  readonly teamId?: string | null;
+  readonly division: AsyncItem<Division>;
+  readonly team: AsyncItem<Team>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly usersPlayersSoccerId?: string | null;
 }
 
-export declare type Users = LazyLoading extends LazyLoadingDisabled ? EagerUsers : LazyUsers
+export declare type DivisionTeam = LazyLoading extends LazyLoadingDisabled ? EagerDivisionTeam : LazyDivisionTeam
 
-export declare const Users: (new (init: ModelInit<Users>) => Users) & {
-  copyOf(source: Users, mutator: (draft: MutableModel<Users>) => MutableModel<Users> | void): Users;
+export declare const DivisionTeam: (new (init: ModelInit<DivisionTeam>) => DivisionTeam) & {
+  copyOf(source: DivisionTeam, mutator: (draft: MutableModel<DivisionTeam>) => MutableModel<DivisionTeam> | void): DivisionTeam;
 }
