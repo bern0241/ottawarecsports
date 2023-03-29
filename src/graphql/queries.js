@@ -410,6 +410,21 @@ export const listLeagues = /* GraphQL */ `
 						start_date
 						end_date
 						is_completed
+						Divisions {
+							items {
+								id
+								name
+								abbreviation
+								teams
+								season
+								level
+								description
+								is_playoff
+								createdAt
+								updatedAt
+							}
+							nextToken
+						}
 						createdAt
 						updatedAt
 					}
