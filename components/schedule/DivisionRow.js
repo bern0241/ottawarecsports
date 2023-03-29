@@ -1,6 +1,8 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 const DivisionRow = () => {
+	const router = useRouter();
 	const CalendarIcon = () => (
 		<svg width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -10,11 +12,14 @@ const DivisionRow = () => {
 			/>
 		</svg>
 	);
+	const navigateToProfile = () => {
+		router.push(`/schedule/soccer/${123}`);
+	};
 	return (
 		<tr
 			// key={team.id}
-			className="border-b border-brand-neutral-300"
-			// onClick={navigateToProfile}
+			className="border-b border-brand-neutral-300 cursor-pointer"
+			onClick={navigateToProfile}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
