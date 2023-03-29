@@ -19,27 +19,21 @@ const DivisionsEnum = {
   "AAA": "AAA"
 };
 
-const GenderEnum = {
-  "MALE": "MALE",
-  "FEMALE": "FEMALE"
-};
-
-const { SportsmanshipPoint, PlayersSoccer, Games, Divisions, Seasons, Leagues, TeamNotes, Teams, UserNotes, Users, TeamDivisionStats, PlayerDivisionStats } = initSchema(schema);
+const { SportsmanshipPoint, Player, Game, Division, Season, League, TeamNote, Team, PlayerNote, DivisionTeam, SoccerTeamStat, SoccerDivisionStat } = initSchema(schema);
 
 export {
   SportsmanshipPoint,
-  PlayersSoccer,
-  Games,
-  Divisions,
-  Seasons,
-  Leagues,
-  TeamNotes,
-  Teams,
-  UserNotes,
-  Users,
+  Player,
+  Game,
+  Division,
+  Season,
+  League,
+  TeamNote,
+  Team,
+  PlayerNote,
+  DivisionTeam,
   GameStatusEnum,
   DivisionsEnum,
-  GenderEnum,
-  TeamDivisionStats,
-  PlayerDivisionStats
+  SoccerTeamStat,
+  SoccerDivisionStat
 };
