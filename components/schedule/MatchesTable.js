@@ -32,6 +32,7 @@ const MatchesTable = () => {
 					<thead className="w-full"></thead>
 					<tbody>
 						<MatchRow />
+						<MatchRow />
 					</tbody>
 				</table>
 			</div>
