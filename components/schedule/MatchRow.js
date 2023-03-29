@@ -65,7 +65,7 @@ const MatchRow = () => {
 		<>
 			<tr
 				// key={team.id}
-				className="border-b border-brand-neutral-300 flex flex-row items-stretch py-[26px] px-[14px] justify-between"
+				className="border-b border-brand-neutral-300 flex flex-row items-stretch py-[26px] px-5 justify-between"
 				// onClick={navigateToProfile}
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
