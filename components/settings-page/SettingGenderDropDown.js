@@ -16,7 +16,7 @@ export default function SettingGenderDropDown({ state, setState }) {
 				id="gender"
 				required={true}
 				value={state}
-				className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+				className="h-[40px] w-full"
 			>
 				<option color="red" className="text-slate-400" defaultValue disabled>
 					Gender *

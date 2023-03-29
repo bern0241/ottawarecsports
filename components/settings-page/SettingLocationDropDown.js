@@ -16,7 +16,7 @@ export default function SettingLocationDropDown({ state, setState }) {
 				value={state}
 				id="location"
 				required={true}
-				className="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+				className="h-[40px] w-full"
 			>
 				<option color="red" defaultValue disabled>
 					Location *

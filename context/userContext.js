@@ -16,7 +16,6 @@ function UserContextProvider(props) {
 
 	useEffect(() => {
 		checkUser();
-
 		Hub.listen('auth', ({ playload }) => {
 			checkUser();
 		});
@@ -26,6 +25,7 @@ function UserContextProvider(props) {
 		try {
 			const user = await Auth.currentAuthenticatedUser();
 			setUser(user);
+			console.log(user);
 			// console.log('Auth User', user);
 			getAuthRole(user);
 		} catch (error) {
@@ -33,15 +33,12 @@ function UserContextProvider(props) {
 		}
 	};
 
-	// useEffect(() => {
-	// 	console.log('Auth User', user);
-	// }, [user])
-
 	const getAuthRole = async (user) => {
 		try {
 			const groups =
 				user.signInUserSession.accessToken.payload['cognito:groups'];
 			setAuthRoles(groups);
+			console.log('My groups', groups);
 		} catch (error) {
 			console.error(error);
 		}
