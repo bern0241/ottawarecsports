@@ -497,6 +497,21 @@ export const listTeams = /* GraphQL */ `
 				home_colour
 				away_colour
 				team_picture
+				TeamNotes {
+					nextToken
+				}
+				team_history {
+					id
+					team
+					division
+					roster
+					goals
+					assists
+					yellow_cards
+					red_cards
+					games_played
+					captains
+				}
 				createdAt
 				updatedAt
 			}
