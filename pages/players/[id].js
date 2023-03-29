@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 import React, { useEffect, useState } from 'react';
@@ -11,23 +12,39 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
-import { getPlayerFunc } from '@/utils/graphql.services';
+import { getPlayersByUsername } from '@/utils/graphql.services';
 
 export default function PlayerProfile() {
 	const router = useRouter();
 	const userId = router.query.id;
-	const [player, setPlayer] = useState();
+	const [player, setPlayer] = useState(); // Player Table
+	const [user, setUser] = useState(); // Cognito User
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
 		if(!userId) {
 			return
 		}
 		fetchPlayer();
+		fetchPlayerCognito();
 	}, [userId])
 
 	const fetchPlayer = async () => {
-		const data = await getPlayerFunc(userId);
-		console.log(data);
+		const data = await getPlayersByUsername(userId);
+		setPlayer(data[0]);
+	}
+
+	const fetchPlayerCognito = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t',
+			Username: userId
+		  };
+		  cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else       // successful response
+					// console.log('User', data);
+					setUser(data);
+		});
 	}
 
 	return (
@@ -70,28 +87,28 @@ export default function PlayerProfile() {
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">First Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									First Name
+									{user && user.UserAttributes.find(o => o.Name === 'name')['Value']}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Last Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									Family Name
+								{user && user.UserAttributes.find(o => o.Name === 'family_name')['Value']}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Location</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									Location
+									{user && user.UserAttributes.find(o => o.Name === 'custom:location')['Value']}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									Gender
+									{user && user.UserAttributes.find(o => o.Name === 'gender')['Value']}
 								</div>
 							</div>
 						</div>

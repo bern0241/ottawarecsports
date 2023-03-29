@@ -41,6 +41,24 @@ export const getPlayerFunc = async (_id) => {
 	}
 };
 
+export const getPlayersByUsername = async (_id) => {
+	try {
+		const variables = {
+			filter: {
+			  user_id: {
+				eq: _id
+			  }
+			}
+		  };
+		const resp = await API.graphql({ 
+		query: queries.listPlayers, variables: variables
+		});
+		return resp.data.listPlayers.items;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
 /**
  * Returns all players in the database
  * @returns {[Object]} Player objects in an array
