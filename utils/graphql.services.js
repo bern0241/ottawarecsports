@@ -296,6 +296,7 @@ export const deleteImageFromS3 = async (key) => {
 	} catch (error) {
 		console.error(error);
 	}
+}
 
 export const getUser = async (username, setState) => {
 	const params = {
