@@ -1,11 +1,14 @@
 /**
- * Last updated: 2023-03-23
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
-function CoordinatorDropdown() {
+import React, { useState, useEffect } from 'react';
+import UserCard from './UserCard';
+
+export default function CoordinatorDropdown() {
     
     return (
     <>

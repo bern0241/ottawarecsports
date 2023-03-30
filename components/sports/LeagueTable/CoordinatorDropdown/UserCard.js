@@ -1,12 +1,14 @@
 /**
- * Last updated: 2023-03-23
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
-function UserCard() {
+export default function UserCard() {
     
     return (
         <div class="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
