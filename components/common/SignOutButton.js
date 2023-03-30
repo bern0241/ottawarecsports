@@ -34,7 +34,7 @@ export default function SignOutButton() {
 				<button
 					onClick={(e) => signOut(e)}
 					type="button"
-					className="bg-brand-blue-800 h-9 w-full rounded text-white font-regular mb-3"
+					className="bg-brand-blue-800 h-9 w-full rounded text-white font-regular mb-3 mt-5"
 				>
 					Sign Out
 				</button>
@@ -42,7 +42,7 @@ export default function SignOutButton() {
 				<button
 					onClick={(e) => signIn(e)}
 					type="button"
-					className="bg-brand-blue-800 h-9 w-full rounded text-white font-regular mb-3"
+					className="bg-brand-blue-800 h-9 w-full rounded text-white font-regular mb-3 mt-5"
 				>
 					Sign In
 				</button>

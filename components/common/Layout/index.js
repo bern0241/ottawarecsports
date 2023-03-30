@@ -14,6 +14,7 @@ import useWindowSize from '@/utils/useWindowSize';
 const Layout = ({ children }) => {
 	const [openMenu, setOpenMenu] = useState(false);
 	const [laptopSize, setLaptopSize] = useState(false);
+	const [laptopHeight, setLaptopHeight] = useState(false);
 	const size = useWindowSize(); // Determines size of browser window
 
 	// Checks size of window screen and sets laptopSize state
@@ -24,6 +25,14 @@ const Layout = ({ children }) => {
 			setLaptopSize(false);
 		}
     }, [size.width])
+
+	useEffect(() => {
+        if (size.height >= 640) {
+			setLaptopHeight(true);
+        } else {
+			setLaptopHeight(false);
+		}
+    }, [size.height])
 
 	useEffect(() => {
 		if (laptopSize) {
@@ -45,8 +54,8 @@ const Layout = ({ children }) => {
 						{children}
 					</div>
 				</div>
-				<div className="sm:block ">
-					<NavbarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} />
+				<div className="sm:block">
+					<NavbarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} laptopHeight={laptopHeight} />
 				</div>
 			</div>
 		</div>
