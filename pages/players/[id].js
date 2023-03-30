@@ -13,7 +13,8 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
-import { getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
+import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
+// import { getTeam } from '@/src/graphql/queries';
 
 export default function PlayerProfile() {
 	const router = useRouter();
@@ -21,6 +22,7 @@ export default function PlayerProfile() {
 	const [player, setPlayer] = useState(); // Player Table
 	const [user, setUser] = useState(); // Cognito User
 	const [profileImage, setProfileImage] = useState('');
+	const [teamName, setTeamName] = useState('');
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
@@ -38,9 +40,14 @@ export default function PlayerProfile() {
 		getPicture();
 	}, [user]);
 
+	useEffect(() =>{
+		if(player != undefined){
+			getTeamName();
+		}
+	}, [player]);
+
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
-		console.log('Player', data);
 		setPlayer(data[0]);
 	};
 
@@ -52,7 +59,6 @@ export default function PlayerProfile() {
 		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 			if (err) console.log(err, err.stack); // an error occurred
 			// successful response
-			// console.log('User', data);
 			else setUser(data);
 		});
 	};
@@ -69,6 +75,18 @@ export default function PlayerProfile() {
 			setProfileImage(url);
 		}
 	};
+
+	const getTeamName = async () => {
+		if (player.soccer_stats){
+			const teamId = player.soccer_stats[0].team;
+		const data = await getTeam(teamId);
+		setTeamName(data.name);
+		}
+		else {
+			setTeamName('-')
+		
+	}
+	}
 
 	return (
 		<>
@@ -191,10 +209,10 @@ export default function PlayerProfile() {
 										<tr className="font-light">
 											<td className="py-2 px-3">Soccer</td>
 											<td className="py-2 px-3">
-												{player && player.soccer_stats.teams}
+												{player && teamName}
 											</td>
 											<td className="py-2 px-3">
-												{player && player.soccer_stats.role}
+												{player && player.soccer_stats[0].position}
 											</td>
 										</tr>
 									) : (

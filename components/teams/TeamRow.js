@@ -40,7 +40,6 @@ export default function TeamRow({ team, setCurrentTeam }) {
 		cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
 			if (err) console.log(err, err.stack); // an error occurred
 			else     {
-				console.log('My data',data);
 				setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
 			}          // successful response
 		});

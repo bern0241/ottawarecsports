@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-29
+ * Last updated: 2023-03-30
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
+import { getImageFromS3, getPlayersByUsername, getTeam } from '@/utils/graphql.services';
 import Link from 'next/link';
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3({
@@ -24,6 +24,7 @@ export default function PlayerRow({ player, index }) {
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
 	const [details, setDeatails] = useState();
+	const [teamName, setTeamName] = useState('');
 
 	useEffect(() => {
 		if(!index) {
@@ -46,15 +47,28 @@ export default function PlayerRow({ player, index }) {
 	},[])
 
 	useEffect(() => {
-		if (profileImage) {
+		if(details != undefined){
+			getTeamName();
 		}
-	}, [profileImage])
+	console.log('details', details);
+	}, [details])
 
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(index);
 		setDeatails(data[0]);
 	}
-	console.log(details);
+
+	const getTeamName = async () => {
+		if (details.soccer_stats){
+			const teamId = details.soccer_stats[0].team;
+		const data = await getTeam(teamId);
+		setTeamName(data.name);
+		}
+		else {
+			setTeamName('-')
+		
+	}
+	}
 
 	// Reference: Stack Overflow/Roy <https://stackoverflow.com/questions/73598303/calculate-age-in-js-given-the-birth-date-in-dd-mm-yyyy-format>
 	function calculateAge(dob) {
@@ -112,12 +126,12 @@ export default function PlayerRow({ player, index }) {
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{details ? "-" : "-"}
+					{details ? details.soccer_stats[0].position : "-"}
 				</div>
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{details ? "-" : "-"}
+					{details ? teamName : "-"}
 				</div>
 			</td>
 		</tr>
