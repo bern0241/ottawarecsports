@@ -1,9 +1,10 @@
 /**
- * Last updated: 2023-03-29
+ * Last updated: 2023-03-30
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import React, { useEffect, useState } from 'react';

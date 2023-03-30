@@ -1,10 +1,17 @@
+/**
+ * Last updated: 2023-03-30
+ *
+ * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ */
+
 import React, {useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { IconSearch } from '@tabler/icons-react';
 import Image from 'next/image';
-import { getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
+import { getImageFromS3, getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 
 export default function TeamProfile() {
@@ -13,6 +20,8 @@ export default function TeamProfile() {
 	const [team, setTeam] = useState();
 	const [captains, setCaptains] = useState([]);
 	const [members, setMembers] = useState([]);
+	const [profileImage, setProfileImage] = useState('');
+	const [playerUsername, setPlayerUsename] = useState([]);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 
@@ -26,26 +35,28 @@ export default function TeamProfile() {
 
 	useEffect(() => {
 		if (team) {
-			console.log('MY TEAM', team);
+			// console.log('MY TEAM', team);
 			fetchCaptains();
+			getPicture();
+			setPlayerUsename(team.team_history.roster);
 		}
 	}, [team])
 
 	useEffect(() => {
 		if (captains) {
-			console.log('Captains',captains);
+			// console.log('Captains',captains);
 		}
 	}, [captains])
 
 	useEffect(() => {
-		console.log('MEMBERS',members);
+		// console.log('MEMBERS',members);
 	}, [members])
 
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log('TEAM', data);
+		// console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -57,8 +68,7 @@ export default function TeamProfile() {
 			}
 			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
-				else     {
-					// setCaptains(data);
+				else {
 					setMembers(members => [...members, data] );
 					return;
 				}          // successful response
@@ -86,6 +96,15 @@ export default function TeamProfile() {
 		// console.log('Captains', captains);
 	}
 
+	//Function for gettin profile image.
+
+	const getPicture = async () => {
+		if (!team.team_picture)
+			return setProfileImage('http://via.placeholder.com/200x200');
+		const url = await getImageFromS3(team.team_picture);
+		setProfileImage(url);
+	};
+
 	return (
 		<main className="w-full h-screen flex flex-col gap-6 p-8">
 			{/* Results */}
@@ -106,10 +125,8 @@ export default function TeamProfile() {
 					{/* Team Image */}
 					<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 						<img
-							src={'http://via.placeholder.com/200x200'}
-							className="rounded-full self-center"
-							width="200"
-							height="200"
+							src={profileImage}
+							className="rounded-full self-center w-[200px] h-[200px] object-cover"
 							alt="Team profile image."
 						></img>
 						<div className="flex justify-center gap-1">

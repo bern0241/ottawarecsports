@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import React, { useEffect, useState } from 'react';
