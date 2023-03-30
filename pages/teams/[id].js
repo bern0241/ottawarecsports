@@ -4,7 +4,7 @@ import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { IconSearch } from '@tabler/icons-react';
 import Image from 'next/image';
-import { getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
+import { getImageFromS3, getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 
 export default function TeamProfile() {
@@ -13,6 +13,7 @@ export default function TeamProfile() {
 	const [team, setTeam] = useState();
 	const [captains, setCaptains] = useState([]);
 	const [members, setMembers] = useState([]);
+	const [profileImage, setProfileImage] = useState('');
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 
@@ -28,6 +29,7 @@ export default function TeamProfile() {
 		if (team) {
 			console.log('MY TEAM', team);
 			fetchCaptains();
+			getPicture();
 		}
 	}, [team])
 
@@ -65,6 +67,15 @@ export default function TeamProfile() {
 			});
 		})
 	}
+
+	//Function for gettin profile image.
+
+	const getPicture = async () => {
+		if (!team.team_picture)
+			return setProfileImage('http://via.placeholder.com/200x200');
+		const url = await getImageFromS3(team.team_picture);
+		setProfileImage(url);
+	};
 
 	const fetchCaptains = async () => {
 		if (!team) return; //
@@ -106,10 +117,8 @@ export default function TeamProfile() {
 					{/* Team Image */}
 					<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 						<img
-							src={'http://via.placeholder.com/200x200'}
-							className="rounded-full self-center"
-							width="200"
-							height="200"
+							src={profileImage}
+							className="rounded-full self-center w-[200px] h-[200px] object-cover"
 							alt="Team profile image."
 						></img>
 						<div className="flex justify-center gap-1">
