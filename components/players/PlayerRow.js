@@ -30,7 +30,6 @@ export default function PlayerRow({ player, index }) {
 			return
 		}
 		fetchPlayer();
-		console.log(details);
 	}, [index])
 
 	useEffect(() => {
