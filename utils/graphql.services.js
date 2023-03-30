@@ -23,6 +23,42 @@ const s3 = new AWS.S3({
 const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 const signedUrlExpireSeconds = 60 * 1;
 var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+/**
+ * @param {String} _id Retrieves player with ID
+ * @returns
+ */
+export const getPlayerFunc = async (_id) => {
+	try {
+		const resp = await API.graphql({
+			query: queries.getPlayer,
+			variables: { id: _id}
+		});
+		console.log(resp);
+		return resp.data.getPlayer;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+export const getPlayersByUsername = async (_id) => {
+	try {
+		const variables = {
+			filter: {
+			  user_id: {
+				eq: _id
+			  }
+			}
+		  };
+		const resp = await API.graphql({ 
+		query: queries.listPlayers, variables: variables
+		});
+		return resp.data.listPlayers.items;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
 /**
  * Returns all players in the database
  * @returns {[Object]} Player objects in an array
