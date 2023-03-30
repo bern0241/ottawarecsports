@@ -30,6 +30,7 @@ export default function PlayerRow({ player, index }) {
 			return
 		}
 		fetchPlayer();
+		console.log(details);
 	}, [index])
 
 	useEffect(() => {
@@ -112,12 +113,12 @@ export default function PlayerRow({ player, index }) {
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{details ? "team" : "-"}
+					{details ? "-" : "-"}
 				</div>
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{details ? "role" : "-"}
+					{details ? "-" : "-"}
 				</div>
 			</td>
 		</tr>
