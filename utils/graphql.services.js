@@ -350,11 +350,7 @@ export const deleteImageFromS3 = async (key) => {
 	} catch (error) {
 		console.error(error);
 	}
-<<<<<<< HEAD
-}
-=======
 };
->>>>>>> 87953305e6e3f4215e49e80e6beefcfd19095834
 
 export const getUser = async (username, setState) => {
 	const params = {
