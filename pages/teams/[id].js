@@ -30,7 +30,6 @@ export default function TeamProfile() {
 			return
 		}
 		fetchTeam();
-		fetchPlayer();
 	}, [teamId]);
 
 	useEffect(() => {
@@ -38,22 +37,13 @@ export default function TeamProfile() {
 			// console.log('MY TEAM', team);
 			fetchCaptains();
 			getPicture();
-			console.log(team.team_history[0].roster);
 			setPlayerUsename(team.team_history[0].roster);
 		}
-		console.log(playerUsername);
 	}, [team])
 
 	useEffect(() => {
-		if (captains) {
-			// console.log('Captains',captains);
-		}
-	}, [captains])
-
-	useEffect(() => {
-		// console.log('MEMBERS',members);
-	}, [members])
-
+		fetchPlayer();
+	}, [playerUsername])
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
@@ -62,6 +52,8 @@ export default function TeamProfile() {
 	};
 
 	const fetchPlayer = async () => {
+		if(!playerUsername) return;
+		setMembers([]);
 		playerUsername.forEach(async player => {
 			const params = {
 				Username: player,
@@ -205,12 +197,11 @@ export default function TeamProfile() {
 										<IconSearch />
 									</span>
 								</div>
-								{members && members.map((member) => (
-									<>
-										<p className='relative border-t border-brand-blue-900/25 px-5 py-2'>
-											{member.UserAttributes.find(o => o.Name === 'name')['Value']}
+								{members && members.map((member, index) => (
+										<p key={index} className='relative border-t border-brand-blue-900/25 px-5 py-2'>
+											{member.UserAttributes.find(o => o.Name === 'name')['Value']} {' '}
+											{member.UserAttributes.find(o => o.Name === 'family_name')['Value']}
 										</p>
-									</>
 								))}
 							</div>
 						</div>
