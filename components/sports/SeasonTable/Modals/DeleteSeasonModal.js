@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function DeleteSeasonModal({ leagueInfo, seasonInfo, setDeleteModal, listSeasonsFunc }) {
+    
     return (
         <>
     <div tabIndex="-1" class="z-[150] fixed top-[10rem] right-0 left-[0] p-4 overflow-x-hidden overflow-y-auto w-[32rem] mx-auto">

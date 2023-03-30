@@ -216,10 +216,14 @@ export default function ACPEditUserModal({
 						console.log(err, err.stack);
 						setMessage({ status: 'error', message: err.message });
 					} else {
-						await addUserToGroups(user.Username);
-						await deleteCurrentProfileImageS3();
-						await uploadNewProfileImageToS3(profile_pic_id);
-						setMessage({ status: 'success', message: 'User updated!' });
+
+						setProfilePicId(profile_pic_id);
+						// Works its way down - reloads page when finished
+						await deleteUserGroups(user.Username);
+						// await addUserToGroups(user.Username);
+						// await deleteCurrentProfileImageS3();
+						// await uploadNewProfileImageToS3(profile_pic_id);
+						// setMessage({ status: 'success', message: 'User updated!' });
 					}
 				}
 			);
@@ -229,55 +233,72 @@ export default function ACPEditUserModal({
 		}
 	};
 
+	const deleteUserGroups = async (username) => {
+		try {
+			const removeTheseGroups = [
+				'User',
+				'Captain',
+				'Referee',
+				'Coordinator',
+				'Admin',
+			];
+			await removeTheseGroups.forEach((group) => {
+				if (group !== 'User') {
+					var params = {
+						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+						GroupName: group,
+						Username: user.Username,
+					};
+					cognitoidentityserviceprovider.adminRemoveUserFromGroup(
+						params,
+						async function (err, data) {
+							if (err) {
+								console.log(err, err.stack);
+							} else {
+								await addUserToGroups(user.Username);
+								console.log({ status: 'success remove from group', data: data });
+							}
+						}
+					);
+				}
+			});
+		} catch (error) {
+			setMessage({status: 'error', message: error.message});
+			console.error(error);
+		}
+	}
+	
 	const addUserToGroups = async (username) => {
 		// console.log('Groups',userGroups);
 		// return;
-		const removeTheseGroups = [
-			'User',
-			'Captain',
-			'Referee',
-			'Coordinator',
-			'Admin',
-		];
-		await removeTheseGroups.forEach((group) => {
-			if (group !== 'User') {
-				var params = {
-					UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
-					GroupName: group,
-					Username: user.Username,
-				};
-				cognitoidentityserviceprovider.adminRemoveUserFromGroup(
-					params,
-					function (err, data) {
-						if (err) {
-							console.log(err, err.stack);
-						} else {
-							console.log({ status: 'success remove from group', data: data });
+		try {
+			await userGroups.forEach((group) => {
+				if (group !== 'User') {
+					var params = {
+						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+						GroupName: group,
+						Username: username,
+					};
+					cognitoidentityserviceprovider.adminAddUserToGroup(
+						params,
+						function (err, data) {
+							if (err) {
+								console.log(err, err.stack);
+							} else {
+								deleteCurrentProfileImageS3();
+								console.log({ status: 'success', data: data });
+							}
 						}
+						);
 					}
-				);
-			}
-		});
-
-		await userGroups.forEach((group) => {
-			if (group !== 'User') {
-				var params = {
-					UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
-					GroupName: group,
-					Username: username,
-				};
-				cognitoidentityserviceprovider.adminAddUserToGroup(
-					params,
-					function (err, data) {
-						if (err) {
-							console.log(err, err.stack);
-						} else {
-							console.log({ status: 'success', data: data });
-						}
-					}
-				);
-			}
-		});
+				});
+				deleteCurrentProfileImageS3();
+			} catch (error) {
+				console.log('AAAA')
+			setMessage({status: 'error', message: error.message});
+			console.error(error);
+		}
+		
 		// router.reload();
 	};
 
@@ -286,6 +307,8 @@ export default function ACPEditUserModal({
 
 		try {
 			if (profilePic === null) {
+				setMessage({ status: 'success', message: 'User updated!' });
+				router.reload();
 				return;
 			}
 
@@ -313,33 +336,34 @@ export default function ACPEditUserModal({
 
 		try {
 			if (profilePic === null) {
+				setMessage({ status: 'success', message: 'User updated!' });
 				router.reload();
 				return;
 			}
 
 			const params = {
 				Bucket: bucketName,
-				Key: newProfilePicId,
+				Key: profilePicId,
 				Body: profilePic,
 				ContentType: profilePic.type,
 			};
 			// Upload the image to S3
 			s3.upload(params, (err, data) => {
 				if (err) {
-					// router.reload();
-					// console.log('Error uploading image: ', err);
 				} else {
 					console.log('Image uploaded successfully!');
+					setMessage({ status: 'success', message: 'User updated!' });
 					router.reload();
 				}
 			});
 		} catch (error) {
 			console.error(error);
-			// router.reload();
 		}
 	};
 
+
 	// const confirmTempUserPassword = async (username) =>
+
 
 	const setPassword = (e) => {
 		e.preventDefault();
