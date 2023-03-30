@@ -72,7 +72,10 @@ export default function PlayerProfile() {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h1 className="text-lg self-center font-medium">First Last</h1>
+						<h1 className="text-lg self-center font-medium">
+							{user && user.UserAttributes.find(o => o.Name === 'name')['Value']} {' '}
+							{user && user.UserAttributes.find(o => o.Name === 'family_name')['Value']}
+						</h1>
 						<Button
 							pill={true}
 							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
