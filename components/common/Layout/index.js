@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
 
 	// Checks size of window screen and sets laptopSize state
 	useEffect(() => {
-        if (size.width >= 640) {
+        if (size.width >= 1024) {
 			setLaptopSize(true);
         } else {
 			setLaptopSize(false);
@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
 					<div className=" bg-white">
 						<Header openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} />
 					</div>
-					<div className="flex items-center absolute inset-x-0 sm:grid sm:ml-80 mt-[10rem] sm:mt-[5rem] bg-[#E7F4FF]">
+					<div className="flex items-center absolute inset-x-0 sm:grid lg:ml-80 mt-[10rem] lg:mt-[5rem] bg-[#E7F4FF]">
 						{children}
 					</div>
 				</div>
