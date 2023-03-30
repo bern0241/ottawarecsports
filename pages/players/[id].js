@@ -24,45 +24,49 @@ export default function PlayerProfile() {
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
-		if(!userId) {
-			return
+		if (!userId) {
+			return;
 		}
 		fetchPlayer();
 		fetchPlayerCognito();
-	}, [userId])
+	}, [userId]);
 
 	useEffect(() => {
-		if(!user) {
-			return
+		if (!user) {
+			return;
 		}
 		getPicture();
-	}, [user])
+	}, [user]);
 
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
 		console.log('Player', data);
 		setPlayer(data[0]);
-	}
+	};
 
 	const fetchPlayerCognito = async () => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
-			Username: userId
-		  };
-		  cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+			Username: userId,
+		};
+		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 			if (err) console.log(err, err.stack); // an error occurred
-			else       // successful response
-					// console.log('User', data);
-					setUser(data);
+			// successful response
+			// console.log('User', data);
+			else setUser(data);
 		});
-	}
+	};
 
 	const getPicture = async () => {
-		if (user.UserAttributes.find(o => o.Name === 'picture')['Value'] === 'none') {
+		if (
+			user.UserAttributes.find((o) => o.Name === 'picture')['Value'] === 'none'
+		) {
 			setProfileImage(null);
 		} else {
-		const url = await getImageFromS3(user.UserAttributes.find(o => o.Name === 'picture')['Value']);
-		setProfileImage(url);
+			const url = await getImageFromS3(
+				user.UserAttributes.find((o) => o.Name === 'picture')['Value']
+			);
+			setProfileImage(url);
 		}
 	};
 
@@ -74,8 +78,14 @@ export default function PlayerProfile() {
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-lg self-center font-medium">
-							{user && user.UserAttributes.find(o => o.Name === 'name')['Value']} {' '}
-							{user && user.UserAttributes.find(o => o.Name === 'family_name')['Value']}
+							{user &&
+								user.UserAttributes.find((o) => o.Name === 'name')[
+									'Value'
+								]}{' '}
+							{user &&
+								user.UserAttributes.find((o) => o.Name === 'family_name')[
+									'Value'
+								]}
 						</h1>
 						<Button
 							pill={true}
@@ -91,14 +101,31 @@ export default function PlayerProfile() {
 						{/* Player Avatar */}
 						<div className="col-span-3 md:col-span-1 row-span-2 flex flex-col gap-4">
 							<img
-								src={`${profileImage ? profileImage : "/images/defaultProfilePic.jpeg"}`}
+								src={`${
+									profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
+								}`}
 								className="rounded-full self-center w-[200px] h-[200px] object-cover"
 								alt="Player profile image."
 							></img>
 							<div className="flex justify-center gap-1">
-								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
-								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
-								<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
+								<Image
+									src="/images/medal.png"
+									width="26"
+									height="26"
+									alt="Medal"
+								/>
+								<Image
+									src="/images/medal.png"
+									width="26"
+									height="26"
+									alt="Medal"
+								/>
+								<Image
+									src="/images/medal.png"
+									width="26"
+									height="26"
+									alt="Medal"
+								/>
 							</div>
 						</div>
 
@@ -107,28 +134,38 @@ export default function PlayerProfile() {
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">First Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user && user.UserAttributes.find(o => o.Name === 'name')['Value']}
+									{user &&
+										user.UserAttributes.find((o) => o.Name === 'name')['Value']}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Last Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{user && user.UserAttributes.find(o => o.Name === 'family_name')['Value']}
+									{user &&
+										user.UserAttributes.find((o) => o.Name === 'family_name')[
+											'Value'
+										]}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Location</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user && user.UserAttributes.find(o => o.Name === 'custom:location')['Value']}
+									{user &&
+										user.UserAttributes.find(
+											(o) => o.Name === 'custom:location'
+										)['Value']}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user && user.UserAttributes.find(o => o.Name === 'gender')['Value']}
+									{user &&
+										user.UserAttributes.find((o) => o.Name === 'gender')[
+											'Value'
+										]}
 								</div>
 							</div>
 						</div>
@@ -150,19 +187,23 @@ export default function PlayerProfile() {
 									</tr>
 								</thead>
 								<tbody>
-									{player ? 
-									<tr className="font-light">
-										<td className="py-2 px-3">Soccer</td>
-										<td className="py-2 px-3">
-											{player && player.soccer_stats.teams }
-										</td>
-										<td className="py-2 px-3">
-											{player && player.soccer_stats.role }
-										</td>
-									</tr>:
-									<tr className="text-center text-brand-neutral-800">
-										No Data to Show
-									</tr>}
+									{(player && player.soccer_stats != "") ? (
+										<tr className="font-light">
+											<td className="py-2 px-3">Soccer</td>
+											<td className="py-2 px-3">
+												{player && player.soccer_stats.teams}
+											</td>
+											<td className="py-2 px-3">
+												{player && player.soccer_stats.role}
+											</td>
+										</tr>
+									) : (
+										<tr className="text-center text-brand-neutral-800">
+											<td colSpan={3}>
+												This player currently is not a part of any teams.
+											</td>
+										</tr>
+									)}
 								</tbody>
 							</table>
 						</div>
