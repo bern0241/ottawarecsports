@@ -25,8 +25,6 @@ function UserContextProvider(props) {
 		try {
 			const user = await Auth.currentAuthenticatedUser();
 			setUser(user);
-			console.log(user);
-			// console.log('Auth User', user);
 			getAuthRole(user);
 		} catch (error) {
 			setUser(null);
@@ -38,7 +36,6 @@ function UserContextProvider(props) {
 			const groups =
 				user.signInUserSession.accessToken.payload['cognito:groups'];
 			setAuthRoles(groups);
-			console.log('My groups', groups);
 		} catch (error) {
 			console.error(error);
 		}
