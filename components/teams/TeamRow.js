@@ -77,16 +77,6 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			<td className="p-5">
 				{currentSeason ? currentSeason.roster.length : 0}/15
 			</td>
-			<td className="p-5">{team.notes ? team.notes : "N/A"}</td>
-			{/* <td className="p-5">
-				<div className="flex">
-					<IconEdit
-						className="text-brand-blue-900 mr-3"
-						onClick={() => setCurrentTeam(team)}
-					/>
-					<IconTrash className="text-brand-orange-800 hover:bg-blue-400" />
-				</div>
-			</td> */}
 		</tr>
 	);
 }

@@ -241,7 +241,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 								</div>
 							</div>
 
-							<div className="w-full col-span-2">
+							{/* <div className="w-full col-span-2">
 								<label
 									htmlFor="location"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -253,7 +253,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 									selectPlayer={selectPlayer}
 									setTeamRoster={setTeamRoster}
 								/>
-							</div>
+							</div> */}
 						</div>
 
 						{/* {message && (
