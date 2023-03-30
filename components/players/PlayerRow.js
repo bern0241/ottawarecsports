@@ -126,12 +126,12 @@ export default function PlayerRow({ player, index }) {
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{details ? details.soccer_stats[0].position : "-"}
+					{details ? teamName : "-"}
 				</div>
 			</td>
 			<td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
-					{details ? teamName : "-"}
+					{details ? details.soccer_stats && details.soccer_stats[0].position : "-"}
 				</div>
 			</td>
 		</tr>

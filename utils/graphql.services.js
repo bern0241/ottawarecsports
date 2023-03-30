@@ -222,7 +222,7 @@ export const createTeam = async (teamData) => {
 export const updateTeam = async (teamData) => {
 	try {
 		const resp = await API.graphql({
-			query: mutations.updateTeams,
+			query: mutations.updateTeam,
 			variables: {
 				input: teamData,
 			},
