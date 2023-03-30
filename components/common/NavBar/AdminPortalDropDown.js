@@ -14,19 +14,15 @@ import {
 } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
 
-const AdminPortalDropDown = () => {
-	const [showMe, setShowMe] = useState(false);
+const AdminPortalDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 	const [user, setUser, authRoles] = useUser();
-
-	function toggle() {
-		setShowMe(!showMe);
-	}
+	
 	return (
 		<>
 		{user && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
 			<div className="text-white/70 hover:text-white focus:text-white">
 				<button
-					onClick={toggle}
+					onClick={() => toggle("acp")}
 					className="p-2 flex flex-row ml-2 justify-between w-full"
 				>
 					<div className="flex flex-row align-middle">
@@ -36,12 +32,12 @@ const AdminPortalDropDown = () => {
 						<h1 className=" font-medium text-md pl-2">Admin Portal</h1>
 					</div>
 					<div className="pt-1 mr-2">
-						<IconChevronRight style={{transition: '320ms', transform: showMe ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />
+						<IconChevronRight style={{transition: '320ms', transform: openDropdown === "acp" ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />
 					</div>
 				</button>
 				<div
 				>
-					<div className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${showMe ? 'h-[5.5rem]' : 'h-0'}`}>
+					<div className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${openDropdown === "acp" ? 'h-[5.5rem]' : 'h-0'}`}>
 						<Link href="/admin-portal/leagues" className="my-1 hover:font-bold focus:font-bold">
 							Leagues
 						</Link>
