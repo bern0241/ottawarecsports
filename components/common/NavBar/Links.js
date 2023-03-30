@@ -19,6 +19,7 @@ const NavbarSetup = () => {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [openDropdown, setOpenDropdown] = useState(null);
 
+	// Reference: Stack Overflow/Henry Woody <https://stackoverflow.com/questions/70489280/react-close-dropdown-when-other-dropdown-is-opened>
 	function changeOpenMenu(menu) {
 		setOpenDropdown(menu);
 	}
