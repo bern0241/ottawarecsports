@@ -34,12 +34,14 @@ export default function TeamProfile() {
 	}, [teamId]);
 
 	useEffect(() => {
-		if (team) {
+		if (team != undefined) {
 			// console.log('MY TEAM', team);
 			fetchCaptains();
 			getPicture();
-			setPlayerUsename(team.team_history.roster);
+			console.log(team.team_history[0].roster);
+			setPlayerUsename(team.team_history[0].roster);
 		}
+		console.log(playerUsername);
 	}, [team])
 
 	useEffect(() => {
@@ -60,10 +62,9 @@ export default function TeamProfile() {
 	};
 
 	const fetchPlayer = async () => {
-		const data = await getAllPlayers();
-		data.forEach(async playerUsername => {
+		playerUsername.forEach(async player => {
 			const params = {
-				Username: playerUsername,
+				Username: player,
 				UserPoolId: 'us-east-1_70GCK7G6t'
 			}
 			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
@@ -71,10 +72,10 @@ export default function TeamProfile() {
 				else {
 					setMembers(members => [...members, data] );
 					return;
-				}          // successful response
-			});
-		})
-	}
+				}       // successful response
+			})
+	})
+}
 
 	const fetchCaptains = async () => {
 		if (!team) return; //
@@ -148,10 +149,9 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Team Captain</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-							{captains && captains.map((captain) => (
-								<>
-								<p>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
-								</>
+							{captains && captains.map((captain, index) => (
+								// <>
+								<p  key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
 							))}
 							</div>
 						</div>
@@ -173,7 +173,7 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Home Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								<div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div>
+								{/* <div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div> */}
 								<div>
 									{team ? team.home_colour : " "}
 								</div>
@@ -183,7 +183,7 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Away Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								<div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div>
+								{/* <div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div> */}
 								<div>
 									{team ? team.away_colour : " "}
 								</div>
@@ -207,7 +207,9 @@ export default function TeamProfile() {
 								</div>
 								{members && members.map((member) => (
 									<>
-										{/* <p className='relative border-t border-brand-blue-900/25 px-5 py-2'>{member.UserAttributes.find(o => o.Name === 'name')['Value']}</p> */}
+										<p className='relative border-t border-brand-blue-900/25 px-5 py-2'>
+											{member.UserAttributes.find(o => o.Name === 'name')['Value']}
+										</p>
 									</>
 								))}
 							</div>
