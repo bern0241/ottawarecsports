@@ -53,15 +53,15 @@ export const getAllUsers = async () => {
 };
 
 /**
- * 
- * @param {String} _id Retrieves team with ID 
- * @returns 
+ *
+ * @param {String} _id Retrieves team with ID
+ * @returns
  */
 export const getTeam = async (_id) => {
 	try {
 		const resp = await API.graphql({
 			query: queries.getTeam,
-			variables: { id: _id}
+			variables: { id: _id },
 		});
 		return resp.data.getTeam;
 	} catch (err) {
@@ -97,22 +97,6 @@ export const updateUserInfo = async (id, updatedData) => {
 				input: {
 					id,
 					...updatedData,
-					// userNotes: {},
-					// PlayersSoccer: {
-					// 	PlayerDivisionStats: [
-					// 		{
-					// 			id,
-					// 			team: '123',
-					// 			division: '123',
-					// 			position: 'Goalie',
-					// 			goals: 55,
-					// 			assists: 12,
-					// 			yellow_cards: 1,
-					// 			red_cards: 1,
-					// 			games_played: 12,
-					// 		},
-					// 	],
-					// },
 				},
 			},
 		});
@@ -275,8 +259,42 @@ export const getImageFromS3 = async (key) => {
 };
 
 /**
- * 
- * @param {String} Key The file's name that will be deleted from S3 Bucket 
+ * Get all matches
+ * @returns {Array} An array of all available matches.
+ */
+export const getAllMatches = async () => {
+	try {
+		const resp = await API.graphql({
+			query: queries.listGames,
+		});
+		return resp.data.listGames.items.filter((item) => !item._deleted);
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+/**
+ * Create a match object
+ * @param {object} matchData An object containing the match data.
+ * @returns {String} The result of the operation.
+ */
+export const createMatch = async (matchData) => {
+	try {
+		const resp = await API.graphql({
+			query: mutations.createGames,
+			variables: {
+				input: matchData,
+			},
+		});
+		return resp;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+/**
+ *
+ * @param {String} Key The file's name that will be deleted from S3 Bucket
  */
 export const deleteImageFromS3 = async (key) => {
 	try {
@@ -301,13 +319,13 @@ export const deleteImageFromS3 = async (key) => {
 export const getUser = async (username, setState) => {
 	const params = {
 		Username: username,
-		UserPoolId: 'us-east-1_70GCK7G6t'
-	}
-	cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+		UserPoolId: 'us-east-1_70GCK7G6t',
+	};
+	cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 		if (err) console.log(err, err.stack); // an error occurred
-		else     {
+		else {
 			return data;
-		}          // successful response
+		} // successful response
 	});
 };
 
@@ -315,7 +333,7 @@ export const createPlayer = async (username) => {
 	try {
 		const data = {
 			user_id: username,
-		}
+		};
 		const apiData = await API.graphql({
 			query: mutations.createPlayer,
 			variables: { input: data },
@@ -323,5 +341,20 @@ export const createPlayer = async (username) => {
 		return apiData;
 	} catch (error) {
 		console.error(error);
+	}
+};
+
+/**
+ * get all leagues in the database
+ * @returns {Array} an array of league objects
+ */
+export const getLeagues = async () => {
+	try {
+		const resp = await API.graphql({
+			query: queries.listLeagues,
+		});
+		return resp.data.listLeagues.items;
+	} catch (err) {
+		console.warn(err);
 	}
 };
