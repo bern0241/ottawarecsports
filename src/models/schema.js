@@ -322,224 +322,6 @@ export const schema = {
                 }
             ]
         },
-        "Team": {
-            "name": "Team",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "founded": {
-                    "name": "founded",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "home_colour": {
-                    "name": "home_colour",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "away_colour": {
-                    "name": "away_colour",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "TeamNotes": {
-                    "name": "TeamNotes",
-                    "isArray": true,
-                    "type": {
-                        "model": "TeamNote"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "team_id"
-                        ]
-                    }
-                },
-                "team_history": {
-                    "name": "team_history",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "SoccerTeamStat"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
-                "team_picture": {
-                    "name": "team_picture",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "divisions": {
-                    "name": "divisions",
-                    "isArray": true,
-                    "type": {
-                        "model": "DivisionTeam"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "team"
-                        ]
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Teams",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "TeamNote": {
-            "name": "TeamNote",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "date": {
-                    "name": "date",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "description": {
-                    "name": "description",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "team_id": {
-                    "name": "team_id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "author_id": {
-                    "name": "author_id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "TeamNotes",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byTeam",
-                        "fields": [
-                            "team_id"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
         "Division": {
             "name": "Division",
             "fields": {
@@ -936,6 +718,224 @@ export const schema = {
                 }
             ]
         },
+        "TeamNote": {
+            "name": "TeamNote",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "date": {
+                    "name": "date",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "team_id": {
+                    "name": "team_id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "author_id": {
+                    "name": "author_id",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "TeamNotes",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byTeam",
+                        "fields": [
+                            "team_id"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Team": {
+            "name": "Team",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "founded": {
+                    "name": "founded",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "home_colour": {
+                    "name": "home_colour",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "away_colour": {
+                    "name": "away_colour",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "TeamNotes": {
+                    "name": "TeamNotes",
+                    "isArray": true,
+                    "type": {
+                        "model": "TeamNote"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "team_id"
+                        ]
+                    }
+                },
+                "team_history": {
+                    "name": "team_history",
+                    "isArray": true,
+                    "type": {
+                        "nonModel": "SoccerTeamStat"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "team_picture": {
+                    "name": "team_picture",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "divisions": {
+                    "name": "divisions",
+                    "isArray": true,
+                    "type": {
+                        "model": "DivisionTeam"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "team"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Teams",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "PlayerNote": {
             "name": "PlayerNote",
             "fields": {
@@ -1026,13 +1026,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "teamId": {
-                    "name": "teamId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "divisionId": {
                     "name": "divisionId",
                     "isArray": false,
@@ -1040,20 +1033,12 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "team": {
-                    "name": "team",
+                "teamId": {
+                    "name": "teamId",
                     "isArray": false,
-                    "type": {
-                        "model": "Team"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "teamId"
-                        ]
-                    }
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "division": {
                     "name": "division",
@@ -1067,6 +1052,21 @@ export const schema = {
                         "connectionType": "BELONGS_TO",
                         "targetNames": [
                             "divisionId"
+                        ]
+                    }
+                },
+                "team": {
+                    "name": "team",
+                    "isArray": false,
+                    "type": {
+                        "model": "Team"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "teamId"
                         ]
                     }
                 },
@@ -1097,18 +1097,18 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byTeam",
+                        "name": "byDivision",
                         "fields": [
-                            "teamId"
+                            "divisionId"
                         ]
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byDivision",
+                        "name": "byTeam",
                         "fields": [
-                            "divisionId"
+                            "teamId"
                         ]
                     }
                 }
@@ -1285,6 +1285,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.3.5",
+    "codegenVersion": "3.3.6",
     "version": "b264aa11980ed745c1406f20acd8d0d3"
 };

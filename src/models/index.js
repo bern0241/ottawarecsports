@@ -19,17 +19,17 @@ const DivisionsEnum = {
   "AAA": "AAA"
 };
 
-const { SportsmanshipPoint, Player, Game, Team, TeamNote, Division, Season, League, PlayerNote, DivisionTeam, SoccerTeamStat, SoccerDivisionStat } = initSchema(schema);
+const { SportsmanshipPoint, Player, Game, Division, Season, League, TeamNote, Team, PlayerNote, DivisionTeam, SoccerTeamStat, SoccerDivisionStat } = initSchema(schema);
 
 export {
   SportsmanshipPoint,
   Player,
   Game,
-  Team,
-  TeamNote,
   Division,
   Season,
   League,
+  TeamNote,
+  Team,
   PlayerNote,
   DivisionTeam,
   GameStatusEnum,
