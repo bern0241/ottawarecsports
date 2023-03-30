@@ -24,7 +24,7 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
             <table class="w-full text-sm text-left border border-gray-400">
                 <thead class="text-md text-black bg-white">
                     <tr>
-                        <th scope="col" class="font-medium px-6 py-4">
+                        <th scope="col" class="text-lg font-medium px-6 py-4">
                             Division
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
