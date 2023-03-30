@@ -137,7 +137,7 @@ export const onCreateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -165,7 +165,7 @@ export const onCreateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -215,7 +215,7 @@ export const onUpdateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -243,7 +243,7 @@ export const onUpdateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -293,7 +293,7 @@ export const onDeleteGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -321,7 +321,7 @@ export const onDeleteGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -733,7 +733,7 @@ export const onCreateTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -781,7 +781,7 @@ export const onUpdateTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -829,7 +829,7 @@ export const onDeleteTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -889,11 +889,11 @@ export const onDeletePlayerNote = /* GraphQL */ `
     }
   }
 `;
-export const onCreateDivisionTeam = /* GraphQL */ `
-  subscription OnCreateDivisionTeam(
-    $filter: ModelSubscriptionDivisionTeamFilterInput
+export const onCreateTeamDivision = /* GraphQL */ `
+  subscription OnCreateTeamDivision(
+    $filter: ModelSubscriptionTeamDivisionFilterInput
   ) {
-    onCreateDivisionTeam(filter: $filter) {
+    onCreateTeamDivision(filter: $filter) {
       id
       divisionId
       teamId
@@ -937,7 +937,7 @@ export const onCreateDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -948,11 +948,11 @@ export const onCreateDivisionTeam = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateDivisionTeam = /* GraphQL */ `
-  subscription OnUpdateDivisionTeam(
-    $filter: ModelSubscriptionDivisionTeamFilterInput
+export const onUpdateTeamDivision = /* GraphQL */ `
+  subscription OnUpdateTeamDivision(
+    $filter: ModelSubscriptionTeamDivisionFilterInput
   ) {
-    onUpdateDivisionTeam(filter: $filter) {
+    onUpdateTeamDivision(filter: $filter) {
       id
       divisionId
       teamId
@@ -996,7 +996,7 @@ export const onUpdateDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -1007,11 +1007,11 @@ export const onUpdateDivisionTeam = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteDivisionTeam = /* GraphQL */ `
-  subscription OnDeleteDivisionTeam(
-    $filter: ModelSubscriptionDivisionTeamFilterInput
+export const onDeleteTeamDivision = /* GraphQL */ `
+  subscription OnDeleteTeamDivision(
+    $filter: ModelSubscriptionTeamDivisionFilterInput
   ) {
-    onDeleteDivisionTeam(filter: $filter) {
+    onDeleteTeamDivision(filter: $filter) {
       id
       divisionId
       teamId
@@ -1055,7 +1055,7 @@ export const onDeleteDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt

@@ -152,7 +152,7 @@ export const createGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -180,7 +180,7 @@ export const createGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -233,7 +233,7 @@ export const updateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -261,7 +261,7 @@ export const updateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -314,7 +314,7 @@ export const deleteGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -342,7 +342,7 @@ export const deleteGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -793,7 +793,7 @@ export const createTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -844,7 +844,7 @@ export const updateTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -895,7 +895,7 @@ export const deleteTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -958,12 +958,12 @@ export const deletePlayerNote = /* GraphQL */ `
     }
   }
 `;
-export const createDivisionTeam = /* GraphQL */ `
-  mutation CreateDivisionTeam(
-    $input: CreateDivisionTeamInput!
-    $condition: ModelDivisionTeamConditionInput
+export const createTeamDivision = /* GraphQL */ `
+  mutation CreateTeamDivision(
+    $input: CreateTeamDivisionInput!
+    $condition: ModelTeamDivisionConditionInput
   ) {
-    createDivisionTeam(input: $input, condition: $condition) {
+    createTeamDivision(input: $input, condition: $condition) {
       id
       divisionId
       teamId
@@ -1007,7 +1007,7 @@ export const createDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -1018,12 +1018,12 @@ export const createDivisionTeam = /* GraphQL */ `
     }
   }
 `;
-export const updateDivisionTeam = /* GraphQL */ `
-  mutation UpdateDivisionTeam(
-    $input: UpdateDivisionTeamInput!
-    $condition: ModelDivisionTeamConditionInput
+export const updateTeamDivision = /* GraphQL */ `
+  mutation UpdateTeamDivision(
+    $input: UpdateTeamDivisionInput!
+    $condition: ModelTeamDivisionConditionInput
   ) {
-    updateDivisionTeam(input: $input, condition: $condition) {
+    updateTeamDivision(input: $input, condition: $condition) {
       id
       divisionId
       teamId
@@ -1067,7 +1067,7 @@ export const updateDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt
@@ -1078,12 +1078,12 @@ export const updateDivisionTeam = /* GraphQL */ `
     }
   }
 `;
-export const deleteDivisionTeam = /* GraphQL */ `
-  mutation DeleteDivisionTeam(
-    $input: DeleteDivisionTeamInput!
-    $condition: ModelDivisionTeamConditionInput
+export const deleteTeamDivision = /* GraphQL */ `
+  mutation DeleteTeamDivision(
+    $input: DeleteTeamDivisionInput!
+    $condition: ModelTeamDivisionConditionInput
   ) {
-    deleteDivisionTeam(input: $input, condition: $condition) {
+    deleteTeamDivision(input: $input, condition: $condition) {
       id
       divisionId
       teamId
@@ -1127,7 +1127,7 @@ export const deleteDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
         createdAt

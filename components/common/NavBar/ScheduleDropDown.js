@@ -1,9 +1,10 @@
 /**
- * Last updated: 2023-03-26
+ * Last updated: 2023-03-30
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com>
  */
 
 import React, { useState } from 'react';
@@ -14,15 +15,12 @@ import {
 	IconChevronRight,
 } from '@tabler/icons-react';
 
-const ScheduleDropDown = () => {
-	const [showMe, setShowMe] = useState(false);
-	function toggle() {
-		setShowMe(!showMe);
-	}
+const ScheduleDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
+
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
-				onClick={toggle}
+				onClick={() => toggle("schedule")}
 				className="p-2 flex ml-2 flex-row justify-between w-full"
 			>
 				<div className="flex flex-row align-middle">
@@ -32,7 +30,7 @@ const ScheduleDropDown = () => {
 					<h1 className=" font-medium text-md pl-2">Schedule</h1>
 				</div>
 				<div className="pt-1 mr-2">
-					<IconChevronRight style={{transition: '320ms', transform: showMe ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />
+					<IconChevronRight style={{transition: '320ms', transform: openDropdown === "schedule" ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />
 				</div>
 			</button>
 			<div
@@ -40,7 +38,7 @@ const ScheduleDropDown = () => {
 				// 	display: showMe ? 'block' : 'none',
 				// }}
 			>
-				<div className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${showMe ? 'h-[7.3rem]' : 'h-0'}`}>
+				<div className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${openDropdown === "schedule" ? 'h-[7.3rem]' : 'h-0'}`}>
 					<Link href="/schedule/soccer" className="my-1 hover:font-bold focus:font-bold">
 						Soccer
 					</Link>

@@ -30,7 +30,7 @@ const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 			)}
 
 			<div className="bg-white">
-				<div className="fixed right-0 left-0 h-20 flex flex-row items-center bg-brand-blue-900 top-0 pl-2 pr-12 sm:hidden z-[50]">
+				<div className="fixed right-0 left-0 h-20 flex flex-row items-center bg-brand-blue-900 top-0 pl-2 pr-12 lg:hidden z-[50]">
 					<div className="w-[3.5em]">
 					</div>
 					<Image
@@ -42,7 +42,7 @@ const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 						className="mx-auto"
 					/>
 				</div>
-				<div className="fixed top-[5rem] sm:top-[0rem] w-full grow px-5 py-2 sm:pl-80 flex flex-row justify-between items-strech border-b border-brand-blue-900/25 top-0 right-0 bg-white z-[50]">
+				<div className="fixed top-[5rem] lg:top-[0rem] w-full grow px-5 py-2 lg:pl-80 flex flex-row justify-between items-stretch border-b border-brand-blue-900/25 right-0 bg-white z-[50]">
 					<HeaderTitle/>
 					<div className="flex-grow"></div>
 					<Profile />
