@@ -6,15 +6,16 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import SeasonCard from './SeasonCard';
 import CreateButton from '../CreateButton';
-import CreateSeasonModal from './Modals/CreateSeasonModal';
+import DivisionCard from './DivisionCard';
+import CreateDivisionModal from './Modals/CreateDivisionModal';
 
-export default function SeasonTable({ selectedSeason, setSelectedSeason, selectedLeague }) {
-    const [newSeasonModal, setNewSeasonModal] = useState(false);
-    const [seasons, setSeasons] = useState([]);
+export default function DivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague}) {
+    const [newDivisionModal, setNewDivisionModal] = useState(false);
+    const [divisions, setDivisions] = useState([]);
+    const [showTable, setShowTable] = useState(false);
 
-    const listSeasonsFunc = () => {
+    const listDivisionsFunc = () => {
     }
 
     return (
@@ -24,7 +25,7 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                 <thead class="text-md text-black bg-white">
                     <tr>
                         <th scope="col" class="font-medium px-6 py-4">
-                            Season
+                            Division
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
@@ -36,10 +37,10 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                             
                         </th>
                         <th className='absolute right-5 top-2'>
-                            <CreateButton label="Create New Season"
-                                            state={newSeasonModal}
-                                            setState={setNewSeasonModal} 
-                                            selectedType={selectedLeague} />
+                            <CreateButton label="Create New Division"
+                                            state={newDivisionModal}
+                                            setState={setNewDivisionModal} 
+                                            selectedType={selectedSeason} />
                         </th>
                     </tr>
                 </thead>
@@ -49,10 +50,10 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                             Name
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
-                            Start
+                            Level
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
-                            End
+                            Description
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
                             Status
@@ -63,15 +64,15 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                     </tr>
                 </thead>
                 <tbody>
-                    {seasons && seasons.map((season) => (
+                    {divisions && divisions.map((division) => (
                     <>
-                        <SeasonCard season={season} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} />
+                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
                     </>
                     ))}
-                    {(seasons && selectedLeague !== null && seasons.length === 0) && (
+                    {(divisions && selectedSeason !== null && divisions.length === 0) && (
                         <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                         <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
-                            No seasons for this league.
+                            No divisions for this season.
                         </th>
                         <td class="px-6 py-4">
                         </td>
@@ -86,7 +87,7 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
-                            All Seasons
+                            All Divisions
                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon>
                         </th>
                         <td class="px-6 py-4">
@@ -102,11 +103,11 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                 </tbody>
             </table>
         </div>
-                {newSeasonModal && (
-                    <>
-                    {/* <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} /> */}
-                     </>
-                )}
-               </>
+        {newDivisionModal && (
+            <>
+            {/* <CreateDivisionModal openModal={newDivisionModal} setOpenModal={setNewDivisionModal} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} setSelectedDivision={setSelectedDivision} /> */}
+                </>
+        )}
+        </>
     )
 }

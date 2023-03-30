@@ -6,6 +6,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import CoordinatorChip from '../CoordinatorDropdown/CoordinatorChip';
+import CoordinatorDropdown from '../CoordinatorDropdown';
 
 export default function CreateLeagueModal({ sport, setOpenModal, listLeaguesFunc  }) {
 

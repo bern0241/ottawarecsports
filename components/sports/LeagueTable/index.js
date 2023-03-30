@@ -14,9 +14,12 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
     const [newLeagueModal, setNewLeagueModal] = useState(false);
     const [leagues, setLeagues] = useState([]);
 
+    const listLeaguesFunc = () => {
+    }
+
     return (
         <>
-        <div class="relative overflow-x-auto mx-auto px-4 max-w-[70em] my-[1rem]">
+        <div class="relative overflow-x-auto mx-auto px-4 w-full my-[1rem]">
             <table class="w-full text-sm text-left border border-gray-400">
                 <thead class="text-md text-black bg-white">
                     <tr>
@@ -34,8 +37,8 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         </th>
                         <th className='absolute right-5 top-2'>
                             <CreateButton label="Create New League"
-                                            state={openNewLeague}
-                                            setState={setOpenNewLeague} />
+                                            state={newLeagueModal}
+                                            setState={setNewLeagueModal} />
                         </th>
                     </tr>
                 </thead>
@@ -83,9 +86,9 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </tbody>
             </table>
         </div>
-         {openNewLeague && (
+         {newLeagueModal && (
              <>
-             <CreateLeagueModal sport={sport} openModal={openNewLeague} setOpenModal={setOpenNewLeague} listLeaguesFunc={listLeaguesFunc} />
+             {/* <CreateLeagueModal sport={sport} openModal={newLeagueModal} setOpenModal={setNewLeagueModal} listLeaguesFunc={listLeaguesFunc} /> */}
               </>
          )}
         </>

@@ -5,6 +5,9 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+import React, { useState, useEffect } from 'react';
+import CoordinatorChip from '../CoordinatorDropdown/CoordinatorChip';
+import CoordinatorDropdown from '../CoordinatorDropdown';
 
 export default function EditLeagueModal({ sport, league, setOpenModal, listLeaguesFunc }) {
 
