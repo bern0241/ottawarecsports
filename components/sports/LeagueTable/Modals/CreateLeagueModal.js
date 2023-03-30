@@ -1,12 +1,15 @@
 /**
- * Last updated: 2023-03-23
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+import React, { useState, useEffect } from 'react';
+import CoordinatorChip from '../CoordinatorDropdown/CoordinatorChip';
+import CoordinatorDropdown from '../CoordinatorDropdown';
 
-function CreateLeagueModal() {
+export default function CreateLeagueModal({ sport, setOpenModal, listLeaguesFunc  }) {
 
     return (
     <>

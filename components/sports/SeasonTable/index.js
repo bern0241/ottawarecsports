@@ -6,25 +6,25 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import SeasonCard from './SeasonCard';
 import CreateButton from '../CreateButton';
-import LeagueCard from './LeagueCard';
-import CreateLeagueModal from './Modals/CreateLeagueModal';
+import CreateSeasonModal from './Modals/CreateSeasonModal';
 
-export default function LeagueTable({ sport, selectedLeague, setSelectedLeague}) {
-    const [newLeagueModal, setNewLeagueModal] = useState(false);
-    const [leagues, setLeagues] = useState([]);
+export default function SeasonTable({ selectedSeason, setSelectedSeason, selectedLeague }) {
+    const [newSeasonModal, setNewSeasonModal] = useState(false);
+    const [seasons, setSeasons] = useState([]);
 
-    const listLeaguesFunc = () => {
+    const listSeasonsFunc = () => {
     }
 
     return (
         <>
-        <div class="relative overflow-x-auto mx-auto px-4 w-full my-[1rem]">
+        <div class="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
             <table class="w-full text-sm text-left border border-gray-400">
                 <thead class="text-md text-black bg-white">
                     <tr>
                         <th scope="col" class="text-lg font-medium px-6 py-4">
-                            League
+                            Season
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
@@ -36,9 +36,10 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                             
                         </th>
                         <th className='absolute right-5 top-2'>
-                            <CreateButton label="Create New League"
-                                            state={newLeagueModal}
-                                            setState={setNewLeagueModal} />
+                            <CreateButton label="Create New Season"
+                                            state={newSeasonModal}
+                                            setState={setNewSeasonModal} 
+                                            selectedType={selectedLeague} />
                         </th>
                     </tr>
                 </thead>
@@ -48,10 +49,10 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                             Name
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
-                            # of Teams
+                            Start
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
-                            Coordinator(s)
+                            End
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
                             Status
@@ -62,15 +63,30 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                     </tr>
                 </thead>
                 <tbody>
-                    {leagues && leagues.map((league) => (
+                    {seasons && seasons.map((season) => (
                     <>
-                        <LeagueCard league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} listLeaguesFunc={listLeaguesFunc} />
+                        <SeasonCard season={season} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} />
                     </>
                     ))}
+                    {(seasons && selectedLeague !== null && seasons.length === 0) && (
+                        <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
+                        <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
+                            No seasons for this league.
+                        </th>
+                        <td class="px-6 py-4">
+                        </td>
+                        <td class="px-6 py-4">
+                        </td>
+                        <td class="px-6 py-4">
+                        </td>
+                        <td class="flex gap-4 px-6 py-4 text-center">
+                        </td>
+                    </tr>
+                    )}
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
-                            All Leagues
+                            All Seasons
                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon>
                         </th>
                         <td class="px-6 py-4">
@@ -86,11 +102,11 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </tbody>
             </table>
         </div>
-         {newLeagueModal && (
-             <>
-             {/* <CreateLeagueModal sport={sport} openModal={newLeagueModal} setOpenModal={setNewLeagueModal} listLeaguesFunc={listLeaguesFunc} /> */}
-              </>
-         )}
-        </>
-     )
- }
+                {newSeasonModal && (
+                    <>
+                    {/* <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} /> */}
+                     </>
+                )}
+               </>
+    )
+}

@@ -1,12 +1,12 @@
 /**
- * Last updated: 2023-03-23
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 
-function CoordinatorChip() {
+export default function CoordinatorChip({ coordinator, myCoordinators, setMyCoordinators}) {
 
     return (
         <div className='flex justify-between gap-5 items-center'>

@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-15
+ * Last updated: 2023-03-29
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -16,10 +16,19 @@ import Head from 'next/head';
  
  // Components
  import SignOutButton from '@/components/common/SignOutButton';
- 
+ // Tables
+import LeagueTable from '@/components/sports/LeagueTable';
+import SeasonTable from '@/components/sports/SeasonTable'; 
+import DivisionTable from '@/components/sports/DivisionTable';
+
  export default function Home() {
      const [user, setUser, authRoles, setAuthRoles] = useUser();
      const router = useRouter();
+
+    const [selectedLeague, setSelectedLeague] = useState(null);
+    const [selectedSeason, setSelectedSeason] = useState(null);
+    const [selectedDivision, setSelectedDivision] = useState(null);
+
      return (
          <>
              <Head>
@@ -29,9 +38,19 @@ import Head from 'next/head';
                  <link rel="icon" href="/images/ORS-Logo.png" />
              </Head>
  
-             <main className={styles.main}>
-                 <div className="flex flex-col">
-                     <h1>Sports Page</h1>
+             <main className='w-full flex justify-center max-w-[70em] mx-auto'>
+                 <div className="flex flex-col w-full">
+
+                     <LeagueTable sport='Soccer' 
+                                selectedLeague={selectedLeague} 
+                                setSelectedLeague={setSelectedLeague} />
+                     <SeasonTable selectedLeague={selectedLeague}
+                                selectedSeason={selectedSeason} 
+                                setSelectedSeason={setSelectedSeason} />
+                     <DivisionTable selectedSeason={selectedSeason}
+                        selectedDivision={selectedDivision} 
+                        setSelectedDivision={setSelectedDivision} 
+                        selectedLeague={selectedLeague} /> 
                  </div>
              </main>
          </>
