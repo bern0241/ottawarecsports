@@ -8,13 +8,14 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
 import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
-// import { getTeam } from '@/src/graphql/queries';
+import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
 
 export default function PlayerProfile() {
 	const router = useRouter();
@@ -22,15 +23,19 @@ export default function PlayerProfile() {
 	const [player, setPlayer] = useState(); // Player Table
 	const [user, setUser] = useState(); // Cognito User
 	const [profileImage, setProfileImage] = useState('');
-	const [teamName, setTeamName] = useState('');
+	const [teams, setTeams] = useState([]);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
 		if (!userId) {
 			return;
 		}
-		fetchPlayer();
-		fetchPlayerCognito();
+		const callMe = async () => {
+			await fetchPlayer();
+			await fetchPlayerCognito();
+			await fetchTeams();
+		}
+		callMe();
 	}, [userId]);
 
 	useEffect(() => {
@@ -83,9 +88,27 @@ export default function PlayerProfile() {
 		setTeamName(data.name);
 		}
 		else {
-			setTeamName('-')
 		
 	}
+	}
+
+	const fetchTeams = async () => {
+		setTeams([]);
+		const variables = {
+			filter: {
+			  user_id: {
+				eq: userId
+			  }
+			}
+		  };
+		  const players = await API.graphql({ 
+			query: listPlayers, variables: variables
+		  });
+		  players.data.listPlayers.items.map(async (player) => {
+				const apiData = await API.graphql({ query: getTeam2, variables: { id: player.teamID }});
+				const data = await apiData.data.getTeam;
+				setTeams((teams) => [...teams, data]);
+		  })
 	}
 
 	return (
@@ -211,7 +234,12 @@ export default function PlayerProfile() {
 										<tr className="font-light">
 											<td className="py-2 px-3">Soccer</td>
 											<td className="py-2 px-3">
-												{player && teamName}
+												{/* {player && teamName} */}
+												{teams && teams.map((team) => (
+													<>
+													<p>{team.name}</p>
+													</>
+												))}
 											</td>
 											<td className="py-2 px-3">
 												{player && player.soccer_stats && player.soccer_stats[0].position}
