@@ -1,9 +1,9 @@
 /**
- * Last updated: 2023-03-23
+ * Last updated: 2023-03-30
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
- * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
+ * Verity Stevens <stev0298@algonquinlive.com>
  */
 
 import React from 'react';

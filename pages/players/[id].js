@@ -8,13 +8,14 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
 import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
-// import { getTeam } from '@/src/graphql/queries';
+import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
 
 export default function PlayerProfile() {
 	const router = useRouter();
@@ -22,15 +23,19 @@ export default function PlayerProfile() {
 	const [player, setPlayer] = useState(); // Player Table
 	const [user, setUser] = useState(); // Cognito User
 	const [profileImage, setProfileImage] = useState('');
-	const [teamName, setTeamName] = useState('');
+	const [teams, setTeams] = useState([]);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
 		if (!userId) {
 			return;
 		}
-		fetchPlayer();
-		fetchPlayerCognito();
+		const callMe = async () => {
+			await fetchPlayer();
+			await fetchPlayerCognito();
+			await fetchTeams();
+		}
+		callMe();
 	}, [userId]);
 
 	useEffect(() => {
@@ -48,7 +53,9 @@ export default function PlayerProfile() {
 
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
-		setPlayer(data[0]);
+		if (data) {
+			setPlayer(data[0]);
+		}
 	};
 
 	const fetchPlayerCognito = async () => {
@@ -83,13 +90,34 @@ export default function PlayerProfile() {
 		setTeamName(data.name);
 		}
 		else {
-			setTeamName('-')
 		
 	}
 	}
 
+	const fetchTeams = async () => {
+		setTeams([]);
+		const variables = {
+			filter: {
+			  user_id: {
+				eq: userId
+			  }
+			}
+		  };
+		  const players = await API.graphql({ 
+			query: listPlayers, variables: variables
+		  });
+		  if (!players) { return; }
+		  players.data.listPlayers.items.map(async (player) => {
+				const apiData = await API.graphql({ query: getTeam2, variables: { id: player.teamID }});
+				const data = await apiData.data.getTeam;
+				setTeams((teams) => [...teams, data]);
+		  })
+	}
+
 	return (
 		<>
+		<button onClick={(e) => console.log(user)}>Click me User</button>
+		<button onClick={(e) => console.log(player)}>Click me Player</button>
 			{/* Content */}
 			<main className="w-full h-screen flex flex-col gap-6 p-8">
 				{/* Results */}
@@ -206,15 +234,21 @@ export default function PlayerProfile() {
 								</thead>
 								<tbody>
 									{(player && player.soccer_stats != "") ? (
-										<tr className="font-light">
-											<td className="py-2 px-3">Soccer</td>
-											<td className="py-2 px-3">
-												{player && teamName}
-											</td>
-											<td className="py-2 px-3">
-												{player && player.soccer_stats[0].position}
-											</td>
-										</tr>
+										<>
+										{teams && teams.map((team) => (
+											<>
+											<tr className="font-light">
+												<td className="py-2 px-3">Soccer</td>
+												<td className="py-2 px-3">
+													{team && team.name}
+												</td>
+												<td className="py-2 px-3">
+													{team.captains && team.captains.includes(userId) ? "Captain" : "Player"}
+												</td>
+											</tr>
+											</>
+										))}
+										</>
 									) : (
 										<tr className="text-center text-brand-neutral-800">
 											<td colSpan={3}>

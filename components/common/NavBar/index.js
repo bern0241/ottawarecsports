@@ -1,9 +1,10 @@
 /**
- * Last updated: 2023-03-26
+ * Last updated: 2023-03-30
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com>
  */
 
 import Link from 'next/link';
@@ -13,7 +14,7 @@ import NavbarSetup from './Links';
 import { useRouter } from 'next/router';
 import SignOutButton from '../SignOutButton';
 
-const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize }) => {
+const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize, laptopHeight }) => {
 	const router = useRouter();
 
 	// Hide sidebar menu everytime new page loads (in mobile screen mode)
@@ -26,7 +27,7 @@ const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize }) => {
 	return (
 		<>
 		<div
-			className={`fixed inset-y-0 bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500 z-[100] transition-all duration-500 ${
+			className={`overflow-hidden hover:overflow-y-scroll fixed inset-y-0 bg-brand-blue-900 h-screen py-3 w-80 flex flex-col justify-between text-neutral-500 z-[100] transition-all duration-500 ${
 				openMenu ? 'left-0' : 'left-[-20rem]'
 			}`}
 		>
@@ -59,7 +60,7 @@ const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize }) => {
 					width={158}
 					height={158}
 					priority
-					className="py-3 self-center mb-5 w-auto h-auto"
+					className={`"py-3 self-center w-auto h-auto" ${laptopHeight ? "block" : "hidden"}`}
 				/>
 
 				<SignOutButton />

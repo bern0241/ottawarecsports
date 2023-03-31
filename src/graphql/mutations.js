@@ -50,7 +50,7 @@ export const createPlayer = /* GraphQL */ `
       user_id
       soccer_stats {
         id
-        team
+        teamid
         division
         position
         goals
@@ -59,6 +59,8 @@ export const createPlayer = /* GraphQL */ `
         red_cards
         games_played
       }
+      teamID
+      role
       createdAt
       updatedAt
     }
@@ -74,7 +76,7 @@ export const updatePlayer = /* GraphQL */ `
       user_id
       soccer_stats {
         id
-        team
+        teamid
         division
         position
         goals
@@ -83,6 +85,8 @@ export const updatePlayer = /* GraphQL */ `
         red_cards
         games_played
       }
+      teamID
+      role
       createdAt
       updatedAt
     }
@@ -98,7 +102,7 @@ export const deletePlayer = /* GraphQL */ `
       user_id
       soccer_stats {
         id
-        team
+        teamid
         division
         position
         goals
@@ -107,6 +111,8 @@ export const deletePlayer = /* GraphQL */ `
         red_cards
         games_played
       }
+      teamID
+      role
       createdAt
       updatedAt
     }
@@ -141,7 +147,7 @@ export const createGame = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -152,9 +158,13 @@ export const createGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -169,7 +179,7 @@ export const createGame = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -180,9 +190,13 @@ export const createGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -222,7 +236,7 @@ export const updateGame = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -233,9 +247,13 @@ export const updateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -250,7 +268,7 @@ export const updateGame = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -261,9 +279,13 @@ export const updateGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -303,7 +325,7 @@ export const deleteGame = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -314,9 +336,13 @@ export const deleteGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -331,7 +357,7 @@ export const deleteGame = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -342,9 +368,13 @@ export const deleteGame = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -782,7 +812,7 @@ export const createTeam = /* GraphQL */ `
       }
       team_history {
         id
-        team
+        teamid
         division
         roster
         goals
@@ -793,7 +823,7 @@ export const createTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -803,6 +833,18 @@ export const createTeam = /* GraphQL */ `
         }
         nextToken
       }
+      Players {
+        items {
+          id
+          user_id
+          teamID
+          role
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      captains
       createdAt
       updatedAt
     }
@@ -833,7 +875,7 @@ export const updateTeam = /* GraphQL */ `
       }
       team_history {
         id
-        team
+        teamid
         division
         roster
         goals
@@ -844,7 +886,7 @@ export const updateTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -854,6 +896,18 @@ export const updateTeam = /* GraphQL */ `
         }
         nextToken
       }
+      Players {
+        items {
+          id
+          user_id
+          teamID
+          role
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      captains
       createdAt
       updatedAt
     }
@@ -884,7 +938,7 @@ export const deleteTeam = /* GraphQL */ `
       }
       team_history {
         id
-        team
+        teamid
         division
         roster
         goals
@@ -895,7 +949,7 @@ export const deleteTeam = /* GraphQL */ `
         captains
       }
       team_picture
-      divisions {
+      Divisions {
         items {
           id
           divisionId
@@ -905,6 +959,18 @@ export const deleteTeam = /* GraphQL */ `
         }
         nextToken
       }
+      Players {
+        items {
+          id
+          user_id
+          teamID
+          role
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      captains
       createdAt
       updatedAt
     }
@@ -958,12 +1024,12 @@ export const deletePlayerNote = /* GraphQL */ `
     }
   }
 `;
-export const createDivisionTeam = /* GraphQL */ `
-  mutation CreateDivisionTeam(
-    $input: CreateDivisionTeamInput!
-    $condition: ModelDivisionTeamConditionInput
+export const createTeamDivision = /* GraphQL */ `
+  mutation CreateTeamDivision(
+    $input: CreateTeamDivisionInput!
+    $condition: ModelTeamDivisionConditionInput
   ) {
-    createDivisionTeam(input: $input, condition: $condition) {
+    createTeamDivision(input: $input, condition: $condition) {
       id
       divisionId
       teamId
@@ -996,7 +1062,7 @@ export const createDivisionTeam = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -1007,9 +1073,13 @@ export const createDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -1018,12 +1088,12 @@ export const createDivisionTeam = /* GraphQL */ `
     }
   }
 `;
-export const updateDivisionTeam = /* GraphQL */ `
-  mutation UpdateDivisionTeam(
-    $input: UpdateDivisionTeamInput!
-    $condition: ModelDivisionTeamConditionInput
+export const updateTeamDivision = /* GraphQL */ `
+  mutation UpdateTeamDivision(
+    $input: UpdateTeamDivisionInput!
+    $condition: ModelTeamDivisionConditionInput
   ) {
-    updateDivisionTeam(input: $input, condition: $condition) {
+    updateTeamDivision(input: $input, condition: $condition) {
       id
       divisionId
       teamId
@@ -1056,7 +1126,7 @@ export const updateDivisionTeam = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -1067,9 +1137,13 @@ export const updateDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }
@@ -1078,12 +1152,12 @@ export const updateDivisionTeam = /* GraphQL */ `
     }
   }
 `;
-export const deleteDivisionTeam = /* GraphQL */ `
-  mutation DeleteDivisionTeam(
-    $input: DeleteDivisionTeamInput!
-    $condition: ModelDivisionTeamConditionInput
+export const deleteTeamDivision = /* GraphQL */ `
+  mutation DeleteTeamDivision(
+    $input: DeleteTeamDivisionInput!
+    $condition: ModelTeamDivisionConditionInput
   ) {
-    deleteDivisionTeam(input: $input, condition: $condition) {
+    deleteTeamDivision(input: $input, condition: $condition) {
       id
       divisionId
       teamId
@@ -1116,7 +1190,7 @@ export const deleteDivisionTeam = /* GraphQL */ `
         }
         team_history {
           id
-          team
+          teamid
           division
           roster
           goals
@@ -1127,9 +1201,13 @@ export const deleteDivisionTeam = /* GraphQL */ `
           captains
         }
         team_picture
-        divisions {
+        Divisions {
           nextToken
         }
+        Players {
+          nextToken
+        }
+        captains
         createdAt
         updatedAt
       }

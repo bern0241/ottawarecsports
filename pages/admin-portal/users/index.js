@@ -81,7 +81,7 @@ export default function AdminPortal() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="p-[4rem 0rem]">
+			<main className="p-8">
 				<ACPSearchUserBar setSearchResult={setSearchResult} />
 
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">

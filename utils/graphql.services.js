@@ -74,21 +74,6 @@ export const getAllPlayers = async () => {
 	}
 };
 /**
- * Returns all users in the database
- * @returns {[Object]} User objects in an array
- */
-export const getAllUsers = async () => {
-	try {
-		const resp = await API.graphql({
-			query: queries.listUsers,
-		});
-		return resp.data.listUsers.items;
-	} catch (err) {
-		console.warn(err);
-	}
-};
-
-/**
  *
  * @param {String} _id Retrieves team with ID
  * @returns
@@ -222,7 +207,7 @@ export const createTeam = async (teamData) => {
 export const updateTeam = async (teamData) => {
 	try {
 		const resp = await API.graphql({
-			query: mutations.updateTeams,
+			query: mutations.updateTeam,
 			variables: {
 				input: teamData,
 			},
@@ -369,6 +354,22 @@ export const createPlayer = async (username) => {
 	try {
 		const data = {
 			user_id: username,
+		};
+		const apiData = await API.graphql({
+			query: mutations.createPlayer,
+			variables: { input: data },
+		});
+		return apiData;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const createPlayerOnTeam = async (username, teamID) => {
+	try {
+		const data = {
+			user_id: username,
+			teamID: teamID,
 		};
 		const apiData = await API.graphql({
 			query: mutations.createPlayer,

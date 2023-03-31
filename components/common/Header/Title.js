@@ -15,7 +15,7 @@ const HeaderTitle = () => {
 	return (
 		<>
 		{router.pathname === '/' && (
-			<div className="p-1 pt-0 pl-2 sm:pl-7">
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
 				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
@@ -25,7 +25,7 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/sports/soccer' && (
-			<div className="p-1 pt-0 pl-2 sm:pl-7">
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
 				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
@@ -39,7 +39,7 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/players' && (
-			<div className="p-1 pt-0 pl-2 sm:pl-7">
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
 				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
@@ -53,7 +53,7 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/teams' && (
-			<div className="p-1 pt-0 pl-2 sm:pl-7">
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
 				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
@@ -67,7 +67,7 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/admin-portal/users' && (
-			<div className="p-1 pt-0 pl-2 sm:pl-7">
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
 				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>
@@ -81,7 +81,7 @@ const HeaderTitle = () => {
 			</div>
 		)}
 		{router.pathname === '/settings' && (
-			<div className="p-1 pt-0 pl-2 sm:pl-7">
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
 				<div className='flex flex-col gap-2'>
 					<div className='flex flex-row'>
 						<Link href="/" className="font-light text-[.8rem]">Home</Link>

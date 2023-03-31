@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-23
+ * Last updated: 2023-03-30
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -7,7 +7,7 @@
  */
 
 import Link from 'next/link';
-import React from 'react';
+import React, {useState} from 'react';
 import SportsDropDown from './SportsDropDown';
 import { IconHome, IconShieldChevron, IconSettings } from '@tabler/icons-react';
 import ScheduleDropDown from './ScheduleDropDown';
@@ -17,6 +17,27 @@ import { useUser } from '@/context/userContext';
 
 const NavbarSetup = () => {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [openDropdown, setOpenDropdown] = useState(null);
+
+	// Reference: Stack Overflow/Henry Woody <https://stackoverflow.com/questions/70489280/react-close-dropdown-when-other-dropdown-is-opened>
+	function changeOpenMenu(menu) {
+		setOpenDropdown(menu);
+	}
+
+	function toggle(menu) {
+		if (openDropdown === menu) {
+			changeOpenMenu(null);
+		} else {
+			changeOpenMenu(menu);
+		}
+	}
+
+	const dropdownMenuNames = {
+		sports: "sports",
+		schedule: "schedule",
+		rosters: "rosters",
+		acp: "acp"
+	};
 
 	return (
 		<div className="flex flex-col font-medium text-md">
@@ -30,10 +51,10 @@ const NavbarSetup = () => {
 				</div>
 				<p className="pl-2">Home</p>
 			</Link>
-			<SportsDropDown />
-			<ScheduleDropDown />
-			<RostersDropDown />
-			<AdminPortalDropDown />
+			<SportsDropDown openDropdown={openDropdown} toggle={toggle} dropdownMenuNames={dropdownMenuNames} />
+			<ScheduleDropDown openDropdown={openDropdown} toggle={toggle} dropdownMenuNames={dropdownMenuNames} />
+			<RostersDropDown openDropdown={openDropdown} toggle={toggle} dropdownMenuNames={dropdownMenuNames} />
+			<AdminPortalDropDown openDropdown={openDropdown} toggle={toggle} dropdownMenuNames={dropdownMenuNames} />
 			{user ? (
 				<Link
 					href="/settings"

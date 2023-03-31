@@ -10,9 +10,17 @@ import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { IconSearch } from '@tabler/icons-react';
+import { IconX } from '@tabler/icons-react';
 import Image from 'next/image';
-import { getImageFromS3, getAllPlayers, getTeam, getUser } from '@/utils/graphql.services';
+import { getImageFromS3, getAllPlayers, getTeam, getUser, updateTeam } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
+import { useUser } from '@/context/userContext';
+import * as mutations from '@/src/graphql/mutations';
+import { API } from 'aws-amplify';
+import EditTeamModal from '@/components/teams/EditTeamModal';
+import UsersSearchBar from '@/components/common/UsersSearchBar';
+import { listPlayers } from '@/src/graphql/queries';
+import MemberCard from '@/components/teams/MemberCard';
 
 export default function TeamProfile() {
 	const router = useRouter();
@@ -22,14 +30,22 @@ export default function TeamProfile() {
 	const [members, setMembers] = useState([]);
 	const [profileImage, setProfileImage] = useState('');
 	const [playerUsername, setPlayerUsename] = useState([]);
+	// Opens user dropdown
+	const [openDropdown, setOpenDropdown] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	const [user, authRoles] = useUser();
+	const [editModal, setEditModal] = useState(false);
 
 
 	useEffect(() => {
 		if(!teamId) {
 			return
 		}
-		fetchTeam();
+		const callMeAsync = async () => {
+			await fetchTeam();
+			await fetchPlayersFromTeam();
+		}
+		callMeAsync();
 	}, [teamId]);
 
 	useEffect(() => {
@@ -48,7 +64,7 @@ export default function TeamProfile() {
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		// console.log('TEAM', data);
+		console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -70,7 +86,7 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async () => {
-		if (!team) return; //
+		if (!team.team_history[0].captains) return; //
 		setCaptains([]);
 		team.team_history[0].captains.forEach(async captain => {
 			const params = {
@@ -98,8 +114,95 @@ export default function TeamProfile() {
 		setProfileImage(url);
 	};
 
+	//Function to delete Player
+
+	async function deletePlayer(player){
+			console.log(player.Username);
+			/**DELETE PLAYER FROM TEAM */
+		// in team.team_history, find the current SoccerTeamStat object, which represents the current season
+		// in this phase no history, so its always going to be team.team_history[0]
+		// team.team_history[0], which is an array, remove the player's id from the array
+
+		// store a copy version of team.team_history[0] in an array
+		// const newTeamHistoryArray = team.team_history[0]
+
+		// remove the player id from the array
+		// newTeamHistoryArray.team_history[0].splice(index, 1)
+		
+		console.log(team.team_history[0]);
+
+		const newTeamRosterArray = team.team_history[0].roster.filter(item => item !== player.Username)
+		// console.log(newTeamHistoryArray);
+
+		// const newTeamHistoryArray = 
+		// team.team_history[0].roster = newTeamRosterArray
+
+		const data = {
+			id: teamId,
+			team_history:{
+				roster: newTeamRosterArray
+			}
+		}
+		const resp = await API.graphql({
+			query: mutations.updateTeam,
+			variables: {
+				input: data,
+			},
+		});
+
+		// run the updateTeam function
+		/**
+		 * updateTeam(
+		 * {
+		 * 	team_history: newTeamHistoryArray
+		 * }
+		 * )
+		 */
+
+		/**DELETE TEAM FROM PLAYER */
+		// if doest have current player, get current player using the id (should be username)
+
+		// the teams are stored in player.soccer_stats
+		// const playerTeams = player.soccer_stats
+
+		// find the index of the object that represents the team that the player is being removed from
+		// const teamIndex = player.soccer_stats.indexOf(e => e.team === team.id)
+
+		// remove this object from the array
+		// playerTeams.soccer_stats.splice(teamIndex, 1)
+
+		// run the update function 
+		/**
+		 * updatePlayer({
+		 * 	soccer_starts: playerTeams
+		 * })
+		 */
+	}
+
+	const fetchPlayersFromTeam = async () => {
+		const variables = {
+			filter: {
+			  teamID: {
+				eq: teamId
+			  }
+			}
+		  };
+		  const players = await API.graphql({ 
+			query: listPlayers, variables: variables
+		  });
+		  console.log('Members', players.data.listPlayers.items);
+		  setMembers(players.data.listPlayers.items);
+	}
+
 	return (
 		<main className="w-full h-screen flex flex-col gap-6 p-8">
+			{/* Edit Modal */}
+			<EditTeamModal
+				isVisible={editModal}
+				setIsVisible={setEditModal}
+				teamId={teamId}
+				team={team}
+			/>
 			{/* Results */}
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
@@ -127,6 +230,13 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
+						<button
+							onClick={() => setEditModal(true)}
+							type="button"
+							className="border border-brand-blue-800 text-brand-blue-800 h-9 w-full rounded-2xl font-regular mb-3"
+						>
+							Edit Team Details
+						</button>
 					</div>
 
 					{/* Player Information */}
@@ -158,7 +268,7 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Members</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{(team && team.team_history) && team.team_history[0].roster.length}
+								{team && team.Players.items.length}
 							</div>
 						</div>
 
@@ -184,24 +294,27 @@ export default function TeamProfile() {
 
 						{/* Player Teams */}
 						<div className="col-span-2">
-							<h2 className="mb-1 font-light">Members</h2>
-							<div className=" w-full border border-brand-blue-900/25 rounded overflow-hidden">
-								<div className="w-full relative">
-									<input
-										type="text"
-										className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
-										placeholder="Search"
-										defaultValue=""
-									/>
-									<span className="absolute right-2 top-1/2 -translate-y-1/2">
-										<IconSearch />
-									</span>
+							
+							<div className=" w-full border border-brand-blue-900/25 rounded">
+								<div className="w-full relative flex flex-row justify-between items-center">
+								<h2 className="mb-1 font-light">Members</h2>
+								<button
+									onClick={(e) => setOpenDropdown(!openDropdown)}
+									type="button"
+									className="bg-brand-blue-800 text-center rounded w-[10rem] text-white font-regular flex"
+								>
+									Add Members
+								</button>
+								{/* // DROP */}
+								{openDropdown && (
+									<UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+								)}
+
 								</div>
-								{members && members.map((member, index) => (
-										<p key={index} className='relative border-t border-brand-blue-900/25 px-5 py-2'>
-											{member.UserAttributes.find(o => o.Name === 'name')['Value']} {' '}
-											{member.UserAttributes.find(o => o.Name === 'family_name')['Value']}
-										</p>
+								{members && members.map((member) => (
+									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.id} >
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+									</div>
 								))}
 							</div>
 						</div>
