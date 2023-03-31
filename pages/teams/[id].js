@@ -28,7 +28,8 @@ export default function TeamProfile() {
 	const [members, setMembers] = useState([]);
 	const [profileImage, setProfileImage] = useState('');
 	const [playerUsername, setPlayerUsename] = useState([]);
-	const [openModal, setOpenModal] = useState(false);
+	// Opens user dropdown
+	const [openDropdown, setOpenDropdown] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 	const [user, authRoles] = useUser();
 	const [editModal, setEditModal] = useState(false);
@@ -277,15 +278,15 @@ export default function TeamProfile() {
 								<div className="w-full relative flex flex-row justify-between items-center">
 								<h2 className="mb-1 font-light">Members</h2>
 								<button
-									onClick={(e) => setOpenModal(!openModal)}
+									onClick={(e) => setOpenDropdown(!openDropdown)}
 									type="button"
 									className="bg-brand-blue-800 text-center rounded w-[10rem] text-white font-regular flex"
 								>
 									Add Members
 								</button>
 								{/* // DROP */}
-								{openModal && (
-									<UsersSearchBar openModal={openModal} setOpenModal={setOpenModal} />
+								{openDropdown && (
+									<UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} />
 								)}
 
 								</div>

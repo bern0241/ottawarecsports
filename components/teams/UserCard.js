@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getImageFromS3 } from "@/utils/graphql.services";
 
-export default function UserCard({ user }) {
+export default function UserCard({ user, openDropdown, setOpenDropdown }) {
     const [userImage, setUserImage] = useState(null);
 
     useEffect(() => {
@@ -17,13 +17,17 @@ export default function UserCard({ user }) {
         }
     }
 
+    const addUser = async (e) => {
+        e.preventDefault();
+        setOpenDropdown(!openDropdown)
+        console.log(user);
+    }
+
     return (
-        <div class="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+        <div onClick={(e) => {
+            addUser(e);
+        }} class="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
             <img
-                onClick={(e) => {
-                    e.preventDefault();
-                    setOpenDropdown(!openDropdown);
-                }}
                 style={{ objectFit: 'cover' }}
                 width={132}
                 height={132}
