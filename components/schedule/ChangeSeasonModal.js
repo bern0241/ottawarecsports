@@ -13,6 +13,16 @@ const ChangeSeasonModal = ({
 	const [selectedLeague, setSelectedLeague] = useState([]);
 	const [selectedSeason, setSelectedSeason] = useState([]);
 
+	const customSetSeason = (name) => {
+		let season = seasons.find((e) => e.name === name);
+		setSelectedSeason(season);
+	};
+
+	const customSetLeague = (name) => {
+		let league = leagues.find((e) => e.name === name);
+		setSelectedLeague(league);
+	};
+
 	const onSave = () => {
 		setCurrentLeague(selectedLeague);
 		setCurrentSeason(selectedSeason);
@@ -53,7 +63,7 @@ const ChangeSeasonModal = ({
 									</div>
 									<DropdownInput
 										value={selectedLeague}
-										setValue={setSelectedLeague}
+										setValue={customSetLeague}
 										options={leagues.map((league) => league.name)}
 									/>
 								</div>
@@ -63,7 +73,7 @@ const ChangeSeasonModal = ({
 									</div>
 									<DropdownInput
 										value={selectedSeason}
-										setValue={setSelectedSeason}
+										setValue={customSetSeason}
 										options={seasons.map((season) => season.name)}
 									/>
 								</div>
