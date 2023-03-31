@@ -1,5 +1,5 @@
 import { TextInput, Label } from 'flowbite-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 const ChangeSeasonModal = ({
 	setModalVisible,
@@ -7,7 +7,12 @@ const ChangeSeasonModal = ({
 	setCurrentLeague,
 	currentSeason,
 	setCurrentSeason,
+	leagues,
 }) => {
+	const [seasons, setSeasons] = useState([]);
+	useEffect(() => {
+		setSeasons(leagues[0].Seasons.items);
+	}, [leagues]);
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
@@ -36,11 +41,7 @@ const ChangeSeasonModal = ({
 									<DropdownInput
 										value={currentLeague}
 										setValue={setCurrentLeague}
-										options={[
-											'2023 Soccer League',
-											'2022 Soccer League',
-											'2021 Soccer League',
-										]}
+										options={leagues.map((league) => league.name)}
 									/>
 								</div>
 								<div>
@@ -50,7 +51,7 @@ const ChangeSeasonModal = ({
 									<DropdownInput
 										value={currentSeason}
 										setValue={setCurrentSeason}
-										options={['Summer', 'Fall', 'Winter']}
+										options={seasons.map((season) => season.name)}
 									/>
 								</div>
 							</div>
