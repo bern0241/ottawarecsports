@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
@@ -9,11 +10,13 @@ import { useRouter } from 'next/router';
 import {
 	createTeam,
 	uploadNewImageToS3,
+  getImageFromS3,
+  deleteImageFromS3,
 	updatePlayerSoccer,
 } from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
-const { v4: uuidv4 } = require('uuid');
+import { updateTeam } from '@/src/graphql/mutations';
 
 const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 	const [user] = useUser();
@@ -23,8 +26,9 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 	const [homeColour, setHomeColour] = useState('Red');
 	const [awayColour, setAwayColour] = useState('Blue');
 	const [selectedOption, setSelectedOption] = useState('');
-	const [profilePic, setProfilePic] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
+	const [teamLogoUpload, setTeamLogoUpload] = useState(null);
+  const router = useRouter();
 	const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -33,9 +37,48 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
       setTeamCaptain(user.attributes.name);
     }
   }, [team])
-	// useEffect(() => {
-	// 	setTeamCaptain(user);
-	// }, [user])
+
+  useEffect(() => {
+		const timer = setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+		return () => clearTimeout(timer);
+	}, [message]);
+
+  const editTeamFunc = async (e) => {
+    e.preventDefault();
+    try {
+      if (teamName === '' || teamCaptain === '') {
+        setMessage({ status: 'error', message: 'All required fields must be entered.' })
+        return;
+      }
+
+      let uniqueId = `${teamName}_${makeid(15)}`;
+      if (teamLogoUpload) {
+        if (team.team_picture !== '') {
+          await deleteImageFromS3(team.team_picture);
+        }
+        await uploadNewImageToS3(uniqueId, teamLogoUpload);
+      }
+      const data = {
+        id: teamId,
+        name: teamName,
+        home_colour: homeColour,
+        away_colour: awayColour,
+        team_picture: teamLogoUpload,
+      }
+      await API.graphql({ 
+          query: updateTeam,
+          variables: { input: data }
+      })
+      setMessage({ status: 'success', message: 'Team profile updated successfully.' })
+      router.reload();
+    } catch (error) {
+      console.error(error);
+      setMessage({ status: 'error', message: error.message })
+    }
+  }
+
 	return (
 		<>
       {isVisible && (
@@ -52,7 +95,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
               {/* <!-- Modal header --> */}
               <div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-md font-semibold text-gray-900 dark:text-white">
-                  Edit Team
+                  {`Edit ${team.name}`}
                 </h3>
                 <button
                   onClick={() => {
@@ -82,8 +125,10 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
   
               {/* <!-- Modal body --> */}
               <TeamsImage 
-                profilePic={profilePic} 
-                setProfilePic={setProfilePic} 
+                isVisible={isVisible}
+                team={team}
+                teamLogoUpload={teamLogoUpload} 
+                setTeamLogoUpload={setTeamLogoUpload} 
                 />
               {/* <UserProfilePictureEdit
                 profilePic={profilePic}
@@ -115,6 +160,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                     Captain
                   </label>
                   <input
+                    disabled
                     value={teamCaptain}
                     onChange={(e) => setTeamCaptain(e.target.value)}
                     type="text"
@@ -207,7 +253,8 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                 </button>
                 <button
                   onClick={(e) => {
-                    //editTeam
+                    e.preventDefault();
+                    editTeamFunc(e);
                   }}
                   data-modal-hide="defaultModal"
                   type="button"
