@@ -12,13 +12,15 @@ import { IconChevronLeft } from '@tabler/icons-react';
 import { IconSearch } from '@tabler/icons-react';
 import { IconX } from '@tabler/icons-react';
 import Image from 'next/image';
-import { getImageFromS3, getAllPlayers, getTeam, getUser, updateTeam, up } from '@/utils/graphql.services';
+import { getImageFromS3, getAllPlayers, getTeam, getUser, updateTeam } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 import { useUser } from '@/context/userContext';
 import * as mutations from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 import EditTeamModal from '@/components/teams/EditTeamModal';
 import UsersSearchBar from '@/components/common/UsersSearchBar';
+import { listPlayers } from '@/src/graphql/queries';
+import MemberCard from '@/components/teams/MemberCard';
 
 export default function TeamProfile() {
 	const router = useRouter();
@@ -39,7 +41,11 @@ export default function TeamProfile() {
 		if(!teamId) {
 			return
 		}
-		fetchTeam();
+		const callMeAsync = async () => {
+			await fetchTeam();
+			await fetchPlayersFromTeam();
+		}
+		callMeAsync();
 	}, [teamId]);
 
 	useEffect(() => {
@@ -173,6 +179,21 @@ export default function TeamProfile() {
 		 */
 	}
 
+	const fetchPlayersFromTeam = async () => {
+		const variables = {
+			filter: {
+			  teamID: {
+				eq: teamId
+			  }
+			}
+		  };
+		  const players = await API.graphql({ 
+			query: listPlayers, variables: variables
+		  });
+		  console.log('Members', players.data.listPlayers.items);
+		  setMembers(players.data.listPlayers.items);
+	}
+
 	return (
 		<main className="w-full h-screen flex flex-col gap-6 p-8">
 			{/* Edit Modal */}
@@ -247,7 +268,7 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Members</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{(team && team.team_history) && team.team_history[0].roster.length}
+								{team && team.Players.items.length}
 							</div>
 						</div>
 
@@ -286,22 +307,14 @@ export default function TeamProfile() {
 								</button>
 								{/* // DROP */}
 								{openDropdown && (
-									<UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} />
+									<UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 								)}
 
 								</div>
 								{members && members.map((member) => (
-									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.Username} >
-										<p className=''>
-											{member.UserAttributes.find(o => o.Name === 'name')['Value']} {' '}
-											{member.UserAttributes.find(o => o.Name === 'family_name')['Value']}
-										</p>
-										{/* {user && (authRoles.includes('Admin') || authRoles.includes('Owner')) && ( */}
-											<button className="text-brand-orange-800" onClick={() => deletePlayer(member)}>
-												<IconX/>
-											</button>
-										{/* // )}  */}
-										</div>
+									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.id} >
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+									</div>
 								))}
 							</div>
 						</div>

@@ -5,7 +5,7 @@ type SportsmanshipPoint @model @auth(rules: [{allow: public}]) {
 
 type SoccerTeamStat {
   id: ID
-  team: String
+  teamid: String
   division: String
   roster: [String]
   goals: Int
@@ -18,7 +18,7 @@ type SoccerTeamStat {
 
 type SoccerDivisionStat {
   id: ID
-  team: String
+  teamid: String
   division: String
   position: String
   goals: Int
@@ -32,6 +32,7 @@ type Player @model @auth(rules: [{allow: public}]) {
   id: ID!
   user_id: String
   soccer_stats: [SoccerDivisionStat]
+  teamID: ID! @index(name: "byTeam")
 }
 
 enum GameStatusEnum {
@@ -124,6 +125,7 @@ type Team @model @auth(rules: [{allow: public}]) {
   team_history: [SoccerTeamStat]
   team_picture: String
   Divisions: [Division] @manyToMany(relationName: "TeamDivision")
+  Players: [Player] @hasMany(indexName: "byTeam", fields: ["id"])
 }
 
 type PlayerNote @model @auth(rules: [{allow: public}]) {

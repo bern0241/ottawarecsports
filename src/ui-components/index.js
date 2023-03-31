@@ -7,8 +7,6 @@
 export { default as studioTheme } from "./studioTheme";
 export { default as SportsmanshipPointCreateForm } from "./SportsmanshipPointCreateForm";
 export { default as SportsmanshipPointUpdateForm } from "./SportsmanshipPointUpdateForm";
-export { default as PlayerCreateForm } from "./PlayerCreateForm";
-export { default as PlayerUpdateForm } from "./PlayerUpdateForm";
 export { default as LeagueCreateForm } from "./LeagueCreateForm";
 export { default as LeagueUpdateForm } from "./LeagueUpdateForm";
 export { default as TeamCreateForm } from "./TeamCreateForm";

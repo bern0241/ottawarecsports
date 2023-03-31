@@ -23,7 +23,7 @@ export default function PlayerRow({ player, index }) {
 	const router = useRouter();
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
-	const [details, setDeatails] = useState();
+	const [details, setDetails] = useState();
 	const [teamName, setTeamName] = useState('');
 
 	useEffect(() => {
@@ -55,7 +55,9 @@ export default function PlayerRow({ player, index }) {
 
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(index);
-		setDeatails(data[0]);
+		if (data) {
+			setDetails(data[0]);
+		}
 	}
 
 	const getTeamName = async () => {

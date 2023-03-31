@@ -15,7 +15,7 @@ import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
 import UserCard from '../teams/UserCard';
 
-export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembers }) {
+export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembers, fetchPlayersFromTeam }) {
     const [users, setUsers] = useState([]);
 
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
@@ -45,7 +45,7 @@ export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembe
         <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
             {users && users.map((user) => (
                  <li key={user.Username}>
-                   <UserCard user={user} setMembers={setMembers} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} />
+                   <UserCard user={user} setMembers={setMembers} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
                  </li>
             ))}
         </ul>

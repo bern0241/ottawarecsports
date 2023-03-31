@@ -18,8 +18,8 @@ const { v4: uuidv4 } = require('uuid');
 const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 	const [user] = useUser();
 	const [maxMembers, setMaxMembers] = useState(0);
-	const [teamName, setTeamName] = useState('');
-	const [teamCaptain, setTeamCaptain] = useState();
+	const [teamName, setTeamName] = useState();
+	const [teamCaptain, setTeamCaptain] = useState('');
 	const [homeColour, setHomeColour] = useState('Red');
 	const [awayColour, setAwayColour] = useState('Blue');
 	const [selectedOption, setSelectedOption] = useState('');
@@ -27,9 +27,15 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 	const [teamRoster, setTeamRoster] = useState([]);
 	const [message, setMessage] = useState(null);
 
-	useEffect(() => {
-		setTeamCaptain(user);
-	}, [user])
+  useEffect(() => {
+    if (team) {
+      setTeamName(team.name);
+      setTeamCaptain(user.attributes.name);
+    }
+  }, [team])
+	// useEffect(() => {
+	// 	setTeamCaptain(user);
+	// }, [user])
 	return (
 		<>
       {isVisible && (
@@ -71,6 +77,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                   </svg>
                   <span className="sr-only">Close modal</span>
                 </button>
+              <button onClick={(e) => console.log(team)}>ONCLIC asd</button>
               </div>
   
               {/* <!-- Modal body --> */}
@@ -108,7 +115,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                     Captain
                   </label>
                   <input
-                    value={teamCaptain && (teamCaptain.attributes.name + " " + teamCaptain.attributes.family_name)}
+                    value={teamCaptain}
                     onChange={(e) => setTeamCaptain(e.target.value)}
                     type="text"
                     id="lastName"
