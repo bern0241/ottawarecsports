@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconRepeat } from '@tabler/icons-react';
 import DivisionRow from '@/components/schedule/DivisionRow';
 import ChangeSeasonModal from '@/components/schedule/ChangeSeasonModal';
-import MatchesTable from '@/components/schedule/MatchesTable';
+import { getLeagues } from '@/utils/graphql.services';
 
 const soccer = () => {
-	const [currentLeague, setCurrentLeague] = useState('');
-	const [currentSeason, setCurrentSeason] = useState('');
+	const [leagues, setLeagues] = useState([]);
+	const [currentLeague, setCurrentLeague] = useState({});
+	const [currentSeason, setCurrentSeason] = useState({});
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedDivision, setSelectedDivision] = useState();
+	const getAllLeagues = async () => {
+		const listOfLeagues = await getLeagues();
+		setLeagues(listOfLeagues);
+	};
+	useEffect(() => {
+		getAllLeagues();
+	}, []);
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8">
@@ -20,6 +28,7 @@ const soccer = () => {
 						setCurrentSeason={setCurrentSeason}
 						currentLeague={currentLeague}
 						setCurrentLeague={setCurrentLeague}
+						leagues={leagues}
 					/>
 				)}
 				{/* Results */}
