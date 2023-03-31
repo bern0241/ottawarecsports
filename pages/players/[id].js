@@ -53,7 +53,9 @@ export default function PlayerProfile() {
 
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
-		setPlayer(data[0]);
+		if (data) {
+			setPlayer(data[0]);
+		}
 	};
 
 	const fetchPlayerCognito = async () => {
@@ -104,6 +106,7 @@ export default function PlayerProfile() {
 		  const players = await API.graphql({ 
 			query: listPlayers, variables: variables
 		  });
+		  if (!players) { return; }
 		  players.data.listPlayers.items.map(async (player) => {
 				const apiData = await API.graphql({ query: getTeam2, variables: { id: player.teamID }});
 				const data = await apiData.data.getTeam;
@@ -231,20 +234,21 @@ export default function PlayerProfile() {
 								</thead>
 								<tbody>
 									{(player && player.soccer_stats != "") ? (
-										<tr className="font-light">
-											<td className="py-2 px-3">Soccer</td>
-											<td className="py-2 px-3">
-												{/* {player && teamName} */}
-												{teams && teams.map((team) => (
-													<>
-													<p>{team.name}</p>
-													</>
-												))}
-											</td>
-											<td className="py-2 px-3">
-												{player && player.soccer_stats && player.soccer_stats[0].position}
-											</td>
-										</tr>
+										<>
+										{teams && teams.map((team) => (
+											<>
+											<tr className="font-light">
+												<td className="py-2 px-3">Soccer</td>
+												<td className="py-2 px-3">
+													{team && team.name}
+												</td>
+												<td className="py-2 px-3">
+													{team.captains && team.captains.includes(userId) ? "Captain" : "Player"}
+												</td>
+											</tr>
+											</>
+										))}
+										</>
 									) : (
 										<tr className="text-center text-brand-neutral-800">
 											<td colSpan={3}>

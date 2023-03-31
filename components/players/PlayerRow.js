@@ -7,6 +7,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { API } from 'aws-amplify';
+import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
 import { useRouter } from 'next/router';
 import { getImageFromS3, getPlayersByUsername, getTeam } from '@/utils/graphql.services';
 import Link from 'next/link';
@@ -25,6 +27,7 @@ export default function PlayerRow({ player, index }) {
 	const signedUrlExpireSeconds = 60 * 1;
 	const [details, setDetails] = useState();
 	const [teamName, setTeamName] = useState('');
+	const [teams, setTeams] = useState([]);
 
 	useEffect(() => {
 		if(!index) {
@@ -32,6 +35,11 @@ export default function PlayerRow({ player, index }) {
 		}
 		fetchPlayer();
 	}, [index])
+
+	useEffect(() => {
+		setTeams([]);
+		fetchTeams();
+	}, [])
 
 	useEffect(() => {
 		if (player.Attributes.find(o => o.Name === 'picture')['Value'] === 'none') {
@@ -69,7 +77,7 @@ export default function PlayerRow({ player, index }) {
 		else {
 			setTeamName('-')
 		
-	}
+		}
 	}
 
 	// Reference: Stack Overflow/Roy <https://stackoverflow.com/questions/73598303/calculate-age-in-js-given-the-birth-date-in-dd-mm-yyyy-format>
@@ -85,6 +93,27 @@ export default function PlayerRow({ player, index }) {
 	const handleClick = () => {
 		router.push(`/players/${player.Username}`);
 	};
+
+	const fetchTeams = async () => {
+		setTeams([]);
+		const variables = {
+			filter: {
+			  user_id: {
+				eq: player.Username
+			  }
+			}
+		  };
+		  const players = await API.graphql({ 
+			query: listPlayers, variables: variables
+		  });
+		  if (!players) { return; }
+		  players.data.listPlayers.items.map(async (player) => {
+			const apiData = await API.graphql({ query: getTeam2, variables: { id: player.teamID }});
+			const data = await apiData.data.getTeam;
+			setTeams((teams) => [...teams, data]);
+		})
+	}
+
 
 	return (
 		<tr
@@ -126,16 +155,22 @@ export default function PlayerRow({ player, index }) {
 					Soccer
 				</div>
 			</td>
-			<td className="p-5 font-light">
-				<div className="flex flex-col gap-1">
-					{details ? teamName : "-"}
-				</div>
-			</td>
-			<td className="p-5 font-light">
-				<div className="flex flex-col gap-1">
-					{details ? details.soccer_stats && details.soccer_stats[0].position : "-"}
-				</div>
-			</td>
+				<td className="p-5 font-light">
+					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
+						{teams && teams.map((team) => (
+							<span>{team.name}</span>
+						))}
+					</div>
+				</td>
+				<td className="p-5 font-light">
+					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
+						{teams && teams.map((team) => (
+							<span>
+								{team.captains && team.captains.includes(player.Username) ? "Captain" : "Player"}
+							</span>
+						))}
+					</div>
+				</td>
 		</tr>
 	);
 }
