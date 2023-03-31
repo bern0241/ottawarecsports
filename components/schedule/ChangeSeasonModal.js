@@ -10,6 +10,19 @@ const ChangeSeasonModal = ({
 	leagues,
 }) => {
 	const [seasons, setSeasons] = useState([]);
+	const [selectedLeague, setSelectedLeague] = useState([]);
+	const [selectedSeason, setSelectedSeason] = useState([]);
+
+	const onSave = () => {
+		setCurrentLeague(selectedLeague);
+		setCurrentSeason(selectedSeason);
+	};
+
+	useEffect(() => {
+		setSelectedLeague(currentLeague);
+		setSelectedSeason(currentSeason);
+	}, [currentLeague, currentSeason]);
+
 	useEffect(() => {
 		setSeasons(leagues[0].Seasons.items);
 	}, [leagues]);
@@ -39,8 +52,8 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="league" value="League Name" />
 									</div>
 									<DropdownInput
-										value={currentLeague}
-										setValue={setCurrentLeague}
+										value={selectedLeague}
+										setValue={setSelectedLeague}
 										options={leagues.map((league) => league.name)}
 									/>
 								</div>
@@ -49,8 +62,8 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="season" value="Season" />
 									</div>
 									<DropdownInput
-										value={currentSeason}
-										setValue={setCurrentSeason}
+										value={selectedSeason}
+										setValue={setSelectedSeason}
 										options={seasons.map((season) => season.name)}
 									/>
 								</div>
@@ -74,6 +87,7 @@ const ChangeSeasonModal = ({
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
 									onClick={() => {
+										onSave();
 										setModalVisible(false);
 									}}
 								>
