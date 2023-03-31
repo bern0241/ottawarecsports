@@ -18,6 +18,7 @@ import { useUser } from '@/context/userContext';
 import * as mutations from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 import EditTeamModal from '@/components/teams/EditTeamModal';
+import UsersSearchBar from '@/components/common/UsersSearchBar';
 
 export default function TeamProfile() {
 	const router = useRouter();
@@ -27,6 +28,7 @@ export default function TeamProfile() {
 	const [members, setMembers] = useState([]);
 	const [profileImage, setProfileImage] = useState('');
 	const [playerUsername, setPlayerUsename] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 	const [user, authRoles] = useUser();
 	const [editModal, setEditModal] = useState(false);
@@ -77,7 +79,7 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async () => {
-		if (!team) return; //
+		if (!team.team_history[0].captains) return; //
 		setCaptains([]);
 		team.team_history[0].captains.forEach(async captain => {
 			const params = {
@@ -271,18 +273,21 @@ export default function TeamProfile() {
 						{/* Player Teams */}
 						<div className="col-span-2">
 							
-							<div className=" w-full border-x border-b border-brand-blue-900/25 rounded overflow-hidden">
-								<div className="w-full relative">
+							<div className=" w-full border border-brand-blue-900/25 rounded">
+								<div className="w-full relative flex flex-row justify-between items-center">
 								<h2 className="mb-1 font-light">Members</h2>
-									{/* <input
-										type="text"
-										className="form-control bg-brand-neutral-100 border-none w-full text-center outline-brand-neutral-100"
-										placeholder="Search"
-										defaultValue=""
-									/> */}
-									{/* <span className="absolute right-2 top-1/2 -translate-y-1/2">
-										<IconSearch />
-									</span> */}
+								<button
+									onClick={(e) => setOpenModal(!openModal)}
+									type="button"
+									className="bg-brand-blue-800 text-center rounded w-[10rem] text-white font-regular flex"
+								>
+									Add Members
+								</button>
+								{/* // DROP */}
+								{openModal && (
+									<UsersSearchBar openModal={openModal} setOpenModal={setOpenModal} />
+								)}
+
 								</div>
 								{members && members.map((member) => (
 									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.Username} >

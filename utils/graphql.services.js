@@ -74,21 +74,6 @@ export const getAllPlayers = async () => {
 	}
 };
 /**
- * Returns all users in the database
- * @returns {[Object]} User objects in an array
- */
-export const getAllUsers = async () => {
-	try {
-		const resp = await API.graphql({
-			query: queries.listUsers,
-		});
-		return resp.data.listUsers.items;
-	} catch (err) {
-		console.warn(err);
-	}
-};
-
-/**
  *
  * @param {String} _id Retrieves team with ID
  * @returns

@@ -56,7 +56,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 	return (
 		<tr
 			key={team.id}
-			className="border-b border-brand-neutral-300"
+			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}

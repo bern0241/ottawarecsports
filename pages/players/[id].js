@@ -90,6 +90,8 @@ export default function PlayerProfile() {
 
 	return (
 		<>
+		<button onClick={(e) => console.log(user)}>Click me User</button>
+		<button onClick={(e) => console.log(player)}>Click me Player</button>
 			{/* Content */}
 			<main className="w-full h-screen flex flex-col gap-6 p-8">
 				{/* Results */}
@@ -212,7 +214,7 @@ export default function PlayerProfile() {
 												{player && teamName}
 											</td>
 											<td className="py-2 px-3">
-												{player && player.soccer_stats[0].position}
+												{player && player.soccer_stats && player.soccer_stats[0].position}
 											</td>
 										</tr>
 									) : (
