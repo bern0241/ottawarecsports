@@ -19,6 +19,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 	const currentSeason = team.team_history[0];
 	const [userName, setUserName] = useState('');
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	console.log(currentSeason);
 
 	const getPicture = async () => {
 		if (!team.team_picture)
@@ -29,7 +30,9 @@ export default function TeamRow({ team, setCurrentTeam }) {
 
 	useEffect(() => {
 		getPicture();
-		fetchUser(currentSeason.captains[0]);
+		if (currentSeason.captains) {
+			fetchUser(currentSeason.captains[0]);
+		}
 	}, []);
 
 	const fetchUser = (captainUsername) => {
@@ -53,7 +56,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 	return (
 		<tr
 			key={team.id}
-			className="border-b border-brand-neutral-300"
+			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
@@ -68,7 +71,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			</td>
 			<td className="p-5">
 				{currentSeason
-					? currentSeason.captains.map((captain, index) => (
+					? currentSeason.captains && currentSeason.captains.map((captain, index) => (
 							<span key={index}>{userName}</span>
 					  ))
 					: 'John Doe'}

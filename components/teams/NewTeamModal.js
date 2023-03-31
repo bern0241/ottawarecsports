@@ -31,13 +31,21 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 	const [homeColour, setHomeColour] = useState('Red');
 	const [awayColour, setAwayColour] = useState('Blue');
 	const [selectedOption, setSelectedOption] = useState('');
-	const [profilePic, setProfilePic] = useState('');
+	const [teamLogoUpload, setTeamLogoUpload] = useState('');
 	const [teamRoster, setTeamRoster] = useState([]);
+	const router = useRouter();
 	const [message, setMessage] = useState(null);
 
 	useEffect(() => {
 		setTeamCaptain(user);
 	}, [user])
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+		return () => clearTimeout(timer);
+	}, [message]);
 
 	const addTeamToPlayerProfile = (teamId) => {
 		if (!teamRoster) return;
@@ -59,43 +67,60 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 		});
 	};
 	const addNewTeam = async () => {
-		const randomId = uuidv4();
-		const imageKey = await uploadNewImageToS3(makeid(15), profilePic);
-		const teamData = {
-			id: randomId,
-			name: teamName,
-			founded: new Date(Date.now()),
-			home_colour: homeColour,
-			away_colour: awayColour,
-			team_picture: imageKey,
-			team_history: {
+		try {
+			if (teamName === '') {
+				setMessage({status: 'error', message: 'Please fillout all required fields'});
+				return;
+			}
+			const randomId = uuidv4();
+			let uniqueId = `${teamName}_${makeid(15)}`;
+			await uploadNewImageToS3(uniqueId, teamLogoUpload);
+			const teamData = {
+				id: randomId,
+				name: teamName,
+				founded: new Date(Date.now()),
+				home_colour: homeColour,
+				away_colour: awayColour,
+				team_picture: uniqueId,
 				captains: [teamCaptain.username],
-				team: randomId,
-				division: '',
-				roster: teamRoster,
-				goals: 0,
-				assists: 0,
-				yellow_cards: 0,
-				red_cards: 0,
-				games_played: 0,
-			},
-		};
-		const resp = await createTeam(teamData);
-		addTeamToPlayerProfile(randomId);
-		if (resp) {
-			setIsVisible(false);
-			resetData();
-			getTeamsData();
+				team_history: [{
+					captains: [teamCaptain.username],
+					teamid: randomId,
+					division: '',
+					roster: teamRoster,
+					goals: 0,
+					assists: 0,
+					yellow_cards: 0,
+					red_cards: 0,
+					games_played: 0,
+				}],
+			};
+			const resp = await createTeam(teamData);
+			addTeamToPlayerProfile(randomId);
+			if (resp) {
+				setMessage({status: 'success', message: 'Team successfully created!'});
+				// setIsVisible(false);
+				// resetData();
+				getTeamsData();
+				const timer = setTimeout(() => {
+					router.reload();
+				}, 1320);
+				return () => clearTimeout(timer);
+			}
+		} catch (error) {
+			console.error(error);
+			setMessage({status: 'error', message: error.message});
 		}
 	};
+
 	const resetData = () => {
 		setMaxMembers(0);
 		setTeamName('');
-		setTeamCaptain('');
+		// setTeamCaptain('');
 		setHomeColour('');
 		setAwayColour('');
 		setSelectedOption('');
-		setProfilePic('');
+		setTeamLogoUpload('');
 		setTeamRoster([]);
 	};
 	const selectPlayer = (name) => {
@@ -149,7 +174,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 						</div>
 
 						{/* <!-- Modal body --> */}
-						<TeamsImage profilePic={profilePic} setProfilePic={setProfilePic} />
+						<TeamsImage teamLogoUpload={teamLogoUpload} setTeamLogoUpload={setTeamLogoUpload} />
 						{/* <UserProfilePictureEdit
 							profilePic={profilePic}
 							setProfilePic={setProfilePic}
