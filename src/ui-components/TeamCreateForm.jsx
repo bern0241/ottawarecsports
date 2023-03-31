@@ -6,11 +6,169 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Icon,
+  ScrollView,
+  Text,
+  TextField,
+  useTheme,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Team } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const { tokens } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button
+            size="small"
+            variation="link"
+            color={tokens.colors.brand.primary[80]}
+            isDisabled={hasError}
+            onClick={addItem}
+          >
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function TeamCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -28,6 +186,7 @@ export default function TeamCreateForm(props) {
     home_colour: "",
     away_colour: "",
     team_picture: "",
+    captains: [],
   };
   const [name, setName] = React.useState(initialValues.name);
   const [founded, setFounded] = React.useState(initialValues.founded);
@@ -40,6 +199,7 @@ export default function TeamCreateForm(props) {
   const [team_picture, setTeam_picture] = React.useState(
     initialValues.team_picture
   );
+  const [captains, setCaptains] = React.useState(initialValues.captains);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
@@ -47,14 +207,19 @@ export default function TeamCreateForm(props) {
     setHome_colour(initialValues.home_colour);
     setAway_colour(initialValues.away_colour);
     setTeam_picture(initialValues.team_picture);
+    setCaptains(initialValues.captains);
+    setCurrentCaptainsValue("");
     setErrors({});
   };
+  const [currentCaptainsValue, setCurrentCaptainsValue] = React.useState("");
+  const captainsRef = React.createRef();
   const validations = {
     name: [],
     founded: [],
     home_colour: [],
     away_colour: [],
     team_picture: [],
+    captains: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -103,6 +268,7 @@ export default function TeamCreateForm(props) {
           home_colour,
           away_colour,
           team_picture,
+          captains,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -162,6 +328,7 @@ export default function TeamCreateForm(props) {
               home_colour,
               away_colour,
               team_picture,
+              captains,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -192,6 +359,7 @@ export default function TeamCreateForm(props) {
               home_colour,
               away_colour,
               team_picture,
+              captains,
             };
             const result = onChange(modelFields);
             value = result?.founded ?? value;
@@ -220,6 +388,7 @@ export default function TeamCreateForm(props) {
               home_colour: value,
               away_colour,
               team_picture,
+              captains,
             };
             const result = onChange(modelFields);
             value = result?.home_colour ?? value;
@@ -248,6 +417,7 @@ export default function TeamCreateForm(props) {
               home_colour,
               away_colour: value,
               team_picture,
+              captains,
             };
             const result = onChange(modelFields);
             value = result?.away_colour ?? value;
@@ -276,6 +446,7 @@ export default function TeamCreateForm(props) {
               home_colour,
               away_colour,
               team_picture: value,
+              captains,
             };
             const result = onChange(modelFields);
             value = result?.team_picture ?? value;
@@ -290,6 +461,52 @@ export default function TeamCreateForm(props) {
         hasError={errors.team_picture?.hasError}
         {...getOverrideProps(overrides, "team_picture")}
       ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              name,
+              founded,
+              home_colour,
+              away_colour,
+              team_picture,
+              captains: values,
+            };
+            const result = onChange(modelFields);
+            values = result?.captains ?? values;
+          }
+          setCaptains(values);
+          setCurrentCaptainsValue("");
+        }}
+        currentFieldValue={currentCaptainsValue}
+        label={"Captains"}
+        items={captains}
+        hasError={errors.captains?.hasError}
+        setFieldValue={setCurrentCaptainsValue}
+        inputFieldRef={captainsRef}
+        defaultFieldValue={""}
+      >
+        <TextField
+          label="Captains"
+          isRequired={false}
+          isReadOnly={false}
+          value={currentCaptainsValue}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.captains?.hasError) {
+              runValidationTasks("captains", value);
+            }
+            setCurrentCaptainsValue(value);
+          }}
+          onBlur={() => runValidationTasks("captains", currentCaptainsValue)}
+          errorMessage={errors.captains?.errorMessage}
+          hasError={errors.captains?.hasError}
+          ref={captainsRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "captains")}
+        ></TextField>
+      </ArrayField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

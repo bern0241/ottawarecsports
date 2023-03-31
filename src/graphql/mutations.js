@@ -60,6 +60,7 @@ export const createPlayer = /* GraphQL */ `
         games_played
       }
       teamID
+      role
       createdAt
       updatedAt
     }
@@ -85,6 +86,7 @@ export const updatePlayer = /* GraphQL */ `
         games_played
       }
       teamID
+      role
       createdAt
       updatedAt
     }
@@ -110,6 +112,7 @@ export const deletePlayer = /* GraphQL */ `
         games_played
       }
       teamID
+      role
       createdAt
       updatedAt
     }
@@ -161,6 +164,7 @@ export const createGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -192,6 +196,7 @@ export const createGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -248,6 +253,7 @@ export const updateGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -279,6 +285,7 @@ export const updateGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -335,6 +342,7 @@ export const deleteGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -366,6 +374,7 @@ export const deleteGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -829,11 +838,13 @@ export const createTeam = /* GraphQL */ `
           id
           user_id
           teamID
+          role
           createdAt
           updatedAt
         }
         nextToken
       }
+      captains
       createdAt
       updatedAt
     }
@@ -890,11 +901,13 @@ export const updateTeam = /* GraphQL */ `
           id
           user_id
           teamID
+          role
           createdAt
           updatedAt
         }
         nextToken
       }
+      captains
       createdAt
       updatedAt
     }
@@ -951,11 +964,13 @@ export const deleteTeam = /* GraphQL */ `
           id
           user_id
           teamID
+          role
           createdAt
           updatedAt
         }
         nextToken
       }
+      captains
       createdAt
       updatedAt
     }
@@ -1064,6 +1079,7 @@ export const createTeamDivision = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -1127,6 +1143,7 @@ export const updateTeamDivision = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -1190,6 +1207,7 @@ export const deleteTeamDivision = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }

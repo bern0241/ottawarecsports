@@ -49,6 +49,7 @@ export const getPlayer = /* GraphQL */ `
         games_played
       }
       teamID
+      role
       createdAt
       updatedAt
     }
@@ -76,6 +77,7 @@ export const listPlayers = /* GraphQL */ `
           games_played
         }
         teamID
+        role
         createdAt
         updatedAt
       }
@@ -113,6 +115,7 @@ export const playersByTeamID = /* GraphQL */ `
           games_played
         }
         teamID
+        role
         createdAt
         updatedAt
       }
@@ -163,6 +166,7 @@ export const getGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -194,6 +198,7 @@ export const getGame = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -231,6 +236,7 @@ export const listGames = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }
@@ -241,6 +247,7 @@ export const listGames = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }
@@ -288,6 +295,7 @@ export const gamesByDivision = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }
@@ -298,6 +306,7 @@ export const gamesByDivision = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }
@@ -680,11 +689,13 @@ export const getTeam = /* GraphQL */ `
           id
           user_id
           teamID
+          role
           createdAt
           updatedAt
         }
         nextToken
       }
+      captains
       createdAt
       updatedAt
     }
@@ -725,6 +736,7 @@ export const listTeams = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -817,6 +829,7 @@ export const getTeamDivision = /* GraphQL */ `
         Players {
           nextToken
         }
+        captains
         createdAt
         updatedAt
       }
@@ -855,6 +868,7 @@ export const listTeamDivisions = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }
@@ -903,6 +917,7 @@ export const teamDivisionsByDivisionId = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }
@@ -951,6 +966,7 @@ export const teamDivisionsByTeamId = /* GraphQL */ `
           home_colour
           away_colour
           team_picture
+          captains
           createdAt
           updatedAt
         }

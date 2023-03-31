@@ -65,19 +65,30 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
         name: teamName,
         home_colour: homeColour,
         away_colour: awayColour,
-        team_picture: teamLogoUpload,
+        team_picture: uniqueId,
       }
       await API.graphql({ 
           query: updateTeam,
           variables: { input: data }
       })
       setMessage({ status: 'success', message: 'Team profile updated successfully.' })
-      router.reload();
+      const timer = setTimeout(() => {
+        router.reload();
+      }, 1320);
+      return () => clearTimeout(timer);
     } catch (error) {
       console.error(error);
       setMessage({ status: 'error', message: error.message })
     }
   }
+
+  useEffect(() => {
+    if (team) {
+      setTeamName(team.name);
+      setHomeColour(team.home_colour);
+      setAwayColour(team.away_colour);
+    }
+  }, [isVisible])
 
 	return (
 		<>

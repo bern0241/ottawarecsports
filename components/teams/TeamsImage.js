@@ -21,11 +21,13 @@ export default function TeamsImage({
 	const defaultPic = '/images/defaultProfilePic.jpeg';
 	const [teamLogo, setTeamLogo] = useState('');
 	const getPicture = async () => {
-		if (team.team_picture === '')
-			return setTeamLogo('/images/defaultProfilePic.jpeg');
-		const url = await getImageFromS3(team.team_picture);
-		setTeamLogo(url);
-	};
+		if (team && team.team_picture) {
+			const url = await getImageFromS3(team.team_picture);
+			setTeamLogo(url);
+			return;
+		};
+		return setTeamLogo('/images/defaultProfilePic.jpeg');
+	}
 	useEffect(() => {
 		getPicture();
 	}, []);
