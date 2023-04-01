@@ -133,7 +133,7 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
         </div>
          {newLeagueModal && (
              <>
-             <CreateLeagueModal sport={sport} openModal={newLeagueModal} setOpenModal={setNewLeagueModal} listLeaguesFunc={listLeaguesFunc} />
+             <CreateLeagueModal sport={sport} openModal={newLeagueModal} setOpenModal={setNewLeagueModal} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} />
               </>
          )}
         </>
