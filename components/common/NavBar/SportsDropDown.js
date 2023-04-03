@@ -27,7 +27,7 @@ const SportsDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 					<div className="pt-1 ">
 						<IconBallFootball size={'1.2em'} />
 					</div>
-					<h1 className=" font-medium text-md pl-2">Sports</h1>
+					<span className="font-medium text-md pl-2">Sports</span>
 				</div>
 				<div className="pt-1 mr-2">
 					<IconChevronRight style={{transition: '320ms', transform: openDropdown === "sports" ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />

@@ -26,7 +26,7 @@ const RostersDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 					<div className="pt-1 ">
 						<IconUsers size={'1.2em'} />
 					</div>
-					<h1 className=" font-medium text-md pl-2">Rosters</h1>
+					<span className=" font-medium text-md pl-2">Rosters</span>
 				</div>
 				<div className="pt-1 mr-2">
 					<IconChevronRight

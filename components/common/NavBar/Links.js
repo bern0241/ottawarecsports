@@ -63,7 +63,7 @@ const NavbarSetup = () => {
 					<div className="pt-1 ">
 						<IconSettings size={'1.2em'} />
 					</div>
-					<p className="pl-2">Settings</p>
+					<span className="pl-2">Settings</span>
 				</Link>
 			) : (
 				''

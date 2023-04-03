@@ -27,7 +27,7 @@ const ScheduleDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 					<div className="pt-1 ">
 						<IconCalendarEvent size={'1.2em'} />
 					</div>
-					<h1 className=" font-medium text-md pl-2">Schedule</h1>
+					<span className="font-medium text-md pl-2">Schedule</span>
 				</div>
 				<div className="pt-1 mr-2">
 					<IconChevronRight style={{transition: '320ms', transform: openDropdown === "schedule" ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />

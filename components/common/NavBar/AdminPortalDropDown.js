@@ -30,7 +30,7 @@ const AdminPortalDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 						<div className="pt-1 ">
 							<IconShieldChevron size={'1.2em'} />
 						</div>
-						<h1 className=" font-medium text-md pl-2">Admin Portal</h1>
+						<span className=" font-medium text-md pl-2">Admin Portal</span>
 					</div>
 					<div className="pt-1 mr-2">
 						<IconChevronRight style={{transition: '320ms', transform: openDropdown === "acp" ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />
