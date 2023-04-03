@@ -4,10 +4,29 @@ import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
+import AWS from 'aws-sdk';
 export default function DivisionMatches() {
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
+	const [referees, setReferees] = useState([]);
 	const router = useRouter();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	const fetchReferees = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			GroupName: 'Referee',
+		};
+		cognitoidentityserviceprovider.listUsersInGroup(
+			params,
+			function (err, data) {
+				if (err) {
+					console.log(err, err.stack);
+				} else {
+					setReferees(data.Users);
+				}
+			}
+		);
+	};
 	const getGames = async () => {
 		if (!router.query.divisionID) return;
 		const resp = await getDivisionGames(router.query.divisionID);
@@ -20,6 +39,7 @@ export default function DivisionMatches() {
 	useEffect(() => {
 		getGames();
 		getTeams();
+		fetchReferees();
 	}, [router]);
 	return (
 		<>
