@@ -20,6 +20,7 @@ import ViewUserGroups from '@/components/common/ViewUserGroups';
 import Spotlight from '@/components/dashboard/Spotlight';
 import GameSheets from '@/components/dashboard/GameSheets';
 import UpcomingGames from '@/components/dashboard/UpcomingGames';
+import Dashboard from '@/components/dashboard';
 export default function Home() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const router = useRouter();
@@ -33,9 +34,7 @@ export default function Home() {
 			</Head>
 
 			<main className="w-full grid grid-cols-4 grid-flow-row gap-4 p-8 pt-4">
-				<GameSheets />
-				<UpcomingGames />
-				<Spotlight />
+				<Dashboard />
 				{/* <div className="flex flex-col">
 					<UserIdentifier />
 					<h1>Home Page</h1>

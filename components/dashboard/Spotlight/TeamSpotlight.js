@@ -9,11 +9,11 @@ import React from 'react';
 
 export default function TeamSpotlight() {
 	return (
-		<div className="flex flex-col col-span-1 border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-2">
+		<div className="flex flex-col col-span-1 items-center justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-2">
 			<img
 				width="100"
 				height="100"
-				className="rounded-full bg-red-500 self-center mb-3"
+				className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3"
 				alt="N/A"
 			/>
 			<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
