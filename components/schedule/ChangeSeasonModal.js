@@ -22,7 +22,6 @@ const ChangeSeasonModal = ({
 		let league = leagues.find((e) => e.name === name);
 		setSelectedLeague(league);
 	};
-
 	const onSave = () => {
 		setCurrentLeague(selectedLeague);
 		setCurrentSeason(selectedSeason);
@@ -34,8 +33,10 @@ const ChangeSeasonModal = ({
 	}, [currentLeague, currentSeason]);
 
 	useEffect(() => {
-		setSeasons(leagues[0].Seasons.items);
-	}, [leagues]);
+		setSeasons(selectedLeague?.Seasons?.items || []);
+		if (selectedLeague.Seasons)
+			setSelectedSeason(selectedLeague.Seasons.items[0]);
+	}, [selectedLeague]);
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
