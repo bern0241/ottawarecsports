@@ -10,8 +10,8 @@ const ChangeSeasonModal = ({
 	leagues,
 }) => {
 	const [seasons, setSeasons] = useState([]);
-	const [selectedLeague, setSelectedLeague] = useState([]);
-	const [selectedSeason, setSelectedSeason] = useState([]);
+	const [selectedLeague, setSelectedLeague] = useState(currentLeague);
+	const [selectedSeason, setSelectedSeason] = useState(currentSeason);
 	const [errorMessage, setErrorMessage] = useState('');
 
 	const customSetSeason = (name) => {
@@ -28,11 +28,6 @@ const ChangeSeasonModal = ({
 		setCurrentSeason(selectedSeason);
 	};
 
-	useEffect(() => {
-		setSelectedLeague(currentLeague);
-		setSelectedSeason(currentSeason);
-	}, [currentLeague, currentSeason]);
-
 	// Cancel error message when there's a change
 	useEffect(() => {
 		setErrorMessage('');
@@ -44,6 +39,11 @@ const ChangeSeasonModal = ({
 		if (selectedLeague.Seasons)
 			setSelectedSeason(selectedLeague.Seasons.items[0]);
 	}, [selectedLeague]);
+
+	useEffect(() => {
+		setSelectedLeague(currentLeague);
+		setSelectedSeason(currentSeason);
+	}, [currentLeague, currentSeason]);
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
