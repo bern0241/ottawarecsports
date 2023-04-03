@@ -21,7 +21,7 @@ const SportsDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
 				onClick={() => toggle("sports")}
-				className="p-2 flex flex-row ml-2 justify-between w-full"
+				className="px-5 py-2 flex flex-row ml-2 justify-between w-full"
 			>
 				<div className="flex flex-row align-middle">
 					<div className="pt-1 ">
