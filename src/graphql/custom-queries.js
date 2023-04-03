@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-01
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -87,4 +87,50 @@
        nextToken
      }
    }
+ `;
+
+ export const getDivisionWithTeams = /* GraphQL */ `
+ query GetDivision($id: ID!) {
+   getDivision(id: $id) {
+       id
+   name
+   level
+   season
+   teams
+   updatedAt
+   is_playoff
+   description
+   createdAt
+   abbreviation
+   Teams {
+     items {
+       teamId
+       updatedAt
+       id
+       divisionId
+       createdAt
+     }
+   }
+   Games {
+     items {
+       away_roster
+       away_score
+       createdAt
+       date
+       division
+       gameAwayTeamId
+       gameHomeTeamId
+       goals
+       updatedAt
+       status
+       round
+       location
+       referees
+       id
+       home_score
+       home_roster
+     }
+   }
+   }
+ }
  `;

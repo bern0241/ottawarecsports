@@ -10,12 +10,19 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import DeleteDivisionModal from './Modals/DeleteDivisionModal';
 import EditDivisionModal from './Modals/EditDivisionModal';
+import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
+import { API } from '@aws-amplify/api';
 
 export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc }) {
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [teamCount, setTeamCount] = useState(0);
     const router = useRouter();
+
+    useEffect(()=>{
+        getTeamsCount();
+    }, []);
 
     const clickedDivision = (e) => {
         e.preventDefault();
@@ -37,6 +44,15 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
         router.push(`/schedule/soccer/${division.id}`);
     }
 
+    const getTeamsCount = async () => {
+        const apiData = await API.graphql(
+            { query: getDivisionWithTeams, 
+            variables: { id: division.id }
+        });
+        console.log('See here', apiData.data.getDivision);
+        setTeamCount(apiData.data.getDivision.Teams.items.length);
+    }
+
     return (
         <>
         <tr onClick={(e) => clickedDivision(e)} class="bg-white border border-gray-400 cursor-pointer">
@@ -51,7 +67,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
                 </td>
                 <td class="px-6 py-3">
                     {/* {division.gender} */}
-                    16
+                    {teamCount}
                 </td>
                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
                     <IconUsers onClick={(e) => gameScheduleNavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>
