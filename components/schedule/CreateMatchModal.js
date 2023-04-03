@@ -4,7 +4,6 @@ import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import makeid from '@/utils/makeId';
 
-
 //TODO:
 //Make graphQL queries for making a match, import them
 //Get the existing roster of the home/away teams
