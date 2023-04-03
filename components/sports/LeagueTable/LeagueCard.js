@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
 
-export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague }) {
+export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague, setLeagues }) {
     const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
@@ -27,7 +27,6 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
     }, [])
 
     const getUserListByNames = () => {
-
         league.coordinators.forEach((coordinator) => {
             var params = {
                 UserPoolId: 'us-east-1_70GCK7G6t',
@@ -63,6 +62,11 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
         setSelectedLeague(league);
     }
 
+    const editLeagueFunc = (e) => {
+        e.stopPropagation();
+        setEditModal(!editModal);
+    }
+
     return (
         <>
         <tr onClick={(e) => clickedLeague(e)} class="bg-white border border-gray-400 cursor-pointer">
@@ -72,9 +76,9 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                 )}
                 {league.name}
             </th>
-            <td class="px-5 py-3 translate-x-2">
-                {/* {league.description} */}
-            </td>
+            {/* <td class="px-5 py-3 translate-x-2">
+                {league.description}
+            </td> */}
             <td class="px-6 py-3">
                 <ul>
                     {users && users.map((coordinator) => (
@@ -87,17 +91,17 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                 </ul>
             </td>
             <td class="flex gap-4 px-6 py-3 text-center justify-center">
-                <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
+                {/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
                 <IconEdit onClick={(e) => editLeagueFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
-                <IconTrash onClick={(e) => deleteLeagueFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
+                {/* <IconTrash onClick={(e) => deleteLeagueFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash> */}
             </td>
         </tr>
 
-        {deleteModal && (
+        {/* {deleteModal && (
             <DeleteLeagueModal leagueInfo={league} setDeleteModal={setDeleteModal} listLeaguesFunc={listLeaguesFunc} />
-        )}
+        )} */}
         {editModal && (
-            <EditLeagueModal league={league} setOpenModal={setEditModal} sport={sport} listLeaguesFunc={listLeaguesFunc} />
+            <EditLeagueModal league={league} setOpenModal={setEditModal} sport={sport} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} getUserListByNames={getUserListByNames} />
         )}
     </>
     )

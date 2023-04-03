@@ -64,9 +64,9 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                 <td class="px-6 py-3">
                     {convertDateReadable(season.end_date)}
                 </td>
-                <td class="px-6 py-3">
+                {/* <td class="px-6 py-3">
                     {season.status}
-                </td>
+                </td> */}
                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
                     <IconUsers onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
                     <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>

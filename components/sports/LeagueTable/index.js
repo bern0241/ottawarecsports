@@ -74,9 +74,9 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
-                        <th scope="col" class="font-medium px-6 py-4">
+                        {/* <th scope="col" class="font-medium px-6 py-4">
                             
-                        </th>
+                        </th> */}
                         <th className='absolute right-5 top-2'>
                             <CreateButton label="Create New League"
                                             state={newLeagueModal}
@@ -89,9 +89,9 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                             Name
                         </th>
-                        <th scope="col" class="font-light px-6 py-2">
+                        {/* <th scope="col" class="font-light px-6 py-2">
                             Type
-                        </th>
+                        </th> */}
                         <th scope="col" class="font-light px-6 py-2">
                             Coordinator(s)
                         </th>
@@ -102,7 +102,7 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </thead>
                 <tbody>
                     {leagues && leagues.map((league) => (
-                        <LeagueCard  key={league.id} league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} listLeaguesFunc={listLeaguesFunc} />
+                        <LeagueCard  key={league.id} league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} setLeagues={setLeagues} />
                     ))}
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
@@ -112,8 +112,8 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         </th>
                         <td class="px-6 py-4">
                         </td>
-                        <td class="px-6 py-4">
-                        </td>
+                        {/* <td class="px-6 py-4">
+                        </td> */}
                         <td class="flex gap-4 px-6 py-4 text-center">
                         </td>
                     </tr>

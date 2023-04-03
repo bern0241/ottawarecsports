@@ -10,6 +10,7 @@ import React, { useState, useEffect, use } from 'react';
 import CoordinatorChip from '../CoordinatorDropdown/CoordinatorChip';
 import CoordinatorDropdown from '../CoordinatorDropdown';
 import { API } from '@aws-amplify/api';
+import AWS from 'aws-sdk';
 import { createLeague } from '@/src/graphql/mutations';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 
@@ -110,7 +111,7 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
     return (
         <>
     {/* // <!-- Main modal --> */}
-    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-[5rem] left-0 right-0 z-[220] p-4 w-[32rem] mx-auto">
+    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-[1rem] left-0 right-0 z-[220] p-4 w-[32rem] mx-auto">
         <div class="relative w-full h-full">
             {/* <!-- Modal content --> */}
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -132,10 +133,10 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
                         <input value={leagueName} onChange={(e) => setLeagueName(e.target.value)} type="text" id="name" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
     
-                    <div>
+                    {/* <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type *</label>
                         <input value={type} onChange={(e) => setType(e.target.value)} type="text" id="name" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    </div>
+                    </div> */}
                     
                     <div className='relative cursor-pointer' onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Coordinator</label>
