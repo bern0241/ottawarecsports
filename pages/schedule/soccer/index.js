@@ -14,6 +14,12 @@ const soccer = () => {
 	const getAllLeagues = async () => {
 		const listOfLeagues = await getLeagues();
 		setLeagues(listOfLeagues);
+		setDefaultLeaguesAndSeasons(listOfLeagues);
+	};
+	// set default league and season to the first one
+	const setDefaultLeaguesAndSeasons = (listOfLeagues) => {
+		setCurrentLeague(listOfLeagues[0]);
+		setCurrentSeason(listOfLeagues[0].Seasons.items[0]);
 	};
 	useEffect(() => {
 		getAllLeagues();
