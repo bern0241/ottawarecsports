@@ -409,7 +409,7 @@ export const getDivisionGames = async (divisionID) => {
 				division: divisionID,
 			},
 		});
-		return resp.data.gamesByDivision;
+		return resp.data.gamesByDivision.items;
 	} catch (err) {
 		console.warn(err);
 	}
