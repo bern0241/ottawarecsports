@@ -26,7 +26,7 @@ const soccer = () => {
 		getAllLeagues();
 	}, []);
 	useEffect(() => {
-		if (!currentSeason.Divisions) return;
+		if (!currentSeason.Divisions) return setDivisions([]);
 		setDivisions(currentSeason.Divisions.items);
 	}, [currentSeason]);
 	return (
@@ -68,7 +68,7 @@ const soccer = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{divisions ? (
+							{divisions.length > 0 ? (
 								divisions.map((division) => (
 									<DivisionRow
 										division={division}
