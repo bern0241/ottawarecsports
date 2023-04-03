@@ -3,17 +3,24 @@ import { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { getDivisionGames } from '@/utils/graphql.services';
+import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
 export default function DivisionMatches() {
 	const [games, setGames] = useState([]);
+	const [teams, setTeams] = useState([]);
 	const router = useRouter();
 	const getGames = async () => {
+		if (!router.query.divisionID) return;
 		const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};
+	const getTeams = async () => {
+		const resp = await getAllTeams();
+		setTeams(resp);
+	};
 	useEffect(() => {
 		getGames();
-	}, []);
+		getTeams();
+	}, [router]);
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8 pt-0">

@@ -69,7 +69,13 @@ const soccer = () => {
 						</thead>
 						<tbody>
 							{divisions ? (
-								divisions.map((division) => <DivisionRow division={division} />)
+								divisions.map((division) => (
+									<DivisionRow
+										division={division}
+										selectedDivision={selectedDivision}
+										setSelectedDivision={setSelectedDivision}
+									/>
+								))
 							) : (
 								<tr>
 									<td
