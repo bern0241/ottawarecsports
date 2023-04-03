@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-15
+ * Last updated: 2023-04-3
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -35,6 +35,7 @@ export default function Home() {
 
 			<main className="w-full grid grid-cols-4 grid-flow-row gap-4 p-8 pt-4">
 				<Dashboard />
+				
 				{/* <div className="flex flex-col">
 					<UserIdentifier />
 					<h1>Home Page</h1>
