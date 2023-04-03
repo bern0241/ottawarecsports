@@ -10,8 +10,9 @@ const ChangeSeasonModal = ({
 	leagues,
 }) => {
 	const [seasons, setSeasons] = useState([]);
-	const [selectedLeague, setSelectedLeague] = useState([]);
-	const [selectedSeason, setSelectedSeason] = useState([]);
+	const [selectedLeague, setSelectedLeague] = useState(currentLeague);
+	const [selectedSeason, setSelectedSeason] = useState(currentSeason);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	const customSetSeason = (name) => {
 		let season = seasons.find((e) => e.name === name);
@@ -22,20 +23,27 @@ const ChangeSeasonModal = ({
 		let league = leagues.find((e) => e.name === name);
 		setSelectedLeague(league);
 	};
-
 	const onSave = () => {
 		setCurrentLeague(selectedLeague);
 		setCurrentSeason(selectedSeason);
 	};
 
+	// Cancel error message when there's a change
+	useEffect(() => {
+		setErrorMessage('');
+	}, [selectedLeague, selectedSeason]);
+
+	// When changing leagues, automatically select the first season
+	useEffect(() => {
+		setSeasons(selectedLeague?.Seasons?.items || []);
+		if (selectedLeague.Seasons)
+			setSelectedSeason(selectedLeague.Seasons.items[0]);
+	}, [selectedLeague]);
+
 	useEffect(() => {
 		setSelectedLeague(currentLeague);
 		setSelectedSeason(currentSeason);
 	}, [currentLeague, currentSeason]);
-
-	useEffect(() => {
-		setSeasons(leagues[0].Seasons.items);
-	}, [leagues]);
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
@@ -72,12 +80,14 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="season" value="Season" />
 									</div>
 									<DropdownInput
-										value={selectedSeason.name}
+										value={selectedSeason?.name}
+										placeholder={'No seasons available'}
 										setValue={customSetSeason}
 										options={seasons.map((season) => season.name)}
 									/>
 								</div>
 							</div>
+							<p className="text-red-700 text-xs">{errorMessage}</p>
 						</div>
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center gap-3 pb-2">
@@ -97,6 +107,10 @@ const ChangeSeasonModal = ({
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
 									onClick={() => {
+										if (!selectedSeason)
+											return setErrorMessage(
+												'This season is not available. Please select a new season'
+											);
 										onSave();
 										setModalVisible(false);
 									}}
