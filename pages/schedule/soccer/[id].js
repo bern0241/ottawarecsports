@@ -1,9 +1,19 @@
 import MatchesTable from '@/components/schedule/MatchesTable';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
-
+import { useRouter } from 'next/router';
+import { getDivisionGames } from '@/utils/graphql.services';
 export default function DivisionMatches() {
+	const [games, setGames] = useState([]);
+	const router = useRouter();
+	const getGames = async () => {
+		const resp = await getDivisionGames(router.query.divisionID);
+		setGames(resp);
+	};
+	useEffect(() => {
+		getGames();
+	}, []);
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8 pt-0">
