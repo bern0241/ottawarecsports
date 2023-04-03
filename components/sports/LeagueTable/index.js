@@ -102,9 +102,7 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </thead>
                 <tbody>
                     {leagues && leagues.map((league) => (
-                    <>
-                        <LeagueCard league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} listLeaguesFunc={listLeaguesFunc} />
-                    </>
+                        <LeagueCard  key={league.id} league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} listLeaguesFunc={listLeaguesFunc} />
                     ))}
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">

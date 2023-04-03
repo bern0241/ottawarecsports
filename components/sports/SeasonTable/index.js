@@ -1,20 +1,50 @@
 /**
- * Last updated: 2023-03-29
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import React, { useState, useEffect } from 'react';
 import SeasonCard from './SeasonCard';
 import CreateButton from '../CreateButton';
 import CreateSeasonModal from './Modals/CreateSeasonModal';
+import { listSeasons } from '@/src/graphql/queries';
+import { API } from '@aws-amplify/api';
 
 export default function SeasonTable({ selectedSeason, setSelectedSeason, selectedLeague }) {
     const [newSeasonModal, setNewSeasonModal] = useState(false);
     const [seasons, setSeasons] = useState([]);
 
-    const listSeasonsFunc = () => {
+    useEffect(() => {
+        if (selectedLeague) {
+            listSeasonsFunc();
+        }
+        if (selectedLeague = null) {
+            setSeasons([]);
+            setSelectedSeason(null);
+        }
+    }, [selectedLeague])
+
+    const listSeasonsFunc = async () => {
+        const variables = { 
+            filter: {
+                league: {
+                    eq: selectedLeague.id
+                }
+            }
+        }
+        const seasons = await API.graphql({
+            query: listSeasons, variables: variables
+        })
+        setSeasons(seasons.data.listSeasons.items);
+
+        if (seasons.data.listSeasons.items.length !== 0) {
+            setSelectedSeason(seasons.data.listSeasons.items[0]);
+          } else {
+            setSelectedSeason(null);
+          }
     }
 
     return (
@@ -104,7 +134,7 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
         </div>
                 {newSeasonModal && (
                     <>
-                    {/* <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} /> */}
+                    <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
                      </>
                 )}
                </>
