@@ -29,7 +29,7 @@ export default function Games() {
 		<div className="flex flex-row lg:flex-col gap-8 md:gap-4 xl:gap-1">
 			{soccerGames &&
 				soccerGames.map((game, index) => (
-					<div className="flex flex-col xl:flex-row justify-start xl:gap-3">
+					<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
 						<div className="font-light text-sm">{game.day}</div>
 						<div className="font-medium">{game.matches.length} Matches</div>
 					</div>
