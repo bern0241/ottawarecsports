@@ -53,8 +53,7 @@ export default function DivisionMatches() {
 					<IconCirclePlus className="mr-2 h-5 w-5" />
 					Create New Match
 				</Button>
-				<MatchesTable />
-				<MatchesTable title={'Recent matches'} />
+				<MatchesTable matches={games} />
 			</main>
 		</>
 	);
