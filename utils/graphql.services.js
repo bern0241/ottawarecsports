@@ -404,12 +404,12 @@ export const getLeagues = async () => {
 export const getDivisionGames = async (divisionID) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listGames,
+			query: queries.gamesByDivision,
 			variables: {
 				division: divisionID,
 			},
 		});
-		return resp.data;
+		return resp.data.gamesByDivision;
 	} catch (err) {
 		console.warn(err);
 	}
