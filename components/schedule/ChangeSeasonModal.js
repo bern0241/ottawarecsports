@@ -62,7 +62,7 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="league" value="League Name" />
 									</div>
 									<DropdownInput
-										value={selectedLeague}
+										value={selectedLeague.name}
 										setValue={customSetLeague}
 										options={leagues.map((league) => league.name)}
 									/>
@@ -72,7 +72,7 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="season" value="Season" />
 									</div>
 									<DropdownInput
-										value={selectedSeason}
+										value={selectedSeason.name}
 										setValue={customSetSeason}
 										options={seasons.map((season) => season.name)}
 									/>
