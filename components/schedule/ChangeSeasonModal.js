@@ -38,6 +38,7 @@ const ChangeSeasonModal = ({
 		setErrorMessage('');
 	}, [selectedLeague, selectedSeason]);
 
+	// When changing leagues, automatically select the first season
 	useEffect(() => {
 		setSeasons(selectedLeague?.Seasons?.items || []);
 		if (selectedLeague.Seasons)
