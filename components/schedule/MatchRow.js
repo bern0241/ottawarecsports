@@ -62,6 +62,18 @@ const MatchRow = ({ match }) => {
 			/>
 		</svg>
 	);
+	const matchDate = match.date
+		? new Date(Date.parse(match.date))
+		: new Date(Date.parse(match.createdAt));
+	const matchDateString = matchDate.toDateString();
+	// remove the seconds
+	const matchTime = `${matchDate.toLocaleTimeString().slice(0, 4)}${matchDate
+		.toLocaleTimeString()
+		.slice(7)}`;
+	// remove the year and add a comma after the day of week
+	const dateWithoutYear = matchDateString
+		.substring(0, matchDateString.length - 4)
+		.replace(matchDateString.charAt(2), `${matchDateString.charAt(2)},`);
 	return (
 		<>
 			<tr
@@ -85,13 +97,13 @@ const MatchRow = ({ match }) => {
 							<span>
 								<CalendarIcon />
 							</span>
-							Fri, Mar 10
+							{dateWithoutYear}
 						</p>
 						<p className="flex flex-row gap-[6px] items-center">
 							<span>
 								<ClockIcon />
 							</span>
-							09:00 AM
+							{matchTime}
 						</p>
 					</span>
 					<span>
