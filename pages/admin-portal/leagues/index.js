@@ -19,6 +19,7 @@ import SignOutButton from '@/components/common/SignOutButton';
 import ACPLeagueTable from '@/components/admin-portal/ACPLeague/LeagueTable';
 import ACPSeasonTable from '@/components/admin-portal/ACPLeague/SeasonTable';
 import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable';
+import TeamTable from '@/components/admin-portal/ACPLeague/TeamTable';
 
   export default function Home() {
       const [user, setUser, authRoles, setAuthRoles] = useUser();
@@ -27,6 +28,9 @@ import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable'
     const [selectedLeague, setSelectedLeague] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [selectedDivision, setSelectedDivision] = useState(null);
+    const [selectedDivisionForTeams, setSelectedDivisionForTeams] = useState({});
+
+    const [uiState, setUiState] = useState('leagues');
 
       return (
           <>
@@ -40,16 +44,28 @@ import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable'
               <main className='w-full flex justify-center max-w-[70em] mx-auto'>
                   <div className="flex flex-col w-full">
 
-                      <ACPLeagueTable sport='Soccer' 
-                                selectedLeague={selectedLeague} 
-                                setSelectedLeague={setSelectedLeague} />
-                      <ACPSeasonTable selectedLeague={selectedLeague}
-                                selectedSeason={selectedSeason} 
-                                setSelectedSeason={setSelectedSeason} />
-                      <ACPDivisionTable selectedSeason={selectedSeason}
-                        selectedDivision={selectedDivision} 
-                        setSelectedDivision={setSelectedDivision} 
-                        selectedLeague={selectedLeague} /> 
+                    {uiState === 'leagues' && (
+                    <>
+                        <ACPLeagueTable sport='Soccer' 
+                                  selectedLeague={selectedLeague} 
+                                  setSelectedLeague={setSelectedLeague} />
+                        <ACPSeasonTable selectedLeague={selectedLeague}
+                                  selectedSeason={selectedSeason} 
+                                  setSelectedSeason={setSelectedSeason} />
+                        <ACPDivisionTable selectedSeason={selectedSeason}
+                          selectedDivision={selectedDivision} 
+                          setSelectedDivision={setSelectedDivision} 
+                          selectedLeague={selectedLeague} 
+                          setUiState={setUiState}
+                          setSelectedDivisionForTeams={setSelectedDivisionForTeams} /> 
+                    </>
+                    )}
+                    {uiState === 'teams' && (
+                    <>
+                        <TeamTable setUiState={setUiState}
+                                selectedDivisionForTeams={selectedDivisionForTeams} />
+                    </>
+                    )}
                   </div>
               </main>
           </>

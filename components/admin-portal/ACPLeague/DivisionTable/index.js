@@ -13,7 +13,7 @@ import CreateButton from '../CreateButton';
 import DivisionCard from './DivisionCard';
 import CreateDivisionModal from './Modals/CreateDivisionModal';
 
-export default function ACPDivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague}) {
+export default function ACPDivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague, setUiState, setSelectedDivisionForTeams}) {
     const [newDivisionModal, setNewDivisionModal] = useState(false);
     const [divisions, setDivisions] = useState([]);
     const [showTable, setShowTable] = useState(false);
@@ -105,7 +105,9 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
                 <tbody>
                     {divisions && divisions.map((division) => (
                     <>
-                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
+                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} 
+                            setUiState={setUiState}
+                            setSelectedDivisionForTeams={setSelectedDivisionForTeams} />
                     </>
                     ))}
                     {(divisions && selectedSeason !== null && divisions.length === 0) && (
