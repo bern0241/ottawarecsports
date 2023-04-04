@@ -13,7 +13,9 @@ const TeamNameAndImage = ({ reverse, team }) => {
 		getPicture();
 	}, []);
 	return (
-		<span className="flex flex-row grow items-center gap-3 justify-items-stretch">
+		<span
+			className={`flex flex-col md:flex-row grow items-center gap-3 justify-items-stretch`}
+		>
 			{reverse === true ? (
 				<>
 					<img
@@ -23,11 +25,13 @@ const TeamNameAndImage = ({ reverse, team }) => {
 						className="w-[4.5rem] h-[4.5rem] rounded-full border"
 						src={profileImage}
 					/>
-					<p className=" w-24">{team.name}</p>
+					<p className="w-12 md:w-24">{team.name}</p>
 				</>
 			) : (
 				<>
-					<p className=" w-24">{team.name}</p>
+					<p className="w-24 text-center md:text-left order-last md:order-none">
+						{team.name}
+					</p>
 					<img
 						style={{ objectFit: 'cover' }}
 						width={72}
