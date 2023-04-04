@@ -6,19 +6,22 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import CoordinatorChip from '../CoordinatorDropdown/CoordinatorChip';
 import CoordinatorDropdown from '../CoordinatorDropdown';
 import { API } from '@aws-amplify/api';
-import { createLeague, updateLeague } from '@/src/graphql/mutations';
+import AWS from 'aws-sdk';
+import { createLeague } from '@/src/graphql/mutations';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 
-export default function EditLeagueModal({ sport, league, setLeagues, setOpenModal, setSelectedLeague, getUserListByNames }) {
-    const [leagueName, setLeagueName] = useState(league.name);
+export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, setSelectedLeague }) {
+    const [leagueName, setLeagueName] = useState('');
     const [leagueCoordinators, setLeagueCoordinators] = useState([]);
-    const [numPerPeriod, setNumPerPeriod] = useState(league.number_of_periods);
-    const [timePerPeriod, setTimePerPeriod] = useState(league.time_per_period);
-    const [description, setDescription] = useState(league.description);
+    const [numPerPeriod, setNumPerPeriod] = useState();
+    const [timePerPeriod, setTimePerPeriod] = useState();
+    const [type, setType] = useState('');
+    const [description, setDescription] = useState('');
+    const [founded, setFounded] = useState(null);
 
     const [openCoordinatorDrop, setOpenCoordinatorDrop] = useState(false);
     const [listUsers, setListUsers] = useState([]);
@@ -34,39 +37,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
 
     useEffect(() => {
         fetchUsers();
-        convertCoordinatorsToObject();
     }, [])
-
-    const convertCoordinatorsToObject = () => {
-        league.coordinators.map((coordinator) => {
-            const params = {
-                Username: coordinator,
-                UserPoolId: 'us-east-1_70GCK7G6t'
-            }
-            cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-                if (err) console.log(err, err.stack); // an error occurred
-                else   {
-                    let data2 = {
-                        name: `${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`,
-                        username: data.Username
-                    }
-                    setLeagueCoordinators((leagueCoordinators) => {
-						return uniqueByUsername([...leagueCoordinators, data2]);
-					} );
-                    console.log('DATA',data);
-                } 
-            });
-        })
-    }
-
-    function uniqueByUsername(items) {
-        const set = new Set();
-        return items.filter((item) => {
-          const isDuplicate = set.has(item.username);
-          set.add(item.username);
-          return !isDuplicate;
-        });
-    }
 
     const fetchUsers = (e) => {
         var params = {
@@ -81,7 +52,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
         })
     }
 
-    const updateLeagueFunc = async (e) => {
+    const saveLeague = async (e) => {
         e.preventDefault();
         if (leagueName === '') {
             setMessage({status: 'error', message: 'Please fill out all required field.'});
@@ -90,24 +61,22 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
         const coordinatorUsernames = leagueCoordinators.map(a => a.username)
         try{
             const data = {
-                id: league.id,
                 name: leagueName,
-                // sport: sport,
-                // date_founded: new Date(),
-                // cost_per_individual: 32,
-                // cost_per_team: 328,
+                sport: sport,
+                date_founded: new Date(),
+                cost_per_individual: 32,
+                cost_per_team: 328,
                 coordinators: coordinatorUsernames,
                 description: description,
                 number_of_periods: numPerPeriod,
                 time_per_period: timePerPeriod,
             }
             const apiData = await API.graphql({
-                query: updateLeague,
+                query: createLeague,
                 variables: { input: data},
             });
-            setMessage({status: 'success', message: 'League updated successfully!'});
-            listLeaguesFunc2(apiData.data.updateLeague);
-            setOpenModal(false);
+            setMessage({status: 'success', message: 'League created successfully!'});
+            listLeaguesFunc2(apiData.data.createLeague);
         } catch (error) {
             setMessage({status: 'error', message: error.message});
             console.error(error);
@@ -115,8 +84,9 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
 
     }
 
-    const listLeaguesFunc2 = async (updateLeague) => {
+    const listLeaguesFunc2 = async (newLeague) => {
         const timer = setTimeout(async () => {
+            
             const variables = {
                 filter: {
                   sport: {
@@ -130,9 +100,9 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
               console.log('Leagues', leagues.data.listLeagues.items);
               
               setLeagues(leagues.data.listLeagues.items);
-              getUserListByNames();
-              setSelectedLeague(updateLeague);
+              setSelectedLeague(newLeague);
               setOpenModal(false);
+              
         }, 500);
         return () => clearTimeout(timer);
     }
@@ -148,7 +118,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                 {/* <!-- Modal header --> */}
                 <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-md font-semibold text-gray-900 dark:text-white">
-                        Edit League
+                        Create New League
                     </h3>
                     <button onClick={() => setOpenModal(false)} type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -213,7 +183,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                 {/* <!-- Modal footer --> */}
                 <div class="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button onClick={() => setOpenModal(false)} data-modal-hide="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
-                    <button onClick={(e) => updateLeagueFunc(e)} data-modal-hide="defaultModal" type="button" class="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800">Save</button>
+                    <button onClick={(e) => saveLeague(e)} data-modal-hide="defaultModal" type="button" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800">Save</button>
                 </div>
             </div>
         </div>
