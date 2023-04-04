@@ -9,7 +9,7 @@ import { listGames } from '@/src/graphql/queries';
 
 import AWS from 'aws-sdk';
 export default function DivisionMatches() {
-  const [modalVisible, setModalVisible] = useState(false);
+	const [modalVisible, setModalVisible] = useState(false);
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
@@ -58,14 +58,12 @@ export default function DivisionMatches() {
 					<IconCirclePlus className="mr-2 h-5 w-5" />
 					Create New Match
 				</Button>
-				<MatchesTable />
-				<MatchesTable title={'Recent matches'} />
+				<MatchesTable matches={games} />
 			</main>
-      <CreateMatchModal
-          isVisible={modalVisible}
-          setIsVisible={setModalVisible}
-        
-        />
+			<CreateMatchModal
+				isVisible={modalVisible}
+				setIsVisible={setModalVisible}
+			/>
 		</>
 	);
 }
