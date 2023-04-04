@@ -39,7 +39,6 @@ export default function DeleteLeagueModal({ leagueInfo, setDeleteModal, listLeag
         query: listSeasons, variables: variables1,
     })
     const deleteTheseSeasons = seasons.data.listSeasons.items;
-    // console.log('OBJECTS TO DELETE SEASONS', deleteTheseSeasons);
 
     // Delete all seasons from leagueID
     deleteTheseSeasons.forEach(async object => {
@@ -50,7 +49,6 @@ export default function DeleteLeagueModal({ leagueInfo, setDeleteModal, listLeag
             query: listDivisions, variables: variables2,
         })
         const deleteTheseDivisions = divisions.data.listDivisions.items;
-        // console.log('OBJECTS TO DELETE DIVISIONS', deleteTheseDivisions);
 
         deleteTheseDivisions.forEach(async object => {
             await API.graphql({
