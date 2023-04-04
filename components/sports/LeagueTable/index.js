@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import CreateButton from '../CreateButton';
 import LeagueCard from './LeagueCard';
 import { API } from '@aws-amplify/api';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';

@@ -10,9 +10,9 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import DeleteSeasonModal from "./Modals/DeleteSeasonModal";
 import EditSeasonModal from "./Modals/EditSeasonModal";
-import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
+import { IconTrash, IconEdit } from '@tabler/icons-react';
 
-export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague }) {
+export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague, listSeasonsFunc }) {
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const router = useRouter();
@@ -64,11 +64,7 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                 <td class="px-6 py-3">
                     {convertDateReadable(season.end_date)}
                 </td>
-                {/* <td class="px-6 py-3">
-                    {season.status}
-                </td> */}
                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
-                    <IconUsers onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
                     <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
                     <IconTrash onClick={(e) => deleteSeasonFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                 </td>
@@ -78,7 +74,7 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
             <DeleteSeasonModal leagueInfo={selectedLeague} seasonInfo={season} setDeleteModal={setDeleteModal} listSeasonsFunc={listSeasonsFunc} />
         )}
         {editModal && (
-            <EditSeasonModal season={season} selectedLeague={selectedLeague} setOpenModal={setEditModal} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
+            <EditSeasonModal season={season} selectedLeague={selectedLeague} setOpenModal={setEditModal} setSelectedSeason={setSelectedSeason} listSeasonsFunc={listSeasonsFunc} />
         )}
     </>
     )

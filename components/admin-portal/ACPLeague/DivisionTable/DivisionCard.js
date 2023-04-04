@@ -49,7 +49,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
             { query: getDivisionWithTeams, 
             variables: { id: division.id }
         });
-        console.log('See here', apiData.data.getDivision);
+        // console.log('See here', apiData.data.getDivision);
         setTeamCount(apiData.data.getDivision.Teams.items.length);
     }
 
