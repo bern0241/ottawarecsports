@@ -6,6 +6,9 @@ import makeid from '@/utils/makeId';
 import { createGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
+import RefereeSearchBar from './RefereeSearchBar';
+import RefereeChip from './RefereeChip';
+import AWS from 'aws-sdk'
 
 //TODO:
 //Make graphQL queries for making a match, import them
@@ -22,16 +25,20 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
   const [homeColour, setHomeColour] = useState('Red');
   const [awayColour, setAwayColour] = useState('Blue');
   const [matchDate, setMatchDate] = useState('');
-  const [referee, setReferee] = useState([]);
+  const [referees, setReferees] = useState([]);
   const [startTime, setStartTime] = useState('');
   const [matchLocation, setMatchLocation] = useState('');
 
   const [openHomeTeamDrop, setOpenHomeTeamDrop] = useState(false)
   const [openAwayTeamDrop, setOpenAwayTeamDrop] = useState(false)
+  const [openRefDrop, setOpenRefDrop] = useState(false);
 
+  const [listUsers, setListUsers] = useState([]);
 
   const [message, setMessage ] = useState(null);
   const router = useRouter();
+
+  var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
   const {divisionID} = router.query
 
   useEffect(() => {
@@ -42,8 +49,21 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 	}, [message]);
 
   useEffect(()=>{
-    console.log(`Division ID: ${divisionID}`)
-  }, [])
+    if (homeTeam) {
+      setHomeColour(homeTeam.home_colour);
+    }
+  }, [homeTeam])
+
+
+    useEffect(()=>{
+    if (awayTeam) {
+      setAwayColour(awayTeam.away_colour);
+    }
+  }, [awayTeam])
+
+    useEffect(() => {
+        fetchUsers();
+    }, [])
 
   const createNewMatch = async () => {
     try {
@@ -74,8 +94,22 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
     }
   }
 
-  const resetData = () => {
+  //Fetch our referees in advance
+    const fetchUsers = (e) => {
+        var params = {
+            UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+        };
+        cognitoidentityserviceprovider.listUsers(params, function(err, data) {
+            if (err) {
+                console.log(err, err.stack);
+            } else {
+                setListUsers(data.Users);
+            }
+        })
+    }
 
+  const resetData = () => {
+    //TODO: Clear all fields
   }
 
   if (!isVisible) return;
@@ -216,18 +250,25 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
               {/**Date */}
 
               {/**Referee */}
-              <div className="w-full">
-								<label
-									htmlFor="referee"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									Referee
-								</label>
-								<DropdownInput options={['Referee']}
-                value={referee}
-                setValue={setReferee} />
-							</div>
-
+              <div className='relative cursor-pointer' onClick={() => setOpenRefDrop(!openRefDrop)}>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Referee(s)</label>
+                        <input value='' disabled type="text" id="name" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer" />
+                        <div className='absolute right-2 top-[2.8rem]'>
+                            <ion-icon style={{fontSize: '25px'}} name="caret-down-circle-outline"></ion-icon>
+                        </div>
+                        <div className='flex absolute top-[2.3rem]'>
+                            {referees && referees.map((referee) => (
+                                <>
+                                    <RefereeChip referee={referee} referees={referees} setReferees={setReferees} />
+                                </>
+                            ))}
+                        </div>
+                    </div>
+                        {openRefDrop && (
+                            <>
+                            <RefereeSearchBar OpenDropDown={openRefDrop} setOpenDropDown={setOpenRefDrop} referees={referees} setReferees={setReferees} listUsers={listUsers} />
+                            </>
+                        )}
               {/**Start Time */}
               <div className="w-full">
 								<label
