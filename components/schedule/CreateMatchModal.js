@@ -3,6 +3,8 @@ import {API} from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import makeid from '@/utils/makeId';
+import { createGame } from '@/src/graphql/mutations';
+import TeamDropDown from './TeamDropDown';
 
 //TODO:
 //Make graphQL queries for making a match, import them
@@ -23,12 +25,24 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
   const [startTime, setStartTime] = useState('');
   const [matchLocation, setMatchLocation] = useState('');
 
+  const [openHomeTeamDrop, setOpenHomeTeamDrop] = useState(false)
+  const [openAwayTeamDrop, setOpenAwayTeamDrop] = useState(false)
+
+
+  const [message, setMessage ] = useState(null);
+  const router = useRouter();
+  const {divisionID} = router.query
+
   useEffect(() => {
 		const timer = setTimeout(() => {
 			setMessage(null);
 		}, 5000);
 		return () => clearTimeout(timer);
 	}, [message]);
+
+  useEffect(()=>{
+    console.log(`Division ID: ${divisionID}`)
+  }, [])
 
   const createNewMatch = async () => {
     try {
@@ -59,6 +73,10 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
       console.error(error)
       setMessage({status: 'error', message: error.message});
     }
+  }
+
+  const resetData = () => {
+
   }
 
   if (!isVisible) return;
@@ -107,21 +125,25 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 						{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
 
             {/* <!-- Modal body --> */}
-            <div>
+            <div className='p-5'>
             {/**Home Team */}
-            <div className="w-full">
+							<div className="w-full">
+								<div>
 								<label
 									htmlFor="hometeam"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Home Team
 								</label>
-								<DropdownInput options={['Teams']}
-                value={homeTeam}
-                setValue={setHomeTeam}
-                />
+									<div  type="text" id="hometeam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5" placeholder="" onClick={(e) => setOpenHomeTeamDrop(!openHomeTeamDrop) } required />
+								</div>
 							</div>
-
+                {openHomeTeamDrop && (
+                  <TeamDropDown 
+                    setState={setHomeTeam} 
+                    setOpenDropDown={setOpenHomeTeamDrop}
+                  />
+                )}
               {/**Home Team Jersey*/}
               <div className="w-1/2">
 									<label
@@ -143,20 +165,24 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 										setValue={setHomeColour}
 									/>
 								</div>
-
               {/**Away Team */}
               <div className="w-full">
+								<div >
 								<label
 									htmlFor="awayteam"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Away Team
 								</label>
-								<DropdownInput options={['Teams']}
-                value={awayTeam}
-                setValue={setAwayTeam} />
+									<div type="text" id="awayteam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5" placeholder="" onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop) } required />
+								</div>
 							</div>
-
+              {openAwayTeamDrop && (
+                  <TeamDropDown
+                    setState={setAwayTeam} 
+                    setOpenDropDown={setOpenAwayTeamDrop}
+                  />
+                )}
               {/**Away Team Jersey */}
 <div className="w-1/2"> 
 									<label
@@ -249,6 +275,7 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 					</div>
 				</div>
     </div>
+    <div onClick={(e) => setIsVisible(false)} class='z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
     </>
   )
 }
