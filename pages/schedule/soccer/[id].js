@@ -1,6 +1,5 @@
 import MatchesTable from '@/components/schedule/MatchesTable';
 import { useState, useEffect } from 'react';
-import { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
