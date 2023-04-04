@@ -78,7 +78,9 @@ export default function TeamSpotlight() {
 	return (
 		<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
 			<img
-			src={profileImage}
+				src={`${
+					profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
+				}`}
 				width="100"
 				height="100"
 				className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
@@ -104,7 +106,9 @@ export default function TeamSpotlight() {
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
 					<span className="text-sm font-light col-span-1">Team Members</span>
 					<span className="truncate col-span-1">
-						{spotlightTeam ? spotlightTeam.team_history[0].roster.length : 'N/A'}
+						{spotlightTeam
+							? spotlightTeam.team_history[0].roster.length
+							: 'N/A'}
 					</span>
 				</div>
 			</div>

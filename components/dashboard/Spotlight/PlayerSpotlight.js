@@ -41,10 +41,6 @@ export default function PlayerSpotlight() {
 		getPicture();
 	}, [spotlightUser]);
 
-	useEffect(() => {
-		console.log('Teams', teams);
-	}, [teams]);
-
 	const getRandomUser = () => {
 		try {
 			// Get a random index found in list of users:
