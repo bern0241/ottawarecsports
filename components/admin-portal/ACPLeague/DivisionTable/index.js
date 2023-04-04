@@ -6,42 +6,58 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import React, { useState, useEffect } from 'react';
-import SeasonCard from './SeasonCard';
-import { listSeasons } from '@/src/graphql/queries';
+import { listDivisions } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
+import React, { useState, useEffect } from 'react';
+import CreateButton from '../CreateButton';
+import DivisionCard from './DivisionCard';
+import CreateDivisionModal from './Modals/CreateDivisionModal';
 
-export default function SeasonTable({ selectedSeason, setSelectedSeason, selectedLeague }) {
-    const [seasons, setSeasons] = useState([]);
+export default function ACPDivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague}) {
+    const [newDivisionModal, setNewDivisionModal] = useState(false);
+    const [divisions, setDivisions] = useState([]);
+    const [showTable, setShowTable] = useState(false);
 
     useEffect(() => {
-        if (selectedLeague) {
-            listSeasonsFunc();
+        if (selectedSeason) {
+            listDivisionsFunc();
         }
-        if (selectedLeague = null) {
-            setSeasons([]);
-            setSelectedSeason(null);
-        }
-    }, [selectedLeague])
+    }, [selectedSeason])
 
-    const listSeasonsFunc = async () => {
-        const variables = { 
+    const listDivisionsFunc = async () => {
+        const variables = {
             filter: {
-                league: {
-                    eq: selectedLeague.id
+                season: {
+                    eq: selectedSeason.id
                 }
             }
         }
-        const seasons = await API.graphql({
-            query: listSeasons, variables: variables
+        const divisions = await API.graphql({
+            query: listDivisions,
+            variables: variables
         })
-        setSeasons(seasons.data.listSeasons.items);
+        setDivisions(divisions.data.listDivisions.items);
+        setSelectedDivision(divisions.data.listDivisions.items[0]);
+    }
 
-        if (seasons.data.listSeasons.items.length !== 0) {
-            setSelectedSeason(seasons.data.listSeasons.items[0]);
-          } else {
-            setSelectedSeason(null);
-          }
+    useEffect(() => {
+        if (selectedLeague) {
+            if (selectedLeague.Seasons && selectedLeague.Seasons.items.length !== 0) {
+                setShowTable(true)
+            }
+        }
+        if (selectedSeason) {
+            setShowTable(true);
+        }
+        if (selectedLeague === null || selectedSeason === null) {
+            setDivisions([]);
+            setShowTable(false);
+            setSelectedDivision(null);
+        }
+    }, [selectedLeague, selectedSeason])
+
+    if(!showTable){
+        return;
     }
 
     return (
@@ -51,7 +67,7 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                 <thead class="text-md text-black bg-white">
                     <tr>
                         <th scope="col" class="text-lg font-medium px-6 py-4">
-                            Season
+                            Division
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
@@ -61,6 +77,12 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
+                        </th>
+                        <th className='absolute right-5 top-2'>
+                            <CreateButton label="Create New Division"
+                                            state={newDivisionModal}
+                                            setState={setNewDivisionModal} 
+                                            selectedType={selectedSeason} />
                         </th>
                     </tr>
                 </thead>
@@ -70,10 +92,10 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                             Name
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
-                            Start
+                            Level
                         </th>
                         <th scope="col" class="font-light px-6 py-2">
-                            End
+                            Team Count
                         </th>
                         <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
                             Action
@@ -81,15 +103,15 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                     </tr>
                 </thead>
                 <tbody>
-                    {seasons && seasons.map((season) => (
+                    {divisions && divisions.map((division) => (
                     <>
-                        <SeasonCard season={season} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} />
+                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
                     </>
                     ))}
-                    {(seasons && selectedLeague !== null && seasons.length === 0) && (
+                    {(divisions && selectedSeason !== null && divisions.length === 0) && (
                         <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                         <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
-                            No seasons for this league.
+                            No divisions for this season.
                         </th>
                         <td class="px-6 py-4">
                         </td>
@@ -102,7 +124,7 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
-                            All Seasons
+                            All Divisions
                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon>
                         </th>
                         <td class="px-6 py-4">
@@ -116,6 +138,11 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                 </tbody>
             </table>
         </div>
-      </>
+        {newDivisionModal && (
+            <>
+            <CreateDivisionModal openModal={newDivisionModal} setOpenModal={setNewDivisionModal} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} setSelectedDivision={setSelectedDivision} />
+                </>
+        )}
+        </>
     )
 }

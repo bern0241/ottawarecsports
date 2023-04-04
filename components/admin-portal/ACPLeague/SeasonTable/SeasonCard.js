@@ -7,10 +7,14 @@
  */
 
 import { useRouter } from 'next/router';
-import React from 'react';
-import { IconUsers} from '@tabler/icons-react';
+import React, { useState, useEffect } from 'react';
+import DeleteSeasonModal from "./Modals/DeleteSeasonModal";
+import EditSeasonModal from "./Modals/EditSeasonModal";
+import { IconTrash, IconEdit } from '@tabler/icons-react';
 
-export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague }) {
+export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague, listSeasonsFunc }) {
+    const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const router = useRouter();
 
     const clickedSeason = (e) => {
@@ -25,6 +29,16 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
         let newDateSplit = newDate.toString().split(' ');
         let newDateConcatnate = `${newDateSplit[1]} ${newDateSplit[2]}`
         return newDateConcatnate;
+    }
+
+    const editSeasonFunc = (e) => {
+        e.stopPropagation();
+        setEditModal(!editModal);
+    }
+
+    const deleteSeasonFunc = (e) => {
+        e.stopPropagation();
+        setDeleteModal(!deleteModal);
     }
 
     const goToSchedulePage = (e) => {
@@ -51,9 +65,17 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                     {convertDateReadable(season.end_date)}
                 </td>
                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
-                    <IconUsers onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
+                    <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
+                    <IconTrash onClick={(e) => deleteSeasonFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                 </td>
                 </tr>
+        
+        {deleteModal && (
+            <DeleteSeasonModal leagueInfo={selectedLeague} seasonInfo={season} setDeleteModal={setDeleteModal} listSeasonsFunc={listSeasonsFunc} />
+        )}
+        {editModal && (
+            <EditSeasonModal season={season} selectedLeague={selectedLeague} setOpenModal={setEditModal} setSelectedSeason={setSelectedSeason} listSeasonsFunc={listSeasonsFunc} />
+        )}
     </>
     )
 }
