@@ -11,6 +11,12 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 			/>
 		</svg>
 	);
+	// sort matches by time, small to large
+	const timeSortedMatches = matches.sort((matchA, matchB) => {
+		let timeA = matchA.date ? matchA.date : matchA.createdAt;
+		let timeB = matchB.date ? matchB.date : matchB.createdAt;
+		return Date.parse(timeA) - Date.parse(timeB);
+	});
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
@@ -29,7 +35,9 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 				<table className="table-auto">
 					<thead className="w-full"></thead>
 					<tbody>
-						{matches ? matches.map((match) => <MatchRow match={match} />) : ''}
+						{timeSortedMatches
+							? timeSortedMatches.map((match) => <MatchRow match={match} />)
+							: ''}
 					</tbody>
 				</table>
 			</div>

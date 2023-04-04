@@ -31,7 +31,7 @@ const DivisionRow = ({ key, division }) => {
 				</div>
 			</td>
 			<td className="p-5">{division.level}</td>
-			<td className="p-5">{division.abbreviation}</td>
+			<td className="hidden md:table-cell p-5">{division.abbreviation}</td>
 			<td className="p-5 flex justify-center">
 				<CalendarIcon />
 			</td>

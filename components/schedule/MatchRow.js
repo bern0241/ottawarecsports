@@ -62,22 +62,34 @@ const MatchRow = ({ match }) => {
 			/>
 		</svg>
 	);
+	const matchDate = match.date
+		? new Date(Date.parse(match.date))
+		: new Date(Date.parse(match.createdAt));
+	const matchDateString = matchDate.toDateString();
+	// remove the seconds
+	const matchTime = `${matchDate.toLocaleTimeString().slice(0, 4)}${matchDate
+		.toLocaleTimeString()
+		.slice(7)}`;
+	// remove the year and add a comma after the day of week
+	const dateWithoutYear = matchDateString
+		.substring(0, matchDateString.length - 4)
+		.replace(matchDateString.charAt(2), `${matchDateString.charAt(2)},`);
 	return (
 		<>
 			<tr
-				// key={team.id}
+				key={match.id}
 				className="border-b border-brand-neutral-300 flex flex-row items-stretch py-[26px] px-5 justify-between"
 				// onClick={navigateToProfile}
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
 				<td className="font-medium flex flex-row gap-7 items-center">
-					<TeamNameAndImage />
+					<TeamNameAndImage team={match.HomeTeam} />
 					<span className="border border-black rounded px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
-						<p>{0}</p>
+						<p>{match.home_score}</p>
 						<p>:</p>
-						<p>{0}</p>
+						<p>{match.away_score}</p>
 					</span>
-					<TeamNameAndImage reverse={true} />
+					<TeamNameAndImage reverse={true} team={match.AwayTeam} />
 				</td>
 				<td className="w-3/12 flex flex-col justify-items-stretch">
 					<span className="flex flex-row gap-10 mb-auto">
@@ -85,13 +97,13 @@ const MatchRow = ({ match }) => {
 							<span>
 								<CalendarIcon />
 							</span>
-							Fri, Mar 10
+							{dateWithoutYear}
 						</p>
 						<p className="flex flex-row gap-[6px] items-center">
 							<span>
 								<ClockIcon />
 							</span>
-							09:00 AM
+							{matchTime}
 						</p>
 					</span>
 					<span>

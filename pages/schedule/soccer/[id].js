@@ -1,5 +1,6 @@
 import MatchesTable from '@/components/schedule/MatchesTable';
 import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
@@ -58,8 +59,8 @@ export default function DivisionMatches() {
 					<IconCirclePlus className="mr-2 h-5 w-5" />
 					Create New Match
 				</Button>
-        
-				<MatchesTable matches={games} />
+				<MatchesTable />
+				<MatchesTable title={'Recent matches'} />
 			</main>
       <CreateMatchModal
           isVisible={modalVisible}

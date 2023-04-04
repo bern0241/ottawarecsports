@@ -1,32 +1,39 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { getImageFromS3 } from '@/utils/graphql.services';
 
-const TeamNameAndImage = ({
-	src = '/images/defaultProfilePic.jpeg',
-	reverse,
-	teamName = 'Super Team',
-}) => {
+const TeamNameAndImage = ({ reverse, team }) => {
+	const [profileImage, setProfileImage] = useState('');
+	const getPicture = async () => {
+		if (!team.team_picture)
+			return setProfileImage('/images/defaultProfilePic.jpeg');
+		const url = await getImageFromS3(team.team_picture);
+		setProfileImage(url);
+	};
+	useEffect(() => {
+		getPicture();
+	}, []);
 	return (
-		<span className="flex flex-row items-center gap-3">
+		<span className="flex flex-row grow items-center gap-3 justify-items-stretch">
 			{reverse === true ? (
 				<>
 					<img
 						style={{ objectFit: 'cover' }}
 						width={72}
 						height={72}
-						className="rounded-full border"
-						src={src}
+						className="w-[4.5rem] h-[4.5rem] rounded-full border"
+						src={profileImage}
 					/>
-					<p>{teamName}</p>
+					<p className=" w-24">{team.name}</p>
 				</>
 			) : (
 				<>
-					<p>{teamName}</p>
+					<p className=" w-24">{team.name}</p>
 					<img
 						style={{ objectFit: 'cover' }}
 						width={72}
 						height={72}
-						className="rounded-full border"
-						src={src}
+						className=" w-[4.5rem] h-[4.5rem] rounded-full border"
+						src={profileImage}
 					/>
 				</>
 			)}
