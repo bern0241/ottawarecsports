@@ -78,28 +78,28 @@ const MatchRow = ({ match }) => {
 		<>
 			<tr
 				key={match.id}
-				className="border-b border-brand-neutral-300 flex flex-row items-stretch py-[26px] px-5 justify-between"
+				className="border-b border-brand-neutral-300 flex flex-col md:flex-row items-stretch py-0 md:py-[26px] px-0 md:px-5 justify-between"
 				// onClick={navigateToProfile}
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
-				<td className="font-medium flex flex-row gap-7 items-center">
+				<td className="font-medium flex flex-row gap-7 items-start md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
 					<TeamNameAndImage team={match.HomeTeam} />
-					<span className="border border-black rounded px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
+					<span className="border border-brand-orange-800 md:border-black rounded-lg md:rounded px-5 md:px-[47px] py-1 md:py-[10px] flex flex-row items-center h-fit gap-1 self-center md:self-auto">
 						<p>{match.home_score}</p>
 						<p>:</p>
 						<p>{match.away_score}</p>
 					</span>
 					<TeamNameAndImage reverse={true} team={match.AwayTeam} />
 				</td>
-				<td className="w-3/12 flex flex-col justify-items-stretch">
-					<span className="flex flex-row gap-10 mb-auto">
-						<p className="flex flex-row gap-[6px] items-center">
+				<td className="min-w-3/12 flex flex-col justify-center md:justify-items-stretch bg-brand-neutral-50 md:bg-white py-2 md:py-0">
+					<span className="flex flex-row gap-10 md:gap-5 justify-center md:justify-stretch mb-4 md:mb-auto">
+						<p className="flex flex-row gap-[6px] items-center whitespace-nowrap">
 							<span>
 								<CalendarIcon />
 							</span>
 							{dateWithoutYear}
 						</p>
-						<p className="flex flex-row gap-[6px] items-center">
+						<p className="flex flex-row gap-[6px] items-center whitespace-nowrap">
 							<span>
 								<ClockIcon />
 							</span>
@@ -107,7 +107,7 @@ const MatchRow = ({ match }) => {
 						</p>
 					</span>
 					<span>
-						<p className="flex flex-row gap-[6px] items-center">
+						<p className="flex flex-row gap-[6px] items-center whitespace-nowrap justify-center md:justify-start">
 							<span>
 								<LocationIcon />
 							</span>
@@ -115,7 +115,7 @@ const MatchRow = ({ match }) => {
 						</p>
 					</span>
 				</td>
-				<td className="p-5 w-1/12 flex flex-row items-center gap-8">
+				<td className="p-5 min-w-1/12 flex-row items-center gap-8 hidden md:flex">
 					<span>
 						<EditIcon />
 					</span>
