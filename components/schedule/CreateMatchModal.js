@@ -9,11 +9,10 @@ import TeamCardSelected from './TeamCardSelected';
 import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk'
+import DatePicker from 'tailwind-datepicker-react';
 
 //TODO:
-//Make graphQL queries for making a match, import them
 //Get the existing roster of the home/away teams
-//Auto populate jersey colour
 //Import date picker
 
 const CreateMatchModal = ({isVisible, setIsVisible }) => {
@@ -33,13 +32,53 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
   const [openAwayTeamDrop, setOpenAwayTeamDrop] = useState(false)
   const [openRefDrop, setOpenRefDrop] = useState(false);
 
+  //Dates
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [showFounded, setShowFounded] = useState(false);
+
   const [listUsers, setListUsers] = useState([]);
 
   const [message, setMessage ] = useState(null);
   const router = useRouter();
 
   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-  const {divisionID} = router.query
+  const {divisionID} = router.query;
+
+  const options = {
+    title: "Select Game Date",
+    autoHide: true,
+    todayBtn: false,
+    clearBtn: false,
+    maxDate: new Date("2060-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+      background: "border border-[1px] border-gray-500 shadow-lg relative right-0",
+    },
+    icons: {
+      prev: () => <ion-icon style={{fontSize: '1.5rem'}} name="arrow-back-outline"></ion-icon>,
+      next: () => <ion-icon style={{fontSize: '1.5rem'}} name="arrow-forward-outline"></ion-icon>,
+    },
+    datepickerClassNames: "top-12",
+    defaultDate: new Date(),
+    language: "en",
+  }
+
+  function getConvertedDate(date) {
+    let yourDate = date
+        // let yourDate = new Date()
+        yourDate.toISOString().split('T')[0]
+        const offset = yourDate.getTimezoneOffset()
+        yourDate = new Date(yourDate.getTime() - (offset*60*1000))
+        return yourDate.toISOString().split('T')[0];
+    }
+  
+  const handleChange = (selectedDate) => {
+        setDate(getConvertedDate(selectedDate));
+        console.log(getConvertedDate(selectedDate))
+    }
+    const handleClose = (state) => {
+        setShowFounded(state)
+    }
 
   useEffect(() => {
 		const timer = setTimeout(() => {
@@ -54,7 +93,6 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
     }
   }, [homeTeam])
 
-
     useEffect(()=>{
     if (awayTeam) {
       setAwayColour(awayTeam.away_colour);
@@ -65,29 +103,41 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
         fetchUsers();
     }, [])
 
-  const createNewMatch = async () => {
+  const createNewMatch = async (e) => {
+    e.preventDefault();
     try {
-      if (!isVisible) {
+      if (homeTeam === null || awayTeam === null || startTime === '' || location ==='') {
         setMessage({status: 'error', message: 'Please fill out all required fields'});
         return;
       }
-      const randomId = uuidv4();
+      if (homeTeam.id === awayTeam.id){
+        setMessage({status: 'error',message: 'Must have two different teams'})
+        return;
+      }
       
       const matchData = {
-        id: randomId,
-        division: 0,
-        date: "",
-        location: "",
-        status: "",
-        home_roster: [],
-        away_roster: [],
-        home_score:"",
-        away_score:"",
+        division: divisionID,
+        date: new Date().toISOString(),
+        location: location,
+        status: "NOT_STARTED",
+        home_roster: JSON.stringify(homeTeam.Players.items),
+        away_roster: JSON.stringify(awayTeam.Players.items),
+        home_score: 0,
+        away_score: 0,
         goals: [],
-        round: "",
-        referees: [],
+        round: 1,
+        referees: referees,
+        gameHomeTeamId: homeTeam.id,
+        gameAwayTeamId: awayTeam.id
       }
       console.log(matchData)
+      const apiData = await API.graphql({
+              query: createGame,
+              variables: { input: matchData },
+          });
+          console.log('New Game', apiData)
+          setMessage({status:'success', message: 'Game created successfully'})
+
     } catch (error) {
       console.error(error)
       setMessage({status: 'error', message: error.message});
@@ -96,16 +146,16 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 
   //Fetch our referees in advance
     const fetchUsers = (e) => {
-        var params = {
-            UserPoolId: 'us-east-1_70GCK7G6t', /* required */
-        };
+      var params = {
+        UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+      };
         cognitoidentityserviceprovider.listUsers(params, function(err, data) {
-            if (err) {
-                console.log(err, err.stack);
-            } else {
-                setListUsers(data.Users);
-            }
-        })
+        if (err) {
+          console.log(err, err.stack);
+        } else {
+          setListUsers(data.Users);
+        }
+      })
     }
 
   const resetData = () => {
@@ -155,8 +205,6 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 								<span className="sr-only">Close modal</span>
 							</button>
 						</div>
-						{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
-
             {/* <!-- Modal body --> */}
             <div className='p-5'>
             {/**Home Team */}
@@ -247,7 +295,6 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 										setValue={setAwayColour}
 									/>
 								</div>
-              {/**Date */}
 
               {/**Referee */}
               <div className='relative cursor-pointer' onClick={() => setOpenRefDrop(!openRefDrop)}>
@@ -269,21 +316,27 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
                             <RefereeSearchBar OpenDropDown={openRefDrop} setOpenDropDown={setOpenRefDrop} referees={referees} setReferees={setReferees} listUsers={listUsers} />
                             </>
                         )}
+
+                {/**Date */}
+                <div className='w-full'>
+                  <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                  <DatePicker options={options} onChange={handleChange} show={showFounded} setShow={handleClose} />
+                </div>
+
               {/**Start Time */}
-              <div className="w-full">
+            <div className="w-full">
 								<label
 									htmlFor="startdate"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Start Time
 								</label>
-								<DropdownInput options={['Start Time']}
-                value={startTime}
-                setValue={setStartTime} />
+								<div>
+								<input value={startTime} onChange={(e) => setStartTime(e.target.value)} type="text" id="startTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="3:20pm" required />
 							</div>
-
-              {/**Duration */}
-
+				</div>
+              {/**Date */}
+              
               {/**Location */}
               <div className="w-full">
 								<label
@@ -292,11 +345,16 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 								>
 									Location
 								</label>
-								<DropdownInput options={['Location']}
+								<DropdownInput options={
+                  [
+                    "Anexxe Trille des Bois", "Centennial Public School","Lester B. Pearson High School","Louis Riel Dome","De La Salle High School","Lisgar Collegiate High School", "Thomas D’Arcy McGee","Colonel By High School","Trilles-des-Bois","Craig Henry Park","Algonquin Dome College","Albert Street School","Hornet’s Nest Superdome","Lees Turf"
+                  ]
+                }
                 value={matchLocation}
                 setValue={setMatchLocation} />
 							</div>
-</div>
+            </div>
+            {message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
               
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -313,7 +371,7 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 							</button>
 							<button
 								onClick={(e) => {
-									//createNewMatch
+									createNewMatch(e);
 								}}
 								data-modal-hide="defaultModal"
 								type="button"
