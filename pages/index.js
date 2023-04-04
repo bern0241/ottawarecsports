@@ -22,7 +22,7 @@ import GameSheets from '@/components/dashboard/GameSheets';
 import UpcomingGames from '@/components/dashboard/UpcomingGames';
 import Dashboard from '@/components/dashboard';
 export default function Home() {
-	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [user, setUser, authRoles, setAuthRoles, userList] = useUser();
 	const router = useRouter();
 	return (
 		<>
