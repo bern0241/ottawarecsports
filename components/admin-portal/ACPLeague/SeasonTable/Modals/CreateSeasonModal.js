@@ -110,6 +110,7 @@ export default function CreateSeasonModal({ openModal, setOpenModal, selectedLea
                 
             })
             listSeasonsFunc();
+            setOpenModal(false);
             setSelectedSeason(apiData.data.createSeason)
             setMessage({status: 'success', message: 'Season successfully created.'});
         } catch (error) {
