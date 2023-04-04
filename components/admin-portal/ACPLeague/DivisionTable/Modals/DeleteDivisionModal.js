@@ -1,8 +1,9 @@
 /**
- * Last updated: 2023-03-29
+ * Last updated: 2023-04-04
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
 import { deleteDivision } from '@/src/graphql/mutations';
