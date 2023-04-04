@@ -26,7 +26,7 @@ export default function DeleteSeasonModal({ leagueInfo, seasonInfo, setDeleteMod
       listSeasonsFunc();
     } catch (error) {
       alert('Problem deleting Season');
-      console.log(error);
+      console.error(error);
     }
   }
 
