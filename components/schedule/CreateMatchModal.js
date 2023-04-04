@@ -44,6 +44,7 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
   const {divisionID} = router.query;
 
+    //Options object for the data picker
   const options = {
     title: "Select Game Date",
     autoHide: true,
