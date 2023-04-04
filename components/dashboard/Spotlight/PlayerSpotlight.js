@@ -129,7 +129,9 @@ export default function PlayerSpotlight() {
 				</div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
 					<span className="text-sm font-light col-span-1">Team Name</span>
-					<span className="truncate col-span-1">{teams[0] ? teams[0].name : "N/A"}</span>
+					<span className="truncate col-span-1">
+						{teams[0] ? teams[0].name : 'N/A'}
+					</span>
 				</div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
 					<span className="text-sm font-light col-span-1">Position</span>
