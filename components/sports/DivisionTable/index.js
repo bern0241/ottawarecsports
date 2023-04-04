@@ -9,12 +9,9 @@
 import { listDivisions } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
-import CreateButton from '../CreateButton';
 import DivisionCard from './DivisionCard';
-import CreateDivisionModal from './Modals/CreateDivisionModal';
 
 export default function DivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague}) {
-    const [newDivisionModal, setNewDivisionModal] = useState(false);
     const [divisions, setDivisions] = useState([]);
     const [showTable, setShowTable] = useState(false);
 
@@ -78,12 +75,6 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
-                        <th className='absolute right-5 top-2'>
-                            <CreateButton label="Create New Division"
-                                            state={newDivisionModal}
-                                            setState={setNewDivisionModal} 
-                                            selectedType={selectedSeason} />
-                        </th>
                     </tr>
                 </thead>
                 <thead class="text-xs border border-gray-300 text-black bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -138,11 +129,6 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                 </tbody>
             </table>
         </div>
-        {newDivisionModal && (
-            <>
-            <CreateDivisionModal openModal={newDivisionModal} setOpenModal={setNewDivisionModal} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} setSelectedDivision={setSelectedDivision} />
-                </>
-        )}
         </>
     )
 }

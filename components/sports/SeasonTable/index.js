@@ -8,13 +8,10 @@
 
 import React, { useState, useEffect } from 'react';
 import SeasonCard from './SeasonCard';
-import CreateButton from '../CreateButton';
-import CreateSeasonModal from './Modals/CreateSeasonModal';
 import { listSeasons } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
 
 export default function SeasonTable({ selectedSeason, setSelectedSeason, selectedLeague }) {
-    const [newSeasonModal, setNewSeasonModal] = useState(false);
     const [seasons, setSeasons] = useState([]);
 
     useEffect(() => {
@@ -62,14 +59,8 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
-                        {/* <th scope="col" class="font-medium px-6 py-4">
+                        <th scope="col" class="font-medium px-6 py-4">
                             
-                        </th> */}
-                        <th className='absolute right-5 top-2'>
-                            <CreateButton label="Create New Season"
-                                            state={newSeasonModal}
-                                            setState={setNewSeasonModal} 
-                                            selectedType={selectedLeague} />
                         </th>
                     </tr>
                 </thead>
@@ -84,9 +75,6 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                         <th scope="col" class="font-light px-6 py-2">
                             End
                         </th>
-                        {/* <th scope="col" class="font-light px-6 py-2">
-                            Status
-                        </th> */}
                         <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
                             Action
                         </th>
@@ -107,8 +95,6 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                         </td>
                         <td class="px-6 py-4">
                         </td>
-                        {/* <td class="px-6 py-4">
-                        </td> */}
                         <td class="flex gap-4 px-6 py-4 text-center">
                         </td>
                     </tr>
@@ -123,8 +109,6 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                         </td>
                         <td class="px-6 py-4">
                         </td>
-                        {/* <td class="px-6 py-4">
-                        </td> */}
                         <td class="flex gap-4 px-6 py-4 text-center">
                         </td>
                     </tr>
@@ -132,11 +116,6 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                 </tbody>
             </table>
         </div>
-                {newSeasonModal && (
-                    <>
-                    <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
-                     </>
-                )}
-               </>
+      </>
     )
 }
