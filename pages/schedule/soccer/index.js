@@ -45,7 +45,9 @@ const soccer = () => {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 items-center">
-						<h1 className="text-xl self-center">Spring Season Divisions</h1>
+						<h1 className="text-xl self-center">
+							{currentSeason?.name} Divisions
+						</h1>
 						<Button
 							pill={true}
 							className="px-[1.75rem] bg-blue-900 hover:bg-blue-800 px-4"
@@ -61,7 +63,7 @@ const soccer = () => {
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
 								<th className="py-3 px-5 text-sm font-light w-4/12">Level</th>
-								<th className="py-3 px-5 text-sm font-light w-3/12">
+								<th className="hidden md:table-cell py-3 px-5 text-sm font-light w-3/12">
 									Description
 								</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">Action </th>
