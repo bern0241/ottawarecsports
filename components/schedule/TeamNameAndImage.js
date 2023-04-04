@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
 const TeamNameAndImage = ({ reverse, team }) => {
+  console.log(team)
 	const [profileImage, setProfileImage] = useState('');
 	const getPicture = async () => {
-		if (!team.team_picture)
+		if (!team?.team_picture)
 			return setProfileImage('/images/defaultProfilePic.jpeg');
-		const url = await getImageFromS3(team.team_picture);
+		const url = await getImageFromS3(team?.team_picture);
 		setProfileImage(url);
 	};
 	useEffect(() => {
@@ -25,12 +26,12 @@ const TeamNameAndImage = ({ reverse, team }) => {
 						className="w-[4.5rem] h-[4.5rem] rounded-full border"
 						src={profileImage}
 					/>
-					<p className="w-12 md:w-24">{team.name}</p>
+					<p className="w-12 md:w-24">{team?.name || "SuperTeam"}</p>
 				</>
 			) : (
 				<>
 					<p className="w-24 text-center md:text-left order-last md:order-none">
-						{team.name}
+						{team?.name || "SuperTeam"}
 					</p>
 					<img
 						style={{ objectFit: 'cover' }}
