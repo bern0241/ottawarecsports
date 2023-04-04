@@ -65,19 +65,19 @@ const MatchRow = ({ match }) => {
 	return (
 		<>
 			<tr
-				// key={team.id}
+				key={match.id}
 				className="border-b border-brand-neutral-300 flex flex-row items-stretch py-[26px] px-5 justify-between"
 				// onClick={navigateToProfile}
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
 				<td className="font-medium flex flex-row gap-7 items-center">
-					<TeamNameAndImage />
+					<TeamNameAndImage team={match.HomeTeam} />
 					<span className="border border-black rounded px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
-						<p>{0}</p>
+						<p>{match.home_score}</p>
 						<p>:</p>
-						<p>{0}</p>
+						<p>{match.away_score}</p>
 					</span>
-					<TeamNameAndImage reverse={true} />
+					<TeamNameAndImage reverse={true} team={match.AwayTeam} />
 				</td>
 				<td className="w-3/12 flex flex-col justify-items-stretch">
 					<span className="flex flex-row gap-10 mb-auto">
