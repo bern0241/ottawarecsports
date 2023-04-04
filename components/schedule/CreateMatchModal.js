@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import makeid from '@/utils/makeId';
 import { createGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
+import TeamCardSelected from './TeamCardSelected';
 
 //TODO:
 //Make graphQL queries for making a match, import them
@@ -126,14 +127,19 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
             <div className='p-5'>
             {/**Home Team */}
 							<div className="w-full">
-								<div>
+								<div onClick={(e) => setOpenHomeTeamDrop(!openHomeTeamDrop) } >
 								<label
 									htmlFor="hometeam"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Home Team
 								</label>
-									<div  type="text" id="hometeam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5" placeholder="" onClick={(e) => setOpenHomeTeamDrop(!openHomeTeamDrop) } required />
+                {homeTeam && (
+                  <TeamCardSelected team={homeTeam}/>
+                )}
+                {!homeTeam && (
+									<div  type="text" id="hometeam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5" placeholder="" required />
+                )}
 								</div>
 							</div>
                 {openHomeTeamDrop && (
@@ -165,14 +171,19 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
 								</div>
               {/**Away Team */}
               <div className="w-full">
-								<div >
+								<div  onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop) }>
 								<label
 									htmlFor="awayteam"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Away Team
 								</label>
-									<div type="text" id="awayteam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5" placeholder="" onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop) } required />
+									{awayTeam && (
+                  <TeamCardSelected team={awayTeam}/>
+                )}
+                {!awayTeam && (
+									<div  type="text" id="awayteam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5" placeholder="" required />
+                )}
 								</div>
 							</div>
               {openAwayTeamDrop && (
