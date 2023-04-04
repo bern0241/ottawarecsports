@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
 import { listTeams } from '@/src/graphql/queries';
+import TeamCard from './TeamCard';
 
 export default function TeamDropDown({state, setState, setOpenDropDown}) {
 
@@ -28,7 +29,7 @@ const fetchTeams = async () => {
     }
   };
   const teams = await API.graphql({
-    query: listTeams, variables: variables
+    query: listTeams
   });
   console.log('Teams', teams.data.listTeams.items);
   setTeams(teams.data.listTeams.items);
@@ -67,7 +68,7 @@ const setTeamFunc = (e, team) =>{
       .map((team) => (
           <>
           <li className='cursor-pointer' onClick={(e) => setTeamFunc(e, team)}>
-              {/* <TeamCard searchUser={searchUser} team={team} /> */}
+              <TeamCard search={search} team={team} />
           </li>
           </>
       ))}

@@ -66,9 +66,7 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
         round: "",
         referees: [],
       }
-
       console.log(matchData)
-
     } catch (error) {
       console.error(error)
       setMessage({status: 'error', message: error.message});
