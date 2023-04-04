@@ -93,6 +93,10 @@ useEffect(()=>{
     }
   }, [awayTeam])
 
+  useEffect(() => {
+    fetchRefereeList();
+  }, [])
+
 useEffect(() => {
 	const timer = setTimeout(() => {
 		setMessage(null);
@@ -142,7 +146,7 @@ useEffect(() => {
   }
 
     //Fetch our referees in advance
-    const fetchUsers = (e) => {
+    const fetchRefereeList = (e) => {
       var params = {
         UserPoolId: 'us-east-1_70GCK7G6t', /* required */
       };

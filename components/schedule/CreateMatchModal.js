@@ -101,7 +101,7 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
   }, [awayTeam])
 
     useEffect(() => {
-        fetchUsers();
+        fetchRefereeList();
     }, [])
 
   const createNewMatch = async (e) => {
@@ -146,7 +146,7 @@ const CreateMatchModal = ({isVisible, setIsVisible }) => {
   }
 
   //Fetch our referees in advance
-    const fetchUsers = (e) => {
+    const fetchRefereeList = (e) => {
       var params = {
         UserPoolId: 'us-east-1_70GCK7G6t', /* required */
       };
