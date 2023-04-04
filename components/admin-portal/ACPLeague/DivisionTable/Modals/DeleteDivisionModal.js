@@ -5,9 +5,9 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
- import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
- export default function DeleteDivisionModal({ seasonInfo, divisionInfo, setDeleteModal, listDivisionsFunc }) {
+export default function DeleteDivisionModal({ seasonInfo, divisionInfo, setDeleteModal, listDivisionsFunc }) {
 
      return (
         <>

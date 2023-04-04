@@ -53,7 +53,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                     setLeagueCoordinators((leagueCoordinators) => {
 						return uniqueByUsername([...leagueCoordinators, data2]);
 					} );
-                    console.log('DATA',data);
+                    // console.log('DATA',data);
                 } 
             });
         })
@@ -116,8 +116,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
     }
 
     const listLeaguesFunc2 = async (updateLeague) => {
-        const timer = setTimeout(async () => {
-            const variables = {
+        const variables = {
                 filter: {
                   sport: {
                     eq: sport
@@ -130,12 +129,10 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
               console.log('Leagues', leagues.data.listLeagues.items);
               
               setLeagues(leagues.data.listLeagues.items);
-              getUserListByNames();
+              getUserListByNames(updateLeague.coordinators);
               setSelectedLeague(updateLeague);
               setOpenModal(false);
-        }, 500);
-        return () => clearTimeout(timer);
-    }
+        }
 
 
     return (

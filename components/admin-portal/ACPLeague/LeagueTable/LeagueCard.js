@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-03
+ * Last updated: 2023-04-04
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -9,36 +9,38 @@
 import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
 import EditLeagueModal from './Modals/EditLeagueModal';
+import DeleteLeagueModal from './Modals/DeleteLeagueModal';
 import { useRouter } from 'next/router';
-import { IconEdit } from '@tabler/icons-react';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
 
-export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague, setLeagues }) {
+export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague, setLeagues, listLeaguesFunc }) {
     const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const router = useRouter();
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
     useEffect(()=> {
-        setUsers([]);
-        getUserListByNames();
-    }, [])
-
-    const getUserListByNames = () => {
-        league.coordinators.forEach((coordinator) => {
-            var params = {
-                UserPoolId: 'us-east-1_70GCK7G6t',
-                Username: coordinator 
-            };
-            setUsers([]);
-            cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-                if (err) console.log(err, err.stack); // an error occurred
-                // else     console.log(data);           // successful response
-                    setUsers((users) => {
-                        return uniqueByUsername([...users, data]);
-                    });
-            });
-        });
-    }
+      getUserListByNames(league.coordinators);
+  }, [])
+  
+  const getUserListByNames = (coordinators) => {
+      setUsers([]);
+      coordinators.forEach((coordinator) => {
+          console.log('Username', coordinator);
+          var params = {
+              UserPoolId: 'us-east-1_70GCK7G6t',
+              Username: coordinator 
+              };
+              cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+              if (err) console.log(err, err.stack); // an error occurred
+              // else     console.log(data);           // successful response
+                  setUsers((users) => {
+                      return uniqueByUsername([...users, data]);
+                  });
+          });
+      });
+  }
 
     function uniqueByUsername(items) {
         const set = new Set();
@@ -64,6 +66,11 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
         setEditModal(!editModal);
     }
 
+    const deleteLeagueFunc = (e) => {
+      e.stopPropagation();
+      setDeleteModal(!deleteModal);
+    }
+
     return (
         <>
         <tr onClick={(e) => clickedLeague(e)} class="bg-white border border-gray-400 cursor-pointer">
@@ -86,12 +93,17 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
             </td>
             <td class="flex gap-4 px-6 py-3 text-center justify-center">
                 <IconEdit onClick={(e) => editLeagueFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
+                <IconTrash onClick={(e) => deleteLeagueFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconTrash>
             </td>
         </tr>
 
         {editModal && (
             <EditLeagueModal league={league} setOpenModal={setEditModal} sport={sport} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} getUserListByNames={getUserListByNames} />
         )}
+        {deleteModal && (
+            <DeleteLeagueModal leagueInfo={league} setDeleteModal={setDeleteModal} listLeaguesFunc={listLeaguesFunc} />
+        )}
+        
     </>
     )
 }
