@@ -130,7 +130,7 @@ export default function TeamProfile() {
 			  });
 			  console.log('Members', players.data.listPlayers.items);
 			  setMembers(players.data.listPlayers.items);
-		}, 750);
+		}, 550);
 		return () => clearTimeout(timer);
 
 	}
