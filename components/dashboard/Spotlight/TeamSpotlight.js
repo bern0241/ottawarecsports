@@ -28,14 +28,26 @@ export default function TeamSpotlight() {
 	}, [teams]);
 
 	useEffect(() => {
-		if (!spotlightTeam || !spotlightTeam.team_history[0].captains[0]) return;
+		if (
+			!spotlightTeam ||
+			!spotlightTeam.team_history ||
+			!spotlightTeam.team_history[0] ||
+			!spotlightTeam.team_history[0].captains ||
+			spotlightTeam.team_history[0].captains.length === 0
+		)
+			return;
+
 		fetchCaptain(spotlightTeam.team_history[0].captains[0]);
 		getPicture();
 	}, [spotlightTeam]);
 
 	const getTeamsData = async () => {
-		const response = await getAllTeams();
-		setTeams(response);
+		try {
+			const response = await getAllTeams();
+			setTeams(response);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const getPicture = async () => {
@@ -46,20 +58,24 @@ export default function TeamSpotlight() {
 	};
 
 	const fetchCaptain = (id) => {
-		const params = {
-			Username: id,
-			UserPoolId: 'us-east-1_70GCK7G6t',
-		};
-		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
-			if (err) console.log(err, err.stack); // an error occurred
-			else {
-				setSpotlightTeamCaptain(
-					`${data.UserAttributes.find((o) => o.Name === 'name')['Value']} ${
-						data.UserAttributes.find((o) => o.Name === 'family_name')['Value']
-					}`
-				);
-			} // successful response
-		});
+		try {
+			const params = {
+				Username: id,
+				UserPoolId: 'us-east-1_70GCK7G6t',
+			};
+			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else {
+					setSpotlightTeamCaptain(
+						`${data.UserAttributes.find((o) => o.Name === 'name')['Value']} ${
+							data.UserAttributes.find((o) => o.Name === 'family_name')['Value']
+						}`
+					);
+				} // successful response
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const getRandomTeam = () => {

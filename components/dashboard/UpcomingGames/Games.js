@@ -48,10 +48,6 @@ export default function Games() {
 		sortGamesByDate(games);
 	}, [games]);
 
-	useEffect(() => {
-		console.log(gameSchedule);
-	}, [gameSchedule]);
-
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
 		if (data) {
