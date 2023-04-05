@@ -40,11 +40,12 @@ export default function Game({game}) {
     //Refrence from https://www.geeksforgeeks.org/how-do-you-display-javascript-datetime-in-12-hour-am-pm-format/
     //For time of game
     let hours = resp.getHours() ;
-    hours = (hours % 12) || 12;
-    hours = (hours < 10 ? '0' : '') + hours;
     
     const AmOrPm = hours >= 12 ? 'PM' : 'AM';
     
+    hours = (hours % 12) || 12;
+    hours = (hours < 10 ? '0' : '') + hours;
+
     const minutes = (resp.getMinutes() < 10 ? '0' : '') + resp.getMinutes();
     
     const finalTime = hours + ":" + minutes + " " + AmOrPm; 
