@@ -8,26 +8,42 @@
 
 import React, { useState, useEffect } from 'react';
 import TeamCard from './TeamCard';
-import { listTeams } from '@/src/graphql/queries';
+import { listTeams, getDivision } from '@/src/graphql/queries';
+import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
+import { useRouter } from 'next/router';
  
  export default function TeamTable({ selectedDivisionForTeams, setUiState }) {
+     const [division, setDivision] = useState({});
      const [teams, setTeams] = useState([]);
+     const router = useRouter();
+     const {divisionID} = router.query;
 
      useEffect(() => {
-        listTeamsFunc();
-     }, [])
+        if (!divisionID) return;
+        const callMeAsync = async () => {
+            getDivisionFunc(divisionID);
+            listTeamsFunc(divisionID);
+        }
+        callMeAsync();
+     }, [divisionID])
+
+     const getDivisionFunc = async (_divisionID) => {
+        const apiData = await API.graphql({ query: getDivision, variables: { id: _divisionID }});
+        const data = await apiData.data.getDivision;
+        setDivision(data);
+     }
   
      const listTeamsFunc = async () => {
          const variables = { 
              filter: {
                  league: {
-                     eq: selectedDivisionForTeams.id
+                     eq: division.id
                  }
              }
          }
          const teams = await API.graphql({
-             query: listTeams
+             query: listTeamsWithPlayers
             //  query: listSeasons, variables: variables
          })
          setTeams(teams.data.listTeams.items);
@@ -40,7 +56,7 @@ import { API } from '@aws-amplify/api';
                  <thead class="text-md text-black bg-white">
                      <tr>
                          <th scope="col" class="text-lg font-medium px-6 py-7">
-                             <p className='absolute top-4'><span className='font-semibold'>{selectedDivisionForTeams.name}</span> Division - All Teams</p>
+                             <p className='absolute top-4'><span className='font-semibold'>{division && division.name}</span> Division - All Teams</p>
                          </th>
                          <th scope="col" class="font-medium px-6 py-4">
                              

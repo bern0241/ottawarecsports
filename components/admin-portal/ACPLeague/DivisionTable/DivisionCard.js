@@ -14,8 +14,7 @@ import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
 import { API } from '@aws-amplify/api';
 
-export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc, 
-    setUiState, setSelectedDivisionForTeams }) {
+export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc }) {
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [teamCount, setTeamCount] = useState(0);
@@ -42,9 +41,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
 
     const teamsUINavigate = (e) => {
         e.stopPropagation();
-        setUiState('teams');
-        setSelectedDivisionForTeams(division)
-        // router.push(`/schedule/soccer/${division.id}`);
+        router.push(`/admin-portal/leagues/${division.id}`);
     }
 
     const getTeamsCount = async () => {

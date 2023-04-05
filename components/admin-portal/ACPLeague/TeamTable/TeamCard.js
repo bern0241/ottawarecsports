@@ -14,7 +14,15 @@ import { useRouter } from 'next/router';
  export default function TeamCard({ team, division, listTeamsFunc }) {
     //  const [editModal, setEditModal] = useState(false);
      const [removeModal, setRemoveModal] = useState(false);
+     const [membersCount, setMembersCount] = useState(0);
      const router = useRouter();
+
+     useEffect(() => {
+      console.log(team);
+      if (team.Players.items) {
+        setMembersCount(team.Players.items.length);
+      }
+     }, [])
  
      const removeTeamFunc = (e) => {
          e.stopPropagation();
@@ -36,7 +44,7 @@ import { useRouter } from 'next/router';
                     Justin Bernard
                  </td>
                  <td class="px-6 py-3">
-                     Members
+                     {membersCount}
                  </td>
                  <td class="flex gap-4 px-6 py-4 text-center justify-center">
                      <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
