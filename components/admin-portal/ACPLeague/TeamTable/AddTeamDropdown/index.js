@@ -8,9 +8,10 @@ export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
     const [search, setSearch] = useState('');
     const [searchClicked, setSearchClicked] = useState('');
     const [teams, setTeams] = useState([]);
+    const [selectedTeams, setSelectedTeams] = useState([]);
 
     useEffect(() => {
-        fetchTeams();;
+        fetchTeams();
     }, [])
 
     useEffect(() => {
@@ -31,8 +32,15 @@ export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
     const setTeamFunc = (e, team) => {
         e.preventDefault();
         console.log(team);
-        setState(team);
-        setOpenDropdown(false);
+        // setState(team);
+        // setOpenDropdown(false);
+        if (selectedTeams.includes(team.id)) {
+          const array = selectedTeams.filter(item => item !== team.id);
+          setSelectedTeams(array);
+        } else {
+          setSelectedTeams((selectedTeams) => [...selectedTeams, team.id]);
+        }
+
     }
 
     const searchClickedFunc = (e) => {
@@ -65,7 +73,7 @@ export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
             .map((team) => (
                 <>
                 <li className='cursor-pointer' onClick={(e) => setTeamFunc(e, team)}>
-                    <TeamCardAdd search={search} team={team} />
+                    <TeamCardAdd search={search} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
                 </li>
                 </>
             ))}

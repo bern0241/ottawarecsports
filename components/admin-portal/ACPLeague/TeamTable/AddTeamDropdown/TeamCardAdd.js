@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
-export default function TeamCardAdd({team, search}) {
+export default function TeamCardAdd({team, search, selectedTeams, setSelectedTeams}) {
     const [teamImage, setTeamImage] = useState(null);
 
     useEffect(() => {
@@ -18,7 +18,8 @@ export default function TeamCardAdd({team, search}) {
     }
 
   return (
-    <div class="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+    <div class={`flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white
+        ${selectedTeams.includes(team.id) && 'bg-blue-500  hover:bg-blue-500 text-white font-semibold'}`}>
         <img
             style={{ objectFit: 'cover' }}
             width={132}
