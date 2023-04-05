@@ -3,6 +3,7 @@ import {API} from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import makeid from '@/utils/makeId';
+import { getGame } from '@/src/graphql/queries';
 import { updateGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
@@ -11,7 +12,7 @@ import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk'
 import DatePicker from 'tailwind-datepicker-react';
 
-const EditMatchModal = ({isVisible, setIsVisible}) => {
+const EditMatchModal = ({isVisible, setIsVisible, matchId}) => {
 
   const [homeTeam, setHomeTeam] = useState();
   const [awayTeam, setAwayTeam] = useState();
@@ -95,6 +96,7 @@ useEffect(()=>{
 
   useEffect(() => {
     fetchRefereeList();
+
   }, [])
 
 useEffect(() => {
@@ -104,6 +106,15 @@ useEffect(() => {
 	return () => clearTimeout(timer);
 }, [message]);
 //#endregion
+
+const fetchMatchData = async (e) => {
+  e.preventDefault();
+  //Using the matchId, query the database for the match and retrieve the data
+  const data = await getGame(matchId);
+  if (data){
+    //set variables to fetched data
+  }
+}
 
   const editMatch = async (e) => {
     e.preventDefault();
@@ -117,6 +128,7 @@ useEffect(() => {
         return;
       }
       const matchData = {
+        id: matchId,
         division: divisionID,
         date: new Date().toISOString(),
         location: location,

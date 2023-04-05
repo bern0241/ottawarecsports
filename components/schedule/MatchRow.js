@@ -2,7 +2,7 @@ import React from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
 
 const MatchRow = ({ match }) => {
-	console.log(match);
+	if (!match) return;
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -62,9 +62,9 @@ const MatchRow = ({ match }) => {
 			/>
 		</svg>
 	);
-	const matchDate = match.date
-		? new Date(Date.parse(match.date))
-		: new Date(Date.parse(match.createdAt));
+	const matchDate = match?.date
+		? new Date(Date.parse(match?.date))
+		: new Date(Date.parse(match?.createdAt));
 	const matchDateString = matchDate.toDateString();
 	// remove the seconds
 	const matchTime = `${matchDate.toLocaleTimeString().slice(0, 4)}${matchDate
