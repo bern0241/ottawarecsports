@@ -124,7 +124,7 @@ export default function PlayerProfile() {
 			set.add(item.id);
 			return !isDuplicate;
 		});
-}
+	}
 
 	return (
 		<>

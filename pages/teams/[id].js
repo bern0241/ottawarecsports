@@ -140,7 +140,7 @@ export default function TeamProfile() {
 }
 
 	return (
-		<main className="w-full h-screen flex flex-col gap-6 p-8">
+		<main className="w-full flex flex-col gap-6 p-8 pt-0">
 			{/* Edit Modal */}
 			<EditTeamModal
 				isVisible={editModal}
@@ -242,12 +242,12 @@ export default function TeamProfile() {
 							
 							<div className=" w-full border border-brand-blue-900/25 rounded">
 								<div className="w-full relative flex flex-row justify-between items-center">
-								<h2 className="mb-1 font-light">Members</h2>
+								<h2 className="mb-1 p-2 text-[.92rem] font-light">Team Members</h2>
 								<button
 									onClick={(e) => setOpenDropdown(!openDropdown)}
 									type="button"
-									className="bg-brand-blue-800 text-center rounded w-[10rem] text-white font-regular flex"
-								>
+									className="bg-brand-blue-800 rounded px-5 py-1 text-white font-regular text-center rounded-full"
+									>
 									Add Members
 								</button>
 								{/* // DROP */}
