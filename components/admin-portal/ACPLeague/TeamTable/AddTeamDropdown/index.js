@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
 import { listTeams } from '@/src/graphql/queries';
+import { createTeamDivision, deleteTeamDivision } from '@/src/graphql/mutations';
 import TeamCardAdd from './TeamCardAdd';
 
-export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
+export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown, teamDivisions }) {
     const [search, setSearch] = useState('');
     const [searchClicked, setSearchClicked] = useState('');
     const [teams, setTeams] = useState([]);
     const [selectedTeams, setSelectedTeams] = useState([]);
+    const router = useRouter();
+    const {divisionID} = router.query;
 
     useEffect(() => {
         fetchTeams();
@@ -31,16 +34,42 @@ export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
 
     const setTeamFunc = (e, team) => {
         e.preventDefault();
-        console.log(team);
-        // setState(team);
-        // setOpenDropdown(false);
         if (selectedTeams.includes(team.id)) {
           const array = selectedTeams.filter(item => item !== team.id);
           setSelectedTeams(array);
         } else {
           setSelectedTeams((selectedTeams) => [...selectedTeams, team.id]);
         }
+    }
 
+    const createTeamDivisionsFunc = async (e) => {
+        e.preventDefault();
+        if (selectedTeams.length === 0) return;
+
+        selectedTeams.forEach(async (teamID) => {
+              let data = {
+                  divisionId: divisionID,
+                  teamId: teamID,
+              }
+              let newTeamDivision = await API.graphql({
+                  query: createTeamDivision,
+                  variables: { input: data },
+              });
+              console.log('New Team Division:', newTeamDivision);
+          })
+            // setMessage({status: 'success', message: 'League and coordinators successfully created.'});
+        listTeamDivisionsFunc();
+        setOpenDropdown(false);
+    }
+
+    const returnTeamExists = (team) => {
+        let founded = false;
+        teamDivisions.forEach((teamDiv) => {
+          if (teamDiv.team.id === team.id) {
+            founded = true;
+          }
+      })
+      return founded;
     }
 
     const searchClickedFunc = (e) => {
@@ -72,9 +101,15 @@ export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
             })
             .map((team) => (
                 <>
-                <li className='cursor-pointer' onClick={(e) => setTeamFunc(e, team)}>
-                    <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
-                </li>
+                {(returnTeamExists(team)) ? (
+                  <li>
+                      {/* <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} /> */}
+                  </li>
+                ) : (
+                  <li className='cursor-pointer' onClick={(e) => setTeamFunc(e, team)}>
+                      <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} />
+                  </li>
+                )}
                 </>
             ))}
       
@@ -91,8 +126,10 @@ export default function AddTeamDropdown({ state, setState, setOpenDropdown }) {
               <svg class="w-5 h-5 mr-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
               Add new team
           </a>
-          <button onClick={(e) => searchClickedFunc(e)} type="button" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 my-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900">Add</button>
-          <div/>
+          <div className='mr-3'>
+          <button onClick={(e) => setOpenDropdown(false)} type="button" class="text-black font-medium text-sm px-10 py-2.5 mr-2 my-2 ">Cancel</button>
+          <button onClick={(e) => createTeamDivisionsFunc(e)} type="button" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-10 py-2.5 mr-2 my-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900">Add</button>
+          </div>
           </div>
 
           </div>

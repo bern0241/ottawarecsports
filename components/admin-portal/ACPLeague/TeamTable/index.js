@@ -8,16 +8,16 @@
 
 import React, { useState, useEffect } from 'react';
 import TeamCard from './TeamCard';
-import { listTeams, getDivision } from '@/src/graphql/queries';
-import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
+import { listTeamDivisions, getDivision } from '@/src/graphql/queries';
+// import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
 import CreateButton from '../CreateButton';
 import AddTeamDropdown from './AddTeamDropdown';
  
- export default function TeamTable({ selectedDivisionForTeams, setUiState }) {
+ export default function TeamTable() {
      const [division, setDivision] = useState({});
-     const [teams, setTeams] = useState([]);
+     const [teamDivisions, setTeamDivisions] = useState([]);
      const [addTeamModal, setAddTeamModal] = useState(false);
      const router = useRouter();
      const {divisionID} = router.query;
@@ -26,31 +26,34 @@ import AddTeamDropdown from './AddTeamDropdown';
         if (!divisionID) return;
         const callMeAsync = async () => {
             getDivisionFunc(divisionID);
+            listTeamDivisionsFunc(divisionID);
         }
         callMeAsync();
      }, [divisionID])
 
-     const getDivisionFunc = async (_divisionID) => {
-        const apiData = await API.graphql({ query: getDivision, variables: { id: _divisionID }});
+     const getDivisionFunc = async () => {
+        const apiData = await API.graphql({ query: getDivision, variables: { id: divisionID }});
         const data = await apiData.data.getDivision;
         setDivision(data);
-        setTeams(data.Teams.items);
      }
   
-    //  const listTeamsFunc = async () => {
-    //      const variables = { 
-    //          filter: {
-    //              league: {
-    //                  eq: division.id
-    //              }
-    //          }
-    //      }
-    //      const teams = await API.graphql({
-    //          query: listTeamsWithPlayers
-    //         //  query: listSeasons, variables: variables
-    //      })
-    //      setTeams(teams.data.listTeams.items);
-    //  }
+     const listTeamDivisionsFunc = async () => {
+        const timer = setTimeout(async () => {
+            const variables = { 
+                filter: {
+                    divisionId: {
+                        eq: divisionID
+                    }
+                }
+            }
+            const teamDivisions = await API.graphql({
+                query: listTeamDivisions, variables: variables
+            })
+           //  console.log('TEAMDIVISIONS', teamDivisions);
+            setTeamDivisions(teamDivisions.data.listTeamDivisions.items);
+		}, 500);
+		return () => clearTimeout(timer);
+     }
  
      return (
          <>
@@ -94,12 +97,12 @@ import AddTeamDropdown from './AddTeamDropdown';
                      </tr>
                  </thead>
                  <tbody>
-                     {teams && teams.map((team) => (
+                     {teamDivisions && teamDivisions.map((teamDiv) => (
                      <>
-                         <TeamCard team={team} division={division} getDivisionFunc={getDivisionFunc} />
+                         <TeamCard teamDivision={teamDiv} listTeamDivisionsFunc={listTeamDivisionsFunc} />
                      </>
                      ))}
-                     {(teams && teams.length === 0) && (
+                     {(teamDivisions && teamDivisions.length === 0) && (
                          <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                          <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
                              No teams for this division.
@@ -130,7 +133,7 @@ import AddTeamDropdown from './AddTeamDropdown';
              </table>
          </div>
          {addTeamModal && (
-            <AddTeamDropdown setOpenDropdown={setAddTeamModal} />
+            <AddTeamDropdown setOpenDropdown={setAddTeamModal} teamDivisions={teamDivisions} listTeamDivisionsFunc={listTeamDivisionsFunc} />
         )}
        </>
      )

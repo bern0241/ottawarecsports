@@ -11,17 +11,17 @@ import RemoveTeamModal from './RemoveTeamModal';
 import { IconTrash, IconEdit } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
  
- export default function TeamCard({ team, division, getDivisionFunc }) {
+ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
     //  const [editModal, setEditModal] = useState(false);
      const [removeModal, setRemoveModal] = useState(false);
      const [membersCount, setMembersCount] = useState(0);
      const router = useRouter();
 
      useEffect(() => {
-      console.log(team);
-      if (team.Players.items) {
-        setMembersCount(team.Players.items.length);
-      }
+      console.log(teamDivision);
+      // if (team.Players.items) {
+      //   setMembersCount(team.Players.items.length);
+      // }
      }, [])
  
      const removeTeamFunc = (e) => {
@@ -31,24 +31,20 @@ import { useRouter } from 'next/router';
  
      const goToTeamPage = (e) => {
          e.preventDefault();
-         router.push(`/teams/${team.id}`)
+         router.push(`/teams/${teamDivision.team.id}`)
      }
  
      return (
          <>
          <tr onClick={(e) => goToTeamPage(e)} class="bg-white border border-gray-400 cursor-pointer">
                  <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {team.name}
+                    {teamDivision.team.name}
                  </th>
                  <td class="px-6 py-3">
                     Justin Bernard
                  </td>
                  <td class="px-6 py-3">
                      {membersCount}
-                     <button onClick={(e) => {
-                      e.stopPropagation();
-                      console.log(division);
-                     }}>CLICK ME</button>
                  </td>
                  <td class="flex gap-4 px-6 py-4 text-center justify-center">
                      <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
@@ -56,7 +52,7 @@ import { useRouter } from 'next/router';
                  </tr>
          
          {removeModal && (
-             <RemoveTeamModal team={team} division={division} />
+             <RemoveTeamModal teamDivision={teamDivision} setRemoveModal={setRemoveModal} listTeamDivisionsFunc={listTeamDivisionsFunc} />
          )}
      </>
      )

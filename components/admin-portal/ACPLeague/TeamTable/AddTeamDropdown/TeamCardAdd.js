@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
-export default function TeamCardAdd({team, search, selectedTeams, setSelectedTeams}) {
+export default function TeamCardAdd({team, search, selectedTeams, teamDivisions}) {
     const [teamImage, setTeamImage] = useState(null);
+    const [disable, setDisable] = useState(false);
 
     useEffect(() => {
         getTeamImage();
     }, [search])
+
+    useEffect(() => {
+        teamDivisions.forEach((teamDiv) => {
+            if (teamDiv.team.id === team.id) {
+                setDisable(true);
+            }
+        })
+    }, [])
 
     const getTeamImage = async () => {
         if (team.team_picture === null || team.team_picture === '') {
@@ -18,7 +27,7 @@ export default function TeamCardAdd({team, search, selectedTeams, setSelectedTea
     }
 
   return (
-    <div class={`flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white
+    <div class={`flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${disable ? 'bg-gray-300 opacity-40 hover:bg-gray-300 cursor-default' : ''}
         ${selectedTeams.includes(team.id) && 'bg-blue-500  hover:bg-blue-500 text-white font-semibold'}`}>
         <img
             style={{ objectFit: 'cover' }}
