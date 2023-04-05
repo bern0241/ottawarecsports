@@ -21,7 +21,7 @@ import EditTeamModal from '@/components/teams/EditTeamModal';
 import UsersSearchBar from '@/components/common/UsersSearchBar';
 import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
-import MemberCard from '@/components/teams/MemberCard';
+import MemberCard from '@/components/teams/teamIdPage/MemberCard';
 
 export default function TeamProfile() {
 	const [team, setTeam] = useState();

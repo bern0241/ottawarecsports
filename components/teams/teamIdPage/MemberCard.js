@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { IconX } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import { useRouter } from 'next/router';
-import DeletePlayerModal from './DeletePlayerModal';
+import DeletePlayerModal from '../DeletePlayerModal';
 import ChoosePlayerRole from './ChoosePlayerRole';
+import ChangeRoleModal from './ChangeRoleModal';
 
 export default function MemberCard({ member, fetchPlayersFromTeam }) {
     const [user, setUser] = useState();
+    const [userName, setUserName] = useState();
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [newRole, setNewRole] = useState('');
     const [changeRoleModal, setChangeRoleModal] = useState(false);
+    const [currentRole, setCurrentRole] = useState(member.role)
     const router = useRouter();
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
@@ -23,6 +26,8 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
                 if (err) console.log(err, err.stack); // an error occurred
                 else     {
                     setUser(data);
+                    setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']}
+                    ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
                     console.log('DATA',data);
                 }          // successful response
             });
@@ -44,8 +49,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
     <>
     <div onClick={(e) => goToPlayerPage(e)} className='flex flex-row justify-between w-full items-center cursor-pointer'>
         <p className='text-black'>
-            {user && user.UserAttributes.find(o => o.Name === 'name')['Value']} {' '}
-            {user && user.UserAttributes.find(o => o.Name === 'family_name')['Value']}
+            {userName}
         </p>
         <ChoosePlayerRole clickStopPropagationFunc={(e) => {
                     e.stopPropagation();
@@ -62,6 +66,9 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
     </div>
     {openDeleteModal && (
         <DeletePlayerModal player={member} user={user} openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+    )}
+    {changeRoleModal && (
+        <ChangeRoleModal setOpenModal={setChangeRoleModal} member={member} userName={userName} newRole={newRole} setCurrentRole={setCurrentRole} />
     )}
     </>
   )
