@@ -35,9 +35,22 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 			})
 		);
 	}, [matches]);
+
 	useEffect(() => {
 		setMatchDates(returnDateArray());
 	}, [timeSortedMatches]);
+
+	useEffect(() => {
+		setTimeSortedMatches(
+			timeSortedMatches.map((match) => {
+				const matchDate = match.date
+					? new Date(Date.parse(match.date))
+					: new Date(Date.parse(match.createdAt));
+				const matchDateString = matchDate.toDateString();
+				if (matchDateString.includes(selectedDate)) return match;
+			})
+		);
+	}, [selectedDate]);
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
@@ -47,7 +60,7 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 						value={selectedDate}
 						setValue={setSelectedDate}
 						customClass={
-							'w-40 md:w-56 flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900'
+							'w-40 flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900'
 						}
 						options={matchDates}
 					/>
