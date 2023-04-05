@@ -25,7 +25,6 @@ import CreateButton from '../CreateButton';
         if (!divisionID) return;
         const callMeAsync = async () => {
             getDivisionFunc(divisionID);
-            listTeamsFunc(divisionID);
         }
         callMeAsync();
      }, [divisionID])
@@ -34,22 +33,23 @@ import CreateButton from '../CreateButton';
         const apiData = await API.graphql({ query: getDivision, variables: { id: _divisionID }});
         const data = await apiData.data.getDivision;
         setDivision(data);
+        setTeams(data.Teams.items);
      }
   
-     const listTeamsFunc = async () => {
-         const variables = { 
-             filter: {
-                 league: {
-                     eq: division.id
-                 }
-             }
-         }
-         const teams = await API.graphql({
-             query: listTeamsWithPlayers
-            //  query: listSeasons, variables: variables
-         })
-         setTeams(teams.data.listTeams.items);
-     }
+    //  const listTeamsFunc = async () => {
+    //      const variables = { 
+    //          filter: {
+    //              league: {
+    //                  eq: division.id
+    //              }
+    //          }
+    //      }
+    //      const teams = await API.graphql({
+    //          query: listTeamsWithPlayers
+    //         //  query: listSeasons, variables: variables
+    //      })
+    //      setTeams(teams.data.listTeams.items);
+    //  }
  
      return (
          <>
@@ -82,7 +82,7 @@ import CreateButton from '../CreateButton';
                              Name
                          </th>
                          <th scope="col" class="font-light px-6 py-2">
-                             Captain(s)
+                             Captain (s)
                          </th>
                          <th scope="col" class="font-light px-6 py-2">
                              Members
@@ -95,7 +95,7 @@ import CreateButton from '../CreateButton';
                  <tbody>
                      {teams && teams.map((team) => (
                      <>
-                         <TeamCard team={team} division={selectedDivisionForTeams} listTeamsFunc={listTeamsFunc} />
+                         <TeamCard team={team} division={division} getDivisionFunc={getDivisionFunc} />
                      </>
                      ))}
                      {(teams && teams.length === 0) && (

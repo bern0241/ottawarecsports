@@ -11,7 +11,7 @@ import RemoveTeamModal from './RemoveTeamModal';
 import { IconTrash, IconEdit } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
  
- export default function TeamCard({ team, division, listTeamsFunc }) {
+ export default function TeamCard({ team, division, getDivisionFunc }) {
     //  const [editModal, setEditModal] = useState(false);
      const [removeModal, setRemoveModal] = useState(false);
      const [membersCount, setMembersCount] = useState(0);
@@ -45,6 +45,10 @@ import { useRouter } from 'next/router';
                  </td>
                  <td class="px-6 py-3">
                      {membersCount}
+                     <button onClick={(e) => {
+                      e.stopPropagation();
+                      console.log(division);
+                     }}>CLICK ME</button>
                  </td>
                  <td class="flex gap-4 px-6 py-4 text-center justify-center">
                      <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
