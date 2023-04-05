@@ -17,6 +17,16 @@ export default function Games() {
 	const [userId, setUserId] = useState();
 	const [playerData, setPlayerData] = useState();
 	const [teams, setTeams] = useState();
+	const [games, setGames] = useState();
+	const [gameSchedule, setGameSchedule] = useState([
+		{ day: 'Sunday', games: [] },
+		{ day: 'Monday', games: [] },
+		{ day: 'Tuesday', games: [] },
+		{ day: 'Wednesday', games: [] },
+		{ day: 'Thursday', games: [] },
+		{ day: 'Friday', games: [] },
+		{ day: 'Saturday', games: [] },
+	]);
 
 	useEffect(() => {
 		if (!user) return;
@@ -29,8 +39,18 @@ export default function Games() {
 	}, [userId]);
 
 	useEffect(() => {
+		if (!playerData) return;
 		getGames(playerData.teamID);
 	}, [playerData]);
+
+	useEffect(() => {
+		if (!games) return;
+		sortGamesByDate(games);
+	}, [games]);
+
+	useEffect(() => {
+		console.log(gameSchedule);
+	}, [gameSchedule]);
 
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
@@ -44,36 +64,36 @@ export default function Games() {
 			query: getGamesByTeam,
 			variables: { teamId: id },
 		});
-		console.log('Games', apiData.data.listGames.items.length);
+		setGames(apiData.data.listGames.items);
 	};
 
-	const soccerGames = [
-		{
-			day: 'Tuesday',
-			matches: ['Game 1', 'Game 2', 'Game 3'],
-		},
-		{
-			day: 'Thursday',
-			matches: ['Game 1', 'Game 2', 'Game 3'],
-		},
-		{
-			day: 'Friday',
-			matches: ['Game 1', 'Game 2', 'Game 3', 'Game 4', 'Game 5'],
-		},
-	];
+	const sortGamesByDate = (games) => {
+		const arr = [...gameSchedule];
+
+		games.forEach((game) => {
+			const date = new Date(game.date);
+			const dayOfWeek = date.getDay();
+			arr[dayOfWeek].games.push(game);
+		});
+
+		setGameSchedule(arr);
+	};
 
 	return (
 		<div className="flex flex-row lg:flex-col gap-8 md:gap-4 xl:gap-1">
-			{soccerGames &&
-				soccerGames.map((game, index) => (
-					<div
-						key={index}
-						className="flex flex-col xl:flex-row justify-between xl:gap-3"
-					>
-						<div className="font-light text-sm">{game.day}</div>
-						<div className="font-medium">{game.matches.length} Matches</div>
-					</div>
-				))}
+			{gameSchedule &&
+				gameSchedule.map(
+					(game, index) =>
+						game.games.length > 0 && (
+							<div
+								key={index}
+								className="flex flex-col xl:flex-row justify-between xl:gap-3"
+							>
+								<div className="font-light text-sm">{game.day}</div>
+								<div className="font-medium">{game.games.length} Matches</div>
+							</div>
+						)
+				)}
 		</div>
 	);
 }
