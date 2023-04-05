@@ -2,10 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { createLocation } from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 
-
-export default function NewLocationModal({ locations, setLocations, setOpenModal }) {
+export default function NewLocation({ locations, setLocations }) {
     const [openModal, setOpenModal] = useState(false);
-
     const [name, setName] = useState("");
     const [weblink, setWeblink] = useState("");
     const [message, setMessage] = useState(null);
@@ -23,12 +21,10 @@ export default function NewLocationModal({ locations, setLocations, setOpenModal
 
     const CreateLocation = async (e) => {
         e.preventDefault();
-
         if (name === '' || weblink === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
             return;
         }
-        
         try {
             const data = {
                 name: name,

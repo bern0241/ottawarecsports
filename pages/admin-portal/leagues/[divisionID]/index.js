@@ -24,6 +24,14 @@
    export default function Home() {
        const [user, setUser, authRoles, setAuthRoles] = useUser();
        const router = useRouter();
+
+       if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
+        return (
+            <div className="flex items-center justify-center h-[50vh]">
+                <h2>You do not have access for this page</h2>
+            </div>
+        );
+    }
  
        return (
            <>

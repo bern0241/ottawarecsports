@@ -271,7 +271,7 @@ export default function TeamProfile() {
 								</div>
 								{members && members.map((member) => (
 									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.id} >
-										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} />
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} />
 									</div>
 								))}
 							</div>

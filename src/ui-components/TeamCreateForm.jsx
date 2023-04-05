@@ -34,16 +34,9 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
-  errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
+  const { tokens } = useTheme();
   const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
   const [isEditing, setIsEditing] = React.useState();
   React.useEffect(() => {
@@ -146,11 +139,6 @@ function ArrayField({
           >
             Add item
           </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
         </>
       ) : (
         <Flex justifyContent="flex-end">
@@ -169,6 +157,7 @@ function ArrayField({
           <Button
             size="small"
             variation="link"
+            color={tokens.colors.brand.primary[80]}
             isDisabled={hasError}
             onClick={addItem}
           >
@@ -198,6 +187,7 @@ export default function TeamCreateForm(props) {
     away_colour: "",
     team_picture: "",
     captains: [],
+    sport: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [founded, setFounded] = React.useState(initialValues.founded);
@@ -211,6 +201,7 @@ export default function TeamCreateForm(props) {
     initialValues.team_picture
   );
   const [captains, setCaptains] = React.useState(initialValues.captains);
+  const [sport, setSport] = React.useState(initialValues.sport);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
@@ -220,6 +211,7 @@ export default function TeamCreateForm(props) {
     setTeam_picture(initialValues.team_picture);
     setCaptains(initialValues.captains);
     setCurrentCaptainsValue("");
+    setSport(initialValues.sport);
     setErrors({});
   };
   const [currentCaptainsValue, setCurrentCaptainsValue] = React.useState("");
@@ -231,16 +223,16 @@ export default function TeamCreateForm(props) {
     away_colour: [],
     team_picture: [],
     captains: [],
+    sport: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -258,7 +250,7 @@ export default function TeamCreateForm(props) {
       minute: "2-digit",
       calendar: "iso8601",
       numberingSystem: "latn",
-      hourCycle: "h23",
+      hour12: false,
     });
     const parts = df.formatToParts(date).reduce((acc, part) => {
       acc[part.type] = part.value;
@@ -281,6 +273,7 @@ export default function TeamCreateForm(props) {
           away_colour,
           team_picture,
           captains,
+          sport,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -341,6 +334,7 @@ export default function TeamCreateForm(props) {
               away_colour,
               team_picture,
               captains,
+              sport,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -372,6 +366,7 @@ export default function TeamCreateForm(props) {
               away_colour,
               team_picture,
               captains,
+              sport,
             };
             const result = onChange(modelFields);
             value = result?.founded ?? value;
@@ -401,6 +396,7 @@ export default function TeamCreateForm(props) {
               away_colour,
               team_picture,
               captains,
+              sport,
             };
             const result = onChange(modelFields);
             value = result?.home_colour ?? value;
@@ -430,6 +426,7 @@ export default function TeamCreateForm(props) {
               away_colour: value,
               team_picture,
               captains,
+              sport,
             };
             const result = onChange(modelFields);
             value = result?.away_colour ?? value;
@@ -459,6 +456,7 @@ export default function TeamCreateForm(props) {
               away_colour,
               team_picture: value,
               captains,
+              sport,
             };
             const result = onChange(modelFields);
             value = result?.team_picture ?? value;
@@ -484,6 +482,7 @@ export default function TeamCreateForm(props) {
               away_colour,
               team_picture,
               captains: values,
+              sport,
             };
             const result = onChange(modelFields);
             values = result?.captains ?? values;
@@ -494,8 +493,7 @@ export default function TeamCreateForm(props) {
         currentFieldValue={currentCaptainsValue}
         label={"Captains"}
         items={captains}
-        hasError={errors?.captains?.hasError}
-        errorMessage={errors?.captains?.errorMessage}
+        hasError={errors.captains?.hasError}
         setFieldValue={setCurrentCaptainsValue}
         inputFieldRef={captainsRef}
         defaultFieldValue={""}
@@ -520,6 +518,36 @@ export default function TeamCreateForm(props) {
           {...getOverrideProps(overrides, "captains")}
         ></TextField>
       </ArrayField>
+      <TextField
+        label="Sport"
+        isRequired={false}
+        isReadOnly={false}
+        value={sport}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              founded,
+              home_colour,
+              away_colour,
+              team_picture,
+              captains,
+              sport: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.sport ?? value;
+          }
+          if (errors.sport?.hasError) {
+            runValidationTasks("sport", value);
+          }
+          setSport(value);
+        }}
+        onBlur={() => runValidationTasks("sport", sport)}
+        errorMessage={errors.sport?.errorMessage}
+        hasError={errors.sport?.hasError}
+        {...getOverrideProps(overrides, "sport")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

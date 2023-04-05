@@ -1,6 +1,35 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getLocation = /* GraphQL */ `
+  query GetLocation($id: ID!) {
+    getLocation(id: $id) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listLocations = /* GraphQL */ `
+  query ListLocations(
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        weblink
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getSportsmanshipPoint = /* GraphQL */ `
   query GetSportsmanshipPoint($id: ID!) {
     getSportsmanshipPoint(id: $id) {
@@ -145,6 +174,15 @@ export const getGame = /* GraphQL */ `
         home_colour
         away_colour
         TeamNotes {
+          items {
+            id
+            date
+            description
+            team_id
+            author_id
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         team_history {
@@ -161,12 +199,90 @@ export const getGame = /* GraphQL */ `
         }
         team_picture
         Divisions {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         Players {
+          items {
+            id
+            user_id
+            soccer_stats {
+              id
+              teamid
+              division
+              position
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+            }
+            teamID
+            role
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -177,6 +293,15 @@ export const getGame = /* GraphQL */ `
         home_colour
         away_colour
         TeamNotes {
+          items {
+            id
+            date
+            description
+            team_id
+            author_id
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         team_history {
@@ -193,15 +318,95 @@ export const getGame = /* GraphQL */ `
         }
         team_picture
         Divisions {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         Players {
+          items {
+            id
+            user_id
+            soccer_stats {
+              id
+              teamid
+              division
+              position
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+            }
+            teamID
+            role
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -235,8 +440,89 @@ export const listGames = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          Players {
+            items {
+              id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           captains
+          sport
           createdAt
           updatedAt
         }
@@ -246,11 +532,94 @@ export const listGames = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          Players {
+            items {
+              id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           captains
+          sport
           createdAt
           updatedAt
         }
+        home_color
+        away_colo
         createdAt
         updatedAt
         gameHomeTeamId
@@ -294,8 +663,89 @@ export const gamesByDivision = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          Players {
+            items {
+              id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           captains
+          sport
           createdAt
           updatedAt
         }
@@ -305,11 +755,94 @@ export const gamesByDivision = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          Players {
+            items {
+              id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           captains
+          sport
           createdAt
           updatedAt
         }
+        home_color
+        away_colo
         createdAt
         updatedAt
         gameHomeTeamId
@@ -341,6 +874,122 @@ export const getDivision = /* GraphQL */ `
           goals
           round
           referees
+          HomeTeam {
+            id
+            name
+            founded
+            home_colour
+            away_colour
+            TeamNotes {
+              items {
+                id
+                date
+                description
+                team_id
+                author_id
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            team_history {
+              id
+              teamid
+              division
+              roster
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+              captains
+            }
+            team_picture
+            Divisions {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            Players {
+              items {
+                id
+                user_id
+                teamID
+                role
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            captains
+            sport
+            createdAt
+            updatedAt
+          }
+          AwayTeam {
+            id
+            name
+            founded
+            home_colour
+            away_colour
+            TeamNotes {
+              items {
+                id
+                date
+                description
+                team_id
+                author_id
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            team_history {
+              id
+              teamid
+              division
+              roster
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+              captains
+            }
+            team_picture
+            Divisions {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            Players {
+              items {
+                id
+                user_id
+                teamID
+                role
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            captains
+            sport
+            createdAt
+            updatedAt
+          }
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -356,6 +1005,108 @@ export const getDivision = /* GraphQL */ `
           id
           divisionId
           teamId
+          division {
+            id
+            name
+            abbreviation
+            teams
+            season
+            Games {
+              items {
+                id
+                division
+                date
+                location
+                status
+                home_roster
+                away_roster
+                home_score
+                away_score
+                goals
+                round
+                referees
+                home_color
+                away_colo
+                createdAt
+                updatedAt
+                gameHomeTeamId
+                gameAwayTeamId
+              }
+              nextToken
+            }
+            level
+            description
+            is_playoff
+            Teams {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          team {
+            id
+            name
+            founded
+            home_colour
+            away_colour
+            TeamNotes {
+              items {
+                id
+                date
+                description
+                team_id
+                author_id
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            team_history {
+              id
+              teamid
+              division
+              roster
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+              captains
+            }
+            team_picture
+            Divisions {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            Players {
+              items {
+                id
+                user_id
+                teamID
+                role
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            captains
+            sport
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -380,12 +1131,156 @@ export const listDivisions = /* GraphQL */ `
         teams
         season
         Games {
+          items {
+            id
+            division
+            date
+            location
+            status
+            home_roster
+            away_roster
+            home_score
+            away_score
+            goals
+            round
+            referees
+            HomeTeam {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            AwayTeam {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            home_color
+            away_colo
+            createdAt
+            updatedAt
+            gameHomeTeamId
+            gameAwayTeamId
+          }
           nextToken
         }
         level
         description
         is_playoff
         Teams {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
@@ -417,12 +1312,156 @@ export const divisionsBySeason = /* GraphQL */ `
         teams
         season
         Games {
+          items {
+            id
+            division
+            date
+            location
+            status
+            home_roster
+            away_roster
+            home_score
+            away_score
+            goals
+            round
+            referees
+            HomeTeam {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            AwayTeam {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            home_color
+            away_colo
+            createdAt
+            updatedAt
+            gameHomeTeamId
+            gameAwayTeamId
+          }
           nextToken
         }
         level
         description
         is_playoff
         Teams {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
@@ -448,9 +1487,90 @@ export const getSeason = /* GraphQL */ `
           abbreviation
           teams
           season
+          Games {
+            items {
+              id
+              division
+              date
+              location
+              status
+              home_roster
+              away_roster
+              home_score
+              away_score
+              goals
+              round
+              referees
+              HomeTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              AwayTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              home_color
+              away_colo
+              createdAt
+              updatedAt
+              gameHomeTeamId
+              gameAwayTeamId
+            }
+            nextToken
+          }
           level
           description
           is_playoff
+          Teams {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -477,6 +1597,51 @@ export const listSeasons = /* GraphQL */ `
         start_date
         end_date
         Divisions {
+          items {
+            id
+            name
+            abbreviation
+            teams
+            season
+            Games {
+              items {
+                id
+                division
+                date
+                location
+                status
+                home_roster
+                away_roster
+                home_score
+                away_score
+                goals
+                round
+                referees
+                home_color
+                away_colo
+                createdAt
+                updatedAt
+                gameHomeTeamId
+                gameAwayTeamId
+              }
+              nextToken
+            }
+            level
+            description
+            is_playoff
+            Teams {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         is_completed
@@ -510,6 +1675,51 @@ export const seasonsByLeague = /* GraphQL */ `
         start_date
         end_date
         Divisions {
+          items {
+            id
+            name
+            abbreviation
+            teams
+            season
+            Games {
+              items {
+                id
+                division
+                date
+                location
+                status
+                home_roster
+                away_roster
+                home_score
+                away_score
+                goals
+                round
+                referees
+                home_color
+                away_colo
+                createdAt
+                updatedAt
+                gameHomeTeamId
+                gameAwayTeamId
+              }
+              nextToken
+            }
+            level
+            description
+            is_playoff
+            Teams {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         is_completed
@@ -538,6 +1748,27 @@ export const getLeague = /* GraphQL */ `
           abbreviation
           start_date
           end_date
+          Divisions {
+            items {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           is_completed
           createdAt
           updatedAt
@@ -568,6 +1799,32 @@ export const listLeagues = /* GraphQL */ `
         cost_per_team
         coordinators
         Seasons {
+          items {
+            id
+            league
+            name
+            abbreviation
+            start_date
+            end_date
+            Divisions {
+              items {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            is_completed
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         description
@@ -679,6 +1936,108 @@ export const getTeam = /* GraphQL */ `
           id
           divisionId
           teamId
+          division {
+            id
+            name
+            abbreviation
+            teams
+            season
+            Games {
+              items {
+                id
+                division
+                date
+                location
+                status
+                home_roster
+                away_roster
+                home_score
+                away_score
+                goals
+                round
+                referees
+                home_color
+                away_colo
+                createdAt
+                updatedAt
+                gameHomeTeamId
+                gameAwayTeamId
+              }
+              nextToken
+            }
+            level
+            description
+            is_playoff
+            Teams {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          team {
+            id
+            name
+            founded
+            home_colour
+            away_colour
+            TeamNotes {
+              items {
+                id
+                date
+                description
+                team_id
+                author_id
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            team_history {
+              id
+              teamid
+              division
+              roster
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+              captains
+            }
+            team_picture
+            Divisions {
+              items {
+                id
+                divisionId
+                teamId
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            Players {
+              items {
+                id
+                user_id
+                teamID
+                role
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            captains
+            sport
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -688,6 +2047,17 @@ export const getTeam = /* GraphQL */ `
         items {
           id
           user_id
+          soccer_stats {
+            id
+            teamid
+            division
+            position
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+          }
           teamID
           role
           createdAt
@@ -696,6 +2066,7 @@ export const getTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -715,6 +2086,15 @@ export const listTeams = /* GraphQL */ `
         home_colour
         away_colour
         TeamNotes {
+          items {
+            id
+            date
+            description
+            team_id
+            author_id
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         team_history {
@@ -731,15 +2111,90 @@ export const listTeams = /* GraphQL */ `
         }
         team_picture
         Divisions {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         Players {
           items {
             id
+            user_id
+            soccer_stats {
+              id
+              teamid
+              division
+              position
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+            }
+            teamID
+            role
+            createdAt
+            updatedAt
           }
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -793,12 +2248,156 @@ export const getTeamDivision = /* GraphQL */ `
         teams
         season
         Games {
+          items {
+            id
+            division
+            date
+            location
+            status
+            home_roster
+            away_roster
+            home_score
+            away_score
+            goals
+            round
+            referees
+            HomeTeam {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            AwayTeam {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            home_color
+            away_colo
+            createdAt
+            updatedAt
+            gameHomeTeamId
+            gameAwayTeamId
+          }
           nextToken
         }
         level
         description
         is_playoff
         Teams {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
@@ -811,6 +2410,15 @@ export const getTeamDivision = /* GraphQL */ `
         home_colour
         away_colour
         TeamNotes {
+          items {
+            id
+            date
+            description
+            team_id
+            author_id
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         team_history {
@@ -827,12 +2435,90 @@ export const getTeamDivision = /* GraphQL */ `
         }
         team_picture
         Divisions {
+          items {
+            id
+            divisionId
+            teamId
+            division {
+              id
+              name
+              abbreviation
+              teams
+              season
+              Games {
+                nextToken
+              }
+              level
+              description
+              is_playoff
+              Teams {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            team {
+              id
+              name
+              founded
+              home_colour
+              away_colour
+              TeamNotes {
+                nextToken
+              }
+              team_history {
+                id
+                teamid
+                division
+                roster
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+                captains
+              }
+              team_picture
+              Divisions {
+                nextToken
+              }
+              Players {
+                nextToken
+              }
+              captains
+              sport
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         Players {
+          items {
+            id
+            user_id
+            soccer_stats {
+              id
+              teamid
+              division
+              position
+              goals
+              assists
+              yellow_cards
+              red_cards
+              games_played
+            }
+            teamID
+            role
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -858,9 +2544,90 @@ export const listTeamDivisions = /* GraphQL */ `
           abbreviation
           teams
           season
+          Games {
+            items {
+              id
+              division
+              date
+              location
+              status
+              home_roster
+              away_roster
+              home_score
+              away_score
+              goals
+              round
+              referees
+              HomeTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              AwayTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              home_color
+              away_colo
+              createdAt
+              updatedAt
+              gameHomeTeamId
+              gameAwayTeamId
+            }
+            nextToken
+          }
           level
           description
           is_playoff
+          Teams {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -870,15 +2637,91 @@ export const listTeamDivisions = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
-          captains
-          createdAt
-          updatedAt
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           Players {
             items {
               id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
             }
+            nextToken
           }
+          captains
+          sport
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
@@ -912,9 +2755,90 @@ export const teamDivisionsByDivisionId = /* GraphQL */ `
           abbreviation
           teams
           season
+          Games {
+            items {
+              id
+              division
+              date
+              location
+              status
+              home_roster
+              away_roster
+              home_score
+              away_score
+              goals
+              round
+              referees
+              HomeTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              AwayTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              home_color
+              away_colo
+              createdAt
+              updatedAt
+              gameHomeTeamId
+              gameAwayTeamId
+            }
+            nextToken
+          }
           level
           description
           is_playoff
+          Teams {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -924,8 +2848,89 @@ export const teamDivisionsByDivisionId = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          Players {
+            items {
+              id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           captains
+          sport
           createdAt
           updatedAt
         }
@@ -961,9 +2966,90 @@ export const teamDivisionsByTeamId = /* GraphQL */ `
           abbreviation
           teams
           season
+          Games {
+            items {
+              id
+              division
+              date
+              location
+              status
+              home_roster
+              away_roster
+              home_score
+              away_score
+              goals
+              round
+              referees
+              HomeTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              AwayTeam {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              home_color
+              away_colo
+              createdAt
+              updatedAt
+              gameHomeTeamId
+              gameAwayTeamId
+            }
+            nextToken
+          }
           level
           description
           is_playoff
+          Teams {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -973,8 +3059,89 @@ export const teamDivisionsByTeamId = /* GraphQL */ `
           founded
           home_colour
           away_colour
+          TeamNotes {
+            items {
+              id
+              date
+              description
+              team_id
+              author_id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          team_history {
+            id
+            teamid
+            division
+            roster
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+            captains
+          }
           team_picture
+          Divisions {
+            items {
+              id
+              divisionId
+              teamId
+              division {
+                id
+                name
+                abbreviation
+                teams
+                season
+                level
+                description
+                is_playoff
+                createdAt
+                updatedAt
+              }
+              team {
+                id
+                name
+                founded
+                home_colour
+                away_colour
+                team_picture
+                captains
+                sport
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          Players {
+            items {
+              id
+              user_id
+              soccer_stats {
+                id
+                teamid
+                division
+                position
+                goals
+                assists
+                yellow_cards
+                red_cards
+                games_played
+              }
+              teamID
+              role
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           captains
+          sport
           createdAt
           updatedAt
         }

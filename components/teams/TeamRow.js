@@ -78,7 +78,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			</td>
 			<td className="p-5">{team.sports || 'Soccer'}</td>
 			<td className="p-5">
-				{team ? team.Players.items.length : 0}/15
+				{team ? team.Players.items.length : 0}
 			</td>
 		</tr>
 	);

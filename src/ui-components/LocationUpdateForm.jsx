@@ -8,12 +8,13 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { SportsmanshipPoint } from "../models";
+import { Location } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function SportsmanshipPointCreateForm(props) {
+export default function LocationUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    location,
     onSuccess,
     onError,
     onSubmit,
@@ -23,16 +24,34 @@ export default function SportsmanshipPointCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    points: "",
+    name: "",
+    weblink: "",
   };
-  const [points, setPoints] = React.useState(initialValues.points);
+  const [name, setName] = React.useState(initialValues.name);
+  const [weblink, setWeblink] = React.useState(initialValues.weblink);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setPoints(initialValues.points);
+    const cleanValues = locationRecord
+      ? { ...initialValues, ...locationRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setWeblink(cleanValues.weblink);
     setErrors({});
   };
+  const [locationRecord, setLocationRecord] = React.useState(location);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? await DataStore.query(Location, idProp)
+        : location;
+      setLocationRecord(record);
+    };
+    queryData();
+  }, [idProp, location]);
+  React.useEffect(resetStateValues, [locationRecord]);
   const validations = {
-    points: [],
+    name: [],
+    weblink: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -59,7 +78,8 @@ export default function SportsmanshipPointCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          points,
+          name,
+          weblink,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -89,12 +109,13 @@ export default function SportsmanshipPointCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new SportsmanshipPoint(modelFields));
+          await DataStore.save(
+            Location.copyOf(locationRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -102,49 +123,72 @@ export default function SportsmanshipPointCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "SportsmanshipPointCreateForm")}
+      {...getOverrideProps(overrides, "LocationUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Points"
+        label="Name"
         isRequired={false}
         isReadOnly={false}
-        type="number"
-        step="any"
-        value={points}
+        value={name}
         onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              points: value,
+              name: value,
+              weblink,
             };
             const result = onChange(modelFields);
-            value = result?.points ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.points?.hasError) {
-            runValidationTasks("points", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setPoints(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("points", points)}
-        errorMessage={errors.points?.errorMessage}
-        hasError={errors.points?.hasError}
-        {...getOverrideProps(overrides, "points")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
+        label="Weblink"
+        isRequired={false}
+        isReadOnly={false}
+        value={weblink}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              weblink: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.weblink ?? value;
+          }
+          if (errors.weblink?.hasError) {
+            runValidationTasks("weblink", value);
+          }
+          setWeblink(value);
+        }}
+        onBlur={() => runValidationTasks("weblink", weblink)}
+        errorMessage={errors.weblink?.errorMessage}
+        hasError={errors.weblink?.hasError}
+        {...getOverrideProps(overrides, "weblink")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || location)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -154,7 +198,10 @@ export default function SportsmanshipPointCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || location) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

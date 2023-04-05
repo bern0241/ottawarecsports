@@ -28,6 +28,14 @@ import TeamTable from '@/components/admin-portal/ACPLeague/TeamTable';
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [selectedDivision, setSelectedDivision] = useState(null);
 
+    if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
+        return (
+            <div className="flex items-center justify-center h-[50vh]">
+                <h2>You do not have access for this page</h2>
+            </div>
+        );
+    }
+
       return (
           <>
               <Head>

@@ -6,7 +6,7 @@ import DeletePlayerModal from '../DeletePlayerModal';
 import ChoosePlayerRole from './ChoosePlayerRole';
 import ChangeRoleModal from './ChangeRoleModal';
 
-export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains }) {
+export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains, isCaptain }) {
     const [user, setUser] = useState();
     const [userName, setUserName] = useState();
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -54,18 +54,25 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
         <p className='text-black'>
             {userName}
         </p>
-        <ChoosePlayerRole clickStopPropagationFunc={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                }} 
-                currentRole={currentRole}
-                member={member}
-                setNewRole={setNewRole}
-                setChangeRoleModal={setChangeRoleModal}
-            />
-        <button className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
-            <IconX/>
-        </button>
+            {isCaptain && (
+                <ChoosePlayerRole clickStopPropagationFunc={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }} 
+                    currentRole={currentRole}
+                    member={member}
+                    setNewRole={setNewRole}
+                    setChangeRoleModal={setChangeRoleModal}
+                />
+            )}
+            {!isCaptain && (
+                <p>{currentRole}</p>
+            )}
+            {isCaptain && (
+                <button className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
+                    <IconX/>
+                </button>
+            )}
     </div>
     {openDeleteModal && (
         <DeletePlayerModal player={member} user={user} openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} fetchPlayersFromTeam={fetchPlayersFromTeam} />

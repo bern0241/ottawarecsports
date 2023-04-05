@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { updateLocation } from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 
-
-export default function EditLocationModal({ location, openModal, setOpenModal, fetchLocations }) {
+export default function EditLocation({ location, openModal, setOpenModal, fetchLocations }) {
     const [name, setName] = useState(location.name);
     const [weblink, setWeblink] = useState(location.weblink);
     const [message, setMessage] = useState(null);
