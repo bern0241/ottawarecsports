@@ -12,6 +12,7 @@ import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import Link from 'next/link';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
 import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
@@ -96,7 +97,7 @@ export default function PlayerProfile() {
 	// }
 
 	const fetchTeams = async () => {
-		// setTeams([]);
+		setTeams([]);
 		const variables = {
 			filter: {
 			  user_id: {
@@ -115,11 +116,14 @@ export default function PlayerProfile() {
 
 		players.data.listPlayers.items.map(async (player) => {
 			const apiData = await API.graphql({ query: getTeamQuery, variables: { id: player.teamID }});
-			const data = await apiData.data.getTeam;
+			let data = await apiData.data.getTeam;
+			data.player_role = player.role;
 			setTeams((teams) => 
-				{
-					return uniqueById([...teams, data])
-				});
+			{
+				return uniqueById([...teams, data])
+			});
+			console.log('TEAMS!', data)
+			console.log('PLAYERS!', players.data.listPlayers.items)
 		  })
 	}
 
@@ -254,10 +258,11 @@ export default function PlayerProfile() {
 										<tr className="font-light">
 											<td className="py-2 px-3">Soccer</td>
 											<td className="py-2 px-3">
-												{team && team.name}
+												<Link className='text-blue-500 underline' href={`/teams/${team.id}`}>{team && team.name}</Link>
 											</td>
 											<td className="py-2 px-3">
-												{team.captains && team.captains.includes(userId) ? "Captain" : "Player"}
+												{/* {team.captains && team.captains.includes(userId) ? "Captain" : "Player"} */}
+												{team && team.player_role}
 											</td>
 										</tr>
 										</>

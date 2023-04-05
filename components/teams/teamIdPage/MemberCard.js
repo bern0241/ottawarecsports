@@ -16,8 +16,19 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
     const router = useRouter();
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
+    // useEffect(() => {
+    //     if (member.role === null) {
+    //         setCurrentRole('Player');
+    //     }
+    //     console.log('MEMBER', member)
+    // }, [])
+
     useEffect(() => {
         if (member) {
+            if (member.role === null) {
+                setCurrentRole('Player');
+            }
+
             const params = {
                 Username: member.user_id,
                 UserPoolId: 'us-east-1_70GCK7G6t'
