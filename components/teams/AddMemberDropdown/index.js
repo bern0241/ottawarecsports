@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
-import { createTeamDivision, deleteTeamDivision } from '@/src/graphql/mutations';
+import { createPlayerOnTeam } from '@/utils/graphql.services';
 import MemberCardAdd from './MemberCardAdd';
 
-export default function AddMemberDropdown({ listMembersFunc, setOpenDropdown, members }) {
+export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdown, members }) {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState('');
     const [searchClicked, setSearchClicked] = useState('');
     const [selectedUsers, setSelectedUsers] = useState([]);
     const router = useRouter();
-
+    const {id} = router.query;
+ 
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
     useEffect(() => {
@@ -41,36 +42,28 @@ export default function AddMemberDropdown({ listMembersFunc, setOpenDropdown, me
     const setUserFunc = (e, user) => {
         e.preventDefault();
         if (selectedUsers.includes(user.Username)) {
-          const array = selectedUsers.filter(item => item.Username !== user.Username);
+          const array = selectedUsers.filter(item => item !== user.Username);
           setSelectedUsers(array);
         } else {
-            setSelectedUsers((selectedUsers) => [...selectedUsers, user]);
+            setSelectedUsers((selectedUsers) => [...selectedUsers, user.Username]);
         }
     }
 
-    const createTeamDivisionsFunc = async (e) => {
+    const createPlayersFunc = async (e) => {
         e.preventDefault();
-        if (selectedTeams.length === 0) return;
+        if (selectedUsers.length === 0) return;
 
-        selectedTeams.forEach(async (teamID) => {
-              let data = {
-                  divisionId: divisionID,
-                  teamId: teamID,
-              }
-              let newTeamDivision = await API.graphql({
-                  query: createTeamDivision,
-                  variables: { input: data },
-              });
-              console.log('New Team Division:', newTeamDivision);
-          })
-        listTeamDivisionsFunc();
+        selectedUsers.forEach(async (username) => {
+             await createPlayerOnTeam(username, id);
+        })
+        await fetchPlayersFromTeam();
         setOpenDropdown(false);
     }
 
     const returnUserExists = (user) => {
         let founded = false;
         members.forEach((member) => {
-          if (member.Username === user.Username) {
+          if (member.user_id === user.Username) {
             founded = true;
           }
       })
@@ -129,11 +122,11 @@ export default function AddMemberDropdown({ listMembersFunc, setOpenDropdown, me
           <div className='flex flex-row justify-between items-center bg-gray-50 border-t dark:border-gray-600 '>
           <a href="/admin-portal/teams" class="flex items-center p-3 text-sm font-medium text-blue-600">
               <svg class="w-5 h-5 mr-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
-              Add new team
+              Add new player
           </a>
           <div className='mr-3'>
           <button onClick={(e) => setOpenDropdown(false)} type="button" class="text-black font-medium text-sm px-10 py-2.5 mr-2 my-2 ">Cancel</button>
-          <button onClick={(e) => createTeamDivisionsFunc(e)} type="button" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-10 py-2.5 mr-2 my-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900">Add</button>
+          <button onClick={(e) => createPlayersFunc(e)} type="button" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-10 py-2.5 mr-2 my-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900">Add</button>
           </div>
           </div>
 

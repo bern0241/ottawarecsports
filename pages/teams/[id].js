@@ -117,18 +117,22 @@ export default function TeamProfile() {
 	};
 
 	const fetchPlayersFromTeam = async () => {
-		const variables = {
-			filter: {
-			  teamID: {
-				eq: teamId
-			  }
-			}
-		  };
-		  const players = await API.graphql({ 
-			query: listPlayers, variables: variables
-		  });
-		  console.log('Members', players.data.listPlayers.items);
-		  setMembers(players.data.listPlayers.items);
+		const timer = setTimeout(async () => {
+			const variables = {
+				filter: {
+				  teamID: {
+					eq: teamId
+				  }
+				}
+			  };
+			  const players = await API.graphql({ 
+				query: listPlayers, variables: variables
+			  });
+			  console.log('Members', players.data.listPlayers.items);
+			  setMembers(players.data.listPlayers.items);
+		}, 750);
+		return () => clearTimeout(timer);
+
 	}
 
 	function uniqueByUsername(items) {
@@ -253,7 +257,7 @@ export default function TeamProfile() {
 								</button>
 								{/* // DROP */}
 								{openDropdown && (
-									<AddMemberDropdown members={members} setOpenDropdown={setOpenDropdown} listMembersFunc={fetchPlayersFromTeam} />
+									<AddMemberDropdown members={members} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 									// <UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 								)}
 

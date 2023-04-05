@@ -34,7 +34,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
   useEffect(() => {
     if (team) {
       setTeamName(team.name);
-      setTeamCaptain(user.attributes.name);
+      setTeamCaptain(user?.attributes?.name);
     }
   }, [team])
 
