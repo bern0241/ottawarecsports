@@ -55,7 +55,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
                     e.stopPropagation();
                     e.preventDefault();
                 }} 
-                currentRole={member.role} 
+                currentRole={currentRole}
                 member={member}
                 setNewRole={setNewRole}
                 setChangeRoleModal={setChangeRoleModal}
