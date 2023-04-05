@@ -2,7 +2,6 @@ import React from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
 
 const MatchRow = ({ match }) => {
-	console.log(match);
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
