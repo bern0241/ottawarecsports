@@ -734,6 +734,9 @@ export const listTeams = /* GraphQL */ `
           nextToken
         }
         Players {
+          items {
+            id
+          }
           nextToken
         }
         captains
@@ -871,6 +874,11 @@ export const listTeamDivisions = /* GraphQL */ `
           captains
           createdAt
           updatedAt
+          Players {
+            items {
+              id
+            }
+          }
         }
         createdAt
         updatedAt

@@ -20,9 +20,9 @@ import { getImageFromS3 } from '@/utils/graphql.services';
 
      useEffect(() => {
       console.log(teamDivision);
-      // if (team.Players.items) {
-      //   setMembersCount(team.Players.items.length);
-      // }
+      if (teamDivision.team.Players.items) {
+        setMembersCount(teamDivision.team.Players.items.length);
+      }
       getTeamImage();
      }, [listTeamDivisionsFunc])
 
