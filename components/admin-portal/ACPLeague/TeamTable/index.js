@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-03
+ * Last updated: 2023-04-04
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -13,6 +13,7 @@ import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
 import CreateButton from '../CreateButton';
+import AddTeamDropdown from './AddTeamDropdown';
  
  export default function TeamTable({ selectedDivisionForTeams, setUiState }) {
      const [division, setDivision] = useState({});
@@ -128,6 +129,9 @@ import CreateButton from '../CreateButton';
                  </tbody>
              </table>
          </div>
+         {addTeamModal && (
+            <AddTeamDropdown setOpenDropdown={setAddTeamModal} />
+        )}
        </>
      )
  }

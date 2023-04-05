@@ -122,11 +122,11 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
                 </tbody>
             </table>
         </div>
-                {newSeasonModal && (
-                    <>
-                    <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
-                    </>
-                )}
+        {newSeasonModal && (
+            <>
+            <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
+            </>
+        )}
               </>
     )
 }
