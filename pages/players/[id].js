@@ -16,11 +16,12 @@ import Link from 'next/link';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
 import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
-import { listPlayers, getTeam as getTeamQuery } from '@/src/graphql/queries';
+import { listPlayers, getTeam as getTeamQuery, getDivision, getSeason, getLeague } from '@/src/graphql/queries';
 
 export default function PlayerProfile() {
 	const [user, setUser] = useState(); // Cognito User
 	const [profileImage, setProfileImage] = useState('');
+	const [sport, setSport] = useState('Hockey');
 	const [players, setPlayers] = useState(); // Player Table
 	const [teams, setTeams] = useState([]);
 	const router = useRouter();
@@ -127,6 +128,20 @@ export default function PlayerProfile() {
 		  })
 	}
 
+	// const getSportFromLeague = async (teamObj) => {
+	// 	//Start with Team -> Division
+	// 	const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: '087b8643-5cef-4078-8b98-34c2e08ff737'}})
+	// 	const dataDivision = await apiDataDivision.data.getDivision;
+	// 	console.log('DATA DIVISION ID',apiDataDivision.data.getDivision.Teams.items.map(item => item.divisionId));
+	// 	// Get Season from division
+	// 	const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: dataDivision.season }})
+	// 	const dataSeason = await apiDataSeason.data.getSeason;
+	// 	// Get League from season
+	// 	const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: dataSeason.league }})
+	// 	const dataLeague = await apiDataLeague.data.getLeague;
+	// 	setSport(dataLeague.sport);
+	// } 
+
 	function uniqueById(items) {
 		const set = new Set();
 		return items.filter((item) => {
@@ -135,6 +150,7 @@ export default function PlayerProfile() {
 			return !isDuplicate;
 		});
 	}
+
 
 	return (
 		<>
@@ -256,7 +272,7 @@ export default function PlayerProfile() {
 								{teams && teams.map((team) => (
 										<>
 										<tr className="font-light">
-											<td className="py-2 px-3">Soccer</td>
+											<td className="py-2 px-3">{sport}</td>
 											<td className="py-2 px-3">
 												<Link className='text-blue-500 underline' href={`/teams/${team.id}`}>{team && team.name}</Link>
 											</td>
