@@ -6,8 +6,19 @@
  */
 
 import React from 'react';
+import { API } from '@aws-amplify/api';
+import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 
 export default function Games() {
+
+	// const getGames = async () => {
+    //     const apiData = await API.graphql(
+    //         { query: getDivisionWithTeams, 
+    //         variables: { teamID: id }
+    //     });
+    //     console.log('See here', apiData.data);
+    // }
+
 	const soccerGames = [
 		{
 			day: 'Tuesday',

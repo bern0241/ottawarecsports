@@ -62,7 +62,7 @@ function UserContextProvider(props) {
 
 	return (
 		<UserContext.Provider
-			value={[user, setUser, authRoles, setAuthRoles, userList]}
+			value={[user, setUser, authRoles, setAuthRoles]}
 			{...props}
 		/>
 	);

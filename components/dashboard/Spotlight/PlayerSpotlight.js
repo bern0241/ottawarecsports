@@ -20,10 +20,17 @@ const s3 = new AWS.S3({
 });
 
 export default function PlayerSpotlight() {
-	const [user, setUser, authRoles, setAuthRoles, userList] = useUser();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [userList, setUserList] = useState([]);
 	const [spotlightUser, setSpotlightUser] = useState();
 	const [profileImage, setProfileImage] = useState(null);
 	const [teams, setTeams] = useState([]);
+
+	useEffect(() => {
+		fetchAllUsers();
+	}, [])
 
 	useEffect(() => {
 		getRandomUser();
@@ -40,6 +47,19 @@ export default function PlayerSpotlight() {
 		fetchSpotlightInformation();
 		getPicture();
 	}, [spotlightUser]);
+
+	const fetchAllUsers = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+		};
+		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				setUserList(data.Users);
+			}
+		});
+	};
 
 	const getRandomUser = () => {
 		try {
