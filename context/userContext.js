@@ -7,18 +7,24 @@
 
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import { Auth, Hub } from 'aws-amplify';
+import AWS from 'aws-sdk';
 
 const UserContext = createContext();
 
 function UserContextProvider(props) {
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
 	const [user, setUser] = useState('');
 	const [authRoles, setAuthRoles] = useState();
+	const [userList, setUserList] = useState([]);
 
 	useEffect(() => {
 		checkUser();
 		Hub.listen('auth', ({ playload }) => {
 			checkUser();
 		});
+
+		fetchAllUsers();
 	}, []);
 
 	const checkUser = async () => {
@@ -41,9 +47,22 @@ function UserContextProvider(props) {
 		}
 	};
 
+	const fetchAllUsers = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+		};
+		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				setUserList(data.Users);
+			}
+		});
+	};
+
 	return (
 		<UserContext.Provider
-			value={[user, setUser, authRoles, setAuthRoles]}
+			value={[user, setUser, authRoles, setAuthRoles, userList]}
 			{...props}
 		/>
 	);
