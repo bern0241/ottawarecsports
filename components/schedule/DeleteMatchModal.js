@@ -7,23 +7,33 @@
 
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
+import { deleteGame } from '@/src/graphql/mutations';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 
 export default function DeleteMatchModal({ matchId, openModal, setOpenModal }) {
 	useEffect(() => {
 		if (matchId) {
+			console.log(matchId);
 		}
 	}, []);
 
 	const deleteMatchFunc = async () => {
-		// const deletedPlayer = await API.graphql({
-		// 	query: deletePlayer,
-		// 	variables: {
-		// 		input: { id: player.id },
-		// 	},
-		// });
+		try {
+			console.log(matchId);
+			const deletedGame = await API.graphql({
+				query: deleteGame,
+				variables: {
+					input: { id: matchId },
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
+	if (!openModal) {
+		return;
+	}
 
 	return (
 		<>

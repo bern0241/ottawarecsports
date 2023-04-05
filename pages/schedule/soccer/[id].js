@@ -8,8 +8,13 @@ import CreateMatchModal from '@/components/schedule/CreateMatchModal';
 import { listGames } from '@/src/graphql/queries';
 
 import AWS from 'aws-sdk';
+import EditMatchModal from '@/components/schedule/EditMatchModal';
+import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
 export default function DivisionMatches() {
 	const [modalVisible, setModalVisible] = useState(false);
+	const [isEditingMatch, setIsEditingMatch] = useState(false);
+	const [matchIdToEdit, setMatchIdToEdit] = useState('');
+	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
@@ -58,11 +63,26 @@ export default function DivisionMatches() {
 					<IconCirclePlus className="mr-2 h-5 w-5" />
 					Create New Match
 				</Button>
-				<MatchesTable matches={games} />
+				<MatchesTable
+					matches={games}
+					setMatchIdToEdit={setMatchIdToEdit}
+					setIsEditing={setIsEditingMatch}
+					setIsDeleting={setIsDeletingMatch}
+				/>
 			</main>
 			<CreateMatchModal
 				isVisible={modalVisible}
 				setIsVisible={setModalVisible}
+			/>
+			<EditMatchModal
+				matchId={matchIdToEdit}
+				isVisible={isEditingMatch}
+				setIsVisible={setIsEditingMatch}
+			/>
+			<DeleteMatchModal
+				matchId={matchIdToEdit}
+				openModal={isDeletingMatch}
+				setOpenModal={setIsDeletingMatch}
 			/>
 		</>
 	);

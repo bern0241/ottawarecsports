@@ -1,8 +1,11 @@
 import React from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
+import EditMatchModal from './EditMatchModal';
+import DeleteMatchModal from './DeleteMatchModal';
 
-const MatchRow = ({ match }) => {
+const MatchRow = ({ match, setMatchIdToEdit, setIsEditing, setIsDeleting }) => {
 	if (!match) return;
+	console.log(match);
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -116,12 +119,28 @@ const MatchRow = ({ match }) => {
 					</span>
 				</td>
 				<td className="p-5 min-w-1/12 flex-row items-center gap-8 hidden md:flex">
-					<span>
-						<EditIcon />
-					</span>
-					<span>
-						<TrashIcon />
-					</span>
+					<button
+						onClick={() => {
+							setMatchIdToEdit(match.id);
+							setIsEditing(true);
+							console.log('Editing Game');
+						}}
+					>
+						<span>
+							<EditIcon />
+						</span>
+					</button>
+					<button
+						onClick={() => {
+							setMatchIdToEdit(match.id);
+							setIsDeleting(true);
+							console.log('is Deleting');
+						}}
+					>
+						<span>
+							<TrashIcon />
+						</span>
+					</button>
 				</td>
 			</tr>
 		</>

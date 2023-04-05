@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
 
-const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
+const MatchesTable = ({
+	title = 'Scheduled matches',
+	matches,
+	setMatchIdToEdit,
+	setIsEditing,
+	setIsDeleting,
+}) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [selectedDate, setSelectedDate] = useState('');
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
@@ -73,7 +79,14 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 					<thead className="w-full"></thead>
 					<tbody>
 						{displayedMatches
-							? displayedMatches.map((match) => <MatchRow match={match} />)
+							? displayedMatches.map((match) => (
+									<MatchRow
+										match={match}
+										setMatchIdToEdit={setMatchIdToEdit}
+										setIsEditing={setIsEditing}
+										setIsDeleting={setIsDeleting}
+									/>
+							  ))
 							: ''}
 					</tbody>
 				</table>
