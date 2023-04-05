@@ -33,10 +33,10 @@ export default function TeamProfile() {
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [user, authRoles] = useUser();
+	const [isCaptain, setIsCaptain] = useState(false);
 	const router = useRouter();
 	const teamId = router.query.id;
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-
 
 	useEffect(() => {
 		if(!teamId) {
@@ -51,17 +51,11 @@ export default function TeamProfile() {
 
 	useEffect(() => {
 		if (team != undefined) {
-			// console.log('MY TEAM', team);
 			fetchCaptains(team.captains);
 			getPicture();
 			fetchPlayer();
-			// setPlayerUsename(team.team_history[0].roster);
 		}
 	}, [team])
-
-	// useEffect(() => {
-	// 	fetchPlayer();
-	// }, [playerUsername])
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
@@ -88,9 +82,7 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async (myCaptains) => {
-		// if (!team.captains) return; //
 		setCaptains([]);
-		// team.captains.forEach(async captain => {
 		myCaptains.forEach(async captain => {
 			const params = {
 				Username: captain,
@@ -103,11 +95,22 @@ export default function TeamProfile() {
 					setCaptains((captains) => {
 						return uniqueByUsername([...captains, data]);
 					} );
-					return;
+					// return;
 				}          
 			});
 		})
 	}
+
+	useEffect(() => {
+		if (captains) {
+			const captainUsernames = captains.map(captain => captain.Username);
+			if (captainUsernames.includes(user.username)) {
+				setIsCaptain(true);
+			} else {
+				setIsCaptain(false);
+			}
+		}
+	}, [captains])
 
 	function uniqueByUsername(items) {
 		const set = new Set();
@@ -182,6 +185,7 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
+						{isCaptain && (
 						<button
 							onClick={() => setEditModal(true)}
 							type="button"
@@ -189,7 +193,7 @@ export default function TeamProfile() {
 						>
 							Edit Team Details
 						</button>
-						<button onClick={(e) => console.log('TEAM!', team)}>CLICK ME!</button>
+						)}
 					</div>
 
 					{/* Player Information */}

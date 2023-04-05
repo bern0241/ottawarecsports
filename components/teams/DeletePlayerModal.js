@@ -80,7 +80,7 @@
                                  ></path>
                              </svg>
                              <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                 Are you sure you want to delete player <b>{fullName}</b> from this team?
+                                 Are you sure you want to delete player <br/><b>{fullName}</b> from this team?
                              </h3>
                              <button
                                  onClick={() => deletePlayerFunc()}
