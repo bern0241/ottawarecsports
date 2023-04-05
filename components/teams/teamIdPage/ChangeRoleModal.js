@@ -1,27 +1,105 @@
 import React, { useState, useEffect } from 'react';
-import { updatePlayer } from '@/src/graphql/mutations';
+import { getTeam } from '@/src/graphql/queries';
+import { updatePlayer, updateTeam } from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
+import { useRouter } from 'next/router';
 
-export default function ChangeRoleModal({ setOpenModal, newRole, member, userName, setCurrentRole }) {
+export default function ChangeRoleModal({ setOpenModal, newRole, member, userName, setCurrentRole, fetchCaptains }) {
+    const [captains, setCaptains] = useState([]);
+    const router = useRouter();
+    const {id} = router.query;
+
+    useEffect(() => {
+        if (!id) return;
+        const callMeAsync = async () => {
+            await getTeamCaptains();
+        }
+        callMeAsync();
+    }, [id])
+
+    const getTeamCaptains = async () => {
+        try {
+            const apiData = await API.graphql({ query: getTeam, variables: { id: id }});
+            const data = await apiData.data.getTeam;
+            console.log('Captains',data.captains);
+            setCaptains(data.captains);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const acceptNewRole = async () => {
-        setOpenModal(false);
         try {
             const data = {
                 id: member.id,
                 role: newRole,
             }
-            const playerUpdated = await API.graphql(
-            { 
+            const playerUpdated = await API.graphql({ 
                 query: updatePlayer,
                 variables: { input: data }
             })
             setCurrentRole(newRole);
+            if (newRole === 'Player') {
+                // remove Username
+                let filterCaptains = captains.filter(captain => captain !== playerUpdated.data.updatePlayer.user_id);
+                // setCaptains(filterCaptains);
+                setCaptains(filterCaptains);
+                updateTeamFunc(filterCaptains);
+                return;
+            } 
+            if (newRole === 'Captain') {
+                // add Username
+                setCaptains(captains.push(playerUpdated.data.updatePlayer.user_id));
+                // setCaptains((captains) => {
+                //     return uniqueBySelf([...captains, playerUpdated.data.updatePlayer.user_id]);
+                // });
+                updateTeamFunc(captains);
+                return;
+            }
         } catch (error) {
             alert('Error changing role');
-            console.log(error);
+            console.error(error);
         }
     }
+
+    // useEffect(() => {
+    //     if (captains) {
+    //         updateTeamFunc(captains);
+    //     }
+    // }, [captains])
+
+    function uniqueBySelf(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item);
+          set.add(item);
+          return !isDuplicate;
+        });
+    }
+
+    const updateTeamFunc = async (newCaptains) => {
+        try {
+            const data = {
+                id: id,
+                captains: newCaptains,
+            }
+            const teamUpdated = await API.graphql({ 
+                query: updateTeam,
+                variables: { input: data }
+            })
+            setOpenModal(false);
+            
+            const timer = setTimeout(() => {
+                console.log('NEW CAPTAINS', newCaptains);
+                fetchCaptains();
+            }, 560);
+            return () => clearTimeout(timer);
+        } catch (error) {
+            alert('Error updating team');
+            console.error(error);
+        }
+    }
+
     return (  
     <> 
         <div tabIndex="-1" class="z-[1000] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">

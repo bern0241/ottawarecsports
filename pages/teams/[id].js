@@ -87,9 +87,9 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async () => {
-		if (!team.team_history[0].captains) return; //
+		if (!team.captains) return; //
 		setCaptains([]);
-		team.team_history[0].captains.forEach(async captain => {
+		team.captains.forEach(async captain => {
 			const params = {
 				Username: captain,
 				UserPoolId: 'us-east-1_70GCK7G6t'
@@ -105,6 +105,15 @@ export default function TeamProfile() {
 				}          
 			});
 		})
+	}
+
+	function uniqueByUsername(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.Username);
+			set.add(item.Username);
+			return !isDuplicate;
+		});
 	}
 
 	//Function for gettin profile image.
@@ -134,15 +143,6 @@ export default function TeamProfile() {
 		return () => clearTimeout(timer);
 
 	}
-
-	function uniqueByUsername(items) {
-		const set = new Set();
-		return items.filter((item) => {
-			const isDuplicate = set.has(item.Username);
-			set.add(item.Username);
-			return !isDuplicate;
-		});
-}
 
 	return (
 		<main className="w-full flex flex-col gap-6 p-8 pt-0">
@@ -187,6 +187,7 @@ export default function TeamProfile() {
 						>
 							Edit Team Details
 						</button>
+						<button onClick={(e) => console.log('TEAM!', team)}>CLICK ME!</button>
 					</div>
 
 					{/* Player Information */}
@@ -264,7 +265,7 @@ export default function TeamProfile() {
 								</div>
 								{members && members.map((member) => (
 									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.id} >
-										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} />
 									</div>
 								))}
 							</div>

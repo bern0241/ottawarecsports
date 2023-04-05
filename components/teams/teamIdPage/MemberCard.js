@@ -6,7 +6,7 @@ import DeletePlayerModal from '../DeletePlayerModal';
 import ChoosePlayerRole from './ChoosePlayerRole';
 import ChangeRoleModal from './ChangeRoleModal';
 
-export default function MemberCard({ member, fetchPlayersFromTeam }) {
+export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains }) {
     const [user, setUser] = useState();
     const [userName, setUserName] = useState();
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -32,7 +32,6 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
                     setUser(data);
                     setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']}
                     ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
-                    console.log('DATA',data);
                 }          // successful response
             });
         }
@@ -72,7 +71,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam }) {
         <DeletePlayerModal player={member} user={user} openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} fetchPlayersFromTeam={fetchPlayersFromTeam} />
     )}
     {changeRoleModal && (
-        <ChangeRoleModal setOpenModal={setChangeRoleModal} member={member} userName={userName} newRole={newRole} setCurrentRole={setCurrentRole} />
+        <ChangeRoleModal setOpenModal={setChangeRoleModal} member={member} userName={userName} newRole={newRole} setCurrentRole={setCurrentRole} fetchCaptains={fetchCaptains} />
     )}
     </>
   )
