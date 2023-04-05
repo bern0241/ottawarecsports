@@ -91,7 +91,7 @@ export default function ChangeRoleModal({ setOpenModal, newRole, member, userNam
             
             const timer = setTimeout(() => {
                 console.log('NEW CAPTAINS', newCaptains);
-                fetchCaptains();
+                fetchCaptains(newCaptains);
             }, 560);
             return () => clearTimeout(timer);
         } catch (error) {
@@ -102,7 +102,7 @@ export default function ChangeRoleModal({ setOpenModal, newRole, member, userNam
 
     return (  
     <> 
-        <div tabIndex="-1" class="z-[1000] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
+        <div tabIndex="-1" class="z-[200] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
     <div class="relative h-full md:h-auto">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <button onClick={(e) => {
@@ -127,7 +127,7 @@ export default function ChangeRoleModal({ setOpenModal, newRole, member, userNam
         </div>
     </div>
 </div>
-<div onClick={(e) => setOpenModal(false)} class='z-[100] opacity-50 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
+<div onClick={(e) => setOpenModal(false)} class='z-[150] opacity-50 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
 </>
     )
 }

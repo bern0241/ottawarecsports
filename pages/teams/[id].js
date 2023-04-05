@@ -28,7 +28,7 @@ export default function TeamProfile() {
 	const [captains, setCaptains] = useState([]);
 	const [members, setMembers] = useState([]);
 	const [profileImage, setProfileImage] = useState('');
-	const [playerUsername, setPlayerUsename] = useState([]);
+	const [playerUsername, setPlayerUsername] = useState([]);
 	// Opens user dropdown
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const [editModal, setEditModal] = useState(false);
@@ -52,15 +52,16 @@ export default function TeamProfile() {
 	useEffect(() => {
 		if (team != undefined) {
 			// console.log('MY TEAM', team);
-			fetchCaptains();
+			fetchCaptains(team.captains);
 			getPicture();
-			setPlayerUsename(team.team_history[0].roster);
+			fetchPlayer();
+			// setPlayerUsename(team.team_history[0].roster);
 		}
 	}, [team])
 
-	useEffect(() => {
-		fetchPlayer();
-	}, [playerUsername])
+	// useEffect(() => {
+	// 	fetchPlayer();
+	// }, [playerUsername])
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
@@ -69,7 +70,7 @@ export default function TeamProfile() {
 	};
 
 	const fetchPlayer = async () => {
-		if(!playerUsername) return;
+		// if(!playerUsername) return;
 		setMembers([]);
 		playerUsername.forEach(async player => {
 			const params = {
@@ -86,10 +87,11 @@ export default function TeamProfile() {
 	})
 }
 
-	const fetchCaptains = async () => {
-		if (!team.captains) return; //
+	const fetchCaptains = async (myCaptains) => {
+		// if (!team.captains) return; //
 		setCaptains([]);
-		team.captains.forEach(async captain => {
+		// team.captains.forEach(async captain => {
+		myCaptains.forEach(async captain => {
 			const params = {
 				Username: captain,
 				UserPoolId: 'us-east-1_70GCK7G6t'
