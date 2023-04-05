@@ -12,10 +12,12 @@ import { listTeams, getDivision } from '@/src/graphql/queries';
 import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
+import CreateButton from '../CreateButton';
  
  export default function TeamTable({ selectedDivisionForTeams, setUiState }) {
      const [division, setDivision] = useState({});
      const [teams, setTeams] = useState([]);
+     const [addTeamModal, setAddTeamModal] = useState(false);
      const router = useRouter();
      const {divisionID} = router.query;
 
@@ -64,8 +66,13 @@ import { useRouter } from 'next/router';
                          <th scope="col" class="font-medium px-6 py-4">
                              
                          </th>
-                         <th scope="col" class="font-medium px-6 py-4">
-                             
+                         <th scope="col" class="font-medium">
+                            <div className='absolute top-2 right-8 '>
+                                <CreateButton label="Add Team"
+                                            state={addTeamModal}
+                                            setState={setAddTeamModal} 
+                                            />
+                            </div>
                          </th>
                      </tr>
                  </thead>
