@@ -6,10 +6,12 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [selectedDate, setSelectedDate] = useState('');
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
+	const [displayedMatches, setDisplayedMatches] = useState([]);
 	// go through the sorted match list, get all the dates and return them as an array
 	const returnDateArray = () => {
 		let dateArray = [];
 		timeSortedMatches.map((match) => {
+			if (!match) return;
 			const matchDate = match.date
 				? new Date(Date.parse(match.date))
 				: new Date(Date.parse(match.createdAt));
@@ -26,6 +28,7 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 		return dateArray;
 	};
 	useEffect(() => {
+		if (!matches) return;
 		// sort matches by time, small to large
 		setTimeSortedMatches(
 			matches.sort((matchA, matchB) => {
@@ -37,11 +40,12 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 	}, [matches]);
 
 	useEffect(() => {
+		if (!timeSortedMatches) return;
 		setMatchDates(returnDateArray());
 	}, [timeSortedMatches]);
 
 	useEffect(() => {
-		setTimeSortedMatches(
+		setDisplayedMatches(
 			timeSortedMatches.map((match) => {
 				const matchDate = match.date
 					? new Date(Date.parse(match.date))
@@ -68,8 +72,8 @@ const MatchesTable = ({ title = 'Scheduled matches', matches }) => {
 				<table className="table-auto w-">
 					<thead className="w-full"></thead>
 					<tbody>
-						{timeSortedMatches
-							? timeSortedMatches.map((match) => <MatchRow match={match} />)
+						{displayedMatches
+							? displayedMatches.map((match) => <MatchRow match={match} />)
 							: ''}
 					</tbody>
 				</table>
