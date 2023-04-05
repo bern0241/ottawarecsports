@@ -1,42 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
-export default function MemberCardAdd({team, search, selectedTeams, teamDivisions}) {
-    const [teamImage, setTeamImage] = useState(null);
+export default function MemberCardAdd({user, search, selectedUsers, members}) {
+    const [userImage, setUserImage] = useState(null);
     const [disable, setDisable] = useState(false);
 
     useEffect(() => {
-        getTeamImage();
+        getImage();
     }, [search])
 
     useEffect(() => {
-        teamDivisions.forEach((teamDiv) => {
-            if (teamDiv.team.id === team.id) {
+        members.forEach((member) => {
+            if (member.Username === user.Username) {
                 setDisable(true);
             }
         })
     }, [])
 
-    const getTeamImage = async () => {
-        if (team.team_picture === null || team.team_picture === '') {
-            setTeamImage(null);
+    const getImage = async () => {
+        if (user.Attributes.find(o => o.Name === 'picture')['Value'] !== 'none') {
+            let url = await getImageFromS3(user.Attributes.find(o => o.Name === 'picture')['Value']);
+            setUserImage(url);
         } else {
-            const url = await getImageFromS3(team.team_picture);
-            setTeamImage(url);
+            setUserImage(null);
         }
     }
 
   return (
     <div class={`flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${disable ? 'bg-gray-300 opacity-40 hover:bg-gray-300 cursor-default' : ''}
-        ${selectedTeams.includes(team.id) && 'bg-blue-500  hover:bg-blue-500 text-white font-semibold'}`}>
+        ${selectedUsers.includes(user.Username) && 'bg-blue-500  hover:bg-blue-500 text-white font-semibold'}`}>
         <img
             style={{ objectFit: 'cover' }}
             width={132}
             height={132}
             className="w-[3rem] h-[3rem] rounded-full shadow-md border border-black"
-            src={`${teamImage ? teamImage : "/images/defaultProfilePic.jpeg"}`}
+            src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
         />
-        <p className='text-sm'>{team.name}</p>
+        <p className='text-sm'>{`${user.Attributes.find(o => o.Name === 'name')['Value']} ${user.Attributes.find(o => o.Name === 'family_name')['Value']}`}</p>
     </div>
   )
 }

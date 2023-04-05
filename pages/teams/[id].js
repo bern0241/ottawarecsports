@@ -19,12 +19,11 @@ import * as mutations from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 import EditTeamModal from '@/components/teams/EditTeamModal';
 import UsersSearchBar from '@/components/common/UsersSearchBar';
+import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/MemberCard';
 
 export default function TeamProfile() {
-	const router = useRouter();
-	const teamId = router.query.id;
 	const [team, setTeam] = useState();
 	const [captains, setCaptains] = useState([]);
 	const [members, setMembers] = useState([]);
@@ -32,9 +31,11 @@ export default function TeamProfile() {
 	const [playerUsername, setPlayerUsename] = useState([]);
 	// Opens user dropdown
 	const [openDropdown, setOpenDropdown] = useState(false);
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const [user, authRoles] = useUser();
 	const [editModal, setEditModal] = useState(false);
+	const [user, authRoles] = useUser();
+	const router = useRouter();
+	const teamId = router.query.id;
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 
 	useEffect(() => {
@@ -252,7 +253,8 @@ export default function TeamProfile() {
 								</button>
 								{/* // DROP */}
 								{openDropdown && (
-									<UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+									<AddMemberDropdown members={members} setOpenDropdown={setOpenDropdown} listMembersFunc={fetchPlayersFromTeam} />
+									// <UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 								)}
 
 								</div>
