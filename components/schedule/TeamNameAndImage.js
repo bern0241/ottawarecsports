@@ -1,9 +1,16 @@
+/**
+ * Last updated: 2023-04-05
+ *
+ * Author(s):
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ */
+
 import React from 'react';
 
 const TeamNameAndImage = ({
-	src = '/images/defaultProfilePic.jpeg',
+	src,
 	reverse,
-	teamName = 'Super Team',
+	teamName,
 }) => {
 	return (
 		<span className="flex flex-row items-center gap-3">
