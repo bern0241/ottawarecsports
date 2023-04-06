@@ -5,7 +5,7 @@ import MatchRow from './MatchRow';
 const MatchesTable = ({
 	title = 'Scheduled matches',
 	matches,
-	setMatchIdToEdit,
+	setMatchToEdit,
 	setIsEditing,
 	setIsDeleting,
 }) => {
@@ -82,7 +82,7 @@ const MatchesTable = ({
 							? displayedMatches.map((match) => (
 									<MatchRow
 										match={match}
-										setMatchIdToEdit={setMatchIdToEdit}
+										setMatchToEdit={setMatchToEdit}
 										setIsEditing={setIsEditing}
 										setIsDeleting={setIsDeleting}
 									/>

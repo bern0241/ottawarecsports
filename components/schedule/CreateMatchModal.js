@@ -166,12 +166,11 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-
 			console.log(convertedTime.format());
 
 			const matchData = {
 				division: divisionID,
-				date: time,
+				date: convertedTime,
 				location: location,
 				status: 'NOT_STARTED',
 				home_roster: JSON.stringify(homeTeam.Players.items),

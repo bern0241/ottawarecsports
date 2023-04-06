@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
-import makeid from '@/utils/makeId';
-import { getGame } from '@/src/graphql/queries';
 import { updateGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
@@ -11,8 +9,11 @@ import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk';
 import DatePicker from 'tailwind-datepicker-react';
+import TimeKeeper from 'react-timekeeper';
+import moment from 'moment-timezone';
 
-const EditMatchModal = ({ isVisible, setIsVisible, match, matchId }) => {
+const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
+	console.log(match);
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
 	const [homeColour, setHomeColour] = useState('Red');
@@ -30,6 +31,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, matchId }) => {
 	const [showFounded, setShowFounded] = useState(false);
 
 	const [listUsers, setListUsers] = useState([]);
+	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
 
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
@@ -87,35 +89,32 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, matchId }) => {
 	};
 
 	//#region useEffect(s)
-
 	useEffect(() => {
 		if (match) {
 			//Fill the modal fields to whatever match data you received.
-			setHomeTeam(match.gameHomeTeam);
-			setHomeColour(match.HomeTeam.home_colour);
-			setAwayTeam(match.gameAwayTeam);
-			setAwayColour(match.AwayTeam.away_colour);
-			setReferees(match.referees);
-			setMatchDate(match.date);
-			//setTime
-			setMatchLocation(match.location);
+			console.log(match);
 		}
 	}, [match]);
 
 	useEffect(() => {
 		if (homeTeam) {
+			console.log(homeTeam);
 			setHomeColour(homeTeam.home_colour);
 		}
 	}, [homeTeam]);
 
 	useEffect(() => {
 		if (awayTeam) {
+			console.log(awayTeam);
 			setAwayColour(awayTeam.away_colour);
 		}
 	}, [awayTeam]);
 
 	useEffect(() => {
 		fetchRefereeList();
+		setStartTime(getCurrentTime());
+		fillMatchModalFields();
+		getDateAndTime();
 	}, []);
 
 	useEffect(() => {
@@ -125,6 +124,43 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, matchId }) => {
 		return () => clearTimeout(timer);
 	}, [message]);
 	//#endregion
+
+	const getCurrentTime = () => {
+		const now = new Date();
+		let hours = now.getHours();
+		let minutes = now.getMinutes();
+		// Convert to 12-hour format
+		const isPM = hours >= 12;
+		hours = hours % 12;
+		hours = hours ? hours : 12;
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+		// Add "am" or "pm"
+		const suffix = isPM ? 'pm' : 'am';
+		// Construct the formatted time string
+		const formattedTime = `${hours}:${minutes} ${suffix}`;
+		console.log(formattedTime);
+		return formattedTime;
+	};
+
+	const fillMatchModalFields = () => {
+		//populate the modal with data from the params
+		setHomeTeam(match.gameHomeTeam);
+		setHomeColour(match.HomeTeam.home_colour);
+		setAwayTeam(match.gameAwayTeam);
+		setAwayColour(match.AwayTeam.away_colour);
+		setReferees(match.referees);
+		setMatchLocation(match.location);
+	};
+
+	const getDateAndTime = () => {
+		const momentTime = moment(match.date);
+		const myDate = momentTime.format('YYYY-MM-DD');
+		const myTime = momentTime.format('HH:mm:ss');
+		setMatchDate(myDate);
+		setStartTime(myTime);
+
+		console.log(matchDate, startTime);
+	};
 
 	const editMatch = async (e) => {
 		e.preventDefault();
@@ -148,18 +184,16 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, matchId }) => {
 				});
 				return;
 			}
+
+			const dateTime = `${matchDate} ${startTime}`;
+			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
+			console.log(convertedTime.format());
+
 			const matchData = {
-				id: matchId,
+				id: match.id,
 				division: divisionID,
-				date: new Date().toISOString(),
+				date: convertedTime,
 				location: location,
-				status: 'NOT_STARTED',
-				home_roster: JSON.stringify(homeTeam.Players.items),
-				away_roster: JSON.stringify(awayTeam.Players.items),
-				home_score: 0,
-				away_score: 0,
-				goals: [],
-				round: 1,
 				referees: referees,
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
@@ -389,26 +423,50 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, matchId }) => {
 							</div>
 
 							{/**Start Time */}
-							<div className="w-full">
-								<label
-									htmlFor="startdate"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							<div className="relative">
+								{openStartTimeDrop && (
+									<>
+										<div
+											onClick={(e) => setOpenStartTimeDrop(false)}
+											className="z-[25] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+										/>
+										<div className="absolute z-[50] bottom-[0rem]">
+											<TimeKeeper
+												time={startTime}
+												onChange={(data) => setStartTime(data.formatted12)}
+											/>
+										</div>
+									</>
+								)}
+								<div
+									onClick={(e) => {
+										e.preventDefault();
+										setOpenStartTimeDrop(!openStartTimeDrop);
+									}}
+									className="cursor-pointer"
 								>
-									Start Time
-								</label>
-								<div>
+									<label
+										for="startTime"
+										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									>
+										Start Time
+									</label>
 									<input
+										disabled
 										value={startTime}
 										onChange={(e) => setStartTime(e.target.value)}
 										type="text"
 										id="startTime"
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-										placeholder="3:20pm"
-										required
+										className="cursor-pointer block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									/>
+									<div className="absolute right-2 top-[2.55rem]">
+										<ion-icon
+											style={{ fontSize: '25px' }}
+											name="caret-down-circle-outline"
+										></ion-icon>
+									</div>
 								</div>
 							</div>
-							{/**Date */}
 
 							{/**Location */}
 							<div className="w-full">

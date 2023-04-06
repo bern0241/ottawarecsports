@@ -11,20 +11,20 @@ import { deleteGame } from '@/src/graphql/mutations';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 
-export default function DeleteMatchModal({ matchId, openModal, setOpenModal }) {
+export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
 	useEffect(() => {
-		if (matchId) {
-			console.log(matchId);
+		if (match.Id) {
+			console.log(match.id);
 		}
 	}, []);
 
 	const deleteMatchFunc = async () => {
 		try {
-			console.log(matchId);
+			console.log(match.id);
 			const deletedGame = await API.graphql({
 				query: deleteGame,
 				variables: {
-					input: { id: matchId },
+					input: { id: match.id },
 				},
 			});
 		} catch (error) {

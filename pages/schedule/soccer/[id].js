@@ -13,7 +13,7 @@ import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
 export default function DivisionMatches() {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isEditingMatch, setIsEditingMatch] = useState(false);
-	const [matchIdToEdit, setMatchIdToEdit] = useState('');
+	const [matchToEdit, setMatchToEdit] = useState('');
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
 
 	const [games, setGames] = useState([]);
@@ -65,7 +65,7 @@ export default function DivisionMatches() {
 				</Button>
 				<MatchesTable
 					matches={games}
-					setMatchIdToEdit={setMatchIdToEdit}
+					setMatchToEdit={setMatchToEdit}
 					setIsEditing={setIsEditingMatch}
 					setIsDeleting={setIsDeletingMatch}
 				/>
@@ -74,16 +74,20 @@ export default function DivisionMatches() {
 				isVisible={modalVisible}
 				setIsVisible={setModalVisible}
 			/>
-			<EditMatchModal
-				matchId={matchIdToEdit}
-				isVisible={isEditingMatch}
-				setIsVisible={setIsEditingMatch}
-			/>
-			<DeleteMatchModal
-				matchId={matchIdToEdit}
-				openModal={isDeletingMatch}
-				setOpenModal={setIsDeletingMatch}
-			/>
+			{isEditingMatch && (
+				<EditMatchModal
+					match={matchToEdit}
+					isVisible={isEditingMatch}
+					setIsVisible={setIsEditingMatch}
+				/>
+			)}
+			{isDeletingMatch && (
+				<DeleteMatchModal
+					match={matchToEdit}
+					openModal={isDeletingMatch}
+					setOpenModal={setIsDeletingMatch}
+				/>
+			)}
 		</>
 	);
 }

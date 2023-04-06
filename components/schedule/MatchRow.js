@@ -3,7 +3,7 @@ import TeamNameAndImage from './TeamNameAndImage';
 import EditMatchModal from './EditMatchModal';
 import DeleteMatchModal from './DeleteMatchModal';
 
-const MatchRow = ({ match, setMatchIdToEdit, setIsEditing, setIsDeleting }) => {
+const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 	if (!match) return;
 	console.log(match);
 	const CalendarIcon = () => (
@@ -121,7 +121,7 @@ const MatchRow = ({ match, setMatchIdToEdit, setIsEditing, setIsDeleting }) => {
 				<td className="p-5 min-w-1/12 flex-row items-center gap-8 hidden md:flex">
 					<button
 						onClick={() => {
-							setMatchIdToEdit(match.id);
+							setMatchToEdit(match);
 							setIsEditing(true);
 							console.log('Editing Game');
 						}}
@@ -132,7 +132,7 @@ const MatchRow = ({ match, setMatchIdToEdit, setIsEditing, setIsDeleting }) => {
 					</button>
 					<button
 						onClick={() => {
-							setMatchIdToEdit(match.id);
+							setMatchToEdit(match);
 							setIsDeleting(true);
 							console.log('is Deleting');
 						}}
