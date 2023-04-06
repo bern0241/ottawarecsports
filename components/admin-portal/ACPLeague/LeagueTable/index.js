@@ -7,12 +7,15 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import CreateButton from '../CreateButton';
 import LeagueCard from './LeagueCard';
+import CreateLeagueModal from './Modals/CreateLeagueModal';
 import { API } from '@aws-amplify/api';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 import { getLeague } from '@/src/graphql/queries';
 
-export default function LeagueTable({ sport, selectedLeague, setSelectedLeague}) {
+export default function ACPLeagueTable({ sport, selectedLeague, setSelectedLeague}) {
+    const [newLeagueModal, setNewLeagueModal] = useState(false);
     const [leagues, setLeagues] = useState([]);
 
     useEffect(()=>{
@@ -71,8 +74,10 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
-                        <th scope="col" class="font-medium px-6 py-4">
-                            
+                        <th className='absolute right-5 top-2'>
+                            <CreateButton label="Create New League"
+                                            state={newLeagueModal}
+                                            setState={setNewLeagueModal} />
                         </th>
                     </tr>
                 </thead>
@@ -91,7 +96,7 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </thead>
                 <tbody>
                     {leagues && leagues.map((league) => (
-                        <LeagueCard  key={league.id} league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} setLeagues={setLeagues} />
+                        <LeagueCard  key={league.id} league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} setLeagues={setLeagues} listLeaguesFunc={listLeaguesFunc} />
                     ))}
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
@@ -108,6 +113,11 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </tbody>
             </table>
         </div>
+        {newLeagueModal && (
+            <>
+            <CreateLeagueModal sport={sport} openModal={newLeagueModal} setOpenModal={setNewLeagueModal} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} />
+            </>
+        )}
         </>
     )
 }
