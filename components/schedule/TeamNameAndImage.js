@@ -70,7 +70,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 					</span>
 				</>
 			)}
-		</span>
+		</>
 	);
 };
 

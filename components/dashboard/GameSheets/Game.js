@@ -17,21 +17,19 @@ export default function Game({ game }) {
 	const [visible, setVisible] = useState(false);
 	const [user, setUser, authRoles] = useUser();
 
-	useEffect(() => {
-		dateOfGame();
-		if (authRoles.includes('Admin') || authRoles.includes('Owner')) {
-			setVisible(true);
-		}
-		if (game.referees) {
-			const refereesUsername = game.referees.map((referee) => referee);
-
-			if (refereesUsername.includes(user.username)) {
-				setVisible(true);
-			}
-		}
-	}, []);
-	//console.log(game.referees);
-	//console.log(visible);
+  useEffect(() => {
+    dateOfGame();
+    if(authRoles.includes('Admin') || authRoles.includes('Owner')){
+      setVisible(true)
+    }
+    if (game.referees) {
+      const refereesUsername = game.referees.map(referee => referee)
+      
+      if (refereesUsername.includes(user.username)){
+        setVisible(true)
+      }
+    }
+    }, []);
 
 	const dateOfGame = () => {
 		const resp = new Date(game.date);
@@ -76,47 +74,42 @@ export default function Game({ game }) {
 
 	return (
 		<>
-			{visible ? (
-				<div className="w-full p-8 flex flex-row justify-between items-center gap-4">
-					<div className="min-w-[0px] flex justify-center">
-						<img src="/images/soccerball_orange.png" />
-					</div>
-					<div>
-						<div className="font-medium flex flex-row gap-8 items-center">
-							<TeamImageAndName
-								teamName={game.HomeTeam.name}
-								src={game.HomeTeam.team_picture}
-							/>
-							<span className="border-2 border-brand-orange-800 rounded-xl px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
-								<p>{game.home_score}</p>
-								<p>:</p>
-								<p>{game.away_score}</p>
-							</span>
-							<TeamImageAndName
-								teamName={game.AwayTeam.name}
-								src={game.AwayTeam.team_picture}
-								reverse={true}
-							/>
-						</div>
-					</div>
-					<div className="flex flex-col gap-3 mx-8">
-						<div className="flex justify-between gap-3 text-sm">
-							<span className="flex items-center gap-1">
-								<IconCalendarEvent />
-								{date}
-							</span>
-							<span className="flex items-center gap-1">
-								<IconClock /> {time}
-							</span>
-						</div>
-						<div className="flex gap-1 text-sm">
-							<IconMapPin /> Algonquin Dome Field #1
-						</div>
-					</div>
+    {visible ? 
+			<div className="w-full p-8 flex flex-col lg:flex-row justify-between items-center gap-4 border-b">
+        <div className="min-w-[0px] flex justify-center hidden xl:contents">
+                <img src="/images/soccerball_orange.png" />
+        </div>
+				<div className="font-medium flex flex-row gap-8 items-center">
+					<TeamImageAndName 
+            teamName={game.HomeTeam.name}
+            src={game.HomeTeam.team_picture}/>
+					<span className="border-2 border-brand-orange-800 rounded-xl px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
+						<p>{game.home_score}</p>
+						<p>:</p>
+						<p>{game.away_score}</p>
+					</span>
+					<TeamImageAndName 
+            teamName={game.AwayTeam.name}
+            src={game.AwayTeam.team_picture}
+            reverse={true} />
 				</div>
-			) : (
-				<div></div>
-			)}
+        <div className="mx-8 mt-5">
+					<div className="grid lg:grid-cols-2 grid-cols-3 lg:gap-3 text-sm ">
+						<span className="flex items-center gap-1">
+							<IconCalendarEvent />{date}
+						</span>
+						<span className="flex items-center gap-1">
+							<IconClock /> {time}
+						</span>
+            <span className="flex gap-1 text-sm lg:col-span-2">
+              <IconMapPin /> Algonquin Dome Field #1
+            </span>
+          </div>
+				</div>
+			</div> 
+      :
+      <div></div>
+      }
 		</>
 	);
 }
