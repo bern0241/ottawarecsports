@@ -1,6 +1,39 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateLocation = /* GraphQL */ `
+  subscription OnCreateLocation($filter: ModelSubscriptionLocationFilterInput) {
+    onCreateLocation(filter: $filter) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateLocation = /* GraphQL */ `
+  subscription OnUpdateLocation($filter: ModelSubscriptionLocationFilterInput) {
+    onUpdateLocation(filter: $filter) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteLocation = /* GraphQL */ `
+  subscription OnDeleteLocation($filter: ModelSubscriptionLocationFilterInput) {
+    onDeleteLocation(filter: $filter) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateSportsmanshipPoint = /* GraphQL */ `
   subscription OnCreateSportsmanshipPoint(
     $filter: ModelSubscriptionSportsmanshipPointFilterInput
@@ -150,6 +183,7 @@ export const onCreateGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -182,9 +216,12 @@ export const onCreateGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -236,6 +273,7 @@ export const onUpdateGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -268,9 +306,12 @@ export const onUpdateGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -322,6 +363,7 @@ export const onDeleteGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -354,9 +396,12 @@ export const onDeleteGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -386,6 +431,8 @@ export const onCreateDivision = /* GraphQL */ `
           goals
           round
           referees
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -433,6 +480,8 @@ export const onUpdateDivision = /* GraphQL */ `
           goals
           round
           referees
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -480,6 +529,8 @@ export const onDeleteDivision = /* GraphQL */ `
           goals
           round
           referees
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -785,6 +836,7 @@ export const onCreateTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -845,6 +897,7 @@ export const onUpdateTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -905,6 +958,7 @@ export const onDeleteTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -1010,6 +1064,7 @@ export const onCreateTeamDivision = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -1073,6 +1128,7 @@ export const onUpdateTeamDivision = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -1136,6 +1192,7 @@ export const onDeleteTeamDivision = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
