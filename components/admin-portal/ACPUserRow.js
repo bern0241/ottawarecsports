@@ -88,7 +88,7 @@ export default function ACPUserRow({ user, index }) {
 			</tr>
 			{editUserModal && (
 				<ACPEditUserModal
-					user={user}
+					user1={user}
 					openModal={editUserModal}
 					setOpenModal={setEditUserModal}
 				/>

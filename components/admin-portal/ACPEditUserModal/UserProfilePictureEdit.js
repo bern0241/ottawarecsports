@@ -34,7 +34,6 @@ export default function UserProfilePictureEdit({
 			user &&
 			user.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none'
 		) {
-			console.log('TRUE');
 			getImageFromS3();
 		}
 	}, []);
