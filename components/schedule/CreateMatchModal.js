@@ -154,6 +154,13 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				});
 				return;
 			}
+			if (homeColour === awayColour) {
+				setMessage({
+					status: 'error',
+					message: 'Must have two different jersey colors',
+				});
+				return;
+			}
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');

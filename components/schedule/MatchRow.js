@@ -131,7 +131,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 						</p>
 					</span>
 				</td>
-				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center flex">
+				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
 					<button
 						onClick={() => {
 							setMatchToEdit(match);

@@ -175,7 +175,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		const suffix = isPM ? 'pm' : 'am';
 		// Construct the formatted time string
 		const formattedTime = `${hours}:${minutes} ${suffix}`;
-		console.log(formattedTime);
+		//console.log(formattedTime);
 		return formattedTime;
 	};
 
@@ -224,7 +224,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			console.log(convertedTime.format());
+			//(convertedTime.format());
 
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
@@ -238,12 +238,12 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
-			console.log(matchData);
+			//console.log(matchData);
 			const apiData = await API.graphql({
 				query: updateGame,
 				variables: { input: matchData },
 			});
-			console.log('Editing Game, ', apiData);
+			//console.log('Editing Game, ', apiData);
 			setMessage({ status: 'success', message: 'Game edited successfully' });
 			router.reload();
 		} catch (error) {
