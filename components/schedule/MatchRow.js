@@ -11,7 +11,6 @@ import DeleteMatchModal from './DeleteMatchModal';
 
 const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 	if (!match) return;
-	// console.log(match);
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -92,13 +91,20 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
 				<td className="font-medium flex flex-row gap-7 items-start md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
-					<TeamNameAndImage team={match.HomeTeam} />
+					<TeamNameAndImage
+						jerseyColour={match.home_color?.toLowerCase()}
+						team={match.HomeTeam}
+					/>
 					<span className="border border-brand-orange-800 md:border-black rounded-lg md:rounded px-5 md:px-[47px] py-1 md:py-[10px] flex flex-row items-center h-fit gap-1 self-center md:self-auto">
 						<p>{match.home_score}</p>
 						<p>:</p>
 						<p>{match.away_score}</p>
 					</span>
-					<TeamNameAndImage reverse={true} team={match.AwayTeam} />
+					<TeamNameAndImage
+						jerseyColour={match.away_colo?.toLowerCase()}
+						reverse={true}
+						team={match.AwayTeam}
+					/>
 				</td>
 				<td className="min-w-3/12 flex flex-col justify-center md:justify-items-stretch bg-brand-neutral-50 md:bg-white py-2 md:py-0">
 					<span className="flex flex-row gap-10 md:gap-5 justify-center md:justify-stretch mb-4 md:mb-auto">
@@ -130,7 +136,6 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 						onClick={() => {
 							setMatchToEdit(match);
 							setIsEditing(true);
-							console.log('Editing Game');
 						}}
 					>
 						<span>
@@ -141,7 +146,6 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 						onClick={() => {
 							setMatchToEdit(match);
 							setIsDeleting(true);
-							console.log('is Deleting');
 						}}
 					>
 						<span>
