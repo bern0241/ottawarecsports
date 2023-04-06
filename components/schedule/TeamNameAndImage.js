@@ -3,12 +3,13 @@ import { getImageFromS3 } from '@/utils/graphql.services';
 
 const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 	const [profileImage, setProfileImage] = useState('');
-	const JerseySVG = ({ fill = '#fff', stroke = '#000' }) => (
+	const JerseySVG = ({ fill = '#fff', stroke = '#000', className }) => (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width={20}
 			height={21}
 			fill={'none'}
+			className={className}
 		>
 			<path
 				fill={fill}
@@ -32,7 +33,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 		>
 			{reverse === true ? (
 				<>
-					<span className="w-[4.5rem] h-[4.5rem] rounded-full">
+					<span className="w-[4.5rem] h-[4.5rem] rounded-full relative">
 						<img
 							style={{ objectFit: 'cover' }}
 							width={72}
@@ -41,6 +42,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 							src={profileImage}
 						/>
 						<JerseySVG
+							className={'absolute -bottom-2 -right-1'}
 							fill={jerseyColour ? jerseyColour : '#fff'}
 							stroke={jerseyColour ? jerseyColour : '#000'}
 						/>
@@ -52,7 +54,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 					<p className="w-24 text-center md:text-left order-last md:order-none">
 						{team?.name || 'SuperTeam'}
 					</p>
-					<span className="w-[4.5rem] h-[4.5rem] rounded-full">
+					<span className="w-[4.5rem] h-[4.5rem] rounded-full relative">
 						<img
 							style={{ objectFit: 'cover' }}
 							width={72}
@@ -61,6 +63,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 							src={profileImage}
 						/>
 						<JerseySVG
+							className={'absolute -bottom-2 -left-1'}
 							fill={jerseyColour ? jerseyColour : '#fff'}
 							stroke={jerseyColour ? jerseyColour : '#000'}
 						/>
