@@ -54,6 +54,7 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
         })
     }
 
+
     const setGroupsForEachUser = (_users) => {
         let users = _users;
         users.map((user) => {

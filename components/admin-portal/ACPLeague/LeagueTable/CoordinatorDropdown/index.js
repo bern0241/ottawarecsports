@@ -53,7 +53,7 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
     })
     .map((user) => (
         <>
-        {user.Groups.includes('Coordinator') && (
+        {(user && user.Groups.includes('Coordinator')) && (
           <li className='cursor-pointer' onClick={(e) => addCoordinator(e, user)}>
               <UserCard searchUser={searchUser} user={user} />
           </li>
