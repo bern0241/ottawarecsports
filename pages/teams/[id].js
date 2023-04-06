@@ -60,7 +60,7 @@ export default function TeamProfile() {
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log('TEAM', data);
+		// console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -144,7 +144,7 @@ export default function TeamProfile() {
 			  const players = await API.graphql({ 
 				query: listPlayers, variables: variables
 			  });
-			  console.log('Members', players.data.listPlayers.items);
+			//   console.log('Members', players.data.listPlayers.items);
 			  setMembers(players.data.listPlayers.items);
 		}, 550);
 		return () => clearTimeout(timer);
