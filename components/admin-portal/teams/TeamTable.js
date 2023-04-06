@@ -12,7 +12,7 @@
  import { API } from '@aws-amplify/api';
  import { useRouter } from 'next/router';
 import CreateButton from '@/components/common/CreateButton';
-import CreateTeamModal from './CreateTeamModal';
+import NewTeamModal from './NewTeamModal';
   
   export default function TeamTable({ filterTeams, fetchTeams }) {
     const [createTeamModal, setCreateTeamModal] = useState(false);
@@ -52,7 +52,7 @@ import CreateTeamModal from './CreateTeamModal';
                               Captain (s)
                           </th>
                           <th scope="col" class="font-light px-6 py-2">
-                              Members
+                              Sport
                           </th>
                           <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
                               Action
@@ -95,9 +95,9 @@ import CreateTeamModal from './CreateTeamModal';
                   </tbody>
               </table>
           </div>
-          {/* {createTeamModal && (
-             <CreateTeamModal setOpenDropdown={setAddTeamModal} teamDivisions={teamDivisions} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-         )} */}
+          {createTeamModal && (
+             <NewTeamModal isVisible={createTeamModal} setIsVisible={setCreateTeamModal} />
+         )}
         </>
       )
   }
