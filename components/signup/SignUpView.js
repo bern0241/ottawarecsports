@@ -123,16 +123,18 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 			<div className="flex justify-center items-center w-full h-full">
 				<div className="flex flex-col gap-3 w-96">
 					<OrsLogo />
-					<div className="flex flex-col w-96 gap-3">
+					<div className="flex flex-col w-96">
 						<div className="flex flex-row items-center">
-							<h2 className="text-2xl font-semibold my-5 grow">Sign Up</h2>
+							<h2 className="text-lg sm:text-2xl font-semibold my-6 grow">
+								Sign Up
+							</h2>
 							<p className="text-sm">* Required</p>
 						</div>
 						<div className="flex flex-col w-96 gap-3">
-							<form className="flex flex-col w-96 gap-3">
+							<form className="flex flex-col w-96 gap-2">
 								<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-2">
 									<Label
-										htmlFor="firstName"
+										htmlFor="firstname"
 										value="First Name"
 										className="sr-only"
 									/>
@@ -145,7 +147,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 										className="w-96"
 									/>
 									<Label
-										htmlFor="lastName"
+										htmlFor="lastname"
 										value="Last Name"
 										className="sr-only"
 									/>
@@ -164,7 +166,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								<DobDatePicker state={birthDate} setState={setBirthDate} />
 								<LocationDropDown state={location} setState={setLocation} />
 								<Label
-									htmlFor="phone number"
+									htmlFor="phone"
 									value="Phone Number"
 									className="sr-only"
 								/>
@@ -225,7 +227,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								</div>
 							</form>
 						</div>
-						<p className="font-normal text-base cursor-pointer">
+						<p className="font-normal text-base cursor-pointer mt-3">
 							Have an account?{' '}
 							<Link href="/login" className="font-bold">
 								Sign In
