@@ -14,8 +14,8 @@ const OrsLogo = () => {
 			<Image
 				src="/Logo.svg"
 				alt="ORS Logo"
-				width={90}
-				height={90}
+				width={105}
+				height={105}
 				priority
 				className="sm:w-max"
 			/>
