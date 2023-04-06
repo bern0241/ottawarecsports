@@ -20,13 +20,13 @@ const RostersDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
 				onClick={() => toggle("rosters")}
-				className="p-2 flex ml-2 flex-row justify-between w-full"
+				className="px-5 py-2 flex ml-2 flex-row justify-between w-full"
 			>
 				<div className="flex flex-row align-middle">
 					<div className="pt-1 ">
 						<IconUsers size={'1.2em'} />
 					</div>
-					<h1 className=" font-medium text-md pl-2">Rosters</h1>
+					<span className=" font-medium text-md pl-2">Rosters</span>
 				</div>
 				<div className="pt-1 mr-2">
 					<IconChevronRight
