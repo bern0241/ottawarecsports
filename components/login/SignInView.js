@@ -71,6 +71,7 @@ export default function SignInView({ setUiState }) {
 								required={true}
 								sizing="md"
 							/>
+							<Label htmlFor="password" value="Password" className="sr-only" />
 							<PasswordField
 								label="Password"
 								state={password}
