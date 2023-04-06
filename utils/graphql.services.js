@@ -414,3 +414,20 @@ export const getDivisionGames = async (divisionID) => {
 		console.warn(err);
 	}
 };
+
+/**
+ * Generate matchups for teams
+ * @param {Array} teams The list of teams to generate matches for
+ * @returns {Array} an array of games objects
+ */
+export const scheduleGamesAutomatically = (teams) => {
+	let results = [];
+	teams.map((team, index) => {
+		for (let i = teams.length - 1; i > -1; i--) {
+			if (teams.name === teams[i].name || i === index) break;
+			results.push({ home: team, away: teams[i] });
+		}
+	});
+	console.log(results);
+	return results;
+};
