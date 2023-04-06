@@ -82,6 +82,7 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async (myCaptains) => {
+		if (myCaptains === null) return;
 		setCaptains([]);
 		myCaptains.forEach(async captain => {
 			const params = {
