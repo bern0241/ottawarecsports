@@ -1,6 +1,48 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createLocation = /* GraphQL */ `
+  mutation CreateLocation(
+    $input: CreateLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    createLocation(input: $input, condition: $condition) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLocation = /* GraphQL */ `
+  mutation UpdateLocation(
+    $input: UpdateLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    updateLocation(input: $input, condition: $condition) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLocation = /* GraphQL */ `
+  mutation DeleteLocation(
+    $input: DeleteLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    deleteLocation(input: $input, condition: $condition) {
+      id
+      name
+      weblink
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createSportsmanshipPoint = /* GraphQL */ `
   mutation CreateSportsmanshipPoint(
     $input: CreateSportsmanshipPointInput!
@@ -165,6 +207,7 @@ export const createGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -197,9 +240,12 @@ export const createGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -254,6 +300,7 @@ export const updateGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -286,9 +333,12 @@ export const updateGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -343,6 +393,7 @@ export const deleteGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -375,9 +426,12 @@ export const deleteGame = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
+      home_color
+      away_colo
       createdAt
       updatedAt
       gameHomeTeamId
@@ -410,6 +464,8 @@ export const createDivision = /* GraphQL */ `
           goals
           round
           referees
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -460,6 +516,8 @@ export const updateDivision = /* GraphQL */ `
           goals
           round
           referees
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -510,6 +568,8 @@ export const deleteDivision = /* GraphQL */ `
           goals
           round
           referees
+          home_color
+          away_colo
           createdAt
           updatedAt
           gameHomeTeamId
@@ -845,6 +905,7 @@ export const createTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -908,6 +969,7 @@ export const updateTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -971,6 +1033,7 @@ export const deleteTeam = /* GraphQL */ `
         nextToken
       }
       captains
+      sport
       createdAt
       updatedAt
     }
@@ -1080,6 +1143,7 @@ export const createTeamDivision = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -1144,6 +1208,7 @@ export const updateTeamDivision = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }
@@ -1208,6 +1273,7 @@ export const deleteTeamDivision = /* GraphQL */ `
           nextToken
         }
         captains
+        sport
         createdAt
         updatedAt
       }

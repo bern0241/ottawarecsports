@@ -1,16 +1,33 @@
 /**
- * Last updated: 2023-04-3
+ * Last updated: 2023-04-05
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
+ * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Game from './Game';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
+import { getAllMatches } from '@/utils/graphql.services';
+import { useUser } from '@/context/userContext';
 
 export default function GameSheets() {
-	return (
+  const [games, setGames] = useState([]);
+	const [user, setUser, authRoles] = useUser();
+
+  useEffect(() => {
+    fetchGames();
+  }, []);
+
+  const fetchGames = async () => {
+    const response = await getAllMatches();
+    setGames(response);
+  };
+
+  return (
+  <>
+		{user && (authRoles.includes('Admin') || authRoles.includes('Owner') || authRoles.includes('Referee')) && (
 		<section id="game-sheets" className="col-span-4">
 			<div className="bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex items-center justify-between border-b border-brand-neutral-300 px-3 py-2">
@@ -26,9 +43,15 @@ export default function GameSheets() {
 					</div>
 				</div>
 				<div className="">
-					<Game />
+          {games && games.map((game) => (
+            <Game 
+              key={game.id}
+              game={game}/>
+          ))}
 				</div>
 			</div>
 		</section>
-	);
+    )}
+    </>
+	)
 }

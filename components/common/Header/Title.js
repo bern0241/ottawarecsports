@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-04-05
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -77,6 +77,20 @@ const HeaderTitle = () => {
 						<Link href="/admin-portal/users" className="font-light text-[.8rem]">Users</Link>
 					</div>
 					<p className="font-semibold text-[1.8rem]">Users</p>
+				</div>
+			</div>
+		)}
+		{router.pathname === '/admin-portal/leagues' && (
+			<div className="p-1 pt-0 pl-2 lg:pl-7">
+				<div className='flex flex-col gap-2'>
+					<div className='flex flex-row'>
+						<Link href="/" className="font-light text-[.8rem]">Home</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+						<p className="font-light text-[.8rem]">Admin Portal</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+						<Link href="/admin-portal/leagues" className="font-light text-[.8rem]">Leagues</Link>
+					</div>
+					<p className="font-semibold text-[1.8rem]">Leagues</p>
 				</div>
 			</div>
 		)}
