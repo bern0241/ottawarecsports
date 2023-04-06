@@ -63,7 +63,7 @@ export default function SignInView({ setUiState }) {
 						<h2 className="text-lg sm:text-2xl font-semibold my-6 font-">
 							Sign In
 						</h2>
-						<form className="flex flex-col w-96 gap-3">
+						<form className="flex flex-col gap-3">
 							<Label htmlFor="email" value="Email" className="sr-only" />
 							<TextInput
 								id="email"
