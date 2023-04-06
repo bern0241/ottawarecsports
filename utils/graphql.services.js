@@ -383,6 +383,24 @@ export const createPlayerOnTeam = async (username, teamID) => {
 	}
 };
 
+// SAME AS 'createPlayerOnTeam()', but meant for Captains
+export const createCaptainOnTeam = async (username, teamID) => {
+	try {
+		const data = {
+			user_id: username,
+			role: 'Captain',
+			teamID: teamID,
+		};
+		const apiData = await API.graphql({
+			query: mutations.createPlayer,
+			variables: { input: data },
+		});
+		return apiData;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 /**
  * get all leagues in the database
  * @returns {Array} an array of league objects

@@ -111,7 +111,7 @@ export default function Teams() {
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">Captain (s)</th>
+								<th className="py-3 px-10 text-sm font-light w-2/12">Captain (s)</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">Sports</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12">
 									Team Members

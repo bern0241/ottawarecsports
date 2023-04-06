@@ -488,9 +488,6 @@ export default function ACPEditUserModal({
 								<div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 class="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
-									<button onClick={(e) => console.log(authRoles)}>CLICK ME ROLES!!!</button>
-									<button onClick={(e) => console.log(userGroups)}>CLICK ME NEW ROLES!!!</button>
-									<button onClick={(e) => console.log(user)}>CLICK ME USER!!!</button>
 									</h3>
 									<button
 										onClick={() => setOpenModal(false)}

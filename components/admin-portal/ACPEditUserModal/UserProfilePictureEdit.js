@@ -51,7 +51,6 @@ export default function UserProfilePictureEdit({
 
 	return (
 		<div className="w-[12rem] mx-auto">
-			{/* <button onClick={(e) => console.log(grabImage)}>CLick me</button> */}
 			<label className="cursor-pointer">
 				<input
 					className="hidden"

@@ -8,10 +8,6 @@
  */
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
-import CustomRadioButton from './CustomRadioButton';
-import MaxMembersStepper from './MaxMembersStepper';
-import PlayersTable from './PlayersTable';
-import UserProfilePictureEdit from '../admin-portal/ACPEditUserModal/UserProfilePictureEdit';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
 import {
@@ -21,6 +17,7 @@ import {
 } from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
+import { createCaptainOnTeam } from '@/utils/graphql.services';
 const { v4: uuidv4 } = require('uuid');
 
 const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
@@ -47,25 +44,6 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 		return () => clearTimeout(timer);
 	}, [message]);
 
-	const addTeamToPlayerProfile = (teamId) => {
-		if (!teamRoster) return;
-		const playerDivisionStat = {
-			id: uuidv4(),
-			team: teamId,
-			division: '',
-			goals: 0,
-			assists: 0,
-			yellow_cards: 0,
-			red_cards: 0,
-			games_played: 0,
-		};
-		teamRoster.forEach((player) => {
-			updatePlayerSoccer({
-				id: player.id,
-				PlayerDivisionStats: playerDivisionStat,
-			});
-		});
-	};
 	const addNewTeam = async () => {
 		try {
 			if (teamName === '') {
@@ -76,7 +54,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 			let uniqueId = `${teamName}_${makeid(15)}`;
 			await uploadNewImageToS3(uniqueId, teamLogoUpload);
 			const teamData = {
-				id: randomId,
+				// id: randomId,
 				name: teamName,
 				founded: new Date(Date.now()),
 				home_colour: homeColour,
@@ -95,8 +73,9 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 					games_played: 0,
 				}],
 			};
-			const resp = await createTeam(teamData);
-			addTeamToPlayerProfile(randomId);
+			const resp = await createTeam(teamData); // Creates team
+			await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!
+
 			if (resp) {
 				setMessage({status: 'success', message: 'Team successfully created!'});
 				// setIsVisible(false);
@@ -104,7 +83,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 				getTeamsData();
 				const timer = setTimeout(() => {
 					router.reload();
-				}, 1320);
+				}, 1000);
 				return () => clearTimeout(timer);
 			}
 		} catch (error) {
@@ -123,13 +102,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 		setTeamLogoUpload('');
 		setTeamRoster([]);
 	};
-	const selectPlayer = (name) => {
-		const playerObj = players.find((e) => e.user === name);
-		// if player is not found or is already in the roster, stop
-		if (!playerObj || teamRoster.filter((e) => e.user === name).length > 0)
-			return;
-		teamRoster.push(playerObj);
-	};
+
 	if (!isVisible) return;
 	return (
 		<>
@@ -294,7 +267,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 							</p>
 						)} */}
 
-						{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+						{message && (<p id="standard_error_help" className={`my-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
 
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">

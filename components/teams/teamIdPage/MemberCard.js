@@ -55,6 +55,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
         <p className='text-black'>
             {userName}
         </p>
+        <div className='flex-grow'></div>
             {(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
                 <ChoosePlayerRole clickStopPropagationFunc={(e) => {
                         e.stopPropagation();
