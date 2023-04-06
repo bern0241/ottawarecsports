@@ -5,6 +5,7 @@ export default function UserGroupChip({ name, userGroups, setUserGroups }) {
 	const removeChip = (e) => {
 		e.stopPropagation();
 		if (name === 'User') return; //Can't delete user chip!
+		if (name === 'Owner') return; //Can't delete owner chip!
 		const arr2 = userGroups.filter((item) => item !== name);
 		setUserGroups(arr2);
 	};
@@ -17,7 +18,7 @@ export default function UserGroupChip({ name, userGroups, setUserGroups }) {
 			<div>
 				<p type="button">{name}</p>
 			</div>
-			<div>{name !== 'User' && <IconX size={'12px'} />}</div>
+			<div>{(name !== 'User' && name !== 'Owner') && <IconX size={'12px'} />}</div>
 		</div>
 	);
 }

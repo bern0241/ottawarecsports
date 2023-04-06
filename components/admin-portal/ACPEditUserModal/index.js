@@ -241,6 +241,7 @@ export default function ACPEditUserModal({
 				'Referee',
 				'Coordinator',
 				'Admin',
+				// 'Owner',
 			];
 			await removeTheseGroups.forEach((group) => {
 				if (group !== 'User') {
