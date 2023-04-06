@@ -62,16 +62,18 @@ export default function ForgotPasswordSubmitView({
 	};
 
 	return (
-		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+		<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
-				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="flex flex-col gap-5 mt-[13rem]">
+			<div className="flex justify-center items-center h-full w-full">
+				<div className="flex flex-col gap-3 w-96">
 					<OrsLogo />
 					<form className="flex flex-col gap-3">
-						<p className="font-semibold text-lg text-center mb-2">Enter Your New Password</p>
+						<h2 className="text-lg sm:text-2xl font-semibold my-6">
+							Enter Your New Password
+						</h2>
 						<PasswordField
 							label="New Password"
 							state={newPassword}
@@ -99,24 +101,21 @@ export default function ForgotPasswordSubmitView({
 								</p>
 							</div>
 						)}
-						<div className='flex justify-center'>
-							<button
-								className="bg-brand-blue-800 h-10 w-full max-w-[23rem] rounded-md text-white font-regular mt-3"
-								type="button"
-								onClick={(e) => forgotPasswordSubmit(e)}
-							>
-								Submit
-							</button>
-						</div>
-						<div className='flex justify-center text-center'>
-							<button
-								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3 text-center"
-								type="button"
-								onClick={() => setUiState('signIn')}
-							>
-								Cancel
-							</button>
-						</div>
+						<button
+							className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular"
+							type="button"
+							onClick={(e) => forgotPasswordSubmit(e)}
+						>
+							Submit
+						</button>
+
+						<button
+							className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular"
+							type="button"
+							onClick={() => setUiState('signIn')}
+						>
+							Cancel
+						</button>
 					</form>
 				</div>
 			</div>
