@@ -19,7 +19,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 	const currentSeason = team.team_history[0];
 	const [userName, setUserName] = useState('');
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	console.log(currentSeason);
+	// console.log(currentSeason);
 
 	const getPicture = async () => {
 		if (!team.team_picture)

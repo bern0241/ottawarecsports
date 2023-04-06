@@ -60,7 +60,7 @@ export default function TeamProfile() {
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log('TEAM', data);
+		// console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -82,6 +82,7 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async (myCaptains) => {
+		if (myCaptains === null) return;
 		setCaptains([]);
 		myCaptains.forEach(async captain => {
 			const params = {
@@ -100,20 +101,6 @@ export default function TeamProfile() {
 			});
 		})
 	}
-
-	useEffect(() => {
-		if (captains) {
-			
-			const captainUsernames = captains.map(captain => captain.Username);
-			
-			if (captainUsernames.includes(user.username)) {
-				setIsCaptain(true);
-			} else {
-				setIsCaptain(false);
-			}
-		}
-	}, [captains])
-
 	function uniqueByUsername(items) {
 		const set = new Set();
 		return items.filter((item) => {
@@ -122,6 +109,19 @@ export default function TeamProfile() {
 			return !isDuplicate;
 		});
 	}
+
+	// CHECKS IF USER IS A CAPTAIN
+	useEffect(() => {
+		if (captains) {
+			const captainUsernames = captains.map(captain => captain.Username);
+			if (captainUsernames.includes(user.username)) {
+				setIsCaptain(true);
+			} else {
+				setIsCaptain(false);
+			}
+		}
+	}, [captains])
+
 
 	//Function for gettin profile image.
 
@@ -144,11 +144,15 @@ export default function TeamProfile() {
 			  const players = await API.graphql({ 
 				query: listPlayers, variables: variables
 			  });
-			  console.log('Members', players.data.listPlayers.items);
+			//   console.log('Members', players.data.listPlayers.items);
 			  setMembers(players.data.listPlayers.items);
 		}, 550);
 		return () => clearTimeout(timer);
+	}
 
+	const goToPlayerPage = (e, user) => {
+		e.preventDefault();
+		router.push(`/players/${user.Username}`)
 	}
 
 	return (
@@ -208,11 +212,11 @@ export default function TeamProfile() {
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Team Captain</h3>
+							<h3 className="mb-1 font-light">Team Captain (s)</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 							{captains && captains.map((captain, index) => (
 								// <>
-								<p  key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+								<p className='cursor-pointer' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
 							))}
 							</div>
 						</div>

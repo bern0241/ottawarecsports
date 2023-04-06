@@ -9,7 +9,7 @@
 import { listDivisions } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
-import CreateButton from '../CreateButton';
+import CreateButton from '../../../common/CreateButton';
 import DivisionCard from './DivisionCard';
 import CreateDivisionModal from './Modals/CreateDivisionModal';
 

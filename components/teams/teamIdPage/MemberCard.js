@@ -23,7 +23,6 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             if (member.role === null) {
                 setCurrentRole('Player');
             }
-
             const params = {
                 Username: member.user_id,
                 UserPoolId: 'us-east-1_70GCK7G6t'
@@ -75,8 +74,9 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
                 </button>
             )}
     </div>
+    
     {openDeleteModal && (
-        <DeletePlayerModal player={member} user={user} openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+        <DeletePlayerModal player={member} fullName={userName} openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} />
     )}
     {changeRoleModal && (
         <ChangeRoleModal setOpenModal={setChangeRoleModal} member={member} userName={userName} newRole={newRole} setCurrentRole={setCurrentRole} fetchCaptains={fetchCaptains} />

@@ -12,7 +12,7 @@ import { listTeamDivisions, getDivision } from '@/src/graphql/queries';
 // import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
-import CreateButton from '../CreateButton';
+import CreateButton from '../../../common/CreateButton';
 import AddTeamDropdown from './AddTeamDropdown';
  
  export default function TeamTable() {
