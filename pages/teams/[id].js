@@ -82,24 +82,29 @@ export default function TeamProfile() {
 }
 
 	const fetchCaptains = async (myCaptains) => {
-		if (myCaptains === null) return;
-		setCaptains([]);
-		myCaptains.forEach(async captain => {
-			const params = {
-				Username: captain,
-				UserPoolId: 'us-east-1_70GCK7G6t'
-			}
-			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-				if (err) console.log(err, err.stack); // an error occurred
-				else     {
-					// setCaptains(data);
-					setCaptains((captains) => {
-						return uniqueByUsername([...captains, data]);
-					} );
-					// return;
-				}          
-			});
-		})
+		try {
+			if (myCaptains === null) return;
+			setCaptains([]);
+			myCaptains.forEach(async captain => {
+				const params = {
+					Username: captain,
+					UserPoolId: 'us-east-1_70GCK7G6t'
+				}
+				cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+					if (err) console.log(err, err.stack); // an error occurred
+					else     {
+						// setCaptains(data);
+						setCaptains((captains) => {
+							return uniqueByUsername([...captains, data]);
+						} );
+						// return;
+					}          
+				});
+			})
+			isCaptainCheckFunc();
+		} catch (error) {
+			console.log(error);
+		}
 	}
 	function uniqueByUsername(items) {
 		const set = new Set();
@@ -113,6 +118,13 @@ export default function TeamProfile() {
 	// CHECKS IF USER IS A CAPTAIN
 	useEffect(() => {
 		if (captains) {
+			isCaptainCheckFunc();
+		}
+	}, [captains])
+
+	const isCaptainCheckFunc = () => {
+		if (captains) 
+		{
 			const captainUsernames = captains.map(captain => captain.Username);
 			if (captainUsernames.includes(user.username)) {
 				setIsCaptain(true);
@@ -120,7 +132,7 @@ export default function TeamProfile() {
 				setIsCaptain(false);
 			}
 		}
-	}, [captains])
+	}
 
 
 	//Function for gettin profile image.

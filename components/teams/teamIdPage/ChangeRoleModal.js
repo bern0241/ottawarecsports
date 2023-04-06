@@ -73,15 +73,6 @@ export default function ChangeRoleModal({ setOpenModal, newRole, member, userNam
         }
     }
 
-    // function uniqueBySelf(items) {
-    //     const set = new Set();
-    //     return items.filter((item) => {
-    //       const isDuplicate = set.has(item);
-    //       set.add(item);
-    //       return !isDuplicate;
-    //     });
-    // }
-
     const updateTeamFunc = async (newCaptains) => {
         try {
             const data = {
