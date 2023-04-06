@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import SeasonCard from './SeasonCard';
-import CreateButton from '../CreateButton';
+import CreateButton from '../../../common/CreateButton';
 import CreateSeasonModal from './Modals/CreateSeasonModal';
 import { listSeasons } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
@@ -122,11 +122,11 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
                 </tbody>
             </table>
         </div>
-                {newSeasonModal && (
-                    <>
-                    <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
-                    </>
-                )}
+        {newSeasonModal && (
+            <>
+            <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />
+            </>
+        )}
               </>
     )
 }

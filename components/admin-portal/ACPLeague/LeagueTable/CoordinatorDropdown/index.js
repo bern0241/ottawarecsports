@@ -38,7 +38,7 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
         <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
 
         </div>
-        <input value={searchUser} onChange={(e) => setSearchUser(e.target.value)} type="text" id="input-group-search" class="block w-[69%] p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search user" />
+        <input value={searchUser} onChange={(e) => setSearchUser(e.target.value)} type="text" id="input-group-search" class="block w-[69%] p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search coordinators" />
         <button onClick={(e) => setSearchFunc(e)} class="text-white absolute right-0 top-[1px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
 
       </div>
@@ -53,9 +53,11 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
     })
     .map((user) => (
         <>
-        <li className='cursor-pointer' onClick={(e) => addCoordinator(e, user)}>
-            <UserCard searchUser={searchUser} user={user} />
-        </li>
+        {(user && user.Groups.includes('Coordinator')) && (
+          <li className='cursor-pointer' onClick={(e) => addCoordinator(e, user)}>
+              <UserCard searchUser={searchUser} user={user} />
+          </li>
+        )}
         </>
     ))}
 

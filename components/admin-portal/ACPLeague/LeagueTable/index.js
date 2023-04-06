@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import CreateButton from '../CreateButton';
+import CreateButton from '../../../common/CreateButton';
 import LeagueCard from './LeagueCard';
 import CreateLeagueModal from './Modals/CreateLeagueModal';
 import { API } from '@aws-amplify/api';

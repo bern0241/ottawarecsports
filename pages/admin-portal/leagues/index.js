@@ -22,11 +22,18 @@ import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable'
 
   export default function Home() {
       const [user, setUser, authRoles, setAuthRoles] = useUser();
-      const router = useRouter();
 
     const [selectedLeague, setSelectedLeague] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [selectedDivision, setSelectedDivision] = useState(null);
+
+    if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
+        return (
+            <div className="flex items-center justify-center h-[50vh]">
+                <h2>You do not have access for this page</h2>
+            </div>
+        );
+    }
 
       return (
           <>
@@ -39,17 +46,17 @@ import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable'
   
               <main className='w-full flex justify-center max-w-[70em] mx-auto'>
                   <div className="flex flex-col w-full">
-
-                      <ACPLeagueTable sport='Soccer' 
+                    <ACPLeagueTable sport='Soccer' 
                                 selectedLeague={selectedLeague} 
                                 setSelectedLeague={setSelectedLeague} />
-                      <ACPSeasonTable selectedLeague={selectedLeague}
+                    <ACPSeasonTable selectedLeague={selectedLeague}
                                 selectedSeason={selectedSeason} 
                                 setSelectedSeason={setSelectedSeason} />
-                      <ACPDivisionTable selectedSeason={selectedSeason}
+                    <ACPDivisionTable selectedSeason={selectedSeason}
                         selectedDivision={selectedDivision} 
                         setSelectedDivision={setSelectedDivision} 
-                        selectedLeague={selectedLeague} /> 
+                        selectedLeague={selectedLeague} 
+                        /> 
                   </div>
               </main>
           </>
