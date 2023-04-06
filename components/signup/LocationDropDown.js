@@ -6,17 +6,19 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { Select } from 'flowbite-react';
+import { Label, Select } from 'flowbite-react';
 import React from 'react';
 
 export default function LocationDropDown({ state, setState }) {
 	return (
 		<div>
+			<Label htmlFor="location" value="Location" className="sr-only" />
 			<Select
 				onChange={(e) => setState(e.target.value)}
 				id="location"
+				placeholder="Location"
 				required={true}
-				className="w-96 border border-black rounded-md "
+				className="w-96"
 			>
 				<option color="red" selected disabled>
 					Location *
