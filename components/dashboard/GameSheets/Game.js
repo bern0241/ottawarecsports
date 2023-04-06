@@ -23,7 +23,7 @@ export default function Game({game}) {
 
   useEffect(() => {
     dateOfGame();
-    if(authRoles.includes('Admin') || authRoles.includes('Owner') || authRoles.includes('Referee')){
+    if(authRoles.includes('Admin') || authRoles.includes('Owner')){
       setVisible(true)
     }
     if (game.referees) {
@@ -34,6 +34,8 @@ export default function Game({game}) {
       }
     }
     }, []);
+    console.log(game.referees)
+    console.log(visible);
 
   const dateOfGame = () => {
     const resp = new Date(game.date);
