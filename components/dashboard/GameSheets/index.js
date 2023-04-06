@@ -22,6 +22,8 @@ export default function GameSheets() {
 
   const fetchGames = async () => {
     const response = await getAllMatches();
+    // const finishedGames = response.filter(object => object.status === 'FINISHED')
+    // setGames(finishedGames);
     setGames(response);
   };
 

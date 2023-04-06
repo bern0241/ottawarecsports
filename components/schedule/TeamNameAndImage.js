@@ -27,9 +27,10 @@ const TeamNameAndImage = ({
 	};
 
 	return (
-		<span className="flex flex-row items-center gap-3">
+		<>
 			{reverse === true ? (
 				<>
+        <div className="xl:flex flex-row items-center gap-3">
 					<img
 						style={{ objectFit: 'cover' }}
 						width={72}
@@ -38,20 +39,23 @@ const TeamNameAndImage = ({
 						src={profileImage}
 					/>
 					<p>{teamName}</p>
+        </div>
 				</>
 			) : (
 				<>
-					<p>{teamName}</p>
+        <div className="flex flex-col xl:flex-row items-center gap-3">
+					<p className="order-last ">{teamName}</p>
 					<img
 						style={{ objectFit: 'cover' }}
 						width={72}
 						height={72}
-						className="rounded-full border w-[72px] h-[72px]"
+						className="rounded-full border w-[72px] h-[72px] xl:order-last"
 						src={profileImage}
 					/>
+        </div>
 				</>
 			)}
-		</span>
+		</>
 	);
 };
 
