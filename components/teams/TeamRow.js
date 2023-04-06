@@ -19,7 +19,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 	const currentSeason = team.team_history[0];
 	const [userName, setUserName] = useState('');
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	console.log(currentSeason);
+	// console.log(currentSeason);
 
 	const getPicture = async () => {
 		if (!team.team_picture)
@@ -78,7 +78,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			</td>
 			<td className="p-5">{team.sports || 'Soccer'}</td>
 			<td className="p-5">
-				{currentSeason ? currentSeason.roster.length : 0}/15
+				{team ? team.Players.items.length : 0}
 			</td>
 		</tr>
 	);

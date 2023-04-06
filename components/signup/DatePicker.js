@@ -7,7 +7,6 @@
  */
 
 import React, { useState } from 'react';
-import Datepicker from 'tailwind-datepicker-react';
 import {
 	IconChevronLeft,
 	IconChevronRight,
@@ -20,7 +19,7 @@ const options = {
 	autoHide: true,
 	todayBtn: false,
 	clearBtn: true,
-	maxDate: new Date('2030-01-01'),
+	maxDate: new Date(),
 	minDate: new Date('1950-01-01'),
 	theme: {
 		background: 'bg-white border border-black',
@@ -55,7 +54,6 @@ export default function DobDatePicker({ state, setState }) {
 
 	const handleChange = (selectedDate) => {
 		setState(selectedDate.toISOString().split('T')[0]);
-		console.log(selectedDate.toISOString().split('T')[0]);
 	};
 	const handleClose = () => {
 		setShow(!show);

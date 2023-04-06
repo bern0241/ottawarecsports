@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-30
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -12,18 +12,20 @@ import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import Link from 'next/link';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
 import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
-import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
+import { listPlayers, getTeam as getTeamQuery, getDivision, getSeason, getLeague } from '@/src/graphql/queries';
 
 export default function PlayerProfile() {
-	const router = useRouter();
-	const userId = router.query.id;
-	const [player, setPlayer] = useState(); // Player Table
 	const [user, setUser] = useState(); // Cognito User
 	const [profileImage, setProfileImage] = useState('');
+	const [sport, setSport] = useState('Soccer');
+	const [players, setPlayers] = useState(); // Player Table
 	const [teams, setTeams] = useState([]);
+	const router = useRouter();
+	const userId = router.query.id;
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
@@ -31,8 +33,8 @@ export default function PlayerProfile() {
 			return;
 		}
 		const callMe = async () => {
-			await fetchPlayer();
 			await fetchPlayerCognito();
+			// await fetchPlayers();
 			await fetchTeams();
 		}
 		callMe();
@@ -45,18 +47,11 @@ export default function PlayerProfile() {
 		getPicture();
 	}, [user]);
 
-	useEffect(() =>{
-		if(player != undefined){
-			getTeamName();
-		}
-	}, [player]);
-
-	const fetchPlayer = async () => {
-		const data = await getPlayersByUsername(userId);
-		if (data) {
-			setPlayer(data[0]);
-		}
-	};
+	// useEffect(() =>{
+	// 	if(player != undefined){
+	// 		getTeamName();
+	// 	}
+	// }, [player]);
 
 	const fetchPlayerCognito = async () => {
 		var params = {
@@ -69,6 +64,15 @@ export default function PlayerProfile() {
 			else setUser(data);
 		});
 	};
+
+	// GETS ALL PLAYER DATA MODELS FOR THIS USER (Every team they are in)
+	// const fetchPlayers = async () => {
+	// 	const data = await getPlayersByUsername(userId);
+	// 	if (data) {
+	// 		setPlayer(data);
+	// 	}
+	// };
+
 
 	const getPicture = async () => {
 		if (
@@ -83,16 +87,15 @@ export default function PlayerProfile() {
 		}
 	};
 
-	const getTeamName = async () => {
-		if (player.soccer_stats){
-			const teamId = player.soccer_stats[0].team;
-		const data = await getTeam(teamId);
-		setTeamName(data.name);
-		}
-		else {
-		
-	}
-	}
+	// const getTeamName = async () => {
+	// 	if (player.soccer_stats){
+	// 		const teamId = player.soccer_stats[0].team;
+	// 	const data = await getTeam(teamId);
+	// 	setTeamName(data.name);
+	// 	}
+	// 		else {
+	// 	}
+	// }
 
 	const fetchTeams = async () => {
 		setTeams([]);
@@ -100,25 +103,58 @@ export default function PlayerProfile() {
 			filter: {
 			  user_id: {
 				eq: userId
+			  },
+			  teamID: {
+				attributeExists: true
 			  }
 			}
 		  };
-		  const players = await API.graphql({ 
+		const players = await API.graphql({ 
 			query: listPlayers, variables: variables
-		  });
-		  if (!players) { return; }
-		  players.data.listPlayers.items.map(async (player) => {
-				const apiData = await API.graphql({ query: getTeam2, variables: { id: player.teamID }});
-				const data = await apiData.data.getTeam;
-				setTeams((teams) => [...teams, data]);
+		});
+		// console.log('PLAYERS??', players.data.listPlayers.items);
+		if (!players) { return; }
+
+		players.data.listPlayers.items.map(async (player) => {
+			const apiData = await API.graphql({ query: getTeamQuery, variables: { id: player.teamID }});
+			let data = await apiData.data.getTeam;
+			data.player_role = player.role;
+			setTeams((teams) => 
+			{
+				return uniqueById([...teams, data])
+			});
+			console.log('TEAMS!', data)
+			console.log('PLAYERS!', players.data.listPlayers.items)
 		  })
 	}
 
+	// const getSportFromLeague = async (teamObj) => {
+	// 	//Start with Team -> Division
+	// 	const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: '087b8643-5cef-4078-8b98-34c2e08ff737'}})
+	// 	const dataDivision = await apiDataDivision.data.getDivision;
+	// 	console.log('DATA DIVISION ID',apiDataDivision.data.getDivision.Teams.items.map(item => item.divisionId));
+	// 	// Get Season from division
+	// 	const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: dataDivision.season }})
+	// 	const dataSeason = await apiDataSeason.data.getSeason;
+	// 	// Get League from season
+	// 	const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: dataSeason.league }})
+	// 	const dataLeague = await apiDataLeague.data.getLeague;
+	// 	setSport(dataLeague.sport);
+	// } 
+
+	function uniqueById(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.id);
+			set.add(item.id);
+			return !isDuplicate;
+		});
+	}
+
+
 	return (
 		<>
-		<button onClick={(e) => console.log(user)}>Click me User</button>
-		<button onClick={(e) => console.log(player)}>Click me Player</button>
-			{/* Content */}
+		{/* Content */}
 			<main className="w-full h-screen flex flex-col gap-6 p-8">
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
@@ -233,28 +269,30 @@ export default function PlayerProfile() {
 									</tr>
 								</thead>
 								<tbody>
-									{(player && player.soccer_stats != "") ? (
+								{teams && teams.map((team) => (
 										<>
-										{teams && teams.map((team) => (
-											<>
-											<tr className="font-light">
-												<td className="py-2 px-3">Soccer</td>
-												<td className="py-2 px-3">
-													{team && team.name}
-												</td>
-												<td className="py-2 px-3">
-													{team.captains && team.captains.includes(userId) ? "Captain" : "Player"}
-												</td>
-											</tr>
-											</>
-										))}
-										</>
-									) : (
-										<tr className="text-center text-brand-neutral-800">
-											<td colSpan={3}>
-												This player currently is not a part of any teams.
+										<tr className="font-light">
+											<td className="py-2 px-3">{sport}</td>
+											<td className="py-2 px-3">
+												<Link className='text-blue-500 underline' href={`/teams/${team.id}`}>{team && team.name}</Link>
+											</td>
+											<td className="py-2 px-3">
+												{/* {team.captains && team.captains.includes(userId) ? "Captain" : "Player"} */}
+												{team && team.player_role}
 											</td>
 										</tr>
+										</>
+									))}
+									{(teams && teams.length === 0) && (
+											<>
+										<tr className="font-light mx-auto text-center">
+											<td className=''></td>
+											<td className=''>
+												<p>This player is currently in no teams.</p>
+											</td>
+											<td className=''></td>
+										</tr>
+										</>
 									)}
 								</tbody>
 							</table>

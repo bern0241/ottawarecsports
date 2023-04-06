@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-30
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
@@ -19,23 +19,24 @@ import * as mutations from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 import EditTeamModal from '@/components/teams/EditTeamModal';
 import UsersSearchBar from '@/components/common/UsersSearchBar';
+import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
-import MemberCard from '@/components/teams/MemberCard';
+import MemberCard from '@/components/teams/teamIdPage/MemberCard';
 
 export default function TeamProfile() {
-	const router = useRouter();
-	const teamId = router.query.id;
 	const [team, setTeam] = useState();
 	const [captains, setCaptains] = useState([]);
 	const [members, setMembers] = useState([]);
 	const [profileImage, setProfileImage] = useState('');
-	const [playerUsername, setPlayerUsename] = useState([]);
+	const [playerUsername, setPlayerUsername] = useState([]);
 	// Opens user dropdown
 	const [openDropdown, setOpenDropdown] = useState(false);
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const [user, authRoles] = useUser();
 	const [editModal, setEditModal] = useState(false);
-
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [isCaptain, setIsCaptain] = useState(false);
+	const router = useRouter();
+	const teamId = router.query.id;
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
 		if(!teamId) {
@@ -50,25 +51,20 @@ export default function TeamProfile() {
 
 	useEffect(() => {
 		if (team != undefined) {
-			// console.log('MY TEAM', team);
-			fetchCaptains();
+			fetchCaptains(team.captains);
 			getPicture();
-			setPlayerUsename(team.team_history[0].roster);
+			fetchPlayer();
 		}
 	}, [team])
-
-	useEffect(() => {
-		fetchPlayer();
-	}, [playerUsername])
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log('TEAM', data);
+		// console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
-		if(!playerUsername) return;
+		// if(!playerUsername) return;
 		setMembers([]);
 		playerUsername.forEach(async player => {
 			const params = {
@@ -85,10 +81,10 @@ export default function TeamProfile() {
 	})
 }
 
-	const fetchCaptains = async () => {
-		if (!team.team_history[0].captains) return; //
+	const fetchCaptains = async (myCaptains) => {
+		if (myCaptains === null) return;
 		setCaptains([]);
-		team.team_history[0].captains.forEach(async captain => {
+		myCaptains.forEach(async captain => {
 			const params = {
 				Username: captain,
 				UserPoolId: 'us-east-1_70GCK7G6t'
@@ -97,13 +93,35 @@ export default function TeamProfile() {
 				if (err) console.log(err, err.stack); // an error occurred
 				else     {
 					// setCaptains(data);
-					setCaptains(captains => [...captains, data] );
-					return;
-				}          // successful response
+					setCaptains((captains) => {
+						return uniqueByUsername([...captains, data]);
+					} );
+					// return;
+				}          
 			});
 		})
-		// console.log('Captains', captains);
 	}
+	function uniqueByUsername(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.Username);
+			set.add(item.Username);
+			return !isDuplicate;
+		});
+	}
+
+	// CHECKS IF USER IS A CAPTAIN
+	useEffect(() => {
+		if (captains) {
+			const captainUsernames = captains.map(captain => captain.Username);
+			if (captainUsernames.includes(user.username)) {
+				setIsCaptain(true);
+			} else {
+				setIsCaptain(false);
+			}
+		}
+	}, [captains])
+
 
 	//Function for gettin profile image.
 
@@ -114,88 +132,31 @@ export default function TeamProfile() {
 		setProfileImage(url);
 	};
 
-	//Function to delete Player
-
-	async function deletePlayer(player){
-			console.log(player.Username);
-			/**DELETE PLAYER FROM TEAM */
-		// in team.team_history, find the current SoccerTeamStat object, which represents the current season
-		// in this phase no history, so its always going to be team.team_history[0]
-		// team.team_history[0], which is an array, remove the player's id from the array
-
-		// store a copy version of team.team_history[0] in an array
-		// const newTeamHistoryArray = team.team_history[0]
-
-		// remove the player id from the array
-		// newTeamHistoryArray.team_history[0].splice(index, 1)
-		
-		console.log(team.team_history[0]);
-
-		const newTeamRosterArray = team.team_history[0].roster.filter(item => item !== player.Username)
-		// console.log(newTeamHistoryArray);
-
-		// const newTeamHistoryArray = 
-		// team.team_history[0].roster = newTeamRosterArray
-
-		const data = {
-			id: teamId,
-			team_history:{
-				roster: newTeamRosterArray
-			}
-		}
-		const resp = await API.graphql({
-			query: mutations.updateTeam,
-			variables: {
-				input: data,
-			},
-		});
-
-		// run the updateTeam function
-		/**
-		 * updateTeam(
-		 * {
-		 * 	team_history: newTeamHistoryArray
-		 * }
-		 * )
-		 */
-
-		/**DELETE TEAM FROM PLAYER */
-		// if doest have current player, get current player using the id (should be username)
-
-		// the teams are stored in player.soccer_stats
-		// const playerTeams = player.soccer_stats
-
-		// find the index of the object that represents the team that the player is being removed from
-		// const teamIndex = player.soccer_stats.indexOf(e => e.team === team.id)
-
-		// remove this object from the array
-		// playerTeams.soccer_stats.splice(teamIndex, 1)
-
-		// run the update function 
-		/**
-		 * updatePlayer({
-		 * 	soccer_starts: playerTeams
-		 * })
-		 */
+	const fetchPlayersFromTeam = async () => {
+		const timer = setTimeout(async () => {
+			const variables = {
+				filter: {
+				  teamID: {
+					eq: teamId
+				  }
+				}
+			  };
+			  const players = await API.graphql({ 
+				query: listPlayers, variables: variables
+			  });
+			//   console.log('Members', players.data.listPlayers.items);
+			  setMembers(players.data.listPlayers.items);
+		}, 550);
+		return () => clearTimeout(timer);
 	}
 
-	const fetchPlayersFromTeam = async () => {
-		const variables = {
-			filter: {
-			  teamID: {
-				eq: teamId
-			  }
-			}
-		  };
-		  const players = await API.graphql({ 
-			query: listPlayers, variables: variables
-		  });
-		  console.log('Members', players.data.listPlayers.items);
-		  setMembers(players.data.listPlayers.items);
+	const goToPlayerPage = (e, user) => {
+		e.preventDefault();
+		router.push(`/players/${user.Username}`)
 	}
 
 	return (
-		<main className="w-full h-screen flex flex-col gap-6 p-8">
+		<main className="w-full flex flex-col gap-6 p-8 pt-0">
 			{/* Edit Modal */}
 			<EditTeamModal
 				isVisible={editModal}
@@ -230,6 +191,7 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
+						{(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
 						<button
 							onClick={() => setEditModal(true)}
 							type="button"
@@ -237,6 +199,7 @@ export default function TeamProfile() {
 						>
 							Edit Team Details
 						</button>
+						)}
 					</div>
 
 					{/* Player Information */}
@@ -249,11 +212,11 @@ export default function TeamProfile() {
 						</div>
 
 						<div className="col-span-1 flex flex-col">
-							<h3 className="mb-1 font-light">Team Captain</h3>
+							<h3 className="mb-1 font-light">Team Captain (s)</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 							{captains && captains.map((captain, index) => (
 								// <>
-								<p  key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+								<p className='cursor-pointer' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
 							))}
 							</div>
 						</div>
@@ -297,23 +260,25 @@ export default function TeamProfile() {
 							
 							<div className=" w-full border border-brand-blue-900/25 rounded">
 								<div className="w-full relative flex flex-row justify-between items-center">
-								<h2 className="mb-1 font-light">Members</h2>
-								<button
-									onClick={(e) => setOpenDropdown(!openDropdown)}
-									type="button"
-									className="bg-brand-blue-800 text-center rounded w-[10rem] text-white font-regular flex"
-								>
-									Add Members
-								</button>
+								<h2 className="mb-1 p-2 text-[.92rem] font-light">Team Members</h2>
+								{(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
+									<button
+										onClick={(e) => setOpenDropdown(!openDropdown)}
+										type="button"
+										className="bg-brand-blue-800 rounded px-5 py-1 text-white font-regular text-center rounded-full"
+										>
+										Add Members
+									</button>
+								)}
 								{/* // DROP */}
 								{openDropdown && (
-									<UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+									<AddMemberDropdown members={members} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 								)}
 
 								</div>
 								{members && members.map((member) => (
 									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.id} >
-										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} />
 									</div>
 								))}
 							</div>
