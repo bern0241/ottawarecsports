@@ -5,9 +5,11 @@ import { useRouter } from 'next/router';
 import DeletePlayerModal from '../DeletePlayerModal';
 import ChoosePlayerRole from './ChoosePlayerRole';
 import ChangeRoleModal from './ChangeRoleModal';
+import { useUser } from '@/context/userContext';
 
 export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains, isCaptain }) {
-    const [user, setUser] = useState();
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    const [userCognito, setUserCognito] = useState();
     const [userName, setUserName] = useState();
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [newRole, setNewRole] = useState('');
@@ -29,7 +31,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
                 if (err) console.log(err, err.stack); // an error occurred
                 else     {
-                    setUser(data);
+                    setUserCognito(data);
                     setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']}
                     ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
                 }          // successful response
@@ -54,7 +56,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
         <p className='text-black'>
             {userName}
         </p>
-            {isCaptain && (
+            {(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) ? (
                 <ChoosePlayerRole clickStopPropagationFunc={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
@@ -64,11 +66,10 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
                     setNewRole={setNewRole}
                     setChangeRoleModal={setChangeRoleModal}
                 />
-            )}
-            {!isCaptain && (
+            ) : (
                 <p>{currentRole}</p>
             )}
-            {isCaptain && (
+            {(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
                 <button className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
                     <IconX/>
                 </button>

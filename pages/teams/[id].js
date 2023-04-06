@@ -32,7 +32,7 @@ export default function TeamProfile() {
 	// Opens user dropdown
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const [editModal, setEditModal] = useState(false);
-	const [user, authRoles] = useUser();
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [isCaptain, setIsCaptain] = useState(false);
 	const router = useRouter();
 	const teamId = router.query.id;
@@ -103,7 +103,9 @@ export default function TeamProfile() {
 
 	useEffect(() => {
 		if (captains) {
+			
 			const captainUsernames = captains.map(captain => captain.Username);
+			
 			if (captainUsernames.includes(user.username)) {
 				setIsCaptain(true);
 			} else {
@@ -185,7 +187,7 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
-						{isCaptain && (
+						{(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
 						<button
 							onClick={() => setEditModal(true)}
 							type="button"
@@ -195,6 +197,7 @@ export default function TeamProfile() {
 						</button>
 						)}
 					</div>
+					<button onClick={(e) => console.log(authRoles)}>CLICK ME</button>
 
 					{/* Player Information */}
 					<div className="col-span-3 sm:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">
@@ -255,17 +258,18 @@ export default function TeamProfile() {
 							<div className=" w-full border border-brand-blue-900/25 rounded">
 								<div className="w-full relative flex flex-row justify-between items-center">
 								<h2 className="mb-1 p-2 text-[.92rem] font-light">Team Members</h2>
-								<button
-									onClick={(e) => setOpenDropdown(!openDropdown)}
-									type="button"
-									className="bg-brand-blue-800 rounded px-5 py-1 text-white font-regular text-center rounded-full"
-									>
-									Add Members
-								</button>
+								{(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
+									<button
+										onClick={(e) => setOpenDropdown(!openDropdown)}
+										type="button"
+										className="bg-brand-blue-800 rounded px-5 py-1 text-white font-regular text-center rounded-full"
+										>
+										Add Members
+									</button>
+								)}
 								{/* // DROP */}
 								{openDropdown && (
 									<AddMemberDropdown members={members} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
-									// <UsersSearchBar openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setMembers={setMembers} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 								)}
 
 								</div>
