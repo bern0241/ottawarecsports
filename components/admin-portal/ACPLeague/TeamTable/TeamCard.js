@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import RemoveTeamModal from './RemoveTeamModal';
-import { IconTrash, IconEdit } from '@tabler/icons-react';
+import { IconTrash, IconEdit, IconCut } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
@@ -112,7 +112,7 @@ import AWS from 'aws-sdk';
                      {membersCount}
                  </td>
                  <td class="flex gap-4 px-6 py-4 text-center justify-center">
-                     <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
+                     <IconCut onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconCut>
                  </td>
                  </tr>
          
