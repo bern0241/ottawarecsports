@@ -57,12 +57,12 @@ export default function SignInView({ setUiState }) {
 				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
 			</div>
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center w-96 mt-[13rem]">
+				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
 					<div className="">
 						<OrsLogo />
 					</div>
 					<div className="">
-						<p className="text-lg font-semibold my-5 mt-6">Sign In</p>
+						<h2 className="text-lg sm:text-2xl font-semibold my-5">Sign In</h2>
 						<form className="flex flex-col w-96 gap-3">
 							<TextInput
 								id="email"
@@ -72,7 +72,7 @@ export default function SignInView({ setUiState }) {
 								required={true}
 								className="w-96 border border-black rounded-md "
 								onKeyDown={(e) => {
-									if (e.key === 'Enter' ) {
+									if (e.key === 'Enter') {
 										handleSubmit(e);
 									}
 								}}
@@ -84,7 +84,7 @@ export default function SignInView({ setUiState }) {
 								showPassword={showPassword}
 								setShowPassword={setShowPassword}
 								onKeyDown={(e) => {
-									if (e.key === 'Enter' ) {
+									if (e.key === 'Enter') {
 										handleSubmit(e);
 									}
 								}}
