@@ -17,10 +17,13 @@
      const [fullName, setFullName] = useState();
 
      useEffect(() => {
+        console.log('??',user);
         if (user) {
-            setFullName(`${user.UserAttributes.find((o) => o.Name === 'name')['Value']} ${
-                user.UserAttributes.find((o) => o.Name === 'family_name')['Value']
-            }`)
+            setFullName(`${user.attributes.name} ${
+                user.attributes.family_name}`)
+            // setFullName(`${user.UserAttributes.find(o => o.Name === 'name')['Value']} ${
+            //     user.UserAttributes.find(o => o.Name === 'family_name')['Value']
+            // }`)
         }
      }, [user])
  
