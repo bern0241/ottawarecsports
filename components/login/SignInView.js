@@ -56,13 +56,11 @@ export default function SignInView({ setUiState }) {
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
 			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+			<div className="flex justify-center items-center h-full w-full">
+				<div className="mx-1.5 content-center w-96">
+					<OrsLogo />
 					<div className="">
-						<OrsLogo />
-					</div>
-					<div className="">
-						<p className="text-lg sm:text-2xl font-semibold my-5">Sign In</p>
+						<h2 className="text-lg sm:text-2xl font-semibold my-5">Sign In</h2>
 						<form className="flex flex-col w-96 gap-3">
 							<TextInput
 								id="email"
