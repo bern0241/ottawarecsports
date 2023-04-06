@@ -9,17 +9,23 @@
 import { useState, useEffect } from 'react';
 import { IconEdit } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
-import { getImageFromS3 } from '@/utils/graphql.services';
+import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 
 export default function TeamRow({ team, setCurrentTeam }) {
 	const router = useRouter();
 	const [profileImage, setProfileImage] = useState('');
-	const currentSeason = team.team_history[0];
+	// const currentSeason = team.team_history[0];
+	const [captains, setCaptains] = useState([]);
 	const [userName, setUserName] = useState('');
+
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	console.log(currentSeason);
+
+	useEffect(() => {
+		getPicture();
+		fetchCaptains(team.captains);
+	}, []);
 
 	const getPicture = async () => {
 		if (!team.team_picture)
@@ -28,24 +34,33 @@ export default function TeamRow({ team, setCurrentTeam }) {
 		setProfileImage(url);
 	};
 
-	useEffect(() => {
-		getPicture();
-		if (currentSeason.captains) {
-			fetchUser(currentSeason.captains[0]);
+	const fetchCaptains = async (myCaptains) => {
+		if (myCaptains === null) {
+		   setCaptains([]);
+		   return;
 		}
-	}, []);
+		setCaptains([]);
+		myCaptains.forEach(async captain => {
+			const params = {
+				Username: captain,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     {
+					// setCaptains(data);
+					setCaptains((captains) => {
+						return uniqueByUsername([...captains, data]);
+					} );
+					// return;
+				}          
+			});
+		})
+	}
 
-	const fetchUser = (captainUsername) => {
-		const params = {
-			Username: captainUsername,
-			UserPoolId: 'us-east-1_70GCK7G6t'
-		}
-		cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-			if (err) console.log(err, err.stack); // an error occurred
-			else     {
-				setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
-			}          // successful response
-		});
+	const goToPlayerPage = (e, captain) => {
+		e.stopPropagation();
+		router.push(`/players/${captain.Username}`)
 	}
 
 	const navigateToProfile = () => {
@@ -70,15 +85,14 @@ export default function TeamRow({ team, setCurrentTeam }) {
 				</div>
 			</td>
 			<td className="p-5">
-				{currentSeason
-					? currentSeason.captains && currentSeason.captains.map((captain, index) => (
-							<span key={index}>{userName}</span>
-					  ))
-					: 'John Doe'}
+				{captains && captains.map((captain, index) => (
+                     <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+                 ))}
 			</td>
 			<td className="p-5">{team.sports || 'Soccer'}</td>
 			<td className="p-5">
-				{team ? team.Players.items.length : 0}
+				<p className='text-[1.4rem]'>{team ? team.Players.items.length : 0}</p>
+				
 			</td>
 		</tr>
 	);

@@ -9,7 +9,7 @@
  import React, { useState, useEffect } from 'react';
  import { IconTrash, IconEdit, IconCut } from '@tabler/icons-react';
  import { useRouter } from 'next/router';
- import { getImageFromS3 } from '@/utils/graphql.services';
+ import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
  import AWS from 'aws-sdk';
 import DeleteTeamModal from './DeleteTeamModal';
 import EditTeamModal from './EditTeamModal';
@@ -54,14 +54,6 @@ import EditTeamModal from './EditTeamModal';
          })
      }
  
-     function uniqueByUsername(items) {
-         const set = new Set();
-         return items.filter((item) => {
-             const isDuplicate = set.has(item.Username);
-             set.add(item.Username);
-             return !isDuplicate;
-         });
-     }
  
       const getTeamImage = async () => {
        if (team.team_picture === null || team.team_picture === '') {

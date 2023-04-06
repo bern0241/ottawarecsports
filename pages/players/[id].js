@@ -261,7 +261,7 @@ export default function PlayerProfile() {
 											Sport
 										</th>
 										<th className="py-2 px-3 text-sm font-light w-4/12">
-											Team
+											Team (s)
 										</th>
 										<th className="py-2 px-3 text-sm font-light w-4/12">
 											Role
@@ -277,8 +277,12 @@ export default function PlayerProfile() {
 												<Link className='text-blue-500 underline' href={`/teams/${team.id}`}>{team && team.name}</Link>
 											</td>
 											<td className="py-2 px-3">
-												{/* {team.captains && team.captains.includes(userId) ? "Captain" : "Player"} */}
-												{team && team.player_role}
+												{team.player_role === 'Player' && (
+													<p>Player</p>
+												)}
+												{team.player_role === 'Captain' && (
+													<p className='font-medium'>Captain</p>
+												)}
 											</td>
 										</tr>
 										</>

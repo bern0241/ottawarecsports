@@ -397,3 +397,12 @@ export const getLeagues = async () => {
 		console.warn(err);
 	}
 };
+
+export function uniqueByUsername(items) {
+	const set = new Set();
+	return items.filter((item) => {
+		const isDuplicate = set.has(item.Username);
+		set.add(item.Username);
+		return !isDuplicate;
+	});
+}
