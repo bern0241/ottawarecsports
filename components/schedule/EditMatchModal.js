@@ -13,11 +13,10 @@ import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
 
 const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
-	console.log(match);
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
-	const [homeColour, setHomeColour] = useState('Red');
-	const [awayColour, setAwayColour] = useState('Blue');
+	const [homeColour, setHomeColour] = useState(match.home_color);
+	const [awayColour, setAwayColour] = useState(match.away_colo);
 	const [matchDate, setMatchDate] = useState('');
 	const [referees, setReferees] = useState([]);
 	const [startTime, setStartTime] = useState('');
@@ -66,7 +65,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			),
 		},
 		datepickerClassNames: 'top-12',
-		defaultDate: new Date(),
+		defaultDate: new Date(match.date),
 		language: 'en',
 	};
 
@@ -81,20 +80,12 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 	}
 
 	const handleChange = (selectedDate) => {
-		setDate(getConvertedDate(selectedDate));
+		setMatchDate(getConvertedDate(selectedDate));
 		console.log(getConvertedDate(selectedDate));
 	};
 	const handleClose = (state) => {
 		setShowFounded(state);
 	};
-
-	//#region useEffect(s)
-	useEffect(() => {
-		if (match) {
-			//Fill the modal fields to whatever match data you received.
-			console.log(match);
-		}
-	}, [match]);
 
 	useEffect(() => {
 		if (homeTeam) {
@@ -111,11 +102,53 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 	}, [awayTeam]);
 
 	useEffect(() => {
+		const getGameColors = () => {
+			const timer = setTimeout(() => {
+				setHomeColour(match.home_color);
+				setAwayColour(match.away_colo);
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+		getGameColors();
+	}, [])
+
+	useEffect(() => {
 		fetchRefereeList();
 		setStartTime(getCurrentTime());
 		fillMatchModalFields();
 		getDateAndTime();
+		convertRefereesToObject();
 	}, []);
+
+	const convertRefereesToObject = () => {
+		match.referees.map((referee) => {
+			const params = {
+				Username: referee,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+                if (err) console.log(err, err.stack); // an error occurred
+                else   {
+                    let data2 = {
+                        name: `${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`,
+                        username: data.Username
+                    }
+                    setReferees((referees) => {
+						return uniqueByUsernameSmall([...referees, data2]);
+					} );
+                } 
+            });
+		})
+	}
+
+	function uniqueByUsernameSmall(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item.username);
+          set.add(item.username);
+          return !isDuplicate;
+        });
+    }
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -144,11 +177,11 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 	const fillMatchModalFields = () => {
 		//populate the modal with data from the params
-		setHomeTeam(match.gameHomeTeam);
-		setHomeColour(match.HomeTeam.home_colour);
-		setAwayTeam(match.gameAwayTeam);
-		setAwayColour(match.AwayTeam.away_colour);
-		setReferees(match.referees);
+		setHomeTeam(match.HomeTeam);
+		setHomeColour(match.home_color);
+		setAwayTeam(match.AwayTeam);
+		setAwayColour(match.away_colo);
+		// setReferees(match.referees);
 		setMatchLocation(match.location);
 	};
 
@@ -189,12 +222,15 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 			console.log(convertedTime.format());
 
+			const refereeUsernames = referees.map(a => a.username);
 			const matchData = {
 				id: match.id,
-				division: divisionID,
+				// division: divisionID,
+				home_color: homeColour,
+				away_colo: awayColour,
 				date: convertedTime,
-				location: location,
-				referees: referees,
+				location: matchLocation,
+				referees: refereeUsernames,
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
@@ -205,6 +241,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			});
 			console.log('New Game', apiData);
 			setMessage({ status: 'success', message: 'Game edited successfully' });
+			router.reload();
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -220,10 +257,39 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			if (err) {
 				console.log(err, err.stack);
 			} else {
-				setListUsers(data.Users);
+				setGroupsForEachUser(data.Users);
+				// setListUsers(data.Users);
 			}
 		});
 	};
+
+	const setGroupsForEachUser = (_users) => {
+        let users = _users;
+        users.map((user) => {
+            //Attributes - Groups
+            var params = {
+              Username: user.Username,
+              UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+            };
+              cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+
+              user.Groups = data.Groups.map(group => group.GroupName);
+              setListUsers((listUsers) => 
+              {
+                  return uniqueByUsername([...listUsers, user])
+              });
+            });
+          })
+      }
+
+	  function uniqueByUsername(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.Username);
+			set.add(item.Username);
+			return !isDuplicate;
+		});
+	}
 
 	const resetData = () => {
 		//TODO: Clear all fields
@@ -526,7 +592,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							</button>
 							<button
 								onClick={(e) => {
-									createNewMatch(e);
+									editMatch(e);
 								}}
 								data-modal-hide="defaultModal"
 								type="button"

@@ -78,6 +78,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					'custom:location': location,
 					phone_number: phoneNumber,
 					gender: gender,
+					role: 'Player',
 					picture: 'none',
 					birthdate: birthDate,
 				},

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
 const TeamNameAndImage = ({ reverse, team }) => {
-  console.log(team)
 	const [profileImage, setProfileImage] = useState('');
 	const getPicture = async () => {
 		if (!team?.team_picture)

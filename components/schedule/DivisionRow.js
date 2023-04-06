@@ -20,18 +20,18 @@ const DivisionRow = ({ key, division }) => {
 	};
 	return (
 		<tr
-			key={division.id}
+			key={division?.id}
 			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
 				<div className="flex items-center">
-					<p>{division.name}</p>
+					<p>{division?.name}</p>
 				</div>
 			</td>
-			<td className="p-5">{division.level}</td>
-			<td className="hidden md:table-cell p-5">{division.abbreviation}</td>
+			<td className="p-5">{division?.level}</td>
+			<td className="hidden md:table-cell p-5">{division?.abbreviation}</td>
 			<td className="p-5 flex justify-center">
 				<CalendarIcon />
 			</td>

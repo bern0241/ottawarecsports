@@ -167,19 +167,21 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 			console.log(convertedTime.format());
-
+			const refereeUsernames = referees.map(a => a.username);
 			const matchData = {
 				division: divisionID,
 				date: convertedTime,
-				location: location,
+				location: matchLocation,
 				status: 'NOT_STARTED',
+				home_color: homeColour,
+				away_colo: awayColour,
 				home_roster: JSON.stringify(homeTeam.Players.items),
 				away_roster: JSON.stringify(awayTeam.Players.items),
 				home_score: 0,
 				away_score: 0,
 				goals: [],
 				round: 1,
-				referees: referees,
+				referees: refereeUsernames,
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
@@ -190,6 +192,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			});
 			console.log('New Game', apiData);
 			setMessage({ status: 'success', message: 'Game created successfully' });
+			router.reload();
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -205,14 +208,43 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			if (err) {
 				console.log(err, err.stack);
 			} else {
-				setListUsers(data.Users);
+				setGroupsForEachUser(data.Users);
+				// setListUsers(data.Users);
 			}
 		});
 	};
 
+	const setGroupsForEachUser = (_users) => {
+        let users = _users;
+        users.map((user) => {
+            //Attributes - Groups
+            var params = {
+              Username: user.Username,
+              UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+            };
+              cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+
+              user.Groups = data.Groups.map(group => group.GroupName);
+              setListUsers((listUsers) => 
+              {
+                  return uniqueByUsername([...listUsers, user])
+              });
+            });
+          })
+      }
+
+	  function uniqueByUsername(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.Username);
+			set.add(item.Username);
+			return !isDuplicate;
+		});
+	}
+
 	const resetData = () => {
 		//TODO: Clear all fields
-		setStartTime('');
+		setStartTime(getCurrentTime());
 	};
 
 	if (!isVisible) return;

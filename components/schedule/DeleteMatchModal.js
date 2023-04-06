@@ -12,6 +12,8 @@ import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 
 export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
+	const router = useRouter();
+
 	useEffect(() => {
 		if (match.Id) {
 			console.log(match.id);
@@ -27,6 +29,7 @@ export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
 					input: { id: match.id },
 				},
 			});
+			router.reload();
 		} catch (error) {
 			console.error(error);
 		}

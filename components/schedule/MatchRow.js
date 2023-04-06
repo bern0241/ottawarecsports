@@ -5,7 +5,7 @@ import DeleteMatchModal from './DeleteMatchModal';
 
 const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 	if (!match) return;
-	console.log(match);
+	// console.log(match);
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -114,7 +114,8 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<span>
 								<LocationIcon />
 							</span>
-							Algonquin Dome Field
+							{match.location}
+							{/* <lINK href={match.location.weblink}></lINK> */}
 						</p>
 					</span>
 				</td>
