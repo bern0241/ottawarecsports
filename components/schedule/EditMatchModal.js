@@ -221,6 +221,13 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				});
 				return;
 			}
+			if (homeColour === awayColour) {
+				setMessage({
+					status: 'error',
+					message: 'Must have two different jersey colors',
+				});
+				return;
+			}
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
@@ -400,7 +407,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 										<div
 											type="text"
 											id="awayteam"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 											placeholder=""
 											required
 										/>
@@ -435,7 +442,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							>
 								<label
 									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Referee(s)
 								</label>
@@ -444,7 +451,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 									disabled
 									type="text"
 									id="name"
-									class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
+									className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
 								/>
 								<div className="absolute right-2 top-[2.8rem]">
 									<ion-icon
@@ -481,7 +488,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-full">
 								<label
 									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Date
 								</label>
@@ -611,7 +618,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			</div>
 			<div
 				onClick={(e) => setIsVisible(false)}
-				class="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);

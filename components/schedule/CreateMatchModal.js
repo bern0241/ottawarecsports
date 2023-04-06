@@ -51,8 +51,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		autoHide: true,
 		todayBtn: false,
 		clearBtn: false,
-		maxDate: new Date('2030-01-01'),
-		minDate: new Date('1950-01-01'),
+		//Games can only be scheduled a year in advance
+		maxDate: new Date().setFullYear(new Date().getFullYear() + 1),
+		minDate: new Date('2009-01-01'),
 		theme: {
 			background:
 				'border border-[1px] border-gray-500 shadow-lg relative right-0',
@@ -305,7 +306,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 										<div
 											type="text"
 											id="hometeam"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 											placeholder=""
 											required
 										/>
