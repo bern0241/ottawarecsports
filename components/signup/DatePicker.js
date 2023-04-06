@@ -62,8 +62,9 @@ export default function DobDatePicker({ state, setState }) {
 
 	return (
 		<div>
-			<Label htmlFor="date picker" value="Date" className="sr-only" />
+			<Label htmlFor="date" value="Date" className="sr-only" />
 			<DatePicker
+				id="date"
 				classNames="w-96"
 				options={options}
 				onChange={handleChange}
