@@ -71,8 +71,8 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
                   return uniqueByUsername([...listUsersGroups, user])
               });
             });
-          })
-      }
+        })
+    }
 
 	function uniqueByUsername(items) {
 		const set = new Set();

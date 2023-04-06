@@ -24,25 +24,60 @@
    const [user] = useUser();
    const [maxMembers, setMaxMembers] = useState(0);
    const [teamName, setTeamName] = useState('');
-   const [teamCaptain, setTeamCaptain] = useState();
    const [homeColour, setHomeColour] = useState('Red');
    const [awayColour, setAwayColour] = useState('Blue');
-   const [selectedOption, setSelectedOption] = useState('');
    const [teamLogoUpload, setTeamLogoUpload] = useState('');
    const [teamRoster, setTeamRoster] = useState([]);
+   const [openCaptainDrop, setOpenCaptainDrop] = useState(false);
+   const [teamCaptain, setTeamCaptain] = useState(null);
+   const [listUsers, setListUsers] = useState([]);
    const router = useRouter();
    const [message, setMessage] = useState(null);
- 
+
+   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
    useEffect(() => {
-     setTeamCaptain(user);
-   }, [user])
- 
-   useEffect(() => {
-     const timer = setTimeout(() => {
-       setMessage(null);
-     }, 5000);
-     return () => clearTimeout(timer);
-   }, [message]);
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }, [message]);
+
+      useEffect(() => {
+        fetchUsers();
+    }, [])
+
+   const fetchUsers = (e) => {
+    var params = {
+        UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+    };
+      cognitoidentityserviceprovider.listUsers(params, function(err, data) {
+          if (err) {
+              console.log(err, err.stack);
+          } else {
+            setListUsers(data.Users);
+          }
+      })
+    }
+    // We are not using this function! No need to filter by Captains' role
+  //   const setGroupsForEachUser = (_users) => {
+  //     let users = _users;
+  //     users.map((user) => {
+  //         //Attributes - Groups
+  //         var params = {
+  //           Username: user.Username,
+  //           UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+  //         };
+  //           cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+
+  //           user.Groups = data.Groups.map(group => group.GroupName);
+  //           setListUsersGroups((listUsersGroups) => 
+  //           {
+  //               return uniqueByUsername([...listUsersGroups, user])
+  //           });
+  //         });
+  //     })
+  // }
  
    const addNewTeam = async () => {
      try {
@@ -50,6 +85,11 @@
          setMessage({status: 'error', message: 'Please fillout all required fields'});
          return;
        }
+       if (teamCaptain === null) {
+         setMessage({status: 'error', message: 'There must be a team captain.'});
+         return;
+       }
+
        const randomId = uuidv4();
        let uniqueId = `${teamName}_${makeid(15)}`;
        await uploadNewImageToS3(uniqueId, teamLogoUpload);
@@ -73,13 +113,13 @@
          }],
        };
        const resp = await createTeam(teamData); // Creates team
-      //  await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!
+       await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!
  
        if (resp) {
          setMessage({status: 'success', message: 'Team successfully created!'});
          const timer = setTimeout(() => {
            router.reload();
-         }, 1000);
+         }, 500);
          return () => clearTimeout(timer);
        }
      } catch (error) {
@@ -91,10 +131,9 @@
    const resetData = () => {
      setMaxMembers(0);
      setTeamName('');
-     // setTeamCaptain('');
+     setTeamCaptain(null);
      setHomeColour('');
      setAwayColour('');
-     setSelectedOption('');
      setTeamLogoUpload('');
      setTeamRoster([]);
    };
@@ -114,7 +153,7 @@
              {/* <!-- Modal header --> */}
              <div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
                <h3 className="text-md font-semibold text-gray-900 dark:text-white">
-                 Add A Team
+                 Create A Team
                </h3>
                <button
                  onClick={() => {
@@ -234,34 +273,7 @@
                    />
                  </div>
                </div>
- 
-               {/* <div className="w-full col-span-2">
-                 <label
-                   htmlFor="location"
-                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                 >
-                   Add Members
-                 </label>
-                 <PlayersTable
-                   data={teamRoster}
-                   selectPlayer={selectPlayer}
-                   setTeamRoster={setTeamRoster}
-                 />
-               </div> */}
              </div>
- 
-             {/* {message && (
-               <p
-                 id="standard_error_help"
-                 className={`my-4 text-center text-sm ${
-                   message.status === 'success'
-                     ? 'text-green-600 dark:text-green-400'
-                     : 'text-red-600 dark:text-red-400'
-                 }`}
-               >
-                 <span className="font-medium">{message.message}</span>
-               </p>
-             )} */}
  
              {message && (<p id="standard_error_help" className={`my-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
  

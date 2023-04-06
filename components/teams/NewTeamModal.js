@@ -83,7 +83,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 				getTeamsData();
 				const timer = setTimeout(() => {
 					router.reload();
-				}, 1000);
+				}, 500);
 				return () => clearTimeout(timer);
 			}
 		} catch (error) {
@@ -118,7 +118,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 						{/* <!-- Modal header --> */}
 						<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 							<h3 className="text-md font-semibold text-gray-900 dark:text-white">
-								Add A Team
+								Create A Team
 							</h3>
 							<button
 								onClick={() => {

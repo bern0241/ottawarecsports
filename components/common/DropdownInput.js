@@ -30,10 +30,10 @@ const DropdownInput = ({ options, value, setValue }) => {
 				{options.map((option, index) => (
 					<option key={index} value={option}>{option}</option>
 				))}
+				{/* <span className="absolute right-2 top-1/2 -translate-y-1/2n z-[1000]">
+					<CircleArrowDown />
+				</span> */}
 			</select>
-			<span className="absolute right-2 top-1/2 -translate-y-1/2">
-				<CircleArrowDown />
-			</span>
 		</div>
 	);
 };

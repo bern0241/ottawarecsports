@@ -35,7 +35,7 @@ export default function TeamProfile() {
     const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [isCaptain, setIsCaptain] = useState(false);
 	const router = useRouter();
-	const teamId = router.query.id;
+	const {teamId} = router.query;
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
@@ -181,7 +181,7 @@ export default function TeamProfile() {
 			{/* Results */}
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-					<h1 className="text-lg self-center font-medium">Team Name</h1>
+					<h1 className="text-lg self-center font-medium">{team && team.name}</h1>
 					<Button
 						pill={true}
 						className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"

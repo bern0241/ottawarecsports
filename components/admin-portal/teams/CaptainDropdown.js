@@ -8,14 +8,14 @@
  import React, { useState, useEffect } from 'react';
  import UserCard from './UserCard';
  
- export default function CaptainDropdown({ listUsers}) {
+ export default function CaptainDropdown({ listUsers }) {
      const [searchUser, setSearchUser] = useState('');
  
      // We don't want the same coordinator twice!
-   const addCaptain = (e, user) => {
-     e.preventDefault();
-    
- }
+    const addCaptain = (e, user) => {
+        e.preventDefault();
+        
+    }
  
      return (
      <>

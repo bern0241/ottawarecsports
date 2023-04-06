@@ -102,7 +102,7 @@ export default function Teams() {
 								onClick={() => setModalVisible(true)}
 							>
 								<IconCirclePlus className="mr-2 h-5 w-5" />
-								Add A Team
+								Create A Team
 							</Button>
 						)}
 					</div>
