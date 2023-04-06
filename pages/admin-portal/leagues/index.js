@@ -19,7 +19,6 @@ import SignOutButton from '@/components/common/SignOutButton';
 import ACPLeagueTable from '@/components/admin-portal/ACPLeague/LeagueTable';
 import ACPSeasonTable from '@/components/admin-portal/ACPLeague/SeasonTable';
 import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable';
-import TeamTable from '@/components/admin-portal/ACPLeague/TeamTable';
 
   export default function Home() {
       const [user, setUser, authRoles, setAuthRoles] = useUser();
