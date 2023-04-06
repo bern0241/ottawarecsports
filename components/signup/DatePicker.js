@@ -23,7 +23,8 @@ const options = {
 	maxDate: new Date('2050-01-01'),
 	minDate: new Date('1950-01-01'),
 	theme: {
-		background: 'bg-white border border-black z-[1000] fixed top-[10rem] left-[50%] translate-x-[-50%]',
+		background:
+			'bg-white border border-black z-[1000] fixed top-[10rem] left-[50%] translate-x-[-50%]',
 		todayBtn: '',
 		clearBtn: '',
 		icons: '',
