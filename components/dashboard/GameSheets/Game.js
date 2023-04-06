@@ -13,16 +13,27 @@ import {
 	IconMapPin,
 } from '@tabler/icons-react';
 import TeamNameAndImage from '@/components/schedule/TeamNameAndImage';
+import { useUser } from '@/context/userContext';
 
 export default function Game({game}) {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-
-  // console.log("games",game);
+  const [visible, setVisible] = useState(false);
+	const [user, setUser, authRoles] = useUser();
 
   useEffect(() => {
     dateOfGame();
-  }, []);
+    if(authRoles.includes('Admin') || authRoles.includes('Owner') || authRoles.includes('Referee')){
+      setVisible(true)
+    }
+    if (game.referees) {
+      const refereesUsername = game.referees.map(referee => referee.username)
+      
+      if (refereesUsername.includes(user.username)){
+        setVisible(true)
+      }
+    }
+    }, []);
 
   const dateOfGame = () => {
     const resp = new Date(game.date);
@@ -54,6 +65,7 @@ export default function Game({game}) {
 
 	return (
 		<>
+    {visible ? 
 			<div className="w-full p-8 flex flex-row justify-between items-center gap-4">
 				<div className="min-w-[0px] flex justify-center">
                 <img src="/images/soccerball_orange.png" />
@@ -87,7 +99,10 @@ export default function Game({game}) {
 						<IconMapPin /> Algonquin Dome Field #1
 					</div>
 				</div>
-			</div>
+			</div> 
+      :
+      <div></div>
+      }
 		</>
 	);
 }

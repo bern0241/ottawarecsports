@@ -10,9 +10,11 @@ import React, { useEffect, useState } from 'react';
 import Game from './Game';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
 import { getAllMatches } from '@/utils/graphql.services';
+import { useUser } from '@/context/userContext';
 
 export default function GameSheets() {
   const [games, setGames] = useState([]);
+	const [user, setUser, authRoles] = useUser();
 
   useEffect(() => {
     fetchGames();
@@ -24,6 +26,8 @@ export default function GameSheets() {
   };
 
   return (
+  <>
+		{user && (authRoles.includes('Admin') || authRoles.includes('Owner') || authRoles.includes('Referee')) && (
 		<section id="game-sheets" className="col-span-4">
 			<div className="bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex items-center justify-between border-b border-brand-neutral-300 px-3 py-2">
@@ -47,5 +51,7 @@ export default function GameSheets() {
 				</div>
 			</div>
 		</section>
-	);
+    )}
+    </>
+	)
 }
