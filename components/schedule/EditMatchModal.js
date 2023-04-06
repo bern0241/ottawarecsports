@@ -108,9 +108,9 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				setAwayColour(match.away_colo);
 			}, 100);
 			return () => clearTimeout(timer);
-		}
+		};
 		getGameColors();
-	}, [])
+	}, []);
 
 	useEffect(() => {
 		fetchRefereeList();
@@ -124,31 +124,35 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		match.referees.map((referee) => {
 			const params = {
 				Username: referee,
-				UserPoolId: 'us-east-1_70GCK7G6t'
-			}
-			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-                if (err) console.log(err, err.stack); // an error occurred
-                else   {
-                    let data2 = {
-                        name: `${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`,
-                        username: data.Username
-                    }
-                    setReferees((referees) => {
+				UserPoolId: 'us-east-1_70GCK7G6t',
+			};
+			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else {
+					let data2 = {
+						name: `${
+							data.UserAttributes.find((o) => o.Name === 'name')['Value']
+						} ${
+							data.UserAttributes.find((o) => o.Name === 'family_name')['Value']
+						}`,
+						username: data.Username,
+					};
+					setReferees((referees) => {
 						return uniqueByUsernameSmall([...referees, data2]);
-					} );
-                } 
-            });
-		})
-	}
+					});
+				}
+			});
+		});
+	};
 
 	function uniqueByUsernameSmall(items) {
-        const set = new Set();
-        return items.filter((item) => {
-          const isDuplicate = set.has(item.username);
-          set.add(item.username);
-          return !isDuplicate;
-        });
-    }
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.username);
+			set.add(item.username);
+			return !isDuplicate;
+		});
+	}
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -188,7 +192,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 	const getDateAndTime = () => {
 		const momentTime = moment(match.date);
 		const myDate = momentTime.format('YYYY-MM-DD');
-		const myTime = momentTime.format('HH:mm:ss');
+		const myTime = momentTime.format('h:mm a');
 		setMatchDate(myDate);
 		setStartTime(myTime);
 
@@ -222,7 +226,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 			console.log(convertedTime.format());
 
-			const refereeUsernames = referees.map(a => a.username);
+			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
 				id: match.id,
 				// division: divisionID,
@@ -239,7 +243,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				query: updateGame,
 				variables: { input: matchData },
 			});
-			console.log('New Game', apiData);
+			console.log('Editing Game, ', apiData);
 			setMessage({ status: 'success', message: 'Game edited successfully' });
 			router.reload();
 		} catch (error) {
@@ -264,25 +268,26 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 	};
 
 	const setGroupsForEachUser = (_users) => {
-        let users = _users;
-        users.map((user) => {
-            //Attributes - Groups
-            var params = {
-              Username: user.Username,
-              UserPoolId: 'us-east-1_70GCK7G6t', /* required */
-            };
-              cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+		let users = _users;
+		users.map((user) => {
+			//Attributes - Groups
+			var params = {
+				Username: user.Username,
+				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			};
+			cognitoidentityserviceprovider.adminListGroupsForUser(
+				params,
+				function (err, data) {
+					user.Groups = data.Groups.map((group) => group.GroupName);
+					setListUsers((listUsers) => {
+						return uniqueByUsername([...listUsers, user]);
+					});
+				}
+			);
+		});
+	};
 
-              user.Groups = data.Groups.map(group => group.GroupName);
-              setListUsers((listUsers) => 
-              {
-                  return uniqueByUsername([...listUsers, user])
-              });
-            });
-          })
-      }
-
-	  function uniqueByUsername(items) {
+	function uniqueByUsername(items) {
 		const set = new Set();
 		return items.filter((item) => {
 			const isDuplicate = set.has(item.Username);
@@ -303,7 +308,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+				className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
 			>
 				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
@@ -606,7 +611,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			</div>
 			<div
 				onClick={(e) => setIsVisible(false)}
-				class="z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				class="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);

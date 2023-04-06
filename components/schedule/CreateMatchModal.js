@@ -86,7 +86,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 	const handleChange = (selectedDate) => {
 		setMatchDate(getConvertedDate(selectedDate));
-		console.log(getConvertedDate(selectedDate));
 	};
 	const handleClose = (state) => {
 		setShowFounded(state);
@@ -115,14 +114,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		fetchRefereeList();
 		setStartTime(getCurrentTime());
 	}, []);
-
-	useEffect(() => {
-		console.log(startTime);
-	}, [startTime]);
-
-	useEffect(() => {
-		console.log(matchDate);
-	}, [matchDate]);
 
 	const getCurrentTime = () => {
 		const now = new Date();
@@ -167,7 +158,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 			console.log(convertedTime.format());
-			const refereeUsernames = referees.map(a => a.username);
+			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
 				division: divisionID,
 				date: convertedTime,
@@ -215,25 +206,26 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	};
 
 	const setGroupsForEachUser = (_users) => {
-        let users = _users;
-        users.map((user) => {
-            //Attributes - Groups
-            var params = {
-              Username: user.Username,
-              UserPoolId: 'us-east-1_70GCK7G6t', /* required */
-            };
-              cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+		let users = _users;
+		users.map((user) => {
+			//Attributes - Groups
+			var params = {
+				Username: user.Username,
+				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			};
+			cognitoidentityserviceprovider.adminListGroupsForUser(
+				params,
+				function (err, data) {
+					user.Groups = data.Groups.map((group) => group.GroupName);
+					setListUsers((listUsers) => {
+						return uniqueByUsername([...listUsers, user]);
+					});
+				}
+			);
+		});
+	};
 
-              user.Groups = data.Groups.map(group => group.GroupName);
-              setListUsers((listUsers) => 
-              {
-                  return uniqueByUsername([...listUsers, user])
-              });
-            });
-          })
-      }
-
-	  function uniqueByUsername(items) {
+	function uniqueByUsername(items) {
 		const set = new Set();
 		return items.filter((item) => {
 			const isDuplicate = set.has(item.Username);
@@ -255,7 +247,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+				className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
 			>
 				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
@@ -558,7 +550,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			</div>
 			<div
 				onClick={(e) => setIsVisible(false)}
-				className="z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);
