@@ -39,9 +39,9 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
         setDeleteModal(!deleteModal);
     }
 
-    const gameScheduleNavigate = (e) => {
+    const teamsUINavigate = (e) => {
         e.stopPropagation();
-        router.push(`/schedule/soccer/${division.id}`);
+        router.push(`/admin-portal/leagues/${division.id}`);
     }
 
     const getTeamsCount = async () => {
@@ -70,7 +70,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
                     {teamCount}
                 </td>
                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
-                    <IconUsers onClick={(e) => gameScheduleNavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>
+                    <IconUsers onClick={(e) => teamsUINavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>
                     <IconEdit onClick={(e) => editDivisionFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
                     <IconTrash onClick={(e) => deleteDivisionFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                 </td>

@@ -21,16 +21,18 @@ export default function TeamsImage({
 	const defaultPic = '/images/defaultProfilePic.jpeg';
 	const [teamLogo, setTeamLogo] = useState('');
 	const getPicture = async () => {
+		// teamLogoUpload = teamLogo;
 		if (team && team.team_picture) {
 			const url = await getImageFromS3(team.team_picture);
 			setTeamLogo(url);
 			return;
 		};
-		return setTeamLogo('/images/defaultProfilePic.jpeg');
+		setTeamLogo('/images/defaultProfilePic.jpeg');
 	}
 	useEffect(() => {
 		getPicture();
-	}, []);
+		setTeamLogoUpload(null);
+	}, [isVisible]);
 
 	return (
 		<div className="w-[12rem] mx-auto">

@@ -17,8 +17,10 @@ import {
 } from '@/utils/graphql.services';
 import NewTeamModal from '@/components/teams/NewTeamModal';
 import CurrentTeamView from '@/components/teams/CurrentTeamView';
+import { useUser } from '@/context/userContext';
 
 export default function Teams() {
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [teams, setTeams] = useState([]);
 	const [filteredTeams, filterTeams] = useState([]);
 	const [modalVisible, setModalVisible] = useState(false);
@@ -93,14 +95,16 @@ export default function Teams() {
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
 						<h1 className="text-xl self-center">Teams</h1>
-						<Button
-							pill={true}
-							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
-							onClick={() => setModalVisible(true)}
-						>
-							<IconCirclePlus className="mr-2 h-5 w-5" />
-							Add A Team
-						</Button>
+						{authRoles && authRoles.includes('User') && (
+							<Button
+								pill={true}
+								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+								onClick={() => setModalVisible(true)}
+							>
+								<IconCirclePlus className="mr-2 h-5 w-5" />
+								Add A Team
+							</Button>
+						)}
 					</div>
 
 					<table className="table-auto">

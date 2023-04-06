@@ -21,7 +21,8 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
     const [description, setDescription] = useState(league.description);
 
     const [openCoordinatorDrop, setOpenCoordinatorDrop] = useState(false);
-    const [listUsers, setListUsers] = useState([]);
+    // const [listUsers, setListUsers] = useState([]);
+    const [listUsersGroups, setListUsersGroups] = useState([]);
     const [message, setMessage] = useState(null);
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
@@ -33,8 +34,8 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
     }, [message]);
 
     useEffect(() => {
-        fetchUsers();
         convertCoordinatorsToObject();
+        fetchUsers();
     }, [])
 
     const convertCoordinatorsToObject = () => {
@@ -51,15 +52,14 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                         username: data.Username
                     }
                     setLeagueCoordinators((leagueCoordinators) => {
-						return uniqueByUsername([...leagueCoordinators, data2]);
+						return uniqueByUsernameSmall([...leagueCoordinators, data2]);
 					} );
-                    // console.log('DATA',data);
                 } 
             });
         })
     }
-
-    function uniqueByUsername(items) {
+    
+    function uniqueByUsernameSmall(items) {
         const set = new Set();
         return items.filter((item) => {
           const isDuplicate = set.has(item.username);
@@ -68,6 +68,8 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
         });
     }
 
+    
+    // FETCH USERS (COORDINATORS)
     const fetchUsers = (e) => {
         var params = {
             UserPoolId: 'us-east-1_70GCK7G6t', /* required */
@@ -76,10 +78,40 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
             if (err) {
                 console.log(err, err.stack);
             } else {
-                setListUsers(data.Users);
+                setGroupsForEachUser(data.Users);
             }
         })
     }
+    const setGroupsForEachUser = (_users) => {
+        let users = _users;
+        users.map((user) => {
+            //Attributes - Groups
+            var params = {
+              Username: user.Username,
+              UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+            };
+              cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+
+              user.Groups = data.Groups.map(group => group.GroupName);
+              setListUsersGroups((listUsersGroups) => 
+              {
+                  return uniqueByUsername([...listUsersGroups, user])
+              });
+            });
+          })
+      }
+
+	function uniqueByUsername(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.Username);
+			set.add(item.Username);
+			return !isDuplicate;
+		});
+	}
+
+
+
 
     const updateLeagueFunc = async (e) => {
         e.preventDefault();
@@ -181,7 +213,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                     </div>
                         {openCoordinatorDrop && (
                             <>
-                            <CoordinatorDropdown openDropdown={openCoordinatorDrop} setOpenDropdown={setOpenCoordinatorDrop} leagueCoordinators={leagueCoordinators} setLeagueCoordinators={setLeagueCoordinators} listUsers={listUsers} />
+                            <CoordinatorDropdown openDropdown={openCoordinatorDrop} setOpenDropdown={setOpenCoordinatorDrop} leagueCoordinators={leagueCoordinators} setLeagueCoordinators={setLeagueCoordinators} listUsers={listUsersGroups} />
                             <div onClick={(e) => setOpenCoordinatorDrop(false)} class='z-[200] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
                             </>
                         )}

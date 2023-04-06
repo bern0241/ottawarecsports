@@ -354,6 +354,7 @@ export const createPlayer = async (username) => {
 	try {
 		const data = {
 			user_id: username,
+			role: 'Player',
 		};
 		const apiData = await API.graphql({
 			query: mutations.createPlayer,
@@ -369,6 +370,7 @@ export const createPlayerOnTeam = async (username, teamID) => {
 	try {
 		const data = {
 			user_id: username,
+			role: 'Player',
 			teamID: teamID,
 		};
 		const apiData = await API.graphql({
