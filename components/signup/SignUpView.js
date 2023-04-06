@@ -120,22 +120,25 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
 			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+			<div className="flex justify-center items-center w-full h-full">
+				<div className="flex flex-col gap-3 w-96">
+					<OrsLogo />
 					<div className="">
-						<OrsLogo />
-					</div>
-					<form className="">
-						<p className="text-lg sm:text-2xl font-semibold my-5">Sign Up</p>
+						<div className="flex flex-row items-center">
+							<h2 className="text-lg sm:text-2xl font-semibold my-5 grow">
+								Sign Up
+							</h2>
+							<p className="text-sm text-slate-300">* Required</p>
+						</div>
 						<div className="flex flex-col w-96 gap-3">
-							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
+							<form className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<TextInput
 									id="firstname"
 									type="firstname"
 									placeholder="First Name *"
 									onChange={(e) => setFirstName(e.target.value)}
 									required={true}
-									className="w-96 sm:w-44 border border-black rounded-md "
+									className="w-96"
 								/>
 								<TextInput
 									id="lastname"
@@ -147,7 +150,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									state={lastName}
 									setState={setLastName}
 								/>
-							</div>
+							</form>
 							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<GenderDropDown state={gender} setState={setGender} />
 								<DobDatePicker state={birthDate} setState={setBirthDate} />
@@ -214,7 +217,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								Sign In
 							</Link>
 						</p>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
