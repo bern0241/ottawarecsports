@@ -10,13 +10,15 @@ import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk';
 import DatePicker from 'tailwind-datepicker-react';
-
+import TimeKeeper from 'react-timekeeper';
+import moment from 'moment-timezone';
 //TODO:
 //Get the existing roster of the home/away teams
 //Import date picker
 
 const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	const { v4: uuidv4 } = require('uuid');
+	//const moment = require('moment-timezone');
 
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
@@ -34,6 +36,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	//Dates
 	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 	const [showFounded, setShowFounded] = useState(false);
+	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
 
 	const [listUsers, setListUsers] = useState([]);
 	const [message, setMessage] = useState(null);
@@ -48,7 +51,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		autoHide: true,
 		todayBtn: false,
 		clearBtn: false,
-		maxDate: new Date('2060-01-01'),
+		maxDate: new Date('2030-01-01'),
 		minDate: new Date('1950-01-01'),
 		theme: {
 			background:
@@ -82,7 +85,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	}
 
 	const handleChange = (selectedDate) => {
-		setDate(getConvertedDate(selectedDate));
+		setMatchDate(getConvertedDate(selectedDate));
 		console.log(getConvertedDate(selectedDate));
 	};
 	const handleClose = (state) => {
@@ -110,6 +113,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 	useEffect(() => {
 		fetchRefereeList();
+		setStartTime(getCurrentTime());
 	}, []);
 
 	useEffect(() => {
@@ -119,6 +123,23 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	useEffect(() => {
 		console.log(matchDate);
 	}, [matchDate]);
+
+	const getCurrentTime = () => {
+		const now = new Date();
+		let hours = now.getHours();
+		let minutes = now.getMinutes();
+		// Convert to 12-hour format
+		const isPM = hours >= 12;
+		hours = hours % 12;
+		hours = hours ? hours : 12; // "0" should be "12"
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+		// Add "am" or "pm"
+		const suffix = isPM ? 'pm' : 'am';
+		// Construct the formatted time string
+		const formattedTime = `${hours}:${minutes} ${suffix}`;
+		console.log(formattedTime);
+		return formattedTime;
+	};
 
 	const createNewMatch = async (e) => {
 		e.preventDefault();
@@ -143,9 +164,14 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				return;
 			}
 
+			const dateTime = `${matchDate} ${startTime}`;
+			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
+
+			console.log(convertedTime.format());
+
 			const matchData = {
 				division: divisionID,
-				date: date,
+				date: time,
 				location: location,
 				status: 'NOT_STARTED',
 				home_roster: JSON.stringify(homeTeam.Players.items),
@@ -187,6 +213,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 	const resetData = () => {
 		//TODO: Clear all fields
+		setStartTime('');
 	};
 
 	if (!isVisible) return;
@@ -289,7 +316,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 										<div
 											type="text"
 											id="awayteam"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 											placeholder=""
 											required
 										/>
@@ -324,7 +351,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 							>
 								<label
 									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Referee(s)
 								</label>
@@ -333,7 +360,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 									disabled
 									type="text"
 									id="name"
-									class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
+									className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
 								/>
 								<div className="absolute right-2 top-[2.8rem]">
 									<ion-icon
@@ -370,7 +397,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 							<div className="w-full">
 								<label
 									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Date
 								</label>
@@ -383,25 +410,51 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 							</div>
 
 							{/**Start Time */}
-							<div className="w-full">
-								<label
-									htmlFor="startdate"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							<div className="relative">
+								{openStartTimeDrop && (
+									<>
+										<div
+											onClick={(e) => setOpenStartTimeDrop(false)}
+											className="z-[25] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+										/>
+										<div className="absolute z-[50] bottom-[0rem]">
+											<TimeKeeper
+												time={startTime}
+												onChange={(data) => setStartTime(data.formatted12)}
+											/>
+										</div>
+									</>
+								)}
+								<div
+									onClick={(e) => {
+										e.preventDefault();
+										setOpenStartTimeDrop(!openStartTimeDrop);
+									}}
+									className="cursor-pointer"
 								>
-									Start Time
-								</label>
-								<div>
+									<label
+										for="startTime"
+										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									>
+										Start Time
+									</label>
 									<input
+										disabled
 										value={startTime}
 										onChange={(e) => setStartTime(e.target.value)}
 										type="text"
 										id="startTime"
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-										placeholder="3:20pm"
-										required
+										className="cursor-pointer block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									/>
+									<div className="absolute right-2 top-[2.55rem]">
+										<ion-icon
+											style={{ fontSize: '25px' }}
+											name="caret-down-circle-outline"
+										></ion-icon>
+									</div>
 								</div>
 							</div>
+
 							{/**Location */}
 							<div className="w-full">
 								<label
@@ -474,7 +527,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			</div>
 			<div
 				onClick={(e) => setIsVisible(false)}
-				class="z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);
