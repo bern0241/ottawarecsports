@@ -21,7 +21,7 @@ import { listPlayers, getTeam as getTeamQuery, getDivision, getSeason, getLeague
 export default function PlayerProfile() {
 	const [user, setUser] = useState(); // Cognito User
 	const [profileImage, setProfileImage] = useState('');
-	const [sport, setSport] = useState('Hockey');
+	const [sport, setSport] = useState('Soccer');
 	const [players, setPlayers] = useState(); // Player Table
 	const [teams, setTeams] = useState([]);
 	const router = useRouter();

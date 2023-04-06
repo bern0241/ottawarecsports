@@ -58,6 +58,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
             });
         })
     }
+    
     function uniqueByUsernameSmall(items) {
         const set = new Set();
         return items.filter((item) => {

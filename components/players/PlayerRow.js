@@ -22,12 +22,12 @@ const s3 = new AWS.S3({
 
 export default function PlayerRow({ player, index }) {
 	const [profileImage, setProfileImage] = useState(null);
-	const router = useRouter();
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
 	const [details, setDetails] = useState();
 	const [teamName, setTeamName] = useState('');
 	const [teams, setTeams] = useState([]);
+	const router = useRouter();
 
 	useEffect(() => {
 		if(!index) {
@@ -110,10 +110,25 @@ export default function PlayerRow({ player, index }) {
 		  players.data.listPlayers.items.map(async (player) => {
 			const apiData = await API.graphql({ query: getTeam2, variables: { id: player.teamID }});
 			const data = await apiData.data.getTeam;
-			setTeams((teams) => [...teams, data]);
+			setTeams((teams) => {
+				return uniqueById([...teams, data])
+			})
 		})
 	}
 
+	function uniqueById(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item.id);
+          set.add(item.id);
+          return !isDuplicate;
+        });
+    }
+
+	const goToTeamsPage = (e, team) => {
+		e.stopPropagation();
+		router.push(`/teams/${team.id}`)
+	}
 
 	return (
 		<tr
@@ -158,14 +173,14 @@ export default function PlayerRow({ player, index }) {
 				<td className="p-5 font-light">
 					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
 						{teams && teams.map((team) => (
-							<span>{team.name}</span>
+							<p onClick={(e) => goToTeamsPage(e, team)} key={team.id} className='text-blue-500 underline'>{team.name}</p>
 						))}
 					</div>
 				</td>
 				<td className="p-5 font-light">
 					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
 						{teams && teams.map((team) => (
-							<span>
+							<span key={team.id}>
 								{team.captains && team.captains.includes(player.Username) ? "Captain" : "Player"}
 							</span>
 						))}
