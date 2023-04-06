@@ -74,7 +74,7 @@ const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize, laptopHeight }) => {
 			{!laptopSize && openMenu && (
 				<div
 					onClick={(e) => setOpenMenu(false)}
-					class="z-[50] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+					className="z-[50] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 				/>
 			)}
 		</>

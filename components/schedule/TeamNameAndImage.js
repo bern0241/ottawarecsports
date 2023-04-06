@@ -44,7 +44,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 						<JerseySVG
 							className={'absolute -bottom-2 -right-1'}
 							fill={jerseyColour ? jerseyColour : '#fff'}
-							stroke={jerseyColour ? jerseyColour : '#000'}
+							stroke={'#000'}
 						/>
 					</span>
 					<p className="w-12 md:w-24">{team?.name || 'SuperTeam'}</p>
@@ -65,7 +65,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 						<JerseySVG
 							className={'absolute -bottom-2 -left-1'}
 							fill={jerseyColour ? jerseyColour : '#fff'}
-							stroke={jerseyColour ? jerseyColour : '#000'}
+							stroke={'#000'}
 						/>
 					</span>
 				</>

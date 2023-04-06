@@ -30,8 +30,8 @@ export default function Game({ game }) {
 			}
 		}
 	}, []);
-	console.log(game.referees);
-	console.log(visible);
+	//console.log(game.referees);
+	//console.log(visible);
 
 	const dateOfGame = () => {
 		const resp = new Date(game.date);

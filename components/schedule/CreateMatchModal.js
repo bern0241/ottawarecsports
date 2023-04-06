@@ -128,7 +128,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		const suffix = isPM ? 'pm' : 'am';
 		// Construct the formatted time string
 		const formattedTime = `${hours}:${minutes} ${suffix}`;
-		console.log(formattedTime);
+		//console.log(formattedTime);
 		return formattedTime;
 	};
 
@@ -157,7 +157,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			console.log(convertedTime.format());
+			//console.log(convertedTime.format());
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
 				division: divisionID,
@@ -176,12 +176,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
-			console.log(matchData);
+			//console.log(matchData);
 			const apiData = await API.graphql({
 				query: createGame,
 				variables: { input: matchData },
 			});
-			console.log('New Game', apiData);
+			//console.log('New Game', apiData);
 			setMessage({ status: 'success', message: 'Game created successfully' });
 			router.reload();
 		} catch (error) {
