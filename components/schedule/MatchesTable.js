@@ -84,16 +84,25 @@ const MatchesTable = ({
 				<table className="table-auto w-">
 					<thead className="w-full"></thead>
 					<tbody>
-						{displayedMatches
-							? displayedMatches.map((match) => (
-									<MatchRow
-										match={match}
-										setMatchToEdit={setMatchToEdit}
-										setIsEditing={setIsEditing}
-										setIsDeleting={setIsDeleting}
-									/>
-							  ))
-							: ''}
+						{displayedMatches.length > 0 ? (
+							displayedMatches.map((match) => (
+								<MatchRow
+									match={match}
+									setMatchToEdit={setMatchToEdit}
+									setIsEditing={setIsEditing}
+									setIsDeleting={setIsDeleting}
+								/>
+							))
+						) : (
+							<tr>
+								<td
+									colSpan={6}
+									className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
+								>
+									No matches available
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>

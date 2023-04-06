@@ -49,16 +49,16 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 				stroke="#023059"
 				stroke-opacity="0.8"
 				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeLineCap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M14.1203 1.50529C14.4366 1.18895 14.8657 1.01123 15.3131 1.01123C15.7604 1.01123 16.1895 1.18895 16.5058 1.50529C16.8222 1.82163 16.9999 2.25067 16.9999 2.69804C16.9999 3.14542 16.8222 3.57446 16.5058 3.8908L8.95168 11.4449L5.771 12.2401L6.56617 9.05942L14.1203 1.50529Z"
 				stroke="#023059"
 				stroke-opacity="0.8"
 				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeLineCap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);
