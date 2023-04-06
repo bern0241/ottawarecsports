@@ -128,7 +128,9 @@ export default function TeamProfile() {
 			const captainUsernames = captains.map(captain => captain.Username);
 			if (captainUsernames.includes(user.username)) {
 				setIsCaptain(true);
+				console.log('TRUE');
 			} else {
+				console.log('FALSE');
 				setIsCaptain(false);
 			}
 		}
@@ -203,7 +205,7 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
-						{(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
+						{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 						<button
 							onClick={() => setEditModal(true)}
 							type="button"
@@ -273,7 +275,7 @@ export default function TeamProfile() {
 							<div className=" w-full border border-brand-blue-900/25 rounded">
 								<div className="w-full relative flex flex-row justify-between items-center">
 								<h2 className="mb-1 p-2 text-[.92rem] font-light">Team Members</h2>
-								{(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
+								{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 									<button
 										onClick={(e) => setOpenDropdown(!openDropdown)}
 										type="button"

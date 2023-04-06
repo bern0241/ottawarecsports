@@ -55,7 +55,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
         <p className='text-black'>
             {userName}
         </p>
-            {(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) ? (
+            {(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
                 <ChoosePlayerRole clickStopPropagationFunc={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
@@ -68,7 +68,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             ) : (
                 <p>{currentRole}</p>
             )}
-            {(isCaptain || authRoles) && (authRoles.includes('Admin') || authRoles.includes('Owner')) && (
+            {(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                 <button className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
                     <IconX/>
                 </button>
