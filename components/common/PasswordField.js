@@ -9,6 +9,7 @@
 import React, { useState } from 'react';
 import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';
+import { Label, TextInput } from 'flowbite-react';
 
 export default function PasswordField({ label, state, setState }) {
 	const [showPassword, setShowPassword] = useState(false);
@@ -20,14 +21,16 @@ export default function PasswordField({ label, state, setState }) {
 
 	return (
 		<div className="relative">
-			<input
+			<Label htmlFor="password" value="Password" className="hidden" />
+			<TextInput
 				value={state}
 				onChange={(e) => setState(e.target.value)}
 				type={showPassword ? 'text' : 'password'}
 				name="password"
 				id="password"
-				className="w-96 border border-black rounded-md "
+				className="w-96 rounded-md "
 				placeholder={label}
+				sizing="md"
 				required
 			/>
 			<div
