@@ -1,3 +1,9 @@
+/**
+ * Last updated: 2023-04-05
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ */
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';

@@ -1,3 +1,9 @@
+/**
+ * Last updated: 2023-04-05
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ */
 import React from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
 import EditMatchModal from './EditMatchModal';
