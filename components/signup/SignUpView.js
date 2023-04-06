@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { TextInput } from 'flowbite-react';
+import { Label, TextInput } from 'flowbite-react';
 import { Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
 import { createPlayer } from '@/utils/graphql.services';
@@ -127,113 +127,115 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	};
 
 	return (
-		<div className="flex flex-col md:flex-row justify-between align-middle bg-white h-screen">
+		<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
-				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
 			<div className="flex justify-center items-center w-full h-full">
 				<div className="flex flex-col gap-3 w-96">
 					<OrsLogo />
-					<div className="">
+					<div className="flex flex-col w-96 gap-3">
 						<div className="flex flex-row items-center">
-							<h2 className="text-lg sm:text-2xl font-semibold my-5 grow">
-								Sign Up
-							</h2>
-							<p className="text-sm text-slate-300">* Required</p>
+							<h2 className="text-2xl font-semibold my-5 grow">Sign Up</h2>
+							<p className="text-sm">* Required</p>
 						</div>
 						<div className="flex flex-col w-96 gap-3">
-							<form className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
+							<form className="flex flex-col w-96 gap-3">
+								<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-2">
+									<Label
+										htmlFor="firstName"
+										value="First Name"
+										className="sr-only"
+									/>
+									<TextInput
+										id="firstname"
+										type="firstname"
+										placeholder="First Name *"
+										onChange={(e) => setFirstName(e.target.value)}
+										required={true}
+										className="w-96"
+									/>
+									<Label
+										htmlFor="lastName"
+										value="Last Name"
+										className="sr-only"
+									/>
+									<TextInput
+										id="lastname"
+										type="lastname"
+										placeholder="Last Name *"
+										onChange={(e) => setLastName(e.target.value)}
+										required={true}
+										className="w-96"
+										state={lastName}
+										setState={setLastName}
+									/>
+								</div>
+								<GenderDropDown state={gender} setState={setGender} />
+								<DobDatePicker state={birthDate} setState={setBirthDate} />
+								<LocationDropDown state={location} setState={setLocation} />
+								<Label
+									htmlFor="phone number"
+									value="Phone Number"
+									className="sr-only"
+								/>
 								<TextInput
-									id="firstname"
-									type="firstname"
-									placeholder="First Name *"
-									onChange={(e) => setFirstName(e.target.value)}
+									id="phone"
+									type="tel"
+									placeholder="Phone Number (optional)"
+									onChange={(e) => setPhoneNumber(e.target.value)}
+									required={false}
+									className="w-96"
+								/>
+								<Label htmlFor="email" value="Email" className="sr-only" />
+								<TextInput
+									id="email"
+									type="email"
+									placeholder="Email *"
+									onChange={(e) => setEmail(e.target.value)}
 									required={true}
 									className="w-96"
 								/>
-								<TextInput
-									id="lastname"
-									type="lastname"
-									placeholder="Last Name *"
-									onChange={(e) => setLastName(e.target.value)}
-									required={true}
-									className="w-96 sm:w-44 border border-black rounded-md "
-									state={lastName}
-									setState={setLastName}
+								<PasswordField
+									label="Password *"
+									// onChange={(e) => setPassword(e.target.value)}
+									state={password}
+									setState={setPassword}
+									showPassword={showPassword}
+									setShowPassword={setShowPassword}
 								/>
+								{message !== null && (
+									<p
+										id="message-notice"
+										className={`ml-1 text-[.87rem] ${
+											message.status === 'error'
+												? 'text-red-600'
+												: 'text-green-500'
+										} relative top-1`}
+									>
+										<span className="font-medium"></span> {message.message}
+									</p>
+								)}
+								<div>
+									<button
+										className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+										type="button"
+										onClick={() => signUp()}
+									>
+										Sign Up
+									</button>
+								</div>
+								<div>
+									<button
+										className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+										type="button"
+										onClick={() => handleEnterAsGuest()}
+									>
+										Enter as a Guest
+									</button>
+								</div>
 							</form>
-							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
-								<GenderDropDown state={gender} setState={setGender} />
-								<DobDatePicker state={birthDate} setState={setBirthDate} />
-							</div>
-							<LocationDropDown state={location} setState={setLocation} />
-							{/* <TextInput
-								id="email"
-								type="tel"
-								placeholder="Phone Number (optional)"
-								onChange={(e) => setPhoneNumber(e.target.value)}
-								required={false}
-								className="w-96 border border-black rounded-md "
-							/> */}
-							<PhoneInput
-								placeholder="Phone Number (optional)"
-								defaultCountry="CA"
-								value={phoneNumber}
-								onChange={setPhoneNumber}
-								style={{
-									paddingLeft: '10px',
-									borderColor: 'black',
-									borderWidth: '1px',
-									borderRadius: '6px',
-								}}
-							/>
-							<TextInput
-								id="email"
-								type="email"
-								placeholder="Email *"
-								onChange={(e) => setEmail(e.target.value)}
-								required={true}
-								className="w-96 border border-black rounded-md "
-							/>
-							<PasswordField
-								label="Password *"
-								// onChange={(e) => setPassword(e.target.value)}
-								state={password}
-								setState={setPassword}
-								showPassword={showPassword}
-								setShowPassword={setShowPassword}
-							/>
-							{message !== null && (
-								<p
-									id="message-notice"
-									className={`ml-1 text-[.87rem] text-center ${
-										message.status === 'error'
-											? 'text-red-600'
-											: 'text-green-500'
-									} relative top-1`}
-								>
-									<span className="font-medium"></span> {message.message}
-								</p>
-							)}
-							<div>
-								<button
-									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-									type="button"
-									onClick={() => signUp()}
-								>
-									Sign Up
-								</button>
-							</div>
-							<div>
-								<button
-									className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
-									type="button"
-									onClick={() => handleEnterAsGuest()}
-								>
-									Enter as a Guest
-								</button>
-							</div>
 						</div>
 						<p className="font-normal text-base cursor-pointer">
 							Have an account?{' '}

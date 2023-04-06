@@ -13,6 +13,7 @@ import {
 	IconCalendarDue,
 } from '@tabler/icons-react';
 import DatePicker from 'tailwind-datepicker-react';
+import { Label } from 'flowbite-react';
 
 const options = {
 	title: 'Date of Birth',
@@ -61,8 +62,9 @@ export default function DobDatePicker({ state, setState }) {
 
 	return (
 		<div>
+			<Label htmlFor="date picker" value="Date" className="sr-only" />
 			<DatePicker
-				classNames="w-96 sm:w-44 border border-black rounded-md "
+				classNames="w-96"
 				options={options}
 				onChange={handleChange}
 				show={show}

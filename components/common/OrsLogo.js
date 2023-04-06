@@ -19,7 +19,7 @@ const OrsLogo = () => {
 				priority
 				className="self-center"
 			/>
-			<h1 className="text-xl sm:text-3xl font-semibold text-center">
+			<h1 className="text-3xl font-semibold text-center">
 				Ottawa Rec Sports League App
 			</h1>
 		</header>
