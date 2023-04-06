@@ -1,7 +1,16 @@
+/**
+ * Last updated: 2023-04-05
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ */
 import React from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
+import EditMatchModal from './EditMatchModal';
+import DeleteMatchModal from './DeleteMatchModal';
 
-const MatchRow = () => {
+const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
+	if (!match) return;
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -37,18 +46,18 @@ const MatchRow = () => {
 			<path
 				d="M8.15655 2.698H2.59034C2.16856 2.698 1.76405 2.86555 1.4658 3.1638C1.16755 3.46205 1 3.86656 1 4.28834V15.4208C1 15.8425 1.16755 16.247 1.4658 16.5453C1.76405 16.8435 2.16856 17.0111 2.59034 17.0111H13.7228C14.1445 17.0111 14.549 16.8435 14.8473 16.5453C15.1455 16.247 15.3131 15.8425 15.3131 15.4208V9.85455"
 				stroke="#023059"
-				stroke-opacity="0.8"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeOpacity="0.8"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M14.1203 1.50529C14.4366 1.18895 14.8657 1.01123 15.3131 1.01123C15.7604 1.01123 16.1895 1.18895 16.5058 1.50529C16.8222 1.82163 16.9999 2.25067 16.9999 2.69804C16.9999 3.14542 16.8222 3.57446 16.5058 3.8908L8.95168 11.4449L5.771 12.2401L6.56617 9.05942L14.1203 1.50529Z"
 				stroke="#023059"
-				stroke-opacity="0.8"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeOpacity="0.8"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);
@@ -61,54 +70,88 @@ const MatchRow = () => {
 			/>
 		</svg>
 	);
+	const matchDate = match?.date
+		? new Date(Date.parse(match?.date))
+		: new Date(Date.parse(match?.createdAt));
+	const matchDateString = matchDate.toDateString();
+	// remove the seconds
+	const matchTime = `${matchDate.toLocaleTimeString().slice(0, 4)}${matchDate
+		.toLocaleTimeString()
+		.slice(7)}`;
+	// remove the year and add a comma after the day of week
+	const dateWithoutYear = matchDateString
+		.substring(0, matchDateString.length - 4)
+		.replace(matchDateString.charAt(2), `${matchDateString.charAt(2)},`);
 	return (
 		<>
 			<tr
-				// key={team.id}
-				className="border-b border-brand-neutral-300 flex flex-row items-stretch py-[26px] px-5 justify-between"
+				key={match.id}
+				className="border-b border-brand-neutral-300 flex flex-col md:flex-row items-stretch py-0 md:py-[26px] px-0 md:px-5 justify-between"
 				// onClick={navigateToProfile}
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
-				<td className="font-medium flex flex-row gap-7 items-center">
-					<TeamNameAndImage />
-					<span className="border border-black rounded px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
-						<p>{0}</p>
+				<td className="font-medium flex flex-row gap-7 items-start md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
+					<TeamNameAndImage
+						jerseyColour={match.home_color?.toLowerCase()}
+						team={match.HomeTeam}
+					/>
+					<span className="border border-brand-orange-800 md:border-black rounded-lg md:rounded px-5 md:px-[47px] py-1 md:py-[10px] flex flex-row items-center h-fit gap-1 self-center md:self-auto">
+						<p>{match.home_score}</p>
 						<p>:</p>
-						<p>{0}</p>
+						<p>{match.away_score}</p>
 					</span>
-					<TeamNameAndImage reverse={true} />
+					<TeamNameAndImage
+						jerseyColour={match.away_colo?.toLowerCase()}
+						reverse={true}
+						team={match.AwayTeam}
+					/>
 				</td>
-				<td className="w-3/12 flex flex-col justify-items-stretch">
-					<span className="flex flex-row gap-10 mb-auto">
-						<p className="flex flex-row gap-[6px] items-center">
+				<td className="min-w-3/12 flex flex-col justify-center md:justify-items-stretch bg-brand-neutral-50 md:bg-white py-2 md:py-0">
+					<span className="flex flex-row gap-10 md:gap-5 justify-center md:justify-stretch mb-4 md:mb-auto">
+						<p className="flex flex-row gap-[6px] items-center whitespace-nowrap">
 							<span>
 								<CalendarIcon />
 							</span>
-							Fri, Mar 10
+							{dateWithoutYear}
 						</p>
-						<p className="flex flex-row gap-[6px] items-center">
+						<p className="flex flex-row gap-[6px] items-center whitespace-nowrap">
 							<span>
 								<ClockIcon />
 							</span>
-							09:00 AM
+							{matchTime}
 						</p>
 					</span>
 					<span>
-						<p className="flex flex-row gap-[6px] items-center">
+						<p className="flex flex-row gap-[6px] items-center whitespace-nowrap justify-center md:justify-start">
 							<span>
 								<LocationIcon />
 							</span>
-							Algonquin Dome Field
+							{match.location}
+							{/* <lINK href={match.location.weblink}></lINK> */}
 						</p>
 					</span>
 				</td>
-				<td className="p-5 w-1/12 flex flex-row items-center gap-8">
-					<span>
-						<EditIcon />
-					</span>
-					<span>
-						<TrashIcon />
-					</span>
+				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
+					<button
+						onClick={() => {
+							setMatchToEdit(match);
+							setIsEditing(true);
+						}}
+					>
+						<span>
+							<EditIcon />
+						</span>
+					</button>
+					<button
+						onClick={() => {
+							setMatchToEdit(match);
+							setIsDeleting(true);
+						}}
+					>
+						<span>
+							<TrashIcon />
+						</span>
+					</button>
 				</td>
 			</tr>
 		</>

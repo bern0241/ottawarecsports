@@ -32,7 +32,7 @@ export const getPlayerFunc = async (_id) => {
 	try {
 		const resp = await API.graphql({
 			query: queries.getPlayer,
-			variables: { id: _id}
+			variables: { id: _id },
 		});
 		console.log(resp);
 		return resp.data.getPlayer;
@@ -45,13 +45,14 @@ export const getPlayersByUsername = async (_id) => {
 	try {
 		const variables = {
 			filter: {
-			  user_id: {
-				eq: _id
-			  }
-			}
-		  };
-		const resp = await API.graphql({ 
-		query: queries.listPlayers, variables: variables
+				user_id: {
+					eq: _id,
+				},
+			},
+		};
+		const resp = await API.graphql({
+			query: queries.listPlayers,
+			variables: variables,
 		});
 		return resp.data.listPlayers.items;
 	} catch (err) {
@@ -396,4 +397,41 @@ export const getLeagues = async () => {
 	} catch (err) {
 		console.warn(err);
 	}
+};
+/**
+ * get all games in a divisions
+ * @param {String} divisionID The id of the division to get games for
+ * @returns {Array} an array of games objects
+ */
+export const getDivisionGames = async (divisionID) => {
+	try {
+		const resp = await API.graphql({
+			query: queries.gamesByDivision,
+			variables: {
+				division: divisionID,
+			},
+		});
+		return resp.data.gamesByDivision.items;
+	} catch (err) {
+		console.warn(err);
+	}
+};
+
+/**
+ * Generate matchups for teams
+ * @param {Array} teams The list of teams to generate matches for
+ * @returns {Array} an array of games objects
+ */
+export const scheduleGamesAutomatically = (teams) => {
+	let results = [];
+	// go through the list of teams, match all of them up
+	teams.map((team, index) => {
+		// for each team, go through the list from the end ("reverse loop"), match all of them up
+		for (let i = teams.length - 1; i > -1; i--) {
+			// if the team name is identical or the "reverse loop" has reached the current index position of the loop, don't do anything
+			if (teams.name === teams[i].name || i === index) break;
+			results.push({ home: team, away: teams[i] });
+		}
+	});
+	return results;
 };

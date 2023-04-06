@@ -44,9 +44,9 @@ export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembe
         <div id="dropdownUsers" class="z-[75] absolute top-[2rem] border border-gray-500 right-0 bg-white rounded-lg shadow w-60 dark:bg-gray-700">
         <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
             {users && users.map((user) => (
-                 <li key={user.Username}>
-                   <UserCard user={user} setMembers={setMembers} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
-                 </li>
+              <li key={user.Username}>
+                <UserCard user={user} setMembers={setMembers} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
+              </li>
             ))}
         </ul>
         {/* <a href="#" class="flex items-center p-3 text-sm font-medium text-blue-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline">

@@ -5,6 +5,7 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+
  import React, { useEffect, useState } from 'react';
  import { API } from 'aws-amplify';
  import { useRouter } from 'next/router';
@@ -19,6 +20,7 @@ import { getTeam } from '@/src/graphql/queries';
     const [uiState, setUiState] = useState('delete-role-state')
     const router = useRouter();
     const {id} = router.query;
+
 
      useEffect(() => {
         if (!id) return;
