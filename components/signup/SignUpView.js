@@ -143,7 +143,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							<p className="text-sm">* Required</p>
 						</div>
 						<div className="flex flex-col w-96 gap-3">
-							<form className="flex flex-col w-96 gap-2">
+							<form className="flex flex-col w-96 gap-2.5">
 								<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-2">
 									<Label
 										htmlFor="firstname"
