@@ -108,11 +108,11 @@ import AWS from 'aws-sdk';
                     <p className='cursor-pointer text-blue-500 underline text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                 ))}
                  </td>
-                 <td class="px-6 py-3 text-center">
+                 <td class="px-6 py-3 text-center text-lg">
                      {membersCount}
                  </td>
-                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
-                     <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
+                 <td class="text-center">
+                     <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto'}} name="trash-outline"></IconTrash>
                  </td>
                  </tr>
          

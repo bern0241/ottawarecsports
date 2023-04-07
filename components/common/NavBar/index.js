@@ -43,7 +43,11 @@ const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize, laptopHeight }) => {
 						width={80}
 						height={80}
 						priority
-						className="py-3 self-center w-auto h-auto"
+						className="py-3 self-center w-auto h-auto cursor-pointer"
+						onClick={(e) => {
+							e.preventDefault();
+							router.push('/');
+						}}
 					/>
 					<Link
 						href="http://ottawarecsports.com"

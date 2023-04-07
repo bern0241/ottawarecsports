@@ -7,6 +7,7 @@ import ChangeSeasonModal from '@/components/schedule/ChangeSeasonModal';
 import { getLeagues } from '@/utils/graphql.services';
 import { getSeasonShort } from '@/src/graphql/custom-queries';
 import { getLeague, getSeason } from '@/src/graphql/queries';
+import { useRouter } from 'next/router';
 
 const soccer = () => {
 	const [leagues, setLeagues] = useState([]);
@@ -15,6 +16,9 @@ const soccer = () => {
 	const [currentSeason, setCurrentSeason] = useState({});
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedDivision, setSelectedDivision] = useState();
+	const router = useRouter();
+	const {leagueID} = router.query;
+	const {seasonID} = router.query;
 	
 	const getAllLeagues = async () => {
 		const listOfLeagues = await getLeagues();
@@ -26,6 +30,17 @@ const soccer = () => {
 		setCurrentLeague(listOfLeagues[0]);
 		setCurrentSeason(listOfLeagues[0].Seasons.items[0]);
 	};
+
+	useEffect(() => {
+		getAllLeagues();
+		if (!seasonID) getLeagueSeasonLocalStorage();
+	}, []);
+
+	useEffect(() => {
+		if (seasonID) {
+			getLeagueSeasonFromSportsPage();
+		}
+	}, [seasonID])
 	
 	const getLeagueSeasonLocalStorage = async () => {
 		const storedIds = JSON.parse(localStorage.getItem('schedule-season-id'));
@@ -36,18 +51,25 @@ const soccer = () => {
 			const dataLeague = await apiDataLeague.data.getLeague;
 			const dataSeason = await apiDataSeason.data.getSeason;
 			setCurrentLeague(dataLeague);
-			const timer = setTimeout(() => {
-				setCurrentSeason(dataSeason);
-				console.log(dataSeason);
-			}, 1000);
-			return () => clearTimeout(timer);
+			setCurrentSeason(dataSeason);
 		}
 	}
 
-	useEffect(() => {
-		getAllLeagues();
-		getLeagueSeasonLocalStorage();
-	}, []);
+	const getLeagueSeasonFromSportsPage = async () => {
+			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: leagueID }})
+			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: seasonID }})
+			const dataLeague = await apiDataLeague.data.getLeague;
+			const dataSeason = await apiDataSeason.data.getSeason;
+			setCurrentLeague(dataLeague);
+			setCurrentSeason(dataSeason);
+
+			// const timer = setTimeout(() => {
+			// 	setCurrentSeason(dataSeason);
+			// 	console.log(dataSeason);
+			// }, 1000);
+			// return () => clearTimeout(timer);
+		}
+	
 
 
 	useEffect(() => {
@@ -90,7 +112,7 @@ const soccer = () => {
 					<div className="flex justify-between py-3 px-3 border-b border-brand-neutral-300 top-4">
 						<h2 className="text-[1rem] self-center">
 							{currentSeason ? (
-								<p><b>League</b> - {currentLeague?.name} <br/><b>Season</b> - {currentSeason?.name}<br/>All Divisions</p>
+								<p><b>League</b> - {currentLeague?.name} <br/><b>Season</b> - {currentSeason?.name}<br/><span className='italic text-light'>All Divisions</span></p>
 							) : (
 								<p>Choose Season for Divisions</p>
 							)}

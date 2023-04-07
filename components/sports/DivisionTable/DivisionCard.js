@@ -11,6 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 import { IconUsers } from '@tabler/icons-react';
 import { API } from '@aws-amplify/api';
+import { convertLevelToFull } from '@/utils/handy-dandy-functions';
 
 export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc }) {
     const [teamCount, setTeamCount] = useState(0);
@@ -49,9 +50,9 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
           {division.name}
         </th>
         <td class="text-center px-6 py-3">
-          {division.level}
+          {convertLevelToFull(division.level)}
         </td>
-        <td class="text-center px-6 py-3">
+        <td class="text-center text-lg px-6 py-3">
           {teamCount}
         </td>
         <td class="flex gap-4 pr-10 px-6 py-4 text-center justify-center">

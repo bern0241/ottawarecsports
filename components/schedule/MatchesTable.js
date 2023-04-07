@@ -33,6 +33,8 @@ const MatchesTable = ({
 	 * This useEffect fetches the division -> season -> league (in this order) for this page
 	 */
 	useEffect(() => {
+		if (!id) return;
+		
         const moveUpLeagueId = async () => {
             // DIVISION
             const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: id}});
@@ -49,7 +51,7 @@ const MatchesTable = ({
           
         }
       moveUpLeagueId();
-    }, [])
+    }, [id])
 	
 	// go through the sorted match list, get all the dates and return them as an array
 	const returnDateArray = () => {

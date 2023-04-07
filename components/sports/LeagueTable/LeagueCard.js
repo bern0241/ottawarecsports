@@ -79,7 +79,7 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
             </td>
             <td class="flex gap-4 pr-10 px-6 py-3 text-left items-center justify-center">
               <div className='flex-grow'></div>
-              <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
+              {/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
             </td>
         </tr>
     </>

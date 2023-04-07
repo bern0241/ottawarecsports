@@ -3,7 +3,8 @@ import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
 import { listTeams } from '@/src/graphql/queries';
 import TeamCard from './TeamCard';
-import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
+// import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
+import { listTeamDivisions } from '@/src/graphql/queries';
 
 export default function TeamDropDown({state, setState, setOpenDropDown}) {
 
@@ -16,32 +17,33 @@ export default function TeamDropDown({state, setState, setOpenDropDown}) {
   useEffect(()=>{
     if (!divisionID) return;
     const callMeAsync = async () => {
-      await fetchTeams();
+      await fetchTeamsDivisions();
     }
     callMeAsync();
   }, [divisionID])
 
-const fetchTeams = async () => {
-  const variables = { 
-    filter: {
-      division: {
-        eq: divisionID
+    const fetchTeamsDivisions = async () => {
+            const variables = { 
+                filter: {
+                    divisionId: {
+                        eq: divisionID
+                    }
+                }
+            }
+          const teamDivisions = await API.graphql({
+              query: listTeamDivisions, variables: variables
+          })
+          // console.log('My Teams from Divisions', teamDivisions.data.listTeamDivisions);
+          setTeams(teamDivisions.data.listTeamDivisions.items.map(team => team.team));
       }
-    }
-  };
-  const teams = await API.graphql({
-    query: listTeamsWithPlayers
-  });
-  console.log('Teams', teams.data.listTeams.items);
-  setTeams(teams.data.listTeams.items);
-}
 
-const setTeamFunc = (e, team) =>{
-  e.preventDefault();
-  console.log(team);
-  setState(team);
-  setOpenDropDown(false);
-}
+
+    const setTeamFunc = (e, team) =>{
+      e.preventDefault();
+      console.log(team);
+      setState(team);
+      setOpenDropDown(false);
+    }
 
   return (
   <>

@@ -13,6 +13,7 @@ import EditDivisionModal from './Modals/EditDivisionModal';
 import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
 import { API } from '@aws-amplify/api';
+import { convertLevelToFull } from '@/utils/handy-dandy-functions';
 
 export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc }) {
     const [editModal, setEditModal] = useState(false);
@@ -27,6 +28,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
     const clickedDivision = (e) => {
         e.preventDefault();
         setSelectedDivision(division);
+        teamsUINavigate(e, division);
     }
 
     const editDivisionFunc = (e) => {
@@ -63,9 +65,9 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
                     {division.name}
                 </th>
                 <td class="px-6 py-3 text-center">
-                    {division.level}
+                    {convertLevelToFull(division.level)}
                 </td>
-                <td class="px-6 py-3 text-center">
+                <td class="px-6 text-lg py-3 text-center">
                     {/* {division.gender} */}
                     {teamCount}
                 </td>

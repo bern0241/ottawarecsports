@@ -27,7 +27,7 @@ const DivisionRow = ({ key, division }) => {
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
-				<div className="flex items-center">
+				<div className="flex items-center underline">
 					<p>{division?.name}</p>
 				</div>
 			</td>

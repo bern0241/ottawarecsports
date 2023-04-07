@@ -73,7 +73,6 @@ import AddTeamDropdown from './AddTeamDropdown';
             const teamDivisions = await API.graphql({
                 query: listTeamDivisions, variables: variables
             })
-           //  console.log('TEAMDIVISIONS', teamDivisions);
             setTeamDivisions(teamDivisions.data.listTeamDivisions.items);
 		}, 500);
 		return () => clearTimeout(timer);
@@ -96,7 +95,7 @@ import AddTeamDropdown from './AddTeamDropdown';
                          </th>
                          <th scope="col" class="font-medium">
                             <div className='absolute top-4 right-8 '>
-                                <CreateButton label="Add Team"
+                                <CreateButton label="Add Any Team"
                                             state={addTeamModal}
                                             setState={setAddTeamModal} 
                                             />
