@@ -66,7 +66,8 @@ import EditTeamModal from './EditTeamModal';
   
       const editTeamFunc = (e) => {
           e.stopPropagation();
-          setEditModal(!editModal);
+          router.push(`/teams/${team.id}`)
+        //   setEditModal(!editModal);
       }
       
       const deleteTeamFunc = (e) => {
@@ -105,7 +106,7 @@ import EditTeamModal from './EditTeamModal';
                      <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                  ))}
                   </td>
-                  <td class="px-6 py-3">
+                  <td class="text-center px-6 py-3">
                       {sport}
                   </td>
                   <td class="flex gap-2 px-6 py-4 text-center justify-center">
@@ -116,10 +117,10 @@ import EditTeamModal from './EditTeamModal';
           
           {/* {editModal && (
               <EditTeamModal teamDivision={teamDivision} setRemoveModal={setRemoveModal} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-          )}
-          {deleteModal && (
-              <DeleteTeamModal teamDivision={teamDivision} setRemoveModal={setRemoveModal} listTeamDivisionsFunc={listTeamDivisionsFunc} />
           )} */}
+          {deleteModal && (
+              <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
+          )}
       </>
       )
   }

@@ -65,19 +65,6 @@ import NewTeamModal from './NewTeamModal';
                             <TeamCard key={index} team={team} fetchTeams={fetchTeams} filterTeams={filterTeams} />
                             </>
                         ))}
-                      {/* {(filterTeams && filterTeams.length === 0) && (
-                          <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-                          <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
-                              No teams available.
-                          </th>
-                          <td class="px-6 py-4">
-                          </td>
-                          <td class="px-6 py-4">
-                          </td>
-                          <td class="flex gap-4 px-6 py-4 text-center">
-                          </td>
-                      </tr>
-                      )} */}
           
                       <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                           <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">

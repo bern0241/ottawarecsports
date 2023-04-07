@@ -78,11 +78,11 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 
 			if (resp) {
 				setMessage({status: 'success', message: 'Team successfully created!'});
-				// setIsVisible(false);
-				// resetData();
 				getTeamsData();
 				const timer = setTimeout(() => {
-					router.reload();
+					// router.reload();
+					router.push(`/teams/${resp.data.createTeam.id}`)
+					// getTeamsData();
 				}, 500);
 				return () => clearTimeout(timer);
 			}

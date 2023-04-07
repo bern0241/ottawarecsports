@@ -56,21 +56,9 @@ export default function Teams() {
 			const arr = searchValue.split(' ');
 			return arr.some((el) => team.name.toLowerCase().includes(el));
 		});
-
 		filterTeams(filteredTeams);
 	}
-
-	const addNewTeam = async () => {
-		const resp = await createTeam({
-			name: 'test team',
-			founded: Date.now(),
-			home_colour: 'Red',
-			away_colour: 'Green',
-			team_history: [],
-			team_picture: '',
-		});
-		console.log(resp);
-	};
+	
 	if (currentTeam)
 		return (
 			<CurrentTeamView teamData={currentTeam} setCurrentTeam={setCurrentTeam} />
@@ -106,13 +94,12 @@ export default function Teams() {
 							</Button>
 						)}
 					</div>
-
 					<table className="table-auto">
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
 								<th className="text-center py-3 px-10 text-sm font-light w-2/12">Captain (s)</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Sports</th>
+								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Sport</th>
 								<th className="py-3 pr-2 text-center text-sm font-light w-2/12">
 									Members
 								</th>

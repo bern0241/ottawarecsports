@@ -18,6 +18,7 @@
  import makeid from '@/utils/makeId';
  import TeamsImage from '@/components/teams/TeamsImage';
  import { createCaptainOnTeam } from '@/utils/graphql.services';
+ import CaptainDropdown from './CaptainDropdown';
  const { v4: uuidv4 } = require('uuid');
  
  const NewTeamModal = ({ isVisible, setIsVisible }) => {
@@ -29,7 +30,8 @@
    const [teamLogoUpload, setTeamLogoUpload] = useState('');
    const [teamRoster, setTeamRoster] = useState([]);
    const [openCaptainDrop, setOpenCaptainDrop] = useState(false);
-   const [teamCaptain, setTeamCaptain] = useState(null);
+   const [captain, setCaptain] = useState(null);
+   const [captainName, setCaptainName] = useState('');
    const [listUsers, setListUsers] = useState([]);
    const router = useRouter();
    const [message, setMessage] = useState(null);
@@ -59,6 +61,13 @@
           }
       })
     }
+
+    useEffect(() => {
+      if (captain) {
+        console.log(captain);
+        setCaptainName(`${captain.Attributes.find(o => o.Name === 'name')['Value']} ${captain.Attributes.find(o => o.Name === 'family_name')['Value']}`);
+      }
+    }, [captain])
     // We are not using this function! No need to filter by Captains' role
   //   const setGroupsForEachUser = (_users) => {
   //     let users = _users;
@@ -85,7 +94,7 @@
          setMessage({status: 'error', message: 'Please fillout all required fields'});
          return;
        }
-       if (teamCaptain === null) {
+       if (captain === null) {
          setMessage({status: 'error', message: 'There must be a team captain.'});
          return;
        }
@@ -99,9 +108,9 @@
          home_colour: homeColour,
          away_colour: awayColour,
          team_picture: uniqueId,
-         captains: [teamCaptain.username],
+         captains: [captain.Username],
          team_history: [{
-           captains: [teamCaptain.username],
+           captains: [captain.Username],
            teamid: randomId,
            division: '',
            roster: teamRoster,
@@ -113,7 +122,7 @@
          }],
        };
        const resp = await createTeam(teamData); // Creates team
-       await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!
+       await createCaptainOnTeam(captain.Username, resp.data.createTeam.id); // Creates initial captain for team!
  
        if (resp) {
          setMessage({status: 'success', message: 'Team successfully created!'});
@@ -131,7 +140,8 @@
    const resetData = () => {
      setMaxMembers(0);
      setTeamName('');
-     setTeamCaptain(null);
+     setCaptain(null);
+     setCaptainName('');
      setHomeColour('');
      setAwayColour('');
      setTeamLogoUpload('');
@@ -205,7 +215,10 @@
                  />
                </div>
  
-               <div className="w-full">
+
+               <div className="w-full" onClick={(e) => {
+                  setOpenCaptainDrop(!openCaptainDrop);
+               }}>
                  <label
                    htmlFor="lastName"
                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -213,13 +226,25 @@
                    Captain
                  </label>
                  <input disabled
-                   value={teamCaptain && (teamCaptain.attributes.name + " " + teamCaptain.attributes.family_name)}
-                   onChange={(e) => setTeamCaptain(e.target.value)}
+                   value={captainName}
+                  //  onChange={(e) => setCaptain(e.target.value)}
                    type="text"
                    id="lastName"
-                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
                  />
+                 {/* <div className='absolute right-2 top-[2.8rem]'>
+                      <ion-icon style={{fontSize: '25px'}} name="caret-down-circle-outline"></ion-icon>
+                </div> */}
                </div>
+                {openCaptainDrop && (
+                  <>
+                  <div className='absolute top-[10rem] left-[50%] translate-x-[-50%] z-[500]'>
+                  <CaptainDropdown listUsers={listUsers} setOpenCaptainDrop={setOpenCaptainDrop} setCaptain={setCaptain} />
+                  </div>
+                  <div onClick={(e) => setOpenCaptainDrop(false)} class='z-[300] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
+                  </>
+                )}
+
  
                <div className="w-full">
                  <label

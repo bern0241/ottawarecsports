@@ -11,7 +11,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
     const [searchClicked, setSearchClicked] = useState('');
     const [selectedUsers, setSelectedUsers] = useState([]);
     const router = useRouter();
-    const {id} = router.query;
+    const id = router.query.teamId;
  
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 

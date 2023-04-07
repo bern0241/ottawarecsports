@@ -86,7 +86,7 @@ export default function ACPLeagueTable({ sport, selectedLeague, setSelectedLeagu
                         <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                             Name
                         </th>
-                        <th scope="col" class="font-light px-6 py-2">
+                        <th scope="col" class="text-center font-light px-6 py-2">
                             Coordinator (s)
                         </th>
                         <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">

@@ -18,7 +18,7 @@ import { getTeam } from '@/src/graphql/queries';
     const [captains, setCaptains] = useState([]);
     const [uiState, setUiState] = useState('delete-role-state')
     const router = useRouter();
-    const {id} = router.query;
+    const id = router.query.teamId;
 
      useEffect(() => {
         if (!id) return;
@@ -33,7 +33,7 @@ import { getTeam } from '@/src/graphql/queries';
             const apiData = await API.graphql({ query: getTeam, variables: { id: id }});
             const data = await apiData.data.getTeam;
             console.log('Captains',data.captains);
-            console.log('Detect', data.captains.includes(player.user_id));
+            // console.log('Detect', data.captains.includes(player.user_id));
             setCaptains(data.captains);
         } catch (error) {
             console.error(error);
