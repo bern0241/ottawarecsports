@@ -270,16 +270,16 @@ export default function TeamProfile() {
 						</div>
 
 						{/* Player Teams */}
-						<div className="col-span-2">
-							
-							<div className=" w-full border border-brand-blue-900/25 rounded">
-								<div className="w-full relative flex flex-row justify-between items-center">
-								<h2 className="mb-1 p-2 text-[.92rem] font-light">Team Members</h2>
+						<div className="col-span-2 mt-6 mb-10">
+							<div className="w-full mx-auto max-w-[37rem] border border-brand-blue-900/25 rounded">
+								
+								<div className="w-full relative flex flex-row justify-between items-center my-1">
+								<h2 className="mb-1 p-2 ml-1 text-[.92rem] font-light">Team Members</h2>
 								{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 									<button
 										onClick={(e) => setOpenDropdown(!openDropdown)}
 										type="button"
-										className="bg-brand-blue-800 rounded px-5 py-1 text-white font-regular text-center rounded-full"
+										className="bg-brand-blue-800 rounded mr-1 px-5 py-1 text-white font-regular text-center rounded-lg"
 										>
 										Add Members
 									</button>
@@ -288,10 +288,10 @@ export default function TeamProfile() {
 								{openDropdown && (
 									<AddMemberDropdown members={members} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
 								)}
-
 								</div>
+
 								{members && members.map((member) => (
-									<div className="flex relative border-t border-brand-blue-900/25 px-5 py-2 justify-between" key={member.id} >
+									<div className="flex relative border-t border-brand-blue-900/25 pr-3 justify-between" key={member.id} >
 										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} />
 									</div>
 								))}
