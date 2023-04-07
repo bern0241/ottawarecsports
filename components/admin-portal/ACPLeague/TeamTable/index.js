@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import TeamCard from './TeamCard';
-import { listTeamDivisions, getDivision } from '@/src/graphql/queries';
+import { listTeamDivisions, getLeague, getSeason, getDivision } from '@/src/graphql/queries';
 // import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
@@ -16,11 +16,32 @@ import CreateButton from '../../../common/CreateButton';
 import AddTeamDropdown from './AddTeamDropdown';
  
  export default function TeamTable() {
-     const [division, setDivision] = useState({});
+    const [league, setLeague] = useState();
+    const [season, setSeason] = useState();
+    const [division, setDivision] = useState();
      const [teamDivisions, setTeamDivisions] = useState([]);
      const [addTeamModal, setAddTeamModal] = useState(false);
      const router = useRouter();
      const {divisionID} = router.query;
+
+     useEffect(() => {
+        const moveUpLeagueId = async () => {
+            // DIVISION
+            const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: divisionID}});
+            const divisionData = await apiDataDivision.data.getDivision;
+            setDivision(divisionData);
+            // SEASON
+            const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: divisionData.season}});
+            const seasonData = await apiDataSeason.data.getSeason;
+            setSeason(seasonData);
+            // LEAGUE
+            const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+            const leagueData = await apiDataLeague.data.getLeague;
+            setLeague(leagueData);
+          
+        }
+      moveUpLeagueId();
+    }, [])
 
      useEffect(() => {
         if (!divisionID) return;
@@ -61,8 +82,8 @@ import AddTeamDropdown from './AddTeamDropdown';
              <table class="w-full text-sm text-left border border-gray-400">
                  <thead class="text-md text-black bg-white">
                      <tr>
-                         <th scope="col" class="text-lg font-medium px-6 py-7">
-                             <p className='absolute top-4'><span className='font-semibold'>{division && division.name}</span> Division - All Teams</p>
+                         <th scope="col" class="text-lg font-medium px-6 py-[3.5rem]">
+                            <p className='absolute top-4'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><i>All Teams</i></p>
                          </th>
                          <th scope="col" class="font-medium px-6 py-4">
                              
@@ -71,7 +92,7 @@ import AddTeamDropdown from './AddTeamDropdown';
                              
                          </th>
                          <th scope="col" class="font-medium">
-                            <div className='absolute top-2 right-8 '>
+                            <div className='absolute top-4 right-8 '>
                                 <CreateButton label="Add Team"
                                             state={addTeamModal}
                                             setState={setAddTeamModal} 
@@ -85,10 +106,10 @@ import AddTeamDropdown from './AddTeamDropdown';
                          <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                              Name
                          </th>
-                         <th scope="col" class="font-light px-6 py-2">
+                         <th scope="col" class="font-light px-6 py-2 text-center">
                              Captain (s)
                          </th>
-                         <th scope="col" class="font-light px-6 py-2">
+                         <th scope="col" class="font-light px-6 py-2 text-center">
                              Members
                          </th>
                          <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">

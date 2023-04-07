@@ -7,21 +7,18 @@
 
  import React, { useState, useEffect } from 'react';
  import Head from 'next/head';
- import { IconChevronLeft } from '@tabler/icons-react';;
+ import { API } from 'aws-amplify';
+ import { IconChevronLeft, IconChevronsDownLeft } from '@tabler/icons-react';;
  import styles from '@/styles/Home.module.css';
  import { useUser } from '@/context/userContext';
  import { useRouter } from 'next/router';
- 
+ import { getLeague, getSeason, getDivision } from '@/src/graphql/queries';
  // Components
  import SignOutButton from '@/components/common/SignOutButton';
- 
  // Tables
- import ACPLeagueTable from '@/components/admin-portal/ACPLeague/LeagueTable';
- import ACPSeasonTable from '@/components/admin-portal/ACPLeague/SeasonTable';
- import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable';
  import TeamTable from '@/components/admin-portal/ACPLeague/TeamTable';
  
-   export default function Home() {
+   export default function ACPLeaguesDivisionPage() {
        const [user, setUser, authRoles, setAuthRoles] = useUser();
        const router = useRouter();
 

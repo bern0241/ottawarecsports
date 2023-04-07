@@ -105,14 +105,14 @@ import AWS from 'aws-sdk';
                  <td class="px-6 py-3">
                  {captains && captains.map((captain, index) => (
                     // <>
-                    <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+                    <p className='cursor-pointer text-blue-500 underline text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                 ))}
                  </td>
-                 <td class="px-6 py-3">
+                 <td class="px-6 py-3 text-center">
                      {membersCount}
                  </td>
                  <td class="flex gap-4 px-6 py-4 text-center justify-center">
-                     <IconCut onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconCut>
+                     <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                  </td>
                  </tr>
          
