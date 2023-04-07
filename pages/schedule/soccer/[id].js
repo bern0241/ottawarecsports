@@ -1,9 +1,56 @@
 import MatchesTable from '@/components/schedule/MatchesTable';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
+import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
+import CreateMatchModal from '@/components/schedule/CreateMatchModal';
+import { listGames } from '@/src/graphql/queries';
 
+import AWS from 'aws-sdk';
+import EditMatchModal from '@/components/schedule/EditMatchModal';
+import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
 export default function DivisionMatches() {
+	const [modalVisible, setModalVisible] = useState(false);
+	const [isEditingMatch, setIsEditingMatch] = useState(false);
+	const [matchToEdit, setMatchToEdit] = useState('');
+	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
+
+	const [games, setGames] = useState([]);
+	const [teams, setTeams] = useState([]);
+	const [referees, setReferees] = useState([]);
+	const router = useRouter();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	const fetchReferees = async () => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			GroupName: 'Referee',
+		};
+		cognitoidentityserviceprovider.listUsersInGroup(
+			params,
+			function (err, data) {
+				if (err) {
+					console.log(err, err.stack);
+				} else {
+					setReferees(data.Users);
+				}
+			}
+		);
+	};
+	const getGames = async () => {
+		if (!router.query.divisionID) return;
+		const resp = await getDivisionGames(router.query.divisionID);
+		setGames(resp);
+	};
+	const getTeams = async () => {
+		const resp = await getAllTeams();
+		setTeams(resp);
+	};
+	useEffect(() => {
+		getGames();
+		getTeams();
+		fetchReferees();
+	}, [router]);
 	return (
 		<>
 			<main className="w-full flex flex-col gap-6 p-8 pt-0">
@@ -11,14 +58,36 @@ export default function DivisionMatches() {
 				<Button
 					pill={true}
 					className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800 ml-auto"
-					// onClick={() => setModalVisible(true)}
+					onClick={() => setModalVisible(!modalVisible)}
 				>
 					<IconCirclePlus className="mr-2 h-5 w-5" />
 					Create New Match
 				</Button>
-				<MatchesTable />
-				<MatchesTable title={'Recent matches'} />
+				<MatchesTable
+					matches={games}
+					setMatchToEdit={setMatchToEdit}
+					setIsEditing={setIsEditingMatch}
+					setIsDeleting={setIsDeletingMatch}
+				/>
 			</main>
+			<CreateMatchModal
+				isVisible={modalVisible}
+				setIsVisible={setModalVisible}
+			/>
+			{isEditingMatch && (
+				<EditMatchModal
+					match={matchToEdit}
+					isVisible={isEditingMatch}
+					setIsVisible={setIsEditingMatch}
+				/>
+			)}
+			{isDeletingMatch && (
+				<DeleteMatchModal
+					match={matchToEdit}
+					openModal={isDeletingMatch}
+					setOpenModal={setIsDeletingMatch}
+				/>
+			)}
 		</>
 	);
 }

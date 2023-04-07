@@ -31,126 +31,126 @@ export const listLocations = /* GraphQL */ `
   }
 `;
 export const getSportsmanshipPoint = /* GraphQL */ `
-  query GetSportsmanshipPoint($id: ID!) {
-    getSportsmanshipPoint(id: $id) {
-      id
-      points
-      createdAt
-      updatedAt
-    }
-  }
+	query GetSportsmanshipPoint($id: ID!) {
+		getSportsmanshipPoint(id: $id) {
+			id
+			points
+			createdAt
+			updatedAt
+		}
+	}
 `;
 export const listSportsmanshipPoints = /* GraphQL */ `
-  query ListSportsmanshipPoints(
-    $filter: ModelSportsmanshipPointFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSportsmanshipPoints(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        points
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
+	query ListSportsmanshipPoints(
+		$filter: ModelSportsmanshipPointFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		listSportsmanshipPoints(
+			filter: $filter
+			limit: $limit
+			nextToken: $nextToken
+		) {
+			items {
+				id
+				points
+				createdAt
+				updatedAt
+			}
+			nextToken
+		}
+	}
 `;
 export const getPlayer = /* GraphQL */ `
-  query GetPlayer($id: ID!) {
-    getPlayer(id: $id) {
-      id
-      user_id
-      soccer_stats {
-        id
-        teamid
-        division
-        position
-        goals
-        assists
-        yellow_cards
-        red_cards
-        games_played
-      }
-      teamID
-      role
-      createdAt
-      updatedAt
-    }
-  }
+	query GetPlayer($id: ID!) {
+		getPlayer(id: $id) {
+			id
+			user_id
+			soccer_stats {
+				id
+				teamid
+				division
+				position
+				goals
+				assists
+				yellow_cards
+				red_cards
+				games_played
+			}
+			teamID
+			role
+			createdAt
+			updatedAt
+		}
+	}
 `;
 export const listPlayers = /* GraphQL */ `
-  query ListPlayers(
-    $filter: ModelPlayerFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPlayers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        user_id
-        soccer_stats {
-          id
-          teamid
-          division
-          position
-          goals
-          assists
-          yellow_cards
-          red_cards
-          games_played
-        }
-        teamID
-        role
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
+	query ListPlayers(
+		$filter: ModelPlayerFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		listPlayers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+			items {
+				id
+				user_id
+				soccer_stats {
+					id
+					teamid
+					division
+					position
+					goals
+					assists
+					yellow_cards
+					red_cards
+					games_played
+				}
+				teamID
+				role
+				createdAt
+				updatedAt
+			}
+			nextToken
+		}
+	}
 `;
 export const playersByTeamID = /* GraphQL */ `
-  query PlayersByTeamID(
-    $teamID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelPlayerFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    playersByTeamID(
-      teamID: $teamID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        user_id
-        soccer_stats {
-          id
-          teamid
-          division
-          position
-          goals
-          assists
-          yellow_cards
-          red_cards
-          games_played
-        }
-        teamID
-        role
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
+	query PlayersByTeamID(
+		$teamID: ID!
+		$sortDirection: ModelSortDirection
+		$filter: ModelPlayerFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		playersByTeamID(
+			teamID: $teamID
+			sortDirection: $sortDirection
+			filter: $filter
+			limit: $limit
+			nextToken: $nextToken
+		) {
+			items {
+				id
+				user_id
+				soccer_stats {
+					id
+					teamid
+					division
+					position
+					goals
+					assists
+					yellow_cards
+					red_cards
+					games_played
+				}
+				teamID
+				role
+				createdAt
+				updatedAt
+			}
+			nextToken
+		}
+	}
 `;
 export const getGame = /* GraphQL */ `
   query GetGame($id: ID!) {
@@ -1838,65 +1838,65 @@ export const listLeagues = /* GraphQL */ `
   }
 `;
 export const getTeamNote = /* GraphQL */ `
-  query GetTeamNote($id: ID!) {
-    getTeamNote(id: $id) {
-      id
-      date
-      description
-      team_id
-      author_id
-      createdAt
-      updatedAt
-    }
-  }
+	query GetTeamNote($id: ID!) {
+		getTeamNote(id: $id) {
+			id
+			date
+			description
+			team_id
+			author_id
+			createdAt
+			updatedAt
+		}
+	}
 `;
 export const listTeamNotes = /* GraphQL */ `
-  query ListTeamNotes(
-    $filter: ModelTeamNoteFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTeamNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        date
-        description
-        team_id
-        author_id
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
+	query ListTeamNotes(
+		$filter: ModelTeamNoteFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		listTeamNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+			items {
+				id
+				date
+				description
+				team_id
+				author_id
+				createdAt
+				updatedAt
+			}
+			nextToken
+		}
+	}
 `;
 export const teamNotesByTeam_id = /* GraphQL */ `
-  query TeamNotesByTeam_id(
-    $team_id: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelTeamNoteFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    teamNotesByTeam_id(
-      team_id: $team_id
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        date
-        description
-        team_id
-        author_id
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
+	query TeamNotesByTeam_id(
+		$team_id: ID!
+		$sortDirection: ModelSortDirection
+		$filter: ModelTeamNoteFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		teamNotesByTeam_id(
+			team_id: $team_id
+			sortDirection: $sortDirection
+			filter: $filter
+			limit: $limit
+			nextToken: $nextToken
+		) {
+			items {
+				id
+				date
+				description
+				team_id
+				author_id
+				createdAt
+				updatedAt
+			}
+			nextToken
+		}
+	}
 `;
 export const getTeam = /* GraphQL */ `
   query GetTeam($id: ID!) {
@@ -2203,37 +2203,37 @@ export const listTeams = /* GraphQL */ `
   }
 `;
 export const getPlayerNote = /* GraphQL */ `
-  query GetPlayerNote($id: ID!) {
-    getPlayerNote(id: $id) {
-      id
-      player_id
-      date
-      description
-      author_id
-      createdAt
-      updatedAt
-    }
-  }
+	query GetPlayerNote($id: ID!) {
+		getPlayerNote(id: $id) {
+			id
+			player_id
+			date
+			description
+			author_id
+			createdAt
+			updatedAt
+		}
+	}
 `;
 export const listPlayerNotes = /* GraphQL */ `
-  query ListPlayerNotes(
-    $filter: ModelPlayerNoteFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPlayerNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        player_id
-        date
-        description
-        author_id
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
+	query ListPlayerNotes(
+		$filter: ModelPlayerNoteFilterInput
+		$limit: Int
+		$nextToken: String
+	) {
+		listPlayerNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+			items {
+				id
+				player_id
+				date
+				description
+				author_id
+				createdAt
+				updatedAt
+			}
+			nextToken
+		}
+	}
 `;
 export const getTeamDivision = /* GraphQL */ `
   query GetTeamDivision($id: ID!) {

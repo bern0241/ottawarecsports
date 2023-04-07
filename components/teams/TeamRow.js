@@ -81,7 +81,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 						src={profileImage}
 						className="rounded-full w-[82px] h-[82px] object-cover text-center"
 					></img>
-					<p className='text-left ml-2 font-medium w-[7rem]'>{team.name}</p>
+					<p className='text-center min-[590px]:text-left ml-2 font-medium w-[7rem]'>{team.name}</p>
 					<div className='flex-grow'></div>
 				</div>
 			</td>

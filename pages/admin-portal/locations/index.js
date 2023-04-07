@@ -78,9 +78,9 @@
                 <div className='flex justify-end mx-auto max-w-[50em] relative top-0'>
                     <NewLocation locations={locations} setLocations={setLocations} />
                 </div>
-                            {locations && locations.map((location) => (
+                            {locations && locations.map((location, index) => (
                                 <>
-                                    <div className='flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md'>
+                                    <div key={index} className='flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md'>
                                         <IconEdit onClick={(e) => editLocationClicked(e, location)} style={{position: 'absolute', fontSize: '20px', cursor: 'pointer', transform: 'translate(-0px, -15px)'}} name="create-outline"></IconEdit>
                                         <IconTrash onClick={(e) => { deleteLocationClicked(e, location)}} style={{position: 'absolute', fontSize: '20px', cursor: 'pointer', transform: 'translate(25px, -15px)', color: 'red'}} name="trash-outline"></IconTrash>
                                         <div>

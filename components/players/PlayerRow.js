@@ -176,7 +176,7 @@ export default function PlayerRow({ player, index }) {
 						{teams && teams.map((team) => (
 							<>
 							<div className='flex flex-row items-center py-1 max-w-[15rem] mx-auto'>
-							<p onClick={(e) => console.log(team)} key={team.id} className='text-blue-500 underline text-sm text-left pl-[2rem]'>{team.name}</p>
+							<p onClick={(e) => console.log(team)} key={team.id} className='text-blue-500 underline text-sm text-left pl-[2rem] w-[9rem]'>{team.name}</p>
 							{team.captains && team.captains.includes(player.Username) && (
 								<>
 								<IconArrowNarrowRight size={'16px'} style={{marginLeft: 'auto'}}/>

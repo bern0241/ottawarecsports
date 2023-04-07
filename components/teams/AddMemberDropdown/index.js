@@ -33,7 +33,6 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
 
     useEffect(() => {
       if (search === '') {
-        console.log('empty');
         setSearchClicked('');
       }
     }, [search])
@@ -97,14 +96,14 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
                 if (!searchItem) return true;
                 return v.startsWith(searchItem);
             })
-            .map((user) => (
+            .map((user, index) => (
                 <>
                 {(returnUserExists(user)) ? (
-                  <li>
+                  <li key={index}>
                       {/* <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} /> */}
                   </li>
                 ) : (
-                  <li className='cursor-pointer' onClick={(e) => setUserFunc(e, user)}>
+                  <li kye={index} className='cursor-pointer' onClick={(e) => setUserFunc(e, user)}>
                       <MemberCardAdd search={searchClicked} user={user} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} members={members} />
                   </li>
                 )}

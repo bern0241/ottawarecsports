@@ -21,13 +21,13 @@ const ScheduleDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
 				onClick={() => toggle("schedule")}
-				className="p-2 flex ml-2 flex-row justify-between w-full"
+				className="px-5 py-2 flex ml-2 flex-row justify-between w-full"
 			>
 				<div className="flex flex-row align-middle">
 					<div className="pt-1 ">
 						<IconCalendarEvent size={'1.2em'} />
 					</div>
-					<h1 className=" font-medium text-md pl-2">Schedule</h1>
+					<span className="font-medium text-md pl-2">Schedule</span>
 				</div>
 				<div className="pt-1 mr-2">
 					<IconChevronRight style={{transition: '320ms', transform: openDropdown === "schedule" ? 'rotate(90deg)' : 'rotate(0deg)'}} size={'1.2em'} />

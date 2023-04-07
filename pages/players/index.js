@@ -91,7 +91,7 @@ export default function Players() {
 									Location
 								</th>
 								{/* <th className="py-3 px-5 text-sm font-light w-2/12">Sports</th> */}
-								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Teams : Roles</th>
+								<th className="py-3 px-10 text-sm font-light w-2/12 text-center">Teams : Roles</th>
 								{/* <th className="py-3 px-5 text-sm font-light w-2/12">Role</th> */}
 							</tr>
 						</thead>
