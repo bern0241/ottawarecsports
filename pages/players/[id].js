@@ -12,6 +12,7 @@ import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import { IconArrowNarrowRight } from '@tabler/icons-react';
 import Link from 'next/link';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
@@ -155,7 +156,7 @@ export default function PlayerProfile() {
 	return (
 		<>
 		{/* Content */}
-			<main className="w-full h-screen flex flex-col gap-6 p-8">
+			<main className="w-full h-screen flex flex-col gap-6 p-5">
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
@@ -260,7 +261,7 @@ export default function PlayerProfile() {
 										<th className="py-2 px-3 text-sm font-light w-4/12">
 											Sport
 										</th>
-										<th className="py-2 px-3 text-sm font-light w-4/12">
+										<th className="py-2 px-3 text-sm text-center font-light w-4/12">
 											Team (s)
 										</th>
 										<th className="py-2 px-3 text-sm font-light w-4/12">
@@ -272,16 +273,16 @@ export default function PlayerProfile() {
 								{teams && teams.map((team) => (
 										<>
 										<tr className="font-light">
-											<td className="py-2 px-3">{sport}</td>
-											<td className="py-2 px-3">
-												<Link className='text-blue-500 underline' href={`/teams/${team.id}`}>{team && team.name}</Link>
+											<td className="py-2 px-3 text-[.94rem]">{sport}</td>
+											<td className="py-2 text-center">
+												<Link className='text-blue-500 underline text-[.92rem]' href={`/teams/${team.id}`}>{team && team.name}</Link>
 											</td>
 											<td className="py-2 px-3">
 												{team.player_role === 'Player' && (
-													<p>Player</p>
+													<p className='text-[.92rem]'>Player</p>
 												)}
 												{team.player_role === 'Captain' && (
-													<p className='font-medium'>Captain</p>
+													<p className='text-[.92rem]'>Captain</p>
 												)}
 											</td>
 										</tr>

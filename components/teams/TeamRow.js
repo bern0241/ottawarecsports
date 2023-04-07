@@ -88,7 +88,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			<td className="p-5 mx-auto">
 				<ul className=''>
 				{captains && captains.map((captain, index) => (
-                     <li className='my-1 cursor-pointer text-blue-500 underline w-[8rem]  text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</li>
+                     <li className='my-1 cursor-pointer text-blue-500 underline w-[8rem] text-[.94rem] text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</li>
                  ))}
 				 </ul>
 			</td>
