@@ -21,7 +21,6 @@ export default function PasswordField({ label, state, setState }) {
 
 	return (
 		<div className="relative">
-			<Label htmlFor="password" value="Password" className="sr-only" />
 			<TextInput
 				value={state}
 				onChange={(e) => setState(e.target.value)}
