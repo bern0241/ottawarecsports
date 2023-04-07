@@ -11,7 +11,7 @@ export default function TeamDropDown({state, setState, setOpenDropDown}) {
   const [teams, setTeams] = useState([]);
 
   const router = useRouter();
-  const {divisionID} = router.query;
+  const divisionID = router.query.id;
 
   useEffect(()=>{
     if (!divisionID) return;

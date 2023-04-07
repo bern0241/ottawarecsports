@@ -24,6 +24,9 @@ import AddTeamDropdown from './AddTeamDropdown';
      const router = useRouter();
      const {divisionID} = router.query;
 
+      /**
+	 * This useEffect fetches the division -> season -> league (in this order) for this page
+	 */
      useEffect(() => {
         const moveUpLeagueId = async () => {
             // DIVISION
@@ -82,8 +85,8 @@ import AddTeamDropdown from './AddTeamDropdown';
              <table class="w-full text-sm text-left border border-gray-400">
                  <thead class="text-md text-black bg-white">
                      <tr>
-                         <th scope="col" class="text-lg font-medium px-6 py-[3.5rem]">
-                            <p className='absolute top-4'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><i>All Teams</i></p>
+                         <th scope="col" class="text-lg font-medium px-6 py-[4.4rem]">
+                         <p className='absolute translate-y-[-57px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-light italic'>All Teams</span></p>
                          </th>
                          <th scope="col" class="font-medium px-6 py-4">
                              

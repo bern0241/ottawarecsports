@@ -43,7 +43,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	const router = useRouter();
 
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const { divisionID } = router.query;
+	const divisionID = router.query.id;
 
 	//Options object for the data picker
 	const options = {

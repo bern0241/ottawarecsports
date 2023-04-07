@@ -104,7 +104,7 @@ const MatchesTable = ({
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex justify-between py-[45px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
 					<h1 className="text-base font-medium">
-						<p className='absolute translate-y-[-46px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-medium italic'>Matches</span></p>
+						<p className='absolute translate-y-[-46px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-light italic'>Matches</span></p>
 					</h1>
 					<DropdownInput
 						value={selectedDate}

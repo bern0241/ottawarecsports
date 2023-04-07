@@ -12,7 +12,6 @@
  import styles from '@/styles/Home.module.css';
  import { useUser } from '@/context/userContext';
  import { useRouter } from 'next/router';
- import { getLeague, getSeason, getDivision } from '@/src/graphql/queries';
  // Components
  import SignOutButton from '@/components/common/SignOutButton';
  // Tables
