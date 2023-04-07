@@ -205,3 +205,34 @@ export const listTeamsWithPlayers = /* GraphQL */ `
 		}
 	}
 `;
+
+// MEANT FOR SCHEDULE PAGE
+export const getSeasonShort = /* GraphQL */ `
+  query GetSeason($id: ID!) {
+    getSeason(id: $id) {
+		id
+    is_completed
+    league
+    name
+    start_date
+    updatedAt
+    end_date
+    createdAt
+    abbreviation
+    Divisions {
+      items {
+        updatedAt
+        teams
+        season
+        name
+        level
+        is_playoff
+        id
+        description
+        createdAt
+        abbreviation
+      }
+    }
+    }
+  }
+`;

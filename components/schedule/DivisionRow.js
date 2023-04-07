@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { convertLevelToFull } from '@/utils/handy-dandy-functions';
 
 const DivisionRow = ({ key, division }) => {
 	const router = useRouter();
@@ -21,7 +22,7 @@ const DivisionRow = ({ key, division }) => {
 	return (
 		<tr
 			key={division?.id}
-			className="border-b border-brand-neutral-300 cursor-pointer"
+			className="border-b border-brand-neutral-300 cursor-pointer hover:bg-gray-100"
 			onClick={navigateToProfile}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
@@ -30,9 +31,9 @@ const DivisionRow = ({ key, division }) => {
 					<p>{division?.name}</p>
 				</div>
 			</td>
-			<td className="p-5">{division?.level}</td>
+			<td className="p-5 text-center">{convertLevelToFull(division?.level)}</td>
 			<td className="hidden md:table-cell p-5">{division?.abbreviation}</td>
-			<td className="p-5 flex justify-center">
+			<td className="p-5 flex justify-center text-center">
 				<CalendarIcon />
 			</td>
 		</tr>

@@ -57,11 +57,15 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 							stroke={'#000'}
 						/>
 					</span>
-					<p className="w-12 md:w-24">{team?.name || 'SuperTeam'}</p>
+					<p onClick={(e) => {
+						goToTeamPage(e);
+					}} className="w-12 md:w-24 cursor-pointer">{team?.name || 'SuperTeam'}</p>
 				</>
 			) : (
 				<>
-					<p className="w-24 text-center md:text-left order-last md:order-none">
+					<p onClick={(e) => {
+						goToTeamPage(e);
+					}} className="w-24 text-center md:text-left order-last md:order-none cursor-pointer">
 						{team?.name || 'SuperTeam'}
 					</p>
 					<span onClick={(e) => {
