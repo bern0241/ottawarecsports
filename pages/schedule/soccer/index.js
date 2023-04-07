@@ -87,7 +87,7 @@ const soccer = () => {
 				)}
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-					<div className="flex justify-between py-3 px-3 border-b border-brand-neutral-300 items-center">
+					<div className="flex justify-between py-3 px-3 border-b border-brand-neutral-300 top-4">
 						<h2 className="text-[1rem] self-center">
 							{currentSeason ? (
 								<p><b>League</b> - {currentLeague?.name} <br/><b>Season</b> - {currentSeason?.name}<br/>All Divisions</p>
@@ -106,7 +106,7 @@ const soccer = () => {
 					</div>
 
 					<table className="table-auto">
-						<thead className="bg-brand-neutral-100">
+						<thead className="bg-brand-neutral-100 border-b-[1px] border-gray-500">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
 								<th className="py-3 text-center px-5 text-sm font-light w-4/12">Level</th>
