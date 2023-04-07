@@ -81,10 +81,10 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                 {league.name}
             </th>
             <td class="px-6 py-3">
-                <ul>
+                <ul className='text-center'>
                     {users && users.map((coordinator) => (
                         <>
-                        <li className="text-blue-700 text-sm">
+                        <li className="text-blue-700 text-sm underline py-[.2rem]">
                         <p onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                         </li>
                         </>

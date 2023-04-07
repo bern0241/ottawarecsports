@@ -117,9 +117,9 @@ import AddTeamDropdown from './AddTeamDropdown';
                      )}
          
                      <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
-                             All Seasons
-                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon>
+                         <th scope="row" class="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
+                             {/* All Seasons
+                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
                          </th>
                          <td class="px-6 py-4">
                          </td>
