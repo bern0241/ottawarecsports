@@ -10,6 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
 import { useRouter } from 'next/router';
+import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { getImageFromS3, getPlayersByUsername, getTeam } from '@/utils/graphql.services';
 import Link from 'next/link';
 import AWS from 'aws-sdk';
@@ -137,55 +138,67 @@ export default function PlayerRow({ player, index }) {
 			onClick={handleClick}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
-			<td className="p-5 text-md">
-				<div className="flex items-center">
+			<td className="pl-2 sm:pl-4 py-3 text-md w-[40%]">
+				<div className="flex flex-col gap-2 min-[585px]:flex-row items-center mx-auto text-center">
 					<img
 						src={`${profileImage ? profileImage : "/images/defaultProfilePic.jpeg"}`}
-						className="rounded-full mr-5 w-10 h-10"
+						className="rounded-full text-center w-[4.5rem] h-[4.5rem] border border-gray-500 object-cover"
 					></img>
-					<div className="flex flex-col gap-1">
+					<div className="flex flex-col gap-1 pl-1">
 						<h1 className="font-medium">
 							{player.Attributes.find(o => o.Name === 'name')['Value'].slice(0,1)}{". "}
 							{player.Attributes.find(o => o.Name === 'family_name')['Value']}
 							
 						</h1>
-						<div className="flex text-sm font-light">
-							<span className="mr-5">
+						<div className="flex font-light text-left hidden sm:block">
+							<span className="text-sm font-medium mr-2">
 								{calculateAge(
 									player.Attributes.find((o) => o.Name === 'birthdate')['Value']
 								)}
 							</span>
-							<span>
+							<span className='text-[.8rem]'>
 								{player.Attributes.find((o) => o.Name === 'gender')['Value']}
 							</span>
 						</div>
 					</div>
 				</div>
 			</td>
-			<td className="p-5 font-light">
+			<td className="p-3 font-light text-center text-[.9rem]">
 				{player.Attributes.find(o => o.Name === 'custom:location')['Value']}
 			</td>
-			<td className="p-5 font-light">
+			{/* <td className="p-5 font-light">
 				<div className="flex flex-col gap-1">
 					Soccer
 				</div>
-			</td>
-				<td className="p-5 font-light">
-					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
+			</td> */}
+				<td className="p-5 font-light w-full">
+					{/* <div className="flex flex-col gap-1 items-start justify-start content-start align-top"> */}
 						{teams && teams.map((team) => (
-							<p onClick={(e) => goToTeamsPage(e, team)} key={team.id} className='text-blue-500 underline'>{team.name}</p>
+							<>
+							<div className='flex flex-row items-center py-1 max-w-[15rem] mx-auto'>
+							<p onClick={(e) => console.log(team)} key={team.id} className='text-blue-500 underline text-sm text-left pl-[2rem]'>{team.name}</p>
+							{team.captains && team.captains.includes(player.Username) && (
+								<>
+								<IconArrowNarrowRight size={'16px'} style={{marginLeft: 'auto'}}/>
+								<span className='text-sm' key={team.id}>
+									{team.captains && team.captains.includes(player.Username) ? "Captain" : "Player"}
+								</span>
+								</>
+							)}
+							</div>
+							</>
 						))}
-					</div>
+					{/* </div> */}
 				</td>
-				<td className="p-5 font-light">
+				{/* <td className="p-5 font-light">
 					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
 						{teams && teams.map((team) => (
-							<span key={team.id}>
+							<span className='text-sm' key={team.id}>
 								{team.captains && team.captains.includes(player.Username) ? "Captain" : "Player"}
 							</span>
 						))}
 					</div>
-				</td>
+				</td> */}
 		</tr>
 	);
 }

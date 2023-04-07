@@ -70,7 +70,7 @@ export default function Players() {
 	return (
 		<>
 			{/* Content */}
-			<main className="w-full h-screen flex flex-col gap-6 p-8">
+			<main className="w-full h-screen flex flex-col gap-6 p-5">
 				{/* Search Bar */}
 				<SearchBarInput
 					id={'player-search'}
@@ -87,12 +87,12 @@ export default function Players() {
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">
+								<th className="py-3 text-center text-sm font-light w-2/12">
 									Location
 								</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">Sports</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">Teams</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">Role</th>
+								{/* <th className="py-3 px-5 text-sm font-light w-2/12">Sports</th> */}
+								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Teams : Roles</th>
+								{/* <th className="py-3 px-5 text-sm font-light w-2/12">Role</th> */}
 							</tr>
 						</thead>
 						<tbody>

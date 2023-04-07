@@ -154,9 +154,9 @@ const HeaderTitle = () => {
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 						<Link href="/teams" className="font-light text-[.8rem]">Teams</Link>
 						<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-						<Link href={`/teams/${team.id}`} className="font-light text-[.8rem]">{team.name}</Link>
+						<Link href={`/teams/${team && team.id}`} className="font-light text-[.8rem]">{team?.name}</Link>
 					</div>
-					<p className="font-semibold text-[1.8rem]">{team.name}</p>
+					<p className="font-semibold text-[1.8rem]">{team?.name}</p>
 				</div>
 			</div>
 		)}
