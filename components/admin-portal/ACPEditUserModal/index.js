@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 import makeid from '@/utils/makeId';
 import { useUser } from '@/context/userContext';
-import { Auth } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 // Components (Coming from 'components/signup' folder)
 import DobDatePicker from '../ACPNewUserModal/DatePicker';
 import GenderDropDown from '../ACPNewUserModal/GenderDropDown';
@@ -20,6 +20,8 @@ import UserProfilePictureEdit from './UserProfilePictureEdit';
 // import UserProfilePicture from '../ACPNewUserModal/UserProfilePicture';
 import TempPasswordField from '../ACPNewUserModal/TempPasswordField';
 import ChangePasswordModal from './ChangePasswordModal';
+import { listLeagues } from '@/src/graphql/queries';
+import { updateLeague } from '@/src/graphql/mutations';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -64,7 +66,11 @@ export default function ACPEditUserModal({
 	);
 
 	const [userGroups, setUserGroups] = useState([]);
+	
 	const [isAdmin, setIsAdmin] = useState(false); // Checks if admin chip exists when modal opens
+	const [isCoordinator, setIsCoordinator] = useState(false); // Checks if coordinator chip exists when modal opens
+	const [isReferee, setIsReferee] = useState(false); // Checks if referee chip exists when modal opens
+	
 	const [yesLogout, setYesLogout] = useState(false); // Checks if user accepts to remove themselves as Admin
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const router = useRouter();
@@ -96,6 +102,7 @@ export default function ACPEditUserModal({
 		}
 	}, [uiState]);
 
+
 	useEffect(() => {
 		if (user1.Attributes.find((o) => o.Name === 'phone_number')) {
 			setPhoneNumber(
@@ -117,6 +124,13 @@ export default function ACPEditUserModal({
 						result = result.filter((item) => item !== 'User');
 						result.unshift('User');
 						setUserGroups(result);
+						// SEE IF COORDINATOR EXISTS
+						if (result.includes('Coordinator')) {
+							setIsCoordinator(true);
+						}
+						if (result.includes('Referee')) {
+							setIsReferee(true);
+						}
 					}
 				}
 			);
@@ -124,18 +138,117 @@ export default function ACPEditUserModal({
 		getGroupsForUser();
 	}, []);
 
+
+
+
+
+	const checkIfCoordinatorsOrRefereesExist = async () => {
+		let coordOrRefLive = [];
+		// COORDINATORS
+		// Get all leagues with active coordinators[]
+		try {
+			const variables = {
+				filter: {
+					coordinators: {
+						size: {
+							ne: 0
+						}
+					}
+				}
+			}
+			const leagues = await API.graphql({
+				query: listLeagues,
+				variables: variables
+			})
+			console.log(leagues.data.listLeagues.items)
+			// loop through and filter username 
+			let coordinatorAliveLeague = false;
+			leagues.data.listLeagues.items.forEach((league) => {
+				league.coordinators.forEach((coordinator) => {
+					if (coordinator === user1.Username) {
+						coordinatorAliveLeague = true;
+					}
+				})
+			})
+			if (coordinatorAliveLeague) {
+				console.log('Coordinator exists in leagues!');
+				coordOrRefLive.push('coordinator');
+			} else {
+				console.log('No Coordinators exist');
+			}
+			// CHECK FOR REF
+			return coordOrRefLive;
+			
+		} catch (error) {
+			alert('Error checking for Coordinators or Referees')
+			console.log(error);
+		}
+	}
+
+	const removeAllCoordinatorRolesInLeagues = async () => {
+		const variables = {
+            filter: {
+                coordinators: {
+                    size: {
+						ne: 0
+					}
+                }
+            }
+        }
+        const leagues = await API.graphql({
+            query: listLeagues,
+            variables: variables
+        })
+		// loop through and filter username 
+		try {
+			leagues.data.listLeagues.items.forEach(async (league) => {
+				league.coordinators.forEach(async (coordinator) => {
+					if (coordinator === user1.Username) {
+						let newCoordinators = league.coordinators.filter(coordinator2 => coordinator2 !== user1.Username);
+						const data = {
+							id: league.id,
+							coordinators: newCoordinators,
+						}
+						const apiData = await API.graphql({
+							query: updateLeague,
+							variables: { input: data},
+						});
+						console.log("League Updated:", apiData.data.updateLeague);
+					}
+				})
+			})
+			return;
+			// const coordinatorUsernames = leagueCoordinators.map(a => a.username)
+		} catch (error) {
+			alert('Error trying to delete all coordinators from user');
+			console.log(error);
+		}
+	}
+
+
 	/**
 	 *
 	 * @returns New user created!
 	 */
 	const editUser = async (e, userStatus) => {
+		// DO CHECK FIRST
 		if (isAdmin && userStatus === 'meOther') {
 			if (!userGroups.includes('Admin')) {
 				setUiState('adminRemoved')
 				return;
 			}
 		}
-		console.log('???!!')
+		const check = await checkIfCoordinatorsOrRefereesExist();
+		if (check.includes('coordinator') && isCoordinator && userStatus !== 'meCoordinator') {
+			if (!userGroups.includes('Coordinator')) { //removed authrole
+				setUiState('coordinatorRemoved');
+				return;
+			}
+		}
+		if (userStatus === 'meCoordinator') {
+			await removeAllCoordinatorRolesInLeagues(); //We have detected that this user has existing Coordinator and Referee roles. They will all be removed. Are you sure you want to continue?
+		}
+
 		if (
 			firstName === '' ||
 			lastName === '' ||
@@ -239,16 +352,8 @@ export default function ACPEditUserModal({
 		}
 	};
 
-	const checkIfCoordinatorsExist = async () => {
-		// Get all leagues with active coordinators[]
-		// loop through and filter username 
-		// Continue
-	}
-
 	const deleteUserGroups = async (username, userStatus) => {
 		try {
-			checkIfCoordinatorsExist();
-
 			const removeTheseGroups = [
 				'User',
 				'Captain',
@@ -409,9 +514,9 @@ export default function ACPEditUserModal({
 	 * Page resets - If current user edits himself and removes Admin role, this function will logout the user
 	 */
 	const resetPage = async (userStatus) => {
-		if (userStatus === 'meOther') {
+		if (userStatus === 'meOther' || userStatus === 'meCoordinator' || userStatus === 'meReferee' || meCoordinator === 'meRefCoord') {
 			router.reload();
-		} else {
+		} else if (userStatus === 'meAdmin') {
 			await Auth.signOut();
 			setUser(null);
 			setAuthRoles(null);
@@ -419,30 +524,9 @@ export default function ACPEditUserModal({
 		}
 	}
 
-	// const resetPassword = (e) => {
-	// 	e.preventDefault();
-	// 	var params = {
-	// 		Username: user1.Username,
-	// 		UserPoolId: 'us-east-1_70GCK7G6t',
-	// 	};
-	// 	cognitoidentityserviceprovider.adminResetUserPassword(
-	// 		params,
-	// 		function (err, data) {
-	// 			if (err) {
-	// 				setMessage({ status: 'error', message: err.message });
-	// 				console.log(err, err.stack);
-	// 			} // an error occurred
-	// 			else {
-	// 				setMessage({ status: 'success', message: 'Password reset.' });
-	// 				console.log(data);
-	// 			} // successful response
-	// 		}
-	// 	);
-	// };
-
 	return (
 		<>
-			{uiState === 'adminRemoved' && (
+		{uiState === 'adminRemoved' && (
 				
                 <div tabIndex="-1" class="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
             	<div class="relative h-full md:h-auto">
@@ -480,6 +564,44 @@ export default function ACPEditUserModal({
         </div>
 		)}
 
+			{uiState === 'coordinatorRemoved' && (
+				
+                <div tabIndex="-1" class="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
+            	<div class="relative h-full md:h-auto">
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <button onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenModal(false);
+                        }}
+                        type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                    <div class="p-6 text-center">
+                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">This user is an <b>existing coordinator</b> on a league. <br/>Are you sure you want to remove them <br/>as coordinators?</h3>
+                        <button onClick={(e) => {
+                            e.stopPropagation();
+							// setUiState('main');
+							setOpenModal(false);
+                        }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
+                            No thanks
+                        </button>
+                        <button 
+						onClick={async (e) => {
+                            e.stopPropagation();
+							editUser(e, 'meCoordinator')
+                        }}
+						 data-modal-hide="popup-modal" type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Yes, I understand
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+		)}
+
 			{uiState === 'main' && (
 				<>
 					{/* // <!-- Main modal --> */}
@@ -488,11 +610,12 @@ export default function ACPEditUserModal({
 						tabindex="-1"
 						aria-hidden="true"
 						class="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
-					>
+						>
 						<div class="relative w-full h-full">
 							{/* <!-- Modal content --> */}
 							<div class="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 								{/* <!-- Modal header --> */}
+						<button onClick={(e) => checkIfCoordinatorsExist()}>CLICK ME!!!@</button>
 								<div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 class="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User

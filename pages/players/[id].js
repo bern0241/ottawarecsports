@@ -172,11 +172,11 @@ export default function PlayerProfile() {
 						</h1>
 						<Button
 							pill={true}
-							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							className="py-0.5 pr-3 bg-blue-900 hover:bg-blue-800"
 							onClick={() => router.back()}
 						>
 							<IconChevronLeft className="mr-2 h-5 w-5" />
-							Back to Players
+							Back
 						</Button>
 					</div>
 
