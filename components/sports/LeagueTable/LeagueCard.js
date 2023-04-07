@@ -66,18 +66,19 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                 )}
                 {league.name}
             </th>
-            <td class="px-6 py-3">
+            <td class="py-3">
                 <ul className='text-center'>
                     {users && users.map((coordinator) => (
                         <>
                         <li className="text-blue-700 text-sm underline py-[.2rem]">
-                        <p onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+                        <p className='' onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                         </li>
                         </>
                     ))}
                 </ul>
             </td>
-            <td class="flex gap-4 px-6 py-3 text-center items-center justify-center">
+            <td class="flex gap-4 pr-10 px-6 py-3 text-left items-center justify-center">
+              <div className='flex-grow'></div>
               <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
             </td>
         </tr>

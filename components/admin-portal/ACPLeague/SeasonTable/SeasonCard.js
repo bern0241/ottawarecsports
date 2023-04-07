@@ -58,13 +58,14 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                     )}
                     {season.name}
                 </th>
-                <td class="px-6 py-3">
+                <td class="text-center px-6 py-3">
                     {convertDateReadable(season.start_date)}
                 </td>
-                <td class="px-6 py-3">
+                <td class="text-center px-6 py-3">
                     {convertDateReadable(season.end_date)}
                 </td>
                 <td class="flex gap-4 px-6 py-4 text-center justify-center">
+                    <div className='flex-grow'></div>
                     <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
                     <IconTrash onClick={(e) => deleteSeasonFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                 </td>

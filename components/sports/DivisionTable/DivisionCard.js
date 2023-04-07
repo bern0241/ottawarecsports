@@ -48,13 +48,14 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
           )}
           {division.name}
         </th>
-        <td class="px-6 py-3">
+        <td class="text-center px-6 py-3">
           {division.level}
         </td>
-        <td class="px-6 py-3">
+        <td class="text-center px-6 py-3">
           {teamCount}
         </td>
-        <td class="flex gap-4 px-6 py-4 text-center justify-center">
+        <td class="flex gap-4 pr-10 px-6 py-4 text-center justify-center">
+          <div className='flex-grow'></div>
           <IconUsers onClick={(e) => gameScheduleNavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>
         </td>
       </tr>

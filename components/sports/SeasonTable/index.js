@@ -50,9 +50,9 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
             <table class="w-full text-sm text-left border border-gray-400">
                 <thead class="text-md text-black bg-white">
                     <tr>
-                        <th scope="col" class="text-lg font-medium px-6 py-4">
-                            {!selectedLeague && (<p>{`Season`}</p>)}
-                            {selectedLeague && (<p>Seasons for <span className='font-semibold underline'>{selectedLeague.name}</span></p>)}
+                        <th scope="col" class="text-lg font-medium px-6 py-4 pb-[2.8rem] text-[1rem]">
+                            {!selectedLeague && (<p className='absolute'>{`Season`}</p>)}
+                            {selectedLeague && (<p className='absolute'>Seasons for <span className='font-semibold underline'>{selectedLeague.name}</span></p>)}
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
@@ -70,13 +70,13 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                         <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                             Name
                         </th>
-                        <th scope="col" class="font-light px-6 py-2">
+                        <th scope="col" class="text-center font-light px-6 py-2">
                             Start
                         </th>
-                        <th scope="col" class="font-light px-6 py-2">
+                        <th scope="col" class="text-center font-light px-6 py-2">
                             End
                         </th>
-                        <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
+                        <th scope="col" class="font-light py-2 border-r-[1px] text-right pr-10 border-gray-400">
                             Action
                         </th>
                     </tr>

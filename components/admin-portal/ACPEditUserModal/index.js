@@ -239,8 +239,16 @@ export default function ACPEditUserModal({
 		}
 	};
 
+	const checkIfCoordinatorsExist = async () => {
+		// Get all leagues with active coordinators[]
+		// loop through and filter username 
+		// Continue
+	}
+
 	const deleteUserGroups = async (username, userStatus) => {
 		try {
+			checkIfCoordinatorsExist();
+
 			const removeTheseGroups = [
 				'User',
 				'Captain',
