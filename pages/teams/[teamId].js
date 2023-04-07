@@ -184,11 +184,11 @@ export default function TeamProfile() {
 					<h1 className="text-lg self-center font-medium">{team && team.name}</h1>
 					<Button
 						pill={true}
-						className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+						className="py-0.5 pr-3 bg-blue-900 hover:bg-blue-800"
 						onClick={() => router.back()}
 					>
 						<IconChevronLeft className="mr-2 h-5 w-5" />
-						Back to Teams
+						Back
 					</Button>
 				</div>
 

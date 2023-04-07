@@ -23,7 +23,7 @@ const CurrentTeamView = ({ teamData, setCurrentTeam }) => {
 						<h1 className="text-xl self-center">{teamData.name}</h1>
 						<Button
 							pill={true}
-							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							className="py-0.5 pr-3 bg-blue-900 hover:bg-blue-800"
 							onClick={() => setCurrentTeam(null)}
 						>
 							<IconCirclePlus className="mr-2 h-5 w-5" />

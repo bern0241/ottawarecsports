@@ -73,7 +73,6 @@ export default function ACPTeamsPage() {
 					searchFunction={handleSearch}
 				/>
                 </div>
-
                       <TeamTable filterTeams={filterTeams} fetchTeams={fetchTeams} />
                 </div>
             </main>

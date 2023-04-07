@@ -34,7 +34,7 @@ import NewTeamModal from './NewTeamModal';
                               
                           </th>
                           <th scope="col" class="font-medium">
-                             <div className='absolute top-2 right-8 '>
+                             <div className='absolute top-2 right-1 pr-5 '>
                                  <CreateButton label="Create Team"
                                              state={createTeamModal}
                                              setState={setCreateTeamModal} 
@@ -48,10 +48,10 @@ import NewTeamModal from './NewTeamModal';
                           <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                               Name
                           </th>
-                          <th scope="col" class="font-light px-6 py-2">
+                          <th scope="col" class="text-center font-light px-6 py-2">
                               Captain (s)
                           </th>
-                          <th scope="col" class="font-light px-6 py-2">
+                          <th scope="col" class="text-center font-light px-6 py-2">
                               Sport
                           </th>
                           <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
