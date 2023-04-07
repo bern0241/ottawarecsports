@@ -199,6 +199,11 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									required={true}
 									className="w-96"
 								/>
+								<Label
+									htmlFor="password"
+									value="Password"
+									className="sr-only"
+								/>
 								<PasswordField
 									label="Password *"
 									// onChange={(e) => setPassword(e.target.value)}
