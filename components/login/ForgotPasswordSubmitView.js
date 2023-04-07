@@ -12,6 +12,7 @@ import { Auth } from 'aws-amplify';
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
 import { useRouter } from 'next/router';
+import { Label } from 'flowbite-react';
 
 export default function ForgotPasswordSubmitView({
 	email,
@@ -75,14 +76,14 @@ export default function ForgotPasswordSubmitView({
 							Enter Your New Password
 						</h2>
 						<PasswordField
-							label="New Password"
+							id="newpassword"
 							state={newPassword}
 							setState={setNewPassword}
 							showPassword={showPassword}
 							setShowPassword={setShowPassword}
 						/>
 						<PasswordField
-							label="Confirm new Password"
+							id="confirmnewpassword"
 							state={confirmPassword}
 							setState={setConfirmPassword}
 							showPassword={showPassword}

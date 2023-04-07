@@ -29,6 +29,7 @@ export default function PasswordField({ label, state, setState }) {
 				name="password"
 				id="password"
 				className="w-96 rounded-md "
+				label="Password"
 				placeholder={label}
 				sizing="md"
 				required
