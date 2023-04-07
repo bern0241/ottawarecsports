@@ -78,7 +78,7 @@ export default function Teams() {
 
 	return (
 		<>
-			<main className="w-full flex flex-col gap-6 p-8">
+			<main className="w-full flex flex-col gap-6 p-5">
 				<NewTeamModal
 					isVisible={modalVisible}
 					setIsVisible={setModalVisible}
@@ -93,7 +93,7 @@ export default function Teams() {
 				/>
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
+					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 pr-2">
 						<h1 className="text-xl self-center">Teams</h1>
 						{authRoles && authRoles.includes('User') && (
 							<Button
@@ -111,10 +111,10 @@ export default function Teams() {
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-								<th className="py-3 px-10 text-sm font-light w-2/12">Captain (s)</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">Sports</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12">
-									Team Members
+								<th className="text-center py-3 px-10 text-sm font-light w-2/12">Captain (s)</th>
+								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Sports</th>
+								<th className="py-3 pr-2 text-center text-sm font-light w-2/12">
+									Members
 								</th>
 								{/* <th className="py-3 px-5 text-sm font-light">Action</th> */}
 							</tr>
