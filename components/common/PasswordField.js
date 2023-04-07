@@ -21,7 +21,6 @@ export default function PasswordField({ label, state, setState }) {
 
 	return (
 		<div className="relative">
-			<Label htmlFor="password" value="Password" className="sr-only" />
 			<TextInput
 				value={state}
 				onChange={(e) => setState(e.target.value)}
@@ -29,7 +28,6 @@ export default function PasswordField({ label, state, setState }) {
 				name="password"
 				id="password"
 				className="w-96 rounded-md "
-				label="Password"
 				placeholder={label}
 				sizing="md"
 				required
