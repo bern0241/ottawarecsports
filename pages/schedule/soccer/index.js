@@ -106,7 +106,7 @@ const soccer = () => {
 					</div>
 
 					<table className="table-auto">
-						<thead className="bg-brand-neutral-100 border-b-[1px] border-gray-500">
+						<thead className="bg-brand-neutral-100 border-b-[1px] border-gray-600">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
 								<th className="py-3 text-center px-5 text-sm font-light w-4/12">Level</th>

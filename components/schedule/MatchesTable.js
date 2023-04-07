@@ -7,6 +7,9 @@
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
+import { useRouter } from 'next/router';
+import { API } from 'aws-amplify';
+import { getLeague, getSeason, getDivision } from '@/src/graphql/queries';
 
 const MatchesTable = ({
 	title = 'Scheduled matches',
@@ -19,6 +22,35 @@ const MatchesTable = ({
 	const [selectedDate, setSelectedDate] = useState('');
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);
+
+	const [league, setLeague] = useState();
+	const [season, setSeason] = useState();
+	const [division, setDivision] = useState();
+	const router = useRouter();
+	const {id} = router.query;
+	
+	/**
+	 * This useEffect fetches the division -> season -> league (in this order) for this page
+	 */
+	useEffect(() => {
+        const moveUpLeagueId = async () => {
+            // DIVISION
+            const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: id}});
+            const divisionData = await apiDataDivision.data.getDivision;
+            setDivision(divisionData);
+            // SEASON
+            const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: divisionData.season}});
+            const seasonData = await apiDataSeason.data.getSeason;
+            setSeason(seasonData);
+            // LEAGUE
+            const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+            const leagueData = await apiDataLeague.data.getLeague;
+            setLeague(leagueData);
+          
+        }
+      moveUpLeagueId();
+    }, [])
+	
 	// go through the sorted match list, get all the dates and return them as an array
 	const returnDateArray = () => {
 		let dateArray = [];
@@ -70,8 +102,10 @@ const MatchesTable = ({
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-				<div className="flex justify-between py-[15px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
-					<h1 className="text-base self-center font-medium">{title}</h1>
+				<div className="flex justify-between py-[45px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
+					<h1 className="text-base font-medium">
+						<p className='absolute translate-y-[-46px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-medium italic'>Matches</span></p>
+					</h1>
 					<DropdownInput
 						value={selectedDate}
 						setValue={setSelectedDate}

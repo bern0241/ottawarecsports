@@ -16,7 +16,7 @@ const DivisionRow = ({ key, division }) => {
 	const navigateToProfile = () => {
 		router.push({
 			pathname: `/schedule/soccer/${division.id}`,
-			query: { divisionID: division.id },
+			// query: { divisionID: division.id },
 		});
 	};
 	return (

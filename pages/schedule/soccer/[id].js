@@ -38,8 +38,10 @@ export default function DivisionMatches() {
 		);
 	};
 	const getGames = async () => {
-		if (!router.query.divisionID) return;
-		const resp = await getDivisionGames(router.query.divisionID);
+		// if (!router.query.divisionID) return;
+		if (!router.query.id) return;
+		const resp = await getDivisionGames(router.query.id);
+		// const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};
 	const getTeams = async () => {
