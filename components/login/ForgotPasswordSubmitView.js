@@ -75,15 +75,27 @@ export default function ForgotPasswordSubmitView({
 						<h2 className="text-lg sm:text-2xl font-semibold my-6">
 							Enter Your New Password
 						</h2>
+						<Label
+							htmlFor="new-password"
+							value="New Password"
+							className="sr-only"
+						/>
 						<PasswordField
-							id="newpassword"
+							label="New Password"
+							id="new-password"
 							state={newPassword}
 							setState={setNewPassword}
 							showPassword={showPassword}
 							setShowPassword={setShowPassword}
 						/>
+						<Label
+							htmlFor="confirm-new-password"
+							value="Confirm New Password"
+							className="sr-only"
+						/>
 						<PasswordField
-							id="confirmnewpassword"
+							label="Confirm New Password"
+							id="confirm-new-password"
 							state={confirmPassword}
 							setState={setConfirmPassword}
 							showPassword={showPassword}
