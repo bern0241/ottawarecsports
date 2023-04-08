@@ -8,9 +8,9 @@
 
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import DeleteSeasonModal from "./Modals/DeleteSeasonModal";
-import EditSeasonModal from "./Modals/EditSeasonModal";
-import { IconTrash, IconEdit } from '@tabler/icons-react';
+import DeleteSeasonModal from "../../../common/sports/Seasons/DeleteSeasonModal";
+import EditSeasonModal from "../../../common/sports/Seasons/EditSeasonModal";
+import { IconTrash, IconEdit, IconUsers } from '@tabler/icons-react';
 
 export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague, listSeasonsFunc }) {
     const [editModal, setEditModal] = useState(false);
@@ -64,8 +64,9 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                 <td class="text-center px-6 py-3">
                     {convertDateReadable(season.end_date)}
                 </td>
-                <td class="flex gap-4 px-6 py-4 text-center justify-center">
+                <td class="flex gap-2 py-3 justify-center pr-5">
                     <div className='flex-grow'></div>
+                    <IconUsers onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
                     <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
                     <IconTrash onClick={(e) => deleteSeasonFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                 </td>

@@ -8,8 +8,8 @@
 
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import DeleteDivisionModal from './Modals/DeleteDivisionModal';
-import EditDivisionModal from './Modals/EditDivisionModal';
+import DeleteDivisionModal from '../../../common/sports/Divisions/DeleteDivisionModal';
+import EditDivisionModal from '../../../common/sports/Divisions/EditDivisionModal';
 import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
 import { API } from '@aws-amplify/api';

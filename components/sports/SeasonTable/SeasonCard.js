@@ -7,11 +7,37 @@
  */
 
 import { useRouter } from 'next/router';
-import React from 'react';
-import { IconUsers} from '@tabler/icons-react';
+import React, { useState, useEffect } from 'react';
+import { IconUsers, IconEdit, IconTrash, IconListDetails } from '@tabler/icons-react';
+import EditSeasonModal from '@/components/common/sports/Seasons/EditSeasonModal';
+import DeleteSeasonModal from '@/components/common/sports/Seasons/DeleteSeasonModal';
+import { useUser } from '@/context/userContext';
 
-export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague }) {
+export default function SeasonCard({ season, selectedSeason, setSelectedSeason, selectedLeague, listSeasonsFunc }) {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    const [isCoordinator, setIsCoordinator] = useState(false);
+    const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        if (selectedLeague) {
+            listSeasonsFunc();
+            isCoordinatorOfLeagueCheck();
+        }
+        if (selectedLeague = null) {
+            setSeasons([]);
+            setSelectedSeason(null);
+        }
+    }, [selectedLeague])
+
+    const isCoordinatorOfLeagueCheck = () => {
+        if (selectedLeague.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
 
     const clickedSeason = (e) => {
         e.preventDefault();
@@ -35,6 +61,16 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
         })
     }
 
+    const editSeasonFunc = (e) => {
+        e.stopPropagation();
+        setEditModal(!editModal);
+    }
+
+    const deleteSeasonFunc = (e) => {
+        e.stopPropagation();
+        setDeleteModal(!deleteModal);
+    }
+
     return (
         <>
         <tr onClick={(e) => clickedSeason(e)} class="bg-white border border-gray-400 cursor-pointer">
@@ -50,11 +86,26 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                 <td class="text-center px-6 py-3">
                     {convertDateReadable(season.end_date)}
                 </td>
-                <td class="flex gap-4 pr-10 px-6 py-4 text-center justify-center">
-                    <div className='flex-grow'></div>
-                    <IconUsers onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
+                
+                <td class="flex gap-2 py-3 justify-center pr-5">
+                <div className='flex-grow'></div>
+                <IconListDetails onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconListDetails>
+                
+                {(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+                    <>
+                    <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
+                    <IconTrash onClick={(e) => deleteSeasonFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
+                    </>
+                )}
                 </td>
                 </tr>
+
+        {deleteModal && (
+            <DeleteSeasonModal leagueInfo={selectedLeague} seasonInfo={season} setDeleteModal={setDeleteModal} listSeasonsFunc={listSeasonsFunc} />
+        )}
+        {editModal && (
+            <EditSeasonModal season={season} selectedLeague={selectedLeague} setOpenModal={setEditModal} setSelectedSeason={setSelectedSeason} listSeasonsFunc={listSeasonsFunc} />
+        )}
     </>
     )
 }

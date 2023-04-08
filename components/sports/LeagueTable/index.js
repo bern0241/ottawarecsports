@@ -7,13 +7,18 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import CreateButton from '@/components/common/CreateButton';
 import LeagueCard from './LeagueCard';
+import CreateLeagueModal from '@/components/common/sports/Leagues/CreateLeagueModal';
 import { API } from '@aws-amplify/api';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 import { getLeague } from '@/src/graphql/queries';
+import { useUser } from '@/context/userContext';
 
 export default function LeagueTable({ sport, selectedLeague, setSelectedLeague}) {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
     const [leagues, setLeagues] = useState([]);
+    const [newLeagueModal, setNewLeagueModal] = useState(false);
 
     useEffect(()=>{
         listLeaguesFunc();
@@ -71,8 +76,12 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
-                        <th scope="col" class="font-medium px-6 py-4">
-                            
+                        <th className='absolute right-5 top-2'>
+                            {((authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+                                <CreateButton label="Create New League"
+                                                state={newLeagueModal}
+                                                setState={setNewLeagueModal} />
+                            )}
                         </th>
                     </tr>
                 </thead>
@@ -84,7 +93,7 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                         <th scope="col" class="font-light py-2 text-center w-[15rem]">
                             Coordinator (s)
                         </th>
-                        <th scope="col" class="font-light py-2 border-r-[1px] text-right pr-10 border-gray-400">
+                        <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
                             Action
                         </th>
                     </tr>
@@ -108,6 +117,11 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
                 </tbody>
             </table>
         </div>
+        {newLeagueModal && (
+            <>
+            <CreateLeagueModal sport={sport} openModal={newLeagueModal} setOpenModal={setNewLeagueModal} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} />
+            </>
+        )}
         </>
     )
 }

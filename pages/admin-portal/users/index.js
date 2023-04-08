@@ -16,7 +16,7 @@ import AWS from 'aws-sdk';
 //Components
 import SuccessMessage from '@/components/common/SuccessMessage';
 import ACPUserRow from '@/components/admin-portal/ACPUserRow';
-import ACPNewUserModal from '@/components/admin-portal/ACPNewUserModal';
+import ACPNewUserModal from '@/components/admin-portal/users/ACPNewUserModal';
 import ACPSearchUserBar from '@/components/admin-portal/ACPSearchUserBar';
 
 export default function AdminPortal() {

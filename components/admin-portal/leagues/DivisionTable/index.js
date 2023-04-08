@@ -11,7 +11,7 @@ import { API } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
 import CreateButton from '../../../common/CreateButton';
 import DivisionCard from './DivisionCard';
-import CreateDivisionModal from './Modals/CreateDivisionModal';
+import CreateDivisionModal from '../../../common/sports/Divisions/CreateDivisionModal';
 
 export default function ACPDivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague }) {
     const [newDivisionModal, setNewDivisionModal] = useState(false);

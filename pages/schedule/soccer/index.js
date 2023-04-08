@@ -120,7 +120,9 @@ const soccer = () => {
 					<div className="flex justify-between py-3 px-3 border-b border-brand-neutral-300 top-4">
 						<h2 className="text-[1rem] self-center">
 							{currentSeason ? (
-								<p><b>League</b> - {currentLeague?.name} <br/><b>Season</b> - {currentSeason?.name}<br/><span className='italic text-light'>All Divisions</span></p>
+								<p><b>League</b> - {currentLeague?.name} <br/><b>Season</b> - {currentSeason?.name}<br/>
+								{/* <span className='italic text-light'>All Divisions</span> */}
+								</p>
 							) : (
 								<p>Choose Season for Divisions</p>
 							)}

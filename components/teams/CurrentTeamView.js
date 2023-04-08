@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
-import UserProfilePicture from '../admin-portal/ACPNewUserModal/UserProfilePicture';
+import UserProfilePicture from '../admin-portal/users/ACPNewUserModal/UserProfilePicture';
 import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';

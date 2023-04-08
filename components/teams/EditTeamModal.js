@@ -4,7 +4,7 @@ import DropdownInput from '../common/DropdownInput';
 import CustomRadioButton from './CustomRadioButton';
 import MaxMembersStepper from './MaxMembersStepper';
 import PlayersTable from './PlayersTable';
-import UserProfilePictureEdit from '../admin-portal/ACPEditUserModal/UserProfilePictureEdit';
+import UserProfilePictureEdit from '../admin-portal/users/ACPEditUserModal/UserProfilePictureEdit';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
 import {

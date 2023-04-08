@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import UserCard from '../ACPLeague/LeagueTable/CoordinatorDropdown/UserCard'; // Turn into common component
+import UserCard from '../leagues/LeagueTable/CoordinatorDropdown/UserCard'; // Turn into common component
  
  export default function CaptainDropdown({ listUsers, setOpenCaptainDrop, setCaptain }) {
   const [search, setSearch] = useState('');

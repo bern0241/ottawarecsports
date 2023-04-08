@@ -8,18 +8,33 @@
 
 import { listDivisions } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
+import CreateButton from '@/components/common/CreateButton';
 import React, { useState, useEffect } from 'react';
 import DivisionCard from './DivisionCard';
+import CreateDivisionModal from '@/components/common/sports/Divisions/CreateDivisionModal';
+import { useUser } from '@/context/userContext';
 
 export default function DivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague}) {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    const [isCoordinator, setIsCoordinator] = useState(false);
+    const [newDivisionModal, setNewDivisionModal] = useState(false);
     const [divisions, setDivisions] = useState([]);
     const [showTable, setShowTable] = useState(false);
 
     useEffect(() => {
         if (selectedSeason) {
             listDivisionsFunc();
+            isCoordinatorOfLeagueCheck();
         }
     }, [selectedSeason])
+
+    const isCoordinatorOfLeagueCheck = () => {
+        if (selectedLeague.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
 
     const listDivisionsFunc = async () => {
         const variables = {
@@ -76,6 +91,14 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
+                        <th className='absolute right-5 top-2'>
+                            {(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+                                <CreateButton label="Create New Division"
+                                    state={newDivisionModal}
+                                    setState={setNewDivisionModal} 
+                                    selectedType={selectedSeason} />
+                            )}
+                        </th>
                     </tr>
                 </thead>
                 <thead class="text-xs border border-gray-300 text-black bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -130,6 +153,11 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                 </tbody>
             </table>
         </div>
+        {newDivisionModal && (
+            <>
+            <CreateDivisionModal openModal={newDivisionModal} setOpenModal={setNewDivisionModal} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} setSelectedDivision={setSelectedDivision} />
+                </>
+        )}
         </>
     )
 }

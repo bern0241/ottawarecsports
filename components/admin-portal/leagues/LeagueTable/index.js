@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import CreateButton from '../../../common/CreateButton';
 import LeagueCard from './LeagueCard';
-import CreateLeagueModal from './Modals/CreateLeagueModal';
+import CreateLeagueModal from '../../../common/sports/Leagues/CreateLeagueModal';
 import { API } from '@aws-amplify/api';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 import { getLeague } from '@/src/graphql/queries';

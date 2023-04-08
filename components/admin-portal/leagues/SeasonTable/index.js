@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import SeasonCard from './SeasonCard';
 import CreateButton from '../../../common/CreateButton';
-import CreateSeasonModal from './Modals/CreateSeasonModal';
+import CreateSeasonModal from '../../../common/sports/Seasons/CreateSeasonModal';
 import { listSeasons } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
 

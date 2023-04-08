@@ -16,9 +16,9 @@ import { useRouter } from 'next/router';
 import SignOutButton from '@/components/common/SignOutButton';
 
 // Tables
-import ACPLeagueTable from '@/components/admin-portal/ACPLeague/LeagueTable';
-import ACPSeasonTable from '@/components/admin-portal/ACPLeague/SeasonTable';
-import ACPDivisionTable from '@/components/admin-portal/ACPLeague/DivisionTable';
+import ACPLeagueTable from '@/components/admin-portal/leagues/LeagueTable';
+import ACPSeasonTable from '@/components/admin-portal/leagues/SeasonTable';
+import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
 
   export default function Home() {
       const [user, setUser, authRoles, setAuthRoles] = useUser();

@@ -12,7 +12,7 @@ import { listTeamDivisions, getLeague, getSeason, getDivision } from '@/src/grap
 // import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
-import CreateButton from '../../../common/CreateButton';
+import CreateButton from '../../CreateButton';
 import AddTeamDropdown from './AddTeamDropdown';
  
  export default function TeamTable() {
@@ -27,28 +27,25 @@ import AddTeamDropdown from './AddTeamDropdown';
       /**
 	 * This useEffect fetches the division -> season -> league (in this order) for this page
 	 */
-     useEffect(() => {
-        const moveUpLeagueId = async () => {
-            // DIVISION
-            const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: divisionID}});
-            const divisionData = await apiDataDivision.data.getDivision;
-            setDivision(divisionData);
-            // SEASON
-            const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: divisionData.season}});
-            const seasonData = await apiDataSeason.data.getSeason;
-            setSeason(seasonData);
-            // LEAGUE
-            const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
-            const leagueData = await apiDataLeague.data.getLeague;
-            setLeague(leagueData);
-          
-        }
-      moveUpLeagueId();
-    }, [])
+       const moveUpLeagueId = async () => {
+        // DIVISION
+        const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: divisionID}});
+        const divisionData = await apiDataDivision.data.getDivision;
+        setDivision(divisionData);
+        // SEASON
+        const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: divisionData.season}});
+        const seasonData = await apiDataSeason.data.getSeason;
+        setSeason(seasonData);
+        // LEAGUE
+        const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+        const leagueData = await apiDataLeague.data.getLeague;
+        setLeague(leagueData);
+    }
 
      useEffect(() => {
         if (!divisionID) return;
         const callMeAsync = async () => {
+            moveUpLeagueId();
             getDivisionFunc(divisionID);
             listTeamDivisionsFunc(divisionID);
         }
@@ -85,7 +82,9 @@ import AddTeamDropdown from './AddTeamDropdown';
                  <thead class="text-md text-black bg-white">
                      <tr>
                          <th scope="col" class="text-lg font-medium px-6 py-[4.4rem]">
-                         <p className='absolute translate-y-[-57px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-light italic'>All Teams</span></p>
+                         <p className='absolute translate-y-[-57px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/>
+                         {/* <span className='font-light italic'>All Teams</span> */}
+                         </p>
                          </th>
                          <th scope="col" class="font-medium px-6 py-4">
                              

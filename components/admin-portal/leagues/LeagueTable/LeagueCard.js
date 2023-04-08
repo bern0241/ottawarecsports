@@ -8,8 +8,8 @@
 
 import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
-import EditLeagueModal from './Modals/EditLeagueModal';
-import DeleteLeagueModal from './Modals/DeleteLeagueModal';
+import EditLeagueModal from '../../../common/sports/Leagues/EditLeagueModal';
+import DeleteLeagueModal from '../../../common/sports/Leagues/DeleteLeagueModal';
 import { useRouter } from 'next/router';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 

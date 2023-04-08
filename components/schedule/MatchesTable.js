@@ -108,14 +108,18 @@ const MatchesTable = ({
 					<h1 className="text-base font-medium">
 						<p className='absolute translate-y-[-46px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-light italic'>Matches</span></p>
 					</h1>
-					<DropdownInput
-						value={selectedDate}
-						setValue={setSelectedDate}
-						customClass={
-							'w-40 flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900'
-						}
-						options={matchDates}
-					/>
+					{displayedMatches.length === 0 ? (
+						<div className='py-[17px]'></div>
+					) : (
+						<DropdownInput
+							value={selectedDate}
+							setValue={setSelectedDate}
+							customClass={
+								'w-40 flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900'
+							}
+							options={matchDates}
+						/>
+					)}
 				</div>
 				<table className="table-auto w-">
 					<thead className="w-full"></thead>
