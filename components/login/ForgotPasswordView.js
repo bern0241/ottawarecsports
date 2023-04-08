@@ -45,10 +45,10 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 						<OrsLogo />
 					</div>
 					<form className="flex flex-col gap-2">
-						<p className="text-lg sm:text-2xl font-semibold my-5">
+						<p className="text-lg font-semibold my-5 text-center">
 							Forgot Your Password?
 						</p>
-						<p>
+						<p className='text-sm text-center'>
 							Don’t worry, just enter your registered email address and we’ll
 							send you an OTP to reset your password.
 						</p>
@@ -74,18 +74,18 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 							</p>
 						)}
 
-						<div>
+						<div className='flex justify-center'>
 							<button
-								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+								className="bg-brand-blue-800 h-10 w-full max-w-[23rem] rounded-md text-white font-regular mt-3"
 								type="button"
 								onClick={(e) => forgotPassword(e)}
 							>
 								Send
 							</button>
 						</div>
-						<div>
+						<div className='flex justify-center text-center'>
 							<button
-								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
+								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3 text-center"
 								type="button"
 								onClick={() => setUiState('signIn')}
 							>

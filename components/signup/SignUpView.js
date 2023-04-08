@@ -21,8 +21,10 @@ import GenderDropDown from './GenderDropDown';
 import DobDatePicker from './DatePicker';
 import OrsLogo from '../common/OrsLogo';
 
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
+
 
 export default function SignUpView({ setUiState, email, setEmail }) {
 	// Variable states for signing up
@@ -54,24 +56,30 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log(birthDate);
-
-		if (
-			firstName === '' ||
-			lastName === '' ||
-			email === '' ||
-			// phoneNumber === '' ||
-			location === '' ||
-			gender === '' ||
-			birthDate === ''
-		) {
-			setMessage({
-				status: 'error',
-				message: 'Please fillout all required fields.',
-			});
-			return;
-		}
 		try {
+			if (
+				firstName === '' ||
+				lastName === '' ||
+				email === '' ||
+				// phoneNumber === '' ||
+				location === '' ||
+				gender === '' ||
+				birthDate === ''
+			) {
+				setMessage({
+					status: 'error',
+					message: 'Please fillout all required fields.',
+				});
+				return;
+			}
+			if (phoneNumber !== undefined) {
+				if (!ValidatePhoneNumber.validate(phoneNumber)) {
+					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					return;
+				}
+			}
+			console.log(phoneNumber)
+			// return;
 			const newUser = await Auth.signUp({
 				username: email,
 				password: password,
@@ -81,7 +89,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					'custom:location': location,
 					phone_number: phoneNumber,
 					gender: gender,
-					role: 'Player',
 					picture: 'none',
 					birthdate: birthDate,
 				},
@@ -190,7 +197,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							{message !== null && (
 								<p
 									id="message-notice"
-									className={`ml-1 text-[.87rem] ${
+									className={`ml-1 text-[.87rem] text-center ${
 										message.status === 'error'
 											? 'text-red-600'
 											: 'text-green-500'

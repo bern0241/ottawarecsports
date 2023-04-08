@@ -27,7 +27,8 @@
 		"react-phone-number-input": "^3.2.19",
 		"react-timekeeper": "^2.2.1",
 		"tailwind-datepicker-react": "^1.2.3",
-		"uuidv4": "^6.2.13"
+		"uuidv4": "^6.2.13",
+		"validate-phone-number-node-js": "^0.0.1"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.13",
