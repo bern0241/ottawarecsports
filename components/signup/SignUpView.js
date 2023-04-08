@@ -21,6 +21,9 @@ import GenderDropDown from './GenderDropDown';
 import DobDatePicker from './DatePicker';
 import OrsLogo from '../common/OrsLogo';
 
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 export default function SignUpView({ setUiState, email, setEmail }) {
 	// Variable states for signing up
 	const [firstName, setFirstName] = useState('');
@@ -153,14 +156,21 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								<DobDatePicker state={birthDate} setState={setBirthDate} />
 							</div>
 							<LocationDropDown state={location} setState={setLocation} />
-							<TextInput
+							{/* <TextInput
 								id="email"
 								type="tel"
 								placeholder="Phone Number (optional)"
 								onChange={(e) => setPhoneNumber(e.target.value)}
 								required={false}
 								className="w-96 border border-black rounded-md "
-							/>
+							/> */}
+							<PhoneInput 
+								placeholder="Phone Number (optional)"
+								defaultCountry="CA"
+								value={phoneNumber}
+								onChange={setPhoneNumber}
+								style={{paddingLeft: '10px', borderColor: 'black', borderWidth: '1px', borderRadius: '6px'}}
+								/>
 							<TextInput
 								id="email"
 								type="email"
