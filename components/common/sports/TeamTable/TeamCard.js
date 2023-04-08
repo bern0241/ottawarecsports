@@ -24,7 +24,7 @@ import AWS from 'aws-sdk';
 
 
      useEffect(() => {
-      console.log(teamDivision);
+    //   console.log(teamDivision);
       if (teamDivision.team.Players.items) {
         setMembersCount(teamDivision.team.Players.items.length);
       }

@@ -104,9 +104,9 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
                     </tr>
                 </thead>
                 <tbody>
-                    {divisions && divisions.map((division) => (
+                    {divisions && divisions.map((division, index) => (
                     <>
-                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
+                        <DivisionCard key={index} division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
                     </>
                     ))}
                     {(divisions && selectedSeason !== null && divisions.length === 0) && (

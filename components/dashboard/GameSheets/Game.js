@@ -89,8 +89,8 @@ export default function Game({ game }) {
 						<p>{game.away_score}</p>
 					</span>
 					<TeamImageAndName 
-            teamName={game.AwayTeam.name}
-            src={game.AwayTeam.team_picture}
+            teamName={game.AwayTeam?.name}
+            src={game.AwayTeam?.team_picture}
             reverse={true} />
 				</div>
         <div className="mx-8 mt-5">

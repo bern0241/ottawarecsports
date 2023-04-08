@@ -99,10 +99,10 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
                 if (!searchItem) return true;
                 return v.startsWith(searchItem);
             })
-            .map((team) => (
+            .map((team, index) => (
                 <>
                 {(returnTeamExists(team)) ? (
-                  <li>
+                  <li key={index}>
                       {/* <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} /> */}
                   </li>
                 ) : (

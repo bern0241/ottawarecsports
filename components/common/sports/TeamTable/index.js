@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import TeamCard from './TeamCard';
 import { listTeamDivisions, getLeague } from '@/src/graphql/queries';
-import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
+import { getDivisionShort, getSeasonShort, listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 // import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
@@ -70,6 +70,7 @@ import AddTeamDropdown from './AddTeamDropdown';
             }
             const teamDivisions = await API.graphql({
                 query: listTeamDivisions, variables: variables
+                // query: listTeamDivisionsShort, variables: variables
             })
             setTeamDivisions(teamDivisions.data.listTeamDivisions.items);
 		}, 500);

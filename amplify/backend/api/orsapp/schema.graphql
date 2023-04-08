@@ -63,10 +63,10 @@ type Game @model @auth(rules: [{allow: public}]) {
   goals: [AWSJSON]
   round: Int
   referees: [String]
-  HomeTeam: Team! @hasOne
-  AwayTeam: Team! @hasOne
+  HomeTeam: Team @hasOne
+  AwayTeam: Team @hasOne
   home_color: String
-  away_colo: String
+  away_color: String
 }
 
 type Division @model @auth(rules: [{allow: public}]) {

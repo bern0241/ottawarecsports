@@ -21,9 +21,9 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
         if (selectedLeague) {
             listSeasonsFunc();
         }
-        if (selectedLeague = null) {
-            setSeasons([]);
+        if (selectedLeague === null) {
             setSelectedSeason(null);
+            setSeasons([]);
         }
     }, [selectedLeague])
 

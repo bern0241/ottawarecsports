@@ -27,6 +27,10 @@ import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [selectedDivision, setSelectedDivision] = useState(null);
 
+    const [leagues, setLeagues] = useState([]);
+    const [seasons, setSeasons] = useState([]);
+    const [divisions, setDivisions] = useState([]);
+
     if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
         return (
             <div className="flex items-center justify-center h-[50vh]">
@@ -48,15 +52,21 @@ import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
                   <div className="flex flex-col w-full">
                     <ACPLeagueTable sport='NotApplicable' 
                                 selectedLeague={selectedLeague} 
-                                setSelectedLeague={setSelectedLeague} />
-                    <ACPSeasonTable selectedLeague={selectedLeague}
-                                selectedSeason={selectedSeason} 
-                                setSelectedSeason={setSelectedSeason} />
-                    <ACPDivisionTable selectedSeason={selectedSeason}
-                        selectedDivision={selectedDivision} 
-                        setSelectedDivision={setSelectedDivision} 
-                        selectedLeague={selectedLeague} 
-                        /> 
+                                setSelectedLeague={setSelectedLeague}
+                                leagues={leagues} 
+                                setLeagues={setLeagues} />
+                    {leagues.length !== 0 && (
+                        <>
+                        <ACPSeasonTable selectedLeague={selectedLeague}
+                                    selectedSeason={selectedSeason} 
+                                    setSelectedSeason={setSelectedSeason} />
+                        <ACPDivisionTable selectedSeason={selectedSeason}
+                            selectedDivision={selectedDivision} 
+                            setSelectedDivision={setSelectedDivision} 
+                            selectedLeague={selectedLeague} 
+                            />
+                        </> 
+                    )}
                   </div>
               </main>
           </>

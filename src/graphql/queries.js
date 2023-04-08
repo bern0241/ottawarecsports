@@ -406,7 +406,7 @@ export const getGame = /* GraphQL */ `
         updatedAt
       }
       home_color
-      away_colo
+      away_color
       createdAt
       updatedAt
       gameHomeTeamId
@@ -619,7 +619,7 @@ export const listGames = /* GraphQL */ `
           updatedAt
         }
         home_color
-        away_colo
+        away_color
         createdAt
         updatedAt
         gameHomeTeamId
@@ -842,7 +842,7 @@ export const gamesByDivision = /* GraphQL */ `
           updatedAt
         }
         home_color
-        away_colo
+        away_color
         createdAt
         updatedAt
         gameHomeTeamId
@@ -989,7 +989,7 @@ export const getDivision = /* GraphQL */ `
             updatedAt
           }
           home_color
-          away_colo
+          away_color
           createdAt
           updatedAt
           gameHomeTeamId
@@ -1026,7 +1026,7 @@ export const getDivision = /* GraphQL */ `
                 round
                 referees
                 home_color
-                away_colo
+                away_color
                 createdAt
                 updatedAt
                 gameHomeTeamId
@@ -1211,7 +1211,7 @@ export const listDivisions = /* GraphQL */ `
               updatedAt
             }
             home_color
-            away_colo
+            away_color
             createdAt
             updatedAt
             gameHomeTeamId
@@ -1392,7 +1392,7 @@ export const divisionsBySeason = /* GraphQL */ `
               updatedAt
             }
             home_color
-            away_colo
+            away_color
             createdAt
             updatedAt
             gameHomeTeamId
@@ -1526,7 +1526,7 @@ export const getSeason = /* GraphQL */ `
                 updatedAt
               }
               home_color
-              away_colo
+              away_color
               createdAt
               updatedAt
               gameHomeTeamId
@@ -1618,7 +1618,7 @@ export const listSeasons = /* GraphQL */ `
                 round
                 referees
                 home_color
-                away_colo
+                away_color
                 createdAt
                 updatedAt
                 gameHomeTeamId
@@ -1696,7 +1696,7 @@ export const seasonsByLeague = /* GraphQL */ `
                 round
                 referees
                 home_color
-                away_colo
+                away_color
                 createdAt
                 updatedAt
                 gameHomeTeamId
@@ -1957,7 +1957,7 @@ export const getTeam = /* GraphQL */ `
                 round
                 referees
                 home_color
-                away_colo
+                away_color
                 createdAt
                 updatedAt
                 gameHomeTeamId
@@ -2328,7 +2328,7 @@ export const getTeamDivision = /* GraphQL */ `
               updatedAt
             }
             home_color
-            away_colo
+            away_color
             createdAt
             updatedAt
             gameHomeTeamId
@@ -2583,7 +2583,7 @@ export const listTeamDivisions = /* GraphQL */ `
                 updatedAt
               }
               home_color
-              away_colo
+              away_color
               createdAt
               updatedAt
               gameHomeTeamId
@@ -2794,7 +2794,7 @@ export const teamDivisionsByDivisionId = /* GraphQL */ `
                 updatedAt
               }
               home_color
-              away_colo
+              away_color
               createdAt
               updatedAt
               gameHomeTeamId
@@ -3005,7 +3005,7 @@ export const teamDivisionsByTeamId = /* GraphQL */ `
                 updatedAt
               }
               home_color
-              away_colo
+              away_color
               createdAt
               updatedAt
               gameHomeTeamId
