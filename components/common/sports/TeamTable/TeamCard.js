@@ -92,15 +92,17 @@ import AWS from 'aws-sdk';
      return (
          <>
          <tr onClick={(e) => goToTeamPage(e)} class="bg-white border border-gray-400 cursor-pointer">
-                 <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center gap-2">
+                 <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                 <div className='flex items-center gap-2'>
                   <img
                         style={{ objectFit: 'cover' }}
                         width={132}
                         height={132}
-                        className="w-[3rem] h-[3rem] rounded-full shadow-md border border-black"
+                        className="w-[3.4rem] h-[3.4rem] rounded-full shadow-md border border-black"
                         src={`${teamImage ? teamImage : "/images/defaultProfilePic.jpeg"}`}
                     />
-                    {teamDivision.team.name}
+                    <p>{teamDivision.team.name}</p>
+                    </div>
                  </th>
                  <td class="px-6 py-3">
                  {captains && captains.map((captain, index) => (

@@ -61,18 +61,23 @@ import AddTeamDropdown from './AddTeamDropdown';
   
      const listTeamDivisionsFunc = async () => {
         const timer = setTimeout(async () => {
-            const variables = { 
-                filter: {
-                    divisionId: {
-                        eq: divisionID
+            try {
+                const variables = { 
+                    filter: {
+                        divisionId: {
+                            eq: divisionID
+                        }
                     }
                 }
+                const teamDivisions = await API.graphql({
+                    query: listTeamDivisions, variables: variables
+                    // query: listTeamDivisionsShort, variables: variables
+                })
+                console.log('MT TEAM DIVISIONS', teamDivisions);
+                setTeamDivisions(teamDivisions.data.listTeamDivisions.items);
+            } catch (error) {
+                console.log(error);
             }
-            const teamDivisions = await API.graphql({
-                query: listTeamDivisions, variables: variables
-                // query: listTeamDivisionsShort, variables: variables
-            })
-            setTeamDivisions(teamDivisions.data.listTeamDivisions.items);
 		}, 500);
 		return () => clearTimeout(timer);
      }

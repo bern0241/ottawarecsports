@@ -120,7 +120,10 @@ export default function PlayerProfile() {
 		players.data.listPlayers.items.map(async (player) => {
 			const apiData = await API.graphql({ query: getTeamQuery, variables: { id: player.teamID }});
 			let data = await apiData.data.getTeam;
-			data.player_role = player.role;
+			console.log('data', data);
+			if (data !== null) {
+				data.player_role = player.role;
+			}
 			setTeams((teams) => 
 			{
 				return uniqueById([...teams, data])
@@ -147,8 +150,8 @@ export default function PlayerProfile() {
 	function uniqueById(items) {
 		const set = new Set();
 		return items.filter((item) => {
-			const isDuplicate = set.has(item.id);
-			set.add(item.id);
+			const isDuplicate = set.has(item?.id);
+			set.add(item?.id);
 			return !isDuplicate;
 		});
 	}
@@ -280,20 +283,22 @@ export default function PlayerProfile() {
 								<tbody>
 								{teams && teams.map((team) => (
 										<>
-										<tr className="font-light">
-											<td className="py-2 px-3 text-[.94rem]">{sport}</td>
-											<td className="py-2 text-center">
-												<Link className='text-blue-500 underline text-[.92rem]' href={`/teams/${team.id}`}>{team && team.name}</Link>
-											</td>
-											<td className="py-2 px-3">
-												{team.player_role === 'Player' && (
-													<p className='text-[.92rem]'>Player</p>
-												)}
-												{team.player_role === 'Captain' && (
-													<p className='text-[.92rem]'>Captain</p>
-												)}
-											</td>
-										</tr>
+										{team !== null && (
+											<tr className="font-light">
+												<td className="py-2 px-3 text-[.94rem]">{sport}</td>
+												<td className="py-2 text-center">
+													<Link className='text-blue-500 underline text-[.92rem]' href={`/teams/${team?.id}`}>{team && team.name}</Link>
+												</td>
+												<td className="py-2 px-3">
+													{team?.player_role === 'Player' && (
+														<p className='text-[.92rem]'>Player</p>
+													)}
+													{team?.player_role === 'Captain' && (
+														<p className='text-[.92rem]'>Captain</p>
+													)}
+												</td>
+											</tr>
+										)}
 										</>
 									))}
 									{(teams && teams.length === 0) && (

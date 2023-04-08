@@ -254,41 +254,97 @@ export const getDivisionShort = /* GraphQL */ `
   }
 `;
 
-export const listTeamDivisionsShort = /* GraphQL */ `
-  query ListTeamDivisions(
-    $filter: ModelTeamDivisionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTeamDivisions(filter: $filter, limit: $limit, nextToken: $nextToken) {
-		items {
-      divisionId
-      teamId
-      id
-      updatedAt
-      createdAt
-      team {
-        away_colour
-        captains
-        createdAt
-        founded
-        home_colour
-        id
-      }
-      division {
-        abbreviation
-        createdAt
-        description
-        id
-        is_playoff
-        level
-        name
-        season
-        teams
-        updatedAt
-      }
-    }
-      nextToken
-    }
-  }
-`;
+// export const listTeamDivisionsShort = /* GraphQL */ `
+//   query ListTeamDivisions(
+//     $filter: ModelTeamDivisionFilterInput
+//     $limit: Int
+//     $nextToken: String
+//   ) {
+//     listTeamDivisions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+// 	items {
+//       divisionId
+//       teamId
+//       id
+//       updatedAt
+//       createdAt
+//       team {
+// 		name
+//         away_colour
+//         captains
+//         createdAt
+//         founded
+//         home_colour
+// 		team_picture
+// 		Divisions {
+//         items {
+//           createdAt
+//           divisionId
+//           id
+//           teamId
+//           updatedAt
+//         }
+//       }
+// 		Players {
+//               items {
+//                 id
+//                 user_id
+//                 teamID
+//                 role
+//                 createdAt
+//                 updatedAt
+//               }
+//               nextToken
+//             }
+// 		captains
+// 		sport
+// 		name
+//         id
+//       }
+//       division {
+//         abbreviation
+//         createdAt
+//         description
+//         id
+//         is_playoff
+//         level
+//         name
+//         season
+//         teams
+//         updatedAt
+//       }
+//     }
+//       nextToken
+//     }
+//   }
+// `;
+
+// export const createTeamDivisionShort = /* GraphQL */ `
+//   mutation CreateTeamDivision(
+//     $input: CreateTeamDivisionInput!
+//     $condition: ModelTeamDivisionConditionInput
+//   ) {
+//     createTeamDivision(input: $input, condition: $condition) {
+// 	team {
+//       captains
+//       id
+//       name
+//       sport
+//       home_colour
+//       away_colour
+//       founded
+//       Players {
+//         items {
+//           id
+//           role
+//           teamID
+//           updatedAt
+//           user_id
+//           createdAt
+//         }
+//       }
+//     }
+//     teamId
+//     divisionId
+// 	}
+//   }
+// `;

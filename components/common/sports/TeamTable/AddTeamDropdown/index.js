@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
 import { listTeams } from '@/src/graphql/queries';
 import { createTeamDivision, deleteTeamDivision } from '@/src/graphql/mutations';
+import { createTeamDivisionShort } from '@/src/graphql/custom-queries';
 import TeamCardAdd from './TeamCardAdd';
 
 export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown, teamDivisions }) {
@@ -44,6 +45,8 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
 
     const createTeamDivisionsFunc = async (e) => {
         e.preventDefault();
+
+        console.log('SELECTED TEAMS', selectedTeams);
         if (selectedTeams.length === 0) return;
 
         selectedTeams.forEach(async (teamID) => {
@@ -52,6 +55,7 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
                   teamId: teamID,
               }
               let newTeamDivision = await API.graphql({
+                  // query: createTeamDivisionShort,
                   query: createTeamDivision,
                   variables: { input: data },
               });

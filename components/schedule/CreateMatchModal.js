@@ -4,6 +4,7 @@ import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import makeid from '@/utils/makeId';
 import { createGame } from '@/src/graphql/mutations';
+import { listPlayers } from '@/src/graphql/queries';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
 import RefereeSearchBar from './RefereeSearchBar';
@@ -12,6 +13,11 @@ import AWS from 'aws-sdk';
 import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
+// var AWS = require('aws-sdk');
+const ses = new AWS.SES();
+const lambda = new AWS.Lambda();
+const sns = new AWS.SNS();
+
 //TODO:
 //Get the existing roster of the home/away teams
 //Import date picker
@@ -39,6 +45,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
 
 	const [listUsers, setListUsers] = useState([]);
+	const [homeTeamEmails, setHomeTeamEmails] = useState([]); //Meant for sending emails out
+	const [awayTeamEmails, setAwayTeamEmails] = useState([]); //Meant for sending emails out
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
 
@@ -75,6 +83,10 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		defaultDate: new Date(),
 		language: 'en',
 	};
+
+	useEffect(() => {
+		setMatchDate(new Date().toISOString().split('T')[0])
+	}, [])
 
 	function getConvertedDate(date) {
 		let yourDate = date;
@@ -161,7 +173,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				});
 				return;
 			}
-
+			sendEmailsToAllPlayers();
+			return;
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 			//console.log(convertedTime.format());
@@ -172,7 +185,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				location: matchLocation,
 				status: 'NOT_STARTED',
 				home_color: homeColour,
-				away_colo: awayColour,
+				away_color: awayColour,
 				home_roster: JSON.stringify(homeTeam.Players.items),
 				away_roster: JSON.stringify(awayTeam.Players.items),
 				home_score: 0,
@@ -196,6 +209,99 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			setMessage({ status: 'error', message: error.message });
 		}
 	};
+
+
+	useEffect(() => {
+		if (homeTeamEmails) {
+			console.log('HOME EMAILS', homeTeamEmails);
+		}
+	}, [homeTeamEmails])
+	useEffect(() => {
+		if (homeTeamEmails) {
+			console.log('AWAY EMAILS', awayTeamEmails);
+		}
+	}, [awayTeamEmails])
+
+	const sendEmailsToAllPlayers = () => {
+		//query players (both teams)
+		if (homeTeam === undefined) return;
+		if (awayTeam === undefined) return;
+		console.log('HOME',homeTeam.Players.items);
+		console.log('AWAY',awayTeam.Players.items);
+
+		if (homeTeam.Players.items.length !== 0) {
+			homeTeam.Players.items.map(async (player) => {
+				// console.log(player.user_id);
+				const userEmail = await adminGetUserEmail(homeTeamEmails, setHomeTeamEmails, player.user_id);
+				// console.log(userEmail);
+			})
+		}
+
+		if (awayTeam.Players.items.length !== 0) {
+			awayTeam.Players.items.map(async (player) => {
+				// console.log(player.user_id);
+				const userEmail = await adminGetUserEmail(awayTeamEmails, setAwayTeamEmails, player.user_id);
+				// console.log(userEmail);
+			})
+		}
+
+		return;
+		adminGetUserFunc()
+		//mass end emails
+		let matchDateConvert = matchDate.replaceAll('-', '/');
+		let matchDateDisplay = new Date(matchDateConvert).toDateString();
+		console.log(startTime);
+
+		// HOME TEAM
+		const params = {
+			FunctionName: 'sendEmailNotifications-dev',
+			Payload: JSON.stringify({ emails: ['poki.dogg@gmail.com', 
+											'justin.bernard@rogers.com'],
+									   subject: `You have an upcoming game on ${matchDateDisplay} at ${startTime}`,
+								    body: `Your team (${homeTeam.name}) will be facing team ${awayTeam.name} on ${matchDateDisplay} at ${startTime}! Be there on time!`,
+									sourceEmail: 'poki.dogg@gmail.com' 
+								})
+		  };
+	  
+		  lambda.invoke(params, function(err, data) {
+			if (err) {
+			  console.log(err, err.stack);
+			} else {
+			  console.log(JSON.parse(data.Payload));
+			}
+		});
+	}
+
+	const adminGetUserEmail = async (state, setState, username) => {
+		const params = {
+			Username: username,
+			UserPoolId: 'us-east-1_70GCK7G6t'
+		}
+		await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else {
+				let data2 = data.UserAttributes.find(o => o.Name === 'email')['Value'];
+				// setState(state => [...state, data2] );
+				setState((state) => {
+					return uniqueBySelf([...state, data2]);
+				});
+			}       // successful response
+		})
+	}
+
+    function uniqueBySelf(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item);
+          set.add(item);
+          return !isDuplicate;
+        });
+    }
+
+
+
+
+
 
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
@@ -293,6 +399,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 						<div className="p-5">
 							{/**Home Team */}
 							<div className="w-full">
+								<button onClick={(e) => sendEmailsToAllPlayers()}>CLICK ME!</button>
 								<div onClick={(e) => setOpenHomeTeamDrop(!openHomeTeamDrop)}>
 									<label
 										htmlFor="hometeam"
