@@ -21,6 +21,7 @@ import { createPlayer } from '@/utils/graphql.services';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import ValidatePhoneNumber from 'validate-phone-number-node-js';
+import { uploadNewImageToS3 } from '@/utils/graphql.services';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -221,6 +222,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 							if (err) console.log(err, err.stack); // an error occurred
 							else {
 								console.log(data);
+								// await uploadNewImageToS3(profile_pic_id, profilePic);
 								await uploadNewProfileImageToS3(profile_pic_id);
 								setMessage({
 									status: 'success',

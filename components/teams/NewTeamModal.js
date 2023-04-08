@@ -18,6 +18,7 @@ import {
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
 import { createCaptainOnTeam } from '@/utils/graphql.services';
+import { fileSizeCheckOver } from '@/utils/graphql.services';
 const { v4: uuidv4 } = require('uuid');
 
 const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
@@ -52,6 +53,11 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 			}
 			const randomId = uuidv4();
 			let uniqueId = `${teamName}_${makeid(15)}`;
+
+			if (fileSizeCheckOver(teamLogoUpload)) {
+				return;
+			}
+
 			await uploadNewImageToS3(uniqueId, teamLogoUpload);
 			const teamData = {
 				// id: randomId,

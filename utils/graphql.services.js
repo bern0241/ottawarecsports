@@ -13,6 +13,7 @@ import * as mutations from '../src/graphql/mutations';
 import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
+import Compressor from 'compressorjs';
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -245,23 +246,30 @@ export const updatePlayerSoccer = async (newData) => {
 export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 	try {
 		if (!image) return;
-		const params = {
-			Bucket: bucketName,
-			Key: imageKey,
-			Body: image,
-			ContentType: image.type,
-		};
-		// Upload the image to S3
-		s3.upload(params, (err, data) => {
-			if (err) {
-				// fail
-				console.warn(err);
-			} else {
-				// success
-				return data.Location;
-			}
-		});
-		return imageKey;
+
+		new Compressor(image, {
+		  quality: 0.75,
+		  success: (compressedResult) => {
+			const params = {
+				Bucket: bucketName,
+				Key: imageKey,
+				Body: compressedResult,
+				ContentType: image.type,
+			};
+			// Upload the image to S3
+			s3.upload(params, (err, data) => {
+				if (err) {
+					// fail
+					console.warn(err);
+				} else {
+					// success
+					return data.Location;
+				}
+			});
+		},
+	});
+	return imageKey;
+	
 	} catch (error) {
 		console.error(error);
 	}
@@ -463,3 +471,14 @@ export const scheduleGamesAutomatically = (teams) => {
 	});
 	return results;
 };
+
+export const fileSizeCheckOver = (file) => {
+	const maxSize = 5 * 1024 * 1024;
+	if (file === null) return false;
+	if (file.size > maxSize) {
+		alert('Image exceeds 5MB in size!')
+	  return true;
+	} else {
+		return false;
+	}
+}

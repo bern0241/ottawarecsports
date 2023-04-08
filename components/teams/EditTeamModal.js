@@ -16,6 +16,7 @@ import {
 } from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
+import { fileSizeCheckOver } from '@/utils/graphql.services';
 import { updateTeam } from '@/src/graphql/mutations';
 
 const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
@@ -51,6 +52,10 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
       if (teamName === '' || teamCaptain === '') {
         setMessage({ status: 'error', message: 'All required fields must be entered.' })
         return;
+      }
+
+      if (fileSizeCheckOver(teamLogoUpload)) {
+          return;
       }
 
       let uniqueId = team.team_picture;

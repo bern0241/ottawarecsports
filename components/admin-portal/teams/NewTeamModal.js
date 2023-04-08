@@ -19,6 +19,7 @@
  import TeamsImage from '@/components/teams/TeamsImage';
  import { createCaptainOnTeam } from '@/utils/graphql.services';
  import CaptainDropdown from './CaptainDropdown';
+ import { fileSizeCheckOver } from '@/utils/graphql.services';
  const { v4: uuidv4 } = require('uuid');
  
  const NewTeamModal = ({ isVisible, setIsVisible }) => {
@@ -68,25 +69,6 @@
         setCaptainName(`${captain.Attributes.find(o => o.Name === 'name')['Value']} ${captain.Attributes.find(o => o.Name === 'family_name')['Value']}`);
       }
     }, [captain])
-    // We are not using this function! No need to filter by Captains' role
-  //   const setGroupsForEachUser = (_users) => {
-  //     let users = _users;
-  //     users.map((user) => {
-  //         //Attributes - Groups
-  //         var params = {
-  //           Username: user.Username,
-  //           UserPoolId: 'us-east-1_70GCK7G6t', /* required */
-  //         };
-  //           cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
-
-  //           user.Groups = data.Groups.map(group => group.GroupName);
-  //           setListUsersGroups((listUsersGroups) => 
-  //           {
-  //               return uniqueByUsername([...listUsersGroups, user])
-  //           });
-  //         });
-  //     })
-  // }
  
    const addNewTeam = async () => {
      try {
@@ -101,7 +83,13 @@
 
        const randomId = uuidv4();
        let uniqueId = `${teamName}_${makeid(15)}`;
+
+       if (fileSizeCheckOver(teamLogoUpload)) {
+          return;
+       }
+
        await uploadNewImageToS3(uniqueId, teamLogoUpload);
+
        const teamData = {
          name: teamName,
          founded: new Date(Date.now()),
