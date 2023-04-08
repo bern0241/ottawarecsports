@@ -20,7 +20,7 @@ import ACPLeagueTable from '@/components/admin-portal/leagues/LeagueTable';
 import ACPSeasonTable from '@/components/admin-portal/leagues/SeasonTable';
 import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
 
-  export default function Home() {
+  export default function ACPLeaguesPage() {
       const [user, setUser, authRoles, setAuthRoles] = useUser();
 
     const [selectedLeague, setSelectedLeague] = useState(null);
@@ -46,7 +46,7 @@ import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
   
               <main className='w-full flex justify-center max-w-[70em] mx-auto'>
                   <div className="flex flex-col w-full">
-                    <ACPLeagueTable sport='Soccer' 
+                    <ACPLeagueTable sport='NotApplicable' 
                                 selectedLeague={selectedLeague} 
                                 setSelectedLeague={setSelectedLeague} />
                     <ACPSeasonTable selectedLeague={selectedLeague}

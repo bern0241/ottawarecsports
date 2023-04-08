@@ -91,6 +91,9 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                     ))}
                 </ul>
             </td>
+            <td className="px-6 py-3 text-center">
+                {league.sport}
+            </td>
             <td class="flex gap-4 px-6 py-3 text-center justify-center">
                 <div className='flex-grow'></div>
                 <IconEdit onClick={(e) => editLeagueFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>

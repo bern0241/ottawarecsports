@@ -25,15 +25,16 @@ export default function ACPLeagueTable({ sport, selectedLeague, setSelectedLeagu
     const listLeaguesFunc = async () => {
         const timer = setTimeout(async () => {
             
-            const variables = {
-                filter: {
-                  sport: {
-                    eq: sport
-                  }
-                }
-              };
+            // const variables = {
+            //     filter: {
+            //       sport: {
+            //         eq: sport
+            //       }
+            //     }
+            //   };
               const leagues = await API.graphql({ 
-                query: listLeaguesLong, variables: variables
+                query: listLeaguesLong
+                // query: listLeaguesLong, variables: variables
               });
               console.log('Leagues', leagues.data.listLeagues.items);
               
@@ -74,6 +75,9 @@ export default function ACPLeagueTable({ sport, selectedLeague, setSelectedLeagu
                         <th scope="col" class="font-medium px-6 py-4">
                             
                         </th>
+                        <th scope="col" class="font-medium px-6 py-4">
+                            
+                        </th>
                         <th className='absolute right-5 top-2'>
                             <CreateButton label="Create New League"
                                             state={newLeagueModal}
@@ -88,6 +92,9 @@ export default function ACPLeagueTable({ sport, selectedLeague, setSelectedLeagu
                         </th>
                         <th scope="col" class="w-[15rem] text-center font-light px-6 py-2">
                             Coordinator (s)
+                        </th>
+                        <th scope="col" class="w-[15rem] text-center font-light px-6 py-2">
+                            Sport
                         </th>
                         <th scope="col" class="font-light py-2 border-r-[1px] text-right pr-10 border-gray-400">
                             Action
