@@ -60,8 +60,8 @@ export default function ConfirmSignUpView({
 	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 md:hidden"></div>
 			</div>
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
 				<div className="w-full sm:w-96 flex flex-col gap-5 sm:mt-40">

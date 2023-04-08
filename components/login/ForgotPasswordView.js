@@ -36,11 +36,11 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
+				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0 md:hidden"></div>
 			</div>
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+				<div className="mx-1.5 content-center w-96 mt-[13rem]">
 					<div className="">
 						<OrsLogo />
 					</div>

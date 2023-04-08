@@ -14,8 +14,12 @@ import EditDivisionModal from '@/components/common/sports/Divisions/EditDivision
 import DeleteDivisionModal from '@/components/common/sports/Divisions/DeleteDivisionModal';
 import { API } from '@aws-amplify/api';
 import { convertLevelToFull } from '@/utils/handy-dandy-functions';
+import { useUser } from '@/context/userContext';
 
-export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc }) {
+export default function DivisionCard({ division, selectedDivision, setSelectedDivision, selectedSeason, listDivisionsFunc, selectedLeague }) {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    const [isCoordinator, setIsCoordinator] = useState(false);
+
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [teamCount, setTeamCount] = useState(0);
@@ -24,6 +28,20 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
     useEffect(()=>{
         getTeamsCount();
     }, []);
+
+    useEffect(() => {
+      if (selectedLeague) {
+        isCoordinatorOfLeagueCheck();
+      }
+    }, [selectedLeague])
+
+      const isCoordinatorOfLeagueCheck = () => {
+        if (selectedLeague.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
 
     const clickedDivision = (e) => {
         e.preventDefault();
@@ -74,12 +92,18 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
         <td class="text-center text-lg px-6 py-3">
           {teamCount}
         </td>
+
         <td class="flex gap-2 py-3 justify-center pr-5">
               <div className='flex-grow'></div>
               <IconCalendarDue data-tooltip-target="tooltip-default" onClick={(e) => gameScheduleNavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconCalendarDue>
               <IconUsers  onClick={(e) => addTeamsUINavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>
-              <IconEdit onClick={(e) => editDivisionFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
-              <IconTrash onClick={(e) => deleteDivisionFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
+              
+              {(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+                <>
+                <IconEdit onClick={(e) => editDivisionFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
+                <IconTrash onClick={(e) => deleteDivisionFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
+                </>
+              )}
           </td>
       </tr>
 

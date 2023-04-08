@@ -24,9 +24,14 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
     useEffect(() => {
         if (selectedSeason) {
             listDivisionsFunc();
-            isCoordinatorOfLeagueCheck();
         }
     }, [selectedSeason])
+    
+    useEffect(() => {
+        if (selectedLeague) {
+            isCoordinatorOfLeagueCheck();
+        }
+    }, [selectedLeague])
 
     const isCoordinatorOfLeagueCheck = () => {
         if (selectedLeague.coordinators.includes(user?.username)) {
@@ -120,7 +125,7 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                 <tbody>
                     {divisions && divisions.map((division) => (
                     <>
-                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
+                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} selectedLeague={selectedLeague} listDivisionsFunc={listDivisionsFunc} />
                     </>
                     ))}
                     {(divisions && selectedSeason !== null && divisions.length === 0) && (
