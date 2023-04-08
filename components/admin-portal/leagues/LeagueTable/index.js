@@ -113,6 +113,8 @@ export default function ACPLeagueTable({ sport, selectedLeague, setSelectedLeagu
                         </th>
                         <td class="px-6 py-4">
                         </td>
+                        <td class="px-6 py-4">
+                        </td>
                         <td class="flex gap-4 px-6 py-4 text-center">
                         </td>
                     </tr>

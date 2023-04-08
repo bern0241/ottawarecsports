@@ -7,7 +7,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getTeam, getDivision } from '@/src/graphql/queries';
+import { getDivisionShort } from '@/src/graphql/custom-queries';
+import { getTeam } from '@/src/graphql/queries';
 import { useRouter } from 'next/router';
 import { API } from 'aws-amplify';
 
@@ -43,7 +44,7 @@ const HeaderTitle = () => {
 
 	const getDivisionFunc = async () => {
 		const apiData = await API.graphql({
-			query: getDivision,
+			query: getDivisionShort,
 			variables: { id: divisionID },
 		});
 		const data = await apiData.data.getDivision;
@@ -92,11 +93,11 @@ const HeaderTitle = () => {
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">Sports</p>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/sports/${division.id}`} className="font-light text-[.8rem]">
+							<Link href={`/sports/${division?.id}`} className="font-light text-[.8rem]">
 								{division?.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Teams - {division.name}</p>
+						<p className="font-semibold text-[1.8rem]">All Teams - {division?.name}</p>
 					</div>
 				</div>
 			)}
@@ -136,7 +137,7 @@ const HeaderTitle = () => {
 					</div>
 				</div>
 			)}
-			{router.pathname.includes('/schedule/soccer') && (
+			{router.pathname === '/schedule/soccer' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -151,6 +152,24 @@ const HeaderTitle = () => {
 							</Link>
 						</div>
 						<p className="font-semibold text-[1.8rem]">All Divisions - Soccer ⚽</p>
+					</div>
+				</div>
+			)}
+			{router.pathname.includes('/schedule/soccer/[id]') && (
+				<div className="p-1 pt-0 pl-2 lg:pl-7">
+					<div className="flex flex-col gap-2">
+						<div className="flex flex-row">
+							<Link href="/" className="font-light text-[.8rem]">
+								Home
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<p className="font-light text-[.8rem]">Schedule</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link href="/schedule/soccer" className="font-light text-[.8rem]">
+								Soccer
+							</Link>
+						</div>
+						<p className="font-semibold text-[1.8rem]">All Matches</p>
 					</div>
 				</div>
 			)}

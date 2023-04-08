@@ -12,6 +12,7 @@ import AWS from 'aws-sdk';
 import EditMatchModal from '@/components/schedule/EditMatchModal';
 import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
 export default function DivisionMatches() {
+	
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isEditingMatch, setIsEditingMatch] = useState(false);
 	const [matchToEdit, setMatchToEdit] = useState('');

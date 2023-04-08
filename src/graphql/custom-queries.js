@@ -236,3 +236,20 @@ export const getSeasonShort = /* GraphQL */ `
     }
   }
 `;
+
+export const getDivisionShort = /* GraphQL */ `
+  query GetDivision($id: ID!) {
+    getDivision(id: $id) {
+		abbreviation
+    createdAt
+    description
+    id
+    is_playoff
+    level
+    name
+    season
+    teams
+    updatedAt
+    }
+  }
+`;

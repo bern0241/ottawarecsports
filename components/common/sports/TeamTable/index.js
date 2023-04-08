@@ -8,7 +8,8 @@
 
 import React, { useState, useEffect } from 'react';
 import TeamCard from './TeamCard';
-import { listTeamDivisions, getLeague, getSeason, getDivision } from '@/src/graphql/queries';
+import { listTeamDivisions, getLeague } from '@/src/graphql/queries';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 // import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
@@ -29,11 +30,11 @@ import AddTeamDropdown from './AddTeamDropdown';
 	 */
        const moveUpLeagueId = async () => {
         // DIVISION
-        const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: divisionID}});
+        const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: divisionID}});
         const divisionData = await apiDataDivision.data.getDivision;
         setDivision(divisionData);
         // SEASON
-        const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: divisionData.season}});
+        const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
         const seasonData = await apiDataSeason.data.getSeason;
         setSeason(seasonData);
         // LEAGUE
@@ -53,7 +54,7 @@ import AddTeamDropdown from './AddTeamDropdown';
      }, [divisionID])
 
      const getDivisionFunc = async () => {
-        const apiData = await API.graphql({ query: getDivision, variables: { id: divisionID }});
+        const apiData = await API.graphql({ query: getDivisionShort, variables: { id: divisionID }});
         const data = await apiData.data.getDivision;
         setDivision(data);
      }

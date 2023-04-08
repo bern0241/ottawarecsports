@@ -12,8 +12,6 @@
  import styles from '@/styles/Home.module.css';
  import { useUser } from '@/context/userContext';
  import { useRouter } from 'next/router';
- // Components
- import SignOutButton from '@/components/common/SignOutButton';
  // Tables
  import TeamTable from '@/components/common/sports/TeamTable';
  

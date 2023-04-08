@@ -9,7 +9,8 @@ import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
 import { useRouter } from 'next/router';
 import { API } from 'aws-amplify';
-import { getLeague, getSeason, getDivision } from '@/src/graphql/queries';
+import { getLeague } from '@/src/graphql/queries';
+import { getSeasonShort, getDivisionShort } from '@/src/graphql/custom-queries';
 
 const MatchesTable = ({
 	title = 'Scheduled matches',
@@ -34,14 +35,14 @@ const MatchesTable = ({
 	 */
 	useEffect(() => {
 		if (!id) return;
-		
+		console.log('my id',id);
         const moveUpLeagueId = async () => {
             // DIVISION
-            const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: id}});
+            const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: id }});
             const divisionData = await apiDataDivision.data.getDivision;
             setDivision(divisionData);
             // SEASON
-            const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: divisionData.season}});
+            const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
             const seasonData = await apiDataSeason.data.getSeason;
             setSeason(seasonData);
             // LEAGUE
@@ -104,9 +105,11 @@ const MatchesTable = ({
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-				<div className="flex justify-between py-[45px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
+				<div className="flex justify-between py-[35px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
 					<h1 className="text-base font-medium">
-						<p className='absolute translate-y-[-46px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/><span className='font-light italic'>Matches</span></p>
+						<p className='absolute translate-y-[-38px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/>
+						{/* <span className='font-light italic'>Matches</span> */}
+						</p>
 					</h1>
 					{displayedMatches.length === 0 ? (
 						<div className='py-[17px]'></div>
@@ -115,7 +118,7 @@ const MatchesTable = ({
 							value={selectedDate}
 							setValue={setSelectedDate}
 							customClass={
-								'w-40 flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900'
+								'w-40 flex items-center justify-between px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900 translate-y-[-1.1rem]'
 							}
 							options={matchDates}
 						/>
