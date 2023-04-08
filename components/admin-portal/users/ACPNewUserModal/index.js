@@ -18,6 +18,9 @@ import UserGroupsDropDown from './UserGroupsDropDown';
 import UserProfilePicture from './UserProfilePicture';
 import TempPasswordField from './TempPasswordField';
 import { createPlayer } from '@/utils/graphql.services';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -66,23 +69,27 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	 * @returns New user created!
 	 */
 	const createUser = async () => {
-		// console.log('Session',profilePic);
-		// return;
-		if (
-			firstName === '' ||
-			lastName === '' ||
-			birthDate === '' ||
-			tempPassword === '' ||
-			email === '' ||
-			location === ''
-		) {
-			setMessage({
-				status: 'error',
-				message: 'Please fillout required fields.',
-			});
-			return;
-		}
 		try {
+			if (
+				firstName === '' ||
+				lastName === '' ||
+				birthDate === '' ||
+				tempPassword === '' ||
+				email === '' ||
+				location === ''
+			) {
+				setMessage({
+					status: 'error',
+					message: 'Please fillout required fields.',
+				});
+				return;
+			}
+			if (phoneNumber !== undefined && phoneNumber !== '') {
+				if (!ValidatePhoneNumber.validate(phoneNumber)) {
+					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					return;
+				}
+			}
 			let uniqueId = makeid(15); //Meant for making random imageURI
 			let profile_pic_id = 'none';
 
@@ -389,13 +396,20 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 								>
 									Phone Number
 								</label>
-								<input
+								<PhoneInput 
+									placeholder=""
+									defaultCountry="CA"
+									value={phoneNumber}
+									onChange={setPhoneNumber}
+									style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
+								/>
+								{/* <input
 									value={phoneNumber}
 									onChange={(e) => setPhoneNumber(e.target.value)}
 									type="text"
 									id="phoneNumber"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								/>
+								/> */}
 							</div>
 
 							<div class="w-full">

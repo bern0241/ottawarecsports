@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 // import ACPRoleDropdownMenu from './ACPRoleDropdownMenu';
 // import ACPLeagueDropdownMenu from './ACPLeagueDropdownMenu';
 // import { IconDeviceFloppy } from '@tabler/icons-react';
-import ACPEditUserModal from './users/ACPEditUserModal';
+import ACPEditUserModal from './ACPEditUserModal';
 import ACPDeleteUserModal from './ACPDeleteUserModal';
 import ACPDEnableDisableUserSwitcher from './ACPEnableDisableUserSwitcher';
 import AWS from 'aws-sdk';

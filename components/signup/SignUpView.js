@@ -94,7 +94,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				},
 			});
 			addUserToGroup(newUser.userSub, 'User');
-			const apiData = await createPlayer(newUser.userSub);
+			// const apiData = await createPlayer(newUser.userSub);
 			setUiState('confirmSignUp');
 		} catch (error) {
 			console.error(error);

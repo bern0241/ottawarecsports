@@ -272,6 +272,7 @@ export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
  * @returns {String} The file url
  */
 export const getImageFromS3 = async (key) => {
+	if (!key) return;
 	const url = s3.getSignedUrl('getObject', {
 		Bucket: bucketName,
 		Key: key,

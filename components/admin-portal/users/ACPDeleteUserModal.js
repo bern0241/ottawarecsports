@@ -48,6 +48,14 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 		);
 	};
 
+	const deletePlayersOfUser = () => {
+
+	}
+
+	const coordinatorsOfUser = () => {
+		
+	}
+
 	const deleteProfilePic = async () => {
 		const pictureAttribute = user.Attributes.find((o) => o.Name === 'picture')[
 			'Value'

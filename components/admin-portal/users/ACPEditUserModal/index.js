@@ -22,6 +22,9 @@ import TempPasswordField from '../ACPNewUserModal/TempPasswordField';
 import ChangePasswordModal from './ChangePasswordModal';
 import { listLeagues } from '@/src/graphql/queries';
 import { updateLeague } from '@/src/graphql/mutations';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -96,7 +99,7 @@ export default function ACPEditUserModal({
 		if (uiState) {
 			setMessage(null);
 			setNewPassword('');
-			if (user1.Username === user.username) {
+			if (user1.Username === user.username && userGroups.includes('Admin')) {
 				setIsAdmin(true);
 			}
 		}
@@ -226,62 +229,75 @@ export default function ACPEditUserModal({
 	}
 
 
+
+
+
+	const returnEmptyStringPhoneNumber = async () => {
+		if (phoneNumber === undefined) {
+			return '';
+		} else {
+			return phoneNumber
+		}
+	}
+
+
 	/**
 	 *
 	 * @returns New user created!
 	 */
 	const editUser = async (e, userStatus) => {
-		// DO CHECK FIRST
-		if (isAdmin && userStatus === 'meOther') {
-			if (!userGroups.includes('Admin')) {
-				setUiState('adminRemoved')
-				return;
-			}
-		}
-		const check = await checkIfCoordinatorsOrRefereesExist();
-		if (check.includes('coordinator') && isCoordinator && userStatus !== 'meCoordinator') {
-			if (!userGroups.includes('Coordinator')) { //removed authrole
-				setUiState('coordinatorRemoved');
-				return;
-			}
-		}
-		if (userStatus === 'meCoordinator') {
-			await removeAllCoordinatorRolesInLeagues(); //We have detected that this user has existing Coordinator and Referee roles. They will all be removed. Are you sure you want to continue?
-		}
-
-		if (
-			firstName === '' ||
-			lastName === '' ||
-			birthDate === '' ||
-			email === '' ||
-			location === ''
-		) {
-			setMessage({
-				status: 'error',
-				message: 'Please fillout required fields.',
-			});
-			return;
-		}
 		try {
+			// deletePhoneNumberAttribute();
+			// DO CHECK FIRST
+			if (isAdmin && userStatus === 'meOther') {
+				if (!userGroups.includes('Admin')) {
+					setUiState('adminRemoved')
+					return;
+				}
+			}
+			const check = await checkIfCoordinatorsOrRefereesExist();
+			if (check.includes('coordinator') && isCoordinator && userStatus !== 'meCoordinator') {
+				if (!userGroups.includes('Coordinator')) { //removed authrole
+					setUiState('coordinatorRemoved');
+					return;
+				}
+			}
+			if (userStatus === 'meCoordinator') {
+				await removeAllCoordinatorRolesInLeagues(); //We have detected that this user has existing Coordinator and Referee roles. They will all be removed. Are you sure you want to continue?
+			}
+			if (
+				firstName === '' ||
+				lastName === '' ||
+				birthDate === '' ||
+				email === '' ||
+				location === ''
+			) {
+				setMessage({
+					status: 'error',
+					message: 'Please fillout required fields.',
+				});
+				return;
+			}
+			if (phoneNumber !== undefined && phoneNumber !== '') {
+				if (!ValidatePhoneNumber.validate(phoneNumber)) {
+					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					return;
+				}
+			}
+			
 			let uniqueId = makeid(15); //Meant for making random imageURI
-			let profile_pic_id;
+			let profile_pic_id = 'none';
 
 			// If picture exists, use that one!
-			if (
-				user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none'
-			) {
-				profile_pic_id = user1.Attributes.find((o) => o.Name === 'picture')[
-					'Value'
-				];
-			} else {
-				//Else set picture to default 'none'
-				profile_pic_id = 'none';
+			if (user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none') {
+				profile_pic_id = user1.Attributes.find((o) => o.Name === 'picture')['Value'];
 			}
 
 			// If profile picture is NOT null, set the ID to it's newly generated id
 			if (profilePic !== null) {
 				profile_pic_id = 'user_' + uniqueId;
 			}
+			const phoneNumberConverted = await returnEmptyStringPhoneNumber();
 
 			var params = {
 				UserPoolId: 'us-east-1_70GCK7G6t',
@@ -322,7 +338,7 @@ export default function ACPEditUserModal({
 					},
 					{
 						Name: 'phone_number',
-						Value: phoneNumber,
+						Value: phoneNumberConverted,
 					},
 					// {
 					//     Name: "phone_number_verified",
@@ -341,8 +357,8 @@ export default function ACPEditUserModal({
 						setMessage({ status: 'error', message: err.message });
 					} else {
 
-						setProfilePicId(profile_pic_id);
-						await deleteUserGroups(user1.Username, userStatus);
+						// setProfilePicId(profile_pic_id);
+						await deleteUserGroups(profile_pic_id, userStatus);
 					}
 				}
 			);
@@ -352,7 +368,8 @@ export default function ACPEditUserModal({
 		}
 	};
 
-	const deleteUserGroups = async (username, userStatus) => {
+
+	const deleteUserGroups = async (profile_pic_id, userStatus) => {
 		try {
 			const removeTheseGroups = [
 				'User',
@@ -376,7 +393,7 @@ export default function ACPEditUserModal({
 							if (err) {
 								console.log(err, err.stack);
 							} else {
-								await addUserToGroups(user1.Username, userStatus);
+								await addUserToGroups(profile_pic_id, userStatus);
 								console.log({ status: 'success remove from group', data: data });
 							}
 						}
@@ -389,7 +406,7 @@ export default function ACPEditUserModal({
 		}
 	}
 	
-	const addUserToGroups = async (username, userStatus) => {
+	const addUserToGroups = async (profile_pic_id, userStatus) => {
 		try {
 			await userGroups.forEach((group) => {
 				// if (group !== 'User') 
@@ -397,7 +414,7 @@ export default function ACPEditUserModal({
 					var params = {
 						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
 						GroupName: group,
-						Username: username,
+						Username: user1.Username,
 					};
 					cognitoidentityserviceprovider.adminAddUserToGroup(
 						params,
@@ -405,7 +422,7 @@ export default function ACPEditUserModal({
 							if (err) {
 								console.log(err, err.stack);
 							} else {
-								deleteCurrentProfileImageS3(userStatus);
+								deleteCurrentProfileImageS3(profile_pic_id, userStatus);
 								console.log({ status: 'success', data: data });
 							}
 						}
@@ -413,7 +430,7 @@ export default function ACPEditUserModal({
 					}
 				});
 
-				deleteCurrentProfileImageS3(userStatus);
+				deleteCurrentProfileImageS3(profile_pic_id, userStatus);
 			} catch (error) {
 				console.log('AAAA')
 			setMessage({status: 'error', message: error.message});
@@ -421,7 +438,7 @@ export default function ACPEditUserModal({
 		}
 	};
 
-	const deleteCurrentProfileImageS3 = async (userStatus) => {
+	const deleteCurrentProfileImageS3 = async (profile_pic_id, userStatus) => {
 		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 
 		try {
@@ -439,7 +456,7 @@ export default function ACPEditUserModal({
 				if (err) {
 					console.log('Error deleting object: ', err);
 				} else {
-					uploadNewProfileImageToS3(userStatus);
+					uploadNewProfileImageToS3(profile_pic_id, userStatus);
 					console.log('Object deleted successfully');
 				}
 			});
@@ -449,7 +466,7 @@ export default function ACPEditUserModal({
 		}
 	};
 
-	const uploadNewProfileImageToS3 = async (userStatus) => {
+	const uploadNewProfileImageToS3 = async (profile_pic_id, userStatus) => {
 		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 		const signedUrlExpireSeconds = 60 * 1;
 
@@ -462,7 +479,7 @@ export default function ACPEditUserModal({
 
 			const params = {
 				Bucket: bucketName,
-				Key: profilePicId,
+				Key: profile_pic_id,
 				Body: profilePic,
 				ContentType: profilePic.type,
 			};
@@ -615,7 +632,6 @@ export default function ACPEditUserModal({
 							{/* <!-- Modal content --> */}
 							<div class="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 								{/* <!-- Modal header --> */}
-						<button onClick={(e) => checkIfCoordinatorsExist()}>CLICK ME!!!@</button>
 								<div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 class="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
@@ -650,6 +666,7 @@ export default function ACPEditUserModal({
 									profilePic={profilePic}
 									setProfilePic={setProfilePic}
 								/>
+								<button onClick={(e) => console.log(user1)}>CLICK ME</button>
 
 								<div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 									<div class="w-full ">
@@ -731,12 +748,12 @@ export default function ACPEditUserModal({
 										>
 											Phone Number
 										</label>
-										<input
+										<PhoneInput 
+											placeholder=""
+											defaultCountry="CA"
 											value={phoneNumber}
-											onChange={(e) => setPhoneNumber(e.target.value)}
-											type="text"
-											id="phoneNumber"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											onChange={setPhoneNumber}
+											style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
 										/>
 									</div>
 

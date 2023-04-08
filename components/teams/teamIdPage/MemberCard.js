@@ -41,8 +41,8 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
     }
 
     const getImage = async (_user) => {
-        if (_user.UserAttributes.find(o => o.Name === 'picture')['Value'] !== 'none') {
-            let url = await getImageFromS3(_user.UserAttributes.find(o => o.Name === 'picture')['Value']);
+        if (_user?.UserAttributes.find(o => o.Name === 'picture')['Value'] !== 'none') {
+            let url = await getImageFromS3(_user?.UserAttributes.find(o => o.Name === 'picture')['Value']);
             setUserImage(url);
         } else {
             setUserImage(null);
@@ -92,7 +92,11 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
         />
         <p className='text-black ml-3'>
-            {userName}
+            {userName ? (
+                <p>{userName}</p>
+            ) : (
+                <p className='font-light italic'>User doesn't exist</p>
+            )}
         </p>
         <div className='flex-grow'></div>
             {(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
