@@ -146,8 +146,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 	const createNewMatch = async (e) => {
 		e.preventDefault();
-		sendEmailsToAllPlayers();
-			return;
+		// sendEmailsToAllPlayers();
+		// 	return;
 		try {
 			if (
 				homeTeam === null ||
@@ -274,13 +274,13 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		// });
 	}
 
-	const sendEmail = async (e, userTeam, otherTeam, emails) => {
+	const sendEmail = async (userTeam, otherTeam, emails) => {
 		let matchDateConvert = matchDate.replaceAll('-', '/');
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		
 		const params = {
 		  Destination: {
-			ToAddresses: [...emails]
+			ToAddresses: emails
 		  },
 		  Message: {
 			Body: {
@@ -292,7 +292,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 			  Data:  `You have an upcoming game on ${matchDateDisplay} at ${startTime}`
 			},
 		  },
-		  Source: 'poki.dogg@gmail.com'
+		  Source: 'justin.bernard320@gmail.com'
 		}
 	
 		ses.sendEmail(params, (err, data) => {
