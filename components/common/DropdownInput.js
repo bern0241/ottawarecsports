@@ -6,7 +6,7 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const DropdownInput = ({
 	options,
@@ -24,6 +24,11 @@ const DropdownInput = ({
 			/>
 		</svg>
 	);
+
+	useEffect(() => {
+		
+	}, [])
+
 	return (
 		<div className="relative">
 			<select
