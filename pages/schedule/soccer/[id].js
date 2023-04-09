@@ -85,6 +85,7 @@ export default function DivisionMatches() {
 			<CreateMatchModal
 				isVisible={modalVisible}
 				setIsVisible={setModalVisible}
+				getGames={getGames}
 			/>
 			{isEditingMatch && (
 				<EditMatchModal

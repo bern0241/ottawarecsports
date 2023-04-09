@@ -666,7 +666,6 @@ export default function ACPEditUserModal({
 									profilePic={profilePic}
 									setProfilePic={setProfilePic}
 								/>
-								<button onClick={(e) => console.log(user1)}>CLICK ME</button>
 
 								<div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 									<div class="w-full ">
