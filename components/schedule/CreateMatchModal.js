@@ -146,6 +146,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 	const createNewMatch = async (e) => {
 		e.preventDefault();
+		sendEmailsToAllPlayers();
+			return;
 		try {
 			if (
 				homeTeam === null ||
@@ -173,8 +175,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 				});
 				return;
 			}
-			sendEmailsToAllPlayers();
-			return;
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 			//console.log(convertedTime.format());
@@ -222,8 +222,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 		}
 	}, [awayTeamEmails])
 
+
 	const sendEmailsToAllPlayers = () => {
-		//query players (both teams)
 		if (homeTeam === undefined) return;
 		if (awayTeam === undefined) return;
 		console.log('HOME',homeTeam.Players.items);
@@ -231,46 +231,79 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 
 		if (homeTeam.Players.items.length !== 0) {
 			homeTeam.Players.items.map(async (player) => {
-				// console.log(player.user_id);
 				const userEmail = await adminGetUserEmail(homeTeamEmails, setHomeTeamEmails, player.user_id);
-				// console.log(userEmail);
 			})
 		}
 
 		if (awayTeam.Players.items.length !== 0) {
 			awayTeam.Players.items.map(async (player) => {
-				// console.log(player.user_id);
 				const userEmail = await adminGetUserEmail(awayTeamEmails, setAwayTeamEmails, player.user_id);
-				// console.log(userEmail);
 			})
 		}
 
-		return;
-		adminGetUserFunc()
 		//mass end emails
 		let matchDateConvert = matchDate.replaceAll('-', '/');
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		console.log(startTime);
 
+		if (!homeTeamEmails || !awayTeamEmails) return;
+
+		sendEmail(homeTeam, awayTeam, homeTeamEmails);
+		// sendEmail(awayTeam, homeTeam, awayTeamEmails);
+
 		// HOME TEAM
-		const params = {
-			FunctionName: 'sendEmailNotifications-dev',
-			Payload: JSON.stringify({ emails: ['poki.dogg@gmail.com', 
-											'justin.bernard@rogers.com'],
-									   subject: `You have an upcoming game on ${matchDateDisplay} at ${startTime}`,
-								    body: `Your team (${homeTeam.name}) will be facing team ${awayTeam.name} on ${matchDateDisplay} at ${startTime}! Be there on time!`,
-									sourceEmail: 'poki.dogg@gmail.com' 
-								})
-		  };
+		// const params = {
+		// 	FunctionName: 'sendEmailNotifications-dev',
+		// 	Payload: JSON.stringify({ emails: homeTeamEmails,
+		// 							   subject: `You have an upcoming game on ${matchDateDisplay} at ${startTime}`,
+		// 						    body: `Your team (${homeTeam.name}) will be facing team ${awayTeam.name} on ${matchDateDisplay} at ${startTime}! Be there on time!`,
+		// 							sourceEmail: 'poki.dogg@gmail.com' 
+		// 						})
+		//   };
+
+		//   console.log('REACHED?');
 	  
-		  lambda.invoke(params, function(err, data) {
-			if (err) {
-			  console.log(err, err.stack);
-			} else {
-			  console.log(JSON.parse(data.Payload));
-			}
-		});
+		//   lambda.invoke(params, function(err, data) {
+		// 	  if (err) {
+		// 		console.log('Error sending emails!')
+		// 	  console.log(err, err.stack);
+		// 	} else {
+		// 		console.log('SUCCESS sending emails!')
+		// 	  console.log(JSON.parse(data.Payload));
+		// 	}
+		// });
 	}
+
+	const sendEmail = async (e, userTeam, otherTeam, emails) => {
+		let matchDateConvert = matchDate.replaceAll('-', '/');
+		let matchDateDisplay = new Date(matchDateConvert).toDateString();
+		
+		const params = {
+		  Destination: {
+			ToAddresses: [...emails]
+		  },
+		  Message: {
+			Body: {
+			  Text: {
+				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! Be there on time!`
+			  },
+			},
+			Subject: {
+			  Data:  `You have an upcoming game on ${matchDateDisplay} at ${startTime}`
+			},
+		  },
+		  Source: 'poki.dogg@gmail.com'
+		}
+	
+		ses.sendEmail(params, (err, data) => {
+		  if (err) {
+			console.log(err, err.stack);
+		  } else {
+			console.log('Email sent successfully:', data);
+		  }
+		})
+	  }
+	
 
 	const adminGetUserEmail = async (state, setState, username) => {
 		const params = {
