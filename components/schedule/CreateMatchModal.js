@@ -14,6 +14,7 @@ import AWS from 'aws-sdk';
 import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
+import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 // var AWS = require('aws-sdk');
 const ses = new AWS.SES();
 const lambda = new AWS.Lambda();
@@ -425,32 +426,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 		}
 	}, [awayColour])
 
-	const convertColorsDisplay = (color, setDisplayColor) => {
-		let colorDisplayed = '';
-		switch (color) {
-			case 'Yellow':
-				colorDisplayed = `bg-yellow-300`
-				break;
-			case 'Red':
-				colorDisplayed = `bg-red-500`
-				break;
-			case 'Blue':
-				colorDisplayed = `bg-blue-500`
-				break;
-			case 'Green':
-				colorDisplayed = `bg-green-500`
-				break;
-			case 'White':
-				colorDisplayed = `bg-white`
-				break;
-			case 'Black':
-				colorDisplayed = `bg-black`
-				break;
-		}
-		setDisplayColor(colorDisplayed);
-		// return colorDisplayed;
-	}
-
 	if (!isVisible) return;
 
 	return (
@@ -534,13 +509,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									Home Team Jersey Colour
 								</label>
 								<div className='flex gap-1'>
-								<div className={`${homeDisplayColour} w-[3rem] border-[1.5px] border-black`}/>
+								<div style={{backgroundColor: homeColour}} className={`w-[3rem] border-[1.5px] border-black`}/>
 								<div className='w-full'>
 									<DropdownInput
 										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
 										value={homeColour}
 										setValue={setHomeColour}
-										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
 									/>
 								</div>
 								</div>
@@ -566,7 +540,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									)}
 								</div>
 							</div>
-							<button onClick={(e) => console.log(matchDate)}>CLICK ME!</button>
 							{openAwayTeamDrop && (
 								<TeamDropDown
 									setState={setAwayTeam}
@@ -582,7 +555,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									Away Team Jersey Colour
 								</label>
 								<div className='flex gap-1'>
-								<div className={`${awayDisplayColour} w-[3rem] border-[1.5px] border-black`}/>
+								<div style={{backgroundColor: awayColour}} className={`w-[3rem] border-[1.5px] border-black`}/>
 								<div className='w-full'>
 									<DropdownInput
 										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
@@ -618,7 +591,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 										name="caret-down-circle-outline"
 									></ion-icon>
 								</div>
-								<div className="flex absolute top-[2.3rem]">
+								<div className="flex absolute top-[1.9rem]">
 									{referees &&
 										referees.map((referee) => (
 											<>

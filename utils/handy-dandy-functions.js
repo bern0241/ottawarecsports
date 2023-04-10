@@ -31,3 +31,29 @@ export const convertLevelToFull = (level) => {
 
     return getLevel;
 }
+
+export const convertColorsDisplay = (color, setDisplayColor) => {
+    let colorDisplayed = '';
+    switch (color) {
+        case 'Yellow':
+            colorDisplayed = `bg-yellow-300`
+            break;
+        case 'Red':
+            colorDisplayed = `bg-red-500`
+            break;
+        case 'Blue':
+            colorDisplayed = `bg-blue-500`
+            break;
+        case 'Green':
+            colorDisplayed = `bg-green-500`
+            break;
+        case 'White':
+            colorDisplayed = `bg-white`
+            break;
+        case 'Black':
+            colorDisplayed = `bg-black`
+            break;
+    }
+    setDisplayColor(colorDisplayed);
+    // return colorDisplayed;
+}

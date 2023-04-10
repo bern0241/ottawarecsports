@@ -17,6 +17,7 @@ module.exports = {
 	],
 	theme: {
 		colors: {
+			'yellowb': '#FFFF00',
 			'brand-neutral': {
 				50: '#f5f5f5',
 				100: '#f0f0f0',

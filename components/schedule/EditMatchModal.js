@@ -4,10 +4,13 @@ import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import { updateGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
+import LocationsDropdown from './LocationsDropdown';
 import TeamCardSelected from './TeamCardSelected';
+import { listLocations as listLocationsQuery } from '@/src/graphql/queries';
 import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk';
+import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
@@ -16,11 +19,12 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
 	const [homeColour, setHomeColour] = useState(match.home_color);
-	const [awayColour, setAwayColour] = useState(match.away_colo);
+	const [awayColour, setAwayColour] = useState(match.away_color);
 	const [matchDate, setMatchDate] = useState('');
 	const [referees, setReferees] = useState([]);
 	const [startTime, setStartTime] = useState('');
 	const [matchLocation, setMatchLocation] = useState('');
+	const [uiState, setUiState] = useState('main');
 
 	const [openHomeTeamDrop, setOpenHomeTeamDrop] = useState(false);
 	const [openAwayTeamDrop, setOpenAwayTeamDrop] = useState(false);
@@ -28,9 +32,14 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 	const [showFounded, setShowFounded] = useState(false);
+	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
 
 	const [listUsers, setListUsers] = useState([]);
-	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
+	const [listLocations, setListLocations] = useState([]);
+	const [homeTeamEmails, setHomeTeamEmails] = useState([]); //Meant for sending emails out
+	const [awayTeamEmails, setAwayTeamEmails] = useState([]); //Meant for sending emails out
+	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
+	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
@@ -69,6 +78,24 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		language: 'en',
 	};
 
+	useEffect(() => {
+		setUiState('main');
+	}, [isVisible])
+
+	useEffect(() => {
+		setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
+		setUiState('main');
+		fetchLocations();
+	}, [])
+
+	const fetchLocations = async () => {
+		const _locations = await API.graphql({ 
+		  query: listLocationsQuery 
+		});
+		console.log('Locations', _locations.data.listLocations.items);
+		setListLocations(_locations.data.listLocations.items);
+	}
+
 	//Convert date input from datepicker into ISOString format
 	function getConvertedDate(date) {
 		let yourDate = date;
@@ -105,7 +132,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		const getGameColors = () => {
 			const timer = setTimeout(() => {
 				setHomeColour(match.home_color);
-				setAwayColour(match.away_colo);
+				setAwayColour(match.away_color);
 			}, 100);
 			return () => clearTimeout(timer);
 		};
@@ -184,7 +211,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		setHomeTeam(match.HomeTeam);
 		setHomeColour(match.home_color);
 		setAwayTeam(match.AwayTeam);
-		setAwayColour(match.away_colo);
+		setAwayColour(match.away_color);
 		// setReferees(match.referees);
 		setMatchLocation(match.location);
 	};
@@ -300,19 +327,32 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		//TODO: Clear all fields
 	};
 
+	useEffect(() => {
+		if (homeColour) {
+			convertColorsDisplay(homeColour, setHomeDisplayColour);
+		}
+	}, [homeColour])
+	useEffect(() => {
+		if (awayColour) {
+			convertColorsDisplay(awayColour, setAwayDisplayColour);
+		}
+	}, [awayColour])
+
 	if (!isVisible) return;
 
 	return (
 		<>
+		{uiState === 'main' && (
+			<>
 			<div
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+				className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
 			>
 				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
-					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 						{/* <!-- Modal header --> */}
 						<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 							<h3 className="text-md font-semibold text-gray-900 dark:text-white">
@@ -376,23 +416,28 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-1/2">
 								<label
 									htmlFor="home-team-jersey"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Home Team Jersey Colour
 								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={homeColour}
-									setValue={setHomeColour}
-								/>
+								<div className='flex gap-1'>
+								<div style={{backgroundColor: homeColour}} className={`w-[3rem] border-[1.5px] border-black`}/>
+								<div className='w-full'>
+									<DropdownInput
+										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+										value={homeColour}
+										setValue={setHomeColour}
+										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
+									/>
+								</div>
+								</div>
 							</div>
-							{/* <button onClick={(e) => console.log(convertedTime)}>CLICK ME!</button> */}
 							{/**Away Team */}
 							<div className="w-full">
 								<div onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop)}>
 									<label
 										htmlFor="awayteam"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Away Team
 									</label>
@@ -401,7 +446,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 										<div
 											type="text"
 											id="awayteam"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 											placeholder=""
 											required
 										/>
@@ -418,15 +463,21 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-1/2">
 								<label
 									htmlFor="email"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Away Team Jersey Colour
 								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={awayColour}
-									setValue={setAwayColour}
-								/>
+								<div className='flex gap-1'>
+								<div style={{backgroundColor: awayColour}} className={`w-[3rem] border-[1.5px] border-black`}/>
+								<div className='w-full'>
+									<DropdownInput
+										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+										value={awayColour}
+										setValue={setAwayColour}
+										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
+									/>
+								</div>
+								</div>
 							</div>
 
 							{/**Referee */}
@@ -436,16 +487,16 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							>
 								<label
 									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Referee(s)
+									Referee (s)
 								</label>
 								<input
 									value=""
 									disabled
 									type="text"
 									id="name"
-									class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
+									className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
 								/>
 								<div className="absolute right-2 top-[2.8rem]">
 									<ion-icon
@@ -453,7 +504,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 										name="caret-down-circle-outline"
 									></ion-icon>
 								</div>
-								<div className="flex absolute top-[2.3rem]">
+								<div className="flex absolute top-[1.9rem]">
 									{referees &&
 										referees.map((referee) => (
 											<>
@@ -482,7 +533,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-full">
 								<label
 									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Date
 								</label>
@@ -519,7 +570,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 								>
 									<label
 										for="startTime"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Start Time
 									</label>
@@ -544,29 +595,14 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-full">
 								<label
 									htmlFor="location"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Location
 								</label>
-								<DropdownInput
-									options={[
-										'Anexxe Trille des Bois',
-										'Centennial Public School',
-										'Lester B. Pearson High School',
-										'Louis Riel Dome',
-										'De La Salle High School',
-										'Lisgar Collegiate High School',
-										'Thomas D’Arcy McGee',
-										'Colonel By High School',
-										'Trilles-des-Bois',
-										'Craig Henry Park',
-										'Algonquin Dome College',
-										'Albert Street School',
-										'Hornet’s Nest Superdome',
-										'Lees Turf',
-									]}
-									value={matchLocation}
-									setValue={setMatchLocation}
+								<LocationsDropdown
+									listLocations={listLocations}
+									state={matchLocation}
+									setState={setMatchLocation}
 								/>
 							</div>
 						</div>
@@ -602,7 +638,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 								}}
 								data-modal-hide="defaultModal"
 								type="button"
-								className="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
+								className="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
 							>
 								Save
 							</button>
@@ -611,9 +647,59 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				</div>
 			</div>
 			<div
-				onClick={(e) => setIsVisible(false)}
-				class="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+			onClick={(e) => setIsVisible(false)}
+			className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+		/>
+		</>
+		)}
+		{uiState === 'send-emails' && (
+			<>
+			<div tabIndex="-1" className="z-[200] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
+		<div className="relative h-full md:h-auto">
+			<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+				<button onClick={(e) => {
+						e.stopPropagation();
+						getGames();
+						setOpenModal(false);
+					}}
+					type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
+					<svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+					<span className="sr-only">Close modal</span>
+				</button>
+				<div className="p-6 text-center">
+					<svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+					<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">A game has been successfully created!</h3>
+					<p className='mb-5 text-lg font-bold text-gray-500 dark:text-gray-400'>Would you like to send everyone a email of the game schedule?</p>
+					
+					<button onClick={(e) => {
+                            e.stopPropagation();
+							getGames();
+							setIsVisible(false);
+                        }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
+                            No thanks
+                        </button>
+					<button onClick={(e) => {
+						e.stopPropagation();
+						sendEmailsToAllPlayers();
+						getGames();
+						setIsVisible(false);
+					}} data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+						Yes, send emails to everyone
+					</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+			<div
+				onClick={(e) => {
+					setIsVisible(false);
+					getGames();
+				}}
+				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
+			</>
+		)}
 		</>
 	);
 };
