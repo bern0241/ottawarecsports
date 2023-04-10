@@ -94,11 +94,14 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 
 	useEffect(() => {
 		setUiState('main');
-		console.log('DATE',selectedDate);
-	}, [isVisible])
+		if (selectedDate) {
+			setMatchDate(new Date(selectedDate).toISOString().toLocaleString('en-CA').split('T')[0]);
+		} else {
+			setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
+		}
+	}, [isVisible, selectedDate])
 
 	useEffect(() => {
-		setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
 		// .toISOString().split('T')[0])
 		setUiState('main');
 		fetchLocations();
@@ -207,7 +210,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 			}
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			//console.log(convertedTime.format());
+			// console.log(convertedTime.format());
+			// console.log(matchDate);
+			// return;
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
 				division: divisionID,
@@ -243,18 +248,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 
 
 	useEffect(() => {
-		if (homeTeamEmails) {
-			console.log('HOME EMAILS', homeTeamEmails);
+		if (uiState === 'send-emails') {
+			setEmailsToAllPlayers();
 		}
-	}, [homeTeamEmails])
-	useEffect(() => {
-		if (homeTeamEmails) {
-			console.log('AWAY EMAILS', awayTeamEmails);
-		}
-	}, [awayTeamEmails])
+	}, [uiState])
 
-
-	const sendEmailsToAllPlayers = () => {
+	const setEmailsToAllPlayers = async () => {
 		if (homeTeam === undefined) return;
 		if (awayTeam === undefined) return;
 		console.log('HOME',homeTeam.Players.items);
@@ -262,52 +261,30 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 
 		if (homeTeam.Players.items.length !== 0) {
 			homeTeam.Players.items.map(async (player) => {
-				const userEmail = await adminGetUserEmail(homeTeamEmails, setHomeTeamEmails, player.user_id);
+				await adminGetUserEmail(homeEmails, setHomeEmails, player.user_id);
 			})
 		}
 
 		if (awayTeam.Players.items.length !== 0) {
 			awayTeam.Players.items.map(async (player) => {
-				const userEmail = await adminGetUserEmail(awayTeamEmails, setAwayTeamEmails, player.user_id);
+				await adminGetUserEmail(awayEmails, setAwayEmails, player.user_id);
 			})
 		}
-
-		//mass end emails
-		let matchDateConvert = matchDate.replaceAll('-', '/');
-		let matchDateDisplay = new Date(matchDateConvert).toDateString();
-		console.log(startTime);
-
-		if (!homeTeamEmails || !awayTeamEmails) return;
-
-		sendEmail(homeTeam, awayTeam, homeTeamEmails);
-		// sendEmail(awayTeam, homeTeam, awayTeamEmails);
-
-		// HOME TEAM
-		// const params = {
-		// 	FunctionName: 'sendEmailNotifications-dev',
-		// 	Payload: JSON.stringify({ emails: homeTeamEmails,
-		// 							   subject: `You have an upcoming game on ${matchDateDisplay} at ${startTime}`,
-		// 						    body: `Your team (${homeTeam.name}) will be facing team ${awayTeam.name} on ${matchDateDisplay} at ${startTime}! Be there on time!`,
-		// 							sourceEmail: 'poki.dogg@gmail.com' 
-		// 						})
-		//   };
-
-		//   console.log('REACHED?');
-	  
-		//   lambda.invoke(params, function(err, data) {
-		// 	  if (err) {
-		// 		console.log('Error sending emails!')
-		// 	  console.log(err, err.stack);
-		// 	} else {
-		// 		console.log('SUCCESS sending emails!')
-		// 	  console.log(JSON.parse(data.Payload));
-		// 	}
-		// });
 	}
 
-	const sendEmail = async (userTeam, otherTeam, emails) => {
+	const sendEmails = () => {
+		if (homeTeam && homeEmails) {
+			sendEmailsMessage(homeTeam, awayTeam, homeEmails);
+		}
+		if (awayTeam && awayEmails) {
+			sendEmailsMessage(awayTeam, homeTeam, awayEmails);
+		}
+	}
+
+	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
 		let matchDateConvert = matchDate.replaceAll('-', '/');
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
+		let parseLocation = JSON.parse(matchLocation);
 		
 		const params = {
 		  Destination: {
@@ -316,11 +293,11 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 		  Message: {
 			Body: {
 			  Text: {
-				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! Be there on time!`
+				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${matchLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
 			  },
 			},
 			Subject: {
-			  Data:  `You have an upcoming game on ${matchDateDisplay} at ${startTime}`
+			  Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
 			},
 		  },
 		  Source: 'justin.bernard320@gmail.com'
@@ -331,32 +308,28 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 			alert('Error sending emails to all');
 			console.log(err, err.stack);
 		  } else {
+			router.reload();
 			console.log('Email sent successfully:', data);
-			getGames();
-			// router.reload();
 		  }
 		})
 	  }
-	
 
-	const adminGetUserEmail = async (state, setState, username) => {
-		const params = {
-			Username: username,
-			UserPoolId: 'us-east-1_70GCK7G6t'
-		}
-		await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+	  const adminGetUserEmail = async (state, setState, username) => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t',
+			Username: username 
+			};
+			await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
 			if (err) console.log(err, err.stack); // an error occurred
-			else {
-				let data2 = data.UserAttributes.find(o => o.Name === 'email')['Value'];
-				// setState(state => [...state, data2] );
-				setState((state) => {
-					return uniqueBySelf([...state, data2]);
-				});
-			}       // successful response
-		})
+			// else     console.log(data);           // successful response
+			let data2 = data.UserAttributes.find(o => o.Name === 'email')['Value'];
+			setState((state) => {
+				return uniqueBySelf([...state, data2]);
+			});
+		});
 	}
 
-    function uniqueBySelf(items) {
+	function uniqueBySelf(items) {
         const set = new Set();
         return items.filter((item) => {
           const isDuplicate = set.has(item);
@@ -751,8 +724,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 			<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 				<button onClick={(e) => {
 						e.stopPropagation();
-						getGames();
 						setOpenModal(false);
+						router.reload();
 					}}
 					type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
 					<svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
@@ -765,16 +738,15 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 					
 					<button onClick={(e) => {
                             e.stopPropagation();
-							getGames();
 							setIsVisible(false);
+							router.reload();
                         }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
                             No thanks
                         </button>
 					<button onClick={(e) => {
 						e.stopPropagation();
-						sendEmailsToAllPlayers();
-						getGames();
 						setIsVisible(false);
+						sendEmails();
 					}} data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
 						Yes, send emails to everyone
 					</button>
@@ -786,7 +758,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 			<div
 				onClick={(e) => {
 					setIsVisible(false);
-					getGames();
+					router.reload();
 				}}
 				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>

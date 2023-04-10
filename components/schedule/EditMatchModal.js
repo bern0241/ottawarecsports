@@ -14,6 +14,9 @@ import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
+const ses = new AWS.SES();
+const lambda = new AWS.Lambda();
+const sns = new AWS.SNS();
 
 const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callMeTestGames }) => {
 	const [homeTeam, setHomeTeam] = useState();
@@ -36,8 +39,10 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 
 	const [listUsers, setListUsers] = useState([]);
 	const [listLocations, setListLocations] = useState([]);
-	const [homeTeamEmails, setHomeTeamEmails] = useState([]); //Meant for sending emails out
-	const [awayTeamEmails, setAwayTeamEmails] = useState([]); //Meant for sending emails out
+	
+	const [homeEmails, setHomeEmails] = useState([]); //Meant for sending emails out
+	const [awayEmails, setAwayEmails] = useState([]); //Meant for sending emails out
+	
 	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
 	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 
@@ -296,18 +301,116 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 			});
 			setMessage({ status: 'success', message: 'Game edited successfully' });
 			
+			console.log(matchDate);
+
 			const updatedIndex = getIndex(games, match.id);
 			console.log(apiData)
 			let newGames = [...games];
 			newGames[updatedIndex] = apiData.data.updateGame;
 			setGames(newGames);
-			// router.reload();
-			
+			router.reload();
+
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
 		}
 	};
+
+
+
+	useEffect(() => {
+		if (uiState === 'send-emails') {
+			setEmailsToAllPlayers();
+		}
+	}, [uiState])
+
+	const setEmailsToAllPlayers = async () => {
+		if (homeTeam === undefined) return;
+		if (awayTeam === undefined) return;
+		console.log('HOME',homeTeam.Players.items);
+		console.log('AWAY',awayTeam.Players.items);
+
+		if (homeTeam.Players.items.length !== 0) {
+			homeTeam.Players.items.map(async (player) => {
+				await adminGetUserEmail(homeEmails, setHomeEmails, player.user_id);
+			})
+		}
+
+		if (awayTeam.Players.items.length !== 0) {
+			awayTeam.Players.items.map(async (player) => {
+				await adminGetUserEmail(awayEmails, setAwayEmails, player.user_id);
+			})
+		}
+	}
+
+	const sendEmails = () => {
+		if (homeTeam && homeEmails) {
+			sendEmailsMessage(homeTeam, awayTeam, homeEmails);
+		}
+		if (awayTeam && awayEmails) {
+			sendEmailsMessage(awayTeam, homeTeam, awayEmails);
+		}
+	}
+
+	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
+		let matchDateConvert = matchDate.replaceAll('-', '/');
+		let matchDateDisplay = new Date(matchDateConvert).toDateString();
+		let parseLocation = JSON.parse(matchLocation);
+		
+		const params = {
+		  Destination: {
+			ToAddresses: emails
+		  },
+		  Message: {
+			Body: {
+			  Text: {
+				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${matchLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
+			  },
+			},
+			Subject: {
+			  Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
+			},
+		  },
+		  Source: 'justin.bernard320@gmail.com'
+		}
+	
+		ses.sendEmail(params, (err, data) => {
+		  if (err) {
+			alert('Error sending emails to all');
+			console.log(err, err.stack);
+		  } else {
+			console.log('Email sent successfully:', data);
+		  }
+		})
+	  }
+
+	  const adminGetUserEmail = async (state, setState, username) => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t',
+			Username: username 
+			};
+			await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			// else     console.log(data);           // successful response
+			let data2 = data.UserAttributes.find(o => o.Name === 'email')['Value'];
+			setState((state) => {
+				return uniqueBySelf([...state, data2]);
+			});
+		});
+	}
+
+	function uniqueBySelf(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item);
+          set.add(item);
+          return !isDuplicate;
+        });
+    }
+
+
+
+
 
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
@@ -653,6 +756,12 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+						<button onClick={(e) => {
+							e.preventDefault();
+							setUiState('send-emails');
+						}} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send Emails <br/>to Players</button>
+
+							<div className='flex-grow'/>
 							<button
 								onClick={() => {
 									setIsVisible(false);
@@ -674,6 +783,8 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 							>
 								Save
 							</button>
+							<div className='flex-grow'/>
+							<div className='flex-grow'/>
 						</div>
 					</div>
 				</div>
@@ -684,6 +795,8 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 		/>
 		</>
 		)}
+
+
 		{uiState === 'send-emails' && (
 			<>
 			<div tabIndex="-1" className="z-[200] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
@@ -691,7 +804,6 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 			<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 				<button onClick={(e) => {
 						e.stopPropagation();
-						getGames();
 						setOpenModal(false);
 					}}
 					type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
@@ -700,20 +812,17 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 				</button>
 				<div className="p-6 text-center">
 					<svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-					<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">A game has been successfully created!</h3>
 					<p className='mb-5 text-lg font-bold text-gray-500 dark:text-gray-400'>Would you like to send everyone a email of the game schedule?</p>
 					
 					<button onClick={(e) => {
                             e.stopPropagation();
-							getGames();
 							setIsVisible(false);
                         }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
                             No thanks
                         </button>
-					<button onClick={(e) => {
+					<button onClick={async (e) => {
 						e.stopPropagation();
-						sendEmailsToAllPlayers();
-						getGames();
+						await sendEmails();
 						setIsVisible(false);
 					}} data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
 						Yes, send emails to everyone
@@ -726,7 +835,6 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 			<div
 				onClick={(e) => {
 					setIsVisible(false);
-					getGames();
 				}}
 				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
