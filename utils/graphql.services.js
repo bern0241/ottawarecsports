@@ -423,20 +423,18 @@ export const getDivisionGames = async (divisionID) => {
  * @param {Object} matchData The object containing the match data
  * @example scheduleGamesAutomatically([{...team1}, {...team2}, {...team3}],{
 		division: divisionID,
-		date: convertedTime,
+		date: Date.not(),
 		location: matchLocation,
 		status: 'NOT_STARTED',
-		home_color: homeColour,
-		away_colo: awayColour,
-		home_roster: JSON.stringify(homeTeam.Players.items),
-		away_roster: JSON.stringify(awayTeam.Players.items),
+		home_color: 'Red',
+		away_colo: 'Blue',
+		home_roster: {...homeRoster},
+		away_roster: {...awayRoster},
 		home_score: 0,
 		away_score: 0,
 		goals: [],
 		round: 1,
 		referees: refereeUsernames,
-		gameHomeTeamId: homeTeam.id,
-		gameAwayTeamId: awayTeam.id,
 	})
  * @returns {Array} an array of games objects
  */
