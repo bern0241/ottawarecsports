@@ -15,11 +15,7 @@ import { useRouter } from 'next/router';
 import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
 import CreateMatchModal from '@/components/schedule/CreateMatchModal';
 import { getLeague } from '@/src/graphql/queries';
-import {
-	getDivisionShort,
-	getSeasonShort,
-	listGamesShort,
-} from '@/src/graphql/custom-queries';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
