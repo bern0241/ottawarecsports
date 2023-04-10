@@ -24,7 +24,7 @@ import { listLeagues } from '@/src/graphql/queries';
 import { updateLeague } from '@/src/graphql/mutations';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-// import ValidatePhoneNumber from 'validate-phone-number-node-js';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -34,6 +34,7 @@ const s3 = new AWS.S3({
 
 export default function ACPEditUserModal({
 	user1,
+	openModal,
 	setOpenModal,
 	setSuccessMessage,
 }) {
@@ -96,14 +97,12 @@ export default function ACPEditUserModal({
 	 * If UI State changes, nullify the 'message' state
 	 */
 	useEffect(() => {
-		if (uiState) {
-			setMessage(null);
-			setNewPassword('');
-			if (user1.Username === user.username && userGroups.includes('Admin')) {
-				setIsAdmin(true);
-			}
+		setMessage(null);
+		setNewPassword('');
+		if (user1.Username === user.username && userGroups.includes('Admin')) {
+			setIsAdmin(true);
 		}
-	}, [uiState]);
+	}, [userGroups]);
 
 
 	useEffect(() => {
@@ -531,7 +530,7 @@ export default function ACPEditUserModal({
 	 * Page resets - If current user edits himself and removes Admin role, this function will logout the user
 	 */
 	const resetPage = async (userStatus) => {
-		if (userStatus === 'meOther' || userStatus === 'meCoordinator' || userStatus === 'meReferee' || meCoordinator === 'meRefCoord') {
+		if (userStatus === 'meOther' || userStatus === 'meCoordinator' || userStatus === 'meReferee' || userStatus === 'meRefCoord') {
 			router.reload();
 		} else if (userStatus === 'meAdmin') {
 			await Auth.signOut();
