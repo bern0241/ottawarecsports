@@ -24,7 +24,7 @@ const sns = new AWS.SNS();
 //Get the existing roster of the home/away teams
 //Import date picker
 
-const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
+const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) => {
 	const { v4: uuidv4 } = require('uuid');
 	//const moment = require('moment-timezone');
 
@@ -87,12 +87,14 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 			),
 		},
 		datepickerClassNames: 'top-12',
-		defaultDate: new Date(),
+		defaultDate: selectedDate ? new Date(selectedDate) : new Date(),
+		// defaultDate: new Date(),
 		language: 'en',
 	};
 
 	useEffect(() => {
 		setUiState('main');
+		console.log('DATE',selectedDate);
 	}, [isVisible])
 
 	useEffect(() => {
@@ -106,7 +108,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 		const _locations = await API.graphql({ 
 		  query: listLocationsQuery 
 		});
-		console.log('Locations', _locations.data.listLocations.items);
 		setListLocations(_locations.data.listLocations.items);
 	}
 
@@ -690,6 +691,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									listLocations={listLocations}
 									state={matchLocation}
 									setState={setMatchLocation}
+									isCreate={true}
 								/>
 							</div>
 						</div>

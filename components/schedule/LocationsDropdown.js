@@ -13,12 +13,37 @@
      state,
      setState,
     //  placeholder,
+    isCreate,
+    match,
      customClass,
  }) => {
+
+    function getIndex(arr, name) {
+        return arr.findIndex(obj => obj.name === name);
+    }
     
     useEffect(() => {
-        setState(JSON.stringify(listLocations[0]));
-    }, [])
+        if (listLocations) 
+        {
+            if (isCreate) {
+                
+                setState(JSON.stringify(listLocations[0]));
+            } else {
+                const timer = setTimeout(() => {
+                    let parseLocation = JSON.parse(match.location);
+                    // console.log(parseLocation);
+                    if (JSON.stringify(parseLocation) === '{}') {
+                        console.log('CALLED')
+                        setState(JSON.stringify(listLocations[0]));
+                    } else {
+                        const index = getIndex(listLocations, parseLocation.name);
+                        setState(JSON.stringify(listLocations[index]));
+                    }
+                }, 320);
+                return () => clearTimeout(timer);
+            }
+        }
+	}, [listLocations])
 
      return (
          <div className="relative">

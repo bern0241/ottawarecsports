@@ -18,9 +18,12 @@ const MatchesTable = ({
 	setMatchToEdit,
 	setIsEditing,
 	setIsDeleting,
+	//JUSTIN ADDED
+	selectedDate,
+	setSelectedDate
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
-	const [selectedDate, setSelectedDate] = useState('');
+	// const [selectedDate, setSelectedDate] = useState('');
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);
 

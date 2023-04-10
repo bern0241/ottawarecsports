@@ -82,6 +82,7 @@ export default function Game({ game }) {
 				<div className="font-medium flex flex-row gap-8 items-center">
 					<TeamImageAndName 
             teamName={game.HomeTeam.name}
+			teamId={game.HomeTeam?.id}
             src={game.HomeTeam.team_picture}/>
 					<span className="border-2 border-brand-orange-800 rounded-xl px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
 						<p>{game.home_score}</p>
@@ -90,6 +91,7 @@ export default function Game({ game }) {
 					</span>
 					<TeamImageAndName 
             teamName={game.AwayTeam?.name}
+			teamId={game.AwayTeam?.id}
             src={game.AwayTeam?.team_picture}
             reverse={true} />
 				</div>

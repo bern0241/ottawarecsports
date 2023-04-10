@@ -17,6 +17,7 @@ export default function DivisionMatches() {
 	const [isEditingMatch, setIsEditingMatch] = useState(false);
 	const [matchToEdit, setMatchToEdit] = useState('');
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
+	const [selectedDate, setSelectedDate] = useState('');
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
@@ -80,12 +81,15 @@ export default function DivisionMatches() {
 					setMatchToEdit={setMatchToEdit}
 					setIsEditing={setIsEditingMatch}
 					setIsDeleting={setIsDeletingMatch}
+					selectedDate={selectedDate}
+					setSelectedDate={setSelectedDate}
 				/>
 			</main>
 			<CreateMatchModal
 				isVisible={modalVisible}
 				setIsVisible={setModalVisible}
 				getGames={getGames}
+				selectedDate={selectedDate}
 			/>
 			{isEditingMatch && (
 				<EditMatchModal

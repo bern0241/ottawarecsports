@@ -123,7 +123,8 @@ export default function TeamSpotlight() {
 					<span className="text-sm font-light col-span-1">Team Members</span>
 					<span className="truncate col-span-1">
 						{spotlightTeam
-							? spotlightTeam.team_history[0].roster.length
+							// ? spotlightTeam.team_history[0].roster.length
+							? spotlightTeam.Players.items.length
 							: 'N/A'}
 					</span>
 				</div>

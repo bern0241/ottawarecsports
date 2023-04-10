@@ -74,7 +74,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			),
 		},
 		datepickerClassNames: 'top-12',
-		defaultDate: new Date(match.date),
+		defaultDate: new Date(match.date ? match.date : match.createdAt),
 		language: 'en',
 	};
 
@@ -86,13 +86,21 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
 		setUiState('main');
 		fetchLocations();
+		console.log('MATCH',match);
 	}, [])
+
+	useEffect(() => {
+		if (listLocations) {
+			let parseLocation = JSON.parse(match.location);
+			// console.log('PARSE LOCATION',parseLocation)
+			setMatchLocation(parseLocation)
+		}
+	}, [listLocations])
 
 	const fetchLocations = async () => {
 		const _locations = await API.graphql({ 
 		  query: listLocationsQuery 
 		});
-		console.log('Locations', _locations.data.listLocations.items);
 		setListLocations(_locations.data.listLocations.items);
 	}
 
@@ -217,7 +225,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 	};
 
 	const getDateAndTime = () => {
-		const momentTime = moment(match.date);
+		const momentTime = moment(match.date ? match.date : match.createdAt);
 		const myDate = momentTime.format('YYYY-MM-DD');
 		const myTime = momentTime.format('h:mm a');
 		setMatchDate(myDate);
@@ -228,6 +236,9 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 	const editMatch = async (e) => {
 		e.preventDefault();
+		// console.log(matchDate);
+		// console.log(startTime);
+		// return;
 		try {
 			if (
 				homeTeam === null ||
@@ -248,10 +259,19 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				});
 				return;
 			}
-
+			if (homeColour === awayColour) {
+				setMessage({
+					status: 'error',
+					message: 'Must have two different jersey colors',
+				});
+				return;
+			}
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			//(convertedTime.format());
+		// 	console.log(matchDate);
+		// console.log(startTime);
+		// 	console.log(convertedTime);
+		// 	return;
 
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
@@ -603,6 +623,8 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 									listLocations={listLocations}
 									state={matchLocation}
 									setState={setMatchLocation}
+									isCreate={false}
+									match={match}
 								/>
 							</div>
 						</div>
