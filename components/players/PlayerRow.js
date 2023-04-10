@@ -73,7 +73,7 @@ export default function PlayerRow({ player, index }) {
 		if (details.soccer_stats){
 			const teamId = details.soccer_stats[0].team;
 		const data = await getTeam(teamId);
-		setTeamName(data.name);
+		setTeamName(data?.name);
 		}
 		else {
 			setTeamName('-')
@@ -120,6 +120,7 @@ export default function PlayerRow({ player, index }) {
 	function uniqueById(items) {
         const set = new Set();
         return items.filter((item) => {
+			if (!item) return;
           const isDuplicate = set.has(item.id);
           set.add(item.id);
           return !isDuplicate;
