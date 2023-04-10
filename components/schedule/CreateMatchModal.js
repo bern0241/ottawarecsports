@@ -87,7 +87,10 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			),
 		},
 		datepickerClassNames: 'top-12',
-		defaultDate: selectedDate ? new Date(selectedDate) : new Date(),
+		defaultDate:
+			selectedDate && selectedDate !== 'All matches'
+				? new Date(selectedDate)
+				: new Date(),
 		// defaultDate: new Date(),
 		language: 'en',
 	};
@@ -215,9 +218,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			}
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			// console.log(convertedTime.format());
-			// console.log(matchDate);
-			// return;
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
 				division: divisionID,
@@ -260,8 +260,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 	const setEmailsToAllPlayers = async () => {
 		if (homeTeam === undefined) return;
 		if (awayTeam === undefined) return;
-		console.log('HOME', homeTeam.Players.items);
-		console.log('AWAY', awayTeam.Players.items);
 
 		if (homeTeam.Players.items.length !== 0) {
 			homeTeam.Players.items.map(async (player) => {
