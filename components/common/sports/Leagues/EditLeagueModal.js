@@ -11,6 +11,7 @@ import CoordinatorChip from '../../../admin-portal/leagues/LeagueTable/Coordinat
 import CoordinatorDropdown from '../../../admin-portal/leagues/LeagueTable/CoordinatorDropdown';
 import { API } from '@aws-amplify/api';
 import { createLeague, updateLeague } from '@/src/graphql/mutations';
+import { listLeagues } from '@/src/graphql/queries';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 
 export default function EditLeagueModal({ sport, league, setLeagues, setOpenModal, setSelectedLeague, getUserListByNames }) {
@@ -159,11 +160,11 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                 }
               };
               const leagues = await API.graphql({ 
-                query: listLeaguesLong, variables: variables
+                query: listLeagues, variables: variables
               });
               console.log('Leagues', leagues.data.listLeagues.items);
               
-              console.log('CALLED!!!!');
+            //   console.log('CALLED!!!!');
               setLeagues(leagues.data.listLeagues.items);
               getUserListByNames(updateLeague.coordinators);
               setSelectedLeague(updateLeague);
