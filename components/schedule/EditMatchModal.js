@@ -392,7 +392,8 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 			await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
 			if (err) console.log(err, err.stack); // an error occurred
 			// else     console.log(data);           // successful response
-			let data2 = data.UserAttributes.find(o => o.Name === 'email')['Value'];
+			let data2 = data?.UserAttributes.find(o => o.Name === 'email')['Value'];
+			console.log('data2',data2);
 			setState((state) => {
 				return uniqueBySelf([...state, data2]);
 			});

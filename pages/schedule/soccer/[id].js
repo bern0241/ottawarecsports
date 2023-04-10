@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
 import CreateMatchModal from '@/components/schedule/CreateMatchModal';
 import { getLeague } from '@/src/graphql/queries';
-import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
+import { getDivisionShort, getSeasonShort, listGamesShort } from '@/src/graphql/custom-queries';
 
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
@@ -53,8 +53,10 @@ export default function DivisionMatches() {
 	};
 	const getGames = async () => {
 		// if (!router.query.divisionID) return;
+		
 		if (!router.query.id) return;
 		const resp = await getDivisionGames(router.query.id);
+		console.log('WTF',resp)
 		// const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};

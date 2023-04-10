@@ -67,17 +67,17 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 				away_colour: awayColour,
 				team_picture: uniqueId,
 				captains: [teamCaptain.username],
-				team_history: [{
-					captains: [teamCaptain.username],
-					teamid: randomId,
-					division: '',
-					roster: teamRoster,
-					goals: 0,
-					assists: 0,
-					yellow_cards: 0,
-					red_cards: 0,
-					games_played: 0,
-				}],
+				// team_history: [{
+				// 	captains: [teamCaptain.username],
+				// 	teamid: randomId,
+				// 	division: '',
+				// 	roster: teamRoster,
+				// 	goals: 0,
+				// 	assists: 0,
+				// 	yellow_cards: 0,
+				// 	red_cards: 0,
+				// 	games_played: 0,
+				// }],
 			};
 			const resp = await createTeam(teamData); // Creates team
 			await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!

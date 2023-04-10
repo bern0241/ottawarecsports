@@ -23,7 +23,8 @@
        listTeamDivisionsFunc();
        setRemoveModal(false);
      } catch (error) {
-       alert('Problem removing Team');
+      //  alert('Problem removing Team');
+      listTeamDivisionsFunc();
        console.error(error);
      }
    }

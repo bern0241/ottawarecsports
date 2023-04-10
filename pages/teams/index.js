@@ -35,6 +35,7 @@ export default function Teams() {
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
 		setTeams(response);
+		console.log('RESPONSE',response);
 		filterTeams(response);
 	};
 	useEffect(() => {

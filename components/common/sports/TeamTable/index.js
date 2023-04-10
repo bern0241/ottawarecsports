@@ -70,7 +70,7 @@ import AddTeamDropdown from './AddTeamDropdown';
                     }
                 }
                 const teamDivisions = await API.graphql({
-                    query: listTeamDivisions, variables: variables
+                    query: listTeamDivisionsShort, variables: variables
                     // query: listTeamDivisionsShort, variables: variables
                 })
                 console.log('MT TEAM DIVISIONS', teamDivisions);

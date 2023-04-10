@@ -14,6 +14,7 @@ import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
 import Compressor from 'compressorjs';
+import { listTeamsShort, listGamesShort } from '@/src/graphql/custom-queries';
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -99,7 +100,7 @@ export const getTeam = async (_id) => {
 export const getAllTeams = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listTeams,
+			query: listTeamsShort,
 		});
 		return resp.data.listTeams.items;
 	} catch (err) {
@@ -442,12 +443,13 @@ export function uniqueByUsername(items) {
 export const getDivisionGames = async (divisionID) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.gamesByDivision,
+			query: listGamesShort,
+			// query: queries.gamesByDivision,
 			variables: {
 				division: divisionID,
 			},
 		});
-		return resp.data.gamesByDivision.items;
+		return resp.data.listGames.items;
 	} catch (err) {
 		console.warn(err);
 	}

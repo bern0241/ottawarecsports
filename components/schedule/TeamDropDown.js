@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
 import { listTeams } from '@/src/graphql/queries';
 import TeamCard from './TeamCard';
-// import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
+import { listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 import { listTeamDivisions } from '@/src/graphql/queries';
 
 export default function TeamDropDown({state, setState, setOpenDropDown}) {
@@ -31,7 +31,7 @@ export default function TeamDropDown({state, setState, setOpenDropDown}) {
                 }
             }
           const teamDivisions = await API.graphql({
-              query: listTeamDivisions, variables: variables
+              query: listTeamDivisionsShort, variables: variables
           })
           // console.log('My Teams from Divisions', teamDivisions.data.listTeamDivisions);
           setTeams(teamDivisions.data.listTeamDivisions.items.map(team => team.team));
