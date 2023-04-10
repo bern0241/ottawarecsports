@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-10
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Greg Coghill <cogh0020@algonquinlive.com>
+ */
 import MatchesTable from '@/components/schedule/MatchesTable';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
