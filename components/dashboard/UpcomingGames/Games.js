@@ -60,7 +60,7 @@ export default function Games() {
 			query: listGamesShort,
 			variables: { teamId: id },
 		});
-		console.log('GAMES',apiData);
+		// console.log('GAMES',apiData);
 		setGames(apiData.data.listGames.items);
 	};
 

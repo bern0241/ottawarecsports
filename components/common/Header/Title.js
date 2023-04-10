@@ -51,7 +51,13 @@ const HeaderTitle = () => {
 		setDivision(data);
 	}
 
-	return (
+  useEffect(() => {
+    if (teamId) {
+      getTeamFunc();
+    }
+  }, [teamId])
+
+return (
 		<>
 			{router.pathname === '/' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
@@ -119,6 +125,28 @@ const HeaderTitle = () => {
 					</div>
 				</div>
 			)}
+      {router.pathname === '/players/[id]' && (
+				<div className="p-1 pt-0 pl-2 lg:pl-7">
+					<div className="flex flex-col gap-2">
+						<div className="flex flex-row">
+							<Link href="/" className="font-light text-[.8rem]">
+								Home
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<p className="font-light text-[.8rem]">Rosters</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link href="/players" className="font-light text-[.8rem]">
+								Players
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link href="/players/[id]" className="font-light text-[.8rem]">
+								Player Profile
+              </Link>
+						</div>
+						<p className="font-semibold text-[1.8rem]">Player Profile</p>
+					</div>
+				</div>
+			)}
 			{router.pathname === '/teams' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
@@ -137,7 +165,29 @@ const HeaderTitle = () => {
 					</div>
 				</div>
 			)}
-			{router.pathname === '/schedule/soccer' && (
+      {router.pathname === '/teams/[teamId]' && (
+				<div className="p-1 pt-0 pl-2 lg:pl-7">
+					<div className="flex flex-col gap-2">
+						<div className="flex flex-row">
+							<Link href="/" className="font-light text-[.8rem]">
+								Home
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<p className="font-light text-[.8rem]">Rosters</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link href="/teams" className="font-light text-[.8rem]">
+								Teams
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link href={`/teams/${teamId}`} className="font-light text-[.8rem]">
+								{team && team.name}
+							</Link>
+						</div>
+						<p className="font-semibold text-[1.8rem]">{team && team.name}</p>
+					</div>
+				</div>
+			)}
+			{router.pathname.includes('/schedule/soccer') && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -190,7 +240,7 @@ const HeaderTitle = () => {
 								Leagues
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Leagues</p>
+						<p className="font-semibold text-[1.8rem]">Leagues ⚽</p>
 					</div>
 				</div>
 			)}
@@ -218,6 +268,27 @@ const HeaderTitle = () => {
 					</div>
 				</div>
 			)}
+			{router.pathname === '/admin-portal/users' && (
+				<div className="p-1 pt-0 pl-2 lg:pl-7">
+					<div className="flex flex-col gap-2">
+						<div className="flex flex-row">
+							<Link href="/" className="font-light text-[.8rem]">
+								Home
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<p className="font-light text-[.8rem]">Admin Portal</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link
+								href="/admin-portal/users"
+								className="font-light text-[.8rem]"
+							>
+								Users
+							</Link>
+						</div>
+						<p className="font-semibold text-[1.8rem]">Users</p>
+					</div>
+				</div>
+			)}
 			{router.pathname === '/admin-portal/teams' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
@@ -238,36 +309,21 @@ const HeaderTitle = () => {
 						<p className="font-semibold text-[1.8rem]">Teams</p>
 					</div>
 				</div>
-		)}
-		{router.pathname === '/teams/[teamId]' && (
-			<div className="p-1 pt-0 pl-2 lg:pl-7">
-				<div className='flex flex-col gap-2'>
-					<div className='flex flex-row'>
-						<Link href="/" className="font-light text-[.8rem]">Home</Link>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-						<p className="font-light text-[.8rem]">Rosters</p>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-						<Link href="/teams" className="font-light text-[.8rem]">Teams</Link>
-						<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-						<Link href={`/teams/${team && team.id}`} className="font-light text-[.8rem]">{team?.name}</Link>
-					</div>
-					<p className="font-semibold text-[1.8rem]">{team?.name}</p>
-				</div>
-			</div>
-		)}
-		{router.pathname === '/admin-portal/locations' && (
-			<div className="p-1 pt-0 pl-2 lg:pl-7">
-				<div className='flex flex-col gap-2'>
-					<div className='flex flex-row'>
-						<Link href="/" className="font-light text-[.8rem]">Home</Link>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-						<p className="font-light text-[.8rem]">Admin Portal</p>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-						<Link href="/admin-portal/locations" className="font-light text-[.8rem]">Locations</Link>
-					</div>
-				</div>
-				</div>
-			)}
+      )}
+      {router.pathname === '/admin-portal/locations' && (
+        <div className="p-1 pt-0 pl-2 lg:pl-7">
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-row'>
+              <Link href="/" className="font-light text-[.8rem]">Home</Link>
+                <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+              <p className="font-light text-[.8rem]">Admin Portal</p>
+                <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+              <Link href="/admin-portal/locations" className="font-light text-[.8rem]">Locations</Link>
+            </div>
+            <p className="font-semibold text-[1.8rem]">Location</p>
+          </div>
+        </div>
+      )}
 			{router.pathname === '/settings' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
