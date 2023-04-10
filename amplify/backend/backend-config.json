@@ -50,6 +50,13 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "sendEmailNotifications": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "storage": {
     "orsresources": {
       "dependsOn": [],

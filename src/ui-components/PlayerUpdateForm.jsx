@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function PlayerUpdateForm(props) {
   const {
     id: idProp,
-    player,
+    player: playerModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -25,27 +25,33 @@ export default function PlayerUpdateForm(props) {
   } = props;
   const initialValues = {
     user_id: "",
+    role: "",
   };
   const [user_id, setUser_id] = React.useState(initialValues.user_id);
+  const [role, setRole] = React.useState(initialValues.role);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = playerRecord
       ? { ...initialValues, ...playerRecord }
       : initialValues;
     setUser_id(cleanValues.user_id);
+    setRole(cleanValues.role);
     setErrors({});
   };
-  const [playerRecord, setPlayerRecord] = React.useState(player);
+  const [playerRecord, setPlayerRecord] = React.useState(playerModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Player, idProp) : player;
+      const record = idProp
+        ? await DataStore.query(Player, idProp)
+        : playerModelProp;
       setPlayerRecord(record);
     };
     queryData();
-  }, [idProp, player]);
+  }, [idProp, playerModelProp]);
   React.useEffect(resetStateValues, [playerRecord]);
   const validations = {
     user_id: [],
+    role: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -74,6 +80,7 @@ export default function PlayerUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           user_id,
+          role,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -130,6 +137,7 @@ export default function PlayerUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               user_id: value,
+              role,
             };
             const result = onChange(modelFields);
             value = result?.user_id ?? value;
@@ -144,6 +152,31 @@ export default function PlayerUpdateForm(props) {
         hasError={errors.user_id?.hasError}
         {...getOverrideProps(overrides, "user_id")}
       ></TextField>
+      <TextField
+        label="Role"
+        isRequired={false}
+        isReadOnly={false}
+        value={role}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              user_id,
+              role: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.role ?? value;
+          }
+          if (errors.role?.hasError) {
+            runValidationTasks("role", value);
+          }
+          setRole(value);
+        }}
+        onBlur={() => runValidationTasks("role", role)}
+        errorMessage={errors.role?.errorMessage}
+        hasError={errors.role?.hasError}
+        {...getOverrideProps(overrides, "role")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -155,7 +188,7 @@ export default function PlayerUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || player)}
+          isDisabled={!(idProp || playerModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -167,7 +200,7 @@ export default function PlayerUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || player) ||
+              !(idProp || playerModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
