@@ -20,7 +20,7 @@ const MatchesTable = ({
 	setIsDeleting,
 	//JUSTIN ADDED
 	selectedDate,
-	setSelectedDate
+	setSelectedDate,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	// const [selectedDate, setSelectedDate] = useState('');

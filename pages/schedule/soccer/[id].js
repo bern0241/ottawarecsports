@@ -57,6 +57,7 @@ export default function DivisionMatches() {
 		getTeams();
 		fetchReferees();
 	}, [router]);
+	
 	return (
 		<>
 			<Head>
@@ -93,6 +94,8 @@ export default function DivisionMatches() {
 			/>
 			{isEditingMatch && (
 				<EditMatchModal
+					games={games}
+					setGames={setGames}
 					match={matchToEdit}
 					isVisible={isEditingMatch}
 					setIsVisible={setIsEditingMatch}

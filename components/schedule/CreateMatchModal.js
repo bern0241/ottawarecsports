@@ -172,8 +172,11 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 			console.log(matchLocation);
 		}
 	}, [matchLocation])
-
+	
 	const createNewMatch = async (e) => {
+		// let mySavedDate = new Date(matchDate).toDateString().split(' ');
+		// let saveDate = `${mySavedDate[1]} ${mySavedDate[2]} ${mySavedDate[3]}`
+		// console.log(saveDate);
 		e.preventDefault();
 		try {
 			if (

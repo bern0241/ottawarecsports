@@ -15,7 +15,7 @@ import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
 
-const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
+const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callMeTestGames }) => {
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
 	const [homeColour, setHomeColour] = useState(match.home_color);
@@ -234,11 +234,15 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		console.log(matchDate, startTime);
 	};
 
+	function getIndex(arr, id) {
+        return arr.findIndex(obj => obj.id === id);
+    }
+
 	const editMatch = async (e) => {
 		e.preventDefault();
-		// console.log(matchDate);
-		// console.log(startTime);
-		// return;
+		// console.log('MATCH', match)
+		// console.log('GAMES',games)
+
 		try {
 			if (
 				homeTeam === null ||
@@ -290,9 +294,15 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				query: updateGame,
 				variables: { input: matchData },
 			});
-			//console.log('Editing Game, ', apiData);
 			setMessage({ status: 'success', message: 'Game edited successfully' });
-			router.reload();
+			
+			const updatedIndex = getIndex(games, match.id);
+			console.log(apiData)
+			let newGames = [...games];
+			newGames[updatedIndex] = apiData.data.updateGame;
+			setGames(newGames);
+			// router.reload();
+			
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
