@@ -75,8 +75,8 @@ const MatchesTable = ({
 			if (!dateArray.includes(dateWithoutWeekday))
 				dateArray.push(dateWithoutWeekday);
 		});
-		setSelectedDate(dateArray[0]);
-		return dateArray;
+		setSelectedDate('All matches');
+		return ['All matches', ...dateArray];
 	};
 	useEffect(() => {
 		if (!matches) return;
@@ -96,6 +96,8 @@ const MatchesTable = ({
 	}, [timeSortedMatches]);
 
 	useEffect(() => {
+		if (selectedDate === 'All matches')
+			return setDisplayedMatches(timeSortedMatches);
 		setDisplayedMatches(
 			timeSortedMatches.map((match) => {
 				const matchDate = match.date
