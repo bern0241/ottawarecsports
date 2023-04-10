@@ -14,7 +14,7 @@ import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
 import Compressor from 'compressorjs';
-import { listTeamsShort, listGamesShort } from '@/src/graphql/custom-queries';
+import { listTeamsShort, listGamesShort, getTeamShort } from '@/src/graphql/custom-queries';
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -84,7 +84,8 @@ export const getAllPlayers = async () => {
 export const getTeam = async (_id) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.getTeam,
+			query: getTeamShort,
+			// query: queries.getTeam,
 			variables: { id: _id },
 		});
 		return resp.data.getTeam;
