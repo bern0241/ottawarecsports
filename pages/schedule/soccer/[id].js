@@ -56,7 +56,6 @@ export default function DivisionMatches() {
 		
 		if (!router.query.id) return;
 		const resp = await getDivisionGames(router.query.id);
-		console.log('WTF',resp)
 		// const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};
@@ -72,7 +71,7 @@ export default function DivisionMatches() {
 	}, [router]);
 
 	 /**
-	 * This useEffect fetches the division -> season -> league (in this order) for this page
+	 * This function fetches the division -> season -> league (in this order) for this page
 	 */
 	  const moveUpLeagueId = async () => {
         // DIVISION

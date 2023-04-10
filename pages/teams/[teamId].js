@@ -23,6 +23,7 @@ import UsersSearchBar from '@/components/common/UsersSearchBar';
 import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/teamIdPage/MemberCard';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 
 export default function TeamProfile() {
 	const [team, setTeam] = useState();
@@ -35,9 +36,33 @@ export default function TeamProfile() {
 	const [editModal, setEditModal] = useState(false);
     const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [isCaptain, setIsCaptain] = useState(false);
+	
+	const [isCoordinator, setIsCoordinator] = useState(false);
+	const [league, setLeague] = useState();
+	const [season, setSeason] = useState();
+	const [division, setDivision] = useState();
+	
 	const router = useRouter();
 	const {teamId} = router.query;
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+	/**
+	 * This function fetches the division -> season -> league (in this order) for this page
+	 */
+	 const moveUpLeagueId = async () => {
+        // DIVISION
+        const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: teamId}});
+        const divisionData = await apiDataDivision.data.getDivision;
+        setDivision(divisionData);
+        // SEASON
+        const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
+        const seasonData = await apiDataSeason.data.getSeason;
+        setSeason(seasonData);
+        // LEAGUE
+        const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+        const leagueData = await apiDataLeague.data.getLeague;
+        setLeague(leagueData);
+    }
 
 	useEffect(() => {
 		if(!teamId) {
@@ -51,6 +76,20 @@ export default function TeamProfile() {
 	}, [teamId]);
 
 	useEffect(() => {
+		if (league) {
+			isCoordinatorOfLeagueCheck();
+		}
+	}, [league])
+
+	const isCoordinatorOfLeagueCheck = () => {
+        if (league.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
+
+	useEffect(() => {
 		if (team != undefined) {
 			fetchCaptains(team.captains);
 			getPicture();
@@ -61,7 +100,8 @@ export default function TeamProfile() {
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		// console.log('TEAM', data);
+		console.log('TEAM', data);
+		// await moveUpLeagueId(data.division);
 	};
 
 	const fetchPlayer = async () => {
@@ -213,7 +253,7 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
-						{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+						{(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 						<button
 							onClick={() => setEditModal(true)}
 							type="button"
