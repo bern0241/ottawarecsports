@@ -47,14 +47,14 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 			{/* <!-- Dropdown menu --> */}
 			<div
 				id="dropdownSearch"
-				class="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[17rem] dark:bg-gray-700"
+				className="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[17rem] dark:bg-gray-700"
 			>
-				<div class="p-3">
-					<label for="input-group-search" class="sr-only">
+				<div className="p-3">
+					<label htmlFor="input-group-search" className="sr-only">
 						Search
 					</label>
 					<div class="relative">
-						<div class="absolute inset-y-0 left-0 flex items-center pointer-events-none w-full"></div>
+						<div className="absolute inset-y-0 left-0 flex items-center pointer-events-none w-full"></div>
 						<input
 							value={search}
 							onChange={(e) => {
@@ -63,7 +63,7 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 							}}
 							type="text"
 							id="input-group-search"
-							class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							placeholder="Search user"
 						/>
 					</div>

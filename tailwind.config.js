@@ -16,6 +16,11 @@ module.exports = {
 		'./node_modules/tailwind-datepicker-react/dist/**/*.js',
 	],
 	theme: {
+		minWidth: {
+			'1/2': '50%',
+			'1/3': '30%',
+			'1/4': '25%',
+		},
 		colors: {
 			'brand-neutral': {
 				50: '#f5f5f5',

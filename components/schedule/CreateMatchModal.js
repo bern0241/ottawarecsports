@@ -464,7 +464,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible }) => {
 									className="cursor-pointer"
 								>
 									<label
-										for="startTime"
+										htmlFor="startTime"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Start Time
