@@ -148,6 +148,8 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
     }
 
     const listLeaguesFunc2 = async (updateLeague) => {
+        const timer = setTimeout(async () => {
+            
         const variables = {
                 filter: {
                   sport: {
@@ -164,6 +166,8 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
               getUserListByNames(updateLeague.coordinators);
               setSelectedLeague(updateLeague);
               setOpenModal(false);
+            }, 500);
+            return () => clearTimeout(timer);
         }
 
 

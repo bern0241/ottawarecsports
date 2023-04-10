@@ -9,10 +9,11 @@ import TeamNameAndImage from './TeamNameAndImage';
 import EditMatchModal from './EditMatchModal';
 import DeleteMatchModal from './DeleteMatchModal';
 import Link from 'next/link';
+import { useUser } from '@/context/userContext';
 
-const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
+const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordinator }) => {
 	if (!match) return;
-	
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [locationObject, setLocationObject] = useState();
 
 	useEffect(() => {
@@ -141,6 +142,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 					</span>
 				</td>
 				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
+				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 					<button
 						onClick={() => {
 							setMatchToEdit(match);
@@ -151,6 +153,8 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<EditIcon />
 						</span>
 					</button>
+				)}
+				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 					<button
 						onClick={() => {
 							setMatchToEdit(match);
@@ -161,6 +165,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<TrashIcon />
 						</span>
 					</button>
+				)}
 				</td>
 			</tr>
 		</>

@@ -21,6 +21,7 @@ const MatchesTable = ({
 	//JUSTIN ADDED
 	selectedDate,
 	setSelectedDate,
+	isCoordinator
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	// const [selectedDate, setSelectedDate] = useState('');
@@ -137,6 +138,7 @@ const MatchesTable = ({
 									setMatchToEdit={setMatchToEdit}
 									setIsEditing={setIsEditing}
 									setIsDeleting={setIsDeleting}
+									isCoordinator={isCoordinator}
 								/>
 							))
 						) : (

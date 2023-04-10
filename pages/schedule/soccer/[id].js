@@ -6,23 +6,33 @@ import { IconCirclePlus } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
 import CreateMatchModal from '@/components/schedule/CreateMatchModal';
-import { listGames } from '@/src/graphql/queries';
+import { getLeague } from '@/src/graphql/queries';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 
+import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
 import EditMatchModal from '@/components/schedule/EditMatchModal';
 import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
+import { useUser } from '@/context/userContext';
+
 export default function DivisionMatches() {
-	
+	const [division, setDivision] = useState();
+	const [season, setSeason] = useState();
+	const [league, setLeague] = useState();
+
+	const [user, setUser, authRoles, setAuthRoles] = useUser();	
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isEditingMatch, setIsEditingMatch] = useState(false);
 	const [matchToEdit, setMatchToEdit] = useState('');
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
+	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [selectedDate, setSelectedDate] = useState('');
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
 	const [referees, setReferees] = useState([]);
 	const router = useRouter();
+	const {id} = useRouter();
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	const fetchReferees = async () => {
@@ -56,7 +66,40 @@ export default function DivisionMatches() {
 		getGames();
 		getTeams();
 		fetchReferees();
+		moveUpLeagueId();
 	}, [router]);
+
+	 /**
+	 * This useEffect fetches the division -> season -> league (in this order) for this page
+	 */
+	  const moveUpLeagueId = async () => {
+        // DIVISION
+        const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: router.query.id}});
+        const divisionData = await apiDataDivision.data.getDivision;
+        setDivision(divisionData);
+        // SEASON
+        const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
+        const seasonData = await apiDataSeason.data.getSeason;
+        setSeason(seasonData);
+        // LEAGUE
+        const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+        const leagueData = await apiDataLeague.data.getLeague;
+        setLeague(leagueData);
+    }
+
+	useEffect(() => {
+		if (league) {
+			isCoordinatorOfLeagueCheck();
+		}
+	}, [league])
+
+	const isCoordinatorOfLeagueCheck = () => {
+        if (league.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
 	
 	return (
 		<>
@@ -69,14 +112,16 @@ export default function DivisionMatches() {
 
 			<main className="w-full flex flex-col gap-6 p-8 pt-0">
 				{/* Results */}
-				<Button
-					pill={true}
-					className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800 ml-auto"
-					onClick={() => setModalVisible(!modalVisible)}
-				>
-					<IconCirclePlus className="mr-2 h-5 w-5" />
-					Create New Match
-				</Button>
+				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+					<Button
+						pill={true}
+						className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800 ml-auto"
+						onClick={() => setModalVisible(!modalVisible)}
+					>
+						<IconCirclePlus className="mr-2 h-5 w-5" />
+						Create New Match
+					</Button>
+				)}
 				<MatchesTable
 					matches={games}
 					setMatchToEdit={setMatchToEdit}
@@ -84,6 +129,7 @@ export default function DivisionMatches() {
 					setIsDeleting={setIsDeletingMatch}
 					selectedDate={selectedDate}
 					setSelectedDate={setSelectedDate}
+					isCoordinator={isCoordinator}
 				/>
 			</main>
 			<CreateMatchModal
