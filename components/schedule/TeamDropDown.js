@@ -1,16 +1,17 @@
-import React, {useState, useEffect} from 'react'
-import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { API } from 'aws-amplify';
 import { listTeams } from '@/src/graphql/queries';
 import TeamCard from './TeamCard';
 import { listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 import { listTeamDivisions } from '@/src/graphql/queries';
 
-export default function TeamDropDown({state, setState, setOpenDropDown}) {
+export default function TeamDropDown({ state, setState, setOpenDropDown }) {
+	const [search, setSearch] = useState('');
+	const [teams, setTeams] = useState([]);
 
-  const [search, setSearch] = useState('');
-  const [teams, setTeams] = useState([]);
-
+	const router = useRouter();
+	const { divisionID } = router.query;
   const router = useRouter();
   const divisionID = router.query.id;
 
