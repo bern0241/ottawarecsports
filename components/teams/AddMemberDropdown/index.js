@@ -11,7 +11,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
     const [searchClicked, setSearchClicked] = useState('');
     const [selectedUsers, setSelectedUsers] = useState([]);
     const router = useRouter();
-    const {id} = router.query;
+    const id = router.query.teamId;
  
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
@@ -77,7 +77,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
     return (
         <>
         {/* <!-- Dropdown menu --> */}
-        <div id="dropdownSearch" class="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[27rem] dark:bg-gray-700 right-0">
+        <div id="dropdownSearch" class="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[27rem] dark:bg-gray-700 mx-auto left-[50%] translate-x-[-50%] ">
         <div class="p-3">
       <label for="input-group-search" class="sr-only">Search</label>
         <div class="relative flex flex-row items-center gap-2">
@@ -118,7 +118,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
             )}
           </ul>
 
-          <div className='flex flex-row justify-between items-center bg-gray-50 border-t dark:border-gray-600 '>
+          <div className='flex flex-row justify-between items-center bg-gray-50 border-t dark:border-gray-600'>
           <a href="/admin-portal/teams" class="flex items-center p-3 text-sm font-medium text-blue-600">
               <svg class="w-5 h-5 mr-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
               Add new player

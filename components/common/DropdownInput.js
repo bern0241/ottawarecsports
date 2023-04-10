@@ -6,7 +6,7 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const DropdownInput = ({
 	options,
@@ -24,6 +24,11 @@ const DropdownInput = ({
 			/>
 		</svg>
 	);
+
+	useEffect(() => {
+		console.log(options);
+	}, [options])
+
 	return (
 		<div className="relative">
 			<select
@@ -43,10 +48,10 @@ const DropdownInput = ({
 						{option}
 					</option>
 				))}
+				{/* <span className="absolute right-2 top-1/2 -translate-y-1/2n z-[1000]">
+					<CircleArrowDown />
+				</span> */}
 			</select>
-			{/* <span className="absolute right-2 top-1/2 -translate-y-1/2">
-				<CircleArrowDown />
-			</span> */}
 		</div>
 	);
 };

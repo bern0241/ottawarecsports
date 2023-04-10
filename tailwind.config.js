@@ -22,6 +22,7 @@ module.exports = {
 			'1/4': '25%',
 		},
 		colors: {
+			'yellowb': '#FFFF00',
 			'brand-neutral': {
 				50: '#f5f5f5',
 				100: '#f0f0f0',

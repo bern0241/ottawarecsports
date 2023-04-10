@@ -20,15 +20,13 @@ export default function GameSheets() {
 		fetchGames();
 	}, []);
 
-	const fetchGames = async () => {
-		const response = await getAllMatches();
-		if (response) {
-			const finishedGames = response.filter(
-				(object) => object.status === 'FINISHED'
-			);
-			setGames(finishedGames);
-		}
-	};
+
+  const fetchGames = async () => {
+    const response = await getAllMatches();
+    const finishedGames = response?.filter(object => object.status === 'FINISHED')
+    setGames(finishedGames);
+  };
+
 
 	return (
 		<>

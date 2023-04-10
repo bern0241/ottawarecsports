@@ -4,23 +4,30 @@ import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import { updateGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
+import LocationsDropdown from './LocationsDropdown';
 import TeamCardSelected from './TeamCardSelected';
+import { listLocations as listLocationsQuery } from '@/src/graphql/queries';
 import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk';
+import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
+const ses = new AWS.SES();
+const lambda = new AWS.Lambda();
+const sns = new AWS.SNS();
 
-const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
+const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callMeTestGames }) => {
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
 	const [homeColour, setHomeColour] = useState(match.home_color);
-	const [awayColour, setAwayColour] = useState(match.away_colo);
+	const [awayColour, setAwayColour] = useState(match.away_color);
 	const [matchDate, setMatchDate] = useState('');
 	const [referees, setReferees] = useState([]);
 	const [startTime, setStartTime] = useState('');
 	const [matchLocation, setMatchLocation] = useState('');
+	const [uiState, setUiState] = useState('main');
 
 	const [openHomeTeamDrop, setOpenHomeTeamDrop] = useState(false);
 	const [openAwayTeamDrop, setOpenAwayTeamDrop] = useState(false);
@@ -28,9 +35,16 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 	const [showFounded, setShowFounded] = useState(false);
+	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
 
 	const [listUsers, setListUsers] = useState([]);
-	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
+	const [listLocations, setListLocations] = useState([]);
+	
+	const [homeEmails, setHomeEmails] = useState([]); //Meant for sending emails out
+	const [awayEmails, setAwayEmails] = useState([]); //Meant for sending emails out
+	
+	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
+	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
@@ -65,9 +79,35 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 			),
 		},
 		datepickerClassNames: 'top-12',
-		defaultDate: new Date(match.date),
+		defaultDate: new Date(match.date ? match.date : match.createdAt),
 		language: 'en',
 	};
+
+	useEffect(() => {
+		setUiState('main');
+	}, [isVisible])
+
+	useEffect(() => {
+		setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
+		setUiState('main');
+		fetchLocations();
+		console.log('MATCH',match);
+	}, [])
+
+	useEffect(() => {
+		if (listLocations) {
+			let parseLocation = JSON.parse(match.location);
+			// console.log('PARSE LOCATION',parseLocation)
+			setMatchLocation(parseLocation)
+		}
+	}, [listLocations])
+
+	const fetchLocations = async () => {
+		const _locations = await API.graphql({ 
+		  query: listLocationsQuery 
+		});
+		setListLocations(_locations.data.listLocations.items);
+	}
 
 	//Convert date input from datepicker into ISOString format
 	function getConvertedDate(date) {
@@ -105,7 +145,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		const getGameColors = () => {
 			const timer = setTimeout(() => {
 				setHomeColour(match.home_color);
-				setAwayColour(match.away_colo);
+				setAwayColour(match.away_color);
 			}, 100);
 			return () => clearTimeout(timer);
 		};
@@ -184,13 +224,13 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		setHomeTeam(match.HomeTeam);
 		setHomeColour(match.home_color);
 		setAwayTeam(match.AwayTeam);
-		setAwayColour(match.away_colo);
+		setAwayColour(match.away_color);
 		// setReferees(match.referees);
 		setMatchLocation(match.location);
 	};
 
 	const getDateAndTime = () => {
-		const momentTime = moment(match.date);
+		const momentTime = moment(match.date ? match.date : match.createdAt);
 		const myDate = momentTime.format('YYYY-MM-DD');
 		const myTime = momentTime.format('h:mm a');
 		setMatchDate(myDate);
@@ -199,8 +239,15 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		console.log(matchDate, startTime);
 	};
 
+	function getIndex(arr, id) {
+        return arr.findIndex(obj => obj.id === id);
+    }
+
 	const editMatch = async (e) => {
 		e.preventDefault();
+		// console.log('MATCH', match)
+		// console.log('GAMES',games)
+
 		try {
 			if (
 				homeTeam === null ||
@@ -231,14 +278,17 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			//(convertedTime.format());
+		// 	console.log(matchDate);
+		// console.log(startTime);
+		// 	console.log(convertedTime);
+		// 	return;
 
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
 				id: match.id,
 				// division: divisionID,
 				home_color: homeColour,
-				away_colo: awayColour,
+				away_color: awayColour,
 				date: convertedTime,
 				location: matchLocation,
 				referees: refereeUsernames,
@@ -250,14 +300,119 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				query: updateGame,
 				variables: { input: matchData },
 			});
-			//console.log('Editing Game, ', apiData);
 			setMessage({ status: 'success', message: 'Game edited successfully' });
+			
+			console.log(matchDate);
+
+			const updatedIndex = getIndex(games, match.id);
+			console.log(apiData)
+			let newGames = [...games];
+			newGames[updatedIndex] = apiData.data.updateGame;
+			setGames(newGames);
 			router.reload();
+
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
 		}
 	};
+
+
+
+	useEffect(() => {
+		if (uiState === 'send-emails') {
+			setEmailsToAllPlayers();
+		}
+	}, [uiState])
+
+	const setEmailsToAllPlayers = async () => {
+		if (homeTeam === undefined) return;
+		if (awayTeam === undefined) return;
+		console.log('HOME',homeTeam.Players.items);
+		console.log('AWAY',awayTeam.Players.items);
+
+		if (homeTeam.Players.items.length !== 0) {
+			homeTeam.Players.items.map(async (player) => {
+				await adminGetUserEmail(homeEmails, setHomeEmails, player.user_id);
+			})
+		}
+
+		if (awayTeam.Players.items.length !== 0) {
+			awayTeam.Players.items.map(async (player) => {
+				await adminGetUserEmail(awayEmails, setAwayEmails, player.user_id);
+			})
+		}
+	}
+
+	const sendEmails = () => {
+		if (homeTeam && homeEmails) {
+			sendEmailsMessage(homeTeam, awayTeam, homeEmails);
+		}
+		if (awayTeam && awayEmails) {
+			sendEmailsMessage(awayTeam, homeTeam, awayEmails);
+		}
+	}
+
+	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
+		let matchDateConvert = matchDate.replaceAll('-', '/');
+		let matchDateDisplay = new Date(matchDateConvert).toDateString();
+		let parseLocation = JSON.parse(matchLocation);
+		
+		const params = {
+		  Destination: {
+			ToAddresses: emails
+		  },
+		  Message: {
+			Body: {
+			  Text: {
+				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
+			  },
+			},
+			Subject: {
+			  Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
+			},
+		  },
+		  Source: 'justin.bernard320@gmail.com'
+		}
+	
+		ses.sendEmail(params, (err, data) => {
+		  if (err) {
+			alert('Error sending emails to all');
+			console.log(err, err.stack);
+		  } else {
+			console.log('Email sent successfully:', data);
+		  }
+		})
+	  }
+
+	  const adminGetUserEmail = async (state, setState, username) => {
+		var params = {
+			UserPoolId: 'us-east-1_70GCK7G6t',
+			Username: username 
+			};
+			await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			// else     console.log(data);           // successful response
+			let data2 = data?.UserAttributes.find(o => o.Name === 'email')['Value'];
+			console.log('data2',data2);
+			setState((state) => {
+				return uniqueBySelf([...state, data2]);
+			});
+		});
+	}
+
+	function uniqueBySelf(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item);
+          set.add(item);
+          return !isDuplicate;
+        });
+    }
+
+
+
+
 
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
@@ -307,19 +462,32 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 		//TODO: Clear all fields
 	};
 
+	useEffect(() => {
+		if (homeColour) {
+			convertColorsDisplay(homeColour, setHomeDisplayColour);
+		}
+	}, [homeColour])
+	useEffect(() => {
+		if (awayColour) {
+			convertColorsDisplay(awayColour, setAwayDisplayColour);
+		}
+	}, [awayColour])
+
 	if (!isVisible) return;
 
 	return (
 		<>
+		{uiState === 'main' && (
+			<>
 			<div
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+				className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
 			>
 				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
-					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 						{/* <!-- Modal header --> */}
 						<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 							<h3 className="text-md font-semibold text-gray-900 dark:text-white">
@@ -383,22 +551,28 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-1/2">
 								<label
 									htmlFor="home-team-jersey"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Home Team Jersey Colour
 								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={homeColour}
-									setValue={setHomeColour}
-								/>
+								<div className='flex gap-1'>
+								<div style={{backgroundColor: homeColour}} className={`w-[3rem] border-[1.5px] border-black`}/>
+								<div className='w-full'>
+									<DropdownInput
+										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+										value={homeColour}
+										setValue={setHomeColour}
+										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
+									/>
+								</div>
+								</div>
 							</div>
 							{/**Away Team */}
 							<div className="w-full">
 								<div onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop)}>
 									<label
 										htmlFor="awayteam"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Away Team
 									</label>
@@ -424,15 +598,21 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-1/2">
 								<label
 									htmlFor="email"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Away Team Jersey Colour
 								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={awayColour}
-									setValue={setAwayColour}
-								/>
+								<div className='flex gap-1'>
+								<div style={{backgroundColor: awayColour}} className={`w-[3rem] border-[1.5px] border-black`}/>
+								<div className='w-full'>
+									<DropdownInput
+										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+										value={awayColour}
+										setValue={setAwayColour}
+										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
+									/>
+								</div>
+								</div>
 							</div>
 
 							{/**Referee */}
@@ -442,9 +622,11 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							>
 								<label
 									for="name"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
+
 								>
-									Referee(s)
+									Referee (s)
 								</label>
 								<input
 									value=""
@@ -459,7 +641,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 										name="caret-down-circle-outline"
 									></ion-icon>
 								</div>
-								<div className="flex absolute top-[2.3rem]">
+								<div className="flex absolute top-[1.9rem]">
 									{referees &&
 										referees.map((referee) => (
 											<>
@@ -488,7 +670,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-full">
 								<label
 									for="name"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Date
 								</label>
@@ -525,7 +707,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 								>
 									<label
 										for="startTime"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Start Time
 									</label>
@@ -550,29 +732,16 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 							<div className="w-full">
 								<label
 									htmlFor="location"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Location
 								</label>
-								<DropdownInput
-									options={[
-										'Anexxe Trille des Bois',
-										'Centennial Public School',
-										'Lester B. Pearson High School',
-										'Louis Riel Dome',
-										'De La Salle High School',
-										'Lisgar Collegiate High School',
-										'Thomas D’Arcy McGee',
-										'Colonel By High School',
-										'Trilles-des-Bois',
-										'Craig Henry Park',
-										'Algonquin Dome College',
-										'Albert Street School',
-										'Hornet’s Nest Superdome',
-										'Lees Turf',
-									]}
-									value={matchLocation}
-									setValue={setMatchLocation}
+								<LocationsDropdown
+									listLocations={listLocations}
+									state={matchLocation}
+									setState={setMatchLocation}
+									isCreate={false}
+									match={match}
 								/>
 							</div>
 						</div>
@@ -591,6 +760,12 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+						<button onClick={(e) => {
+							e.preventDefault();
+							setUiState('send-emails');
+						}} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send Emails <br/>to Players</button>
+
+							<div className='flex-grow'/>
 							<button
 								onClick={() => {
 									setIsVisible(false);
@@ -608,18 +783,68 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 								}}
 								data-modal-hide="defaultModal"
 								type="button"
-								className="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
+								className="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
 							>
 								Save
 							</button>
+							<div className='flex-grow'/>
+							<div className='flex-grow'/>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div
-				onClick={(e) => setIsVisible(false)}
+			onClick={(e) => setIsVisible(false)}
+			className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+		/>
+		</>
+		)}
+
+
+		{uiState === 'send-emails' && (
+			<>
+			<div tabIndex="-1" className="z-[200] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
+		<div className="relative h-full md:h-auto">
+			<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+				<button onClick={(e) => {
+						e.stopPropagation();
+						setOpenModal(false);
+					}}
+					type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
+					<svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+					<span className="sr-only">Close modal</span>
+				</button>
+				<div className="p-6 text-center">
+					<svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+					<p className='mb-5 text-lg font-bold text-gray-500 dark:text-gray-400'>Would you like to send everyone a email of the game schedule?</p>
+					
+					<button onClick={(e) => {
+                            e.stopPropagation();
+							setIsVisible(false);
+                        }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
+                            No thanks
+                        </button>
+					<button onClick={async (e) => {
+						e.stopPropagation();
+						await sendEmails();
+						setIsVisible(false);
+					}} data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+						Yes, send emails to everyone
+					</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+			<div
+				onClick={(e) => {
+					setIsVisible(false);
+				}}
+
 				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
+			</>
+		)}
 		</>
 	);
 };

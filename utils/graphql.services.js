@@ -13,6 +13,8 @@ import * as mutations from '../src/graphql/mutations';
 import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
+import Compressor from 'compressorjs';
+import { listTeamsShort, listGamesShort, getTeamShort } from '@/src/graphql/custom-queries';
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -82,7 +84,8 @@ export const getAllPlayers = async () => {
 export const getTeam = async (_id) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.getTeam,
+			query: getTeamShort,
+			// query: queries.getTeam,
 			variables: { id: _id },
 		});
 		return resp.data.getTeam;
@@ -98,7 +101,7 @@ export const getTeam = async (_id) => {
 export const getAllTeams = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listTeams,
+			query: listTeamsShort,
 		});
 		return resp.data.listTeams.items;
 	} catch (err) {
@@ -245,23 +248,30 @@ export const updatePlayerSoccer = async (newData) => {
 export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 	try {
 		if (!image) return;
-		const params = {
-			Bucket: bucketName,
-			Key: imageKey,
-			Body: image,
-			ContentType: image.type,
-		};
-		// Upload the image to S3
-		s3.upload(params, (err, data) => {
-			if (err) {
-				// fail
-				console.warn(err);
-			} else {
-				// success
-				return data.Location;
-			}
-		});
-		return imageKey;
+
+		new Compressor(image, {
+		  quality: 0.75,
+		  success: (compressedResult) => {
+			const params = {
+				Bucket: bucketName,
+				Key: imageKey,
+				Body: compressedResult,
+				ContentType: image.type,
+			};
+			// Upload the image to S3
+			s3.upload(params, (err, data) => {
+				if (err) {
+					// fail
+					console.warn(err);
+				} else {
+					// success
+					return data.Location;
+				}
+			});
+		},
+	});
+	return imageKey;
+	
 	} catch (error) {
 		console.error(error);
 	}
@@ -272,6 +282,7 @@ export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
  * @returns {String} The file url
  */
 export const getImageFromS3 = async (key) => {
+	if (!key) return;
 	const url = s3.getSignedUrl('getObject', {
 		Bucket: bucketName,
 		Key: key,
@@ -384,6 +395,24 @@ export const createPlayerOnTeam = async (username, teamID) => {
 	}
 };
 
+// SAME AS 'createPlayerOnTeam()', but meant for Captains
+export const createCaptainOnTeam = async (username, teamID) => {
+	try {
+		const data = {
+			user_id: username,
+			role: 'Captain',
+			teamID: teamID,
+		};
+		const apiData = await API.graphql({
+			query: mutations.createPlayer,
+			variables: { input: data },
+		});
+		return apiData;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 /**
  * get all leagues in the database
  * @returns {Array} an array of league objects
@@ -398,6 +427,15 @@ export const getLeagues = async () => {
 		console.warn(err);
 	}
 };
+
+export function uniqueByUsername(items) {
+	const set = new Set();
+	return items.filter((item) => {
+		const isDuplicate = set.has(item.Username);
+		set.add(item.Username);
+		return !isDuplicate;
+	});
+}
 /**
  * get all games in a divisions
  * @param {String} divisionID The id of the division to get games for
@@ -406,12 +444,13 @@ export const getLeagues = async () => {
 export const getDivisionGames = async (divisionID) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.gamesByDivision,
+			query: listGamesShort,
+			// query: queries.gamesByDivision,
 			variables: {
 				division: divisionID,
 			},
 		});
-		return resp.data.gamesByDivision.items;
+		return resp.data.listGames.items;
 	} catch (err) {
 		console.warn(err);
 	}
@@ -435,3 +474,14 @@ export const scheduleGamesAutomatically = (teams) => {
 	});
 	return results;
 };
+
+export const fileSizeCheckOver = (file) => {
+	const maxSize = 5 * 1024 * 1024;
+	if (file === null) return false;
+	if (file.size > maxSize) {
+		alert('Image exceeds 5MB in size!')
+	  return true;
+	} else {
+		return false;
+	}
+}

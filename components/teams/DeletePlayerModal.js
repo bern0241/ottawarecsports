@@ -19,7 +19,7 @@ import { getTeam } from '@/src/graphql/queries';
     const [captains, setCaptains] = useState([]);
     const [uiState, setUiState] = useState('delete-role-state')
     const router = useRouter();
-    const {id} = router.query;
+    const id = router.query.teamId;
 
 
      useEffect(() => {

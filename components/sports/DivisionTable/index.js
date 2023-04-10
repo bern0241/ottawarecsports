@@ -8,10 +8,16 @@
 
 import { listDivisions } from '@/src/graphql/queries';
 import { API } from '@aws-amplify/api';
+import CreateButton from '@/components/common/CreateButton';
 import React, { useState, useEffect } from 'react';
 import DivisionCard from './DivisionCard';
+import CreateDivisionModal from '@/components/common/sports/Divisions/CreateDivisionModal';
+import { useUser } from '@/context/userContext';
 
 export default function DivisionTable({ selectedDivision, setSelectedDivision, selectedSeason, selectedLeague}) {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    const [isCoordinator, setIsCoordinator] = useState(false);
+    const [newDivisionModal, setNewDivisionModal] = useState(false);
     const [divisions, setDivisions] = useState([]);
     const [showTable, setShowTable] = useState(false);
 
@@ -20,6 +26,20 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
             listDivisionsFunc();
         }
     }, [selectedSeason])
+    
+    useEffect(() => {
+        if (selectedLeague) {
+            isCoordinatorOfLeagueCheck();
+        }
+    }, [selectedLeague])
+
+    const isCoordinatorOfLeagueCheck = () => {
+        if (selectedLeague.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
 
     const listDivisionsFunc = async () => {
         const variables = {
@@ -63,8 +83,9 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
             <table class="w-full text-sm text-left border border-gray-400">
                 <thead class="text-md text-black bg-white">
                     <tr>
-                        <th scope="col" class="text-lg font-medium px-6 py-4">
-                            Division
+                        <th scope="col" class="text-lg font-medium px-6 py-4 pb-[2.8rem] text-[1rem]">
+                            {!selectedSeason && (<p className='absolute'>{`Division`}</p>)}
+                            {selectedSeason && (<p className='absolute'>Divisions for <span className='font-semibold underline'>{selectedSeason.name}</span></p>)}
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
@@ -74,6 +95,14 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                         </th>
                         <th scope="col" class="font-medium px-6 py-4">
                             
+                        </th>
+                        <th className='absolute right-5 top-2'>
+                            {(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+                                <CreateButton label="Create New Division"
+                                    state={newDivisionModal}
+                                    setState={setNewDivisionModal} 
+                                    selectedType={selectedSeason} />
+                            )}
                         </th>
                     </tr>
                 </thead>
@@ -82,13 +111,13 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                         <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                             Name
                         </th>
-                        <th scope="col" class="font-light px-6 py-2">
+                        <th scope="col" class="text-center font-light px-6 py-2">
                             Level
                         </th>
-                        <th scope="col" class="font-light px-6 py-2">
+                        <th scope="col" class="text-center font-light px-6 py-2">
                             Team Count
                         </th>
-                        <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
+                        <th scope="col" class="font-light py-2 border-r-[1px] text-right pr-10 border-gray-400">
                             Action
                         </th>
                     </tr>
@@ -96,7 +125,7 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                 <tbody>
                     {divisions && divisions.map((division) => (
                     <>
-                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
+                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} selectedLeague={selectedLeague} listDivisionsFunc={listDivisionsFunc} />
                     </>
                     ))}
                     {(divisions && selectedSeason !== null && divisions.length === 0) && (
@@ -114,9 +143,9 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                     )}
         
                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
-                            All Divisions
-                            <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon>
+                        <th scope="row" class="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
+                            {/* All Divisions
+                            <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
                         </th>
                         <td class="px-6 py-4">
                         </td>
@@ -129,6 +158,11 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                 </tbody>
             </table>
         </div>
+        {newDivisionModal && (
+            <>
+            <CreateDivisionModal openModal={newDivisionModal} setOpenModal={setNewDivisionModal} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} setSelectedDivision={setSelectedDivision} />
+                </>
+        )}
         </>
     )
 }

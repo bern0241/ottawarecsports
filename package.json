@@ -14,6 +14,7 @@
 		"@tabler/icons-react": "^2.7.0",
 		"aws-amplify": "^5.0.18",
 		"aws-sdk": "^2.1333.0",
+		"compressorjs": "^1.2.1",
 		"dayjs": "^1.11.6",
 		"eslint": "8.35.0",
 		"eslint-config-next": "13.2.3",
@@ -24,9 +25,11 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-otp-field": "^3.0.1",
+		"react-phone-number-input": "^3.2.19",
 		"react-timekeeper": "^2.2.1",
 		"tailwind-datepicker-react": "^1.2.3",
-		"uuidv4": "^6.2.13"
+		"uuidv4": "^6.2.13",
+		"validate-phone-number-node-js": "^0.0.1"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.13",

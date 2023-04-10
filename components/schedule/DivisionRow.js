@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { convertLevelToFull } from '@/utils/handy-dandy-functions';
 
 const DivisionRow = ({ key, division }) => {
 	const router = useRouter();
@@ -15,7 +16,7 @@ const DivisionRow = ({ key, division }) => {
 	const navigateToProfile = () => {
 		router.push({
 			pathname: `/schedule/soccer/${division.id}`,
-			query: { divisionID: division.id },
+			// query: { divisionID: division.id },
 		});
 	};
 	return (
@@ -26,13 +27,13 @@ const DivisionRow = ({ key, division }) => {
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
-				<div className="flex items-center">
+				<div className="flex items-center underline">
 					<p>{division?.name}</p>
 				</div>
 			</td>
-			<td className="p-5">{division?.level}</td>
+			<td className="p-5 text-center">{convertLevelToFull(division?.level)}</td>
 			<td className="hidden md:table-cell p-5">{division?.abbreviation}</td>
-			<td className="p-5 flex justify-center">
+			<td className="p-5 flex justify-center text-center">
 				<CalendarIcon />
 			</td>
 		</tr>

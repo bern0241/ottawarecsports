@@ -8,9 +8,11 @@
 
 import { getImageFromS3 } from '@/utils/graphql.services';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
-const TeamImageAndName = ({ src, reverse, teamName }) => {
+const TeamImageAndName = ({ src, reverse, teamName, teamId }) => {
 	const [profileImage, setProfileImage] = useState(null);
+	const router = useRouter();
 
 	useEffect(() => {
 		getPicture();
@@ -22,31 +24,36 @@ const TeamImageAndName = ({ src, reverse, teamName }) => {
 		setProfileImage(url);
 	};
 
+	const goToTeamPage = (e) => {
+		e.preventDefault();
+		router.push(`/teams/${teamId}`);
+	}
+
 	return (
 		<span
 			className={`flex flex-col md:flex-row grow items-center gap-3 justify-items-stretch`}
 		>
 			{reverse === true ? (
 				<>
-					<img
+					<img onClick={(e) => goToTeamPage(e)}
 						style={{ objectFit: 'cover' }}
 						width={72}
 						height={72}
-						className="rounded-full border w-[72px] h-[72px]"
+						className="rounded-full border w-[72px] h-[72px] cursor-pointer"
 						src={profileImage}
 					/>
-					<p className="w-12 md:w-24">{teamName || 'SuperTeam'}</p>
+					<p onClick={(e) => goToTeamPage(e)} className="w-12 md:w-24 cursor-pointer">{teamName || 'SuperTeam'}</p>
 				</>
 			) : (
 				<>
-					<p className="w-24 text-center md:text-left order-last md:order-none">
+					<p onClick={(e) => goToTeamPage(e)} className="w-24 text-center md:text-left order-last md:order-none cursor-pointer">
 						{teamName || 'SuperTeam'}
 					</p>
-					<img
+					<img onClick={(e) => goToTeamPage(e)}
 						style={{ objectFit: 'cover' }}
 						width={72}
 						height={72}
-						className="rounded-full border w-[72px] h-[72px]"
+						className="rounded-full border w-[72px] h-[72px] cursor-pointer"
 						src={profileImage}
 					/>
 				</>
