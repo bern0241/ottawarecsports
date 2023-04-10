@@ -40,7 +40,6 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 			function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
 				else {
-					console.log(data);
 					setToggleSwitcher(true);
 					setOpenModal(false);
 				}
@@ -57,7 +56,6 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 			function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
 				else {
-					console.log(data);
 					setToggleSwitcher(false);
 					setOpenModal(false);
 				}

@@ -15,8 +15,12 @@ import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
 import CreateButton from '../../CreateButton';
 import AddTeamDropdown from './AddTeamDropdown';
- 
+import { useUser } from '@/context/userContext'; 
+
  export default function TeamTable() {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
+    const [isCoordinator, setIsCoordinator] = useState(false);
+
     const [league, setLeague] = useState();
     const [season, setSeason] = useState();
     const [division, setDivision] = useState();
@@ -52,6 +56,20 @@ import AddTeamDropdown from './AddTeamDropdown';
         }
         callMeAsync();
      }, [divisionID])
+
+     useEffect(() => {
+        if (league) {
+          isCoordinatorOfLeagueCheck();
+        }
+      }, [league])
+
+     const isCoordinatorOfLeagueCheck = () => {
+        if (league.coordinators.includes(user?.username)) {
+            setIsCoordinator(true);
+        } else {
+            setIsCoordinator(false);
+        }
+    }
 
      const getDivisionFunc = async () => {
         const apiData = await API.graphql({ query: getDivisionShort, variables: { id: divisionID }});
@@ -101,10 +119,12 @@ import AddTeamDropdown from './AddTeamDropdown';
                          </th>
                          <th scope="col" class="font-medium">
                             <div className='absolute top-4 right-8 '>
+                            {(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                                 <CreateButton label="Add Any Team"
                                             state={addTeamModal}
                                             setState={setAddTeamModal} 
                                             />
+                            )}
                             </div>
                          </th>
                      </tr>

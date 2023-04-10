@@ -356,7 +356,7 @@ const EditMatchModal = ({
 		}
 	};
 
-	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
+	const sendEmailsMessage = async (userTeam, otherTeam, people) => {
 		let matchDateConvert = matchDate.replaceAll('-', '/');
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		let parseLocation = JSON.parse(matchLocation);
@@ -364,7 +364,7 @@ const EditMatchModal = ({
 		console.log(userTeam.name.toUpperCase());
 		const params = {
 			Destination: {
-				ToAddresses: emails,
+				ToAddresses: people?.map(person => person.email),
 			},
 			Message: {
 				Body: {
@@ -383,10 +383,10 @@ const EditMatchModal = ({
 						<p>When: ${matchDateDisplay} ${startTime}</p>
 						<p>Where: <a href=${parseLocation.weblink} alt="Link to location details" target="_blank">${parseLocation.name}</a></p>
 
-						<p>Game roster currently: ${userTeam?.Players?.items.length}</p>
+						<p>Game roster currently: ${people?.length}</p>
 						<ul>
-						${userTeam.Players.items.map(player => (
-							`<li>${player.user_id}</li>`
+						${people?.map(player => (
+							`<li>${player.name}</li>`
 						))}
 						</ul>
 						</body>
@@ -408,6 +408,7 @@ const EditMatchModal = ({
 				console.log(err, err.stack);
 			} else {
 				console.log('Email sent successfully:', data);
+				router.reload();
 			}
 		});
 	};
@@ -422,7 +423,9 @@ const EditMatchModal = ({
 			function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
 				// else     console.log(data);           // successful response
-				let data2 = data?.UserAttributes.find((o) => o.Name === 'email')[
+				let data2 = {};
+				data2.name = `${data?.UserAttributes.find((o) => o.Name === 'name')['Value']} ${data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']}`
+				data2.email = data?.UserAttributes.find((o) => o.Name === 'email')[
 					'Value'
 				];
 				setState((state) => {
@@ -435,11 +438,13 @@ const EditMatchModal = ({
 	function uniqueBySelf(items) {
 		const set = new Set();
 		return items.filter((item) => {
-			const isDuplicate = set.has(item);
-			set.add(item);
+			const isDuplicate = set.has(item.email);
+			set.add(item.email);
 			return !isDuplicate;
 		});
 	}
+
+
 
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {

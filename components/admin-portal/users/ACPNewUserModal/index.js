@@ -97,7 +97,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			// If profile picture is NOT null, set the ID to it's newly generated id
 			if (profilePic !== null) {
 				profile_pic_id = 'user_' + uniqueId;
-				console.log(profile_pic_id);
 			}
 
 			var params = {
@@ -181,7 +180,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					if (err) {
 						console.log(err, err.stack);
 					} else {
-						console.log({ status: 'success', data: data });
+						// console.log({ status: 'success', data: data });
 						await confirmTempUserPassword(newUsername, profile_pic_id); // Calls upload S3 image
 					}
 				}
@@ -221,8 +220,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 						async function (err, data) {
 							if (err) console.log(err, err.stack); // an error occurred
 							else {
-								console.log(data);
-								// await uploadNewImageToS3(profile_pic_id, profilePic);
 								await uploadNewProfileImageToS3(profile_pic_id);
 								setMessage({
 									status: 'success',
@@ -255,7 +252,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				if (err) {
 					console.log('Error uploading image: ', err);
 				} else {
-					console.log('Image uploaded successfully!');
+					// console.log('Image uploaded successfully!');
 					router.reload();
 				}
 			});

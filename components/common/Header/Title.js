@@ -22,7 +22,6 @@ const HeaderTitle = () => {
 	useEffect(() => {
 		if (teamId) {
 			getTeamFunc();
-			console.log('TEST 1')
 		}
 	}, [teamId])
 
@@ -38,7 +37,6 @@ const HeaderTitle = () => {
 	useEffect(() => {
 		if (divisionID) {
 			getDivisionFunc();
-			console.log('TEST 2')
 		}
 	}, [divisionID])
 

@@ -15,7 +15,6 @@ import UserCard from '../leagues/LeagueTable/CoordinatorDropdown/UserCard'; // T
      // We don't want the same coordinator twice!
     const addCaptain = (e, user) => {
         e.preventDefault();
-        console.log(user);
         setCaptain(user);
         setOpenCaptainDrop(false);
     }

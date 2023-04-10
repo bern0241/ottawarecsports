@@ -251,26 +251,26 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 		if (uiState === 'send-emails') {
 			setEmailsToAllPlayers();
 		}
-	}, [uiState])
+	}, [uiState]);
 
 	const setEmailsToAllPlayers = async () => {
 		if (homeTeam === undefined) return;
 		if (awayTeam === undefined) return;
-		console.log('HOME',homeTeam.Players.items);
-		console.log('AWAY',awayTeam.Players.items);
+		console.log('HOME', homeTeam.Players.items);
+		console.log('AWAY', awayTeam.Players.items);
 
 		if (homeTeam.Players.items.length !== 0) {
 			homeTeam.Players.items.map(async (player) => {
 				await adminGetUserEmail(homeEmails, setHomeEmails, player.user_id);
-			})
+			});
 		}
 
 		if (awayTeam.Players.items.length !== 0) {
 			awayTeam.Players.items.map(async (player) => {
 				await adminGetUserEmail(awayEmails, setAwayEmails, player.user_id);
-			})
+			});
 		}
-	}
+	};
 
 	const sendEmails = () => {
 		if (homeTeam && homeEmails) {
@@ -279,65 +279,95 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 		if (awayTeam && awayEmails) {
 			sendEmailsMessage(awayTeam, homeTeam, awayEmails);
 		}
-	}
+	};
 
-	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
+	const sendEmailsMessage = async (userTeam, otherTeam, people) => {
 		let matchDateConvert = matchDate.replaceAll('-', '/');
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		let parseLocation = JSON.parse(matchLocation);
-		
-		const params = {
-		  Destination: {
-			ToAddresses: emails
-		  },
-		  Message: {
-			Body: {
-			  Text: {
-				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
-			  },
-			},
-			Subject: {
-			  Data:  `ORS - ${(userTeam.name).toUpperCase()} VS ${otherTeam.name} (${matchDateDisplay})`
-			//   Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
-			},
-		  },
-		  Source: 'ottawaindoorsoccer@gmail.com'
-		}
-	
-		ses.sendEmail(params, (err, data) => {
-		  if (err) {
-			alert('Error sending emails to all');
-			console.log(err, err.stack);
-		  } else {
-			router.reload();
-			console.log('Email sent successfully:', data);
-		  }
-		})
-	  }
 
-	  const adminGetUserEmail = async (state, setState, username) => {
+		console.log(userTeam.name.toUpperCase());
+		const params = {
+			Destination: {
+				ToAddresses: people?.map(person => person.email),
+			},
+			Message: {
+				Body: {
+					//   Text: {
+					// 	Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
+					//   },
+					Text: {
+						Data: `Hello ${userTeam.name.toUpperCase()},\n\nYour Device Validation Token is ${otherTeam.name.toUpperCase()}\nSimply copy this token and paste it into the device validation input field.`,
+					},
+					Html: {
+						Data: `<html>
+					<head><title>Upcoming Game</title><style>h1{color:#f00;}</style></head>
+					<body>
+					Hi <b>${userTeam.name}</b>
+						<p>Our next game is against: <b>${otherTeam.name}</b></p>
+						<p>When: ${matchDateDisplay} ${startTime}</p>
+						<p>Where: <a href=${parseLocation.weblink} alt="Link to location details" target="_blank">${parseLocation.name}</a></p>
+
+						<p>Game roster currently: ${people?.length}</p>
+						<ul>
+						${people?.map(player => (
+							`<li>${player.name}</li>`
+						))}
+						</ul>
+						</body>
+					</html>`,
+					},
+				},
+				Subject: {
+					Data: `ORS - ${userTeam.name.toUpperCase()} VS ${otherTeam.name.toUpperCase()} (${matchDateDisplay})`,
+					//   Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
+				},
+			},
+			Source: 'justin.bernard320@gmail.com',
+			//   Source: 'ottawaindoorsoccer@gmail.com'
+		};
+
+		ses.sendEmail(params, (err, data) => {
+			if (err) {
+				alert('Error sending emails to all');
+				console.log(err, err.stack);
+			} else {
+				console.log('Email sent successfully:', data);
+				router.reload();
+			}
+		});
+	};
+
+	const adminGetUserEmail = async (state, setState, username) => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
-			Username: username 
-			};
-			await cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-			if (err) console.log(err, err.stack); // an error occurred
-			// else     console.log(data);           // successful response
-			let data2 = data.UserAttributes.find(o => o.Name === 'email')['Value'];
-			setState((state) => {
-				return uniqueBySelf([...state, data2]);
-			});
-		});
-	}
+			Username: username,
+		};
+		await cognitoidentityserviceprovider.adminGetUser(
+			params,
+			function (err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				// else     console.log(data);           // successful response
+				let data2 = {};
+				data2.name = `${data?.UserAttributes.find((o) => o.Name === 'name')['Value']} ${data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']}`
+				data2.email = data?.UserAttributes.find((o) => o.Name === 'email')[
+					'Value'
+				];
+				setState((state) => {
+					return uniqueBySelf([...state, data2]);
+				});
+			}
+		);
+	};
 
 	function uniqueBySelf(items) {
-        const set = new Set();
-        return items.filter((item) => {
-          const isDuplicate = set.has(item);
-          set.add(item);
-          return !isDuplicate;
-        });
-    }
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.email);
+			set.add(item.email);
+			return !isDuplicate;
+		});
+	}
 
 
 

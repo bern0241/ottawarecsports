@@ -162,7 +162,7 @@ export default function ACPEditUserModal({
 				query: listLeagues,
 				variables: variables
 			})
-			console.log(leagues.data.listLeagues.items)
+			// console.log(leagues.data.listLeagues.items)
 			// loop through and filter username 
 			let coordinatorAliveLeague = false;
 			leagues.data.listLeagues.items.forEach((league) => {
@@ -173,10 +173,7 @@ export default function ACPEditUserModal({
 				})
 			})
 			if (coordinatorAliveLeague) {
-				console.log('Coordinator exists in leagues!');
 				coordOrRefLive.push('coordinator');
-			} else {
-				console.log('No Coordinators exist');
 			}
 			// CHECK FOR REF
 			return coordOrRefLive;
@@ -215,12 +212,10 @@ export default function ACPEditUserModal({
 							query: updateLeague,
 							variables: { input: data},
 						});
-						console.log("League Updated:", apiData.data.updateLeague);
 					}
 				})
 			})
 			return;
-			// const coordinatorUsernames = leagueCoordinators.map(a => a.username)
 		} catch (error) {
 			alert('Error trying to delete all coordinators from user');
 			console.log(error);
@@ -393,7 +388,7 @@ export default function ACPEditUserModal({
 								console.log(err, err.stack);
 							} else {
 								await addUserToGroups(profile_pic_id, userStatus);
-								console.log({ status: 'success remove from group', data: data });
+								// console.log({ status: 'success remove from group', data: data });
 							}
 						}
 					);
@@ -422,7 +417,7 @@ export default function ACPEditUserModal({
 								console.log(err, err.stack);
 							} else {
 								deleteCurrentProfileImageS3(profile_pic_id, userStatus);
-								console.log({ status: 'success', data: data });
+								// console.log({ status: 'success', data: data });
 							}
 						}
 						);
@@ -431,9 +426,8 @@ export default function ACPEditUserModal({
 
 				deleteCurrentProfileImageS3(profile_pic_id, userStatus);
 			} catch (error) {
-				console.log('AAAA')
-			setMessage({status: 'error', message: error.message});
-			console.error(error);
+				setMessage({status: 'error', message: error.message});
+				console.error(error);
 		}
 	};
 
@@ -456,7 +450,7 @@ export default function ACPEditUserModal({
 					console.log('Error deleting object: ', err);
 				} else {
 					uploadNewProfileImageToS3(profile_pic_id, userStatus);
-					console.log('Object deleted successfully');
+					// console.log('Object deleted successfully');
 				}
 			});
 		} catch (error) {
@@ -520,7 +514,6 @@ export default function ACPEditUserModal({
 						status: 'success',
 						message: 'Password set successfully.',
 					});
-					console.log(data);
 				} // successful response
 			}
 		);

@@ -12,8 +12,6 @@ import { useUser } from '@/context/userContext';
 export default function ViewUserGroups() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 
-  console.log(user)
-  console.log(authRoles)
 	return (
 		<>
 			{user && (

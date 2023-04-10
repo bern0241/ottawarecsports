@@ -20,7 +20,6 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
 
     useEffect(() => {
       if (search === '') {
-        console.log('empty');
         setSearchClicked('');
       }
     }, [search])
@@ -29,7 +28,7 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
         const teams = await API.graphql({
             query: listTeamsShort
         })
-        console.log('Teams', teams.data.listTeams.items);
+        // console.log('Teams', teams.data.listTeams.items);
         setTeams(teams.data.listTeams.items);
     }
 
@@ -46,7 +45,6 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
     const createTeamDivisionsFunc = async (e) => {
         e.preventDefault();
 
-        console.log('SELECTED TEAMS', selectedTeams);
         if (selectedTeams.length === 0) return;
 
         selectedTeams.forEach(async (teamID) => {
@@ -59,7 +57,6 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
                   query: createTeamDivision,
                   variables: { input: data },
               });
-              console.log('New Team Division:', newTeamDivision);
           })
             // setMessage({status: 'success', message: 'League and coordinators successfully created.'});
         listTeamDivisionsFunc();

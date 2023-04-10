@@ -138,7 +138,6 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                 query: updateLeague,
                 variables: { input: data},
             });
-            console.log('UPDATE',apiData.data.updateLeague);
             setMessage({status: 'success', message: 'League updated successfully!'});
             listLeaguesFunc2(apiData.data.updateLeague);
             setOpenModal(false);
@@ -162,9 +161,8 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
               const leagues = await API.graphql({ 
                 query: listLeagues, variables: variables
               });
-              console.log('Leagues', leagues.data.listLeagues.items);
+            //   console.log('Leagues', leagues.data.listLeagues.items);
               
-            //   console.log('CALLED!!!!');
               setLeagues(leagues.data.listLeagues.items);
               getUserListByNames(updateLeague.coordinators);
               setSelectedLeague(updateLeague);

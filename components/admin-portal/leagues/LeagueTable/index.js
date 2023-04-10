@@ -44,7 +44,6 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
                 // query: listLeaguesLong
                 query: listLeaguesLong, variables: variables
               });
-              console.log('Leagues', leagues.data.listLeagues.items);
               
               setLeagues(leagues.data.listLeagues.items);
               
