@@ -174,20 +174,10 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 		const suffix = isPM ? 'pm' : 'am';
 		// Construct the formatted time string
 		const formattedTime = `${hours}:${minutes} ${suffix}`;
-		//console.log(formattedTime);
 		return formattedTime;
 	};
 
-	useEffect(() => {
-		if (matchLocation) {
-			console.log(matchLocation);
-		}
-	}, [matchLocation]);
-
 	const createNewMatch = async (e) => {
-		// let mySavedDate = new Date(matchDate).toDateString().split(' ');
-		// let saveDate = `${mySavedDate[1]} ${mySavedDate[2]} ${mySavedDate[3]}`
-		// console.log(saveDate);
 		e.preventDefault();
 		try {
 			if (
