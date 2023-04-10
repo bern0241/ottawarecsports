@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getDivisionShort } from '@/src/graphql/custom-queries';
-import { getTeam } from '@/src/graphql/queries';
+import { getTeam } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
 import { API } from 'aws-amplify';
 
@@ -22,17 +22,13 @@ const HeaderTitle = () => {
 	useEffect(() => {
 		if (teamId) {
 			getTeamFunc();
-			console.log('TEST 1')
 		}
 	}, [teamId])
 
 	const getTeamFunc = async () => {
-		const apiData = await API.graphql({
-			query: getTeam,
-			variables: { id: teamId },
-		});
-		const data = await apiData.data.getTeam;
+		const data = await getTeam(teamId);
 		setTeam(data);
+    console.log(data)
 	}
 
 	useEffect(() => {
