@@ -297,10 +297,11 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 			  },
 			},
 			Subject: {
-			  Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
+			  Data:  `ORS - ${(userTeam.name).toUpperCase()} VS ${otherTeam.name} (${matchDateDisplay})`
+			//   Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
 			},
 		  },
-		  Source: 'justin.bernard320@gmail.com'
+		  Source: 'ottawaindoorsoccer@gmail.com'
 		}
 	
 		ses.sendEmail(params, (err, data) => {

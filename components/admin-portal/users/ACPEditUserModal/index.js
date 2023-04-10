@@ -24,7 +24,7 @@ import { listLeagues } from '@/src/graphql/queries';
 import { updateLeague } from '@/src/graphql/mutations';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-import ValidatePhoneNumber from 'validate-phone-number-node-js';
+// import ValidatePhoneNumber from 'validate-phone-number-node-js';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,

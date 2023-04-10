@@ -357,6 +357,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		let parseLocation = JSON.parse(matchLocation);
 		
+		console.log(userTeam.name.toUpperCase());
 		const params = {
 		  Destination: {
 			ToAddresses: emails
@@ -368,10 +369,11 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 			  },
 			},
 			Subject: {
-			  Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
+			  Data:  `ORS - ${(userTeam.name.toUpperCase())} VS ${(otherTeam.name.toUpperCase())} (${matchDateDisplay})`
+			//   Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
 			},
 		  },
-		  Source: 'justin.bernard320@gmail.com'
+		  Source: 'ottawaindoorsoccer@gmail.com'
 		}
 	
 		ses.sendEmail(params, (err, data) => {
@@ -813,7 +815,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 				</button>
 				<div className="p-6 text-center">
 					<svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-					<p className='mb-5 text-lg font-bold text-gray-500 dark:text-gray-400'>Would you like to send everyone a email of the game schedule?</p>
+					<p className='mb-5 text-lg font-bold text-gray-500 dark:text-gray-400'>Are you sure you want to send everyone a email of the game schedule?</p>
 					
 					<button onClick={(e) => {
                             e.stopPropagation();

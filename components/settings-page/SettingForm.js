@@ -15,6 +15,9 @@ import SettingGenderDropDown from './SettingGenderDropDown';
 import SettingLocationDropDown from './SettingLocationDropDown';
 import SettingPasswordField from './SettingPasswordField';
 import { getCurrentUser } from '@/utils/graphql.services';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
 
 export default function SettingsForm({
 	setEmailModal,
@@ -113,14 +116,12 @@ export default function SettingsForm({
 					<div className="mb-2 block">
 						<Label htmlFor="phoneNumber" value="Phone Number" />
 					</div>
-					<TextInput
-						id="phoneNumber"
-						type="text"
-						placeholder="Phone Number"
-						required={true}
-						className="h-[40px] w-full"
+					<PhoneInput 
+						placeholder=""
+						defaultCountry="CA"
 						value={phone}
-						onChange={(e) => setPhone(e.target.value)}
+						onChange={setPhone}
+						style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
 					/>
 				</div>
 				<div>

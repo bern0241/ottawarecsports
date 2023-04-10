@@ -205,7 +205,7 @@ export default function TeamProfile() {
 					<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 						<img
 							src={profileImage}
-							className="rounded-full self-center w-[200px] h-[200px] object-cover"
+							className="self-center w-[200px] h-[200px] object-cover"
 							alt="Team profile image."
 						></img>
 						<div className="flex justify-center gap-1">
@@ -261,6 +261,7 @@ export default function TeamProfile() {
 							<h3 className="mb-1 font-light">Home Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 								{/* <div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div> */}
+								<div style={{backgroundColor: team?.home_colour}} className='w-6' />
 								<div>
 									{team ? team.home_colour : " "}
 								</div>
@@ -271,6 +272,7 @@ export default function TeamProfile() {
 							<h3 className="mb-1 font-light">Away Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 								{/* <div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div> */}
+								<div style={{backgroundColor: team?.away_colour}} className='w-6' />
 								<div>
 									{team ? team.away_colour : " "}
 								</div>

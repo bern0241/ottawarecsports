@@ -298,7 +298,8 @@ export const getImageFromS3 = async (key) => {
 export const getAllMatches = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listGames,
+			query: listGamesShort,
+			// query: queries.listGames,
 		});
 		return resp.data.listGames.items.filter((item) => !item._deleted);
 	} catch (err) {
