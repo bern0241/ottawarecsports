@@ -12,7 +12,7 @@
  import { API } from '@aws-amplify/api';
  import { useRouter } from 'next/router';
 import CreateButton from '@/components/common/CreateButton';
-import CreateTeamModal from './CreateTeamModal';
+import NewTeamModal from './NewTeamModal';
   
   export default function TeamTable({ filterTeams, fetchTeams }) {
     const [createTeamModal, setCreateTeamModal] = useState(false);
@@ -34,7 +34,7 @@ import CreateTeamModal from './CreateTeamModal';
                               
                           </th>
                           <th scope="col" class="font-medium">
-                             <div className='absolute top-2 right-8 '>
+                             <div className='absolute top-2 right-1 pr-5 '>
                                  <CreateButton label="Create Team"
                                              state={createTeamModal}
                                              setState={setCreateTeamModal} 
@@ -48,11 +48,11 @@ import CreateTeamModal from './CreateTeamModal';
                           <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
                               Name
                           </th>
-                          <th scope="col" class="font-light px-6 py-2">
+                          <th scope="col" class="text-center font-light px-6 py-2">
                               Captain (s)
                           </th>
-                          <th scope="col" class="font-light px-6 py-2">
-                              Members
+                          <th scope="col" class="text-center font-light px-6 py-2">
+                              Sport
                           </th>
                           <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
                               Action
@@ -65,19 +65,6 @@ import CreateTeamModal from './CreateTeamModal';
                             <TeamCard key={index} team={team} fetchTeams={fetchTeams} filterTeams={filterTeams} />
                             </>
                         ))}
-                      {/* {(filterTeams && filterTeams.length === 0) && (
-                          <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-                          <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
-                              No teams available.
-                          </th>
-                          <td class="px-6 py-4">
-                          </td>
-                          <td class="px-6 py-4">
-                          </td>
-                          <td class="flex gap-4 px-6 py-4 text-center">
-                          </td>
-                      </tr>
-                      )} */}
           
                       <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
                           <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
@@ -95,9 +82,9 @@ import CreateTeamModal from './CreateTeamModal';
                   </tbody>
               </table>
           </div>
-          {/* {createTeamModal && (
-             <CreateTeamModal setOpenDropdown={setAddTeamModal} teamDivisions={teamDivisions} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-         )} */}
+          {createTeamModal && (
+             <NewTeamModal isVisible={createTeamModal} setIsVisible={setCreateTeamModal} />
+         )}
         </>
       )
   }

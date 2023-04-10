@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
+import { useRouter } from 'next/router';
+import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 
 const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 	const [profileImage, setProfileImage] = useState('');
+	const router = useRouter();
+
 	const JerseySVG = ({ fill = '#fff', stroke = '#000', className }) => (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -27,13 +31,21 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 	useEffect(() => {
 		getPicture();
 	}, []);
+
+	const goToTeamPage = (e) => {
+		e.preventDefault();
+		router.push(`/teams/${team.id}`);
+	}
+
 	return (
 		<span
 			className={`flex flex-col md:flex-row grow items-center gap-3 justify-items-stretch`}
 		>
 			{reverse === true ? (
 				<>
-					<span className="w-[4.5rem] h-[4.5rem] rounded-full relative">
+					<span onClick={(e) => {
+						goToTeamPage(e);
+					}} className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer">
 						<img
 							style={{ objectFit: 'cover' }}
 							width={72}
@@ -47,14 +59,20 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 							stroke={'#000'}
 						/>
 					</span>
-					<p className="w-12 md:w-24">{team?.name || 'SuperTeam'}</p>
+					<p onClick={(e) => {
+						goToTeamPage(e);
+					}} className="w-12 md:w-24 cursor-pointer">{team?.name || 'SuperTeam'}</p>
 				</>
 			) : (
 				<>
-					<p className="w-24 text-center md:text-left order-last md:order-none">
+					<p onClick={(e) => {
+						goToTeamPage(e);
+					}} className="w-24 text-center md:text-left order-last md:order-none cursor-pointer">
 						{team?.name || 'SuperTeam'}
 					</p>
-					<span className="w-[4.5rem] h-[4.5rem] rounded-full relative">
+					<span onClick={(e) => {
+						goToTeamPage(e);
+					}} className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer">
 						<img
 							style={{ objectFit: 'cover' }}
 							width={72}

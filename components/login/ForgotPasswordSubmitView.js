@@ -53,8 +53,8 @@ export default function ForgotPasswordSubmitView({
 		if (newPassword)
 			try {
 				await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword);
-				router.push('/');
-				// setUiState('signIn');
+				// router.push('/');
+				setUiState('signIn');
 			} catch (error) {
 				setMessage({ status: 'error', message: error.message });
 				console.log(error);
@@ -64,14 +64,14 @@ export default function ForgotPasswordSubmitView({
 	return (
 		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
+				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
 			</div>
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="flex flex-col gap-5  mt-10 w-96 sm:mt-40">
+				<div className="flex flex-col gap-5 mt-[13rem]">
 					<OrsLogo />
-					<form className="flex flex-col gap-2">
-						<p className="font-semibold text-2xl">Enter Your New Password</p>
+					<form className="flex flex-col gap-3">
+						<p className="font-semibold text-lg text-center mb-2">Enter Your New Password</p>
 						<PasswordField
 							label="New Password"
 							state={newPassword}
@@ -99,18 +99,18 @@ export default function ForgotPasswordSubmitView({
 								</p>
 							</div>
 						)}
-						<div>
+						<div className='flex justify-center'>
 							<button
-								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+								className="bg-brand-blue-800 h-10 w-full max-w-[23rem] rounded-md text-white font-regular mt-3"
 								type="button"
 								onClick={(e) => forgotPasswordSubmit(e)}
 							>
 								Submit
 							</button>
 						</div>
-						<div>
+						<div className='flex justify-center text-center'>
 							<button
-								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
+								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3 text-center"
 								type="button"
 								onClick={() => setUiState('signIn')}
 							>

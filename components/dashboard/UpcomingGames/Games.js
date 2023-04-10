@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { API } from '@aws-amplify/api';
-import { getGamesByTeam } from '@/src/graphql/custom-queries';
+import { getGamesByTeam, listGamesShort } from '@/src/graphql/custom-queries';
 import { getPlayersByUsername } from '@/utils/graphql.services';
 import { useUser } from '@/context/userContext';
 
@@ -57,9 +57,10 @@ export default function Games() {
 
 	const getGames = async (id) => {
 		const apiData = await API.graphql({
-			query: getGamesByTeam,
+			query: listGamesShort,
 			variables: { teamId: id },
 		});
+		console.log('GAMES',apiData);
 		setGames(apiData.data.listGames.items);
 	};
 

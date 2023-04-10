@@ -15,6 +15,7 @@ import {
   Icon,
   ScrollView,
   Text,
+  TextAreaField,
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
@@ -185,6 +186,7 @@ export default function TeamCreateForm(props) {
     founded: "",
     home_colour: "",
     away_colour: "",
+    team_history: [],
     team_picture: "",
     captains: [],
     sport: "",
@@ -197,6 +199,9 @@ export default function TeamCreateForm(props) {
   const [away_colour, setAway_colour] = React.useState(
     initialValues.away_colour
   );
+  const [team_history, setTeam_history] = React.useState(
+    initialValues.team_history
+  );
   const [team_picture, setTeam_picture] = React.useState(
     initialValues.team_picture
   );
@@ -208,12 +213,17 @@ export default function TeamCreateForm(props) {
     setFounded(initialValues.founded);
     setHome_colour(initialValues.home_colour);
     setAway_colour(initialValues.away_colour);
+    setTeam_history(initialValues.team_history);
+    setCurrentTeam_historyValue("");
     setTeam_picture(initialValues.team_picture);
     setCaptains(initialValues.captains);
     setCurrentCaptainsValue("");
     setSport(initialValues.sport);
     setErrors({});
   };
+  const [currentTeam_historyValue, setCurrentTeam_historyValue] =
+    React.useState("");
+  const team_historyRef = React.createRef();
   const [currentCaptainsValue, setCurrentCaptainsValue] = React.useState("");
   const captainsRef = React.createRef();
   const validations = {
@@ -221,6 +231,7 @@ export default function TeamCreateForm(props) {
     founded: [],
     home_colour: [],
     away_colour: [],
+    team_history: [{ type: "JSON" }],
     team_picture: [],
     captains: [],
     sport: [],
@@ -271,6 +282,7 @@ export default function TeamCreateForm(props) {
           founded,
           home_colour,
           away_colour,
+          team_history,
           team_picture,
           captains,
           sport,
@@ -332,6 +344,7 @@ export default function TeamCreateForm(props) {
               founded,
               home_colour,
               away_colour,
+              team_history,
               team_picture,
               captains,
               sport,
@@ -364,6 +377,7 @@ export default function TeamCreateForm(props) {
               founded: value,
               home_colour,
               away_colour,
+              team_history,
               team_picture,
               captains,
               sport,
@@ -394,6 +408,7 @@ export default function TeamCreateForm(props) {
               founded,
               home_colour: value,
               away_colour,
+              team_history,
               team_picture,
               captains,
               sport,
@@ -424,6 +439,7 @@ export default function TeamCreateForm(props) {
               founded,
               home_colour,
               away_colour: value,
+              team_history,
               team_picture,
               captains,
               sport,
@@ -441,6 +457,56 @@ export default function TeamCreateForm(props) {
         hasError={errors.away_colour?.hasError}
         {...getOverrideProps(overrides, "away_colour")}
       ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              name,
+              founded,
+              home_colour,
+              away_colour,
+              team_history: values,
+              team_picture,
+              captains,
+              sport,
+            };
+            const result = onChange(modelFields);
+            values = result?.team_history ?? values;
+          }
+          setTeam_history(values);
+          setCurrentTeam_historyValue("");
+        }}
+        currentFieldValue={currentTeam_historyValue}
+        label={"Team history"}
+        items={team_history}
+        hasError={errors.team_history?.hasError}
+        setFieldValue={setCurrentTeam_historyValue}
+        inputFieldRef={team_historyRef}
+        defaultFieldValue={""}
+      >
+        <TextAreaField
+          label="Team history"
+          isRequired={false}
+          isReadOnly={false}
+          value={currentTeam_historyValue}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.team_history?.hasError) {
+              runValidationTasks("team_history", value);
+            }
+            setCurrentTeam_historyValue(value);
+          }}
+          onBlur={() =>
+            runValidationTasks("team_history", currentTeam_historyValue)
+          }
+          errorMessage={errors.team_history?.errorMessage}
+          hasError={errors.team_history?.hasError}
+          ref={team_historyRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "team_history")}
+        ></TextAreaField>
+      </ArrayField>
       <TextField
         label="Team picture"
         isRequired={false}
@@ -454,6 +520,7 @@ export default function TeamCreateForm(props) {
               founded,
               home_colour,
               away_colour,
+              team_history,
               team_picture: value,
               captains,
               sport,
@@ -480,6 +547,7 @@ export default function TeamCreateForm(props) {
               founded,
               home_colour,
               away_colour,
+              team_history,
               team_picture,
               captains: values,
               sport,
@@ -531,6 +599,7 @@ export default function TeamCreateForm(props) {
               founded,
               home_colour,
               away_colour,
+              team_history,
               team_picture,
               captains,
               sport: value,

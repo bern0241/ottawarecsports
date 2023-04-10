@@ -122,7 +122,7 @@ export default function PlayerSpotlight() {
 				}`}
 				width="100"
 				height="100"
-				className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
+				className="object-cover rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
 				alt="N/A"
 			/>
 			<div>

@@ -20,6 +20,7 @@ import {
 import SettingsProfileImage from '../components/settings-page/SettingsProfileImage';
 import makeid from '@/utils/makeId';
 import StatusMessage from '@/components/common/StatusMessage';
+import { fileSizeCheckOver } from '@/utils/graphql.services';
 export default function Setting() {
 	const [user] = useUser();
 	const [userAttributes, setUserAttributes] = useState({});
@@ -40,6 +41,9 @@ export default function Setting() {
 				})
 				if (user.attributes.picture !== 'none') {
 					await deleteImageFromS3(user.attributes.picture);
+				}
+				if (fileSizeCheckOver(profilePic)) {
+					return;
 				}
 				await uploadNewImageToS3(imageKey, profilePic);
 				setMessage({status: 'success', message: 'Profile updated successfully.'})

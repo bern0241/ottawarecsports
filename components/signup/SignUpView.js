@@ -21,6 +21,11 @@ import GenderDropDown from './GenderDropDown';
 import DobDatePicker from './DatePicker';
 import OrsLogo from '../common/OrsLogo';
 
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
+
+
 export default function SignUpView({ setUiState, email, setEmail }) {
 	// Variable states for signing up
 	const [firstName, setFirstName] = useState('');
@@ -51,24 +56,30 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log(birthDate);
-
-		if (
-			firstName === '' ||
-			lastName === '' ||
-			email === '' ||
-			// phoneNumber === '' ||
-			location === '' ||
-			gender === '' ||
-			birthDate === ''
-		) {
-			setMessage({
-				status: 'error',
-				message: 'Please fillout all required fields.',
-			});
-			return;
-		}
 		try {
+			if (
+				firstName === '' ||
+				lastName === '' ||
+				email === '' ||
+				// phoneNumber === '' ||
+				location === '' ||
+				gender === '' ||
+				birthDate === ''
+			) {
+				setMessage({
+					status: 'error',
+					message: 'Please fillout all required fields.',
+				});
+				return;
+			}
+			if (phoneNumber !== undefined) {
+				if (!ValidatePhoneNumber.validate(phoneNumber)) {
+					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					return;
+				}
+			}
+			console.log(phoneNumber)
+			// return;
 			const newUser = await Auth.signUp({
 				username: email,
 				password: password,
@@ -78,13 +89,12 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					'custom:location': location,
 					phone_number: phoneNumber,
 					gender: gender,
-					role: 'Player',
 					picture: 'none',
 					birthdate: birthDate,
 				},
 			});
 			addUserToGroup(newUser.userSub, 'User');
-			const apiData = await createPlayer(newUser.userSub);
+			// const apiData = await createPlayer(newUser.userSub);
 			setUiState('confirmSignUp');
 		} catch (error) {
 			console.error(error);
@@ -115,18 +125,18 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	};
 
 	return (
-		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+		<div className="flex flex-col md:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
+				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
 			</div>
 			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
+				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-[6rem] mt-[4rem]">
 					<div className="">
 						<OrsLogo />
 					</div>
 					<form className="">
-						<p className="text-lg sm:text-2xl font-semibold my-5">Sign Up</p>
+						<p className="text-lg font-semibold my-5">Sign Up</p>
 						<div className="flex flex-col w-96 gap-3">
 							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
 								<TextInput
@@ -153,14 +163,21 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								<DobDatePicker state={birthDate} setState={setBirthDate} />
 							</div>
 							<LocationDropDown state={location} setState={setLocation} />
-							<TextInput
+							{/* <TextInput
 								id="email"
 								type="tel"
 								placeholder="Phone Number (optional)"
 								onChange={(e) => setPhoneNumber(e.target.value)}
 								required={false}
 								className="w-96 border border-black rounded-md "
-							/>
+							/> */}
+							<PhoneInput 
+								placeholder="Phone Number (optional)"
+								defaultCountry="CA"
+								value={phoneNumber}
+								onChange={setPhoneNumber}
+								style={{paddingLeft: '10px', borderColor: 'black', borderWidth: '1px', borderRadius: '6px'}}
+								/>
 							<TextInput
 								id="email"
 								type="email"
@@ -180,7 +197,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 							{message !== null && (
 								<p
 									id="message-notice"
-									className={`ml-1 text-[.87rem] ${
+									className={`ml-1 text-[.87rem] text-center ${
 										message.status === 'error'
 											? 'text-red-600'
 											: 'text-green-500'

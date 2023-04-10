@@ -99,7 +99,7 @@ export default function TeamSpotlight() {
 				}`}
 				width="100"
 				height="100"
-				className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
+				className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px] object-cover"
 				alt="N/A"
 			/>
 			<div>
@@ -123,7 +123,8 @@ export default function TeamSpotlight() {
 					<span className="text-sm font-light col-span-1">Team Members</span>
 					<span className="truncate col-span-1">
 						{spotlightTeam
-							? spotlightTeam.team_history[0].roster.length
+							// ? spotlightTeam.team_history[0].roster.length
+							? spotlightTeam.Players.items.length
 							: 'N/A'}
 					</span>
 				</div>

@@ -8,11 +8,17 @@
 
 import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
+import EditLeagueModal from '@/components/common/sports/Leagues/EditLeagueModal';
+import DeleteLeagueModal from '@/components/common/sports/Leagues/DeleteLeagueModal';
 import { useRouter } from 'next/router';
-import {IconUsers} from '@tabler/icons-react';
+import { IconUsers, IconEdit, IconTrash} from '@tabler/icons-react';
+import { useUser } from '@/context/userContext';
 
-export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague, setLeagues }) {
+export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague, setLeagues, listLeaguesFunc }) {
+    const [user, setUser, authRoles, setAuthRoles] = useUser();
     const [users, setUsers] = useState([]);
+    const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const router = useRouter();
     var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
@@ -57,6 +63,16 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
         setSelectedLeague(league);
     }
 
+    const editLeagueFunc = (e) => {
+        e.stopPropagation();
+        setEditModal(!editModal);
+    }
+
+    const deleteLeagueFunc = (e) => {
+      e.stopPropagation();
+      setDeleteModal(!deleteModal);
+    }
+
     return (
         <>
         <tr onClick={(e) => clickedLeague(e)} class="bg-white border border-gray-400 cursor-pointer">
@@ -66,21 +82,36 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                 )}
                 {league.name}
             </th>
-            <td class="px-6 py-3">
-                <ul>
+            <td class="py-3">
+                <ul className='text-center'>
                     {users && users.map((coordinator) => (
                         <>
-                        <li className="text-blue-700 text-sm">
-                        <p onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
+                        <li className="text-blue-700 text-sm underline py-[.2rem]">
+                        <p className='' onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                         </li>
                         </>
                     ))}
                 </ul>
             </td>
-            <td class="flex gap-4 px-6 py-3 text-center justify-center">
-              <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
+            <td class="flex gap-2 py-3 items-center pr-5">
+              <div className='flex-grow'></div>
+              {((authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+                <>
+                  {/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
+                  <IconEdit onClick={(e) => editLeagueFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
+                    <IconTrash onClick={(e) => deleteLeagueFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconTrash>
+                </>
+              )}
             </td>
         </tr>
+
+        {editModal && (
+            <EditLeagueModal league={league} setOpenModal={setEditModal} sport={sport} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} getUserListByNames={getUserListByNames} />
+        )}
+        {deleteModal && (
+            <DeleteLeagueModal leagueInfo={league} setDeleteModal={setDeleteModal} listLeaguesFunc={listLeaguesFunc} />
+        )}
+
     </>
     )
 }

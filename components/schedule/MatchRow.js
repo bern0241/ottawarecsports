@@ -4,13 +4,24 @@
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
 import EditMatchModal from './EditMatchModal';
 import DeleteMatchModal from './DeleteMatchModal';
+import Link from 'next/link';
+import { useUser } from '@/context/userContext';
 
-const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
+const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordinator }) => {
 	if (!match) return;
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [locationObject, setLocationObject] = useState();
+
+	useEffect(() => {
+		if (match.location) {
+			setLocationObject(JSON.parse(match.location));
+		}
+	}, [])
+
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -101,7 +112,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 						<p>{match.away_score}</p>
 					</span>
 					<TeamNameAndImage
-						jerseyColour={match.away_colo?.toLowerCase()}
+						jerseyColour={match.away_color?.toLowerCase()}
 						reverse={true}
 						team={match.AwayTeam}
 					/>
@@ -126,12 +137,12 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<span>
 								<LocationIcon />
 							</span>
-							{match.location}
-							{/* <lINK href={match.location.weblink}></lINK> */}
+							<Link className='text-blue-500 underline' href={`${locationObject?.weblink}`}>{locationObject?.name}</Link>
 						</p>
 					</span>
 				</td>
 				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
+				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 					<button
 						onClick={() => {
 							setMatchToEdit(match);
@@ -142,6 +153,8 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<EditIcon />
 						</span>
 					</button>
+				)}
+				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 					<button
 						onClick={() => {
 							setMatchToEdit(match);
@@ -152,6 +165,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<TrashIcon />
 						</span>
 					</button>
+				)}
 				</td>
 			</tr>
 		</>

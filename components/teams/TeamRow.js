@@ -9,17 +9,23 @@
 import { useState, useEffect } from 'react';
 import { IconEdit } from '@tabler/icons-react';
 import { IconTrash } from '@tabler/icons-react';
-import { getImageFromS3 } from '@/utils/graphql.services';
+import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 
 export default function TeamRow({ team, setCurrentTeam }) {
 	const router = useRouter();
 	const [profileImage, setProfileImage] = useState('');
-	const currentSeason = team.team_history[0];
+	// const currentSeason = team.team_history[0];
+	const [captains, setCaptains] = useState([]);
 	const [userName, setUserName] = useState('');
+
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	// console.log(currentSeason);
+
+	useEffect(() => {
+		getPicture();
+		fetchCaptains(team.captains);
+	}, []);
 
 	const getPicture = async () => {
 		if (!team.team_picture)
@@ -28,24 +34,33 @@ export default function TeamRow({ team, setCurrentTeam }) {
 		setProfileImage(url);
 	};
 
-	useEffect(() => {
-		getPicture();
-		if (currentSeason.captains) {
-			fetchUser(currentSeason.captains[0]);
+	const fetchCaptains = async (myCaptains) => {
+		if (myCaptains === null) {
+		   setCaptains([]);
+		   return;
 		}
-	}, []);
+		setCaptains([]);
+		myCaptains.forEach(async captain => {
+			const params = {
+				Username: captain,
+				UserPoolId: 'us-east-1_70GCK7G6t'
+			}
+			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     {
+					// setCaptains(data);
+					setCaptains((captains) => {
+						return uniqueByUsername([...captains, data]);
+					} );
+					// return;
+				}          
+			});
+		})
+	}
 
-	const fetchUser = (captainUsername) => {
-		const params = {
-			Username: captainUsername,
-			UserPoolId: 'us-east-1_70GCK7G6t'
-		}
-		cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-			if (err) console.log(err, err.stack); // an error occurred
-			else     {
-				setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']} ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
-			}          // successful response
-		});
+	const goToPlayerPage = (e, captain) => {
+		e.stopPropagation();
+		router.push(`/players/${captain.Username}`)
 	}
 
 	const navigateToProfile = () => {
@@ -60,25 +75,26 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			onClick={navigateToProfile}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
-			<td className="p-5 font-medium">
-				<div className="flex items-center">
+			<td className="pl-3 py-3">
+				<div className="flex flex-col min-[590px]:flex-row w-[80%] items-center pl-2 gap-2">
 					<img
 						src={profileImage}
-						className="rounded-full mr-5 w-[60px] h-[60px] object-cover"
+						className="rounded-full w-[82px] h-[82px] object-cover text-center"
 					></img>
-					{team.name}
+					<p className='text-center min-[590px]:text-left ml-2 font-medium w-[7rem]'>{team.name}</p>
+					<div className='flex-grow'></div>
 				</div>
 			</td>
-			<td className="p-5">
-				{currentSeason
-					? currentSeason.captains && currentSeason.captains.map((captain, index) => (
-							<span key={index}>{userName}</span>
-					  ))
-					: 'John Doe'}
+			<td className="p-5 mx-auto">
+				<ul className=''>
+				{captains && captains.map((captain, index) => (
+                     <li className='my-1 cursor-pointer text-blue-500 underline w-[8rem] text-[.91rem] text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</li>
+                 ))}
+				 </ul>
 			</td>
-			<td className="p-5">{team.sports || 'Soccer'}</td>
-			<td className="p-5">
-				{team ? team.Players.items.length : 0}
+			<td className="p-3 text-center">{team.sports || 'Soccer'}</td>
+			<td className="p-3 mx-auto text-center">
+				<p className='text-[1.4rem]'>{team ? team.Players.items.length : 0}</p>
 			</td>
 		</tr>
 	);

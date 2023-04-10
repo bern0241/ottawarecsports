@@ -8,7 +8,7 @@ export default function ChangeRoleModal({ setOpenModal, newRole, member, userNam
     const [captains, setCaptains] = useState([]);
     const [uiState, setUiState] = useState('change-role-state')
     const router = useRouter();
-    const {id} = router.query;
+    const id = router.query.teamId;
 
     useEffect(() => {
         if (!id) return;
@@ -71,15 +71,6 @@ export default function ChangeRoleModal({ setOpenModal, newRole, member, userNam
             alert('Error changing role');
         }
     }
-
-    // function uniqueBySelf(items) {
-    //     const set = new Set();
-    //     return items.filter((item) => {
-    //       const isDuplicate = set.has(item);
-    //       set.add(item);
-    //       return !isDuplicate;
-    //     });
-    // }
 
     const updateTeamFunc = async (newCaptains) => {
         try {
