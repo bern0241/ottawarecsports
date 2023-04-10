@@ -35,19 +35,22 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 	const [startTime, setStartTime] = useState('');
 	const [matchLocation, setMatchLocation] = useState('');
 	const [uiState, setUiState] = useState('main');
-
+	
 	const [openHomeTeamDrop, setOpenHomeTeamDrop] = useState(false);
 	const [openAwayTeamDrop, setOpenAwayTeamDrop] = useState(false);
 	const [openRefDrop, setOpenRefDrop] = useState(false);
-
+	
 	//Dates
 	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 	const [showFounded, setShowFounded] = useState(false);
 	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
-
+	
 	const [listUsers, setListUsers] = useState([]);
 	const [homeTeamEmails, setHomeTeamEmails] = useState([]); //Meant for sending emails out
 	const [awayTeamEmails, setAwayTeamEmails] = useState([]); //Meant for sending emails out
+	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
+	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
+	
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
 
@@ -88,6 +91,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 	useEffect(() => {
 		setMatchDate(new Date().toISOString().split('T')[0])
 		setUiState('main');
+		// DISPLAY COLORS
+		setHomeDisplayColour('bg-red-500');
+
 	}, [])
 
 	function getConvertedDate(date) {
@@ -391,6 +397,44 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 		setStartTime(getCurrentTime());
 	};
 
+	useEffect(() => {
+		if (homeColour) {
+			convertColorsDisplay(homeColour, setHomeDisplayColour);
+		}
+	}, [homeColour])
+	useEffect(() => {
+		if (awayColour) {
+			convertColorsDisplay(awayColour, setAwayDisplayColour);
+		}
+	}, [awayColour])
+
+	const convertColorsDisplay = (color, setDisplayColor) => {
+
+		let colorDisplayed = '';
+		switch (color) {
+			case 'Yellow':
+				colorDisplayed = `bg-yellow-300`
+				break;
+			case 'Red':
+				colorDisplayed = `bg-red-500`
+				break;
+			case 'Blue':
+				colorDisplayed = `bg-blue-500`
+				break;
+			case 'Green':
+				colorDisplayed = `bg-green-500`
+				break;
+			case 'White':
+				colorDisplayed = `bg-white`
+				break;
+			case 'Black':
+				colorDisplayed = `bg-black`
+				break;
+		}
+		setDisplayColor(colorDisplayed);
+		// return colorDisplayed;
+	}
+
 	if (!isVisible) return;
 
 	return (
@@ -469,22 +513,28 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 							<div className="w-1/2">
 								<label
 									htmlFor="home-team-jersey"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Home Team Jersey Colour
 								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={homeColour}
-									setValue={setHomeColour}
-								/>
+								<div className='flex gap-1'>
+								<div className={`${homeDisplayColour} w-[3rem] border-[1.25px] border-black`}/>
+								<div className='w-full'>
+									<DropdownInput
+										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+										value={homeColour}
+										setValue={setHomeColour}
+										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
+									/>
+								</div>
+								</div>
 							</div>
 							{/**Away Team */}
 							<div className="w-full">
 								<div onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop)}>
 									<label
 										htmlFor="awayteam"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Away Team
 									</label>
@@ -510,15 +560,21 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 							<div className="w-1/2">
 								<label
 									htmlFor="email"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Away Team Jersey Colour
 								</label>
-								<DropdownInput
-									options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
-									value={awayColour}
-									setValue={setAwayColour}
-								/>
+								<div className='flex gap-1'>
+								<div className={`${awayDisplayColour} w-[3rem] border-[1.25px] border-black`}/>
+								<div className='w-full'>
+									<DropdownInput
+										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
+										value={awayColour}
+										setValue={setAwayColour}
+										// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
+									/>
+								</div>
+								</div>
 							</div>
 
 							{/**Referee */}
@@ -528,9 +584,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 							>
 								<label
 									for="name"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
-									Referee(s)
+									Referee (s)
 								</label>
 								<input
 									value=""
@@ -574,7 +630,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 							<div className="w-full">
 								<label
 									for="name"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Date
 								</label>
@@ -611,7 +667,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 								>
 									<label
 										for="startTime"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Start Time
 									</label>
@@ -636,7 +692,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 							<div className="w-full">
 								<label
 									htmlFor="location"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Location
 								</label>
