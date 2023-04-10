@@ -18,7 +18,7 @@ import SportDropdown from './SportDropdown';
 export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leagues, setLeagues }) {
     const [newLeagueModal, setNewLeagueModal] = useState(false);
     // const [leagues, setLeagues] = useState([]);
-    const [sport, setSport] = useState();
+    const [sport, setSport] = useState('Soccer');
 
     useEffect(()=>{
         listLeaguesFunc();

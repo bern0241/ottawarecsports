@@ -364,7 +364,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 		  Message: {
 			Body: {
 			  Text: {
-				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${matchLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
+				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
 			  },
 			},
 			Subject: {

@@ -49,8 +49,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 	
 	const [listUsers, setListUsers] = useState([]);
 	const [listLocations, setListLocations] = useState([]);
-	const [homeTeamEmails, setHomeTeamEmails] = useState([]); //Meant for sending emails out
-	const [awayTeamEmails, setAwayTeamEmails] = useState([]); //Meant for sending emails out
+	const [homeEmails, setHomeEmails] = useState([]); //Meant for sending emails out
+	const [awayEmails, setAwayEmails] = useState([]); //Meant for sending emails out
 	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
 	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 	
@@ -293,7 +293,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames, selectedDate }) =
 		  Message: {
 			Body: {
 			  Text: {
-				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${matchLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
+				Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
 			  },
 			},
 			Subject: {
