@@ -4,13 +4,23 @@
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
 import EditMatchModal from './EditMatchModal';
 import DeleteMatchModal from './DeleteMatchModal';
+import Link from 'next/link';
 
 const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 	if (!match) return;
+	
+	const [locationObject, setLocationObject] = useState();
+
+	useEffect(() => {
+		if (match.location) {
+			setLocationObject(JSON.parse(match.location));
+		}
+	}, [])
+
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -126,8 +136,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<span>
 								<LocationIcon />
 							</span>
-							{match.location}
-							{/* <lINK href={match.location.weblink}></lINK> */}
+							<Link className='text-blue-500 underline' href={`${locationObject?.weblink}`}>{locationObject?.name}</Link>
 						</p>
 					</span>
 				</td>

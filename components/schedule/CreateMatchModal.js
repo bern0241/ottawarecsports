@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
+import LocationsDropdown from './LocationsDropdown';
 import { useRouter } from 'next/router';
 import makeid from '@/utils/makeId';
 import { createGame } from '@/src/graphql/mutations';
-import { listPlayers } from '@/src/graphql/queries';
+import { listPlayers, listLocations as listLocationsQuery } from '@/src/graphql/queries';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
 import RefereeSearchBar from './RefereeSearchBar';
@@ -46,6 +47,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 	const [openStartTimeDrop, setOpenStartTimeDrop] = useState(false);
 	
 	const [listUsers, setListUsers] = useState([]);
+	const [listLocations, setListLocations] = useState([]);
 	const [homeTeamEmails, setHomeTeamEmails] = useState([]); //Meant for sending emails out
 	const [awayTeamEmails, setAwayTeamEmails] = useState([]); //Meant for sending emails out
 	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
@@ -89,12 +91,22 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 	};
 
 	useEffect(() => {
+		setUiState('main');
+	}, [isVisible])
+
+	useEffect(() => {
 		setMatchDate(new Date().toISOString().split('T')[0])
 		setUiState('main');
-		// DISPLAY COLORS
-		setHomeDisplayColour('bg-red-500');
-
+		fetchLocations();
 	}, [])
+
+	const fetchLocations = async () => {
+		const _locations = await API.graphql({ 
+		  query: listLocationsQuery 
+		});
+		console.log('Locations', _locations.data.listLocations.items);
+		setListLocations(_locations.data.listLocations.items);
+	}
 
 	function getConvertedDate(date) {
 		let yourDate = date;
@@ -151,6 +163,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 		//console.log(formattedTime);
 		return formattedTime;
 	};
+
+	useEffect(() => {
+		if (matchLocation) {
+			console.log(matchLocation);
+		}
+	}, [matchLocation])
 
 	const createNewMatch = async (e) => {
 		e.preventDefault();
@@ -550,6 +568,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									)}
 								</div>
 							</div>
+							<button onClick={(e) => console.log(matchLocation)}>CLICK ME!</button>
 							{openAwayTeamDrop && (
 								<TeamDropDown
 									setState={setAwayTeam}
@@ -696,25 +715,10 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 								>
 									Location
 								</label>
-								<DropdownInput
-									options={[
-										'Anexxe Trille des Bois',
-										'Centennial Public School',
-										'Lester B. Pearson High School',
-										'Louis Riel Dome',
-										'De La Salle High School',
-										'Lisgar Collegiate High School',
-										'Thomas D’Arcy McGee',
-										'Colonel By High School',
-										'Trilles-des-Bois',
-										'Craig Henry Park',
-										'Algonquin Dome College',
-										'Albert Street School',
-										'Hornet’s Nest Superdome',
-										'Lees Turf',
-									]}
-									value={matchLocation}
-									setValue={setMatchLocation}
+								<LocationsDropdown
+									listLocations={listLocations}
+									state={matchLocation}
+									setState={setMatchLocation}
 								/>
 							</div>
 						</div>
