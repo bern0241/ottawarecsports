@@ -231,7 +231,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 				id: match.id,
 				// division: divisionID,
 				home_color: homeColour,
-				away_colo: awayColour,
+				away_color: awayColour,
 				date: convertedTime,
 				location: matchLocation,
 				referees: refereeUsernames,
@@ -386,6 +386,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match }) => {
 									setValue={setHomeColour}
 								/>
 							</div>
+							{/* <button onClick={(e) => console.log(convertedTime)}>CLICK ME!</button> */}
 							{/**Away Team */}
 							<div className="w-full">
 								<div onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop)}>

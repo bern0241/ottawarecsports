@@ -25,6 +25,10 @@ const DropdownInput = ({
 		</svg>
 	);
 
+	useEffect(() => {
+		console.log(options);
+	}, [options])
+
 	return (
 		<div className="relative">
 			<select

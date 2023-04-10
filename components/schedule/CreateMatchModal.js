@@ -95,7 +95,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 	}, [isVisible])
 
 	useEffect(() => {
-		setMatchDate(new Date().toISOString().split('T')[0])
+		setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
+		// .toISOString().split('T')[0])
 		setUiState('main');
 		fetchLocations();
 	}, [])
@@ -172,8 +173,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 
 	const createNewMatch = async (e) => {
 		e.preventDefault();
-		// sendEmailsToAllPlayers();
-		// 	return;
 		try {
 			if (
 				homeTeam === null ||
@@ -427,7 +426,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 	}, [awayColour])
 
 	const convertColorsDisplay = (color, setDisplayColor) => {
-
 		let colorDisplayed = '';
 		switch (color) {
 			case 'Yellow':
@@ -536,7 +534,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									Home Team Jersey Colour
 								</label>
 								<div className='flex gap-1'>
-								<div className={`${homeDisplayColour} w-[3rem] border-[1.25px] border-black`}/>
+								<div className={`${homeDisplayColour} w-[3rem] border-[1.5px] border-black`}/>
 								<div className='w-full'>
 									<DropdownInput
 										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}
@@ -568,7 +566,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									)}
 								</div>
 							</div>
-							<button onClick={(e) => console.log(matchLocation)}>CLICK ME!</button>
+							<button onClick={(e) => console.log(matchDate)}>CLICK ME!</button>
 							{openAwayTeamDrop && (
 								<TeamDropDown
 									setState={setAwayTeam}
@@ -584,7 +582,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, getGames }) => {
 									Away Team Jersey Colour
 								</label>
 								<div className='flex gap-1'>
-								<div className={`${awayDisplayColour} w-[3rem] border-[1.25px] border-black`}/>
+								<div className={`${awayDisplayColour} w-[3rem] border-[1.5px] border-black`}/>
 								<div className='w-full'>
 									<DropdownInput
 										options={['Red', 'Green', 'Blue', 'Yellow', 'Black', 'White']}

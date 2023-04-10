@@ -111,7 +111,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 						<p>{match.away_score}</p>
 					</span>
 					<TeamNameAndImage
-						jerseyColour={match.away_colo?.toLowerCase()}
+						jerseyColour={match.away_color?.toLowerCase()}
 						reverse={true}
 						team={match.AwayTeam}
 					/>
