@@ -205,7 +205,7 @@ export default function TeamProfile() {
 					<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 						<img
 							src={profileImage}
-							className="self-center w-[200px] h-[200px] object-cover"
+							className="rounded-lg self-center w-[200px] h-[200px] object-cover"
 							alt="Team profile image."
 						></img>
 						<div className="flex justify-center gap-1">

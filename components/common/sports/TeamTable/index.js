@@ -121,7 +121,7 @@ import AddTeamDropdown from './AddTeamDropdown';
                              Members
                          </th>
                          <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
-                             Action
+                             Remove
                          </th>
                      </tr>
                  </thead>
