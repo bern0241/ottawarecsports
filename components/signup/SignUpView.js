@@ -133,117 +133,97 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
 			<div className="flex justify-center items-center w-full h-full">
-				<div className="flex flex-col gap-3 w-96">
+				<div className="flex flex-col gap-3 w-80 sm:w-96">
 					<OrsLogo />
-					<div className="flex flex-col w-96">
-						<div className="flex flex-row items-center">
-							<h2 className="text-lg sm:text-2xl font-semibold my-6 grow">
-								Sign Up
-							</h2>
-							<p className="text-sm">* Required</p>
-						</div>
-						<div className="flex flex-col w-96 gap-3">
-							<form className="flex flex-col w-96 gap-2.5">
-								<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-2">
-									<Label
-										htmlFor="firstname"
-										value="First Name"
-										className="sr-only"
-									/>
-									<TextInput
-										id="firstname"
-										type="firstname"
-										placeholder="First Name *"
-										onChange={(e) => setFirstName(e.target.value)}
-										required={true}
-										className="w-96"
-									/>
-									<Label
-										htmlFor="lastname"
-										value="Last Name"
-										className="sr-only"
-									/>
-									<TextInput
-										id="lastname"
-										type="lastname"
-										placeholder="Last Name *"
-										onChange={(e) => setLastName(e.target.value)}
-										required={true}
-										className="w-96"
-										state={lastName}
-										setState={setLastName}
-									/>
-								</div>
-								<GenderDropDown state={gender} setState={setGender} />
-								<DobDatePicker state={birthDate} setState={setBirthDate} />
-								<LocationDropDown state={location} setState={setLocation} />
-								<Label
-									htmlFor="phone"
-									value="Phone Number"
-									className="sr-only"
-								/>
-								<TextInput
-									id="phone"
-									type="tel"
-									placeholder="Phone Number (optional)"
-									onChange={(e) => setPhoneNumber(e.target.value)}
-									required={false}
-									className="w-96"
-								/>
-								<Label htmlFor="email" value="Email" className="sr-only" />
-								<TextInput
-									id="email"
-									type="email"
-									placeholder="Email *"
-									onChange={(e) => setEmail(e.target.value)}
-									required={true}
-									className="w-96"
-								/>
-								<Label
-									htmlFor="password"
-									value="Password"
-									className="sr-only"
-								/>
-								<PasswordField
-									label="Password *"
-									// onChange={(e) => setPassword(e.target.value)}
-									state={password}
-									setState={setPassword}
-									showPassword={showPassword}
-									setShowPassword={setShowPassword}
-								/>
-								{message !== null && (
-									<p
-										id="message-notice"
-										className={`ml-1 text-[.87rem] ${
-											message.status === 'error'
-												? 'text-red-600'
-												: 'text-green-500'
-										} relative top-1`}
-									>
-										<span className="font-medium"></span> {message.message}
-									</p>
-								)}
-								<div>
-									<button
-										className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-										type="button"
-										onClick={() => signUp()}
-									>
-										Sign Up
-									</button>
-								</div>
-								<div>
-									<button
-										className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
-										type="button"
-										onClick={() => handleEnterAsGuest()}
-									>
-										Enter as a Guest
-									</button>
-								</div>
-							</form>
-						</div>
+					<div className="flex flex-row items-center">
+						<h2 className="text-xl font-semibold my-2 sm:text-2xl grow">
+							Sign Up
+						</h2>
+						<p className="text-sm">* Required</p>
+					</div>
+					<div className="flex flex-col justify-center items-center">
+						<form className="flex flex-col gap-2 w-80 sm:w-96">
+							<Label
+								htmlFor="firstname"
+								value="First Name"
+								className="sr-only"
+							/>
+							<TextInput
+								id="firstname"
+								type="firstname"
+								placeholder="First Name *"
+								onChange={(e) => setFirstName(e.target.value)}
+								required={true}
+							/>
+							<Label htmlFor="lastname" value="Last Name" className="sr-only" />
+							<TextInput
+								id="lastname"
+								type="lastname"
+								placeholder="Last Name *"
+								onChange={(e) => setLastName(e.target.value)}
+								required={true}
+								state={lastName}
+								setState={setLastName}
+							/>
+							<GenderDropDown state={gender} setState={setGender} />
+							<DobDatePicker state={birthDate} setState={setBirthDate} />
+							<LocationDropDown state={location} setState={setLocation} />
+							<Label htmlFor="phone" value="Phone Number" className="sr-only" />
+							<TextInput
+								id="phone"
+								type="tel"
+								placeholder="Phone Number (optional)"
+								onChange={(e) => setPhoneNumber(e.target.value)}
+								required={false}
+							/>
+							<Label htmlFor="email" value="Email" className="sr-only" />
+							<TextInput
+								id="email"
+								type="email"
+								placeholder="Email *"
+								onChange={(e) => setEmail(e.target.value)}
+								required={true}
+							/>
+							<Label htmlFor="password" value="Password" className="sr-only" />
+							<PasswordField
+								label="Password *"
+								// onChange={(e) => setPassword(e.target.value)}
+								state={password}
+								setState={setPassword}
+								showPassword={showPassword}
+								setShowPassword={setShowPassword}
+							/>
+							{message !== null && (
+								<p
+									id="message-notice"
+									className={`ml-1 text-[.87rem] ${
+										message.status === 'error'
+											? 'text-red-600'
+											: 'text-green-500'
+									} relative top-1`}
+								>
+									<span className="font-medium"></span> {message.message}
+								</p>
+							)}
+							<div>
+								<button
+									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+									type="button"
+									onClick={() => signUp()}
+								>
+									Sign Up
+								</button>
+							</div>
+							<div>
+								<button
+									className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+									type="button"
+									onClick={() => handleEnterAsGuest()}
+								>
+									Enter as a Guest
+								</button>
+							</div>
+						</form>
 						<p className="font-normal text-base cursor-pointer mt-3">
 							Have an account?{' '}
 							<Link href="/login" className="font-bold">
