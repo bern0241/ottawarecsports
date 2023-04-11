@@ -1,20 +1,19 @@
 /**
- * Last updated: 2023-04-11
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
- * Justin Bernard <bern0241@algonquinlive.com>
  */
 
  import React, { useState, useEffect } from 'react';
  import Head from 'next/head';
- import { IconChevronLeft } from '@tabler/icons-react';;
+ import { IconChevronLeft, IconChevronsDownLeft } from '@tabler/icons-react';;
  import { useUser } from '@/context/userContext';
  import { useRouter } from 'next/router';
  // Tables
  import TeamTable from '@/components/common/sports/TeamTable';
  
-export default function ACPLeaguesDivisionPage() {
+   export default function ACPLeaguesDivisionPage() {
        const [user, setUser, authRoles, setAuthRoles] = useUser();
        const router = useRouter();
 

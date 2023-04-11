@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-11
+ * Last updated: 2023-04-08
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -12,10 +12,9 @@
 
 import React, { useState, useEffect } from 'react'
 
-export default function SportDropdown({ sport, setSport }) {
+export default function SportDropdown({ sport, setSport, listLeaguesFunc }) {
     const [openModal, setOpenModal] = useState(false);
 
-    // Designed for switching sports, thus changes the leagues shown.
     const switchSport = async (e, _sport) => {
         e.preventDefault();
         setSport(_sport);
@@ -45,7 +44,6 @@ export default function SportDropdown({ sport, setSport }) {
             </ul>
         </div>
     )}
-    {/* Background of modal - Hides modal when clicked */}
     {openModal && (
         <div onClick={(e) => setOpenModal(false)} class='z-[200] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
     )}

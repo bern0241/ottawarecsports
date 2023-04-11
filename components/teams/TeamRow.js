@@ -46,8 +46,7 @@ export default function TeamRow({ team, setCurrentTeam }) {
 				UserPoolId: 'us-east-1_70GCK7G6t'
 			}
 			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-				if (err) console.log('User not found'); // an error occurred
-				// if (err) console.log(err, err.stack); // an error occurred
+				if (err) console.log(err, err.stack); // an error occurred
 				else     {
 					// setCaptains(data);
 					setCaptains((captains) => {

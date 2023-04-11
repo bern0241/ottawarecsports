@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-11
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -28,11 +28,15 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
     const [teamCount, setTeamCount] = useState(0);
     const router = useRouter();
 
-    // Sets the team count whenever a division or season are clicked.
     useEffect(()=>{
         getTeamsCount();
+<<<<<<< HEAD
     }, [selectedSeason, selectedDivision]);
     // When a division is clicked, go to all teams of division page.
+=======
+    }, []);
+
+>>>>>>> parent of d7ead26 (Add comments and references to everything in ACP)
     const clickedDivision = (e) => {
         e.preventDefault();
         setSelectedDivision(division);
@@ -75,6 +79,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
                     {convertLevelToFull(division.level)}
                 </td>
                 <td class="px-6 text-lg py-3 text-center">
+                    {/* {division.gender} */}
                     {teamCount}
                 </td>
                 <td class="flex gap-2 px-6 py-4 text-center justify-center">

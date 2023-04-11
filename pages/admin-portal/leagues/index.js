@@ -1,14 +1,20 @@
 /**
- * Last updated: 2023-04-11
+ * Last updated: 2023-04-03
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
- * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Layout from '@/components/common/Layout';
+import styles from '@/styles/Home.module.css';
 import { useUser } from '@/context/userContext';
+import { useRouter } from 'next/router';
+
+// Components
+import SignOutButton from '@/components/common/SignOutButton';
+
 // Tables
 import ACPLeagueTable from '@/components/admin-portal/leagues/LeagueTable';
 import ACPSeasonTable from '@/components/admin-portal/leagues/SeasonTable';
@@ -20,7 +26,10 @@ import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
     const [selectedLeague, setSelectedLeague] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [selectedDivision, setSelectedDivision] = useState(null);
+
     const [leagues, setLeagues] = useState([]);
+    const [seasons, setSeasons] = useState([]);
+    const [divisions, setDivisions] = useState([]);
 
      // Only Admins or Owner can access page
     if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {

@@ -23,6 +23,7 @@ import SportDropdown from './SportDropdown';
 
 export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leagues, setLeagues }) {
     const [newLeagueModal, setNewLeagueModal] = useState(false);
+    // const [leagues, setLeagues] = useState([]);
     const [sport, setSport] = useState('Soccer');
 
     useEffect(()=>{
@@ -35,9 +36,9 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
         }
     }, [sport])
 
-    // Gets leagues by sport (ex: Soccer) WITH timer
     const listLeaguesFunc = async () => {
         const timer = setTimeout(async () => {
+            
             const variables = {
                 filter: {
                   sport: {
@@ -46,6 +47,7 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
                 }
               };
               const leagues = await API.graphql({ 
+                // query: listLeaguesLong
                 query: listLeaguesLong, variables: variables
               });
               
@@ -54,7 +56,7 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
               if (leagues.data.listLeagues.items.length === 0) {
                 setSelectedLeague(null);
               }
-              // If leagueID exists in localStorage, select that league right-away! (Meant for convenience)
+
               if (localStorage.getItem('lastSelectedLeague') !== null) 
               {
                 const league = await API.graphql({ query: getLeague, variables: { id: localStorage.getItem('lastSelectedLeague')}})
@@ -68,7 +70,6 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
         return () => clearTimeout(timer);
     }
 
-    // Gets the leagues, but WITHOUT timer
     const listLeaguesFuncShort = async (_sport) => {
             const variables = {
                 filter: {
@@ -85,7 +86,6 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
               if (leagues.data.listLeagues.items.length === 0) {
                 setSelectedLeague(null);
               }
-              // If leagueID exists in localStorage, select that league right-away! (Meant for convenience)
               if (localStorage.getItem('lastSelectedLeague') !== null) 
               {
                 const league = await API.graphql({ query: getLeague, variables: { id: localStorage.getItem('lastSelectedLeague')}})
@@ -97,7 +97,6 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
             }
     }
 
-    // Whenever a league is selected, save leagueID to localStorage (convenience purposes)
     useEffect(() => {
         if (selectedLeague) {
             localStorage.setItem('lastSelectedLeague', selectedLeague.id)
@@ -106,6 +105,7 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
 
     return (
         <>
+
         <div class="relative mx-auto px-4 w-full my-[1rem]">
         <SportDropdown sport={sport} setSport={setSport} />
             <table class="w-full text-sm text-left border border-gray-400">
