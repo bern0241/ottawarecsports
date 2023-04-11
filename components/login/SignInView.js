@@ -59,8 +59,10 @@ export default function SignInView({ setUiState }) {
 			<div className="flex justify-center items-center h-full w-full">
 				<div className="flex flex-col gap-3 w-96">
 					<OrsLogo />
-					<div className="">
-						<h2 className="text-lg sm:text-2xl font-semibold my-6">Sign In</h2>
+					<h2 className="text-xl md:text-2xl font-semibold my-2 pl-6">
+						Sign In
+					</h2>
+					<div className="flex flex-col justify-center items-center">
 						<form className="flex flex-col gap-3">
 							<Label htmlFor="email" value="Email" className="sr-only" />
 							<TextInput
@@ -113,19 +115,19 @@ export default function SignInView({ setUiState }) {
 								</button>
 							</div>
 						</form>
-						<p
-							onClick={() => setUiState('forgotPassword')}
-							className="font-normal text-base text-right cursor-pointer"
-						>
-							Forgot your password?
-						</p>
-						<p className="font-normal text-base cursor-pointer mt-8">
-							Need an account?{' '}
-							<Link href="/signup" className="font-bold">
-								Sign Up
-							</Link>
-						</p>
 					</div>
+					<p
+						onClick={() => setUiState('forgotPassword')}
+						className="font-normal text-base text-right cursor-pointer pr-6"
+					>
+						Forgot your password?
+					</p>
+					<p className="font-normal text-base cursor-pointer mt-8 pl-6">
+						Need an account?{' '}
+						<Link href="/signup" className="font-bold">
+							Sign Up
+						</Link>
+					</p>
 				</div>
 			</div>
 		</div>
