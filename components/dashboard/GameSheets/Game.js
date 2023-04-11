@@ -10,11 +10,13 @@ import React, { useEffect, useState } from 'react';
 import { IconClock, IconCalendarEvent, IconMapPin } from '@tabler/icons-react';
 import TeamImageAndName from '../TeamImageAndName';
 import { useUser } from '@/context/userContext';
+import Link from 'next/link';
 
 export default function Game({ game }) {
 	const [date, setDate] = useState('');
 	const [time, setTime] = useState('');
 	const [visible, setVisible] = useState(false);
+	const [locationObject, setLocationObject] = useState();
 	const [user, setUser, authRoles] = useUser();
 
   useEffect(() => {
@@ -29,6 +31,9 @@ export default function Game({ game }) {
         setVisible(true)
       }
     }
+    if (game.location) {
+			setLocationObject(JSON.parse(game.location));
+		}
     }, []);
 
 	const dateOfGame = () => {
@@ -104,7 +109,10 @@ export default function Game({ game }) {
 							<IconClock /> {time}
 						</span>
             <span className="flex gap-1 text-sm lg:col-span-2">
-              <IconMapPin /> Algonquin Dome Field #1
+              <IconMapPin />
+              <Link className='text-blue-500 underline' href={`${locationObject?.weblink}`} target="_blank">
+                {locationObject?.name}
+              </Link>
             </span>
           </div>
 				</div>
