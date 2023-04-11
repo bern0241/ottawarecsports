@@ -20,20 +20,20 @@ const Layout = ({ children }) => {
 
 	// Checks size of window screen and sets laptopSize state
 	useEffect(() => {
-        if (size.width >= 1024) {
+		if (size.width >= 1024) {
 			setLaptopSize(true);
-        } else {
+		} else {
 			setLaptopSize(false);
 		}
-    }, [size.width])
+	}, [size.width]);
 
 	useEffect(() => {
-        if (size.height >= 640) {
+		if (size.height >= 640) {
 			setLaptopHeight(true);
-        } else {
+		} else {
 			setLaptopHeight(false);
 		}
-    }, [size.height])
+	}, [size.height]);
 
 	useEffect(() => {
 		if (laptopSize) {
@@ -42,21 +42,30 @@ const Layout = ({ children }) => {
 		if (!laptopSize) {
 			setOpenMenu(false);
 		}
-	}, [laptopSize])
+	}, [laptopSize]);
 
 	return (
-		<div className="mt-7"> 
+		<div className="mt-7">
 			<div>
 				<div className="flex flex-col">
 					<div className=" bg-white">
-						<Header openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} />
+						<Header
+							openMenu={openMenu}
+							setOpenMenu={setOpenMenu}
+							laptopSize={laptopSize}
+						/>
 					</div>
 					<div className="flex items-center absolute inset-x-0 sm:grid lg:ml-80 mt-[10rem] lg:mt-[5rem] bg-[#E7F4FF]">
 						{children}
 					</div>
 				</div>
 				<div className="sm:block">
-					<NavbarMenu openMenu={openMenu} setOpenMenu={setOpenMenu} laptopSize={laptopSize} laptopHeight={laptopHeight} />
+					<NavbarMenu
+						openMenu={openMenu}
+						setOpenMenu={setOpenMenu}
+						laptopSize={laptopSize}
+						laptopHeight={laptopHeight}
+					/>
 				</div>
 			</div>
 		</div>
