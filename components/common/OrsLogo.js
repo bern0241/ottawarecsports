@@ -18,7 +18,7 @@ const OrsLogo = () => {
 				width={85}
 				height={85}
 				priority
-				className="self-center"
+				className="self-center w-auto h-auto"
 			/>
 			</div>
 			<p className="text-[1.34rem] font-semibold text-center mr-[1.5rem]">
