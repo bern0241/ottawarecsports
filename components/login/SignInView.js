@@ -69,7 +69,6 @@ export default function SignInView({ setUiState }) {
 								placeholder="Email"
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
-								className="w-96"
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
 										handleSubmit(e);
