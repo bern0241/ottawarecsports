@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { API } from '@aws-amplify/api';
-import { getGamesByTeam, listGamesShort } from '@/src/graphql/custom-queries';
+import { getGamesByTeam } from '@/src/graphql/custom-queries';
 import { getPlayersByUsername } from '@/utils/graphql.services';
 import { useUser } from '@/context/userContext';
 
@@ -17,7 +17,7 @@ export default function Games() {
 	const [userId, setUserId] = useState();
 	const [playerData, setPlayerData] = useState();
 	const [teams, setTeams] = useState();
-	const [games, setGames] = useState();
+	const [games, setGames] = useState([]);
 	const [gameSchedule, setGameSchedule] = useState([
 		{ day: 'Sunday', games: [] },
 		{ day: 'Monday', games: [] },
@@ -27,6 +27,16 @@ export default function Games() {
 		{ day: 'Friday', games: [] },
 		{ day: 'Saturday', games: [] },
 	]);
+
+	const scheduleFormat = [
+		{ day: 'Sunday', games: [] },
+		{ day: 'Monday', games: [] },
+		{ day: 'Tuesday', games: [] },
+		{ day: 'Wednesday', games: [] },
+		{ day: 'Thursday', games: [] },
+		{ day: 'Friday', games: [] },
+		{ day: 'Saturday', games: [] },
+	];
 
 	useEffect(() => {
 		if (!user) return;
@@ -40,7 +50,7 @@ export default function Games() {
 
 	useEffect(() => {
 		if (!playerData) return;
-		getGames(playerData.teamID);
+		getGames(playerData);
 	}, [playerData]);
 
 	useEffect(() => {
@@ -51,17 +61,20 @@ export default function Games() {
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
 		if (data) {
-			setPlayerData(data[0]);
+			setPlayerData(data);
 		}
 	};
 
-	const getGames = async (id) => {
-		const apiData = await API.graphql({
-			query: listGamesShort,
-			variables: { teamId: id },
-		});
-		// console.log('GAMES',apiData);
-		setGames(apiData.data.listGames.items);
+	const getGames = async (data) => {
+		let arr = [];
+		for (let i of data) {
+			const apiData = await API.graphql({
+				query: getGamesByTeam,
+				variables: { teamId: i.teamID },
+			});
+			arr = arr.concat(apiData.data.listGames.items);
+		}
+		setGames(arr);
 	};
 
 	const sortGamesByDate = (games) => {

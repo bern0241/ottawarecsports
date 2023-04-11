@@ -275,6 +275,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 				});
 				return;
 			}
+
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 		// 	console.log(matchDate);
@@ -621,7 +622,9 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 							>
 								<label
 									for="name"
+
 									className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
+
 								>
 									Referee (s)
 								</label>
@@ -837,6 +840,7 @@ const EditMatchModal = ({ isVisible, setIsVisible, match, games, setGames, callM
 				onClick={(e) => {
 					setIsVisible(false);
 				}}
+
 				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 			</>

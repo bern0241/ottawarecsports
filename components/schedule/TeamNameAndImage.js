@@ -39,7 +39,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 
 	return (
 		<span
-			className={`flex flex-col md:flex-row grow items-center gap-3 justify-items-stretch`}
+			className={`flex flex-col md:flex-row grow  items-center gap-3 justify-items-stretch`}
 		>
 			{reverse === true ? (
 				<>
