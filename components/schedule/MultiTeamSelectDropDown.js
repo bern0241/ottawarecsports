@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { listTeams } from '@/src/graphql/queries';
-import { API } from 'aws-amplify';
-import { listTeamDivisions } from '@/src/graphql/queries';
-import { listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 
 export default function MultiTeamSelectDropDown({
 	teams,
@@ -19,32 +15,6 @@ export default function MultiTeamSelectDropDown({
 	// const [selectedTeams, setSelectedTeams] = useState([]);
 	const divisionID = router.query.id;
 
-	// useEffect(() => {
-	// 	if (!divisionID) return;
-	// 	const callMeAsync = async () => {
-	// 		await fetchTeamsDivisions();
-	// 	};
-	// 	callMeAsync();
-	// }, [divisionID]);
-
-	// const fetchTeamsDivisions = async () => {
-	// 	const variables = {
-	// 		filter: {
-	// 			divisionId: {
-	// 				eq: divisionID,
-	// 			},
-	// 		},
-	// 	};
-	// 	const teamDivisions = await API.graphql({
-	// 		query: listTeamDivisionsShort,
-	// 		variables: variables,
-	// 	});
-	// 	// console.log('My Teams from Divisions', teamDivisions.data.listTeamDivisions);
-	// 	setTeams(
-	// 		teamDivisions.data.listTeamDivisions.items.map((team) => team.team)
-	// 	);
-	// };
-	// console.log(selectedTeams);
 	return (
 		<>
 			<button

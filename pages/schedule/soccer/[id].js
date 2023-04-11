@@ -167,16 +167,18 @@ export default function DivisionMatches() {
 					setSelectedDate={setSelectedDate}
 					isCoordinator={isCoordinator}
 				/>
-				<GeneratedMatchesTable
-					matches={generatedGames}
-					setMatchToEdit={setMatchToEdit}
-					setIsEditing={setIsEditingMatch}
-					setIsDeleting={setIsDeletingMatch}
-					setSaveBatchGame={setSaveBatchGame}
-					// selectedDate={selectedDate}
-					// setSelectedDate={setSelectedDate}
-					isCoordinator={isCoordinator}
-				/>
+				{generatedGames.length > 0 && (
+					<GeneratedMatchesTable
+						matches={generatedGames}
+						setMatchToEdit={setMatchToEdit}
+						setIsEditing={setIsEditingMatch}
+						setIsDeleting={setIsDeletingMatch}
+						setSaveBatchGame={setSaveBatchGame}
+						// selectedDate={selectedDate}
+						// setSelectedDate={setSelectedDate}
+						isCoordinator={isCoordinator}
+					/>
+				)}
 			</main>
 			<CreateMatchModal
 				isVisible={modalVisible}
