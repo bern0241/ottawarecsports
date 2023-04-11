@@ -17,7 +17,7 @@ const Profile = () => {
 	const [profileImage, setProfileImage] = useState(null);
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
-	
+
 	useEffect(() => {
 		if (!user) return;
 
@@ -27,16 +27,16 @@ const Profile = () => {
 			const url = getImageFromS3(user?.attributes?.picture);
 			setProfileImage(url);
 		}
-	}, [])
+	}, []);
 
 	useEffect(() => {
 		getProfilePic();
-	}, [user])
+	}, [user]);
 
 	const getProfilePic = async () => {
-		const timer = setTimeout( async () => {
+		const timer = setTimeout(async () => {
 			if (!user) return;
-			
+
 			if (user.attributes.picture === 'none') {
 				return setProfileImage(null);
 			} else {
@@ -45,31 +45,44 @@ const Profile = () => {
 			}
 		}, 1000);
 		return () => clearTimeout(timer);
-	}
+	};
 
 	return (
 		<>
-		<div className="flex flex-wrap gap-4 p-1 mr-2 items-center">
-			<div className="text-black text-right hidden lg:block">
-				{user && ( <p className="font-medium text-base">{`${user?.attributes?.name} ${user?.attributes?.family_name} `}</p> ) }
-				{!user && ( <p className="font-medium text-base">{`Guest`}</p> ) }
-				{user && ( <p className="font-regular text-xs">{authRoles && authRoles.join(', ')}</p> ) }
+			<div className="flex flex-wrap gap-4 p-1 mr-2 items-center">
+				<div className="text-black text-right hidden lg:block">
+					{user && (
+						<p className="font-medium text-base">{`${user?.attributes?.name} ${user?.attributes?.family_name} `}</p>
+					)}
+					{!user && <p className="font-medium text-base">{`Guest`}</p>}
+					{user && (
+						<p className="font-regular text-xs">
+							{authRoles && authRoles.join(', ')}
+						</p>
+					)}
+				</div>
+				<div>
+					<img
+						onClick={(e) => {
+							e.preventDefault();
+							setOpenDropdown(!openDropdown);
+						}}
+						style={{ objectFit: 'cover' }}
+						width={132}
+						height={132}
+						className="w-[2.7rem] h-[2.7rem] rounded-full border border-brand-blue-900 cursor-pointer"
+						src={profileImage ? profileImage : '/images/defaultProfilePic.jpeg'}
+						alt="profile"
+					/>
+					<ProfileDropdown
+						user={user}
+						setUser={setUser}
+						openDropdown={openDropdown}
+						setOpenDropdown={setOpenDropdown}
+						setProfileImage={setProfileImage}
+					/>
+				</div>
 			</div>
-			<div>
-				<img
-					onClick={(e) => {
-						e.preventDefault();
-						setOpenDropdown(!openDropdown);
-					}}
-					style={{ objectFit: 'cover' }}
-					width={132}
-					height={132}
-					className="w-[2.7rem] h-[2.7rem] rounded-full border border-brand-blue-900 cursor-pointer"
-					src={profileImage ? profileImage : '/images/defaultProfilePic.jpeg'}
-				/>
-				<ProfileDropdown user={user} setUser={setUser} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} setProfileImage={setProfileImage} />
-			</div>
-		</div>
 		</>
 	);
 };
