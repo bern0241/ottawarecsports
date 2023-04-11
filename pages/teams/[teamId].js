@@ -24,6 +24,7 @@ import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/teamIdPage/MemberCard';
 import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
+import { getLeague } from '@/src/graphql/queries';
 
 export default function TeamProfile() {
 	const [team, setTeam] = useState();
@@ -50,18 +51,20 @@ export default function TeamProfile() {
 	 * This function fetches the division -> season -> league (in this order) for this page
 	 */
 	 const moveUpLeagueId = async () => {
-        // DIVISION
-        const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: teamId}});
-        const divisionData = await apiDataDivision.data.getDivision;
-        setDivision(divisionData);
-        // SEASON
-        const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
-        const seasonData = await apiDataSeason.data.getSeason;
-        setSeason(seasonData);
-        // LEAGUE
-        const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
-        const leagueData = await apiDataLeague.data.getLeague;
-        setLeague(leagueData);
+		team.Divisions.items.map(async (_division) => {
+			// DIVISION
+			const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: _division.divisionId}});
+			const divisionData = await apiDataDivision.data.getDivision;
+			setDivision(divisionData);
+			// SEASON
+			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
+			const seasonData = await apiDataSeason.data.getSeason;
+			setSeason(seasonData);
+			// LEAGUE
+			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+			const leagueData = await apiDataLeague.data.getLeague;
+			setLeague(leagueData);
+		})
     }
 
 	useEffect(() => {
@@ -94,6 +97,7 @@ export default function TeamProfile() {
 			fetchCaptains(team.captains);
 			getPicture();
 			fetchPlayer();
+			moveUpLeagueId();
 		}
 	}, [team])
 
@@ -101,7 +105,6 @@ export default function TeamProfile() {
 		const data = await getTeam(teamId);
 		setTeam(data);
 		console.log('TEAM', data);
-		// await moveUpLeagueId(data.division);
 	};
 
 	const fetchPlayer = async () => {
