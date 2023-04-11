@@ -202,7 +202,7 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div className="col-span-2 md:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Location</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
@@ -212,7 +212,7 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div className="col-span-2 md:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
