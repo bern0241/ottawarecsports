@@ -19,6 +19,7 @@ import TeamBatchSelect from '@/components/schedule/TeamBatchSelect';
 import EditMatchModal from '@/components/schedule/EditMatchModal';
 import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
 import { useUser } from '@/context/userContext';
+import GeneratedMatchesTable from '@/components/schedule/GeneratedMatchesTable';
 
 export default function DivisionMatches() {
 	const [division, setDivision] = useState();
@@ -32,7 +33,9 @@ export default function DivisionMatches() {
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [selectedDate, setSelectedDate] = useState('');
+
 	const [isMakingBatch, setIsMakingBatch] = useState(false);
+	const [generatedGames, setGeneratedGames] = useState([]);
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
@@ -159,6 +162,15 @@ export default function DivisionMatches() {
 					setSelectedDate={setSelectedDate}
 					isCoordinator={isCoordinator}
 				/>
+				<GeneratedMatchesTable
+					matches={generatedGames}
+					// setMatchToEdit={setMatchToEdit}
+					setIsEditing={setIsEditingMatch}
+					setIsDeleting={setIsDeletingMatch}
+					// selectedDate={selectedDate}
+					// setSelectedDate={setSelectedDate}
+					isCoordinator={isCoordinator}
+				/>
 			</main>
 			<CreateMatchModal
 				isVisible={modalVisible}
@@ -186,6 +198,8 @@ export default function DivisionMatches() {
 				<TeamBatchSelect
 					isVisible={isMakingBatch}
 					teams={teams}
+					generatedGames={generatedGames}
+					setGeneratedGames={setGeneratedGames}
 					setIsVisible={setIsMakingBatch}
 				/>
 			)}

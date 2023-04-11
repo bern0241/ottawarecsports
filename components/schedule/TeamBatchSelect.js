@@ -25,7 +25,14 @@ const ses = new AWS.SES();
 const lambda = new AWS.Lambda();
 const sns = new AWS.SNS();
 
-const TeamBatchSelect = ({ isVisible, setIsVisible, teams, selectedDate }) => {
+const TeamBatchSelect = ({
+	isVisible,
+	setIsVisible,
+	teams,
+	selectedDate,
+	generatedGames,
+	setGeneratedGames,
+}) => {
 	const { v4: uuidv4 } = require('uuid');
 	//const moment = require('moment-timezone');
 
@@ -625,6 +632,12 @@ const TeamBatchSelect = ({ isVisible, setIsVisible, teams, selectedDate }) => {
 									</button>
 									<button
 										onClick={(e) => {
+											const dateTime = `${matchDate} ${startTime}`;
+											const convertedTime = moment(
+												dateTime,
+												'YYYY-MM-DD HH:mm A'
+											);
+											const refereeUsernames = referees.map((a) => a.username);
 											setBatchResults(
 												scheduleGamesAutomatically(selectedTeams, {
 													division: divisionID,
@@ -633,18 +646,19 @@ const TeamBatchSelect = ({ isVisible, setIsVisible, teams, selectedDate }) => {
 													status: 'NOT_STARTED',
 													home_color: 'Red',
 													away_color: 'Blue',
-													home_roster: JSON.stringify(homeTeam.Players.items),
-													away_roster: JSON.stringify(awayTeam.Players.items),
+													home_roster: JSON.stringify([{}]), //JSON.stringify(homeTeam.Players.items),
+													away_roster: JSON.stringify([{}]), //JSON.stringify(awayTeam.Players.items),
 													home_score: 0,
 													away_score: 0,
 													goals: [],
 													round: 1,
 													referees: refereeUsernames,
-													gameHomeTeamId: homeTeam.id,
-													gameAwayTeamId: awayTeam.id,
+													// gameHomeTeamId: '', //homeTeam.id,
+													// gameAwayTeamId: '', //awayTeam.id,
 												})
 											);
 											console.log(batchResults);
+											setGeneratedGames(batchResults);
 										}}
 										data-modal-hide="defaultModal"
 										type="button"
