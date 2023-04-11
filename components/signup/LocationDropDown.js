@@ -30,8 +30,11 @@ export default function LocationDropDown({ state, setState }) {
 				<option className="text-black" value="East/Vanier area">
 					East/Vanier area
 				</option>
-				<option className="text-black" value="West/Westboro to Greenbank">
-					West/Westboro to Greenbank
+				<option className="text-black" value="Westboro">
+					Westboro
+				</option>
+				<option className="text-black" value="Nepean/Barrhaven">
+					Nepean/Barrhaven
 				</option>
 				<option className="text-black" value="West/Kanata">
 					West/Kanata
