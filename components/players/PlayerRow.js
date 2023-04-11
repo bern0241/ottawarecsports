@@ -110,12 +110,14 @@ export default function PlayerRow({ player, index }) {
 			query: listPlayers,
 			variables: variables,
 		});
+
 		if (!players) {
 			return;
 		}
+		
 		players.data.listPlayers.items.map(async (player) => {
 			if (!player.teamID) return;
-			
+
 			const apiData = await API.graphql({
 				query: getTeamShort,
 				variables: { id: player.teamID },
