@@ -11,11 +11,7 @@ import { Button } from 'flowbite-react';
 import { IconCirclePlus } from '@tabler/icons-react';
 import TeamRow from '@/components/teams/TeamRow';
 import SearchBarInput from '@/components/common/SearchBarInput';
-import {
-	getAllTeams,
-	createTeam,
-	getAllPlayers,
-} from '@/utils/graphql.services';
+import { getAllTeams,getAllPlayers} from '@/utils/graphql.services';
 import NewTeamModal from '@/components/teams/NewTeamModal';
 import CurrentTeamView from '@/components/teams/CurrentTeamView';
 import { useUser } from '@/context/userContext';
@@ -35,7 +31,6 @@ export default function Teams() {
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
 		setTeams(response);
-		console.log('RESPONSE',response);
 		filterTeams(response);
 	};
 	useEffect(() => {
@@ -79,7 +74,6 @@ export default function Teams() {
 				<NewTeamModal
 					isVisible={modalVisible}
 					setIsVisible={setModalVisible}
-					players={players}
 					getTeamsData={getTeamsData}
 				/>
 				{/* Search Bar */}
@@ -109,18 +103,14 @@ export default function Teams() {
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
 								<th className="text-center py-3 px-10 text-sm font-light w-2/12">Captain (s)</th>
 								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Sport</th>
-								<th className="py-3 pr-2 text-center text-sm font-light w-2/12">
-									Members
-								</th>
-								{/* <th className="py-3 px-5 text-sm font-light">Action</th> */}
+								<th className="py-3 pr-2 text-center text-sm font-light w-2/12">Members</th>
 							</tr>
 						</thead>
 						<tbody>
-							{filteredTeams && filteredTeams.map((team, index) => (
+							{filteredTeams && filteredTeams.map((team) => (
 								<TeamRow
 									key={team.id}
 									team={team}
-									setCurrentTeam={setCurrentTeam}
 								/>
 							))}
 

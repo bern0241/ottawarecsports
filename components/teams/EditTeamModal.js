@@ -146,10 +146,6 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                 teamLogoUpload={teamLogoUpload} 
                 setTeamLogoUpload={setTeamLogoUpload} 
                 />
-              {/* <UserProfilePictureEdit
-                profilePic={profilePic}
-                setProfilePic={setProfilePic}
-              /> */}
               <div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
                 <div className="w-full ">
                   <label
@@ -221,19 +217,6 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                 </div>
   
               </div>
-  
-              {/* {message && (
-                <p
-                  id="standard_error_help"
-                  className={`my-4 text-center text-sm ${
-                    message.status === 'success'
-                      ? 'text-green-600 dark:text-green-400'
-                      : 'text-red-600 dark:text-red-400'
-                  }`}
-                >
-                  <span className="font-medium">{message.message}</span>
-                </p>
-              )} */}
   
               {message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
   

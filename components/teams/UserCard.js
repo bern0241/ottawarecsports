@@ -25,7 +25,6 @@ export default function UserCard({ user, openDropdown, setOpenDropdown, fetchPla
         e.preventDefault();
         setOpenDropdown(!openDropdown)
         await createPlayerOnTeam(user.Username, id);
-        // console.log(user);
         await fetchPlayersFromTeam();
     }
 

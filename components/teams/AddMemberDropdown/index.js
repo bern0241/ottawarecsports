@@ -100,7 +100,6 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
                 <>
                 {(returnUserExists(user)) ? (
                   <li key={index}>
-                      {/* <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} /> */}
                   </li>
                 ) : (
                   <li kye={index} className='cursor-pointer' onClick={(e) => setUserFunc(e, user)}>

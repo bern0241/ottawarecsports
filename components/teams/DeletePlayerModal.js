@@ -34,8 +34,6 @@ import { getTeam } from '@/src/graphql/queries';
         try {
             const apiData = await API.graphql({ query: getTeam, variables: { id: id }});
             const data = await apiData.data.getTeam;
-            // console.log('Captains',data.captains);
-            // console.log('Detect', data.captains.includes(player.user_id));
             setCaptains(data.captains);
         } catch (error) {
             console.error(error);
@@ -81,7 +79,6 @@ import { getTeam } from '@/src/graphql/queries';
             setOpenModal(false);
             
             const timer = setTimeout(() => {
-                // console.log('NEW CAPTAINS', newCaptains);
                 fetchCaptains(newCaptains);
             }, 560);
             return () => clearTimeout(timer);

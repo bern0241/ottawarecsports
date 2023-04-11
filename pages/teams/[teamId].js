@@ -118,7 +118,6 @@ export default function TeamProfile() {
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -151,7 +150,6 @@ export default function TeamProfile() {
 				cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
 					if (err) console.log(err, err.stack); // an error occurred
 					else     {
-						// setCaptains(data);
 						setCaptains((captains) => {
 							return uniqueByUsername([...captains, data]);
 						} );
@@ -186,9 +184,7 @@ export default function TeamProfile() {
 			const captainUsernames = captains.map(captain => captain.Username);
 			if (captainUsernames.includes(user.username)) {
 				setIsCaptain(true);
-				console.log('TRUE');
 			} else {
-				console.log('FALSE');
 				setIsCaptain(false);
 			}
 		}
@@ -216,7 +212,6 @@ export default function TeamProfile() {
 			  const players = await API.graphql({ 
 				query: listPlayers, variables: variables
 			  });
-			//   console.log('Members', players.data.listPlayers.items);
 			  setMembers(players.data.listPlayers.items);
 		}, 550);
 		return () => clearTimeout(timer);
@@ -327,7 +322,6 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Away Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{/* <div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div> */}
 								<div style={{backgroundColor: team?.away_colour}} className='w-6' />
 								<div>
 									{team ? team.away_colour : " "}

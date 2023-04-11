@@ -9,7 +9,6 @@ export default function ChoosePlayerRole({ member, clickStopPropagationFunc, set
         if (newRole === currentRole) { setOpen(false); return; }
         setOpen(false);
         setChangeRoleModal(true);
-        // setCurrentRole(newRole);
         setNewRole(newRole);
     }
 
