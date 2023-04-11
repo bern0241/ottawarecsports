@@ -8,7 +8,7 @@ import ChangeRoleModal from './ChangeRoleModal';
 import { useUser } from '@/context/userContext';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
-export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains, isCaptain }) {
+export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains, isCaptain, isCoordinator }) {
     const [user, setUser, authRoles, setAuthRoles] = useUser();
     const [userCognito, setUserCognito] = useState();
     const [userName, setUserName] = useState();
@@ -99,7 +99,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             )}
         </p>
         <div className='flex-grow'></div>
-            {(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
+            {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
                 <ChoosePlayerRole clickStopPropagationFunc={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
@@ -112,7 +112,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             ) : (
                 <p>{currentRole}</p>
             )}
-            {(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+            {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                 <button style={{marginLeft: '0rem'}} className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
                     <IconX/>
                 </button>

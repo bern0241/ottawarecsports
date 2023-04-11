@@ -65,7 +65,6 @@
 
     useEffect(() => {
       if (captain) {
-        console.log(captain);
         setCaptainName(`${captain.Attributes.find(o => o.Name === 'name')['Value']} ${captain.Attributes.find(o => o.Name === 'family_name')['Value']}`);
       }
     }, [captain])

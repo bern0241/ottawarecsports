@@ -355,7 +355,7 @@ export const listTeamsShort = /* GraphQL */ `
     $nextToken: String
   ) {
     listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
-		items {
+      items {
       away_colour
       captains
       createdAt
@@ -364,7 +364,6 @@ export const listTeamsShort = /* GraphQL */ `
       id
       name
       sport
-      team_history
       team_picture
       updatedAt
       Players {
@@ -375,6 +374,15 @@ export const listTeamsShort = /* GraphQL */ `
           teamID
           updatedAt
           user_id
+        }
+      }
+      Divisions {
+        items {
+          divisionId
+          id
+          createdAt
+          teamId
+          updatedAt
         }
       }
     }
@@ -685,7 +693,7 @@ export const createGameShort = /* GraphQL */ `
 export const getTeamShort = /* GraphQL */ `
   query GetTeam($id: ID!) {
     getTeam(id: $id) {
-		away_colour
+      away_colour
     captains
     createdAt
     founded
@@ -693,16 +701,25 @@ export const getTeamShort = /* GraphQL */ `
     id
     name
     sport
-    team_picture
     updatedAt
+    team_picture
+    Divisions {
+      items {
+        createdAt
+        divisionId
+        id
+        teamId
+        updatedAt
+      }
+    }
     Players {
       items {
         createdAt
         id
         role
         teamID
-        updatedAt
         user_id
+        updatedAt
       }
     }
     }

@@ -34,7 +34,6 @@ const HeaderTitle = () => {
 	useEffect(() => {
 		if (divisionID) {
 			getDivisionFunc();
-			console.log('TEST 2')
 		}
 	}, [divisionID])
 

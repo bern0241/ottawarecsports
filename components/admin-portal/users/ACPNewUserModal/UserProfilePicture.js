@@ -25,7 +25,6 @@ export default function UserProfilePicture({
 			user &&
 			user.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none'
 		) {
-			console.log('TRUE');
 			getImageFromS3();
 		}
 	}, []);
@@ -36,8 +35,6 @@ export default function UserProfilePicture({
 			Key: user.Attributes.find((o) => o.Name === 'picture')['Value'],
 			Expires: signedUrlExpireSeconds,
 		});
-		console.log(user.Attributes.find((o) => o.Name === 'picture')['Value']);
-		console.log('URL', url);
 		setProfilePic(
 			'https://orsappe5c5a5b29e5b44099d2857189b62061b154029-dev.s3.amazonaws.com/user_yZJLxVEDZudioKJ'
 		);
@@ -45,7 +42,6 @@ export default function UserProfilePicture({
 
 	return (
 		<div className={autoCenter ? 'w-[12rem] mx-auto' : 'w-[12rem'}>
-			{/* <button onClick={(e) => console.log(grabImage)}>CLick me</button> */}
 			<label className="cursor-pointer">
 				<input
 					className="hidden"

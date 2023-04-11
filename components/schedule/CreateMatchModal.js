@@ -246,6 +246,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			setEmailsToAllPlayers();
 		}
 	}, [uiState]);
+	}, [uiState]);
 
 	const setEmailsToAllPlayers = async () => {
 		if (homeTeam === undefined) return;
@@ -273,26 +274,49 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 		}
 	};
 
-	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
+	const sendEmailsMessage = async (userTeam, otherTeam, people) => {
 		let matchDateConvert = matchDate.replaceAll('-', '/');
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		let parseLocation = JSON.parse(matchLocation);
 
 		const params = {
 			Destination: {
-				ToAddresses: emails,
+				ToAddresses: people?.map(person => person.email),
 			},
 			Message: {
 				Body: {
+					//   Text: {
+					// 	Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`
+					//   },
 					Text: {
-						Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`,
+						Data: `Hello ${userTeam.name.toUpperCase()},\n\nYour Device Validation Token is ${otherTeam.name.toUpperCase()}\nSimply copy this token and paste it into the device validation input field.`,
+					},
+					Html: {
+						Data: `<html>
+					<head><title>Upcoming Game</title><style>h1{color:#f00;}</style></head>
+					<body>
+					Hi <b>${userTeam.name}</b>
+						<p>Our next game is against: <b>${otherTeam.name}</b></p>
+						<p>When: ${matchDateDisplay} ${startTime}</p>
+						<p>Where: <a href=${parseLocation.weblink} alt="Link to location details" target="_blank">${parseLocation.name}</a></p>
+
+						<p>Game roster currently: ${people?.length}</p>
+						<ul>
+						${people?.map(player => (
+							`<li>${player.name}</li>`
+						))}
+						</ul>
+						</body>
+					</html>`,
 					},
 				},
 				Subject: {
-					Data: `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`,
+					Data: `ORS - ${userTeam.name.toUpperCase()} VS ${otherTeam.name.toUpperCase()} (${matchDateDisplay})`,
+					//   Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
 				},
 			},
 			Source: 'justin.bernard320@gmail.com',
+			//   Source: 'ottawaindoorsoccer@gmail.com'
 		};
 
 		ses.sendEmail(params, (err, data) => {
@@ -300,8 +324,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				alert('Error sending emails to all');
 				console.log(err, err.stack);
 			} else {
-				router.reload();
 				console.log('Email sent successfully:', data);
+				router.reload();
 			}
 		});
 	};
@@ -316,7 +340,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
 				// else     console.log(data);           // successful response
-				let data2 = data.UserAttributes.find((o) => o.Name === 'email')[
+				let data2 = {};
+				data2.name = `${data?.UserAttributes.find((o) => o.Name === 'name')['Value']} ${data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']}`
+				data2.email = data?.UserAttributes.find((o) => o.Name === 'email')[
 					'Value'
 				];
 				setState((state) => {
@@ -329,8 +355,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 	function uniqueBySelf(items) {
 		const set = new Set();
 		return items.filter((item) => {
-			const isDuplicate = set.has(item);
-			set.add(item);
+			const isDuplicate = set.has(item.email);
+			set.add(item.email);
 			return !isDuplicate;
 		});
 	}

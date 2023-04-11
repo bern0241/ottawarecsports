@@ -23,6 +23,8 @@ import UsersSearchBar from '@/components/common/UsersSearchBar';
 import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/teamIdPage/MemberCard';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
+import { getLeague } from '@/src/graphql/queries';
 
 export default function TeamProfile() {
 	const [team, setTeam] = useState();
@@ -35,9 +37,47 @@ export default function TeamProfile() {
 	const [editModal, setEditModal] = useState(false);
     const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [isCaptain, setIsCaptain] = useState(false);
+	
+	const [isCoordinator, setIsCoordinator] = useState(false);
+	const [leagues, setLeagues] = useState([]);
+	const [season, setSeason] = useState();
+	const [division, setDivision] = useState();
+	
 	const router = useRouter();
 	const {teamId} = router.query;
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+	/**
+	 * This function fetches the division -> season -> league (in this order) for this page
+	 */
+	 const moveUpLeagueId = async () => {
+		if (team.Divisions.items.length === 0) return;
+		team.Divisions.items.map(async (_division) => {
+			// DIVISION
+			const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: _division.divisionId}});
+			const divisionData = await apiDataDivision.data.getDivision;
+			setDivision(divisionData);
+			// SEASON
+			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData?.season}});
+			const seasonData = await apiDataSeason.data.getSeason;
+			setSeason(seasonData);
+			// LEAGUE
+			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData?.league}});
+			const leagueData = await apiDataLeague.data.getLeague;
+			setLeagues((leagues) => {
+				return uniqueById([...leagues, leagueData]);
+			});
+		})
+    }
+
+	function uniqueById(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item.id);
+          set.add(item.id);
+          return !isDuplicate;
+        });
+    }
 
 	useEffect(() => {
 		if(!teamId) {
@@ -51,17 +91,34 @@ export default function TeamProfile() {
 	}, [teamId]);
 
 	useEffect(() => {
+		if (leagues) {
+			isCoordinatorOfLeagueCheck();
+		}
+	}, [leagues])
+
+	const isCoordinatorOfLeagueCheck = () => {
+		let leagueCoordinator = false;
+		leagues.forEach((league => {
+			if (league.coordinators.includes(user?.username)) {
+				leagueCoordinator = true;
+			}
+		}))
+		setIsCoordinator(leagueCoordinator);
+    }
+
+	useEffect(() => {
 		if (team != undefined) {
 			fetchCaptains(team.captains);
 			getPicture();
 			fetchPlayer();
+			moveUpLeagueId();
 		}
 	}, [team])
 
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		// console.log('TEAM', data);
+		console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -205,7 +262,7 @@ export default function TeamProfile() {
 					<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 						<img
 							src={profileImage}
-							className="rounded-full self-center w-[200px] h-[200px] object-cover"
+							className="rounded-lg self-center w-[200px] h-[200px] object-cover"
 							alt="Team profile image."
 						></img>
 						<div className="flex justify-center gap-1">
@@ -213,7 +270,7 @@ export default function TeamProfile() {
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 							<Image src="/images/medal.png" width="26" height="26" alt="Medal" />
 						</div>
-						{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+						{(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 						<button
 							onClick={() => setEditModal(true)}
 							type="button"
@@ -242,7 +299,6 @@ export default function TeamProfile() {
 							))}
 							</div>
 						</div>
-
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Sport</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
@@ -261,6 +317,7 @@ export default function TeamProfile() {
 							<h3 className="mb-1 font-light">Home Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 								{/* <div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div> */}
+								<div style={{backgroundColor: team?.home_colour}} className='w-6' />
 								<div>
 									{team ? team.home_colour : " "}
 								</div>
@@ -271,6 +328,7 @@ export default function TeamProfile() {
 							<h3 className="mb-1 font-light">Away Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 								{/* <div className={team ? `bg-${team.away_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1`: ''}></div> */}
+								<div style={{backgroundColor: team?.away_colour}} className='w-6' />
 								<div>
 									{team ? team.away_colour : " "}
 								</div>
@@ -283,7 +341,7 @@ export default function TeamProfile() {
 								
 								<div className="w-full relative flex flex-row justify-between items-center my-1">
 								<h2 className="mb-1 p-2 ml-1 text-[.92rem] font-light">Team Members</h2>
-								{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+								{(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 									<button
 										onClick={(e) => setOpenDropdown(!openDropdown)}
 										type="button"
@@ -300,7 +358,7 @@ export default function TeamProfile() {
 
 								{members && members.map((member) => (
 									<div className="flex relative border-t border-brand-blue-900/25 pr-3 justify-between" key={member.id} >
-										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} />
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} isCoordinator={isCoordinator} />
 									</div>
 								))}
 							</div>

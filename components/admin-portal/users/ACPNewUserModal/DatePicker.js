@@ -21,7 +21,7 @@ export default function DobDatePicker({ state, setState }) {
 
 	const handleChange = (selectedDate) => {
 		setState(selectedDate.toISOString().split('T')[0]);
-		console.log(selectedDate.toISOString().split('T')[0]);
+		// console.log(selectedDate.toISOString().split('T')[0]);
 	};
 	const handleClose = () => {
 		setShow(!show);

@@ -70,7 +70,7 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 			if (err) {
 				console.log('Error deleting image: ', err);
 			} else {
-				console.log('Image deleted successfully.');
+				// console.log('Image deleted successfully.');
 			}
 		});
 	};
@@ -83,8 +83,6 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 			>
 				<div class="relative w-full h-full max-w-md md:h-auto">
 					<div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-						<button onClick={(e) => console.log(user)}>Get User Console</button>
-
 						<button
 							onClick={(e) => setOpenModal(false)}
 							type="button"

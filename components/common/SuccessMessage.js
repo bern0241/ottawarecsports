@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 
 export default function SuccessMessage({ title, message, setDisplay }) {
 	useEffect(() => {
-		console.log('Success Message called');
 		const timer = setTimeout(() => {
 			setDisplay(false);
 		}, 5000);

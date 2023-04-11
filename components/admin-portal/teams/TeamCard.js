@@ -77,7 +77,6 @@ import EditTeamModal from './EditTeamModal';
   
       const goToTeamPage = (e) => {
           e.preventDefault();
-        //   console.log(team);
           router.push(`/teams/${team.id}`)
       }
       
