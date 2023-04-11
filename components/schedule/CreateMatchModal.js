@@ -246,7 +246,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			setEmailsToAllPlayers();
 		}
 	}, [uiState]);
-	}, [uiState]);
 
 	const setEmailsToAllPlayers = async () => {
 		if (homeTeam === undefined) return;

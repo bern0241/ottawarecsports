@@ -137,7 +137,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordi
 							<span>
 								<LocationIcon />
 							</span>
-							<Link className='text-blue-500 underline' href={`${locationObject?.weblink}`}>{locationObject?.name}</Link>
+							<Link className='text-blue-500 underline' href={`${locationObject?.weblink}`} target="_blank">{locationObject?.name}</Link>
 						</p>
 					</span>
 				</td>
