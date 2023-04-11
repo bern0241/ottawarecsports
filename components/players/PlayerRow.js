@@ -1,21 +1,19 @@
 /**
- * Last updated: 2023-03-30
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
  */
 
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
+import { listPlayers } from '@/src/graphql/queries';
 import { useRouter } from 'next/router';
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { getTeamShort } from '@/src/graphql/custom-queries';
-import {
-	getPlayersByUsername,
-	getTeam,
-} from '@/utils/graphql.services';
+import { getPlayersByUsername, getTeam } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -34,16 +32,9 @@ export default function PlayerRow({ player, index }) {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (!index) return;
-		fetchPlayer();
-	}, [index]);
-
-	useEffect(() => {
 		setTeams([]);
 		fetchTeams();
-	}, []);
-
-	useEffect(() => {
+	
 		if (
 			player.Attributes.find((o) => o.Name === 'picture')['Value'] === 'none'
 		) {
@@ -59,11 +50,17 @@ export default function PlayerRow({ player, index }) {
 	}, []);
 
 	useEffect(() => {
+		if (!index) return;
+		fetchPlayer();
+	}, [index]);
+
+	useEffect(() => {
 		if (details != undefined) {
 			getTeamName();
 		}
 	}, [details]);
 
+	// Fetch player records from Player table in database by username:
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(index);
 		if (data) {
@@ -71,6 +68,7 @@ export default function PlayerRow({ player, index }) {
 		}
 	};
 
+	// Fetch team name by id:
 	const getTeamName = async () => {
 		if (details.soccer_stats) {
 			const teamId = details.soccer_stats[0].team;
@@ -91,10 +89,12 @@ export default function PlayerRow({ player, index }) {
 		return age;
 	}
 
+	// TO-DO: Do not use router. Instead, use Link.
 	const handleClick = () => {
 		router.push(`/players/${player.Username}`);
 	};
 
+	// Fetch player records for user by username, as well teams they play on by id:
 	const fetchTeams = async () => {
 		setTeams([]);
 		if (!player) return;
@@ -114,7 +114,7 @@ export default function PlayerRow({ player, index }) {
 		if (!players) {
 			return;
 		}
-		
+
 		players.data.listPlayers.items.map(async (player) => {
 			if (!player.teamID) return;
 
@@ -139,6 +139,7 @@ export default function PlayerRow({ player, index }) {
 		});
 	}
 
+	// TO-DO: Implement or remove this functionality.
 	const goToTeamsPage = (e, team) => {
 		e.stopPropagation();
 		router.push(`/teams/${team.id}`);
