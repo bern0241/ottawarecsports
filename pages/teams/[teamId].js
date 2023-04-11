@@ -39,7 +39,7 @@ export default function TeamProfile() {
 	const [isCaptain, setIsCaptain] = useState(false);
 	
 	const [isCoordinator, setIsCoordinator] = useState(false);
-	const [league, setLeague] = useState();
+	const [leagues, setLeagues] = useState([]);
 	const [season, setSeason] = useState();
 	const [division, setDivision] = useState();
 	
@@ -63,8 +63,19 @@ export default function TeamProfile() {
 			// LEAGUE
 			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
 			const leagueData = await apiDataLeague.data.getLeague;
-			setLeague(leagueData);
+			setLeagues((leagues) => {
+				return uniqueById([...leagues, leagueData]);
+			});
 		})
+    }
+
+	function uniqueById(items) {
+        const set = new Set();
+        return items.filter((item) => {
+          const isDuplicate = set.has(item.id);
+          set.add(item.id);
+          return !isDuplicate;
+        });
     }
 
 	useEffect(() => {
@@ -79,17 +90,19 @@ export default function TeamProfile() {
 	}, [teamId]);
 
 	useEffect(() => {
-		if (league) {
+		if (leagues) {
 			isCoordinatorOfLeagueCheck();
 		}
-	}, [league])
+	}, [leagues])
 
 	const isCoordinatorOfLeagueCheck = () => {
-        if (league.coordinators.includes(user?.username)) {
-            setIsCoordinator(true);
-        } else {
-            setIsCoordinator(false);
-        }
+		let leagueCoordinator = false;
+		leagues.forEach((league => {
+			if (league.coordinators.includes(user?.username)) {
+				leagueCoordinator = true;
+			}
+		}))
+		setIsCoordinator(leagueCoordinator);
     }
 
 	useEffect(() => {
@@ -285,7 +298,7 @@ export default function TeamProfile() {
 							))}
 							</div>
 						</div>
-
+						<button onClick={(e) => console.log(leagues)}>CLICK ME</button>
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Sport</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
@@ -328,7 +341,7 @@ export default function TeamProfile() {
 								
 								<div className="w-full relative flex flex-row justify-between items-center my-1">
 								<h2 className="mb-1 p-2 ml-1 text-[.92rem] font-light">Team Members</h2>
-								{(isCaptain || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+								{(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
 									<button
 										onClick={(e) => setOpenDropdown(!openDropdown)}
 										type="button"
@@ -345,7 +358,7 @@ export default function TeamProfile() {
 
 								{members && members.map((member) => (
 									<div className="flex relative border-t border-brand-blue-900/25 pr-3 justify-between" key={member.id} >
-										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} />
+										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} isCoordinator={isCoordinator} />
 									</div>
 								))}
 							</div>

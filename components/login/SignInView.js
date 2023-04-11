@@ -71,6 +71,11 @@ export default function SignInView({ setUiState }) {
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
 								className="w-96 border border-black rounded-md "
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' ) {
+										handleSubmit(e);
+									}
+								}}
 							/>
 							<PasswordField
 								label="Password"
@@ -78,6 +83,11 @@ export default function SignInView({ setUiState }) {
 								setState={setPassword}
 								showPassword={showPassword}
 								setShowPassword={setShowPassword}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' ) {
+										handleSubmit(e);
+									}
+								}}
 							/>
 
 							{message && (
