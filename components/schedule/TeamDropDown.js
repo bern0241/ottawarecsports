@@ -10,6 +10,8 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 	const [search, setSearch] = useState('');
 	const [teams, setTeams] = useState([]);
 
+	// const router = useRouter();
+	// const { divisionID } = router.query;
 	const router = useRouter();
 	const divisionID = router.query.id;
 	console.log(divisionID);
