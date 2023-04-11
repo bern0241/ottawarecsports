@@ -494,6 +494,10 @@ export const scheduleGamesAutomatically = (teams, matchData) => {
 			results.push({
 				gameHomeTeamId: team.id,
 				gameAwayTeamId: teams[i].id,
+				HomeTeam: team,
+				AwayTeam: teams[i],
+				home_color: team.home_colour,
+				away_color: team[i].away_colour,
 				...matchData,
 			});
 		}
