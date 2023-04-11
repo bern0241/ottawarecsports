@@ -121,7 +121,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
 			<div className="flex justify-center items-center w-full h-full">
-				<div className="flex flex-col gap-3 w-80 sm:w-96">
+				<div className="flex flex-col gap-3 w-80 sm:w-96 sm:gap-4">
 					<OrsLogo />
 					<div className="flex flex-row items-center">
 						<h2 className="text-xl font-semibold my-2 sm:text-2xl grow">
@@ -131,30 +131,40 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					</div>
 					<div className="flex flex-col justify-center items-center">
 						<form className="flex flex-col gap-2 w-80 sm:w-96">
-							<Label
-								htmlFor="firstname"
-								value="First Name"
-								className="sr-only"
-							/>
-							<TextInput
-								id="firstname"
-								type="firstname"
-								placeholder="First Name *"
-								onChange={(e) => setFirstName(e.target.value)}
-								required={true}
-							/>
-							<Label htmlFor="lastname" value="Last Name" className="sr-only" />
-							<TextInput
-								id="lastname"
-								type="lastname"
-								placeholder="Last Name *"
-								onChange={(e) => setLastName(e.target.value)}
-								required={true}
-								state={lastName}
-								setState={setLastName}
-							/>
-							<GenderDropDown state={gender} setState={setGender} />
-							<DobDatePicker state={birthDate} setState={setBirthDate} />
+							<div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+								<Label
+									htmlFor="firstname"
+									value="First Name"
+									className="sr-only"
+								/>
+								<TextInput
+									id="firstname"
+									type="firstname"
+									placeholder="First Name *"
+									onChange={(e) => setFirstName(e.target.value)}
+									required={true}
+									className="w-full"
+								/>
+								<Label
+									htmlFor="lastname"
+									value="Last Name"
+									className="sr-only"
+								/>
+								<TextInput
+									id="lastname"
+									type="lastname"
+									placeholder="Last Name *"
+									onChange={(e) => setLastName(e.target.value)}
+									required={true}
+									state={lastName}
+									setState={setLastName}
+									className="w-full"
+								/>
+							</div>
+							<div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+								<GenderDropDown state={gender} setState={setGender} />
+								<DobDatePicker state={birthDate} setState={setBirthDate} />
+							</div>
 							<LocationDropDown state={location} setState={setLocation} />
 							<Label htmlFor="phone" value="Phone Number" className="sr-only" />
 							<TextInput
