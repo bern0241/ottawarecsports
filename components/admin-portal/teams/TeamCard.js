@@ -95,8 +95,8 @@ import DeleteTeamModal from './DeleteTeamModal';
   
       return (
           <>
-          <tr onClick={(e) => goToTeamPage(e)} class="bg-white border border-gray-400 cursor-pointer">
-                  <th scope="row" class="relative px-1 sm:px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <tr onClick={(e) => goToTeamPage(e)} className="bg-white border border-gray-400 cursor-pointer">
+                  <th scope="row" className="relative px-1 sm:px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <div className='mr-auto sm:flex gap-2 items-center flex-col sm:flex-row'>
                         <img
                             style={{ objectFit: 'cover' }}
@@ -108,16 +108,16 @@ import DeleteTeamModal from './DeleteTeamModal';
                         <p className='text-center'>{team.name}</p>
                         </div>
                   </th>
-                  <td class="text-center py-3">
+                  <td className="text-center py-3">
                   {captains && captains.map((captain, index) => (
                      // <>
                      <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                  ))}
                   </td>
-                  <td class="text-center px-6 py-3">
+                  <td className="text-center px-6 py-3">
                       {sport}
                   </td>
-                  <td class="flex gap-2 px-6 py-4 text-center justify-center">
+                  <td className="flex gap-2 px-6 py-4 text-center justify-center">
                       <IconEdit onClick={(e) => editTeamFunc(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconEdit>
                       <IconTrash onClick={(e) => deleteTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                   </td>

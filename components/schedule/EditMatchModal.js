@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
+import { createGame } from '@/src/graphql/mutations';
 import { updateGame } from '@/src/graphql/mutations';
 import TeamDropDown from './TeamDropDown';
 import LocationsDropdown from './LocationsDropdown';
@@ -24,6 +25,9 @@ const EditMatchModal = ({
 	match,
 	games,
 	setGames,
+	makingNewGame,
+	setMakingNewGame,
+	getGames,
 	callMeTestGames,
 }) => {
 	const [homeTeam, setHomeTeam] = useState();
@@ -57,7 +61,7 @@ const EditMatchModal = ({
 	const router = useRouter();
 
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const { divisionID } = router.query;
+	const divisionID = router.query.id;
 
 	//Options object for the data picker
 	const options = {
@@ -316,7 +320,76 @@ const EditMatchModal = ({
 			let newGames = [...games];
 			newGames[updatedIndex] = apiData.data.updateGame;
 			setGames(newGames);
-			router.reload();
+			getGames();
+			setMakingNewGame(false);
+			//router.reload();
+		} catch (error) {
+			console.error(error);
+			setMessage({ status: 'error', message: error.message });
+		}
+	};
+
+	const createNewMatch = async (e) => {
+		e.preventDefault();
+		console.log(divisionID);
+		try {
+			if (
+				homeTeam === null ||
+				awayTeam === null ||
+				startTime === '' ||
+				location === ''
+			) {
+				setMessage({
+					status: 'error',
+					message: 'Please fill out all required fields',
+				});
+				return;
+			}
+			if (homeTeam.id === awayTeam.id) {
+				setMessage({
+					status: 'error',
+					message: 'Must have two different teams',
+				});
+				return;
+			}
+			if (homeColour === awayColour) {
+				setMessage({
+					status: 'error',
+					message: 'Must have two different jersey colors',
+				});
+				return;
+			}
+			const dateTime = `${matchDate} ${startTime}`;
+			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
+			const refereeUsernames = referees.map((a) => a.username);
+			const matchData = {
+				division: divisionID,
+				date: convertedTime,
+				location: matchLocation,
+				status: 'NOT_STARTED',
+				home_color: homeColour,
+				away_color: awayColour,
+				home_roster: JSON.stringify(homeTeam.Players.items),
+				away_roster: JSON.stringify(awayTeam.Players.items),
+				home_score: 0,
+				away_score: 0,
+				goals: [],
+				round: 1,
+				referees: refereeUsernames,
+				gameHomeTeamId: homeTeam.id,
+				gameAwayTeamId: awayTeam.id,
+			};
+			console.log(matchData);
+			const apiData = await API.graphql({
+				query: createGame,
+				variables: { input: matchData },
+			});
+			console.log(divisionID);
+			setMessage({ status: 'success', message: 'Game created successfully' });
+			setUiState('send-emails');
+			getGames();
+			setMakingNewGame(false);
+			// router.reload();
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -365,7 +438,7 @@ const EditMatchModal = ({
 		console.log(userTeam.name.toUpperCase());
 		const params = {
 			Destination: {
-				ToAddresses: people?.map(person => person.email),
+				ToAddresses: people?.map((person) => person.email),
 			},
 			Message: {
 				Body: {
@@ -382,13 +455,15 @@ const EditMatchModal = ({
 					Hi <b>${userTeam.name}</b>
 						<p>Our next game is against: <b>${otherTeam.name}</b></p>
 						<p>When: ${matchDateDisplay} ${startTime}</p>
-						<p>Where: <a href=${parseLocation.weblink} alt="Link to location details" target="_blank">${parseLocation.name}</a></p>
+						<p>Where: <a href=${
+							parseLocation.weblink
+						} alt="Link to location details" target="_blank">${
+							parseLocation.name
+						}</a></p>
 
 						<p>Game roster currently: ${people?.length}</p>
 						<ul>
-						${people?.map(player => (
-							`<li>${player.name}</li>`
-						))}
+						${people?.map((player) => `<li>${player.name}</li>`)}
 						</ul>
 						</body>
 					</html>`,
@@ -425,7 +500,11 @@ const EditMatchModal = ({
 				if (err) console.log(err, err.stack); // an error occurred
 				// else     console.log(data);           // successful response
 				let data2 = {};
-				data2.name = `${data?.UserAttributes.find((o) => o.Name === 'name')['Value']} ${data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']}`
+				data2.name = `${
+					data?.UserAttributes.find((o) => o.Name === 'name')['Value']
+				} ${
+					data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']
+				}`;
 				data2.email = data?.UserAttributes.find((o) => o.Name === 'email')[
 					'Value'
 				];
@@ -444,8 +523,6 @@ const EditMatchModal = ({
 			return !isDuplicate;
 		});
 	}
-
-
 
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
@@ -827,41 +904,45 @@ const EditMatchModal = ({
 										to Players
 									</button>
 
-							<div className='flex-grow'/>
-							<button
-								onClick={() => {
-									setIsVisible(false);
-									resetData();
-								}}
-								data-modal-hide="defaultModal"
-								type="button"
-								className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-							>
-								Cancel
-							</button>
-							<button
-								onClick={(e) => {
-									editMatch(e);
-								}}
-								data-modal-hide="defaultModal"
-								type="button"
-								className="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
-							>
-								Save
-							</button>
-							<div className='flex-grow'/>
-							<div className='flex-grow'/>
+									<div className="flex-grow" />
+									<button
+										onClick={() => {
+											setIsVisible(false);
+											resetData();
+										}}
+										data-modal-hide="defaultModal"
+										type="button"
+										className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+									>
+										Cancel
+									</button>
+									<button
+										onClick={(e) => {
+											//Add Condition to create
+											if (makingNewGame === true) {
+												createNewMatch(e);
+											} else {
+												editMatch(e);
+											}
+										}}
+										data-modal-hide="defaultModal"
+										type="button"
+										className="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
+									>
+										Save
+									</button>
+									<div className="flex-grow" />
+									<div className="flex-grow" />
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div
-			onClick={(e) => setIsVisible(false)}
-			className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
-		/>
-		</>
-		)}
-
+					<div
+						onClick={(e) => setIsVisible(false)}
+						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+					/>
+				</>
+			)}
 
 			{uiState === 'send-emails' && (
 				<>
@@ -875,6 +956,7 @@ const EditMatchModal = ({
 									onClick={(e) => {
 										e.stopPropagation();
 										setOpenModal(false);
+										setMakingNewGame(false);
 									}}
 									type="button"
 									className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
@@ -905,9 +987,9 @@ const EditMatchModal = ({
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
 											d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 										></path>
 									</svg>

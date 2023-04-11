@@ -10,8 +10,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
-import { IconSearch } from '@tabler/icons-react';
-import { IconX } from '@tabler/icons-react';
 import Image from 'next/image';
 import { getImageFromS3, getAllPlayers, getTeam, getUser, updateTeam } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
@@ -19,7 +17,6 @@ import { useUser } from '@/context/userContext';
 import * as mutations from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 import EditTeamModal from '@/components/teams/EditTeamModal';
-import UsersSearchBar from '@/components/common/UsersSearchBar';
 import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/teamIdPage/MemberCard';
@@ -118,7 +115,6 @@ export default function TeamProfile() {
 	const fetchTeam = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log('TEAM', data);
 	};
 
 	const fetchPlayer = async () => {
@@ -186,9 +182,7 @@ export default function TeamProfile() {
 			const captainUsernames = captains.map(captain => captain.Username);
 			if (captainUsernames.includes(user.username)) {
 				setIsCaptain(true);
-				console.log('TRUE');
 			} else {
-				console.log('FALSE');
 				setIsCaptain(false);
 			}
 		}
@@ -216,7 +210,6 @@ export default function TeamProfile() {
 			  const players = await API.graphql({ 
 				query: listPlayers, variables: variables
 			  });
-			//   console.log('Members', players.data.listPlayers.items);
 			  setMembers(players.data.listPlayers.items);
 		}, 550);
 		return () => clearTimeout(timer);
@@ -356,9 +349,9 @@ export default function TeamProfile() {
 								)}
 								</div>
 
-								{members && members.map((member) => (
+								{members && members.map((member, index) => (
 									<div className="flex relative border-t border-brand-blue-900/25 pr-3 justify-between" key={member.id} >
-										<MemberCard member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} isCoordinator={isCoordinator} />
+										<MemberCard key={index} member={member} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} isCaptain={isCaptain} isCoordinator={isCoordinator} />
 									</div>
 								))}
 							</div>

@@ -49,12 +49,6 @@ export default function PlayerProfile() {
 		getPicture();
 	}, [user]);
 
-	// useEffect(() =>{
-	// 	if(player != undefined){
-	// 		getTeamName();
-	// 	}
-	// }, [player]);
-
 	const fetchPlayerCognito = async () => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
@@ -66,15 +60,6 @@ export default function PlayerProfile() {
 			else setUser(data);
 		});
 	};
-
-	// GETS ALL PLAYER DATA MODELS FOR THIS USER (Every team they are in)
-	// const fetchPlayers = async () => {
-	// 	const data = await getPlayersByUsername(userId);
-	// 	if (data) {
-	// 		setPlayer(data);
-	// 	}
-	// };
-
 
 	const getPicture = async () => {
 		if (
@@ -88,16 +73,6 @@ export default function PlayerProfile() {
 			setProfileImage(url);
 		}
 	};
-
-	// const getTeamName = async () => {
-	// 	if (player.soccer_stats){
-	// 		const teamId = player.soccer_stats[0].team;
-	// 	const data = await getTeam(teamId);
-	// 	setTeamName(data.name);
-	// 	}
-	// 		else {
-	// 	}
-	// }
 
 	const fetchTeams = async () => {
 		setTeams([]);
@@ -114,13 +89,11 @@ export default function PlayerProfile() {
 		const players = await API.graphql({ 
 			query: listPlayers, variables: variables
 		});
-		// console.log('PLAYERS??', players.data.listPlayers.items);
 		if (!players) { return; }
 
 		players.data.listPlayers.items.map(async (player) => {
 			const apiData = await API.graphql({ query: getTeamQuery, variables: { id: player.teamID }});
 			let data = await apiData.data.getTeam;
-			console.log('data', data);
 			if (data !== null) {
 				data.player_role = player.role;
 			}
@@ -128,24 +101,8 @@ export default function PlayerProfile() {
 			{
 				return uniqueById([...teams, data])
 			});
-			console.log('TEAMS!', data)
-			console.log('PLAYERS!', players.data.listPlayers.items)
 		  })
 	}
-
-	// const getSportFromLeague = async (teamObj) => {
-	// 	//Start with Team -> Division
-	// 	const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: '087b8643-5cef-4078-8b98-34c2e08ff737'}})
-	// 	const dataDivision = await apiDataDivision.data.getDivision;
-	// 	console.log('DATA DIVISION ID',apiDataDivision.data.getDivision.Teams.items.map(item => item.divisionId));
-	// 	// Get Season from division
-	// 	const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: dataDivision.season }})
-	// 	const dataSeason = await apiDataSeason.data.getSeason;
-	// 	// Get League from season
-	// 	const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: dataSeason.league }})
-	// 	const dataLeague = await apiDataLeague.data.getLeague;
-	// 	setSport(dataLeague.sport);
-	// } 
 
 	function uniqueById(items) {
 		const set = new Set();
@@ -271,29 +228,6 @@ export default function PlayerProfile() {
 										]}
 								</div>
 							</div>
-
-							{/* <div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Email</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium text-sm">
-									{user &&
-										user.UserAttributes.find((o) => o.Name === 'email')[
-											'Value'
-										]}
-								</div>
-							</div> */}
-
-							{/* <div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Phone Number</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user && user.UserAttributes.find((o) => o.Name === 'phone_number') ? (
-										<p>{formatPhoneNumber(user.UserAttributes.find((o) => o.Name === 'phone_number')[
-											'Value'
-										])}</p>
-									) : (
-										<p>&nbsp;</p>
-									)}
-								</div>
-							</div> */}
 						</div>
 
 						{/* Player Teams */}
@@ -313,10 +247,10 @@ export default function PlayerProfile() {
 									</tr>
 								</thead>
 								<tbody>
-								{teams && teams.map((team) => (
+								{teams && teams.map((team, index) => (
 										<>
 										{team !== null && (
-											<tr className="font-light">
+											<tr key={index} className="font-light">
 												<td className="py-2 px-3 text-[.94rem]">{sport}</td>
 												<td className="py-2 text-center">
 													<Link className='text-blue-500 underline text-[.92rem]' href={`/teams/${team?.id}`}>{team && team.name}</Link>
@@ -347,36 +281,6 @@ export default function PlayerProfile() {
 								</tbody>
 							</table>
 						</div>
-
-						{/* Player Game History */}
-						{/* <div className="col-span-3">
-							<h2 className="mb-1 font-light">Games History</h2>
-
-							<div className="col-span-3 border rounded-md border-brand-blue-900/25">
-								<table className="border-collapse table-fixed w-full overflow-hidden rounded-md">
-									<thead className="bg-brand-neutral-100 border-b border-brand-blue-900/25">
-										<tr className="text-left">
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Games Played
-											</th>
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Wins
-											</th>
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Losses
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr className="font-light">
-											<td className="py-2 px-3">0</td>
-											<td className="py-2 px-3">0</td>
-											<td className="py-2 px-3">0</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div> */}
 					</div>
 				</div>
 			</main>

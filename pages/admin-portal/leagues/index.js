@@ -7,14 +7,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Layout from '@/components/common/Layout';
-import styles from '@/styles/Home.module.css';
 import { useUser } from '@/context/userContext';
-import { useRouter } from 'next/router';
-
 // Components
 import SignOutButton from '@/components/common/SignOutButton';
-
 // Tables
 import ACPLeagueTable from '@/components/admin-portal/leagues/LeagueTable';
 import ACPSeasonTable from '@/components/admin-portal/leagues/SeasonTable';

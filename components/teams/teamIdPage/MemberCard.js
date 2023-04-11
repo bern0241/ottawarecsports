@@ -91,13 +91,13 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
             src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
         />
-        <p className='text-black ml-3'>
+        <div className='text-black ml-3'>
             {userName ? (
                 <p>{userName}</p>
             ) : (
                 <p className='font-light italic'>User doesn't exist</p>
             )}
-        </p>
+        </div>
         <div className='flex-grow'></div>
             {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
                 <ChoosePlayerRole clickStopPropagationFunc={(e) => {

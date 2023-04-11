@@ -28,7 +28,6 @@ const HeaderTitle = () => {
 	const getTeamFunc = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-    console.log(data)
 	}
 
 	useEffect(() => {
