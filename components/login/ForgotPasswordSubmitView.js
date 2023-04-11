@@ -76,26 +76,26 @@ export default function ForgotPasswordSubmitView({
 					</h2>
 					<form className="flex flex-col gap-3">
 						<Label
-							htmlFor="new-password"
+							htmlFor="password"
 							value="New Password"
 							className="sr-only"
 						/>
 						<PasswordField
 							label="New Password"
-							id="new-password"
+							id="password"
 							state={newPassword}
 							setState={setNewPassword}
 							showPassword={showPassword}
 							setShowPassword={setShowPassword}
 						/>
 						<Label
-							htmlFor="confirm-new-password"
+							htmlFor="password"
 							value="Confirm New Password"
 							className="sr-only"
 						/>
 						<PasswordField
 							label="Confirm New Password"
-							id="confirm-new-password"
+							id="password"
 							state={confirmPassword}
 							setState={setConfirmPassword}
 							showPassword={showPassword}
