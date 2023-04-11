@@ -35,7 +35,7 @@ export default function SignOutButton() {
 				<button
 					onClick={(e) => signOut(e)}
 					type="button"
-					className="bg-brand-blue-800 w-full rounded text-white font-regular mb-6 mt-5 py-3"
+					className="bg-brand-blue-800 w-full rounded text-white font-regular mb-6 mt-5 py-3 drop-shadow-md"
 					aria-label="Sign Out Button"
 				>
 					Sign Out
@@ -44,7 +44,7 @@ export default function SignOutButton() {
 				<button
 					onClick={(e) => signIn(e)}
 					type="button"
-					className="bg-brand-blue-800 w-full rounded text-white font-regular mb-6 mt-5 py-3"
+					className="bg-brand-blue-800 w-full rounded text-white font-regular mb-6 mt-5 py-3 drop-shadow-md"
 					aria-label="Sign In Button"
 				>
 					Sign In
