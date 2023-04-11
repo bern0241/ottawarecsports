@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-10
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Greg Coghill <cogh0020@algonquinlive.com>
+ */
 import MatchesTable from '@/components/schedule/MatchesTable';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
@@ -7,7 +15,7 @@ import { useRouter } from 'next/router';
 import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
 import CreateMatchModal from '@/components/schedule/CreateMatchModal';
 import { getLeague } from '@/src/graphql/queries';
-import { getDivisionShort, getSeasonShort, listGamesShort } from '@/src/graphql/custom-queries';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
@@ -20,7 +28,7 @@ export default function DivisionMatches() {
 	const [season, setSeason] = useState();
 	const [league, setLeague] = useState();
 
-	const [user, setUser, authRoles, setAuthRoles] = useUser();	
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isEditingMatch, setIsEditingMatch] = useState(false);
 	const [matchToEdit, setMatchToEdit] = useState('');
@@ -32,7 +40,7 @@ export default function DivisionMatches() {
 	const [teams, setTeams] = useState([]);
 	const [referees, setReferees] = useState([]);
 	const router = useRouter();
-	const {id} = useRouter();
+	const { id } = useRouter();
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	const fetchReferees = async () => {
@@ -53,7 +61,7 @@ export default function DivisionMatches() {
 	};
 	const getGames = async () => {
 		// if (!router.query.divisionID) return;
-		
+
 		if (!router.query.id) return;
 		const resp = await getDivisionGames(router.query.id);
 		// const resp = await getDivisionGames(router.query.divisionID);
@@ -70,38 +78,47 @@ export default function DivisionMatches() {
 		moveUpLeagueId();
 	}, [router]);
 
-	 /**
-	 * This function fetches the division -> season -> league (in this order) for this page
+	/**
+	 * This useEffect fetches the division -> season -> league (in this order) for this page
 	 */
-	  const moveUpLeagueId = async () => {
-        // DIVISION
-        const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: router.query.id}});
-        const divisionData = await apiDataDivision.data.getDivision;
-        setDivision(divisionData);
-        // SEASON
-        const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
-        const seasonData = await apiDataSeason.data.getSeason;
-        setSeason(seasonData);
-        // LEAGUE
-        const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
-        const leagueData = await apiDataLeague.data.getLeague;
-        setLeague(leagueData);
-    }
+	const moveUpLeagueId = async () => {
+		// DIVISION
+		const apiDataDivision = await API.graphql({
+			query: getDivisionShort,
+			variables: { id: router.query.id },
+		});
+		const divisionData = await apiDataDivision.data.getDivision;
+		setDivision(divisionData);
+		// SEASON
+		const apiDataSeason = await API.graphql({
+			query: getSeasonShort,
+			variables: { id: divisionData.season },
+		});
+		const seasonData = await apiDataSeason.data.getSeason;
+		setSeason(seasonData);
+		// LEAGUE
+		const apiDataLeague = await API.graphql({
+			query: getLeague,
+			variables: { id: seasonData.league },
+		});
+		const leagueData = await apiDataLeague.data.getLeague;
+		setLeague(leagueData);
+	};
 
 	useEffect(() => {
 		if (league) {
 			isCoordinatorOfLeagueCheck();
 		}
-	}, [league])
+	}, [league]);
 
 	const isCoordinatorOfLeagueCheck = () => {
-        if (league.coordinators.includes(user?.username)) {
-            setIsCoordinator(true);
-        } else {
-            setIsCoordinator(false);
-        }
-    }
-	
+		if (league.coordinators.includes(user?.username)) {
+			setIsCoordinator(true);
+		} else {
+			setIsCoordinator(false);
+		}
+	};
+
 	return (
 		<>
 			<Head>
@@ -113,7 +130,9 @@ export default function DivisionMatches() {
 
 			<main className="w-full flex flex-col gap-6 p-8 pt-0">
 				{/* Results */}
-				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
+				{(isCoordinator ||
+					(authRoles && authRoles.includes('Admin')) ||
+					(authRoles && authRoles.includes('Owner'))) && (
 					<Button
 						pill={true}
 						className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800 ml-auto"

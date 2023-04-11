@@ -101,7 +101,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordi
 				// onClick={navigateToProfile}
 			>
 				{/* odd:bg-white even:bg-brand-neutral-100 */}
-				<td className="font-medium flex flex-row gap-7 items-start md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
+				<td className="font-medium flex flex-row gap-1 items-start md:gap-7 md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
 					<TeamNameAndImage
 						jerseyColour={match.home_color?.toLowerCase()}
 						team={match.HomeTeam}

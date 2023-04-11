@@ -14,7 +14,11 @@ import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
 import Compressor from 'compressorjs';
-import { listTeamsShort, listGamesShort, getTeamShort } from '@/src/graphql/custom-queries';
+import {
+	listTeamsShort,
+	listGamesShort,
+	getTeamShort,
+} from '@/src/graphql/custom-queries';
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -250,28 +254,27 @@ export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 		if (!image) return;
 
 		new Compressor(image, {
-		  quality: 0.75,
-		  success: (compressedResult) => {
-			const params = {
-				Bucket: bucketName,
-				Key: imageKey,
-				Body: compressedResult,
-				ContentType: image.type,
-			};
-			// Upload the image to S3
-			s3.upload(params, (err, data) => {
-				if (err) {
-					// fail
-					console.warn(err);
-				} else {
-					// success
-					return data.Location;
-				}
-			});
-		},
-	});
-	return imageKey;
-	
+			quality: 0.75,
+			success: (compressedResult) => {
+				const params = {
+					Bucket: bucketName,
+					Key: imageKey,
+					Body: compressedResult,
+					ContentType: image.type,
+				};
+				// Upload the image to S3
+				s3.upload(params, (err, data) => {
+					if (err) {
+						// fail
+						console.warn(err);
+					} else {
+						// success
+						return data.Location;
+					}
+				});
+			},
+		});
+		return imageKey;
 	} catch (error) {
 		console.error(error);
 	}
@@ -299,7 +302,6 @@ export const getAllMatches = async () => {
 	try {
 		const resp = await API.graphql({
 			query: listGamesShort,
-			// query: queries.listGames,
 		});
 		return resp.data.listGames.items.filter((item) => !item._deleted);
 	} catch (err) {
@@ -446,9 +448,12 @@ export const getDivisionGames = async (divisionID) => {
 	try {
 		const resp = await API.graphql({
 			query: listGamesShort,
-			// query: queries.gamesByDivision,
 			variables: {
-				division: divisionID,
+				filter: {
+					division: {
+						eq: divisionID,
+					},
+				},
 			},
 		});
 		return resp.data.listGames.items;
@@ -480,9 +485,9 @@ export const fileSizeCheckOver = (file) => {
 	const maxSize = 5 * 1024 * 1024;
 	if (file === null) return false;
 	if (file.size > maxSize) {
-		alert('Image exceeds 5MB in size!')
-	  return true;
+		alert('Image exceeds 5MB in size!');
+		return true;
 	} else {
 		return false;
 	}
-}
+};

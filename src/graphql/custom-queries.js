@@ -151,7 +151,6 @@ export const getGamesByTeam = /* Graph QL */ `
 		}
 	  ]
   }) {
-    nextToken
     items {
       id
       date
