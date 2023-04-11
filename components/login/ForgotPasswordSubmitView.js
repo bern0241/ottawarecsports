@@ -69,12 +69,12 @@ export default function ForgotPasswordSubmitView({
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
 			<div className="flex justify-center items-center h-full w-full">
-				<div className="flex flex-col gap-3 w-96">
+				<div className="flex flex-col gap-5 w-80 sm:w-96">
 					<OrsLogo />
+					<h2 className="text-xl font-semibold my-2 sm:text-2xl">
+						Enter Your New Password
+					</h2>
 					<form className="flex flex-col gap-3">
-						<h2 className="text-lg sm:text-2xl font-semibold my-6">
-							Enter Your New Password
-						</h2>
 						<Label
 							htmlFor="new-password"
 							value="New Password"
