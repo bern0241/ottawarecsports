@@ -57,13 +57,13 @@ export default function ForgetPasswordConfirmView({
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
 			<div className="flex justify-center items-center h-full w-full">
-				<div className="flex flex-col gap-3 w-96">
+				<div className="flex flex-col gap-5 w-80 sm:w-96">
 					<OrsLogo />
-					<form className="flex flex-col gap-3">
-						<h2 className="text-lg sm:text-2xl font-semibold my-4">
-							Verification
-						</h2>
-						<p>Enter the OTP that was sent to your email.</p>
+					<h2 className="text-xl font-semibold my-2 sm:text-2xl">
+						Verification
+					</h2>
+					<p>Enter the OTP that was sent to your email.</p>
+					<form className="flex flex-col gap-4">
 						<div>
 							<OtpField
 								value={confirmationCode}
@@ -74,7 +74,7 @@ export default function ForgetPasswordConfirmView({
 								separator={<span> </span>}
 								inputProps={{
 									className:
-										'otp-field__input w-12 h-16 border border-black rounded-md text-center',
+										'otp-field__input w-11 h-14 sm:w-12 sm:h-16 border border-black rounded-md text-center',
 									disabled: false,
 								}}
 								classNames="flex flex-row gap-3 items-center justify-center"
