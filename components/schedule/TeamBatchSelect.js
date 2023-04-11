@@ -19,7 +19,7 @@ import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
 import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 import MultiTeamSelectDropDown from './MultiTeamSelectDropDown';
-import scheduleGamesAutomatically from '@/utils/graphql.services';
+import { scheduleGamesAutomatically } from '@/utils/graphql.services';
 
 const ses = new AWS.SES();
 const lambda = new AWS.Lambda();
@@ -56,6 +56,7 @@ const TeamBatchSelect = ({ isVisible, setIsVisible, teams, selectedDate }) => {
 	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 
 	const [selectedTeams, setSelectedTeams] = useState([]);
+	const [batchResults, setBatchResults] = useState([]);
 
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
@@ -406,6 +407,7 @@ const TeamBatchSelect = ({ isVisible, setIsVisible, teams, selectedDate }) => {
 	}, [awayColour]);
 
 	//if (!isVisible) return;
+	console.log(batchResults);
 
 	return (
 		<>
@@ -623,7 +625,26 @@ const TeamBatchSelect = ({ isVisible, setIsVisible, teams, selectedDate }) => {
 									</button>
 									<button
 										onClick={(e) => {
-											scheduleGamesAutomatically(selectedTeams);
+											setBatchResults(
+												scheduleGamesAutomatically(selectedTeams, {
+													division: divisionID,
+													date: convertedTime,
+													location: matchLocation,
+													status: 'NOT_STARTED',
+													home_color: 'Red',
+													away_color: 'Blue',
+													home_roster: JSON.stringify(homeTeam.Players.items),
+													away_roster: JSON.stringify(awayTeam.Players.items),
+													home_score: 0,
+													away_score: 0,
+													goals: [],
+													round: 1,
+													referees: refereeUsernames,
+													gameHomeTeamId: homeTeam.id,
+													gameAwayTeamId: awayTeam.id,
+												})
+											);
+											console.log(batchResults);
 										}}
 										data-modal-hide="defaultModal"
 										type="button"
