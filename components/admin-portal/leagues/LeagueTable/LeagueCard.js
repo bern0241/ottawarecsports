@@ -27,10 +27,6 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
       getUserListByNames(league.coordinators);
   }, [])
   
-  /**
-   * Gets all Coordinators of the league, retrieves each name, and displays them.
-   * @param {*} coordinators List of coordinators (their Cognito Usernames)
-   */
   const getUserListByNames = (coordinators) => {
       setUsers([]);
       coordinators.forEach((coordinator) => {
@@ -48,11 +44,6 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
       });
   }
 
-    /**
-     * Makes each item unique - removes any duplicates by Cognito Username
-     * @param {*} items Array of items (objects)
-     * @returns 
-     */
     function uniqueByUsername(items) {
         const set = new Set();
         return items.filter((item) => {
@@ -61,22 +52,22 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
           return !isDuplicate;
         });
     }
-    // When a Coordinator's name is selected, goes to that user's Player page.
+
     const goToUserPage = (e, username) => {
         e.stopPropagation();
         router.push(`/players/${username}`)
     }
-    // Selects a league
+
     const clickedLeague = (e) => {
         e.preventDefault();
         setSelectedLeague(league);
     }
-    // Opens edit league modal
+
     const editLeagueFunc = (e) => {
         e.stopPropagation();
         setEditModal(!editModal);
     }
-    // Opens delete league modal
+
     const deleteLeagueFunc = (e) => {
       e.stopPropagation();
       setDeleteModal(!deleteModal);

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { listTeams } from '@/src/graphql/queries';
 import { listTeamsShort } from '@/src/graphql/custom-queries';
 import { useUser } from '@/context/userContext';
 import TeamTable from '@/components/admin-portal/teams/TeamTable';
 import SearchBarInput from '@/components/common/SearchBarInput';
+import { useRouter } from 'next/router';
 import { API } from 'aws-amplify';
 
 export default function ACPTeamsPage() {
     const [user, setUser, authRoles, setAuthRoles] = useUser();
     const [teams, setTeams] = useState([]);
     const [filterTeams, setFilterTeams] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
 		fetchTeams();
@@ -19,6 +22,7 @@ export default function ACPTeamsPage() {
         const teams = await API.graphql({
             query: listTeamsShort
         })
+        // console.log('Teams', teams.data.listTeams.items);
         setTeams(teams.data.listTeams.items);
         setFilterTeams(teams.data.listTeams.items);
       }

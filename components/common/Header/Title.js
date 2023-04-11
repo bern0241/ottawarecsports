@@ -182,7 +182,7 @@ return (
 					</div>
 				</div>
 			)}
-			{router.pathname === '/schedule/soccer' && (
+			{router.pathname.includes('/schedule/soccer') && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
