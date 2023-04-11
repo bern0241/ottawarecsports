@@ -40,16 +40,16 @@ export default function ForgotPasswordView({ email, setEmail, setUiState }) {
 				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
 			<div className="flex justify-center items-center h-full w-full">
-				<div className="flex flex-col gap-3 w-96">
+				<div className="flex flex-col gap-5 w-80 sm:w-96">
 					<OrsLogo />
-					<form className="flex flex-col gap-3">
-						<h2 className="text-lg sm:text-2xl font-semibold my-5">
-							Forgot Your Password?
-						</h2>
-						<p>
-							Don’t worry, just enter your registered email address and we’ll
-							send you an OTP to reset your password.
-						</p>
+					<h2 className="text-xl font-semibold my-1 sm:text-2xl">
+						Forgot Your Password?
+					</h2>
+					<p>
+						Don’t worry, just enter your registered email address and we’ll send
+						you an OTP to reset your password.
+					</p>
+					<form className="flex flex-col gap-4">
 						<div>
 							<Label htmlFor="email" value="Email" className="sr-only" />
 							<TextInput
