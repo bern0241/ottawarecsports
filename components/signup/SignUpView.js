@@ -224,13 +224,13 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								</button>
 							</div>
 						</form>
-						<p className="font-normal text-base cursor-pointer mt-3">
-							Have an account?{' '}
-							<Link href="/login" className="font-bold">
-								Sign In
-							</Link>
-						</p>
 					</div>
+					<p className="font-normal text-base cursor-pointer mt-3">
+						Have an account?{' '}
+						<Link href="/login" className="font-bold">
+							Sign In
+						</Link>
+					</p>
 				</div>
 			</div>
 		</div>
