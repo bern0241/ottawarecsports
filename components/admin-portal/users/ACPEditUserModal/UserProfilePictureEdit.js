@@ -23,7 +23,7 @@ export default function UserProfilePictureEdit({
 	setProfilePic,
 }) {
 	const [defaultPic, setDefaultPic] = useState(
-		'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg'
+		'/images/defaultProfilePic.jpeg'
 	);
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
