@@ -182,7 +182,7 @@ return (
 					</div>
 				</div>
 			)}
-			{router.pathname.includes('/schedule/soccer') && (
+			{router.pathname === ('/schedule/soccer') && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -200,7 +200,7 @@ return (
 					</div>
 				</div>
 			)}
-			{router.pathname.includes('/schedule/soccer/[id]') && (
+			{router.pathname === ('/schedule/soccer/[id]') && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -213,6 +213,8 @@ return (
 							<Link href="/schedule/soccer" className="font-light text-[.8rem]">
 								Soccer
 							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<p className="font-light text-[.8rem]">All Matches</p>
 						</div>
 						<p className="font-semibold text-[1.8rem]">All Matches</p>
 					</div>
