@@ -21,7 +21,7 @@ import { listPlayers } from '@/src/graphql/queries';
 import { getTeamShort } from '@/src/graphql/custom-queries';
 
 export default function PlayerProfile() {
-	const [user, setUser] = useState(); // Cognito User
+	const [user, setUser] = useState();
 	const [profileImage, setProfileImage] = useState('');
 	const [sport, setSport] = useState('Soccer');
 	const [teams, setTeams] = useState([]);
@@ -30,23 +30,21 @@ export default function PlayerProfile() {
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
-		if (!userId) {
-			return;
-		}
-		const callMe = async () => {
+		if (!userId) return;
+
+		const getUserDetails = async () => {
 			await fetchPlayerCognito();
 			await fetchTeams();
 		};
-		callMe();
+		getUserDetails();
 	}, [userId]);
 
 	useEffect(() => {
-		if (!user) {
-			return;
-		}
+		if (!user) return;
 		getPicture();
 	}, [user]);
 
+	// Fetch user details from AWS Cognito:
 	const fetchPlayerCognito = async () => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
@@ -58,6 +56,7 @@ export default function PlayerProfile() {
 		});
 	};
 
+	// Retrieve user profile picture from storage:
 	const getPicture = async () => {
 		if (
 			user.UserAttributes.find((o) => o.Name === 'picture')['Value'] === 'none'
@@ -71,6 +70,7 @@ export default function PlayerProfile() {
 		}
 	};
 
+	// Fetch all teams the user plays on:
 	const fetchTeams = async () => {
 		setTeams([]);
 		const variables = {
@@ -211,39 +211,6 @@ export default function PlayerProfile() {
 										)['Value']}
 								</div>
 							</div>
-
-							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Gender</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user &&
-										user.UserAttributes.find((o) => o.Name === 'gender')[
-											'Value'
-										]}
-								</div>
-							</div>
-
-							{/* <div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Email</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium text-sm">
-									{user &&
-										user.UserAttributes.find((o) => o.Name === 'email')[
-											'Value'
-										]}
-								</div>
-							</div> */}
-
-							{/* <div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Phone Number</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user && user.UserAttributes.find((o) => o.Name === 'phone_number') ? (
-										<p>{formatPhoneNumber(user.UserAttributes.find((o) => o.Name === 'phone_number')[
-											'Value'
-										])}</p>
-									) : (
-										<p>&nbsp;</p>
-									)}
-								</div>
-							</div> */}
 						</div>
 
 						{/* Player Teams */}
@@ -303,36 +270,6 @@ export default function PlayerProfile() {
 								</tbody>
 							</table>
 						</div>
-
-						{/* Player Game History */}
-						{/* <div className="col-span-3">
-							<h2 className="mb-1 font-light">Games History</h2>
-
-							<div className="col-span-3 border rounded-md border-brand-blue-900/25">
-								<table className="border-collapse table-fixed w-full overflow-hidden rounded-md">
-									<thead className="bg-brand-neutral-100 border-b border-brand-blue-900/25">
-										<tr className="text-left">
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Games Played
-											</th>
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Wins
-											</th>
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Losses
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr className="font-light">
-											<td className="py-2 px-3">0</td>
-											<td className="py-2 px-3">0</td>
-											<td className="py-2 px-3">0</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div> */}
 					</div>
 				</div>
 			</main>
