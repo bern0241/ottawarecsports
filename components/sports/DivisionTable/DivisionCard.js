@@ -26,8 +26,8 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
     const router = useRouter();
 
     useEffect(()=>{
-        getTeamsCount();
-    }, []);
+      getTeamsCount();
+  }, [selectedSeason, selectedDivision]);
 
     useEffect(() => {
       if (selectedLeague) {

@@ -33,7 +33,8 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             Username: member.user_id, 
             };
             cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-            if (err) console.log(err, err.stack); // an error occurred
+            if (err) console.log('User does not exist'); // an error occurred
+            // if (err) console.log(err, err.stack); // an error occurred
             // else     console.log(data);           // successful response
             setUserCognito(data);
             getImage(data);
@@ -51,6 +52,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
 
     useEffect(() => {
         if (member) {
+            if (!member) return;
             if (member.role === null) {
                 setCurrentRole('Player');
             }
@@ -59,7 +61,8 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
                 UserPoolId: 'us-east-1_70GCK7G6t'
             }
             cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-                if (err) console.log(err, err.stack); // an error occurred
+                if (err) console.log('User does not exist'); // an error occurred
+                // if (err) console.log(err, err.stack); // an error occurred
                 else     {
                     setUserCognito(data);
                     setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']}

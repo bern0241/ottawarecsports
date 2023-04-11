@@ -8,18 +8,12 @@
 
  import React, { useState, useEffect } from 'react';
  import Head from 'next/head';
- import { IconCirclePlus } from '@tabler/icons-react';
  import { IconEdit } from '@tabler/icons-react';
  import { IconTrash } from '@tabler/icons-react';
- import AWS from 'aws-sdk';
  import { API } from 'aws-amplify';
  import { useUser } from '@/context/userContext';
  import Link from 'next/link';
  //Components
- import SuccessMessage from '@/components/common/SuccessMessage';
- import ACPUserRow from '@/components/admin-portal/users/ACPUserRow'; 
- import ACPNewUserModal from '@/components/admin-portal/users/ACPNewUserModal';
- import ACPSearchUserBar from '@/components/admin-portal/users/ACPSearchUserBar';
  import NewLocation from '@/components/admin-portal/locations/NewLocation';
  import EditLocation from '@/components/admin-portal/locations/EditLocation';
  import DeleteLocation from '@/components/admin-portal/locations/DeleteLocation';

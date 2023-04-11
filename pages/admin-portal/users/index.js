@@ -9,8 +9,6 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useUser } from '@/context/userContext';
-import AdminIdentifier from '@/components/admin-portal/AdminIdentifier';
-import SignOutButton from '@/components/common/SignOutButton';
 import { IconCirclePlus } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 //Components
@@ -20,16 +18,6 @@ import ACPNewUserModal from '@/components/admin-portal/users/ACPNewUserModal';
 import ACPSearchUserBar from '@/components/admin-portal/users/ACPSearchUserBar';
 
 export default function AdminPortal() {
-	const usersList = [
-		{
-			id: 1,
-			firstName: 'Steven',
-			lastName: 'Spielberg',
-			role: 'User',
-			leagues: 'League A',
-		},
-	];
-
 	const [users, setUsers] = useState();
 	const [addUserModal, setAddUserModal] = useState(false);
 	const [searchResult, setSearchResult] = useState('');
@@ -43,8 +31,6 @@ export default function AdminPortal() {
 		const updatedUsers = [...users]; // Make a copy of the array.
 		updatedUsers[index].role = userRole;
 		updatedUsers[index].leagues = userLeague;
-		// setUsers(updatedUsers);
-		// console.log(users);
 	};
 
 	useEffect(() => {

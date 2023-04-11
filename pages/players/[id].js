@@ -128,8 +128,8 @@ export default function PlayerProfile() {
 			{
 				return uniqueById([...teams, data])
 			});
-			console.log('TEAMS!', data)
-			console.log('PLAYERS!', players.data.listPlayers.items)
+			// console.log('TEAMS!', data)
+			// console.log('PLAYERS!', players.data.listPlayers.items)
 		  })
 	}
 
