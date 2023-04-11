@@ -16,26 +16,26 @@ const HeaderTitle = () => {
 	const [team, setTeam] = useState();
 	const [division, setDivision] = useState();
 	const router = useRouter();
-	const {teamId} = router.query;
-	const {divisionID} = router.query;
+	const { teamId } = router.query;
+	const { divisionID } = router.query;
 
 	useEffect(() => {
 		if (teamId) {
 			getTeamFunc();
 		}
-	}, [teamId])
+	}, [teamId]);
 
 	const getTeamFunc = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-    console.log(data)
-	}
+		console.log(data);
+	};
 
 	useEffect(() => {
 		if (divisionID) {
 			getDivisionFunc();
 		}
-	}, [divisionID])
+	}, [divisionID]);
 
 	const getDivisionFunc = async () => {
 		const apiData = await API.graphql({
@@ -44,15 +44,15 @@ const HeaderTitle = () => {
 		});
 		const data = await apiData.data.getDivision;
 		setDivision(data);
-	}
+	};
 
-  useEffect(() => {
-    if (teamId) {
-      getTeamFunc();
-    }
-  }, [teamId])
+	useEffect(() => {
+		if (teamId) {
+			getTeamFunc();
+		}
+	}, [teamId]);
 
-return (
+	return (
 		<>
 			{router.pathname === '/' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
@@ -62,7 +62,7 @@ return (
 								Home
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Dashboard</p>
+						<h1 className="font-semibold text-[1.8rem]">Dashboard</h1>
 					</div>
 				</div>
 			)}
@@ -80,7 +80,7 @@ return (
 								Soccer
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Soccer ⚽</p>
+						<h1 className="font-semibold text-[1.8rem]">Soccer ⚽</h1>
 					</div>
 				</div>
 			)}
@@ -94,11 +94,16 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">Sports</p>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/sports/${division?.id}`} className="font-light text-[.8rem]">
+							<Link
+								href={`/sports/${division?.id}`}
+								className="font-light text-[.8rem]"
+							>
 								{division?.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Teams - {division?.name}</p>
+						<h1 className="font-semibold text-[1.8rem]">
+							All Teams - {division?.name}
+						</h1>
 					</div>
 				</div>
 			)}
@@ -116,11 +121,11 @@ return (
 								Players
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Players ⛹️‍♂️</p>
+						<h1 className="font-semibold text-[1.8rem]">Players ⛹️‍♂️</h1>
 					</div>
 				</div>
 			)}
-      {router.pathname === '/players/[id]' && (
+			{router.pathname === '/players/[id]' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -136,9 +141,9 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<Link href="/players/[id]" className="font-light text-[.8rem]">
 								Player Profile
-              </Link>
+							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Player Profile</p>
+						<h1 className="font-semibold text-[1.8rem]">Player Profile</h1>
 					</div>
 				</div>
 			)}
@@ -156,11 +161,11 @@ return (
 								Teams
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Teams 👨‍👦‍👦</p>
+						<h1 className="font-semibold text-[1.8rem]">Teams 👨‍👦‍👦</h1>
 					</div>
 				</div>
 			)}
-      {router.pathname === '/teams/[teamId]' && (
+			{router.pathname === '/teams/[teamId]' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -174,15 +179,18 @@ return (
 								Teams
 							</Link>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/teams/${teamId}`} className="font-light text-[.8rem]">
+							<Link
+								href={`/teams/${teamId}`}
+								className="font-light text-[.8rem]"
+							>
 								{team && team.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Team Profile</p>
+						<h1 className="font-semibold text-[1.8rem]">Team Profile</h1>
 					</div>
 				</div>
 			)}
-			{router.pathname === ('/schedule/soccer') && (
+			{router.pathname === '/schedule/soccer' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -196,11 +204,13 @@ return (
 								Soccer
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Divisions - Soccer ⚽</p>
+						<h1 className="font-semibold text-[1.8rem]">
+							All Divisions - Soccer ⚽
+						</h1>
 					</div>
 				</div>
 			)}
-			{router.pathname === ('/schedule/soccer/[id]') && (
+			{router.pathname === '/schedule/soccer/[id]' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -216,7 +226,7 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">All Matches</p>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Matches</p>
+						<h1 className="font-semibold text-[1.8rem]">All Matches</h1>
 					</div>
 				</div>
 			)}
@@ -237,7 +247,7 @@ return (
 								Leagues
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Leagues ⚽</p>
+						<h1 className="font-semibold text-[1.8rem]">Leagues ⚽</h1>
 					</div>
 				</div>
 			)}
@@ -251,17 +261,18 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">Admin Portal</p>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<p
+							<p className="font-light text-[.8rem]">Leagues</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link
+								href={`/admin-portal/leagues/${division?.id}`}
 								className="font-light text-[.8rem]"
 							>
-								Leagues
-							</p>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/admin-portal/leagues/${division?.id}`} className="font-light text-[.8rem]">
 								{division?.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Teams - {division?.name}</p>
+						<h1 className="font-semibold text-[1.8rem]">
+							All Teams - {division?.name}
+						</h1>
 					</div>
 				</div>
 			)}
@@ -282,7 +293,7 @@ return (
 								Users
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Users</p>
+						<h1 className="font-semibold text-[1.8rem]">Users</h1>
 					</div>
 				</div>
 			)}
@@ -303,24 +314,31 @@ return (
 								Teams
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Teams</p>
+						<h1 className="font-semibold text-[1.8rem]">Teams</h1>
 					</div>
 				</div>
-      )}
-      {router.pathname === '/admin-portal/locations' && (
-        <div className="p-1 pt-0 pl-2 lg:pl-7">
-          <div className='flex flex-col gap-2'>
-            <div className='flex flex-row'>
-              <Link href="/" className="font-light text-[.8rem]">Home</Link>
-                <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-              <p className="font-light text-[.8rem]">Admin Portal</p>
-                <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-              <Link href="/admin-portal/locations" className="font-light text-[.8rem]">Locations</Link>
-            </div>
-            <p className="font-semibold text-[1.8rem]">Locations</p>
-          </div>
-        </div>
-      )}
+			)}
+			{router.pathname === '/admin-portal/locations' && (
+				<div className="p-1 pt-0 pl-2 lg:pl-7">
+					<div className="flex flex-col gap-2">
+						<div className="flex flex-row">
+							<Link href="/" className="font-light text-[.8rem]">
+								Home
+							</Link>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<p className="font-light text-[.8rem]">Admin Portal</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link
+								href="/admin-portal/locations"
+								className="font-light text-[.8rem]"
+							>
+								Locations
+							</Link>
+						</div>
+						<h1 className="font-semibold text-[1.8rem]">Locations</h1>
+					</div>
+				</div>
+			)}
 			{router.pathname === '/settings' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
@@ -333,7 +351,7 @@ return (
 								Settings
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Settings</p>
+						<h1 className="font-semibold text-[1.8rem]">Settings</h1>
 					</div>
 				</div>
 			)}
