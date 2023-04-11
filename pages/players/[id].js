@@ -231,10 +231,10 @@ export default function PlayerProfile() {
 								</thead>
 								<tbody>
 									{teams &&
-										teams.map((team) => (
-											<>
+										teams.map((team, index) => (
+											<React.Fragment key={index}>
 												{team !== null && (
-													<tr className="font-light">
+													<tr key={index} className="font-light">
 														<td className="py-2 px-3 text-[.94rem]">{sport}</td>
 														<td className="py-2 text-center">
 															<Link
@@ -254,7 +254,7 @@ export default function PlayerProfile() {
 														</td>
 													</tr>
 												)}
-											</>
+											</React.Fragment>
 										))}
 									{teams && teams.length === 0 && (
 										<>
