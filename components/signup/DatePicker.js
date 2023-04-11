@@ -61,16 +61,16 @@ export default function DobDatePicker({ state, setState }) {
 	};
 
 	return (
-		<div>
+		<>
 			<Label htmlFor="date" value="Date" className="sr-only" />
 			<DatePicker
 				id="date"
-				classNames="w-80 sm:w-96"
+				classNames="w-full"
 				options={options}
 				onChange={handleChange}
 				show={show}
 				setShow={handleClose}
 			/>
-		</div>
+		</>
 	);
 }
