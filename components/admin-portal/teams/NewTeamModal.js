@@ -8,7 +8,6 @@
  */
  import { useState, useEffect } from 'react';
  import DropdownInput from '@/components/common/DropdownInput';
- import { useUser } from '@/context/userContext';
  import { useRouter } from 'next/router';
  import {
    createTeam,
@@ -63,13 +62,15 @@
           }
       })
     }
-    // 
+
+    // Set name of captain when one is set (from drop-down) 
     useEffect(() => {
       if (captain) {
         setCaptainName(`${captain.Attributes.find(o => o.Name === 'name')['Value']} ${captain.Attributes.find(o => o.Name === 'family_name')['Value']}`);
       }
     }, [captain])
  
+    // Creates new team from form data
    const addNewTeam = async () => {
      try {
        if (teamName === '') {
@@ -80,22 +81,18 @@
          setMessage({status: 'error', message: 'There must be a team captain.'});
          return;
        }
-
-      //  const randomId = uuidv4();
        let uniqueId = '';
-       if (teamLogoUpload !== null) {
+       if (teamLogoUpload !== null) { // If image uploaded exists, set uniqueId key for saving image into S3 Bucket.
           uniqueId = `${teamName}_${makeid(15)}`;
         }
-        
-        if (fileSizeCheckOver(teamLogoUpload)) {
+        if (fileSizeCheckOver(teamLogoUpload)) { // Checks if image is less than 5MB
           return;
         }
-        
         if (teamLogoUpload) {
-          await uploadNewImageToS3(uniqueId, teamLogoUpload);
+          await uploadNewImageToS3(uniqueId, teamLogoUpload); // Uploads image IF one is uploaded
        }
 
-       const teamData = {
+       const teamData = { //Data saved to the backend
          name: teamName,
          founded: new Date(Date.now()),
          home_colour: homeColour,
@@ -103,20 +100,11 @@
          team_picture: uniqueId,
          captains: [captain.Username],
         //  team_history: [{
-        //    captains: [captain.Username],
-        //    teamid: randomId,
-        //    division: '',
-        //    roster: teamRoster,
-        //    goals: 0,
-        //    assists: 0,
-        //    yellow_cards: 0,
-        //    red_cards: 0,
-        //    games_played: 0,
         //  }],
        };
        const resp = await createTeam(teamData); // Creates team
        await createCaptainOnTeam(captain.Username, resp.data.createTeam.id); // Creates initial captain for team!
- 
+       // If response is successful, reset page
        if (resp) {
          setMessage({status: 'success', message: 'Team successfully created!'});
          const timer = setTimeout(() => {
@@ -129,7 +117,8 @@
        setMessage({status: 'error', message: error.message});
      }
    };
- 
+   
+   // Reset data (everytime modal opens)
    const resetData = () => {
      setMaxMembers(0);
      setTeamName('');
@@ -142,6 +131,7 @@
    };
  
    if (!isVisible) return;
+   
    return (
      <>
        <div
@@ -215,14 +205,11 @@
                  </label>
                  <input disabled
                    value={captainName}
-                  //  onChange={(e) => setCaptain(e.target.value)}
                    type="text"
                    id="lastName"
                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
                  />
-                 {/* <div className='absolute right-2 top-[2.8rem]'>
-                      <ion-icon style={{fontSize: '25px'}} name="caret-down-circle-outline"></ion-icon>
-                </div> */}
+                
                </div>
                 {openCaptainDrop && (
                   <>

@@ -1,13 +1,14 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://stackoverflow.com/questions/6975693/amazon-s3-access-image-by-url
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-// import makeid from '@/utils/makeId';
 //AWS Imports
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3({
@@ -24,11 +25,13 @@ export default function UserProfilePictureEdit({
 }) {
 	const [defaultPic, setDefaultPic] = useState(
 		'/images/defaultProfilePic.jpeg'
-	);
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-	const signedUrlExpireSeconds = 60 * 1;
-	// const imageKey = 'pantocrator-dome.jpg';
+	); // Default picture - on startup
+	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev'; //S3 Bucket name
+	const signedUrlExpireSeconds = 60 * 1; // Expires after set time
 
+	/**
+	 * If user has valid picture, return it from backend (S3 Bucket)
+	 */
 	useEffect(() => {
 		if (
 			user &&
@@ -38,6 +41,7 @@ export default function UserProfilePictureEdit({
 		}
 	}, []);
 
+	// Retrieves user image from S3 Bucket
 	const getImageFromS3 = () => {
 		const url = s3.getSignedUrl('getObject', {
 			Bucket: bucketName,

@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react';
 import DeleteDivisionModal from '../../../common/sports/Divisions/DeleteDivisionModal';
 import EditDivisionModal from '../../../common/sports/Divisions/EditDivisionModal';
 import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
-import { IconTrash, IconEdit, IconUsers, IconCalendarDue } from '@tabler/icons-react';
+import { IconTrash, IconEdit, IconUsers } from '@tabler/icons-react';
 import { API } from '@aws-amplify/api';
 import { convertLevelToFull } from '@/utils/handy-dandy-functions';
 

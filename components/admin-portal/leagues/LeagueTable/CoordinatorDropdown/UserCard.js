@@ -13,10 +13,12 @@ import { getImageFromS3 } from '@/utils/graphql.services';
 export default function UserCard({user, searchUser}) {
     const [userImage, setUserImage] = useState(null);
 
+    // Get user image everytime the search is implied.
     useEffect(() => {
         getImage();
     }, [searchUser])
 
+    // Retrieves user image from the backend (S3 Bucket)
     const getImage = async () => {
         if (user.Attributes.find(o => o.Name === 'picture')['Value'] !== 'none') {
             let url = await getImageFromS3(user.Attributes.find(o => o.Name === 'picture')['Value']);

@@ -7,14 +7,13 @@
  */
 
  import React, { useState, useEffect } from 'react';
- import { IconTrash, IconEdit, IconCut } from '@tabler/icons-react';
+ import { IconTrash, IconEdit } from '@tabler/icons-react';
  import { useRouter } from 'next/router';
  import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
  import AWS from 'aws-sdk';
 import DeleteTeamModal from './DeleteTeamModal';
   
   export default function TeamCard({ team, fetchTeams, filterTeams }) {
-      const [editModal, setEditModal] = useState(false);
       const [deleteModal, setDeleteModal] = useState(false);
       const [captains, setCaptains] = useState([]);
       const [sport, setSport] = useState('Soccer');
@@ -23,6 +22,7 @@ import DeleteTeamModal from './DeleteTeamModal';
  
       var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
  
+      // Fetches captains and image on startup (when filterTeams loads)
       useEffect(() => {
          fetchCaptains(team.captains);
          getTeamImage();
@@ -53,33 +53,32 @@ import DeleteTeamModal from './DeleteTeamModal';
          })
      }
  
-     // Fetches the team image from
+     // Fetches the team image from backend IF team picture exists
       const getTeamImage = async () => {
        if (team.team_picture === null || team.team_picture === '') {
            setTeamImage(null);
        } else {
            const url = await getImageFromS3(team.team_picture);
-           console.log('URL',url);
            setTeamImage(url);
        }
    }
-  
+
+   // Redirects user to team's page (where they can edit the team)
       const editTeamFunc = (e) => {
           e.stopPropagation();
           router.push(`/teams/${team.id}`)
-        //   setEditModal(!editModal);
       }
-      
+      // Open delete team modal
       const deleteTeamFunc = (e) => {
           e.stopPropagation();
           setDeleteModal(!deleteModal);
       }
-  
+      // Go to selected team's profile page
       const goToTeamPage = (e) => {
           e.preventDefault();
           router.push(`/teams/${team.id}`)
       }
-      
+      // Go to captain's player profile page
       const goToPlayerPage = (e, captain) => {
           e.stopPropagation();
           router.push(`/players/${captain.Username}`)

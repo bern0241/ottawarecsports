@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { deleteLocation } from "@/src/graphql/mutations";

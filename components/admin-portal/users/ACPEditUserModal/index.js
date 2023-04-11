@@ -1,9 +1,13 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
+
+// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/Welcome.html
+// https://github.com/OMikkel/tailwind-datepicker-react
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -25,6 +29,7 @@ import { updateLeague } from '@/src/graphql/mutations';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import ValidatePhoneNumber from 'validate-phone-number-node-js';
+
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -33,7 +38,7 @@ const s3 = new AWS.S3({
 });
 
 export default function ACPEditUserModal({
-	user1,
+	user1, // The user being edited
 	openModal,
 	setOpenModal,
 	setSuccessMessage,
@@ -43,33 +48,31 @@ export default function ACPEditUserModal({
 	const [newPassword, setNewPassword] = useState('');
 
 	const [profilePic, setProfilePic] = useState(null);
-	const [profilePicId, setProfilePicId] = useState('none');
 
 	const [firstName, setFirstName] = useState(
-		user1.Attributes.find((o) => o.Name === 'name')['Value']
+		user1.Attributes.find((o) => o.Name === 'name')['Value'] // Name of user being edited
 	);
 	const [lastName, setLastName] = useState(
-		user1.Attributes.find((o) => o.Name === 'family_name')['Value']
+		user1.Attributes.find((o) => o.Name === 'family_name')['Value'] // Last name of user being edited
 	);
-	// const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0]);
 	const [birthDate, setBirthDate] = useState(
-		user1.Attributes.find((o) => o.Name === 'birthdate')['Value'].replaceAll(
+		user1.Attributes.find((o) => o.Name === 'birthdate')['Value'].replaceAll( 
 			'-',
 			'/'
-		)
+		) // Birthdate of user being edited
 	);
 	const [gender, setGender] = useState(
-		user1.Attributes.find((o) => o.Name === 'gender')['Value']
+		user1.Attributes.find((o) => o.Name === 'gender')['Value'] // Gender of user being edited
 	);
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [email, setEmail] = useState(
-		user1.Attributes.find((o) => o.Name === 'email')['Value']
+		user1.Attributes.find((o) => o.Name === 'email')['Value'] // Email of user being edited
 	);
 	const [location, setLocation] = useState(
-		user1.Attributes.find((o) => o.Name === 'custom:location')['Value']
+		user1.Attributes.find((o) => o.Name === 'custom:location')['Value'] // Location of user being edited
 	);
 
-	const [userGroups, setUserGroups] = useState([]);
+	const [userGroups, setUserGroups] = useState([]); // The groups that the user is part of
 	
 	const [isAdmin, setIsAdmin] = useState(false); // Checks if admin chip exists when modal opens
 	const [isCoordinator, setIsCoordinator] = useState(false); // Checks if coordinator chip exists when modal opens
@@ -93,9 +96,8 @@ export default function ACPEditUserModal({
 		return () => clearTimeout(timer);
 	}, [message]);
 
-	/**
-	 * If UI State changes, nullify the 'message' state
-	 */
+	// Nullifies the message on startup. Sets the new password to empty
+	// Checks if user is Admin when opening modal (meant for logging our user if they remove their Admin priviledge)
 	useEffect(() => {
 		setMessage(null);
 		setNewPassword('');
@@ -106,11 +108,13 @@ export default function ACPEditUserModal({
 
 
 	useEffect(() => {
+		// Set phone number IF phone number attribute exists on user (in Cognito)
 		if (user1.Attributes.find((o) => o.Name === 'phone_number')) {
 			setPhoneNumber(
 				user1.Attributes.find((o) => o.Name === 'phone_number')['Value']
 			);
 		}
+		// Gets all the groups of user from backend
 		const getGroupsForUser = () => {
 			var params = {
 				Username: user1.Username,
@@ -126,7 +130,7 @@ export default function ACPEditUserModal({
 						result = result.filter((item) => item !== 'User');
 						result.unshift('User');
 						setUserGroups(result);
-						// SEE IF COORDINATOR EXISTS
+						// SEE IF USER COORDINATOR EXISTS
 						if (result.includes('Coordinator')) {
 							setIsCoordinator(true);
 						}
@@ -140,14 +144,13 @@ export default function ACPEditUserModal({
 		getGroupsForUser();
 	}, []);
 
-
-
-
-
+	/**
+	 * 
+	 * @returns Checks if user being edited has Coordinator role that exists in every league!
+	 *  TODO: Referees! (Phase 2) 
+	 */
 	const checkIfCoordinatorsOrRefereesExist = async () => {
 		let coordOrRefLive = [];
-		// COORDINATORS
-		// Get all leagues with active coordinators[]
 		try {
 			const variables = {
 				filter: {
@@ -162,7 +165,6 @@ export default function ACPEditUserModal({
 				query: listLeagues,
 				variables: variables
 			})
-			// console.log(leagues.data.listLeagues.items)
 			// loop through and filter username 
 			let coordinatorAliveLeague = false;
 			leagues.data.listLeagues.items.forEach((league) => {
@@ -184,6 +186,7 @@ export default function ACPEditUserModal({
 		}
 	}
 
+	// Removes user as Coordinator in ALL leagues (if user removes their Coordinator role)
 	const removeAllCoordinatorRolesInLeagues = async () => {
 		const variables = {
             filter: {
@@ -222,10 +225,7 @@ export default function ACPEditUserModal({
 		}
 	}
 
-
-
-
-
+	// If phone number is empty (null), return empty string
 	const returnEmptyStringPhoneNumber = async () => {
 		if (phoneNumber === undefined) {
 			return '';
@@ -326,7 +326,6 @@ export default function ACPEditUserModal({
 						Value: location,
 					},
 					{
-						// Name: 'custom:birthdate',
 						Name: 'birthdate',
 						Value: birthDate.toString(),
 					},
@@ -334,12 +333,9 @@ export default function ACPEditUserModal({
 						Name: 'phone_number',
 						Value: phoneNumberConverted,
 					},
-					// {
-					//     Name: "phone_number_verified",
-					//     Value: "true"
-					// },
 				],
-				// DesiredDeliveryMediums: [
+				// KEEP JUST IN CASE - Meant for delivering message to email or sms
+				// DesiredDeliveryMediums: [  
 				//     SMS | EMAIL,
 				// ]
 			};
@@ -351,7 +347,6 @@ export default function ACPEditUserModal({
 						setMessage({ status: 'error', message: err.message });
 					} else {
 
-						// setProfilePicId(profile_pic_id);
 						await deleteUserGroups(profile_pic_id, userStatus);
 					}
 				}
@@ -362,7 +357,7 @@ export default function ACPEditUserModal({
 		}
 	};
 
-
+	// Deletes selected user groups (from Cognito - backend)
 	const deleteUserGroups = async (profile_pic_id, userStatus) => {
 		try {
 			const removeTheseGroups = [
@@ -400,6 +395,7 @@ export default function ACPEditUserModal({
 		}
 	}
 	
+	// Adds new user groups to user! (using Cognito)
 	const addUserToGroups = async (profile_pic_id, userStatus) => {
 		try {
 			await userGroups.forEach((group) => {
@@ -431,6 +427,7 @@ export default function ACPEditUserModal({
 		}
 	};
 
+	// Deletes current profile image in backend (S3 Bucket)
 	const deleteCurrentProfileImageS3 = async (profile_pic_id, userStatus) => {
 		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 
@@ -459,6 +456,7 @@ export default function ACPEditUserModal({
 		}
 	};
 
+	// Uploads new profile image to backend (S3 Bucket)
 	const uploadNewProfileImageToS3 = async (profile_pic_id, userStatus) => {
 		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 		const signedUrlExpireSeconds = 60 * 1;
@@ -490,6 +488,7 @@ export default function ACPEditUserModal({
 		}
 	};
 
+	// Sets new password to edited user (using Cognito)
 	const setPassword = (e) => {
 		e.preventDefault();
 		if (newPassword === '') {
@@ -728,7 +727,6 @@ export default function ACPEditUserModal({
 									</div>
 
 									<div class="w-full text-right relative top-4">
-										{/* <label for="tempPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password *</label> */}
 										<ChangePasswordModal setUiState={setUiState} />
 									</div>
 
@@ -885,7 +883,6 @@ export default function ACPEditUserModal({
 
 								{/* <!-- Modal footer --> */}
 								<div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-									{/* <button onClick={() => setOpenModal(false)} data-modal-hide="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button> */}
 									<button
 										onClick={(e) => setPassword(e)}
 										data-modal-hide="defaultModal"

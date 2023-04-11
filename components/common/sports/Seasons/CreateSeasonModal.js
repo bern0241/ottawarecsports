@@ -6,6 +6,9 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://github.com/OMikkel/tailwind-datepicker-react
+// https://www.youtube.com/watch?v=BGhw7TrVgu8&t=718s
+
 import React, { useState, useEffect } from 'react';
 import { API } from '@aws-amplify/api';
 import Datepicker from 'tailwind-datepicker-react';

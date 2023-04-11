@@ -1,3 +1,12 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
+// REFERENCES: https://stackoverflow.com/questions/6975693/amazon-s3-access-image-by-url
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 // import makeid from '@/utils/makeId';

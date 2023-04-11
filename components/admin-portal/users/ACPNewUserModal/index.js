@@ -5,6 +5,10 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/Welcome.html
+// https://github.com/OMikkel/tailwind-datepicker-react
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
@@ -34,13 +38,11 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 
 	const [profilePic, setProfilePic] = useState(null);
-	const [profilePicId, setProfilePicId] = useState('none');
 
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	// const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0]);
 	const [birthDate, setBirthDate] = useState(
-		new Date().toISOString().split('T')[0].replaceAll('-', '/')
+		new Date().toISOString().split('T')[0].replaceAll('-', '/') // Converts today's date to ISO, and changes all '-' to '/' (for getting current date)
 	);
 	const [gender, setGender] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
@@ -55,9 +57,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	const [openNewUserModal, setOpenNewUserModal] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-	/**
-	 * Sets timer for message to disappear
-	 */
+	// After 5 seconds, hide display message
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setMessage(null);
@@ -101,7 +101,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 
 			var params = {
 				UserPoolId: 'us-east-1_70GCK7G6t',
-				// Username: uniqueId,
 				Username: email,
 				TemporaryPassword: tempPassword,
 				UserAttributes: [
@@ -144,9 +143,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					},
 				],
 				DesiredDeliveryMediums: ['EMAIL'],
-				// DesiredDeliveryMediums: [
-				//     SMS | EMAIL,
-				// ]
 			};
 			cognitoidentityserviceprovider.adminCreateUser(
 				params,
@@ -167,6 +163,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		}
 	};
 
+	// Adds user to all designated User Groups.
 	const addUserToGroups = async (newUsername, profile_pic_id) => {
 		userGroups.forEach((group) => {
 			var params = {
@@ -188,6 +185,8 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		});
 	};
 
+	// Automatically sets new user to CONFIRMED 
+	// REFERENCE: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RespondToAuthChallenge.html
 	const confirmTempUserPassword = async (username, profile_pic_id) => {
 		// FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
 		const authParams = {
@@ -198,7 +197,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				PASSWORD: tempPassword,
 			},
 		};
-
 		cognitoidentityserviceprovider.initiateAuth(
 			authParams,
 			function (err, authResult) {
@@ -233,6 +231,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		);
 	};
 
+	// Uploads new profile image to the backend (S3 Bucket)
 	const uploadNewProfileImageToS3 = async (newProfilePicId) => {
 		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 		try {

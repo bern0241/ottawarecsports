@@ -5,6 +5,9 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://amplify.aws/learn/
+// https://www.youtube.com/watch?v=4P2jJRbtTck&t=454s
+
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useUser } from '@/context/userContext';

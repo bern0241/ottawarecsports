@@ -6,7 +6,7 @@
  */
 
 import { API } from '@aws-amplify/api';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { deleteTeam } from '@/src/graphql/mutations';
 import { deleteImageFromS3 } from '@/utils/graphql.services';
  

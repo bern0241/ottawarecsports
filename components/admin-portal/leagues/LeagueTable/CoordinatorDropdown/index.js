@@ -13,7 +13,7 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
     const [search, setSearch] = useState('');
     const [searchUser, setSearchUser] = useState('');
 
-    // We don't want the same coordinator twice!
+    // Adds a Coordinator to list. We don't want the same coordinators twice!
   const addCoordinator = (e, user) => {
     e.preventDefault();
     const found = leagueCoordinators.some(el => el.username === user.Username);
@@ -29,10 +29,12 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
     }
   }
 
+  // When search button is pressed, apply this search result
     const setSearchFunc = () => {
         setSearchUser(search);
     }
 
+    // If search is empty, search for all (by being empty)
     useEffect(() => {
       if (search === '') {
          setSearchUser('');
@@ -77,7 +79,8 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
     ))}
 
   </ul>
-  <a href="#" class="flex items-center p-3 text-sm font-medium text-blue-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline">
+  {/* Add new user button */}
+  <a href="/admin-portal/users" class="flex items-center p-3 text-sm font-medium text-blue-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline">
       <svg class="w-5 h-5 mr-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
       Add new user
   </a>

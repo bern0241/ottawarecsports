@@ -9,6 +9,8 @@
 import { IconX } from '@tabler/icons-react';
 
 export default function CoordinatorChip({ coordinator, leagueCoordinators, setLeagueCoordinators}) {
+
+    // Remove chip when the chip's 'X' button is pressed
     const removeChip = (e) => {
         const array = leagueCoordinators.filter(item => item.username !== coordinator.username);
         setLeagueCoordinators(array);

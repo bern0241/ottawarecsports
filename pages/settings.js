@@ -6,6 +6,9 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
+// REFERENCES: https://amplify.aws/learn/
+// https://www.youtube.com/watch?v=4P2jJRbtTck&t=454s
+
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { IconCameraPlus } from '@tabler/icons-react';

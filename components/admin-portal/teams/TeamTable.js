@@ -8,8 +8,6 @@
 
  import React, { useState, useEffect } from 'react';
  import TeamCard from './TeamCard';
- import { listTeams } from '@/src/graphql/queries';
- import { API } from '@aws-amplify/api';
  import { useRouter } from 'next/router';
 import CreateButton from '@/components/common/CreateButton';
 import NewTeamModal from './NewTeamModal';
@@ -17,7 +15,8 @@ import NewTeamModal from './NewTeamModal';
   export default function TeamTable({ filterTeams, fetchTeams }) {
     const [createTeamModal, setCreateTeamModal] = useState(false);
     const router = useRouter();
-  
+    
+    // Displays table, team cards, and create team button
       return (
           <>
           <div class="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">

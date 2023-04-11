@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -8,6 +8,7 @@
 import React from 'react';
 
 export default function ChangePasswordModal({ setUiState }) {
+	// Change Password Button used for switching the UI State to "changePassword"
 	return (
 		<button
 			onClick={() => setUiState('changePassword')}
