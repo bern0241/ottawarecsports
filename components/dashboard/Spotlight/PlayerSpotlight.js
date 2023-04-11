@@ -12,6 +12,7 @@ import { useUser } from '@/context/userContext';
 import { useEffect, useState } from 'react';
 import { getTeam, getImageFromS3 } from '@/utils/graphql.services';
 import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
+import { getTeamShort } from '@/src/graphql/custom-queries';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -27,10 +28,11 @@ export default function PlayerSpotlight() {
 	const [spotlightUser, setSpotlightUser] = useState();
 	const [profileImage, setProfileImage] = useState(null);
 	const [teams, setTeams] = useState([]);
+	const [spotlightUserRole, setSpotlightUserRole] = useState();
 
 	useEffect(() => {
 		fetchAllUsers();
-	}, [])
+	}, []);
 
 	useEffect(() => {
 		getRandomUser();
@@ -41,12 +43,33 @@ export default function PlayerSpotlight() {
 			return;
 		}
 
-		const fetchSpotlightInformation = async () => {
-			await fetchTeams();
-		};
 		fetchSpotlightInformation();
 		getPicture();
 	}, [spotlightUser]);
+
+	useEffect(() => {
+		if (!teams) {
+			setSpotlightUserRole('N/A');
+			return;
+		}
+		checkPlayerRole(teams[0]);
+	}, [teams]);
+
+	const checkPlayerRole = (team) => {
+		try {
+			if (team.captains.includes(spotlightUser.Username)) {
+				setSpotlightUserRole('Captain');
+			} else {
+				setSpotlightUserRole('Player');
+			}
+		} catch (error) {
+			return;
+		}
+	};
+
+	const fetchSpotlightInformation = async () => {
+		await fetchTeams();
+	};
 
 	const fetchAllUsers = async () => {
 		var params = {
@@ -104,14 +127,19 @@ export default function PlayerSpotlight() {
 		if (!players) {
 			return;
 		}
-		players.data.listPlayers.items.map(async (player) => {
-			const apiData = await API.graphql({
-				query: getTeam2,
-				variables: { id: player.teamID },
+		try {
+			players.data.listPlayers.items.map(async (player) => {
+				if(!player.teamID) return;
+				const apiData = await API.graphql({
+					query: getTeamShort,
+					variables: { id: player.teamID },
+				});
+				const data = await apiData.data.getTeam;
+				setTeams((teams) => [...teams, data]);
 			});
-			const data = await apiData.data.getTeam;
-			setTeams((teams) => [...teams, data]);
-		});
+		} catch (error) {
+			console.warn(error);
+		}
 	};
 
 	return (
@@ -150,8 +178,10 @@ export default function PlayerSpotlight() {
 					</span>
 				</div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-					<span className="text-sm font-light col-span-1">Position</span>
-					<span className="truncate col-span-1">N/A</span>
+					<span className="text-sm font-light col-span-1">Role</span>
+					<span className="truncate col-span-1">
+						{spotlightUserRole ? spotlightUserRole : 'N/A'}
+					</span>
 				</div>
 			</div>
 		</div>

@@ -21,7 +21,6 @@ import { deleteImageFromS3 } from '@/utils/graphql.services';
            input: { id: team.id }
          }
        })
-       console.log('Deleted team', deletedTeam);
        deleteImageFromS3(deletedTeam.data.deleteTeam.team_picture);
        fetchTeams();
        setDeleteModal(false);

@@ -12,6 +12,7 @@ const GeneratedMatchesTable = ({
 	setMatchToEdit,
 	setIsEditing,
 	setIsDeleting,
+	setSaveBatchGame,
 	selectedDate,
 	setSelectedDate,
 	isCoordinator,
@@ -62,6 +63,7 @@ const GeneratedMatchesTable = ({
 									setIsEditing={setIsEditing}
 									setIsDeleting={setIsDeleting}
 									isCoordinator={isCoordinator}
+									setSaveBatchGame={setSaveBatchGame}
 								/>
 							))
 						) : (

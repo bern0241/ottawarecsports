@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-10
+ *
+ * Author(s):
+ * Son Tran <tran0460@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Greg Coghill <cogh0020@algonquinlive.com>
+ */
 import MatchesTable from '@/components/schedule/MatchesTable';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
@@ -7,11 +15,7 @@ import { useRouter } from 'next/router';
 import { getDivisionGames, getAllTeams } from '@/utils/graphql.services';
 import CreateMatchModal from '@/components/schedule/CreateMatchModal';
 import { getLeague } from '@/src/graphql/queries';
-import {
-	getDivisionShort,
-	getSeasonShort,
-	listGamesShort,
-} from '@/src/graphql/custom-queries';
+import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
@@ -36,6 +40,7 @@ export default function DivisionMatches() {
 
 	const [isMakingBatch, setIsMakingBatch] = useState(false);
 	const [generatedGames, setGeneratedGames] = useState([]);
+	const [saveBatchGame, setSaveBatchGame] = useState([]);
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
@@ -164,9 +169,10 @@ export default function DivisionMatches() {
 				/>
 				<GeneratedMatchesTable
 					matches={generatedGames}
-					// setMatchToEdit={setMatchToEdit}
+					setMatchToEdit={setMatchToEdit}
 					setIsEditing={setIsEditingMatch}
 					setIsDeleting={setIsDeletingMatch}
+					setSaveBatchGame={setSaveBatchGame}
 					// selectedDate={selectedDate}
 					// setSelectedDate={setSelectedDate}
 					isCoordinator={isCoordinator}
@@ -182,7 +188,10 @@ export default function DivisionMatches() {
 				<EditMatchModal
 					games={games}
 					setGames={setGames}
+					getGames={getGames}
 					match={matchToEdit}
+					makingNewGame={saveBatchGame}
+					setMakingNewGame={setSaveBatchGame}
 					isVisible={isEditingMatch}
 					setIsVisible={setIsEditingMatch}
 				/>

@@ -6,6 +6,7 @@ import { useUser } from '@/context/userContext';
 const GeneratedMatchRow = ({
 	match,
 	setMatchToEdit,
+	setSaveBatchGame,
 	setIsEditing,
 	setIsDeleting,
 	isCoordinator,
@@ -155,6 +156,7 @@ const GeneratedMatchRow = ({
 							onClick={() => {
 								setMatchToEdit(match);
 								setIsEditing(true);
+								setSaveBatchGame(true);
 							}}
 						>
 							<span>

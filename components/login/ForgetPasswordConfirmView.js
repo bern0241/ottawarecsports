@@ -43,7 +43,7 @@ export default function ForgetPasswordConfirmView({
 		try {
 			await Auth.resendSignUp(email);
 			setMessage({ status: 'success', message: `Code resent successfully!` });
-			console.log('code resent successfully');
+			// console.log('code resent successfully');
 		} catch (err) {
 			setMessage({ status: 'error', message: err.message });
 			console.log('error resending code: ', err);

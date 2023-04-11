@@ -44,7 +44,7 @@ export default function MultiTeamSelectDropDown({
 	// 		teamDivisions.data.listTeamDivisions.items.map((team) => team.team)
 	// 	);
 	// };
-	console.log(selectedTeams);
+	// console.log(selectedTeams);
 	return (
 		<>
 			<button

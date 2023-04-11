@@ -13,12 +13,11 @@ export default function ACPSearchUserBar({ setSearchResult }) {
 	const enterSearch = (e) => {
 		e.preventDefault();
 		setSearchResult(search);
-		console.log('Search Result:', search);
 	};
 
 	useEffect(() => {
 		if (search === '') {
-			console.log('Search = none');
+			// console.log('Search = none');
 			setSearchResult('');
 		}
 	}, [search]);

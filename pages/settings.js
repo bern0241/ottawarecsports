@@ -21,6 +21,8 @@ import SettingsProfileImage from '../components/settings-page/SettingsProfileIma
 import makeid from '@/utils/makeId';
 import StatusMessage from '@/components/common/StatusMessage';
 import { fileSizeCheckOver } from '@/utils/graphql.services';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
+
 export default function Setting() {
 	const [user] = useUser();
 	const [userAttributes, setUserAttributes] = useState({});
@@ -31,6 +33,12 @@ export default function Setting() {
 			if (userAttributes.name === '' || userAttributes.family_name === '') {
 				setMessage({status: 'error', message: "Please fillout all required fields."});
 				return;
+			}
+			if (userAttributes.phone !== undefined && userAttributes.phone !== '') {
+				if (!ValidatePhoneNumber.validate(userAttributes.phone)) {
+					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					return;
+				}
 			}
 			if (profilePic) {
 				const imageKey = `user_${makeid(15)}`;
@@ -136,25 +144,6 @@ export default function Setting() {
 									</div>
 								</div>
 							</div>
-							{/* <div className="flex justify-center">
-								<div>
-									<button
-										className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-										type="button"
-									>
-										Cancel
-									</button>
-								</div>
-								<div>
-									<button
-										className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
-										type="button"
-										onClick={saveAttributes}
-									>
-										Save
-									</button>
-								</div>
-							</div> */}
 						</div>
 					</div>
 				</main>

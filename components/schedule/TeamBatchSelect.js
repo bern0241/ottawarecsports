@@ -414,7 +414,7 @@ const TeamBatchSelect = ({
 	}, [awayColour]);
 
 	//if (!isVisible) return;
-	console.log(batchResults);
+	// console.log(batchResults);
 
 	return (
 		<>
@@ -640,6 +640,7 @@ const TeamBatchSelect = ({
 											const refereeUsernames = referees.map((a) => a.username);
 											setBatchResults(
 												scheduleGamesAutomatically(selectedTeams, {
+													//TODO:Add ID
 													division: divisionID,
 													date: convertedTime,
 													location: matchLocation,
@@ -657,8 +658,9 @@ const TeamBatchSelect = ({
 													// gameAwayTeamId: '', //awayTeam.id,
 												})
 											);
-											console.log(batchResults);
+											// console.log(batchResults);
 											setGeneratedGames(batchResults);
+											console.log(batchResults);
 										}}
 										data-modal-hide="defaultModal"
 										type="button"

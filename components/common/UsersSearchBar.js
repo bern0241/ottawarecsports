@@ -30,7 +30,6 @@ export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembe
                 if (err) {
                     console.log(err, err.stack);
                 } else {
-                    console.log('Users', data.Users);
                     setUsers(data.Users);
                 }
             });

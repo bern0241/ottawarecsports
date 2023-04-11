@@ -14,7 +14,7 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 	// const { divisionID } = router.query;
 	const router = useRouter();
 	const divisionID = router.query.id;
-
+	console.log(divisionID);
 	useEffect(() => {
 		if (!divisionID) return;
 		const callMeAsync = async () => {
@@ -43,7 +43,6 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 
 	const setTeamFunc = (e, team) => {
 		e.preventDefault();
-		console.log(team);
 		setState(team);
 		setOpenDropDown(false);
 	};

@@ -24,17 +24,17 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
 
     useEffect(()=> {
         setUsers([]);
-        getUserListByNames();
+        getUserListByNames(league.coordinators);
     }, [])
 
-    const getUserListByNames = () => {
-        league.coordinators.forEach((coordinator) => {
+    const getUserListByNames = (coordinators) => {
+        setUsers([]);
+        coordinators.forEach((coordinator) => {
             var params = {
                 UserPoolId: 'us-east-1_70GCK7G6t',
                 Username: coordinator 
-              };
-              setUsers([]);
-              cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
+                };
+                cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
                 if (err) console.log(err, err.stack); // an error occurred
                 // else     console.log(data);           // successful response
                     setUsers((users) => {

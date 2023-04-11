@@ -301,7 +301,7 @@ export const getImageFromS3 = async (key) => {
 export const getAllMatches = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listGames,
+			query: listGamesShort,
 		});
 		return resp.data.listGames.items.filter((item) => !item._deleted);
 	} catch (err) {
@@ -448,9 +448,12 @@ export const getDivisionGames = async (divisionID) => {
 	try {
 		const resp = await API.graphql({
 			query: listGamesShort,
-			// query: queries.gamesByDivision,
 			variables: {
-				division: divisionID,
+				filter: {
+					division: {
+						eq: divisionID,
+					},
+				},
 			},
 		});
 		return resp.data.listGames.items;
@@ -489,9 +492,15 @@ export const scheduleGamesAutomatically = (teams, matchData) => {
 		for (let i = teams.length - 1; i > -1; i--) {
 			// if the team name is identical or the "reverse loop" has reached the current index position of the loop, don't do anything
 			if (teams.name === teams[i].name || i === index) break;
+			//console.log(team[i]);
+			console.log(i);
 			results.push({
 				gameHomeTeamId: team.id,
 				gameAwayTeamId: teams[i].id,
+				HomeTeam: team,
+				AwayTeam: teams[i],
+				home_color: team?.home_colour || 'Red',
+				away_color: team[i]?.away_colour || 'Blue',
 				...matchData,
 			});
 		}

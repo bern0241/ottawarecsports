@@ -21,7 +21,7 @@ const MatchesTable = ({
 	//JUSTIN ADDED
 	selectedDate,
 	setSelectedDate,
-	isCoordinator
+	isCoordinator,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	// const [selectedDate, setSelectedDate] = useState('');
@@ -32,32 +32,38 @@ const MatchesTable = ({
 	const [season, setSeason] = useState();
 	const [division, setDivision] = useState();
 	const router = useRouter();
-	const {id} = router.query;
-	
+	const { id } = router.query;
+
 	/**
 	 * This useEffect fetches the division -> season -> league (in this order) for this page
 	 */
 	useEffect(() => {
 		if (!id) return;
-		console.log('my id',id);
-        const moveUpLeagueId = async () => {
-            // DIVISION
-            const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: id }});
-            const divisionData = await apiDataDivision.data.getDivision;
-            setDivision(divisionData);
-            // SEASON
-            const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
-            const seasonData = await apiDataSeason.data.getSeason;
-            setSeason(seasonData);
-            // LEAGUE
-            const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
-            const leagueData = await apiDataLeague.data.getLeague;
-            setLeague(leagueData);
-          
-        }
-      moveUpLeagueId();
-    }, [id])
-	
+		const moveUpLeagueId = async () => {
+			// DIVISION
+			const apiDataDivision = await API.graphql({
+				query: getDivisionShort,
+				variables: { id: id },
+			});
+			const divisionData = await apiDataDivision.data.getDivision;
+			setDivision(divisionData);
+			// SEASON
+			const apiDataSeason = await API.graphql({
+				query: getSeasonShort,
+				variables: { id: divisionData.season },
+			});
+			const seasonData = await apiDataSeason.data.getSeason;
+			setSeason(seasonData);
+			// LEAGUE
+			const apiDataLeague = await API.graphql({
+				query: getLeague,
+				variables: { id: seasonData.league },
+			});
+			const leagueData = await apiDataLeague.data.getLeague;
+			setLeague(leagueData);
+		};
+		moveUpLeagueId();
+	}, [id]);
 	// go through the sorted match list, get all the dates and return them as an array
 	const returnDateArray = () => {
 		let dateArray = [];
@@ -75,8 +81,8 @@ const MatchesTable = ({
 			if (!dateArray.includes(dateWithoutWeekday))
 				dateArray.push(dateWithoutWeekday);
 		});
-		setSelectedDate(dateArray[0]);
-		return dateArray;
+		setSelectedDate('All matches');
+		return ['All matches', ...dateArray];
 	};
 	useEffect(() => {
 		if (!matches) return;
@@ -96,6 +102,8 @@ const MatchesTable = ({
 	}, [timeSortedMatches]);
 
 	useEffect(() => {
+		if (selectedDate === 'All matches')
+			return setDisplayedMatches(timeSortedMatches);
 		setDisplayedMatches(
 			timeSortedMatches.map((match) => {
 				const matchDate = match.date
@@ -105,18 +113,21 @@ const MatchesTable = ({
 				if (matchDateString.includes(selectedDate)) return match;
 			})
 		);
-	}, [selectedDate]);
+	}, [selectedDate, timeSortedMatches]);
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex justify-between py-[35px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
 					<h1 className="text-base font-medium">
-						<p className='absolute translate-y-[-38px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/>
-						{/* <span className='font-light italic'>Matches</span> */}
+						<p className="absolute translate-y-[-38px]">
+							<b>League</b> - {league?.name} <br />
+							<b>Season</b> - {season?.name} <br />
+							<b>Division</b> - {division?.name} <br />
+							{/* <span className='font-light italic'>Matches</span> */}
 						</p>
 					</h1>
 					{displayedMatches.length === 0 ? (
-						<div className='py-[17px]'></div>
+						<div className="py-[17px]"></div>
 					) : (
 						<DropdownInput
 							value={selectedDate}

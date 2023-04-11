@@ -29,11 +29,9 @@ export default function CreateSeasonModal({ openModal, setOpenModal, selectedLea
 
     const handleChangeStart = (selectedDate) => {
         setStarts(getConvertedDate(selectedDate));
-        console.log(getConvertedDate(selectedDate));
     }
     const handleChangeEnd = (selectedDate) => {
         setEnds(getConvertedDate(selectedDate));
-        console.log(getConvertedDate(selectedDate));
     }
 
     const handleCloseStart = (state) => {

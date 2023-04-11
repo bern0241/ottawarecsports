@@ -27,7 +27,6 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
   const getUserListByNames = (coordinators) => {
       setUsers([]);
       coordinators.forEach((coordinator) => {
-          console.log('Username', coordinator);
           var params = {
               UserPoolId: 'us-east-1_70GCK7G6t',
               Username: coordinator 
