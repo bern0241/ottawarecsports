@@ -110,11 +110,11 @@ export default function TeamSpotlight() {
 				</div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
 					<span className="text-sm font-light col-span-1">Team Captain(s)</span>
-					<span className="truncate col-span-1">
+					<span className="col-span-1">
 						<ul>
 							{spotlightTeamCaptains &&
 								spotlightTeamCaptains.map((captain, index) => (
-									<li key={index}>
+									<li key={index} className="truncate">
 										{
 											captain.UserAttributes.find((o) => o.Name === 'name')[
 												'Value'
