@@ -10,16 +10,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
-import { IconSearch } from '@tabler/icons-react';
-import { IconX } from '@tabler/icons-react';
 import Image from 'next/image';
-import { getImageFromS3, getAllPlayers, getTeam, getUser, updateTeam } from '@/utils/graphql.services';
+import { getImageFromS3, getTeam} from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 import { useUser } from '@/context/userContext';
-import * as mutations from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
 import EditTeamModal from '@/components/teams/EditTeamModal';
-import UsersSearchBar from '@/components/common/UsersSearchBar';
 import AddMemberDropdown from '@/components/teams/AddMemberDropdown';
 import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/teamIdPage/MemberCard';
@@ -40,8 +36,6 @@ export default function TeamProfile() {
 	
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [leagues, setLeagues] = useState([]);
-	const [season, setSeason] = useState();
-	const [division, setDivision] = useState();
 	
 	const router = useRouter();
 	const {teamId} = router.query;
@@ -56,11 +50,9 @@ export default function TeamProfile() {
 			// DIVISION
 			const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: _division.divisionId}});
 			const divisionData = await apiDataDivision.data.getDivision;
-			setDivision(divisionData);
 			// SEASON
 			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData?.season}});
 			const seasonData = await apiDataSeason.data.getSeason;
-			setSeason(seasonData);
 			// LEAGUE
 			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData?.league}});
 			const leagueData = await apiDataLeague.data.getLeague;
@@ -311,7 +303,6 @@ export default function TeamProfile() {
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Home Colours</h3>
 							<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-								{/* <div className={team ? `bg-${team.home_colour.toLocaleLowerCase()}-700 w-[15px] h-[15px] mt-1 `: ''}></div> */}
 								<div style={{backgroundColor: team?.home_colour}} className='w-6' />
 								<div>
 									{team ? team.home_colour : " "}

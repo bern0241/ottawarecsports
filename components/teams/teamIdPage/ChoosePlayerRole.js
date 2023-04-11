@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import AWS from 'aws-sdk'
-import { updatePlayer } from '@/src/graphql/mutations'
+import React, { useState} from 'react'
 
-export default function ChoosePlayerRole({ member, clickStopPropagationFunc, setChangeRoleModal, setNewRole, currentRole, setCurrentRole }) {
+export default function ChoosePlayerRole({ clickStopPropagationFunc, setChangeRoleModal, setNewRole, currentRole}) {
     const [open, setOpen] = useState(false);
 
     function changeRoleFunc(newRole) {

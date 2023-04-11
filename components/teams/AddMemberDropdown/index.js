@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
 import { createPlayerOnTeam } from '@/utils/graphql.services';
 import MemberCardAdd from './MemberCardAdd';

@@ -10,7 +10,6 @@
  import { API } from 'aws-amplify';
  import { useRouter } from 'next/router';
  import { deletePlayer, updateTeam } from '@/src/graphql/mutations';
- import AWS from 'aws-sdk';
 import { getTeam } from '@/src/graphql/queries';
  
  export default function DeletePlayerModal({ player, fullName, setOpenModal, fetchPlayersFromTeam, fetchCaptains }) {
