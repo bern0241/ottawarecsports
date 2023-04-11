@@ -19,7 +19,7 @@ export default function LeagueTable({ sport, selectedLeague, setSelectedLeague})
     const [user, setUser, authRoles, setAuthRoles] = useUser();
     const [leagues, setLeagues] = useState([]);
     const [newLeagueModal, setNewLeagueModal] = useState(false);
-
+    //
     useEffect(()=>{
         listLeaguesFunc();
     }, [])
