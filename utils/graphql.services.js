@@ -462,9 +462,25 @@ export const getDivisionGames = async (divisionID) => {
 /**
  * Generate matchups for teams
  * @param {Array} teams The list of teams to generate matches for
+ * @param {Object} matchData The object containing the match data
+ * @example scheduleGamesAutomatically([{...team1}, {...team2}, {...team3}],{
+		division: divisionID,
+		date: Date.not(),
+		location: matchLocation,
+		status: 'NOT_STARTED',
+		home_color: 'Red',
+		away_colo: 'Blue',
+		home_roster: {...homeRoster},
+		away_roster: {...awayRoster},
+		home_score: 0,
+		away_score: 0,
+		goals: [],
+		round: 1,
+		referees: refereeUsernames,
+	})
  * @returns {Array} an array of games objects
  */
-export const scheduleGamesAutomatically = (teams) => {
+export const scheduleGamesAutomatically = (teams, matchData) => {
 	let results = [];
 	let time = 0;
 	// go through the list of teams, match all of them up
@@ -473,7 +489,11 @@ export const scheduleGamesAutomatically = (teams) => {
 		for (let i = teams.length - 1; i > -1; i--) {
 			// if the team name is identical or the "reverse loop" has reached the current index position of the loop, don't do anything
 			if (teams.name === teams[i].name || i === index) break;
-			results.push({ home: team, away: teams[i] });
+			results.push({
+				gameHomeTeamId: team.id,
+				gameAwayTeamId: teams[i].id,
+				...matchData,
+			});
 		}
 	});
 	return results;
