@@ -51,17 +51,18 @@ export default function TeamProfile() {
 	 * This function fetches the division -> season -> league (in this order) for this page
 	 */
 	 const moveUpLeagueId = async () => {
+		if (team.Divisions.items.length === 0) return;
 		team.Divisions.items.map(async (_division) => {
 			// DIVISION
 			const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: _division.divisionId}});
 			const divisionData = await apiDataDivision.data.getDivision;
 			setDivision(divisionData);
 			// SEASON
-			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData.season}});
+			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData?.season}});
 			const seasonData = await apiDataSeason.data.getSeason;
 			setSeason(seasonData);
 			// LEAGUE
-			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData.league}});
+			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData?.league}});
 			const leagueData = await apiDataLeague.data.getLeague;
 			setLeagues((leagues) => {
 				return uniqueById([...leagues, leagueData]);
@@ -298,7 +299,6 @@ export default function TeamProfile() {
 							))}
 							</div>
 						</div>
-						<button onClick={(e) => console.log(leagues)}>CLICK ME</button>
 						<div className="col-span-1 flex flex-col">
 							<h3 className="mb-1 font-light">Sport</h3>
 							<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
