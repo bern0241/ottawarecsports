@@ -18,7 +18,7 @@ export default function GenderDropDown({ state, setState }) {
 				id="gender"
 				placeholder="Gender"
 				required={true}
-				className="w-96 placeholder-gray-300"
+				className="w-80 sm:w-96 placeholder-gray-300"
 			>
 				<option
 					color="red"
