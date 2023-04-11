@@ -280,7 +280,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 
 		const params = {
 			Destination: {
-				ToAddresses: people?.map(person => person.email),
+				ToAddresses: people?.map((person) => person.email),
 			},
 			Message: {
 				Body: {
@@ -297,13 +297,15 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 					Hi <b>${userTeam.name}</b>
 						<p>Our next game is against: <b>${otherTeam.name}</b></p>
 						<p>When: ${matchDateDisplay} ${startTime}</p>
-						<p>Where: <a href=${parseLocation.weblink} alt="Link to location details" target="_blank">${parseLocation.name}</a></p>
+						<p>Where: <a href=${
+							parseLocation.weblink
+						} alt="Link to location details" target="_blank">${
+							parseLocation.name
+						}</a></p>
 
 						<p>Game roster currently: ${people?.length}</p>
 						<ul>
-						${people?.map(player => (
-							`<li>${player.name}</li>`
-						))}
+						${people?.map((player) => `<li>${player.name}</li>`)}
 						</ul>
 						</body>
 					</html>`,
@@ -340,7 +342,11 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				if (err) console.log(err, err.stack); // an error occurred
 				// else     console.log(data);           // successful response
 				let data2 = {};
-				data2.name = `${data?.UserAttributes.find((o) => o.Name === 'name')['Value']} ${data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']}`
+				data2.name = `${
+					data?.UserAttributes.find((o) => o.Name === 'name')['Value']
+				} ${
+					data?.UserAttributes.find((o) => o.Name === 'family_name')['Value']
+				}`;
 				data2.email = data?.UserAttributes.find((o) => o.Name === 'email')[
 					'Value'
 				];
