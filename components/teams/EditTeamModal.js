@@ -59,12 +59,14 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
       }
 
       let uniqueId = team.team_picture;
+
       if (teamLogoUpload !== null) {
+        uniqueId = `${teamName}_${makeid(15)}`;
+        await uploadNewImageToS3(uniqueId, teamLogoUpload);
+          
         if (team.team_picture !== '') {
-          await deleteImageFromS3(team.team_picture);
+            await deleteImageFromS3(team.team_picture);
         }
-          uniqueId = `${teamName}_${makeid(15)}`;
-          await uploadNewImageToS3(uniqueId, teamLogoUpload);
       }
       const data = {
         id: teamId,
@@ -146,10 +148,6 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                 teamLogoUpload={teamLogoUpload} 
                 setTeamLogoUpload={setTeamLogoUpload} 
                 />
-              {/* <UserProfilePictureEdit
-                profilePic={profilePic}
-                setProfilePic={setProfilePic}
-              /> */}
               <div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
                 <div className="w-full ">
                   <label

@@ -51,14 +51,19 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 				setMessage({status: 'error', message: 'Please fillout all required fields'});
 				return;
 			}
-			const randomId = uuidv4();
-			let uniqueId = `${teamName}_${makeid(15)}`;
+			// const randomId = uuidv4();
+			let uniqueId = '';
+			if (teamLogoUpload !== null) {
+				uniqueId = `${teamName}_${makeid(15)}`;
+			}
 
 			if (fileSizeCheckOver(teamLogoUpload)) {
 				return;
 			}
 
-			await uploadNewImageToS3(uniqueId, teamLogoUpload);
+			if (teamLogoUpload) {
+				await uploadNewImageToS3(uniqueId, teamLogoUpload);
+			 }
 			const teamData = {
 				// id: randomId,
 				name: teamName,

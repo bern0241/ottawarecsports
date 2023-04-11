@@ -12,6 +12,7 @@ import { deleteImageFromS3 } from '@/utils/graphql.services';
  
  export default function DeleteTeamModal({ team, fetchTeams, setDeleteModal }) {
    
+  // Delete team
   const deleteTeamFunc = async (e) => {
     e.preventDefault();
      try {
@@ -21,9 +22,9 @@ import { deleteImageFromS3 } from '@/utils/graphql.services';
            input: { id: team.id }
          }
        })
-       deleteImageFromS3(deletedTeam.data.deleteTeam.team_picture);
-       fetchTeams();
-       setDeleteModal(false);
+       deleteImageFromS3(deletedTeam.data.deleteTeam.team_picture); // Delete picture from S3 Bucket.
+       fetchTeams(); // Get list of teams after the team is deleted.
+       setDeleteModal(false); // Close modal automatically.
      } catch (error) {
        console.log(error);
        alert('Problem deleting Team');

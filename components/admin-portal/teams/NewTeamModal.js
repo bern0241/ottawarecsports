@@ -23,7 +23,6 @@
  const { v4: uuidv4 } = require('uuid');
  
  const NewTeamModal = ({ isVisible, setIsVisible }) => {
-   const [user] = useUser();
    const [maxMembers, setMaxMembers] = useState(0);
    const [teamName, setTeamName] = useState('');
    const [homeColour, setHomeColour] = useState('Red');
@@ -37,8 +36,9 @@
    const router = useRouter();
    const [message, setMessage] = useState(null);
 
-   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Used for calling Cognito methods
 
+   // Hide display message after 5 seconds
    useEffect(() => {
       const timer = setTimeout(() => {
         setMessage(null);
@@ -49,7 +49,8 @@
       useEffect(() => {
         fetchUsers();
     }, [])
-
+    
+    // Get list of users from Cognito backend
    const fetchUsers = (e) => {
     var params = {
         UserPoolId: 'us-east-1_70GCK7G6t', /* required */
@@ -62,7 +63,7 @@
           }
       })
     }
-
+    // 
     useEffect(() => {
       if (captain) {
         setCaptainName(`${captain.Attributes.find(o => o.Name === 'name')['Value']} ${captain.Attributes.find(o => o.Name === 'family_name')['Value']}`);
@@ -80,14 +81,19 @@
          return;
        }
 
-       const randomId = uuidv4();
-       let uniqueId = `${teamName}_${makeid(15)}`;
-
-       if (fileSizeCheckOver(teamLogoUpload)) {
+      //  const randomId = uuidv4();
+       let uniqueId = '';
+       if (teamLogoUpload !== null) {
+          uniqueId = `${teamName}_${makeid(15)}`;
+        }
+        
+        if (fileSizeCheckOver(teamLogoUpload)) {
           return;
+        }
+        
+        if (teamLogoUpload) {
+          await uploadNewImageToS3(uniqueId, teamLogoUpload);
        }
-
-       await uploadNewImageToS3(uniqueId, teamLogoUpload);
 
        const teamData = {
          name: teamName,
@@ -96,17 +102,17 @@
          away_colour: awayColour,
          team_picture: uniqueId,
          captains: [captain.Username],
-         team_history: [{
-           captains: [captain.Username],
-           teamid: randomId,
-           division: '',
-           roster: teamRoster,
-           goals: 0,
-           assists: 0,
-           yellow_cards: 0,
-           red_cards: 0,
-           games_played: 0,
-         }],
+        //  team_history: [{
+        //    captains: [captain.Username],
+        //    teamid: randomId,
+        //    division: '',
+        //    roster: teamRoster,
+        //    goals: 0,
+        //    assists: 0,
+        //    yellow_cards: 0,
+        //    red_cards: 0,
+        //    games_played: 0,
+        //  }],
        };
        const resp = await createTeam(teamData); // Creates team
        await createCaptainOnTeam(captain.Username, resp.data.createTeam.id); // Creates initial captain for team!
@@ -180,11 +186,6 @@
  
              {/* <!-- Modal body --> */}
              <TeamsImage teamLogoUpload={teamLogoUpload} setTeamLogoUpload={setTeamLogoUpload} />
-             {/* <UserProfilePictureEdit
-               profilePic={profilePic}
-               setProfilePic={setProfilePic}
-             /> */}
- 
              <div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
                <div className="w-full ">
                  <label

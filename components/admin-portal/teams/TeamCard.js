@@ -12,14 +12,12 @@
  import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
  import AWS from 'aws-sdk';
 import DeleteTeamModal from './DeleteTeamModal';
-import EditTeamModal from './EditTeamModal';
   
   export default function TeamCard({ team, fetchTeams, filterTeams }) {
       const [editModal, setEditModal] = useState(false);
       const [deleteModal, setDeleteModal] = useState(false);
       const [captains, setCaptains] = useState([]);
       const [sport, setSport] = useState('Soccer');
-    //   const [membersCount, setMembersCount] = useState(0);
       const [teamImage, setTeamImage] = useState(null);
       const router = useRouter();
  
@@ -30,6 +28,7 @@ import EditTeamModal from './EditTeamModal';
          getTeamImage();
       }, [filterTeams])
  
+      // Fetches all captains from a team, and converts them to Cognito user (displays their name)
       const fetchCaptains = async (myCaptains) => {
          if (myCaptains === null) {
             setCaptains([]);
@@ -54,12 +53,13 @@ import EditTeamModal from './EditTeamModal';
          })
      }
  
- 
+     // Fetches the team image from
       const getTeamImage = async () => {
        if (team.team_picture === null || team.team_picture === '') {
            setTeamImage(null);
        } else {
            const url = await getImageFromS3(team.team_picture);
+           console.log('URL',url);
            setTeamImage(url);
        }
    }
@@ -115,9 +115,6 @@ import EditTeamModal from './EditTeamModal';
                   </td>
                   </tr>
           
-          {/* {editModal && (
-              <EditTeamModal teamDivision={teamDivision} setRemoveModal={setRemoveModal} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-          )} */}
           {deleteModal && (
               <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
           )}
