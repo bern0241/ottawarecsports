@@ -22,6 +22,7 @@ import ACPDivisionTable from '@/components/admin-portal/leagues/DivisionTable';
     const [selectedDivision, setSelectedDivision] = useState(null);
     const [leagues, setLeagues] = useState([]);
 
+     // Only Admins or Owner can access page
     if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
         return (
             <div className="flex items-center justify-center h-[50vh]">

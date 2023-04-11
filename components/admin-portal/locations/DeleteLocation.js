@@ -4,6 +4,7 @@ import { deleteLocation } from "@/src/graphql/mutations";
 
 export default function DeleteLocation({ location, setOpenModal, fetchLocations }) {
 
+    // Deletes corresponding location
     const deleteLeagueFunc = async (e) => {
       try {
         const deletedLeague = await API.graphql({
@@ -12,8 +13,8 @@ export default function DeleteLocation({ location, setOpenModal, fetchLocations 
                 input: { id: location.id }
             }
         })
-        fetchLocations();
-        setOpenModal(false);
+        fetchLocations(); // Fetches all locations after one being deleted.
+        setOpenModal(false); // Closes modal
       } catch (error) {
         alert('Problem deleting League');
         console.log(error);

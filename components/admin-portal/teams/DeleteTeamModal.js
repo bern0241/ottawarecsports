@@ -13,7 +13,7 @@ import { deleteImageFromS3 } from '@/utils/graphql.services';
  export default function DeleteTeamModal({ team, fetchTeams, setDeleteModal }) {
    
   const deleteTeamFunc = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
      try {
        const deletedTeam = await API.graphql({
          query: deleteTeam,

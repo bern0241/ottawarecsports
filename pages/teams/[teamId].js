@@ -280,6 +280,7 @@ export default function TeamProfile() {
 						</button>
 						)}
 					</div>
+					<button onClick={(e) => console.log(team)}>CLICK ME</button>
 
 					{/* Player Information */}
 					<div className="col-span-3 sm:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">

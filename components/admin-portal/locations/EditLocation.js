@@ -7,10 +7,12 @@ export default function EditLocation({ location, openModal, setOpenModal, fetchL
     const [weblink, setWeblink] = useState(location.weblink);
     const [message, setMessage] = useState(null);
 
+    // Hides the display message everytime the modal opens.
     useEffect(() => {
         setMessage(null);
     }, [openModal])
 
+    // Hides the display message after 5 seconds.
     useEffect(() => {
             const timer = setTimeout(() => {
                 setMessage(null);
@@ -18,30 +20,25 @@ export default function EditLocation({ location, openModal, setOpenModal, fetchL
             return () => clearTimeout(timer);
     }, [message])
 
-
+    // Updates the location by name and weblink
     const UpdateLocation = async (e) => {
         e.preventDefault();
-
         if (name === '' || weblink === '') {
             setMessage({status: 'error', message: 'Please fillout required fields.'});
             return;
         }
-        
         try {
             const data = {
                 id: location.id,
                 name: name,
                 weblink: weblink,
             }
-            
             const apiData = await API.graphql({
                 query: updateLocation,
                 variables: { input: data },
             });
-            // setLocations([...locations, apiData.data.createLocation]);
-            setOpenModal(false);
-            fetchLocations();
-            // router.reload();
+            setOpenModal(false);  // Hides modal
+            fetchLocations(); // Fetches locations
         } catch (error) {
             console.log(error);
         }

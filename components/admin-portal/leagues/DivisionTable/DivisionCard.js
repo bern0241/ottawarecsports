@@ -25,28 +25,28 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
     useEffect(()=>{
         getTeamsCount();
     }, [selectedSeason, selectedDivision]);
-    // 
+    // When a division is clicked, go to all teams of division page.
     const clickedDivision = (e) => {
         e.preventDefault();
         setSelectedDivision(division);
         teamsUINavigate(e, division);
     }
-
+    // Open edit modal
     const editDivisionFunc = (e) => {
         e.stopPropagation();
         setEditModal(!editModal);
     }
-
+    // Open delete modal
     const deleteDivisionFunc = (e) => {
         e.stopPropagation();
         setDeleteModal(!deleteModal);
     }
-
+    // Goes to page that displays all teams of that division selected
     const teamsUINavigate = (e) => {
         e.stopPropagation();
         router.push(`/admin-portal/leagues/${division.id}`);
     }
-
+    // Counts the number of teams in a division
     const getTeamsCount = async () => {
         const apiData = await API.graphql(
             { query: getDivisionWithTeams, 

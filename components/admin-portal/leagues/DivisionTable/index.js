@@ -18,12 +18,14 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
     const [divisions, setDivisions] = useState([]);
     const [showTable, setShowTable] = useState(false);
 
+    // When a season is clicked, list all the relating divisions.
     useEffect(() => {
         if (selectedSeason) {
             listDivisionsFunc();
         }
     }, [selectedSeason])
 
+    // Display all divisions of a parenting season
     const listDivisionsFunc = async () => {
         const variables = {
             filter: {
@@ -40,6 +42,8 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
         setSelectedDivision(divisions.data.listDivisions.items[0]);
     }
 
+    // When a league or season is clicked, show the division's table.
+    // If both league and season are null, hide division's table.
     useEffect(() => {
         if (selectedLeague) {
             if (selectedLeague.Seasons && selectedLeague.Seasons.items.length !== 0) {
@@ -56,6 +60,7 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
         }
     }, [selectedLeague, selectedSeason])
 
+    // If false, do not display anything of the division table.
     if(!showTable){
         return;
     }

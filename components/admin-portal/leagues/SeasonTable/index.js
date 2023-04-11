@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-03
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -17,6 +17,8 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
     const [newSeasonModal, setNewSeasonModal] = useState(false);
     const [seasons, setSeasons] = useState([]);
 
+    // If league is selected, list seasons according to that league.
+    // If a league is NOT selected, display no seasons.
     useEffect(() => {
         if (selectedLeague) {
             listSeasonsFunc();
@@ -26,7 +28,8 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
             setSeasons([]);
         }
     }, [selectedLeague])
-
+    
+    // Lists seasons of the corresponding league.
     const listSeasonsFunc = async () => {
         const variables = { 
             filter: {
@@ -39,7 +42,7 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
             query: listSeasons, variables: variables
         })
         setSeasons(seasons.data.listSeasons.items);
-
+        // If seasons exist, select the first season right-away.
         if (seasons.data.listSeasons.items.length !== 0) {
             setSelectedSeason(seasons.data.listSeasons.items[0]);
           } else {
@@ -123,6 +126,7 @@ export default function ACPSeasonTable({ selectedSeason, setSelectedSeason, sele
                 </tbody>
             </table>
         </div>
+        {/* New season modal - brings interface for creating a new season. */}
         {newSeasonModal && (
             <>
             <CreateSeasonModal openModal={newSeasonModal} setOpenModal={setNewSeasonModal} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} setSelectedSeason={setSelectedSeason} />

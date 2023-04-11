@@ -17,11 +17,13 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
     const [deleteModal, setDeleteModal] = useState(false);
     const router = useRouter();
 
+    // Select a season that gets clicked.
     const clickedSeason = (e) => {
         e.preventDefault();
         setSelectedSeason(season);
     }
 
+    // Converts a date object to become human-readable within the season's card.
     const convertDateReadable = (date) => {
         let convertedDate = date.replaceAll('-', '/');
         let newDate = new Date(convertedDate);
@@ -30,17 +32,17 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
         let newDateConcatnate = `${newDateSplit[1]} ${newDateSplit[2]}`
         return newDateConcatnate;
     }
-
+    // Opens edit season modal
     const editSeasonFunc = (e) => {
         e.stopPropagation();
         setEditModal(!editModal);
     }
-
+    // Opens delete season modal
     const deleteSeasonFunc = (e) => {
         e.stopPropagation();
         setDeleteModal(!deleteModal);
     }
-
+    // When corresponding icon is clicked, go to the schedule page using LeagueID and SeasonID as initial queries.
     const goToSchedulePage = (e) => {
         e.preventDefault();
         router.push({
@@ -71,10 +73,11 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
                     <IconTrash onClick={(e) => deleteSeasonFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                 </td>
                 </tr>
-        
+        {/* Delete modal - Meant for deleting seasons */}
         {deleteModal && (
             <DeleteSeasonModal leagueInfo={selectedLeague} seasonInfo={season} setDeleteModal={setDeleteModal} listSeasonsFunc={listSeasonsFunc} />
         )}
+        {/* Edit modal - Meant for updating seasons */}
         {editModal && (
             <EditSeasonModal season={season} selectedLeague={selectedLeague} setOpenModal={setEditModal} setSelectedSeason={setSelectedSeason} listSeasonsFunc={listSeasonsFunc} />
         )}

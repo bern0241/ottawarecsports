@@ -27,6 +27,7 @@ export default function AdminPortal() {
 
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Required for fetching in AWS Cognito
 
+	// Saves user's role and leagues when pressed.
 	const handleSave = (index, userRole, userLeague) => {
 		const updatedUsers = [...users]; // Make a copy of the array.
 		updatedUsers[index].role = userRole;
@@ -36,7 +37,7 @@ export default function AdminPortal() {
 	useEffect(() => {
 		fetchUsers();
 	}, []);
-
+	// Fetches all users (from AWS Cognito)
 	const fetchUsers = async () => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
@@ -50,6 +51,7 @@ export default function AdminPortal() {
 		});
 	};
 
+	 // Only Admins or Owner can access page
 	if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
 		return (
 			<div className="flex items-center justify-center h-[50vh]">
@@ -118,14 +120,6 @@ export default function AdminPortal() {
 											handleSave={handleSave}
 										/>
 									))}
-							{/* {users && users.map((user, index) => (
-								<ACPUserRow
-									key={user.Username}
-									user={user}
-									index={index}
-									handleSave={handleSave}
-								/>
-							))} */}
 						</tbody>
 					</table>
 				</section>

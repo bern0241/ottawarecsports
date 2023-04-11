@@ -8,10 +8,12 @@ export default function NewLocation({ locations, setLocations }) {
     const [weblink, setWeblink] = useState("");
     const [message, setMessage] = useState(null);
 
+    // Hides display message when modal opens
     useEffect(() => {
         setMessage(null);
     }, [openModal])
 
+    // Hides display message after 5 seconds
     useEffect(() => {
             const timer = setTimeout(() => {
                 setMessage(null);
@@ -19,6 +21,7 @@ export default function NewLocation({ locations, setLocations }) {
             return () => clearTimeout(timer);
     }, [message])
 
+    // Creates new location data model
     const CreateLocation = async (e) => {
         e.preventDefault();
         if (name === '' || weblink === '') {
@@ -35,9 +38,8 @@ export default function NewLocation({ locations, setLocations }) {
                 query: createLocation,
                 variables: { input: data },
             });
-            setLocations([...locations, apiData.data.createLocation]);
-            setOpenModal(false);
-            // router.reload();
+            setLocations([...locations, apiData.data.createLocation]); // Updates list of locations (when 1 is created)
+            setOpenModal(false); // Closes modal
         } catch (error) {
             console.log(error);
         }

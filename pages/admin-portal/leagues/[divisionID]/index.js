@@ -18,6 +18,7 @@ export default function ACPLeaguesDivisionPage() {
        const [user, setUser, authRoles, setAuthRoles] = useUser();
        const router = useRouter();
 
+        // Only Admins or Owner can access page
        if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
         return (
             <div className="flex items-center justify-center h-[50vh]">
