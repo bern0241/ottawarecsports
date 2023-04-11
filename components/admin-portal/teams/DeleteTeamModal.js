@@ -5,6 +5,11 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+
 import { API } from '@aws-amplify/api';
 import React from 'react';
 import { deleteTeam } from '@/src/graphql/mutations';

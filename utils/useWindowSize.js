@@ -5,7 +5,7 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
-// References: 
+// REFERENCES: 
 // https://stackoverflow.com/questions/63406435/how-to-detect-window-size-in-next-js-ssr-using-react-hook
 // https://joshwcomeau.com/react/the-perils-of-rehydration
 

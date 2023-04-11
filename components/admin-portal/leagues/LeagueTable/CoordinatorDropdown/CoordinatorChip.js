@@ -6,6 +6,9 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://flowbite.com/docs/components/buttons/
+// https://tabler.io/icons
+
 import { IconX } from '@tabler/icons-react';
 
 export default function CoordinatorChip({ coordinator, leagueCoordinators, setLeagueCoordinators}) {

@@ -1,9 +1,13 @@
 /**
- * Last updated: 2023-03-20
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
+
+// REFERENCES:
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/forms/search-input/
 
 import React, { useState, useEffect } from 'react';
 
@@ -17,7 +21,6 @@ export default function ACPSearchUserBar({ setSearchResult }) {
 
 	useEffect(() => {
 		if (search === '') {
-			// console.log('Search = none');
 			setSearchResult('');
 		}
 	}, [search]);

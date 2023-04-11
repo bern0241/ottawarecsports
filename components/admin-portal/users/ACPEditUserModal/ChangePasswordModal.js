@@ -5,6 +5,9 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/components/buttons/
+
 import React from 'react';
 
 export default function ChangePasswordModal({ setUiState }) {

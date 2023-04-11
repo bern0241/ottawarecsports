@@ -5,6 +5,13 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+
 import React, { useState, useEffect } from 'react';
 import UserCard from '../leagues/LeagueTable/CoordinatorDropdown/UserCard'; // Turn into common component
  

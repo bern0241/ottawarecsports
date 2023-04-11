@@ -6,6 +6,12 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+// https://tabler.io/icons
+
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import DeleteSeasonModal from "../../../common/sports/Seasons/DeleteSeasonModal";

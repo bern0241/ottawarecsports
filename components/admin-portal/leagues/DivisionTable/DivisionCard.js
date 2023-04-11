@@ -6,6 +6,13 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://tabler.io/icons
+
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import DeleteDivisionModal from '../../../common/sports/Divisions/DeleteDivisionModal';

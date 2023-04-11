@@ -6,6 +6,11 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: 
+// https://flowbite.com/docs/components/buttons/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+
 import React, { useState, useEffect } from 'react';
 import UserCard from './UserCard';
 

@@ -5,16 +5,14 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/components/buttons/
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDisableUser.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminEnableUser.html
+
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
-// Need S3 for deleting profile image when user gets deleted
-const s3 = new AWS.S3({
-	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
-	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
-	signatureVersion: 'v4',
-	region: 'us-east-1',
-});
 
 export default function ACPDEnableDisableUserSwitcher({ user }) {
 	// Retrieve name of user to display in modal

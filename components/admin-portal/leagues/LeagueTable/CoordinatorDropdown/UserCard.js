@@ -6,8 +6,11 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://docs.amplify.aws/lib/storage/upload/q/platform/js/
+
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
 export default function UserCard({user, searchUser}) {

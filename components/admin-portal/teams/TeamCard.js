@@ -6,6 +6,15 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
+// https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+// https://tabler.io/icons
+
  import React, { useState, useEffect } from 'react';
  import { IconTrash, IconEdit } from '@tabler/icons-react';
  import { useRouter } from 'next/router';

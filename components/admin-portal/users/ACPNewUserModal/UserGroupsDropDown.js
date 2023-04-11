@@ -5,6 +5,11 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/forms/input-field/
+// https://flowbite.com/docs/components/dropdowns/
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
 // NOTE: This location dropdown component is EXCLUSIVELY used for creating new Users in Admin Portal!
 
 import { Select } from 'flowbite-react';
@@ -74,14 +79,6 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 									User
 								</p>
 							</li>
-							{/* <li>
-								<p
-									onClick={(e) => addNewUserGroup(e, 'Captain')}
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>
-									Captain
-								</p>
-							</li> */}
 							<li>
 								<p
 									onClick={(e) => addNewUserGroup(e, 'Referee')}

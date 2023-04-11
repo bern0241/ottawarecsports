@@ -5,9 +5,16 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
-// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/Welcome.html
-// https://github.com/OMikkel/tailwind-datepicker-react
+// REFERENCES:
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
 // https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminAddUserToGroup.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminRemoveUserFromGroup.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminListGroupsForUser.html
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';

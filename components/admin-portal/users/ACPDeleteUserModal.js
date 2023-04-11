@@ -5,6 +5,11 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDeleteUser.html
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=477s
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/dropdowns/
+
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
@@ -47,14 +52,6 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 			}
 		);
 	};
-
-	const deletePlayersOfUser = () => {
-
-	}
-
-	const coordinatorsOfUser = () => {
-		
-	}
 
 	const deleteProfilePic = async () => {
 		const pictureAttribute = user.Attributes.find((o) => o.Name === 'picture')[

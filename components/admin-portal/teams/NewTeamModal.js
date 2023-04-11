@@ -6,6 +6,16 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
+
+// REFERENCES: https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+// https://tabler.io/icons
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
+
  import { useState, useEffect } from 'react';
  import DropdownInput from '@/components/common/DropdownInput';
  import { useRouter } from 'next/router';

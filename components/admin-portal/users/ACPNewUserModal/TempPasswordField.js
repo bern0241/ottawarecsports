@@ -6,6 +6,10 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://tabler.io/icons
+// https://flowbite.com/docs/forms/input-field/
+
 import React, { useState } from 'react';
 import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';

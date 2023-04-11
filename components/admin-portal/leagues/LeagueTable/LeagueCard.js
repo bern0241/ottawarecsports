@@ -6,6 +6,9 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/Welcome.html
+// https://tabler.io/icons
+
 import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
 import EditLeagueModal from '../../../common/sports/Leagues/EditLeagueModal';

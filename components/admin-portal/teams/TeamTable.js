@@ -6,15 +6,17 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/tables/
+
  import React, { useState, useEffect } from 'react';
  import TeamCard from './TeamCard';
- import { useRouter } from 'next/router';
 import CreateButton from '@/components/common/CreateButton';
 import NewTeamModal from './NewTeamModal';
   
   export default function TeamTable({ filterTeams, fetchTeams }) {
     const [createTeamModal, setCreateTeamModal] = useState(false);
-    const router = useRouter();
     
     // Displays table, team cards, and create team button
       return (

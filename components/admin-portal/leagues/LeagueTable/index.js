@@ -6,6 +6,12 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+
 import React, { useState, useEffect } from 'react';
 import CreateButton from '../../../common/CreateButton';
 import LeagueCard from './LeagueCard';
