@@ -30,13 +30,8 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
 
     useEffect(()=>{
         getTeamsCount();
-<<<<<<< HEAD
     }, [selectedSeason, selectedDivision]);
     // When a division is clicked, go to all teams of division page.
-=======
-    }, []);
-
->>>>>>> parent of d7ead26 (Add comments and references to everything in ACP)
     const clickedDivision = (e) => {
         e.preventDefault();
         setSelectedDivision(division);

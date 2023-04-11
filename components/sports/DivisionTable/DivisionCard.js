@@ -27,7 +27,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
 
     useEffect(()=>{
         getTeamsCount();
-    }, []);
+    }, [selectedSeason, selectedDivision]);
 
     useEffect(() => {
       if (selectedLeague) {
