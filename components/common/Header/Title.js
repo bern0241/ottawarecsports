@@ -179,7 +179,7 @@ return (
 								{team && team.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">{team && team.name}</p>
+						<p className="font-semibold text-[1.8rem]">Team Profile</p>
 					</div>
 				</div>
 			)}
@@ -316,7 +316,7 @@ return (
                 <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
               <Link href="/admin-portal/locations" className="font-light text-[.8rem]">Locations</Link>
             </div>
-            <p className="font-semibold text-[1.8rem]">Location</p>
+            <p className="font-semibold text-[1.8rem]">Locations</p>
           </div>
         </div>
       )}
