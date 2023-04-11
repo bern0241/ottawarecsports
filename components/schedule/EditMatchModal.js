@@ -28,6 +28,8 @@ const EditMatchModal = ({
 	makingNewGame,
 	setMakingNewGame,
 	getGames,
+	generatedGames,
+	setGeneratedGames,
 	callMeTestGames,
 }) => {
 	const [homeTeam, setHomeTeam] = useState();
@@ -379,17 +381,24 @@ const EditMatchModal = ({
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
-			console.log(matchData);
+			// console.log(matchData);
 			const apiData = await API.graphql({
 				query: createGame,
 				variables: { input: matchData },
 			});
-			console.log(divisionID);
 			setMessage({ status: 'success', message: 'Game created successfully' });
 			setUiState('send-emails');
 			getGames();
 			setMakingNewGame(false);
-			// router.reload();
+			//remove the current game from the list of generated games
+			let index = generatedGames.find(
+				(e) =>
+					e.gameHomeTeamId === homeTeam.id && e.gameAwayTeamId === awayTeam.id
+			);
+			console.log(index);
+			let tempArray = generatedGames;
+			tempArray.splice(index, 1);
+			setGeneratedGames(tempArray);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });

@@ -170,6 +170,7 @@ export default function DivisionMatches() {
 				{generatedGames.length > 0 && (
 					<GeneratedMatchesTable
 						matches={generatedGames}
+						setGeneratedGames={setGeneratedGames}
 						setMatchToEdit={setMatchToEdit}
 						setIsEditing={setIsEditingMatch}
 						setIsDeleting={setIsDeletingMatch}
@@ -189,12 +190,14 @@ export default function DivisionMatches() {
 			{isEditingMatch && (
 				<EditMatchModal
 					games={games}
-					setGames={setGames}
-					getGames={getGames}
 					match={matchToEdit}
 					makingNewGame={saveBatchGame}
-					setMakingNewGame={setSaveBatchGame}
 					isVisible={isEditingMatch}
+					setGames={setGames}
+					getGames={getGames}
+					setMakingNewGame={setSaveBatchGame}
+					generatedGames={generatedGames}
+					setGeneratedGames={setGeneratedGames}
 					setIsVisible={setIsEditingMatch}
 				/>
 			)}
