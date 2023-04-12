@@ -240,7 +240,7 @@ export default function TeamProfile() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
-			<main className="w-full flex flex-col gap-6 p-8 pt-0">
+			<main className="w-full flex flex-col gap-6 p-[20px] pt-0">
 				{/* Edit Modal */}
 				<EditTeamModal
 					isVisible={editModal}
@@ -269,7 +269,7 @@ export default function TeamProfile() {
 						<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 							<img
 								src={profileImage}
-								className="rounded-lg self-center w-[200px] h-[200px] object-cover"
+								className="rounded-full self-center w-[200px] h-[200px] object-cover"
 								alt="Team profile image."
 							></img>
 							<div className="flex justify-center gap-1">

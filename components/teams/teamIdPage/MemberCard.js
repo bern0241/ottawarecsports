@@ -81,14 +81,16 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
   return (
     <>
     <div onClick={(e) => goToPlayerPage(e)} className='flex flex-row justify-between w-full items-center cursor-pointer'>
-        <img
-            style={{ objectFit: 'cover' }}
-            width={132}
-            height={132}
-            className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
-            src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
-            alt={`Profile image of ${userName}`}
-        />
+        <div className=" hidden sm:contents">
+          <img
+              style={{ objectFit: 'cover' }}
+              width={132}
+              height={132}
+              className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
+              src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
+              alt={`Profile image of ${userName}`}
+          />
+        </div>
         <div className='text-black ml-3'>
             {userName ? (
                 <p>{userName}</p>
@@ -107,7 +109,9 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
                     setChangeRoleModal={setChangeRoleModal}
                 />
             ) : (
+              <>
                 <p>{currentRole}</p>
+              </>
             )}
             {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                 <button style={{marginLeft: '0rem'}} className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>

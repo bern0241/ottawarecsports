@@ -68,27 +68,29 @@ export default function TeamRow({ team}) {
 			onClick={navigateToProfile}
 		>
 			<td className="pl-3 py-3">
-				<div className="flex flex-col min-[590px]:flex-row w-[80%] items-center pl-2 gap-2">
+				<div className="flex flex-col min-[590px]:flex-row sm:w-[80%] items-center pl-2 gap-2">
 					<img
 						src={profileImage}
 						className="rounded-full w-[82px] h-[82px] object-cover text-center"
             alt={`Teams profile image for ${team.name}`}
 					></img>
-					<p className='text-center min-[590px]:text-left ml-2 font-medium w-[7rem]'>{team.name}</p>
+					<p className='text-center min-[590px]:text-left ml-2 font-medium sm:w-[7rem]'>{team.name}</p>
 					<div className='flex-grow'></div>
 				</div>
 			</td>
 			<td className="p-5 mx-auto">
 				<ul className=''>
 				{captains && captains.map((captain, index) => (
-                     <li className='my-1 cursor-pointer text-blue-700 underline w-[8rem] text-[.91rem] text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</li>
+                     <li className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</li>
                  ))}
 				 </ul>
 			</td>
 			<td className="p-3 text-center">{team.sports || 'Soccer'}</td>
+      <div className="hidden md:contents align-middle">
 			<td className="p-3 mx-auto text-center">
 				<p className='text-[1.4rem]'>{team ? team.Players.items.length : 0}</p>
 			</td>
+      </div>
 		</tr>
 	);
 }
