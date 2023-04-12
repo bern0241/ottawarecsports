@@ -7,7 +7,6 @@
  */
 
 import { Label, Select } from 'flowbite-react';
-import { Label, Select } from 'flowbite-react';
 import React from 'react';
 
 export default function GenderDropDown({ state, setState }) {

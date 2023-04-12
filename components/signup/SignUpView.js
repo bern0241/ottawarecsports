@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Label, TextInput } from 'flowbite-react';
-import { Label, TextInput } from 'flowbite-react';
 import { Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
 import { createPlayer } from '@/utils/graphql.services';

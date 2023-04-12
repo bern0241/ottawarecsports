@@ -14,10 +14,10 @@ const OrsLogo = () => {
 			<Image
 				src="/Logo.svg"
 				alt="ORS Logo"
-				width={105}
-				height={105}
+				width={90}
+				height={90}
 				priority
-				className="sm:w-max"
+				className="sm:w-max sm:h-max"
 			/>
 			<h1 className="text-2xl sm:text-3xl font-semibold text-center">
 				Ottawa Rec Sports League App

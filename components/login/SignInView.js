@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
 import { Label, TextInput } from 'flowbite-react';
+import { Label, TextInput } from 'flowbite-react';
 // Components
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
@@ -69,7 +70,6 @@ export default function SignInView({ setUiState }) {
 								placeholder="Email"
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
-								className="w-96"
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
 										handleSubmit(e);
