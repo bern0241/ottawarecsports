@@ -30,10 +30,10 @@ export default function TeamSpotlight() {
 
 	useEffect(() => {
 		if (!spotlightTeam){
-      setIsVisible(true);
+      setIsVisible(false);
     }
     else{
-      setIsVisible(false);
+      setIsVisible(true);
       fetchCaptains(spotlightTeam.captains);
       getPicture();
     }
@@ -150,7 +150,7 @@ export default function TeamSpotlight() {
         </div>
       </div>
     ) : (
-      <p>No Team to show.</p>
+      <p className="text-center align-middle">No Team to show.</p>
     )}
     </>
 	);

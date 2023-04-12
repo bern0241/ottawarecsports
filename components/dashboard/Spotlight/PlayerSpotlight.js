@@ -39,10 +39,10 @@ export default function PlayerSpotlight() {
 
 	useEffect(() => {
 		if (!spotlightUser) {
-    setIsVisible(true);
+    setIsVisible(false);
   }
   else{
-    setIsVisible(false);
+    setIsVisible(true);
     fetchSpotlightInformation();
 		getPicture();
   }
@@ -192,7 +192,7 @@ export default function PlayerSpotlight() {
 			</div>
 		</div>
     ) : (
-      <p>No Player to show.</p>
+      <p className="text-center align-middle">No Player to show.</p>
     )}
     </>
 	);
