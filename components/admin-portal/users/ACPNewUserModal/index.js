@@ -272,7 +272,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			{/* // <!-- Main modal --> */}
 			<div
 				id="defaultModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-hidden="true"
 				className="fixed top-0 bottom-0 left-0 right-0 p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-aut z-[150]"
 			>

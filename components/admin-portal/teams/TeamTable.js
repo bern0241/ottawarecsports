@@ -26,7 +26,7 @@ import NewTeamModal from './NewTeamModal';
                   <thead className="text-md text-black bg-white">
                       <tr>
                           <th scope="col" className="text-lg font-medium px-6 py-7">
-                              <p classNameName='absolute top-4'>All Teams</p>
+                              <p classNamE='absolute top-4'>All Teams</p>
                           </th>
                           <th scope="col" className="font-medium px-6 py-4">
                               

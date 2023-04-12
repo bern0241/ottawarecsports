@@ -175,7 +175,7 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
     return (
         <>
     {/* // <!-- Main modal --> */}
-    <div id="defaultModal" tabindex="-1" aria-hidden="true" className="fixed top-[1rem] left-0 right-0 z-[220] p-4 w-[32rem] mx-auto">
+    <div id="defaultModal" tabIndex="-1" aria-hidden="true" className="fixed top-[1rem] left-0 right-0 z-[220] p-4 w-[32rem] mx-auto">
         <div className="relative w-full h-full">
             {/* <!-- Modal content --> */}
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -196,11 +196,6 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">League Name *</label>
                         <input value={leagueName} onChange={(e) => setLeagueName(e.target.value)} type="text" id="name" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
-    
-                    {/* <div>
-                        <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type *</label>
-                        <input value={type} onChange={(e) => setType(e.target.value)} type="text" id="name" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    </div> */}
                     
                     <div className='relative cursor-pointer' onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}>
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Coordinator</label>
@@ -226,11 +221,19 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                     <div className='flex justify-between'>
                     <div>
                         <label htmlFor="numPerPeriod" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of Period</label>
-                        <input value={numPerPeriod} onChange={(e) => setNumPerPeriod(e.target.value)} type="text" id="numPerPeriod" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <input onKeyPress={(event) => {
+                                if (!/[0-9]/.test(event.key)) {
+                                event.preventDefault();
+                                }
+                            }} value={numPerPeriod} onChange={(e) => setNumPerPeriod(e.target.value)} type="text" id="numPerPeriod" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     <div>
                         <label htmlFor="timePerPeriod" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time per Period</label>
-                        <input value={timePerPeriod} onChange={(e) => setTimePerPeriod(e.target.value)} type="text" id="timePerPeriod" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <input onKeyPress={(event) => {
+                                if (!/[0-9]/.test(event.key)) {
+                                event.preventDefault();
+                                }
+                            }} value={timePerPeriod} onChange={(e) => setTimePerPeriod(e.target.value)} type="text" id="timePerPeriod" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     </div>
     

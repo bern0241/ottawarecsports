@@ -52,7 +52,7 @@ export default function EditDivisionModal({ division, setOpenModal, selectedSeas
   return (
       <>
       {/* // <!-- Main modal --> */}
-      <div id="defaultModal" tabindex="-1" aria-hidden="true" className="fixed top-[5rem] left-0 right-0 z-[220] p-4 w-[32rem] mx-auto">
+      <div id="defaultModal" tabIndex="-1" aria-hidden="true" className="fixed top-[5rem] left-0 right-0 z-[220] p-4 w-[32rem] mx-auto">
           <div className="relative w-full h-full">
               {/* <!-- Modal content --> */}
               <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
