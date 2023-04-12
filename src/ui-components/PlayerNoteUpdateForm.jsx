@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function PlayerNoteUpdateForm(props) {
   const {
     id: idProp,
-    playerNote: playerNoteModelProp,
+    playerNote,
     onSuccess,
     onError,
     onSubmit,
@@ -46,17 +46,16 @@ export default function PlayerNoteUpdateForm(props) {
     setAuthor_id(cleanValues.author_id);
     setErrors({});
   };
-  const [playerNoteRecord, setPlayerNoteRecord] =
-    React.useState(playerNoteModelProp);
+  const [playerNoteRecord, setPlayerNoteRecord] = React.useState(playerNote);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(PlayerNote, idProp)
-        : playerNoteModelProp;
+        : playerNote;
       setPlayerNoteRecord(record);
     };
     queryData();
-  }, [idProp, playerNoteModelProp]);
+  }, [idProp, playerNote]);
   React.useEffect(resetStateValues, [playerNoteRecord]);
   const validations = {
     player_id: [],
@@ -69,9 +68,10 @@ export default function PlayerNoteUpdateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -89,7 +89,7 @@ export default function PlayerNoteUpdateForm(props) {
       minute: "2-digit",
       calendar: "iso8601",
       numberingSystem: "latn",
-      hour12: false,
+      hourCycle: "h23",
     });
     const parts = df.formatToParts(date).reduce((acc, part) => {
       acc[part.type] = part.value;
@@ -277,7 +277,7 @@ export default function PlayerNoteUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || playerNoteModelProp)}
+          isDisabled={!(idProp || playerNote)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -289,7 +289,7 @@ export default function PlayerNoteUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || playerNoteModelProp) ||
+              !(idProp || playerNote) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
