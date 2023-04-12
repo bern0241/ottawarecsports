@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-11
+ * Last updated: 2023-04-12
  *
  * Author(s):
  * Greg Coghill (cogh0020@algonquinlive.com)
@@ -63,7 +63,7 @@ export default function MultiTeamSelectDropDown({
 							{/* Map through team an generate list items  */}
 							{teams &&
 								teams.map((team, index) => (
-									<>
+									<React.Fragment key={index}>
 										<li key={index} className="mt-2">
 											<div className="flex items-center">
 												<input
@@ -104,7 +104,7 @@ export default function MultiTeamSelectDropDown({
 												</label>
 											</div>
 										</li>
-									</>
+									</React.Fragment>
 								))}
 						</ul>
 					</div>

@@ -6,7 +6,7 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
 import { useRouter } from 'next/router';
@@ -57,15 +57,17 @@ const GeneratedMatchesTable = ({
 					<thead className="w-full"></thead>
 					<tbody>
 						{matches.length > 0 ? (
-							matches.map((match) => (
-								<GeneratedMatchRow
-									match={match}
-									setMatchToEdit={setMatchToEdit}
-									setIsEditing={setIsEditing}
-									setIsDeleting={setIsDeleting}
-									isCoordinator={isCoordinator}
-									setSaveBatchGame={setSaveBatchGame}
-								/>
+							matches.map((match, index) => (
+								<React.Fragment key={index}>
+									<GeneratedMatchRow
+										match={match}
+										setMatchToEdit={setMatchToEdit}
+										setIsEditing={setIsEditing}
+										setIsDeleting={setIsDeleting}
+										isCoordinator={isCoordinator}
+										setSaveBatchGame={setSaveBatchGame}
+									/>
+								</React.Fragment>
 							))
 						) : (
 							<tr>

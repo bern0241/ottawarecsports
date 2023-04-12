@@ -6,7 +6,7 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
@@ -800,14 +800,14 @@ const EditMatchModal = ({
 										</div>
 										<div className="flex absolute top-[1.9rem]">
 											{referees &&
-												referees.map((referee) => (
-													<>
+												referees.map((referee, index) => (
+													<React.Fragment key={index}>
 														<RefereeChip
 															referee={referee}
 															referees={referees}
 															setReferees={setReferees}
 														/>
-													</>
+													</React.Fragment>
 												))}
 										</div>
 									</div>
