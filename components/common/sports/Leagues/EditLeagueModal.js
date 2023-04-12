@@ -204,10 +204,10 @@ export default function EditLeagueModal({ sport, league, setLeagues, setOpenModa
                             <ion-icon style={{fontSize: '25px'}} name="caret-down-circle-outline"></ion-icon>
                         </div>
                         <div className='flex absolute top-[2.3rem]'>
-                            {leagueCoordinators && leagueCoordinators.map((coordinator) => (
-                                <>
+                            {leagueCoordinators && leagueCoordinators.map((coordinator, index) => (
+                                <React.Fragment key={index}>
                                     <CoordinatorChip coordinator={coordinator} leagueCoordinators={leagueCoordinators} setLeagueCoordinators={setLeagueCoordinators} />
-                                </>
+                                </React.Fragment>
                             ))}
                         </div>
                     </div>

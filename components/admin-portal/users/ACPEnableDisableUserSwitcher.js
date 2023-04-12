@@ -65,7 +65,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 		<>
 			<label className="relative inline-flex items-center cursor-pointer">
 				<input
-					onClick={(e) => {
+					onChange={(e) => {
 						e.stopPropagation();
 						setOpenModal(!openModal);
 					}}

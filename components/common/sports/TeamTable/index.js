@@ -144,10 +144,10 @@ import { useUser } from '@/context/userContext';
                      </tr>
                  </thead>
                  <tbody>
-                     {teamDivisions && teamDivisions.map((teamDiv, index) => (
-                     <>
-                         <TeamCard key={teamDiv.id} teamDivision={teamDiv} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-                     </>
+                     {teamDivisions && teamDivisions.map((teamDiv) => (
+                     <React.Fragment key={teamDiv.id}>
+                         <TeamCard teamDivision={teamDiv} listTeamDivisionsFunc={listTeamDivisionsFunc} />
+                     </React.Fragment>
                      ))}
                      {(teamDivisions && teamDivisions.length === 0) && (
                          <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">
