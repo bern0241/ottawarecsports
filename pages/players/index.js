@@ -87,7 +87,7 @@ export default function Players() {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h1 className="text-lg self-center">All Players</h1>
+						<h2 className="text-lg self-center">All Players</h2>
 					</div>
 
 					<table className="table-auto">

@@ -124,7 +124,7 @@ export default function PlayerProfile() {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h1 className="text-lg self-center font-medium">
+						<h2 className="text-lg self-center font-medium">
 							{user &&
 								user.UserAttributes.find((o) => o.Name === 'name')[
 									'Value'
@@ -133,7 +133,7 @@ export default function PlayerProfile() {
 								user.UserAttributes.find((o) => o.Name === 'family_name')[
 									'Value'
 								]}
-						</h1>
+						</h2>
 						<Button
 							pill={true}
 							className="py-0.5 pr-3 bg-blue-900 hover:bg-blue-800"
@@ -242,7 +242,7 @@ export default function PlayerProfile() {
 														<td className="py-2 px-3 text-[.94rem]">{sport}</td>
 														<td className="py-2 text-center">
 															<Link
-																className="text-blue-500 underline text-[.92rem]"
+																className="text-blue-700 underline text-[.92rem]"
 																href={`/teams/${team?.id}`}
 															>
 																{team && team.name}
