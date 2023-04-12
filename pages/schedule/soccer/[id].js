@@ -96,6 +96,7 @@ export default function DivisionMatches() {
 		const divisionData = await apiDataDivision.data.getDivision;
 		setDivision(divisionData);
 		// SEASON
+		if (!divisionData?.season) return;
 		const apiDataSeason = await API.graphql({
 			query: getSeasonShort,
 			variables: { id: divisionData?.season },
@@ -103,6 +104,7 @@ export default function DivisionMatches() {
 		const seasonData = await apiDataSeason.data.getSeason;
 		setSeason(seasonData);
 		// LEAGUE
+		if (!seasonData?.league) return;
 		const apiDataLeague = await API.graphql({
 			query: getLeague,
 			variables: { id: seasonData?.league },
@@ -134,54 +136,63 @@ export default function DivisionMatches() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="w-full flex flex-col gap-6 p-8 pt-0">
-				{/* Results */}
-				{(isCoordinator ||
-					(authRoles && authRoles.includes('Admin')) ||
-					(authRoles && authRoles.includes('Owner'))) && (
-					<div className="flex flex-row-reverse gap-3">
-						<Button
-							pill={true}
-							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
-							onClick={() => setModalVisible(!modalVisible)}
-						>
-							<IconCirclePlus className="mr-2 h-5 w-5" />
-							Create New Match
-						</Button>
-						<Button
-							pill={true}
-							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
-							onClick={() => setIsMakingBatch(!isMakingBatch)}
-						>
-							<IconCirclePlus className="mr-2 h-5 w-5" />
-							Create Multiple
-						</Button>
-					</div>
-				)}
-				<MatchesTable
-					matches={games}
-					setMatchToEdit={setMatchToEdit}
-					setSaveBatchGame={setSaveBatchGame}
-					setIsEditing={setIsEditingMatch}
-					setIsDeleting={setIsDeletingMatch}
-					selectedDate={selectedDate}
-					setSelectedDate={setSelectedDate}
-					isCoordinator={isCoordinator}
-				/>
-				{generatedGames.length > 0 && (
-					<GeneratedMatchesTable
-						matches={generatedGames}
-						setGeneratedGames={setGeneratedGames}
+			{!division ? (
+				<div className="w-full flex justify-center">
+					<p>
+						Sorry - That Data for that Division was not found in our database!
+					</p>
+				</div>
+			) : (
+				// )}
+				<main className="w-full flex flex-col gap-6 p-8 pt-0">
+					{/* Results */}
+					{(isCoordinator ||
+						(authRoles && authRoles.includes('Admin')) ||
+						(authRoles && authRoles.includes('Owner'))) && (
+						<div className="flex flex-row-reverse gap-3">
+							<Button
+								pill={true}
+								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+								onClick={() => setModalVisible(!modalVisible)}
+							>
+								<IconCirclePlus className="mr-2 h-5 w-5" />
+								Create New Match
+							</Button>
+							<Button
+								pill={true}
+								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+								onClick={() => setIsMakingBatch(!isMakingBatch)}
+							>
+								<IconCirclePlus className="mr-2 h-5 w-5" />
+								Create Multiple
+							</Button>
+						</div>
+					)}
+					<MatchesTable
+						matches={games}
 						setMatchToEdit={setMatchToEdit}
+						setSaveBatchGame={setSaveBatchGame}
 						setIsEditing={setIsEditingMatch}
 						setIsDeleting={setIsDeletingMatch}
-						setSaveBatchGame={setSaveBatchGame}
-						// selectedDate={selectedDate}
-						// setSelectedDate={setSelectedDate}
+						selectedDate={selectedDate}
+						setSelectedDate={setSelectedDate}
 						isCoordinator={isCoordinator}
 					/>
-				)}
-			</main>
+					{generatedGames.length > 0 && (
+						<GeneratedMatchesTable
+							matches={generatedGames}
+							setGeneratedGames={setGeneratedGames}
+							setMatchToEdit={setMatchToEdit}
+							setIsEditing={setIsEditingMatch}
+							setIsDeleting={setIsDeletingMatch}
+							setSaveBatchGame={setSaveBatchGame}
+							// selectedDate={selectedDate}
+							// setSelectedDate={setSelectedDate}
+							isCoordinator={isCoordinator}
+						/>
+					)}
+				</main>
+			)}
 			<CreateMatchModal
 				isVisible={modalVisible}
 				setIsVisible={setModalVisible}
