@@ -36,6 +36,8 @@ export default function GameSheets() {
 	};
 
 	return (
+    <>
+    {games && games.length > 0 && (
 		<>
 			{user &&
 				(authRoles.includes('Admin') ||
@@ -62,6 +64,8 @@ export default function GameSheets() {
 						</div>
 					</section>
 				)}
-		</>
+		</>) 
+    }
+    </>
 	);
 }

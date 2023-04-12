@@ -27,6 +27,7 @@ export default function PlayerSpotlight() {
 	const [profileImage, setProfileImage] = useState(null);
 	const [teams, setTeams] = useState([]);
 	const [spotlightUserRole, setSpotlightUserRole] = useState();
+  const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		fetchAllUsers();
@@ -38,11 +39,13 @@ export default function PlayerSpotlight() {
 
 	useEffect(() => {
 		if (!spotlightUser) {
-			return;
-		}
-
-		fetchSpotlightInformation();
+    setIsVisible(false);
+  }
+  else{
+    setIsVisible(true);
+    fetchSpotlightInformation();
 		getPicture();
+  }
 	}, [spotlightUser]);
 
 	useEffect(() => {
@@ -144,6 +147,8 @@ export default function PlayerSpotlight() {
 	};
 
 	return (
+    <>
+    {isVisible ? (
 		<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
 			<img
 				src={`${
@@ -186,5 +191,9 @@ export default function PlayerSpotlight() {
 				</div>
 			</div>
 		</div>
+    ) : (
+      <p className="text-center align-middle">No Player to show.</p>
+    )}
+    </>
 	);
 }
