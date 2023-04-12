@@ -36,27 +36,27 @@
      useEffect(() => {
         fetchLocations();
      }, []);
-
+     // Gets all locations
      async function fetchLocations() {
         const locationsFetch = await API.graphql({ 
             query: listLocations 
         });
         setLocations(locationsFetch.data.listLocations.items);
       }
-      
+      // Opens edit location modal when a location is set/pressed.
       const editLocationClicked = (e, location) => {
         e.preventDefault();
         setEditLocationModal(true);
         setEditLocation(location);
       }
-      
+      // Opens delete location modal when a location is set/pressed;
       const deleteLocationClicked = (e, location) => {
         e.preventDefault();
         setDeleteLocationModal(true);
         setEditLocation(location);
       }
     
- 
+      // Only Admins or Owner can access page
      if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
          return (
              <div className="flex items-center justify-center h-[50vh]">

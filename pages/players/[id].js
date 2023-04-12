@@ -44,7 +44,6 @@ export default function PlayerProfile() {
 		getPicture();
 	}, [user]);
 
-	// Fetch user details from AWS Cognito:
 	const fetchPlayerCognito = async () => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
@@ -56,7 +55,6 @@ export default function PlayerProfile() {
 		});
 	};
 
-	// Retrieve user profile picture from storage:
 	const getPicture = async () => {
 		if (
 			user.UserAttributes.find((o) => o.Name === 'picture')['Value'] === 'none'
@@ -70,7 +68,6 @@ export default function PlayerProfile() {
 		}
 	};
 
-	// Fetch all teams the user plays on:
 	const fetchTeams = async () => {
 		setTeams([]);
 		const variables = {
@@ -87,10 +84,7 @@ export default function PlayerProfile() {
 			query: listPlayers,
 			variables: variables,
 		});
-
-		if (!players) {
-			return;
-		}
+		if (!players) { return; }
 
 		players.data.listPlayers.items.map(async (player) => {
 			const apiData = await API.graphql({
@@ -104,8 +98,8 @@ export default function PlayerProfile() {
 			setTeams((teams) => {
 				return uniqueById([...teams, data]);
 			});
-		});
-	};
+		  })
+	}
 
 	function uniqueById(items) {
 		const set = new Set();

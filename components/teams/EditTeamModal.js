@@ -45,12 +45,14 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
       }
 
       let uniqueId = team.team_picture;
+
       if (teamLogoUpload !== null) {
+        uniqueId = `${teamName}_${makeid(15)}`;
+        await uploadNewImageToS3(uniqueId, teamLogoUpload);
+          
         if (team.team_picture !== '') {
-          await deleteImageFromS3(team.team_picture);
+            await deleteImageFromS3(team.team_picture);
         }
-          uniqueId = `${teamName}_${makeid(15)}`;
-          await uploadNewImageToS3(uniqueId, teamLogoUpload);
       }
       const data = {
         id: teamId,
@@ -90,11 +92,11 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
           id="defaultModal"
           tabIndex="-1"
           aria-hidden="true"
-          className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+          className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
         >
           <div className="relative w-full h-full">
             {/* <!-- Modal content --> */}
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 ">
               {/* <!-- Modal header --> */}
               <div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-md font-semibold text-gray-900 dark:text-white">

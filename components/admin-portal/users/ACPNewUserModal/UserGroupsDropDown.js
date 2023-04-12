@@ -5,6 +5,11 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/forms/input-field/
+// https://flowbite.com/docs/components/dropdowns/
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
 // NOTE: This location dropdown component is EXCLUSIVELY used for creating new Users in Admin Portal!
 
 import { Select } from 'flowbite-react';
@@ -37,7 +42,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 					type="text"
 					disabled
 					id="authRoles"
-					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer w-full"
+					className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer w-full"
 				/>
 			</div>
 
@@ -63,29 +68,21 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 						className="z-[100] absolute bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44  border border-gray-400"
 					>
 						<ul
-							class="py-2 text-sm text-gray-700 dark:text-gray-200"
+							className="py-2 text-sm text-gray-700 dark:text-gray-200"
 							aria-labelledby="dropdownDefaultButton"
 						>
 							<li>
 								<p
 									onClick={(e) => e.preventDefault()}
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
 								>
 									User
 								</p>
 							</li>
-							{/* <li>
-								<p
-									onClick={(e) => addNewUserGroup(e, 'Captain')}
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>
-									Captain
-								</p>
-							</li> */}
 							<li>
 								<p
 									onClick={(e) => addNewUserGroup(e, 'Referee')}
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
 								>
 									Referee
 								</p>
@@ -93,7 +90,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 							<li>
 								<p
 									onClick={(e) => addNewUserGroup(e, 'Coordinator')}
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
 								>
 									Coordinator
 								</p>
@@ -101,7 +98,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 							<li>
 								<p
 									onClick={(e) => addNewUserGroup(e, 'Admin')}
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
 								>
 									Admin
 								</p>
@@ -111,7 +108,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 
 					<div
 						onClick={(e) => setOpenModal(false)}
-						class="z-[0] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+						className="z-[0] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
 			)}

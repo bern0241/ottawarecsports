@@ -96,7 +96,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
                 return v.startsWith(searchItem);
             })
             .map((user, index) => (
-                <>
+                <React.Fragment key={index}>
                 {(returnUserExists(user)) ? (
                   <li key={index}>
                   </li>
@@ -105,7 +105,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
                       <MemberCardAdd search={searchClicked} user={user} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} members={members} />
                   </li>
                 )}
-                </>
+                </React.Fragment>
             ))}
       
             

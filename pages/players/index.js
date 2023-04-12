@@ -104,12 +104,14 @@ export default function Players() {
 						</thead>
 						<tbody>
 							{filteredPlayers &&
-								filteredPlayers.map((player) => (
+								filteredPlayers.map((player, index) => (
+								<React.Fragment key={index}>
 									<PlayerRow
 										key={player.Username}
 										player={player}
 										index={player.Username}
 									/>
+									</React.Fragment>
 								))}
 							<tr>
 								<td

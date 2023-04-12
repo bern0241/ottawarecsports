@@ -5,6 +5,17 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminAddUserToGroup.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminRemoveUserFromGroup.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminListGroupsForUser.html
+
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
@@ -34,13 +45,11 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 
 	const [profilePic, setProfilePic] = useState(null);
-	const [profilePicId, setProfilePicId] = useState('none');
 
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	// const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0]);
 	const [birthDate, setBirthDate] = useState(
-		new Date().toISOString().split('T')[0].replaceAll('-', '/')
+		new Date().toISOString().split('T')[0].replaceAll('-', '/') // Converts today's date to ISO, and changes all '-' to '/' (for getting current date)
 	);
 	const [gender, setGender] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
@@ -55,9 +64,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	const [openNewUserModal, setOpenNewUserModal] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-	/**
-	 * Sets timer for message to disappear
-	 */
+	// After 5 seconds, hide display message
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setMessage(null);
@@ -101,7 +108,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 
 			var params = {
 				UserPoolId: 'us-east-1_70GCK7G6t',
-				// Username: uniqueId,
 				Username: email,
 				TemporaryPassword: tempPassword,
 				UserAttributes: [
@@ -144,9 +150,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					},
 				],
 				DesiredDeliveryMediums: ['EMAIL'],
-				// DesiredDeliveryMediums: [
-				//     SMS | EMAIL,
-				// ]
 			};
 			cognitoidentityserviceprovider.adminCreateUser(
 				params,
@@ -167,6 +170,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		}
 	};
 
+	// Adds user to all designated User Groups.
 	const addUserToGroups = async (newUsername, profile_pic_id) => {
 		userGroups.forEach((group) => {
 			var params = {
@@ -188,6 +192,8 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		});
 	};
 
+	// Automatically sets new user to CONFIRMED 
+	// REFERENCE: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RespondToAuthChallenge.html
 	const confirmTempUserPassword = async (username, profile_pic_id) => {
 		// FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
 		const authParams = {
@@ -198,7 +204,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				PASSWORD: tempPassword,
 			},
 		};
-
 		cognitoidentityserviceprovider.initiateAuth(
 			authParams,
 			function (err, authResult) {
@@ -233,6 +238,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		);
 	};
 
+	// Uploads new profile image to the backend (S3 Bucket)
 	const uploadNewProfileImageToS3 = async (newProfilePicId) => {
 		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 		try {
@@ -266,38 +272,38 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			{/* // <!-- Main modal --> */}
 			<div
 				id="defaultModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-hidden="true"
-				class="fixed top-0 bottom-0 left-0 right-0 p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-aut z-[150]"
+				className="fixed top-0 bottom-0 left-0 right-0 p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-aut z-[150]"
 			>
-				<div class="relative w-full h-full">
+				<div className="relative w-full h-full">
 					{/* <!-- Modal content --> */}
-					<div class="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 						{/* <!-- Modal header --> */}
-						<div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
-							<h3 class="text-md font-semibold text-gray-900 dark:text-white">
+						<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
+							<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 								Add A User
 							</h3>
 							<button
 								onClick={() => setOpenModal(false)}
 								type="button"
-								class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+								className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 								data-modal-hide="defaultModal"
 							>
 								<svg
 									aria-hidden="true"
-									class="w-5 h-5"
+									className="w-5 h-5"
 									fill="currentColor"
 									viewBox="0 0 20 20"
 									xmlns="http://www.w3.org/2000/svg"
 								>
 									<path
-										fill-rule="evenodd"
+										fillRule="evenodd"
 										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-										clip-rule="evenodd"
+										clipRule="evenodd"
 									></path>
 								</svg>
-								<span class="sr-only">Close modal</span>
+								<span className="sr-only">Close modal</span>
 							</button>
 						</div>
 
@@ -307,11 +313,11 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 							setProfilePic={setProfilePic}
 						/>
 
-						<div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
-							<div class="w-full ">
+						<div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
+							<div className="w-full ">
 								<label
-									for="firstName"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="firstName"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									First Name *
 								</label>
@@ -320,14 +326,14 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 									onChange={(e) => setFirstName(e.target.value)}
 									type="text"
 									id="firstName"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
 
-							<div class="w-full">
+							<div className="w-full">
 								<label
-									for="lastName"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="lastName"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Last Name *
 								</label>
@@ -336,14 +342,14 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 									onChange={(e) => setLastName(e.target.value)}
 									type="text"
 									id="lastName"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
 
 							<div className="w-full">
 								<label
-									for="birthdate"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="birthdate"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Birthdate *
 								</label>
@@ -351,18 +357,18 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 							</div>
 							<div className="w-full">
 								<label
-									for="gender"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="gender"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Gender *
 								</label>
 								<GenderDropDown state={gender} setState={setGender} />
 							</div>
 
-							<div class="w-full">
+							<div className="w-full">
 								<label
-									for="email"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="email"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Email *
 								</label>
@@ -371,14 +377,14 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 									onChange={(e) => setEmail(e.target.value)}
 									type="email"
 									id="email"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
 
-							<div class="w-full">
+							<div className="w-full">
 								<label
-									for="tempPassword"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="tempPassword"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Password *
 								</label>
@@ -388,10 +394,10 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 								/>
 							</div>
 
-							<div class="w-full">
+							<div className="w-full">
 								<label
-									for="phoneNumber"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="phoneNumber"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Phone Number
 								</label>
@@ -407,14 +413,14 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 									onChange={(e) => setPhoneNumber(e.target.value)}
 									type="text"
 									id="phoneNumber"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/> */}
 							</div>
 
-							<div class="w-full">
+							<div className="w-full">
 								<label
-									for="location"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									htmlFor="location"
+									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Location *
 								</label>
@@ -422,10 +428,10 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 							</div>
 						</div>
 
-						<div class="px-5">
+						<div className="px-5">
 							<label
-								for="email"
-								class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+								htmlFor="email"
+								className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 							>
 								Auth Roles (+)
 							</label>
@@ -449,12 +455,12 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 						)}
 
 						{/* <!-- Modal footer --> */}
-						<div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 							<button
 								onClick={() => setOpenModal(false)}
 								data-modal-hide="defaultModal"
 								type="button"
-								class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+								className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
 							>
 								Cancel
 							</button>
@@ -462,7 +468,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 								onClick={(e) => createUser(e)}
 								data-modal-hide="defaultModal"
 								type="button"
-								class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
+								className="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
 							>
 								Save
 							</button>
@@ -472,7 +478,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			</div>
 			<div
 				onClick={(e) => setOpenModal(false)}
-				class="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);
