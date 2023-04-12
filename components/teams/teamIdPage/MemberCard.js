@@ -91,7 +91,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
               alt={`Profile image of ${userName}`}
           />
         </div>
-        <div className='text-black ml-3'>
+        <div className='text-black ml-3  text-sm sm:text-base'>
             {userName ? (
                 <p>{userName}</p>
             ) : (

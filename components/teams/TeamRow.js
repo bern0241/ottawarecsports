@@ -87,7 +87,7 @@ export default function TeamRow({ team}) {
 			</td>
 			<td className="p-3 text-center">{team.sports || 'Soccer'}</td>
       <td className="p-3 mx-auto text-center">
-        <div className="hidden md:contents align-middle">
+        <div className="hidden sm:contents align-middle">
           <p className='text-[1.4rem]'>{team ? team.Players.items.length : 0}</p>
         </div>
       </td>
