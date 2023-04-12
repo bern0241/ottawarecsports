@@ -8,17 +8,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
 import { useRouter } from 'next/router';
-import makeid from '@/utils/makeId';
-import { createGame } from '@/src/graphql/mutations';
 import {
 	listPlayers,
 	listLocations as listLocationsQuery,
 } from '@/src/graphql/queries';
-import TeamDropDown from './TeamDropDown';
-import TeamCardSelected from './TeamCardSelected';
 import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk';
