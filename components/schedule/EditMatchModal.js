@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import React, { useState, useEffect, use } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
