@@ -7,18 +7,14 @@
  */
 
 import { useState, useEffect } from 'react';
-import { IconEdit } from '@tabler/icons-react';
-import { IconTrash } from '@tabler/icons-react';
 import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
 
-export default function TeamRow({ team, setCurrentTeam }) {
+export default function TeamRow({ team}) {
 	const router = useRouter();
 	const [profileImage, setProfileImage] = useState('');
-	// const currentSeason = team.team_history[0];
 	const [captains, setCaptains] = useState([]);
-	const [userName, setUserName] = useState('');
 
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
@@ -47,12 +43,10 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			}
 			cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
-				else     {
-					// setCaptains(data);
+				else {
 					setCaptains((captains) => {
 						return uniqueByUsername([...captains, data]);
 					} );
-					// return;
 				}          
 			});
 		})
@@ -65,7 +59,6 @@ export default function TeamRow({ team, setCurrentTeam }) {
 
 	const navigateToProfile = () => {
 		router.push(`/teams/${team.id}`);
-		// Alternatively, we could use: team.name.replace(/\s+/g, '-').toLowerCase()
 	};
 
 	return (
@@ -74,7 +67,6 @@ export default function TeamRow({ team, setCurrentTeam }) {
 			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
 		>
-			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="pl-3 py-3">
 				<div className="flex flex-col min-[590px]:flex-row w-[80%] items-center pl-2 gap-2">
 					<img

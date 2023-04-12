@@ -28,7 +28,6 @@ const HeaderTitle = () => {
 	const getTeamFunc = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-    console.log(data)
 	}
 
 	useEffect(() => {
@@ -62,7 +61,7 @@ return (
 								Home
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Dashboard</p>
+						<h1 className="font-semibold text-[1.8rem]">Dashboard</h1>
 					</div>
 				</div>
 			)}
@@ -80,7 +79,7 @@ return (
 								Soccer
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Soccer ⚽</p>
+						<h1 className="font-semibold text-[1.8rem]">Soccer ⚽</h1>
 					</div>
 				</div>
 			)}
@@ -98,7 +97,7 @@ return (
 								{division?.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Teams - {division?.name}</p>
+						<h1 className="font-semibold text-[1.8rem]">All Teams - {division?.name}</h1>
 					</div>
 				</div>
 			)}
@@ -116,7 +115,7 @@ return (
 								Players
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Players ⛹️‍♂️</p>
+						<h1 className="font-semibold text-[1.8rem]">Players ⛹️‍♂️</h1>
 					</div>
 				</div>
 			)}
@@ -138,7 +137,7 @@ return (
 								Player Profile
               </Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Player Profile</p>
+						<h1 className="font-semibold text-[1.8rem]">Player Profile</h1>
 					</div>
 				</div>
 			)}
@@ -156,7 +155,7 @@ return (
 								Teams
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Teams 👨‍👦‍👦</p>
+						<h1 className="font-semibold text-[1.8rem]">Teams 👨‍👦‍👦</h1>
 					</div>
 				</div>
 			)}
@@ -178,7 +177,7 @@ return (
 								{team && team.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Team Profile</p>
+						<h1 className="font-semibold text-[1.8rem]">Team Profile</h1>
 					</div>
 				</div>
 			)}
@@ -196,7 +195,7 @@ return (
 								Soccer
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Divisions - Soccer ⚽</p>
+						<h1 className="font-semibold text-[1.8rem]">All Divisions - Soccer ⚽</h1>
 					</div>
 				</div>
 			)}
@@ -216,7 +215,7 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">All Matches</p>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Matches</p>
+						<h1 className="font-semibold text-[1.8rem]">All Matches</h1>
 					</div>
 				</div>
 			)}
@@ -237,7 +236,7 @@ return (
 								Leagues
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Leagues ⚽</p>
+						<h1 className="font-semibold text-[1.8rem]">Leagues ⚽</h1>
 					</div>
 				</div>
 			)}
@@ -261,7 +260,7 @@ return (
 								{division?.name}
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">All Teams - {division?.name}</p>
+						<h1 className="font-semibold text-[1.8rem]">All Teams - {division?.name}</h1>
 					</div>
 				</div>
 			)}
@@ -282,7 +281,7 @@ return (
 								Users
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Users</p>
+						<h1 className="font-semibold text-[1.8rem]">Users</h1>
 					</div>
 				</div>
 			)}
@@ -303,7 +302,7 @@ return (
 								Teams
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Teams</p>
+						<h1 className="font-semibold text-[1.8rem]">Teams</h1>
 					</div>
 				</div>
       )}
@@ -317,7 +316,7 @@ return (
                 <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
               <Link href="/admin-portal/locations" className="font-light text-[.8rem]">Locations</Link>
             </div>
-            <p className="font-semibold text-[1.8rem]">Locations</p>
+            <h1 className="font-semibold text-[1.8rem]">Locations</h1>
           </div>
         </div>
       )}
@@ -333,7 +332,7 @@ return (
 								Settings
 							</Link>
 						</div>
-						<p className="font-semibold text-[1.8rem]">Settings</p>
+						<h1 className="font-semibold text-[1.8rem]">Settings</h1>
 					</div>
 				</div>
 			)}

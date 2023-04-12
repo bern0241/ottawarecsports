@@ -1,33 +1,19 @@
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
-import CustomRadioButton from './CustomRadioButton';
-import MaxMembersStepper from './MaxMembersStepper';
-import PlayersTable from './PlayersTable';
-import UserProfilePictureEdit from '../admin-portal/users/ACPEditUserModal/UserProfilePictureEdit';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
-import {
-	createTeam,
-	uploadNewImageToS3,
-  getImageFromS3,
-  deleteImageFromS3,
-	updatePlayerSoccer,
-} from '@/utils/graphql.services';
+import {uploadNewImageToS3, deleteImageFromS3,fileSizeCheckOver} from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
-import { fileSizeCheckOver } from '@/utils/graphql.services';
 import { updateTeam } from '@/src/graphql/mutations';
 
 const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 	const [user] = useUser();
-	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState();
 	const [teamCaptain, setTeamCaptain] = useState('');
 	const [homeColour, setHomeColour] = useState('Red');
 	const [awayColour, setAwayColour] = useState('Blue');
-	const [selectedOption, setSelectedOption] = useState('');
-	const [teamRoster, setTeamRoster] = useState([]);
 	const [teamLogoUpload, setTeamLogoUpload] = useState(null);
   const router = useRouter();
 	const [message, setMessage] = useState(null);
@@ -146,10 +132,6 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                 teamLogoUpload={teamLogoUpload} 
                 setTeamLogoUpload={setTeamLogoUpload} 
                 />
-              {/* <UserProfilePictureEdit
-                profilePic={profilePic}
-                setProfilePic={setProfilePic}
-              /> */}
               <div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
                 <div className="w-full ">
                   <label
@@ -221,19 +203,6 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
                 </div>
   
               </div>
-  
-              {/* {message && (
-                <p
-                  id="standard_error_help"
-                  className={`my-4 text-center text-sm ${
-                    message.status === 'success'
-                      ? 'text-green-600 dark:text-green-400'
-                      : 'text-red-600 dark:text-red-400'
-                  }`}
-                >
-                  <span className="font-medium">{message.message}</span>
-                </p>
-              )} */}
   
               {message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
   

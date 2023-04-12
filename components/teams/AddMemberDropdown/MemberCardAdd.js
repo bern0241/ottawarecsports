@@ -27,7 +27,7 @@ export default function MemberCardAdd({user, search, selectedUsers, members}) {
     }
 
   return (
-    <div class={`flex items-center px-4 py-2 gap-2 ${disable && 'bg-gray-300 opacity-40 hover:bg-gray-300 cursor-default'}
+    <div className={`flex items-center px-4 py-2 gap-2 ${disable && 'bg-gray-300 opacity-40 hover:bg-gray-300 cursor-default'}
         ${selectedUsers.includes(user.Username) && 'bg-blue-600  hover:bg-blue-500 text-white font-semibold'}`}>
         <img
             style={{ objectFit: 'cover' }}
