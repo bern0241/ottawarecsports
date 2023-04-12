@@ -98,14 +98,14 @@ export default function DivisionMatches() {
 		// SEASON
 		const apiDataSeason = await API.graphql({
 			query: getSeasonShort,
-			variables: { id: divisionData.season },
+			variables: { id: divisionData?.season },
 		});
 		const seasonData = await apiDataSeason.data.getSeason;
 		setSeason(seasonData);
 		// LEAGUE
 		const apiDataLeague = await API.graphql({
 			query: getLeague,
-			variables: { id: seasonData.league },
+			variables: { id: seasonData?.league },
 		});
 		const leagueData = await apiDataLeague.data.getLeague;
 		setLeague(leagueData);
