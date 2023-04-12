@@ -1,4 +1,13 @@
-import { useState, useEffect } from 'react';
+/**
+ * Last updated: 2023-04-10
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
+import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
@@ -489,7 +498,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 												<div
 													type="text"
 													id="hometeam"
-													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+													className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 													placeholder=""
 													required
 												/>
@@ -597,7 +606,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Referee (s)
@@ -617,14 +626,14 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 										</div>
 										<div className="flex absolute top-[1.9rem]">
 											{referees &&
-												referees.map((referee) => (
-													<>
+												referees.map((referee, index) => (
+													<React.Fragment key={index}>
 														<RefereeChip
 															referee={referee}
 															referees={referees}
 															setReferees={setReferees}
 														/>
-													</>
+													</React.Fragment>
 												))}
 										</div>
 									</div>
@@ -643,7 +652,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 									{/**Date */}
 									<div className="w-full">
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Date
@@ -680,7 +689,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 											className="cursor-pointer"
 										>
 											<label
-												for="startTime"
+												htmlFor="startTime"
 												className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 											>
 												Start Time
@@ -807,9 +816,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
 											d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 										></path>
 									</svg>
@@ -829,7 +838,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 										}}
 										data-modal-hide="popup-modal"
 										type="button"
-										class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
+										className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
 									>
 										No thanks
 									</button>

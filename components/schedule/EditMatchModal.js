@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
@@ -28,6 +36,8 @@ const EditMatchModal = ({
 	makingNewGame,
 	setMakingNewGame,
 	getGames,
+	generatedGames,
+	setGeneratedGames,
 	callMeTestGames,
 }) => {
 	const [homeTeam, setHomeTeam] = useState();
@@ -59,6 +69,8 @@ const EditMatchModal = ({
 
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
+
+	const [modalHeader, setModalHeader] = useState(false);
 
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 	const divisionID = router.query.id;
@@ -96,6 +108,12 @@ const EditMatchModal = ({
 
 	useEffect(() => {
 		setUiState('main');
+		console.log(makingNewGame);
+		if (makingNewGame === true) {
+			setModalHeader('Create Game');
+		} else {
+			setModalHeader('Edit Match');
+		}
 	}, [isVisible]);
 
 	useEffect(() => {
@@ -379,17 +397,24 @@ const EditMatchModal = ({
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
-			console.log(matchData);
+			// console.log(matchData);
 			const apiData = await API.graphql({
 				query: createGame,
 				variables: { input: matchData },
 			});
-			console.log(divisionID);
 			setMessage({ status: 'success', message: 'Game created successfully' });
 			setUiState('send-emails');
 			getGames();
 			setMakingNewGame(false);
-			// router.reload();
+			//remove the current game from the list of generated games
+			let index = generatedGames.find(
+				(e) =>
+					e.gameHomeTeamId === homeTeam.id && e.gameAwayTeamId === awayTeam.id
+			);
+			console.log(index);
+			let tempArray = generatedGames;
+			tempArray.splice(index, 1);
+			setGeneratedGames(tempArray);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -601,7 +626,7 @@ const EditMatchModal = ({
 								{/* <!-- Modal header --> */}
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
-										Edit Match
+										{modalHeader}
 									</h3>
 									<button
 										onClick={() => {
@@ -646,7 +671,7 @@ const EditMatchModal = ({
 												<div
 													type="text"
 													id="hometeam"
-													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+													className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 													placeholder=""
 													required
 												/>
@@ -755,7 +780,7 @@ const EditMatchModal = ({
 										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Referee (s)
@@ -775,14 +800,14 @@ const EditMatchModal = ({
 										</div>
 										<div className="flex absolute top-[1.9rem]">
 											{referees &&
-												referees.map((referee) => (
-													<>
+												referees.map((referee, index) => (
+													<React.Fragment key={index}>
 														<RefereeChip
 															referee={referee}
 															referees={referees}
 															setReferees={setReferees}
 														/>
-													</>
+													</React.Fragment>
 												))}
 										</div>
 									</div>
@@ -801,7 +826,7 @@ const EditMatchModal = ({
 									{/**Date */}
 									<div className="w-full">
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Date
@@ -838,7 +863,7 @@ const EditMatchModal = ({
 											className="cursor-pointer"
 										>
 											<label
-												for="startTime"
+												htmlFor="startTime"
 												className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 											>
 												Start Time
@@ -898,7 +923,7 @@ const EditMatchModal = ({
 											setUiState('send-emails');
 										}}
 										type="button"
-										class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+										className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
 									>
 										Send Emails <br />
 										to Players
@@ -908,6 +933,7 @@ const EditMatchModal = ({
 									<button
 										onClick={() => {
 											setIsVisible(false);
+											setMakingNewGame(false);
 											resetData();
 										}}
 										data-modal-hide="defaultModal"
@@ -938,7 +964,10 @@ const EditMatchModal = ({
 						</div>
 					</div>
 					<div
-						onClick={(e) => setIsVisible(false)}
+						onClick={(e) => {
+							setMakingNewGame(false);
+							setIsVisible(false);
+						}}
 						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
@@ -987,9 +1016,9 @@ const EditMatchModal = ({
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
 											d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 										></path>
 									</svg>
@@ -1001,11 +1030,12 @@ const EditMatchModal = ({
 									<button
 										onClick={(e) => {
 											e.stopPropagation();
+											setMakingNewGame(false);
 											setIsVisible(false);
 										}}
 										data-modal-hide="popup-modal"
 										type="button"
-										class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
+										className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
 									>
 										No thanks
 									</button>
@@ -1013,6 +1043,7 @@ const EditMatchModal = ({
 										onClick={async (e) => {
 											e.stopPropagation();
 											await sendEmails();
+											setMakingNewGame(false);
 											setIsVisible(false);
 										}}
 										data-modal-hide="popup-modal"
@@ -1027,6 +1058,7 @@ const EditMatchModal = ({
 					</div>
 					<div
 						onClick={(e) => {
+							setMakingNewGame(false);
 							setIsVisible(false);
 						}}
 						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"

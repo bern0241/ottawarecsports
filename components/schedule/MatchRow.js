@@ -11,7 +11,14 @@ import DeleteMatchModal from './DeleteMatchModal';
 import Link from 'next/link';
 import { useUser } from '@/context/userContext';
 
-const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordinator }) => {
+const MatchRow = ({
+	match,
+	setMatchToEdit,
+	setIsEditing,
+	setIsDeleting,
+	isCoordinator,
+	setSaveBatchGame,
+}) => {
 	if (!match) return;
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [locationObject, setLocationObject] = useState();
@@ -20,7 +27,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordi
 		if (match.location) {
 			setLocationObject(JSON.parse(match.location));
 		}
-	}, [])
+	}, []);
 
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,35 +144,47 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting, isCoordi
 							<span>
 								<LocationIcon />
 							</span>
-							<Link className='text-blue-500 underline' href={`${locationObject?.weblink}`} target="_blank">{locationObject?.name}</Link>
+							<Link
+								className="text-blue-500 underline"
+								href={`${locationObject?.weblink}`}
+								target="_blank"
+							>
+								{locationObject?.name}
+							</Link>
 						</p>
 					</span>
 				</td>
 				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
-				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
-					<button
-						onClick={() => {
-							setMatchToEdit(match);
-							setIsEditing(true);
-						}}
-					>
-						<span>
-							<EditIcon />
-						</span>
-					</button>
-				)}
-				{(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
-					<button
-						onClick={() => {
-							setMatchToEdit(match);
-							setIsDeleting(true);
-						}}
-					>
-						<span>
-							<TrashIcon />
-						</span>
-					</button>
-				)}
+					{(isCoordinator ||
+						(authRoles && authRoles.includes('Admin')) ||
+						(authRoles && authRoles.includes('Owner'))) && (
+						<button
+							onClick={() => {
+								setMatchToEdit(match);
+								setIsEditing(true);
+								setSaveBatchGame(false);
+							}}
+						>
+							<span>
+								<EditIcon />
+							</span>
+						</button>
+					)}
+					{(isCoordinator ||
+						(authRoles && authRoles.includes('Admin')) ||
+						(authRoles && authRoles.includes('Owner'))) && (
+						<button
+							onClick={() => {
+								setMatchToEdit(match);
+								setIsDeleting(true);
+								setSaveBatchGame(false);
+							}}
+						>
+							<span>
+								<TrashIcon />
+							</span>
+						</button>
+					)}
 				</td>
 			</tr>
 		</>

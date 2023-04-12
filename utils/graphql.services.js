@@ -349,7 +349,7 @@ export const deleteImageFromS3 = async (key) => {
 				console.warn(err);
 			} else {
 				// success
-				console.log('Object deleted successfully');
+				// console.log('Object deleted successfully');
 			}
 		});
 	} catch (error) {

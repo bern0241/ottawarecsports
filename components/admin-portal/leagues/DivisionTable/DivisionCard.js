@@ -64,21 +64,21 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
 
     return (
         <>
-        <tr onClick={(e) => clickedDivision(e)} class="bg-white border border-gray-400 cursor-pointer">
-                <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        <tr onClick={(e) => clickedDivision(e)} className="bg-white border border-gray-400 cursor-pointer">
+                <th scope="row" className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {selectedDivision && selectedDivision.id === division.id && (
                         <div className='w-[.5rem] h-[100%] top-0 left-0 bg-blue-900 absolute'/>
                     )}
                     {division.name}
                 </th>
-                <td class="px-6 py-3 text-center">
+                <td className="px-6 py-3 text-center">
                     {convertLevelToFull(division.level)}
                 </td>
-                <td class="px-6 text-lg py-3 text-center">
+                <td className="px-6 text-lg py-3 text-center">
                     {/* {division.gender} */}
                     {teamCount}
                 </td>
-                <td class="flex gap-2 px-6 py-4 text-center justify-center">
+                <td className="flex gap-2 px-6 py-4 text-center justify-center">
                     <div className='flex-grow'></div>
                     <IconUsers onClick={(e) => teamsUINavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>
                     <IconEdit onClick={(e) => editDivisionFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>

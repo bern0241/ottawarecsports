@@ -40,17 +40,16 @@ export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembe
     return (
         <>        
         {/* <!-- Dropdown menu --> */}
-        <div id="dropdownUsers" class="z-[75] absolute top-[2rem] border border-gray-500 right-0 bg-white rounded-lg shadow w-60 dark:bg-gray-700">
-        <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
+        <div id="dropdownUsers" className="z-[75] absolute top-[2rem] border border-gray-500 right-0 bg-white rounded-lg shadow w-60 dark:bg-gray-700">
+        <ul className="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
             {users && users.map((user) => (
               <li key={user.Username}>
                 <UserCard user={user} setMembers={setMembers} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} fetchPlayersFromTeam={fetchPlayersFromTeam} />
               </li>
             ))}
         </ul>
-        
         </div>
-        <div onClick={(e) => setOpenDropdown(false)} class='z-[50] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
+        <div onClick={(e) => setOpenDropdown(false)} className='z-[50] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
         </>
     )
 }

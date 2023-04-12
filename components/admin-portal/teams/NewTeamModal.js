@@ -226,7 +226,7 @@
                   <div className='absolute top-[10rem] left-[50%] translate-x-[-50%] z-[500]'>
                   <CaptainDropdown listUsers={listUsers} setOpenCaptainDrop={setOpenCaptainDrop} setCaptain={setCaptain} />
                   </div>
-                  <div onClick={(e) => setOpenCaptainDrop(false)} class='z-[300] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
+                  <div onClick={(e) => setOpenCaptainDrop(false)} className='z-[300] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
                   </>
                 )}
 

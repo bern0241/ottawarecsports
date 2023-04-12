@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-06
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import React, { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 

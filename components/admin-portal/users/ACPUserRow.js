@@ -47,18 +47,16 @@ export default function ACPUserRow({ user, index }) {
 	};
 
 	return (
-		<>
-			<tr key={user.id} className="border-b border-brand-neutral-300">
+		<React.Fragment key={user.id}>
+			<tr className="border-b border-brand-neutral-300">
 				<td className="p-5 font-medium">
 					{user.Attributes.find((o) => o.Name === 'name')['Value'].charAt(0)}.{' '}
 					{user.Attributes.find((o) => o.Name === 'family_name')['Value']}
 				</td>
 				<td className="p-5 flex flex-col">
 					{userGroups &&
-						userGroups.map((group) => (
-							<>
-								<p>{group.GroupName}</p>
-							</>
+						userGroups.map((group, index) => (
+							<p key={index}>{group.GroupName}</p>
 						))}
 				</td>
 				<td className="p-5">
@@ -91,6 +89,6 @@ export default function ACPUserRow({ user, index }) {
 					setOpenModal={setDeleteUserModal}
 				/>
 			)}
-		</>
+		</React.Fragment>
 	);
 }

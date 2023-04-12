@@ -79,8 +79,8 @@
                     <NewLocation locations={locations} setLocations={setLocations} />
                 </div>
                             {locations && locations.map((location, index) => (
-                                <>
-                                    <div key={index} className='flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md'>
+                                <React.Fragment key={index}>
+                                    <div className='flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md'>
                                         <IconEdit onClick={(e) => editLocationClicked(e, location)} style={{position: 'absolute', fontSize: '20px', cursor: 'pointer', transform: 'translate(-0px, -15px)'}} name="create-outline"></IconEdit>
                                         <IconTrash onClick={(e) => { deleteLocationClicked(e, location)}} style={{position: 'absolute', fontSize: '20px', cursor: 'pointer', transform: 'translate(25px, -15px)', color: 'red'}} name="trash-outline"></IconTrash>
                                         <div>
@@ -88,7 +88,7 @@
                                         <Link style={{fontSize: '0.9rem', color: 'blue', textDecoration: 'underline'}} href={location.weblink}>{location.weblink}</Link>
                                     </div>
                                 </div>
-                                </>
+                                </React.Fragment>
                             ))}
                             {locations.length === 0 && (
                                 <div className='text-black mx-auto flex justify-center items-center h-10'>

@@ -543,25 +543,25 @@ export default function ACPEditUserModal({
 		<>
 		{uiState === 'adminRemoved' && (
 				
-                <div tabIndex="-1" class="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
-            	<div class="relative h-full md:h-auto">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div tabIndex="-1" className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
+            	<div className="relative h-full md:h-auto">
+                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button onClick={(e) => {
                             e.stopPropagation();
                             setOpenModal(false);
                         }}
-                        type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        <span class="sr-only">Close modal</span>
+                        type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
+                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                        <span className="sr-only">Close modal</span>
                     </button>
-                    <div class="p-6 text-center">
-                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">You are about to remove yourself as Admin! You will be <b>logged out immediately.</b></h3>
+                    <div className="p-6 text-center">
+                        <svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">You are about to remove yourself as Admin! You will be <b>logged out immediately.</b></h3>
                         <button onClick={(e) => {
                             e.stopPropagation();
 							// setUiState('main');
 							setOpenModal(false);
-                        }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
+                        }} data-modal-hide="popup-modal" type="button" className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
                             No thanks
                         </button>
                         <button 
@@ -569,7 +569,7 @@ export default function ACPEditUserModal({
                             e.stopPropagation();
 							editUser(e, 'meAdmin')
                         }}
-						 data-modal-hide="popup-modal" type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+						 data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                             Yes, I understand
                         </button>
                         
@@ -581,25 +581,25 @@ export default function ACPEditUserModal({
 
 			{uiState === 'coordinatorRemoved' && (
 				
-                <div tabIndex="-1" class="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
-            	<div class="relative h-full md:h-auto">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div tabIndex="-1" className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
+            	<div className="relative h-full md:h-auto">
+                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button onClick={(e) => {
                             e.stopPropagation();
                             setOpenModal(false);
                         }}
-                        type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        <span class="sr-only">Close modal</span>
+                        type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
+                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                        <span className="sr-only">Close modal</span>
                     </button>
-                    <div class="p-6 text-center">
-                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">This user is an <b>existing coordinator</b> on a league. <br/>Are you sure you want to REMOVE them <br/>as coordinators?</h3>
+                    <div className="p-6 text-center">
+                        <svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">This user is an <b>existing coordinator</b> on a league. <br/>Are you sure you want to REMOVE them <br/>as coordinators?</h3>
                         <button onClick={(e) => {
                             e.stopPropagation();
 							// setUiState('main');
 							setOpenModal(false);
-                        }} data-modal-hide="popup-modal" type="button" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
+                        }} data-modal-hide="popup-modal" type="button" className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
                             No thanks
                         </button>
                         <button 
@@ -607,7 +607,7 @@ export default function ACPEditUserModal({
                             e.stopPropagation();
 							editUser(e, 'meCoordinator')
                         }}
-						 data-modal-hide="popup-modal" type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+						 data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                             Yes, I understand
                         </button>
                         
@@ -622,38 +622,38 @@ export default function ACPEditUserModal({
 					{/* // <!-- Main modal --> */}
 					<div
 						id="defaultModal"
-						tabindex="-1"
+						tabIndex="-1"
 						aria-hidden="true"
-						class="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+						className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
 						>
-						<div class="relative w-full h-full">
+						<div className="relative w-full h-full">
 							{/* <!-- Modal content --> */}
-							<div class="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 								{/* <!-- Modal header --> */}
-								<div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
-									<h3 class="text-md font-semibold text-gray-900 dark:text-white">
+								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
+									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
 									</h3>
 									<button
 										onClick={() => setOpenModal(false)}
 										type="button"
-										class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+										className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 										data-modal-hide="defaultModal"
 										>
 										<svg
 											aria-hidden="true"
-											class="w-5 h-5"
+											className="w-5 h-5"
 											fill="currentColor"
 											viewBox="0 0 20 20"
 											xmlns="http://www.w3.org/2000/svg"
 											>
 											<path
-												fill-rule="evenodd"
+												fillRule="evenodd"
 												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-												clip-rule="evenodd"
+												clipRule="evenodd"
 											></path>
 										</svg>
-										<span class="sr-only">Close modal</span>
+										<span className="sr-only">Close modal</span>
 									</button>
 								</div>
 
@@ -665,11 +665,11 @@ export default function ACPEditUserModal({
 									setProfilePic={setProfilePic}
 								/>
 
-								<div class="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
-									<div class="w-full ">
+								<div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
+									<div className="w-full ">
 										<label
-											for="firstName"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="firstName"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											First Name *
 										</label>
@@ -678,14 +678,14 @@ export default function ACPEditUserModal({
 											onChange={(e) => setFirstName(e.target.value)}
 											type="text"
 											id="firstName"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										/>
 									</div>
 
-									<div class="w-full">
+									<div className="w-full">
 										<label
-											for="lastName"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="lastName"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Last Name *
 										</label>
@@ -694,14 +694,14 @@ export default function ACPEditUserModal({
 											onChange={(e) => setLastName(e.target.value)}
 											type="text"
 											id="lastName"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										/>
 									</div>
 
 									<div className="w-full">
 										<label
-											for="birthdate"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="birthdate"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Birthdate *
 										</label>
@@ -709,18 +709,18 @@ export default function ACPEditUserModal({
 									</div>
 									<div className="w-full">
 										<label
-											for="gender"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="gender"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Gender *
 										</label>
 										<GenderDropDown state={gender} setState={setGender} />
 									</div>
 
-									<div class="w-full">
+									<div className="w-full">
 										<label
-											for="email"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="email"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Email *
 										</label>
@@ -729,18 +729,18 @@ export default function ACPEditUserModal({
 											onChange={(e) => setEmail(e.target.value)}
 											type="email"
 											id="email"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										/>
 									</div>
 
-									<div class="w-full text-right relative top-4">
+									<div className="w-full text-right relative top-4">
 										<ChangePasswordModal setUiState={setUiState} />
 									</div>
 
-									<div class="w-full">
+									<div className="w-full">
 										<label
-											for="phoneNumber"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="phoneNumber"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Phone Number
 										</label>
@@ -753,10 +753,10 @@ export default function ACPEditUserModal({
 										/>
 									</div>
 
-									<div class="w-full">
+									<div className="w-full">
 										<label
-											for="location"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="location"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Location *
 										</label>
@@ -764,10 +764,10 @@ export default function ACPEditUserModal({
 									</div>
 								</div>
 
-								<div class="px-5">
+								<div className="px-5">
 									<label
-										for="email"
-										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+										htmlFor="email"
+										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Auth Roles (+)
 									</label>
@@ -791,12 +791,12 @@ export default function ACPEditUserModal({
 								)}
 
 								{/* <!-- Modal footer --> */}
-								<div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+								<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 									<button
 										onClick={() => setOpenModal(false)}
 										data-modal-hide="defaultModal"
 										type="button"
-										class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+										className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
 									>
 										Cancel
 									</button>
@@ -804,7 +804,7 @@ export default function ACPEditUserModal({
 										onClick={(e) => editUser(e, 'meOther')}
 										data-modal-hide="defaultModal"
 										type="button"
-										class="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
+										className="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
 									>
 										Save
 									</button>
@@ -814,7 +814,7 @@ export default function ACPEditUserModal({
 					</div>
 					<div
 						onClick={(e) => setOpenModal(false)}
-						class="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+						className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
 			)}
@@ -823,48 +823,48 @@ export default function ACPEditUserModal({
 				<>
 					<div
 						id="defaultModal"
-						tabindex="-1"
+						tabIndex="-1"
 						aria-hidden="true"
-						class="fixed top-[10rem] left-0 right-0 z-[150] p-4 max-w-[32rem] mx-auto w-full h-[18rem] sm:overflow-visible overflow-auto"
+						className="fixed top-[10rem] left-0 right-0 z-[150] p-4 max-w-[32rem] mx-auto w-full h-[18rem] sm:overflow-visible overflow-auto"
 					>
-						<div class="relative w-full h-full">
+						<div className="relative w-full h-full">
 							{/* <!-- Modal content --> */}
-							<div class="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 								{/* <!-- Modal header --> */}
-								<div class="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
-									<h3 class="text-md font-semibold text-gray-900 dark:text-white">
+								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
+									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
 									</h3>
 									<button
 										onClick={() => setUiState('main')}
 										type="button"
-										class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+										className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 										data-modal-hide="defaultModal"
 									>
 										<svg
 											aria-hidden="true"
-											class="w-5 h-5"
+											className="w-5 h-5"
 											fill="currentColor"
 											viewBox="0 0 20 20"
 											xmlns="http://www.w3.org/2000/svg"
 										>
 											<path
-												fill-rule="evenodd"
+												fillRule="evenodd"
 												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-												clip-rule="evenodd"
+												clipRule="evenodd"
 											></path>
 										</svg>
-										<span class="sr-only">Close modal</span>
+										<span className="sr-only">Close modal</span>
 									</button>
 								</div>
 
 								{/* <!-- Modal body --> */}
 
-								<div class="p-5 grid grid-cols-1 items-center gap-[1.1rem]">
-									<div class="w-full">
+								<div className="p-5 grid grid-cols-1 items-center gap-[1.1rem]">
+									<div className="w-full">
 										<label
-											for="tempPassword"
-											class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											htmlFor="tempPassword"
+											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Enter New Password
 										</label>
@@ -889,12 +889,12 @@ export default function ACPEditUserModal({
 								)}
 
 								{/* <!-- Modal footer --> */}
-								<div class="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+								<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 									<button
 										onClick={(e) => setPassword(e)}
 										data-modal-hide="defaultModal"
 										type="button"
-										class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
+										className="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-800"
 									>
 										Set Password
 									</button>
@@ -906,7 +906,7 @@ export default function ACPEditUserModal({
 			)}
 			<div
 				onClick={(e) => setOpenModal(false)}
-				class="opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%] z-[125]"
+				className="opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%] z-[125]"
 			/>
 		</>
 	);

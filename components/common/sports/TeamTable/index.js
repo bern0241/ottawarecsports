@@ -89,9 +89,7 @@ import { useUser } from '@/context/userContext';
                 }
                 const teamDivisions = await API.graphql({
                     query: listTeamDivisionsShort, variables: variables
-                    // query: listTeamDivisionsShort, variables: variables
                 })
-                console.log('MT TEAM DIVISIONS', teamDivisions);
                 setTeamDivisions(teamDivisions.data.listTeamDivisions.items);
             } catch (error) {
                 console.log(error);
@@ -102,22 +100,22 @@ import { useUser } from '@/context/userContext';
  
      return (
          <>
-         <div class="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
-             <table class="w-full text-sm text-left border border-gray-400">
-                 <thead class="text-md text-black bg-white">
+         <div className="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
+             <table className="w-full text-sm text-left border border-gray-400">
+                 <thead className="text-md text-black bg-white">
                      <tr>
-                         <th scope="col" class="text-lg font-medium px-6 py-[4.4rem]">
+                         <th scope="col" className="text-lg font-medium px-6 py-[4.4rem]">
                          <p className='absolute translate-y-[-57px]'><b>League</b> - {league?.name} <br/><b>Season</b> - {season?.name} <br/><b>Division</b> - {division?.name} <br/>
                          {/* <span className='font-light italic'>All Teams</span> */}
                          </p>
                          </th>
-                         <th scope="col" class="font-medium px-6 py-4">
+                         <th scope="col" className="font-medium px-6 py-4">
                              
                          </th>
-                         <th scope="col" class="font-medium px-6 py-4">
+                         <th scope="col" className="font-medium px-6 py-4">
                              
                          </th>
-                         <th scope="col" class="font-medium">
+                         <th scope="col" className="font-medium">
                             <div className='absolute top-4 right-8 '>
                             {(isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                                 <CreateButton label="Add Any Team"
@@ -129,52 +127,52 @@ import { useUser } from '@/context/userContext';
                          </th>
                      </tr>
                  </thead>
-                 <thead class="text-xs border border-gray-300 text-black bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                 <thead className="text-xs border border-gray-300 text-black bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                      <tr>
-                         <th scope="col" class="font-light px-6 py-2 border-l-[1px] border-gray-400">
+                         <th scope="col" className="font-light px-6 py-2 border-l-[1px] border-gray-400">
                              Name
                          </th>
-                         <th scope="col" class="font-light px-6 py-2 text-center">
+                         <th scope="col" className="font-light px-6 py-2 text-center">
                              Captain (s)
                          </th>
-                         <th scope="col" class="font-light px-6 py-2 text-center">
+                         <th scope="col" className="font-light px-6 py-2 text-center">
                              Members
                          </th>
-                         <th scope="col" class="font-light py-2 border-r-[1px] text-center border-gray-400">
+                         <th scope="col" className="font-light py-2 border-r-[1px] text-center border-gray-400">
                              Remove
                          </th>
                      </tr>
                  </thead>
                  <tbody>
                      {teamDivisions && teamDivisions.map((teamDiv) => (
-                     <>
+                     <React.Fragment key={teamDiv.id}>
                          <TeamCard teamDivision={teamDiv} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-                     </>
+                     </React.Fragment>
                      ))}
                      {(teamDivisions && teamDivisions.length === 0) && (
-                         <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-                         <th scope="row" class="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
+                         <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">
+                         <th scope="row" className="px-6 my-2 font-medium whitespace-nowrap dark:text-white flex items-center justify-center text-xs absolute left-0 right-0 mx-auto italic">
                              No teams for this division.
                          </th>
-                         <td class="px-6 py-4">
+                         <td className="px-6 py-4">
                          </td>
-                         <td class="px-6 py-4">
+                         <td className="px-6 py-4">
                          </td>
-                         <td class="flex gap-4 px-6 py-4 text-center">
+                         <td className="flex gap-4 px-6 py-4 text-center">
                          </td>
                      </tr>
                      )}
          
-                     <tr class="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-                         <th scope="row" class="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
+                     <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">
+                         <th scope="row" className="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer">
                              {/* All Seasons
                              <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
                          </th>
-                         <td class="px-6 py-4">
+                         <td className="px-6 py-4">
                          </td>
-                         <td class="px-6 py-4">
+                         <td className="px-6 py-4">
                          </td>
-                         <td class="flex gap-4 px-6 py-4 text-center">
+                         <td className="flex gap-4 px-6 py-4 text-center">
                          </td>
                      </tr>
                      

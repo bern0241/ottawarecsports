@@ -1,4 +1,12 @@
-import { useState, useEffect } from 'react';
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
+import React, { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
 import { useRouter } from 'next/router';
@@ -16,6 +24,7 @@ const GeneratedMatchesTable = ({
 	selectedDate,
 	setSelectedDate,
 	isCoordinator,
+	setGeneratedGames,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);
@@ -23,7 +32,7 @@ const GeneratedMatchesTable = ({
 	const router = useRouter();
 	const { id } = router.query;
 
-	console.log(matches);
+	// console.log(matches);
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
@@ -42,29 +51,23 @@ const GeneratedMatchesTable = ({
 						<div>
 							<p>DatePicker</p>
 						</div>
-						// <DropdownInput
-						// 	value={selectedDate}
-						// 	setValue={setSelectedDate}
-						// 	customClass={
-						// 		'w-40 flex items-center justify-between px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900 translate-y-[-1.1rem]'
-						// 	}
-						// 	options={matchDates}
-						// />
 					)}
 				</div>
 				<table className="table-auto w-">
 					<thead className="w-full"></thead>
 					<tbody>
 						{matches.length > 0 ? (
-							matches.map((match) => (
-								<GeneratedMatchRow
-									match={match}
-									setMatchToEdit={setMatchToEdit}
-									setIsEditing={setIsEditing}
-									setIsDeleting={setIsDeleting}
-									isCoordinator={isCoordinator}
-									setSaveBatchGame={setSaveBatchGame}
-								/>
+							matches.map((match, index) => (
+								<React.Fragment key={index}>
+									<GeneratedMatchRow
+										match={match}
+										setMatchToEdit={setMatchToEdit}
+										setIsEditing={setIsEditing}
+										setIsDeleting={setIsDeleting}
+										isCoordinator={isCoordinator}
+										setSaveBatchGame={setSaveBatchGame}
+									/>
+								</React.Fragment>
 							))
 						) : (
 							<tr>
