@@ -90,8 +90,8 @@ import AWS from 'aws-sdk';
  
      return (
          <>
-         <tr onClick={(e) => goToTeamPage(e)} class="bg-white border border-gray-400 cursor-pointer">
-                 <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+         <tr onClick={(e) => goToTeamPage(e)} className="bg-white border border-gray-400 cursor-pointer">
+                 <th scope="row" className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                  <div className='flex items-center gap-2'>
                   <img
                         style={{ objectFit: 'cover' }}
@@ -103,16 +103,16 @@ import AWS from 'aws-sdk';
                     <p>{teamDivision.team.name}</p>
                     </div>
                  </th>
-                 <td class="px-6 py-3">
+                 <td className="px-6 py-3">
                  {captains && captains.map((captain, index) => (
                     // <>
                     <p className='cursor-pointer text-blue-500 underline text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                 ))}
                  </td>
-                 <td class="px-6 py-3 text-center text-lg">
+                 <td className="px-6 py-3 text-center text-lg">
                      {membersCount}
                  </td>
-                 <td class="text-center">
+                 <td className="text-center">
                      <IconTrash onClick={(e) => removeTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto'}} name="trash-outline"></IconTrash>
                  </td>
                  </tr>

@@ -483,7 +483,7 @@ const TeamBatchSelect = ({
 										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Referee (s)
@@ -723,9 +723,9 @@ const TeamBatchSelect = ({
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
 											d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 										></path>
 									</svg>
@@ -745,7 +745,7 @@ const TeamBatchSelect = ({
 										}}
 										data-modal-hide="popup-modal"
 										type="button"
-										class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
+										className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
 									>
 										No thanks
 									</button>

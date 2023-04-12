@@ -45,7 +45,6 @@ const soccer = () => {
 	
 	const getLeagueSeasonLocalStorage = async () => {
 		const storedIds = JSON.parse(localStorage.getItem('schedule-season-id'));
-		console.log('MY STORED IDS',storedIds);
 		if (storedIds !== null) {
 			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: storedIds.leagueId }})
 			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: storedIds.seasonId }})
@@ -85,15 +84,6 @@ const soccer = () => {
 			
 	}, [currentSeason]);
 
-	// Saves into localStorage for convenience
-	// useEffect(() => {
-	// 	if (currentLeague) {
-	// 		console.log("league", currentLeague);
-	// 	}
-	// 	if (currentSeason) {
-	// 		console.log("season", currentSeason);
-	// 	}
-	// }, [currentLeague, currentSeason])
 
 	return (
 		<>
@@ -151,12 +141,13 @@ const soccer = () => {
 						<tbody>
 							{divisions.length > 0 ? (
 								divisions.map((division, index) => (
+									<React.Fragment key={index}>
 									<DivisionRow
-										key={index}
 										division={division}
 										selectedDivision={selectedDivision}
 										setSelectedDivision={setSelectedDivision}
 									/>
+									</React.Fragment>
 								))
 							) : (
 								<tr>

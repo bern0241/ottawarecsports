@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { listTeams } from '@/src/graphql/queries';
@@ -17,7 +24,7 @@ export default function ACPTeamsPage() {
     useEffect(() => {
 		fetchTeams();
 	}, []);
-
+    // Fetches all teams
     const fetchTeams = async () => {
         const teams = await API.graphql({
             query: listTeamsShort
@@ -42,11 +49,11 @@ export default function ACPTeamsPage() {
 			const arr = searchValue.split(' ');
 			return arr.some((el) => team.name.toLowerCase().includes(el));
 		});
-
+        // Filters teams by search bar
 		setFilterTeams(filteredTeams);
 	}
 
-
+     // Only Admins or Owner can access page
     if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
      return (
          <div className="flex items-center justify-center h-[50vh]">

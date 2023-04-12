@@ -6,30 +6,38 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
+// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
+// https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+// https://tabler.io/icons
+
  import React, { useState, useEffect } from 'react';
- import { IconTrash, IconEdit, IconCut } from '@tabler/icons-react';
+ import { IconTrash, IconEdit } from '@tabler/icons-react';
  import { useRouter } from 'next/router';
  import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
  import AWS from 'aws-sdk';
 import DeleteTeamModal from './DeleteTeamModal';
-import EditTeamModal from './EditTeamModal';
   
   export default function TeamCard({ team, fetchTeams, filterTeams }) {
-      const [editModal, setEditModal] = useState(false);
       const [deleteModal, setDeleteModal] = useState(false);
       const [captains, setCaptains] = useState([]);
       const [sport, setSport] = useState('Soccer');
-    //   const [membersCount, setMembersCount] = useState(0);
       const [teamImage, setTeamImage] = useState(null);
       const router = useRouter();
  
       var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
  
+      // Fetches captains and image on startup (when filterTeams loads)
       useEffect(() => {
          fetchCaptains(team.captains);
          getTeamImage();
       }, [filterTeams])
  
+      // Fetches all captains from a team, and converts them to Cognito user (displays their name)
       const fetchCaptains = async (myCaptains) => {
          if (myCaptains === null) {
             setCaptains([]);
@@ -54,7 +62,7 @@ import EditTeamModal from './EditTeamModal';
          })
      }
  
- 
+     // Fetches the team image from backend IF team picture exists
       const getTeamImage = async () => {
        if (team.team_picture === null || team.team_picture === '') {
            setTeamImage(null);
@@ -63,23 +71,23 @@ import EditTeamModal from './EditTeamModal';
            setTeamImage(url);
        }
    }
-  
+
+   // Redirects user to team's page (where they can edit the team)
       const editTeamFunc = (e) => {
           e.stopPropagation();
           router.push(`/teams/${team.id}`)
-        //   setEditModal(!editModal);
       }
-      
+      // Open delete team modal
       const deleteTeamFunc = (e) => {
           e.stopPropagation();
           setDeleteModal(!deleteModal);
       }
-  
+      // Go to selected team's profile page
       const goToTeamPage = (e) => {
           e.preventDefault();
           router.push(`/teams/${team.id}`)
       }
-      
+      // Go to captain's player profile page
       const goToPlayerPage = (e, captain) => {
           e.stopPropagation();
           router.push(`/players/${captain.Username}`)
@@ -87,8 +95,8 @@ import EditTeamModal from './EditTeamModal';
   
       return (
           <>
-          <tr onClick={(e) => goToTeamPage(e)} class="bg-white border border-gray-400 cursor-pointer">
-                  <th scope="row" class="relative px-1 sm:px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <tr onClick={(e) => goToTeamPage(e)} className="bg-white border border-gray-400 cursor-pointer">
+                  <th scope="row" className="relative px-1 sm:px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <div className='mr-auto sm:flex gap-2 items-center flex-col sm:flex-row'>
                         <img
                             style={{ objectFit: 'cover' }}
@@ -100,24 +108,20 @@ import EditTeamModal from './EditTeamModal';
                         <p className='text-center'>{team.name}</p>
                         </div>
                   </th>
-                  <td class="text-center py-3">
+                  <td className="text-center py-3">
                   {captains && captains.map((captain, index) => (
-                     // <>
                      <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                  ))}
                   </td>
-                  <td class="text-center px-6 py-3">
+                  <td className="text-center px-6 py-3">
                       {sport}
                   </td>
-                  <td class="flex gap-2 px-6 py-4 text-center justify-center">
+                  <td className="flex gap-2 px-6 py-4 text-center justify-center">
                       <IconEdit onClick={(e) => editTeamFunc(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconEdit>
                       <IconTrash onClick={(e) => deleteTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                   </td>
                   </tr>
           
-          {/* {editModal && (
-              <EditTeamModal teamDivision={teamDivision} setRemoveModal={setRemoveModal} listTeamDivisionsFunc={listTeamDivisionsFunc} />
-          )} */}
           {deleteModal && (
               <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
           )}

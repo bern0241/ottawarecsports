@@ -5,6 +5,8 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+
 export default function makeid(length) {
 	let result = '';
 	const characters =

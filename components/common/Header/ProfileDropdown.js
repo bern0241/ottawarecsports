@@ -37,31 +37,31 @@ export default function ProfileDropdown({ openDropdown, setOpenDropdown, user, s
         <div onClick={(e) => setOpenDropdown(false)} className='opacity-50 fixed top-0 left-0 w-[100%] h-[100%]' />
         
         <div id="dropdownAvatar" className="border-gray-300 border-[1px] z-20 fixed top-[4.5rem] right-0 bg-white divide-y divide-gray-300 rounded-lg shadow-form dark:bg-gray-700 dark:divide-gray-600">
-        <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+        <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
         {/* {user && (<div>{user.attributes.name} {user.attributes.family_name}</div> )} */}
         {!user && (<div>Please sign in</div> )}
-        {user && ( <div class="font-medium truncate text-[.8rem]">{user.attributes.email}</div> ) }
-        {!user && ( <div class="font-medium truncate">Guest</div> ) }
+        {user && ( <div className="font-medium truncate text-[.8rem]">{user.attributes.email}</div> ) }
+        {!user && ( <div className="font-medium truncate">Guest</div> ) }
         </div>
         
         {user && (
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
             <li>
-                <Link href="/" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
+                <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
             </li>
             <li>
-                <Link href="/settings" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</Link>
+                <Link href="/settings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</Link>
             </li>
             </ul>
         )}
         
         {user ? (
-            <div onClick={() => signOut()} class="py-2">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign Out</a>
+            <div onClick={() => signOut()} className="py-2">
+            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign Out</a>
             </div>
         ) : (
-            <div onClick={() => signIn()} class="py-2">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign In</a>
+            <div onClick={() => signIn()} className="py-2">
+            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign In</a>
             </div>
         )}
     </div>
