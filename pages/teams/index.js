@@ -56,10 +56,10 @@ export default function Teams() {
 		filterTeams(filteredTeams);
 	}
 	
-	// if (currentTeam)
-	// 	return (
-	// 		<CurrentTeamView teamData={currentTeam} setCurrentTeam={setCurrentTeam} />
-	// 	);
+	if (currentTeam)
+		return (
+			<CurrentTeamView teamData={currentTeam} setCurrentTeam={setCurrentTeam} />
+		);
 
 	return (
 		<>
