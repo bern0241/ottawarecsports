@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function SportsmanshipPointUpdateForm(props) {
   const {
     id: idProp,
-    sportsmanshipPoint: sportsmanshipPointModelProp,
+    sportsmanshipPoint,
     onSuccess,
     onError,
     onSubmit,
@@ -36,16 +36,16 @@ export default function SportsmanshipPointUpdateForm(props) {
     setErrors({});
   };
   const [sportsmanshipPointRecord, setSportsmanshipPointRecord] =
-    React.useState(sportsmanshipPointModelProp);
+    React.useState(sportsmanshipPoint);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(SportsmanshipPoint, idProp)
-        : sportsmanshipPointModelProp;
+        : sportsmanshipPoint;
       setSportsmanshipPointRecord(record);
     };
     queryData();
-  }, [idProp, sportsmanshipPointModelProp]);
+  }, [idProp, sportsmanshipPoint]);
   React.useEffect(resetStateValues, [sportsmanshipPointRecord]);
   const validations = {
     points: [],
@@ -162,7 +162,7 @@ export default function SportsmanshipPointUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || sportsmanshipPointModelProp)}
+          isDisabled={!(idProp || sportsmanshipPoint)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -174,7 +174,7 @@ export default function SportsmanshipPointUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || sportsmanshipPointModelProp) ||
+              !(idProp || sportsmanshipPoint) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

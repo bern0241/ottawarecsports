@@ -183,7 +183,7 @@ function ArrayField({
 export default function LeagueUpdateForm(props) {
   const {
     id: idProp,
-    league: leagueModelProp,
+    league,
     onSuccess,
     onError,
     onSubmit,
@@ -243,16 +243,14 @@ export default function LeagueUpdateForm(props) {
     setTime_per_period(cleanValues.time_per_period);
     setErrors({});
   };
-  const [leagueRecord, setLeagueRecord] = React.useState(leagueModelProp);
+  const [leagueRecord, setLeagueRecord] = React.useState(league);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp
-        ? await DataStore.query(League, idProp)
-        : leagueModelProp;
+      const record = idProp ? await DataStore.query(League, idProp) : league;
       setLeagueRecord(record);
     };
     queryData();
-  }, [idProp, leagueModelProp]);
+  }, [idProp, league]);
   React.useEffect(resetStateValues, [leagueRecord]);
   const [currentCoordinatorsValue, setCurrentCoordinatorsValue] =
     React.useState("");
@@ -707,7 +705,7 @@ export default function LeagueUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || leagueModelProp)}
+          isDisabled={!(idProp || league)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -719,7 +717,7 @@ export default function LeagueUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || leagueModelProp) ||
+              !(idProp || league) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
