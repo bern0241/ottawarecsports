@@ -16,7 +16,6 @@ export default function Games() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [userId, setUserId] = useState();
 	const [playerData, setPlayerData] = useState();
-	const [teams, setTeams] = useState();
 	const [games, setGames] = useState([]);
 	const [gameSchedule, setGameSchedule] = useState([
 		{ day: 'Sunday', games: [] },
@@ -84,7 +83,8 @@ export default function Games() {
 
 	return (
 		<div className="flex flex-row lg:flex-col gap-8 md:gap-4 xl:gap-1">
-			{gameSchedule &&
+			{games && games.length > 0 ? (
+				gameSchedule &&
 				gameSchedule.map(
 					(game, index) =>
 						game.games.length > 0 && (
@@ -96,7 +96,10 @@ export default function Games() {
 								<div className="font-medium">{game.games.length} Matches</div>
 							</div>
 						)
-				)}
+				)
+			) : (
+				<span className="font-light text-sm">No matches.</span>
+			)}
 		</div>
 	);
 }

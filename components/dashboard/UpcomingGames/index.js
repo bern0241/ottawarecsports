@@ -26,7 +26,7 @@ export default function UpcomingGames() {
 					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 lg:border-r border-b border-brand-neutral-300">
 						<img src="/images/volleyball.png" />
 						<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
-							<div className="font-light text-sm">No matches.</div>
+							<span className="font-light text-sm">No matches.</span>
 						</div>
 					</div>
 					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 border-b border-brand-neutral-300">
@@ -36,13 +36,13 @@ export default function UpcomingGames() {
 					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 border-b lg:border-b-0 lg:border-r border-brand-neutral-300">
 						<img src="/images/pick-up_sport.png" />
 						<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
-							<div className="font-light text-sm">No matches.</div>
+							<span className="font-light text-sm">No matches.</span>
 						</div>
 					</div>
 					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8">
 						<img src="/images/handball.png" />
 						<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
-							<div className="font-light text-sm">No matches.</div>
+							<span className="font-light text-sm">No matches.</span>
 						</div>
 					</div>
 				</div>
