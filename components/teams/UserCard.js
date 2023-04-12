@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { listPlayers } from '@/src/graphql/queries';
 import { getImageFromS3, createPlayerOnTeam } from "@/utils/graphql.services";
 import { useRouter } from 'next/router';
 
@@ -25,7 +24,6 @@ export default function UserCard({ user, openDropdown, setOpenDropdown, fetchPla
         e.preventDefault();
         setOpenDropdown(!openDropdown)
         await createPlayerOnTeam(user.Username, id);
-        // console.log(user);
         await fetchPlayersFromTeam();
     }
 

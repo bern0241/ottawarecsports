@@ -48,7 +48,6 @@ export default function UsersSearchBar({ openDropdown, setOpenDropdown, setMembe
               </li>
             ))}
         </ul>
-        
         </div>
         <div onClick={(e) => setOpenDropdown(false)} className='z-[50] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
         </>

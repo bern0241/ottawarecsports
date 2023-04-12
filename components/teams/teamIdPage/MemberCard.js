@@ -22,9 +22,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
 
 
     useEffect(() => {
-        // getImage();
         getUser();
-        // console.log('Member',member);
     }, [])
 
     const getUser = () => {
@@ -34,8 +32,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             };
             cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
             if (err) console.log(err, err.stack); // an error occurred
-            // else     console.log(data);           // successful response
-            setUserCognito(data);
+            setUserCognito(data);                 // successful response
             getImage(data);
         });
     }
@@ -105,7 +102,6 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
                         e.preventDefault();
                     }} 
                     currentRole={currentRole}
-                    member={member}
                     setNewRole={setNewRole}
                     setChangeRoleModal={setChangeRoleModal}
                 />
