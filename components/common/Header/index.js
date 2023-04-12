@@ -48,7 +48,7 @@ const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 							width={66}
 							height={66}
 							priority
-							className="mx-auto cursor-pointer w-auto h-auto"
+							className="mx-auto cursor-pointer w-[66px] h-[66px]"
 							onClick={(e) => {
 								e.preventDefault();
 								router.push('/');

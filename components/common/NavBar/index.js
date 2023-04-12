@@ -43,7 +43,7 @@ const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize, laptopHeight }) => {
 						width={80}
 						height={80}
 						priority
-						className="py-3 self-center w-auto h-auto cursor-pointer"
+						className="py-3 self-center w-[80px] h-[80px] cursor-pointer"
 						onClick={(e) => {
 							e.preventDefault();
 							router.push('/');

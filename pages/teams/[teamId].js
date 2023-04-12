@@ -36,6 +36,8 @@ export default function TeamProfile() {
 	
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [leagues, setLeagues] = useState([]);
+	const [season, setSeason] = useState();
+	const [division, setDivision] = useState();
 	
 	const router = useRouter();
 	const {teamId} = router.query;
@@ -47,12 +49,15 @@ export default function TeamProfile() {
 	 const moveUpLeagueId = async () => {
 		if (team.Divisions.items.length === 0) return;
 		team.Divisions.items.map(async (_division) => {
+      if(!_division.divisionId) return;
 			// DIVISION
 			const apiDataDivision = await API.graphql({ query: getDivisionShort, variables: { id: _division.divisionId}});
 			const divisionData = await apiDataDivision.data.getDivision;
+			setDivision(divisionData);
 			// SEASON
 			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: divisionData?.season}});
 			const seasonData = await apiDataSeason.data.getSeason;
+			setSeason(seasonData);
 			// LEAGUE
 			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: seasonData?.league}});
 			const leagueData = await apiDataLeague.data.getLeague;
