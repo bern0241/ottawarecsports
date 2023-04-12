@@ -119,9 +119,9 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
           </ul>
 
           <div className='flex flex-row justify-between items-center bg-gray-50 border-t dark:border-gray-600'>
-          <a href="/admin-portal/teams" className="flex items-center p-3 text-sm font-medium text-blue-600">
+          <a href="/admin-portal/users" className="flex items-center p-3 text-sm font-medium text-blue-600">
               <svg className="w-5 h-5 mr-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
-              Add new player
+              Add new user
           </a>
           <div className='mr-3'>
           <button onClick={(e) => setOpenDropdown(false)} type="button" className="text-black font-medium text-sm px-10 py-2.5 mr-2 my-2 ">Cancel</button>
