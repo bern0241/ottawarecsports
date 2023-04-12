@@ -44,8 +44,8 @@ export default function RefereeSearchBar({
 				id="dropdownSearch"
 				className="z-[300] border fixed bg-white rounded-lg shadow-md w-[17rem] dark:bg-gray-700"
 			>
-				<div class="p-3">
-					<label for="input-group-search" className="sr-only">
+				<div className="p-3">
+					<label htmlFor="input-group-search" className="sr-only">
 						Search
 					</label>
 					<div className="relative">
@@ -58,7 +58,7 @@ export default function RefereeSearchBar({
 							className="block w-[100%] p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							placeholder="Search referee"
 						/>
-						{/* <button onClick={(e) => setSearchFunc(e)} class="text-white absolute right-0 top-[1px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
+						{/* <button onClick={(e) => setSearchFunc(e)} className="text-white absolute right-0 top-[1px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
 					</div>
 				</div>
 
@@ -98,7 +98,7 @@ export default function RefereeSearchBar({
 						className="flex items-center p-3 text-sm font-medium text-blue-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline"
 					>
 						<svg
-							class="w-5 h-5 mr-1"
+							className="w-5 h-5 mr-1"
 							aria-hidden="true"
 							fill="currentColor"
 							viewBox="0 0 20 20"

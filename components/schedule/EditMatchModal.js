@@ -646,7 +646,7 @@ const EditMatchModal = ({
 												<div
 													type="text"
 													id="hometeam"
-													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
+													className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
 													placeholder=""
 													required
 												/>
@@ -755,7 +755,7 @@ const EditMatchModal = ({
 										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Referee (s)
@@ -801,7 +801,7 @@ const EditMatchModal = ({
 									{/**Date */}
 									<div className="w-full">
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Date
@@ -838,7 +838,7 @@ const EditMatchModal = ({
 											className="cursor-pointer"
 										>
 											<label
-												for="startTime"
+												htmlFor="startTime"
 												className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 											>
 												Start Time
@@ -898,7 +898,7 @@ const EditMatchModal = ({
 											setUiState('send-emails');
 										}}
 										type="button"
-										class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+										className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
 									>
 										Send Emails <br />
 										to Players
@@ -1005,7 +1005,7 @@ const EditMatchModal = ({
 										}}
 										data-modal-hide="popup-modal"
 										type="button"
-										class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
+										className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
 									>
 										No thanks
 									</button>

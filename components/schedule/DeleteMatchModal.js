@@ -67,7 +67,7 @@ export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
 							</svg>
 							<span className="sr-only">Close modal</span>
 						</button>
-						<div class="p-6 pr-[3.6rem] text-center min-w-[30rem]">
+						<div className="p-6 pr-[3.6rem] text-center min-w-[30rem]">
 							<svg
 								aria-hidden="true"
 								className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"

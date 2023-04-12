@@ -32,7 +32,7 @@ export default function UserCard({ user, openDropdown, setOpenDropdown, fetchPla
     return (
         <div onClick={(e) => {
             addUser(e);
-        }} class="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+        }} className="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
             <img
                 style={{ objectFit: 'cover' }}
                 width={132}

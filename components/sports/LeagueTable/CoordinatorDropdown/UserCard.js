@@ -27,7 +27,7 @@ export default function UserCard({user, searchUser}) {
     }
     
     return (
-        <div class="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+        <div className="flex items-center px-4 py-2 gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
             <img
                 style={{ objectFit: 'cover' }}
                 width={132}

@@ -59,20 +59,20 @@ export default function SeasonCard({ season, selectedSeason, setSelectedSeason, 
 
     return (
         <>
-        <tr onClick={(e) => clickedSeason(e)} class="bg-white border border-gray-400 cursor-pointer">
-                <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        <tr onClick={(e) => clickedSeason(e)} className="bg-white border border-gray-400 cursor-pointer">
+                <th scope="row" className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {selectedSeason && selectedSeason.id === season.id && (
                         <div className='w-[.5rem] h-[100%] top-0 left-0 bg-blue-900 absolute'/>
                     )}
                     {season.name}
                 </th>
-                <td class="text-center px-6 py-3">
+                <td className="text-center px-6 py-3">
                     {convertDateReadable(season.start_date)}
                 </td>
-                <td class="text-center px-6 py-3">
+                <td className="text-center px-6 py-3">
                     {convertDateReadable(season.end_date)}
                 </td>
-                <td class="flex gap-2 py-3 justify-center pr-5">
+                <td className="flex gap-2 py-3 justify-center pr-5">
                     <div className='flex-grow'></div>
                     <IconUsers onClick={(e) => goToSchedulePage(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers>
                     <IconEdit onClick={(e) => editSeasonFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
