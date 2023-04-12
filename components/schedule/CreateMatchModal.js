@@ -1,3 +1,12 @@
+/**
+ * Last updated: 2023-04-05
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';

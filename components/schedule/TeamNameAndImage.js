@@ -1,3 +1,12 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
@@ -39,7 +48,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 			return;
 		}
 		router.push(`/teams/${team.id}`);
-	}
+	};
 
 	return (
 		<span
@@ -47,9 +56,12 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 		>
 			{reverse === true ? (
 				<>
-					<span onClick={(e) => {
-						goToTeamPage(e);
-					}} className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer">
+					<span
+						onClick={(e) => {
+							goToTeamPage(e);
+						}}
+						className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer"
+					>
 						<img
 							style={{ objectFit: 'cover' }}
 							width={72}
@@ -63,20 +75,31 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 							stroke={'#000'}
 						/>
 					</span>
-					<p onClick={(e) => {
-						goToTeamPage(e);
-					}} className="w-12 md:w-24 cursor-pointer">{team?.name || 'SuperTeam'}</p>
+					<p
+						onClick={(e) => {
+							goToTeamPage(e);
+						}}
+						className="w-12 md:w-24 cursor-pointer"
+					>
+						{team?.name || 'SuperTeam'}
+					</p>
 				</>
 			) : (
 				<>
-					<p onClick={(e) => {
-						goToTeamPage(e);
-					}} className="w-24 text-center md:text-left order-last md:order-none cursor-pointer">
+					<p
+						onClick={(e) => {
+							goToTeamPage(e);
+						}}
+						className="w-24 text-center md:text-left order-last md:order-none cursor-pointer"
+					>
 						{team?.name || 'SuperTeam'}
 					</p>
-					<span onClick={(e) => {
-						goToTeamPage(e);
-					}} className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer">
+					<span
+						onClick={(e) => {
+							goToTeamPage(e);
+						}}
+						className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer"
+					>
 						<img
 							style={{ objectFit: 'cover' }}
 							width={72}

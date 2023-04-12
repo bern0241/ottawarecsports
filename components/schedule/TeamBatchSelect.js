@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
@@ -187,75 +195,40 @@ const TeamBatchSelect = ({
 		return formattedTime;
 	};
 
-	const createNewMatch = async (e) => {
-		// let mySavedDate = new Date(matchDate).toDateString().split(' ');
-		// let saveDate = `${mySavedDate[1]} ${mySavedDate[2]} ${mySavedDate[3]}`
-		// console.log(saveDate);
+	const generateMatchFunc = (e) => {
 		e.preventDefault();
-		try {
-			if (
-				homeTeam === null ||
-				awayTeam === null ||
-				startTime === '' ||
-				location === ''
-			) {
-				setMessage({
-					status: 'error',
-					message: 'Please fill out all required fields',
-				});
-				return;
-			}
-			if (homeTeam.id === awayTeam.id) {
-				setMessage({
-					status: 'error',
-					message: 'Must have two different teams',
-				});
-				return;
-			}
-			if (homeColour === awayColour) {
-				setMessage({
-					status: 'error',
-					message: 'Must have two different jersey colors',
-				});
-				return;
-			}
-			const dateTime = `${matchDate} ${startTime}`;
-			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			// console.log(convertedTime.format());
-			// console.log(matchDate);
-			// return;
-			const refereeUsernames = referees.map((a) => a.username);
-			const matchData = {
-				division: divisionID,
-				date: convertedTime,
-				location: matchLocation,
-				status: 'NOT_STARTED',
-				home_color: homeColour,
-				away_color: awayColour,
-				home_roster: JSON.stringify(homeTeam.Players.items),
-				away_roster: JSON.stringify(awayTeam.Players.items),
-				home_score: 0,
-				away_score: 0,
-				goals: [],
-				round: 1,
-				referees: refereeUsernames,
-				gameHomeTeamId: homeTeam.id,
-				gameAwayTeamId: awayTeam.id,
-			};
-			//console.log(matchData);
-			const apiData = await API.graphql({
-				query: createGame,
-				variables: { input: matchData },
-			});
-			//console.log('New Game', apiData);
-			setMessage({ status: 'success', message: 'Game created successfully' });
-			setUiState('send-emails');
-			// router.reload();
-		} catch (error) {
-			console.error(error);
-			setMessage({ status: 'error', message: error.message });
-		}
+		const dateTime = `${matchDate} ${startTime}`;
+		const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
+		const refereeUsernames = referees.map((a) => a.username);
+		let matches = scheduleGamesAutomatically(selectedTeams, {
+			division: divisionID,
+			date: convertedTime,
+			location: matchLocation,
+			status: 'NOT_STARTED',
+			home_color: 'Red',
+			away_color: 'Blue',
+			home_roster: JSON.stringify([{}]), //JSON.stringify(homeTeam.Players.items),
+			away_roster: JSON.stringify([{}]), //JSON.stringify(awayTeam.Players.items),
+			home_score: 0,
+			away_score: 0,
+			goals: [],
+			round: 1,
+			referees: refereeUsernames,
+			// gameHomeTeamId: '', //homeTeam.id,
+			// gameAwayTeamId: '', //awayTeam.id,
+		});
+		setBatchResults(matches);
+		setGeneratedGames(batchResults);
+		console.log(batchResults);
+		const timer = setTimeout(() => {
+			setIsVisible(false);
+		}, 1000);
+		return () => clearTimeout(timer);
 	};
+
+	useEffect(() => {
+		if (batchResults) setGeneratedGames(batchResults);
+	}, [batchResults]);
 
 	useEffect(() => {
 		if (uiState === 'send-emails') {
@@ -413,9 +386,6 @@ const TeamBatchSelect = ({
 		}
 	}, [awayColour]);
 
-	//if (!isVisible) return;
-	// console.log(batchResults);
-
 	return (
 		<>
 			{uiState === 'main' && (
@@ -461,8 +431,6 @@ const TeamBatchSelect = ({
 								</div>
 								{/* <!-- Modal body --> */}
 								<div className="p-5">
-									{/**Division */}
-
 									{/**Teams */}
 									<div className="relative cursor-pointer">
 										{/* <MultiTeamSelectDropDown /> */}
@@ -471,12 +439,8 @@ const TeamBatchSelect = ({
 											selectedTeams={selectedTeams}
 											setSelectedTeams={setSelectedTeams}
 										/>
-
 										<button></button>
 									</div>
-
-									{/**Number of Matches */}
-
 									{/**Referees */}
 									<div
 										className="relative cursor-pointer"
@@ -587,7 +551,6 @@ const TeamBatchSelect = ({
 											</div>
 										</div>
 									</div>
-
 									{/**Location */}
 									<div className="w-full">
 										<label
@@ -616,7 +579,6 @@ const TeamBatchSelect = ({
 										<span className="font-medium">{message.message}</span>
 									</p>
 								)}
-
 								{/* <!-- Modal footer --> */}
 								<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 									<button
@@ -632,35 +594,7 @@ const TeamBatchSelect = ({
 									</button>
 									<button
 										onClick={(e) => {
-											const dateTime = `${matchDate} ${startTime}`;
-											const convertedTime = moment(
-												dateTime,
-												'YYYY-MM-DD HH:mm A'
-											);
-											const refereeUsernames = referees.map((a) => a.username);
-											setBatchResults(
-												scheduleGamesAutomatically(selectedTeams, {
-													//TODO:Add ID
-													division: divisionID,
-													date: convertedTime,
-													location: matchLocation,
-													status: 'NOT_STARTED',
-													home_color: 'Red',
-													away_color: 'Blue',
-													home_roster: JSON.stringify([{}]), //JSON.stringify(homeTeam.Players.items),
-													away_roster: JSON.stringify([{}]), //JSON.stringify(awayTeam.Players.items),
-													home_score: 0,
-													away_score: 0,
-													goals: [],
-													round: 1,
-													referees: refereeUsernames,
-													// gameHomeTeamId: '', //homeTeam.id,
-													// gameAwayTeamId: '', //awayTeam.id,
-												})
-											);
-											// console.log(batchResults);
-											setGeneratedGames(batchResults);
-											console.log(batchResults);
+											generateMatchFunc(e);
 										}}
 										data-modal-hide="defaultModal"
 										type="button"
@@ -680,6 +614,7 @@ const TeamBatchSelect = ({
 					/>
 				</>
 			)}
+
 			{uiState === 'send-emails' && (
 				<>
 					<div

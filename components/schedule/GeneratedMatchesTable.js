@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
@@ -16,6 +24,7 @@ const GeneratedMatchesTable = ({
 	selectedDate,
 	setSelectedDate,
 	isCoordinator,
+	setGeneratedGames,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);
