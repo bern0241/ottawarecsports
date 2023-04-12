@@ -55,12 +55,12 @@ export default function CoordinatorDropdown({ leagueCoordinators, setLeagueCoord
         if (!searchItem) return true;
         return v.startsWith(searchItem);
     })
-    .map((user) => (
-        <>
+    .map((user, index) => (
+        <React.Fragment key={index}>
         <li className='cursor-pointer' onClick={(e) => addCoordinator(e, user)}>
             <UserCard searchUser={searchUser} user={user} />
         </li>
-        </>
+        </React.Fragment>
     ))}
 
   </ul>

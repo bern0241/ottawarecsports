@@ -23,7 +23,7 @@ const GeneratedMatchesTable = ({
 	const router = useRouter();
 	const { id } = router.query;
 
-	console.log(matches);
+	// console.log(matches);
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">

@@ -58,7 +58,6 @@ export default function Login() {
 					uiState={uiState}
 					setUiState={setUiState}
 					confirmationCode={confirmationCode}
-					// setConfirmationCode={setConfirmationCode}
 				/>
 			)}
 		</>

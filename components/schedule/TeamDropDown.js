@@ -86,15 +86,15 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 								if (!searchItem) return true;
 								return v.startsWith(searchItem);
 							})
-							.map((team) => (
-								<>
+							.map((team, index) => (
+								<React.Fragment key={index}>
 									<li
 										className="cursor-pointer"
 										onClick={(e) => setTeamFunc(e, team)}
 									>
 										<TeamCard search={search} team={team} />
 									</li>
-								</>
+								</React.Fragment>
 							))}
 					{teams.length === 0 && (
 						<div>

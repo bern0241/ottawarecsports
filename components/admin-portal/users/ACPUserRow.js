@@ -55,9 +55,9 @@ export default function ACPUserRow({ user, index }) {
 				</td>
 				<td className="p-5 flex flex-col">
 					{userGroups &&
-						userGroups.map((group) => (
+						userGroups.map((group, index) => (
 							<>
-								<p>{group.GroupName}</p>
+								<p key={index}>{group.GroupName}</p>
 							</>
 						))}
 				</td>

@@ -115,9 +115,9 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
                 </thead>
                 <tbody>
                     {divisions && divisions.map((division, index) => (
-                    <>
-                        <DivisionCard key={index} division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
-                    </>
+                    <React.Fragment key={index}>
+                        <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} listDivisionsFunc={listDivisionsFunc} />
+                    </React.Fragment>
                     ))}
                     {(divisions && selectedSeason !== null && divisions.length === 0) && (
                         <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">

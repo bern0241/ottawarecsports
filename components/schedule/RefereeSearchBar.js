@@ -78,8 +78,8 @@ export default function RefereeSearchBar({
 								if (!searchItem) return true;
 								return v.startsWith(searchItem);
 							})
-							.map((user) => (
-								<>
+							.map((user, index) => (
+								<React.Fragment key={index}>
 									{user && user.Groups.includes('Referee') && (
 										<li
 											className="cursor-pointer"
@@ -88,7 +88,7 @@ export default function RefereeSearchBar({
 											<UserCard searchUser={searchUser} user={user} />
 										</li>
 									)}
-								</>
+								</React.Fragment>
 							))}
 				</ul>
 				{(authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner')) ? (

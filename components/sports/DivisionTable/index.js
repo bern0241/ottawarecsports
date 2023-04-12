@@ -123,10 +123,10 @@ export default function DivisionTable({ selectedDivision, setSelectedDivision, s
                     </tr>
                 </thead>
                 <tbody>
-                    {divisions && divisions.map((division) => (
-                    <>
+                    {divisions && divisions.map((division, index) => (
+                    <React.Fragment key={index}>
                         <DivisionCard division={division} selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} selectedSeason={selectedSeason} selectedLeague={selectedLeague} listDivisionsFunc={listDivisionsFunc} />
-                    </>
+                    </React.Fragment>
                     ))}
                     {(divisions && selectedSeason !== null && divisions.length === 0) && (
                         <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">

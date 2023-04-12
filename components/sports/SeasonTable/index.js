@@ -102,10 +102,10 @@ export default function SeasonTable({ selectedSeason, setSelectedSeason, selecte
                     </tr>
                 </thead>
                 <tbody>
-                    {seasons && seasons.map((season) => (
-                    <>
+                    {seasons && seasons.map((season, index) => (
+                    <React.Fragment key={index}>
                         <SeasonCard season={season} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} selectedLeague={selectedLeague} listSeasonsFunc={listSeasonsFunc} />
-                    </>
+                    </React.Fragment>
                     ))}
                     {(seasons && selectedLeague !== null && seasons.length === 0) && (
                         <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">

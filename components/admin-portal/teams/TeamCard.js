@@ -110,7 +110,6 @@ import DeleteTeamModal from './DeleteTeamModal';
                   </th>
                   <td className="text-center py-3">
                   {captains && captains.map((captain, index) => (
-                     // <>
                      <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                  ))}
                   </td>

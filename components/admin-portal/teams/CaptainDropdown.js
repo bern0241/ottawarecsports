@@ -64,12 +64,12 @@ import UserCard from '../leagues/LeagueTable/CoordinatorDropdown/UserCard'; // T
          if (!searchItem) return true;
          return v.startsWith(searchItem);
      })
-     .map((user) => (
-         <>
+     .map((user, index) => (
+         <React.Fragment key={index}>
          <li className='cursor-pointer' onClick={(e) => addCaptain(e, user)}>
              <UserCard searchUser={searchUser} user={user} />
          </li>
-         </>
+         </React.Fragment>
      ))}
  
     </ul>
