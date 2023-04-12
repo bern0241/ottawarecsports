@@ -13,7 +13,7 @@
 		"@aws-amplify/ui-react": "^4.3.10",
 		"@tabler/icons-react": "^2.7.0",
 		"aws-amplify": "^5.0.18",
-		"aws-sdk": "^2.1333.0",
+		"aws-sdk": "^2.1357.0",
 		"compressorjs": "^1.2.1",
 		"dayjs": "^1.11.6",
 		"eslint": "8.35.0",
