@@ -100,10 +100,12 @@ export default function Teams() {
 					<table className="table-auto">
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-left">
-								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-								<th className="text-center py-3 px-10 text-sm font-light w-2/12">Captain (s)</th>
-								<th className="py-3 px-5 text-sm font-light w-2/12 text-center">Sport</th>
-								<th className="py-3 pr-2 text-center text-sm font-light w-2/12">Members</th>
+								<th className="py-3 px-1 px-5 text-sm font-light sm:w-4/12">Name</th>
+								<th className="text-center py-3 px-10 text-sm font-light sm:w-2/12">Captain (s)</th>
+								<th className="py-3 px-5 text-sm font-light sm:w-2/12 text-center">Sport</th>
+                <th className="py-3 pr-2 text-center text-sm font-light w-2/12 ">
+                  <div className="hidden sm:contents">Members</div>
+                </th>
 							</tr>
 						</thead>
 						<tbody>
