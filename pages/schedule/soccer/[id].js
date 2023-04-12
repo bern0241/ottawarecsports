@@ -161,6 +161,7 @@ export default function DivisionMatches() {
 				<MatchesTable
 					matches={games}
 					setMatchToEdit={setMatchToEdit}
+					setSaveBatchGame={setSaveBatchGame}
 					setIsEditing={setIsEditingMatch}
 					setIsDeleting={setIsDeletingMatch}
 					selectedDate={selectedDate}

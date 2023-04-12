@@ -18,6 +18,7 @@ const MatchesTable = ({
 	setMatchToEdit,
 	setIsEditing,
 	setIsDeleting,
+	setSaveBatchGame,
 	//JUSTIN ADDED
 	selectedDate,
 	setSelectedDate,
@@ -147,6 +148,7 @@ const MatchesTable = ({
 								<MatchRow
 									match={match}
 									setMatchToEdit={setMatchToEdit}
+									setSaveBatchGame={setSaveBatchGame}
 									setIsEditing={setIsEditing}
 									setIsDeleting={setIsDeleting}
 									isCoordinator={isCoordinator}

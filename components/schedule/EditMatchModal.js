@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
@@ -62,6 +62,8 @@ const EditMatchModal = ({
 	const [message, setMessage] = useState(null);
 	const router = useRouter();
 
+	const [modalHeader, setModalHeader] = useState(false);
+
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 	const divisionID = router.query.id;
 
@@ -98,6 +100,12 @@ const EditMatchModal = ({
 
 	useEffect(() => {
 		setUiState('main');
+		console.log(makingNewGame);
+		if (makingNewGame === true) {
+			setModalHeader('Create Game');
+		} else {
+			setModalHeader('Edit Match');
+		}
 	}, [isVisible]);
 
 	useEffect(() => {
@@ -610,7 +618,7 @@ const EditMatchModal = ({
 								{/* <!-- Modal header --> */}
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
-										Edit Match
+										{modalHeader}
 									</h3>
 									<button
 										onClick={() => {
@@ -917,6 +925,7 @@ const EditMatchModal = ({
 									<button
 										onClick={() => {
 											setIsVisible(false);
+											setMakingNewGame(false);
 											resetData();
 										}}
 										data-modal-hide="defaultModal"
@@ -947,7 +956,10 @@ const EditMatchModal = ({
 						</div>
 					</div>
 					<div
-						onClick={(e) => setIsVisible(false)}
+						onClick={(e) => {
+							setMakingNewGame(false);
+							setIsVisible(false);
+						}}
 						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
@@ -1010,6 +1022,7 @@ const EditMatchModal = ({
 									<button
 										onClick={(e) => {
 											e.stopPropagation();
+											setMakingNewGame(false);
 											setIsVisible(false);
 										}}
 										data-modal-hide="popup-modal"
@@ -1022,6 +1035,7 @@ const EditMatchModal = ({
 										onClick={async (e) => {
 											e.stopPropagation();
 											await sendEmails();
+											setMakingNewGame(false);
 											setIsVisible(false);
 										}}
 										data-modal-hide="popup-modal"
@@ -1036,6 +1050,7 @@ const EditMatchModal = ({
 					</div>
 					<div
 						onClick={(e) => {
+							setMakingNewGame(false);
 							setIsVisible(false);
 						}}
 						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
