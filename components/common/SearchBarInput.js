@@ -4,13 +4,14 @@ import { IconSearch } from '@tabler/icons-react';
 export default function SearchBarInput({ id, placeholder, searchFunction }) {
 	return (
 		<form className="flex items-center">
-			<label htmlFor="search" className="sr-only">
+			<label htmlFor={id} className="sr-only">
 				Search
 			</label>
 			<div className="relative w-72 flex justify-between">
 				<input
 					type="search"
 					id={id}
+					namee={id}
 					className="w-full pr-10 rounded-3xl border-brand-blue-800 focus:border-brand-blue-800 focus:ring-brand-blue-800"
 					placeholder={placeholder}
 				/>
