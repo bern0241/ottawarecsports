@@ -152,8 +152,8 @@ export default function PlayerRow({ player, index }) {
 			onClick={handleClick}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
-			<td className="pl-2 sm:pl-4 py-3 text-md w-[40%]">
-				<div className="flex flex-col gap-2 min-[585px]:flex-row items-center mx-auto text-center">
+			<td className=" sm:pl-4 py-3 text-md w-[30%]">
+				<div className="flex flex-col gap-2 md:flex-row items-center mx-auto text-center">
 					<img
 						src={`${
 							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
@@ -170,7 +170,7 @@ export default function PlayerRow({ player, index }) {
 							{'. '}
 							{player.Attributes.find((o) => o.Name === 'family_name')['Value']}
 						</h3>
-						<div className="flex font-light text-left hidden sm:block">
+						<div className="flex font-light text-left hidden md:block">
 							<span className="text-sm font-medium mr-2">
 								{calculateAge(
 									player.Attributes.find((o) => o.Name === 'birthdate')['Value']
@@ -186,7 +186,10 @@ export default function PlayerRow({ player, index }) {
 			<td className="p-3 font-light text-center text-[.9rem]">
 				{player.Attributes.find((o) => o.Name === 'custom:location')['Value']}
 			</td>
-			<td className="p-5 font-light w-full">
+			<td className="sm:pl-3 pr-3 py-3 font-light text-center text-[.9rem]">
+				<p>Soccer</p>
+			</td>
+			<td className="sm:px-5 py-5 font-light w-full hidden sm:table-cell align-middle">
 				{teams &&
 					teams.map((team, index) => (
 						<React.Fragment key={index}>
@@ -194,7 +197,7 @@ export default function PlayerRow({ player, index }) {
 								key={index}
 								className="flex flex-row items-center py-1 max-w-[15rem] mx-auto"
 							>
-								<Link onClick={(e) => handleClickForLink(e)} href={`/teams/${team.id}`} className="text-blue-700 underline text-sm text-left pl-[2rem] w-[9rem]">
+								<Link onClick={(e) => handleClickForLink(e)} href={`/teams/${team.id}`} className="text-blue-700 underline text-sm text-left sm:pl-[2rem] w-[9rem]">
 									{team.name}
 								</Link>
 								{team.captains && team.captains.includes(player.Username) && (
