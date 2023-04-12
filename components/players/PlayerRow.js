@@ -34,7 +34,7 @@ export default function PlayerRow({ player, index }) {
 	useEffect(() => {
 		setTeams([]);
 		fetchTeams();
-	
+
 		if (
 			player.Attributes.find((o) => o.Name === 'picture')['Value'] === 'none'
 		) {
@@ -185,28 +185,35 @@ export default function PlayerRow({ player, index }) {
 			<td className="p-3 font-light text-center text-[.9rem]">
 				{player.Attributes.find((o) => o.Name === 'custom:location')['Value']}
 			</td>
-				<td className="p-5 font-light w-full">
-						{teams && teams.map((team, index) => (
-							<>
-							<div key={index} onClick={(e) => goToTeamsPage(e, team)} className='flex flex-row items-center py-1 max-w-[15rem] mx-auto'>
-							<p className='text-blue-500 underline text-sm text-left pl-[2rem] w-[9rem]'>{team.name}</p>
-							{team.captains && team.captains.includes(player.Username) && (
-								<>
-									<IconArrowNarrowRight
-										size={'16px'}
-										style={{ marginLeft: 'auto' }}
-									/>
-									<span className="text-sm" key={team.id}>
-										{team.captains && team.captains.includes(player.Username)
-											? 'Captain'
-											: 'Player'}
-									</span>
-								</>
-							)}
+			<td className="p-5 font-light w-full">
+				{teams &&
+					teams.map((team, index) => (
+						<React.Fragment key={index}>
+							<div
+								key={index}
+								onClick={(e) => goToTeamsPage(e, team)}
+								className="flex flex-row items-center py-1 max-w-[15rem] mx-auto"
+							>
+								<p className="text-blue-500 underline text-sm text-left pl-[2rem] w-[9rem]">
+									{team.name}
+								</p>
+								{team.captains && team.captains.includes(player.Username) && (
+									<>
+										<IconArrowNarrowRight
+											size={'16px'}
+											style={{ marginLeft: 'auto' }}
+										/>
+										<span className="text-sm" key={team.id}>
+											{team.captains && team.captains.includes(player.Username)
+												? 'Captain'
+												: 'Player'}
+										</span>
+									</>
+								)}
 							</div>
-							</>
-						))}
-				</td>
+						</React.Fragment>
+					))}
+			</td>
 		</tr>
 	);
 }
