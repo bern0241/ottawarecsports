@@ -240,7 +240,7 @@ export default function TeamProfile() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
-			<main className="w-full flex flex-col gap-6 p-8 pt-0">
+			<main className="w-full flex flex-col gap-6 p-[20px] pt-0">
 				{/* Edit Modal */}
 				<EditTeamModal
 					isVisible={editModal}
@@ -251,15 +251,15 @@ export default function TeamProfile() {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h1 className="text-lg self-center font-medium">
+						<h2 className="text-xl sm:text-2xl self-center font-medium">
 							{team && team.name}
-						</h1>
+						</h2>
 						<Button
 							pill={true}
-							className="py-0.5 pr-3 bg-blue-900 hover:bg-blue-800"
+							className="sm:py-0.5 sm:pr-3 bg-blue-900 hover:bg-blue-800"
 							onClick={() => router.back()}
 						>
-							<IconChevronLeft className="mr-2 h-5 w-5" />
+							<div className="hidden sm:contents"><IconChevronLeft className="mr-2 h-5 w-5" /></div>
 							Back
 						</Button>
 					</div>
@@ -269,7 +269,7 @@ export default function TeamProfile() {
 						<div className="col-span-3 sm:col-span-1 row-span-2 flex flex-col gap-4">
 							<img
 								src={profileImage}
-								className="rounded-lg self-center w-[200px] h-[200px] object-cover"
+								className="rounded-full self-center w-[200px] h-[200px] object-cover"
 								alt="Team profile image."
 							></img>
 							<div className="flex justify-center gap-1">
@@ -309,14 +309,14 @@ export default function TeamProfile() {
 						{/* Player Information */}
 						<div className="col-span-3 sm:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Team Name</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">Team Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{team && team.name}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Team Captain (s)</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">Team Captain (s)</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{captains &&
 										captains.map((captain, index) => (
@@ -341,21 +341,21 @@ export default function TeamProfile() {
 								</div>
 							</div>
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Sport</h3>
+								<h3 className="mb-1 font-ligh text-sm sm:text-baset">Sport</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									Soccer
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Members</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">Members</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{team && team.Players.items.length}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Home Colours</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">Home Colours</h3>
 								<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									<div
 										style={{ backgroundColor: team?.home_colour }}
@@ -366,7 +366,7 @@ export default function TeamProfile() {
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Away Colours</h3>
+								<h3 className="mb-1 font-ligh text-sm sm:text-baset">Away Colours</h3>
 								<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									<div
 										style={{ backgroundColor: team?.away_colour }}
@@ -390,7 +390,7 @@ export default function TeamProfile() {
 											<button
 												onClick={(e) => setOpenDropdown(!openDropdown)}
 												type="button"
-												className="bg-brand-blue-800 rounded mr-1 px-5 py-1 text-white font-regular text-center rounded-lg"
+												className="bg-brand-blue-800 rounded mr-1 px-5 py-1 text-white font-regular text-center rounded-lg text-sm sm:text-base"
 											>
 												Add Members
 											</button>

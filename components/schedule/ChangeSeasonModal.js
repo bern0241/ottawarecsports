@@ -36,8 +36,8 @@ const ChangeSeasonModal = ({
 	// When changing leagues, automatically select the first season
 	useEffect(() => {
 		setSeasons(selectedLeague?.Seasons?.items || []);
-		if (selectedLeague.Seasons)
-			setSelectedSeason(selectedLeague.Seasons.items[0]);
+		if (selectedLeague?.Seasons)
+			setSelectedSeason(selectedLeague?.Seasons.items[0]);
 	}, [selectedLeague]);
 
 	useEffect(() => {
@@ -70,7 +70,7 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="league" value="League Name" />
 									</div>
 									<DropdownInput
-										value={selectedLeague.name}
+										value={selectedLeague?.name}
 										setValue={customSetLeague}
 										options={leagues.map((league) => league.name)}
 									/>

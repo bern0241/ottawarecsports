@@ -1,4 +1,13 @@
-import { useState, useEffect } from 'react';
+/**
+ * Last updated: 2023-04-10
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Justin Bernard <bern0241@algonquinlive.com>
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
+import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
@@ -216,8 +225,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				status: 'NOT_STARTED',
 				home_color: homeColour,
 				away_color: awayColour,
-				// home_roster: JSON.stringify(homeTeam.Players.items),
-				// away_roster: JSON.stringify(awayTeam.Players.items),
+				home_roster: JSON.stringify(homeTeam.Players.items),
+				away_roster: JSON.stringify(awayTeam.Players.items),
 				home_score: 0,
 				away_score: 0,
 				goals: [],
@@ -617,14 +626,14 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 										</div>
 										<div className="flex absolute top-[1.9rem]">
 											{referees &&
-												referees.map((referee) => (
-													<>
+												referees.map((referee, index) => (
+													<React.Fragment key={index}>
 														<RefereeChip
 															referee={referee}
 															referees={referees}
 															setReferees={setReferees}
 														/>
-													</>
+													</React.Fragment>
 												))}
 										</div>
 									</div>

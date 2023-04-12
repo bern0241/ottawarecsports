@@ -161,22 +161,26 @@ export default function DivisionMatches() {
 				<MatchesTable
 					matches={games}
 					setMatchToEdit={setMatchToEdit}
+					setSaveBatchGame={setSaveBatchGame}
 					setIsEditing={setIsEditingMatch}
 					setIsDeleting={setIsDeletingMatch}
 					selectedDate={selectedDate}
 					setSelectedDate={setSelectedDate}
 					isCoordinator={isCoordinator}
 				/>
-				<GeneratedMatchesTable
-					matches={generatedGames}
-					setMatchToEdit={setMatchToEdit}
-					setIsEditing={setIsEditingMatch}
-					setIsDeleting={setIsDeletingMatch}
-					setSaveBatchGame={setSaveBatchGame}
-					// selectedDate={selectedDate}
-					// setSelectedDate={setSelectedDate}
-					isCoordinator={isCoordinator}
-				/>
+				{generatedGames.length > 0 && (
+					<GeneratedMatchesTable
+						matches={generatedGames}
+						setGeneratedGames={setGeneratedGames}
+						setMatchToEdit={setMatchToEdit}
+						setIsEditing={setIsEditingMatch}
+						setIsDeleting={setIsDeletingMatch}
+						setSaveBatchGame={setSaveBatchGame}
+						// selectedDate={selectedDate}
+						// setSelectedDate={setSelectedDate}
+						isCoordinator={isCoordinator}
+					/>
+				)}
 			</main>
 			<CreateMatchModal
 				isVisible={modalVisible}
@@ -187,12 +191,14 @@ export default function DivisionMatches() {
 			{isEditingMatch && (
 				<EditMatchModal
 					games={games}
-					setGames={setGames}
-					getGames={getGames}
 					match={matchToEdit}
 					makingNewGame={saveBatchGame}
-					setMakingNewGame={setSaveBatchGame}
 					isVisible={isEditingMatch}
+					setGames={setGames}
+					getGames={getGames}
+					setMakingNewGame={setSaveBatchGame}
+					generatedGames={generatedGames}
+					setGeneratedGames={setGeneratedGames}
 					setIsVisible={setIsEditingMatch}
 				/>
 			)}

@@ -76,7 +76,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
     return (
         <>
         {/* <!-- Dropdown menu --> */}
-        <div id="dropdownSearch" className="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[27rem] dark:bg-gray-700 mx-auto left-[50%] translate-x-[-50%] ">
+        <div id="dropdownSearch" className="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[20rem] sm:w-[27rem] dark:bg-gray-700 mx-auto left-[50%] translate-x-[-50%] translate-y-[-60%] sm:translate-y-[0%]">
         <div className="p-3">
       <label htmlFor="input-group-search" className="sr-only">Search</label>
         <div className="relative flex flex-row items-center gap-2">
@@ -122,8 +122,8 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
               Add new player
           </a>
           <div className='mr-3'>
-          <button onClick={(e) => setOpenDropdown(false)} type="button" className="text-black font-medium text-sm px-10 py-2.5 mr-2 my-2 ">Cancel</button>
-          <button onClick={(e) => createPlayersFunc(e)} type="button" className="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-10 py-2.5 mr-2 my-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900">Add</button>
+          <button onClick={(e) => setOpenDropdown(false)} type="button" className="text-black font-medium text-sm sm:px-10 sm:py-2.5 mr-2 my-2 ">Cancel</button>
+          <button onClick={(e) => createPlayersFunc(e)} type="button" className="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 sm:px-10 py-2.5 sm:py-1.5 sm:mr-2 sm:my-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900">Add</button>
           </div>
           </div>
 

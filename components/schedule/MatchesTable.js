@@ -18,6 +18,7 @@ const MatchesTable = ({
 	setMatchToEdit,
 	setIsEditing,
 	setIsDeleting,
+	setSaveBatchGame,
 	//JUSTIN ADDED
 	selectedDate,
 	setSelectedDate,
@@ -148,6 +149,7 @@ const MatchesTable = ({
 									key={index}
 									match={match}
 									setMatchToEdit={setMatchToEdit}
+									setSaveBatchGame={setSaveBatchGame}
 									setIsEditing={setIsEditing}
 									setIsDeleting={setIsDeleting}
 									isCoordinator={isCoordinator}

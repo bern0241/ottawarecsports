@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import React, { useState, useEffect } from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
 import Link from 'next/link';

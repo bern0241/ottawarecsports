@@ -1,9 +1,13 @@
+/**
+ * Last updated: 2023-04-12
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { listTeams } from '@/src/graphql/queries';
-import { API } from 'aws-amplify';
-import { listTeamDivisions } from '@/src/graphql/queries';
-import { listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 
 export default function MultiTeamSelectDropDown({
 	teams,
@@ -19,32 +23,6 @@ export default function MultiTeamSelectDropDown({
 	// const [selectedTeams, setSelectedTeams] = useState([]);
 	const divisionID = router.query.id;
 
-	// useEffect(() => {
-	// 	if (!divisionID) return;
-	// 	const callMeAsync = async () => {
-	// 		await fetchTeamsDivisions();
-	// 	};
-	// 	callMeAsync();
-	// }, [divisionID]);
-
-	// const fetchTeamsDivisions = async () => {
-	// 	const variables = {
-	// 		filter: {
-	// 			divisionId: {
-	// 				eq: divisionID,
-	// 			},
-	// 		},
-	// 	};
-	// 	const teamDivisions = await API.graphql({
-	// 		query: listTeamDivisionsShort,
-	// 		variables: variables,
-	// 	});
-	// 	// console.log('My Teams from Divisions', teamDivisions.data.listTeamDivisions);
-	// 	setTeams(
-	// 		teamDivisions.data.listTeamDivisions.items.map((team) => team.team)
-	// 	);
-	// };
-	// console.log(selectedTeams);
 	return (
 		<>
 			<button
@@ -85,8 +63,8 @@ export default function MultiTeamSelectDropDown({
 							{/* Map through team an generate list items  */}
 							{teams &&
 								teams.map((team, index) => (
-									<>
-										<li className="mt-2">
+									<React.Fragment key={index}>
+										<li key={index} className="mt-2">
 											<div className="flex items-center">
 												<input
 													checked={selectedTeams.find(
@@ -126,7 +104,7 @@ export default function MultiTeamSelectDropDown({
 												</label>
 											</div>
 										</li>
-									</>
+									</React.Fragment>
 								))}
 						</ul>
 					</div>
