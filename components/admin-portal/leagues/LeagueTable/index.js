@@ -148,7 +148,11 @@ export default function ACPLeagueTable({ selectedLeague, setSelectedLeague, leag
                         <LeagueCard  key={index} league={league} selectedLeague={selectedLeague} setSelectedLeague={setSelectedLeague} sport={sport} setLeagues={setLeagues} listLeaguesFunc={listLeaguesFunc} />
                     ))}
                     {leagues && leagues.length === 0 && (
-                        <p className='absolute left-[50%] translate-x-[-50%] mt-4'>There are currently no leagues for this sport.</p>
+                        <tr>
+                            <td className='absolute left-[50%] translate-x-[-50%] mt-3'>
+                            <p >There are currently no leagues for this sport.</p>
+                            </td>
+                        </tr>
                     )}
         
                     <tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">
