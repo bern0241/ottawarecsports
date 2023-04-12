@@ -127,12 +127,13 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	};
 
 	return (
-		<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-screen">
+		<div className="h-fit bg-white">
+      <div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-full lg:h-screen">
 			<div>
 				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden mb-8"></div>
 			</div>
-			<div className="flex justify-center items-center w-full h-full">
+			<div className="flex justify-center items-center w-full h-full mb-5">
 				<div className="flex flex-col gap-3 w-80 sm:w-96 sm:gap-4">
 					<OrsLogo />
 					<div className="flex flex-row items-center">
@@ -244,5 +245,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				</div>
 			</div>
 		</div>
+    </div>
 	);
 }
