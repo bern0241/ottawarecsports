@@ -185,7 +185,7 @@ function ArrayField({
 export default function DivisionUpdateForm(props) {
   const {
     id: idProp,
-    division,
+    division: divisionModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -198,7 +198,7 @@ export default function DivisionUpdateForm(props) {
     name: "",
     abbreviation: "",
     teams: [],
-    level: undefined,
+    level: "",
     description: "",
     is_playoff: false,
   };
@@ -226,16 +226,16 @@ export default function DivisionUpdateForm(props) {
     setIs_playoff(cleanValues.is_playoff);
     setErrors({});
   };
-  const [divisionRecord, setDivisionRecord] = React.useState(division);
+  const [divisionRecord, setDivisionRecord] = React.useState(divisionModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(Division, idProp)
-        : division;
+        : divisionModelProp;
       setDivisionRecord(record);
     };
     queryData();
-  }, [idProp, division]);
+  }, [idProp, divisionModelProp]);
   React.useEffect(resetStateValues, [divisionRecord]);
   const [currentTeamsValue, setCurrentTeamsValue] = React.useState("");
   const teamsRef = React.createRef();
@@ -559,7 +559,7 @@ export default function DivisionUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || division)}
+          isDisabled={!(idProp || divisionModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -571,7 +571,7 @@ export default function DivisionUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || division) ||
+              !(idProp || divisionModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
