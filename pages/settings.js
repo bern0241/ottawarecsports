@@ -6,6 +6,9 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
+// REFERENCES: https://amplify.aws/learn/
+// https://www.youtube.com/watch?v=4P2jJRbtTck&t=454s
+
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { IconCameraPlus } from '@tabler/icons-react';
@@ -42,7 +45,6 @@ export default function Setting() {
 			}
 			if (profilePic) {
 				const imageKey = `user_${makeid(15)}`;
-				// const imageKey = await uploadNewImageToS3(profilePic);
 				await changeUserAttributes({
 					...userAttributes,
 					picture: imageKey,
@@ -122,14 +124,6 @@ export default function Setting() {
 										/>
 										<StatusMessage message={message} setMessage={setMessage} />	
 										<div className="flex justify-center mt-5 lg:mt-2">
-											{/* <div>
-												<button
-													className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-													type="button"
-												>
-													Cancel
-												</button>
-											</div> */}
 											<div>
 												<button
 													className="bg-brand-blue-800 h-[37px] w-[180px] rounded-[10px] text-white font-regular my-4"

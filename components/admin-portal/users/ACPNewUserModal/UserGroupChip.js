@@ -1,6 +1,10 @@
 import React from 'react';
 import { IconX } from '@tabler/icons-react';
 
+// REFERENCES: https://stackoverflow.com/questions/6975693/amazon-s3-access-image-by-url
+// https://flowbite.com/docs/components/buttons/
+// https://tabler.io/icons
+
 export default function UserGroupChip({ name, userGroups, setUserGroups }) {
 	const removeChip = (e) => {
 		e.stopPropagation();

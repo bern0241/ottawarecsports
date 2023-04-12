@@ -1,9 +1,13 @@
 /**
- * Last updated: 2023-04-05
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ *
+ * Summary:
+ * This component displays a list of finished matches that require post-game scores.
+ * Admin and owners can see ALL matches; Refereees can only see matches they are assigned to.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -20,17 +24,20 @@ export default function GameSheets() {
 		fetchGames();
 	}, []);
 
-
-  const fetchGames = async () => {
-    const response = await getAllMatches();
-    if(response){
-    const finishedGames = response.filter(object => object.status === 'FINISHED')
-    setGames(finishedGames);
-  }
-  };
-
+	// Fetch games that have ended but still require scores:
+	const fetchGames = async () => {
+		const response = await getAllMatches();
+		if (response) {
+			const finishedGames = response.filter(
+				(object) => object.status === 'FINISHED'
+			);
+			setGames(finishedGames);
+		}
+	};
 
 	return (
+    <>
+    {games && games.length > 0 && (
 		<>
 			{user &&
 				(authRoles.includes('Admin') ||
@@ -57,6 +64,8 @@ export default function GameSheets() {
 						</div>
 					</section>
 				)}
-		</>
+		</>) 
+    }
+    </>
 	);
 }

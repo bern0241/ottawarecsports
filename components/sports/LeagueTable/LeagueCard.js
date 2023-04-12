@@ -75,25 +75,25 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
 
     return (
         <>
-        <tr onClick={(e) => clickedLeague(e)} class="bg-white border border-gray-400 cursor-pointer">
-            <th scope="row" class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        <tr onClick={(e) => clickedLeague(e)} className="bg-white border border-gray-400 cursor-pointer">
+            <th scope="row" className="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {selectedLeague && selectedLeague.id === league.id && (
                     <div className='w-[.5rem] h-[100%] top-0 left-0 bg-blue-900 absolute'/>
                 )}
                 {league.name}
             </th>
-            <td class="py-3">
+            <td className="py-3">
                 <ul className='text-center'>
-                    {users && users.map((coordinator) => (
-                        <>
-                        <li className="text-blue-700 text-sm underline py-[.2rem]">
+                    {users && users.map((coordinator, index) => (
+                        <React.Fragment key={index}>
+                        <li  className="text-blue-700 text-sm underline py-[.2rem]">
                         <p className='' onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
                         </li>
-                        </>
+                        </React.Fragment>
                     ))}
                 </ul>
             </td>
-            <td class="flex gap-2 py-3 items-center pr-5">
+            <td className="flex gap-2 py-3 items-center pr-5">
               <div className='flex-grow'></div>
               {((authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                 <>

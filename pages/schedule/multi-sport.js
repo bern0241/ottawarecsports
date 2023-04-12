@@ -22,7 +22,7 @@
   
               <main className='w-full flex justify-center max-w-[70em]'>
                   <div className="mx-auto">
-                      <p>Pickup Sports coming soon!</p>
+                      <p>Multi Sports coming soon!</p>
                   </div>
               </main>
           </>

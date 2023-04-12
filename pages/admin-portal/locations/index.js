@@ -36,27 +36,27 @@
      useEffect(() => {
         fetchLocations();
      }, []);
-
+     // Gets all locations
      async function fetchLocations() {
         const locationsFetch = await API.graphql({ 
             query: listLocations 
         });
         setLocations(locationsFetch.data.listLocations.items);
       }
-      
+      // Opens edit location modal when a location is set/pressed.
       const editLocationClicked = (e, location) => {
         e.preventDefault();
         setEditLocationModal(true);
         setEditLocation(location);
       }
-      
+      // Opens delete location modal when a location is set/pressed;
       const deleteLocationClicked = (e, location) => {
         e.preventDefault();
         setDeleteLocationModal(true);
         setEditLocation(location);
       }
     
- 
+      // Only Admins or Owner can access page
      if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
          return (
              <div className="flex items-center justify-center h-[50vh]">
@@ -79,8 +79,8 @@
                     <NewLocation locations={locations} setLocations={setLocations} />
                 </div>
                             {locations && locations.map((location, index) => (
-                                <>
-                                    <div key={index} className='flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md'>
+                                <React.Fragment key={index}>
+                                    <div className='flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md'>
                                         <IconEdit onClick={(e) => editLocationClicked(e, location)} style={{position: 'absolute', fontSize: '20px', cursor: 'pointer', transform: 'translate(-0px, -15px)'}} name="create-outline"></IconEdit>
                                         <IconTrash onClick={(e) => { deleteLocationClicked(e, location)}} style={{position: 'absolute', fontSize: '20px', cursor: 'pointer', transform: 'translate(25px, -15px)', color: 'red'}} name="trash-outline"></IconTrash>
                                         <div>
@@ -88,7 +88,7 @@
                                         <Link style={{fontSize: '0.9rem', color: 'blue', textDecoration: 'underline'}} href={location.weblink}>{location.weblink}</Link>
                                     </div>
                                 </div>
-                                </>
+                                </React.Fragment>
                             ))}
                             {locations.length === 0 && (
                                 <div className='text-black mx-auto flex justify-center items-center h-10'>

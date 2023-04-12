@@ -5,6 +5,8 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES: https://github.com/OMikkel/tailwind-datepicker-react
+
 // NOTE: This date picker component is EXCLUSIVELY used for creating new Users in Admin Portal!
 
 import React, { useState } from 'react';

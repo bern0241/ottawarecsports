@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-03
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -13,47 +13,36 @@ import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { Button } from 'flowbite-react';
 import { IconChevronLeft } from '@tabler/icons-react';
-import { IconArrowNarrowRight } from '@tabler/icons-react';
 import Link from 'next/link';
 import AWS from 'aws-sdk';
 import Image from 'next/image';
-import { getTeam, getImageFromS3, getPlayersByUsername } from '@/utils/graphql.services';
-import { listPlayers, getTeam as getTeamQuery, getDivision, getSeason, getLeague } from '@/src/graphql/queries';
+import { getImageFromS3 } from '@/utils/graphql.services';
+import { listPlayers } from '@/src/graphql/queries';
+import { getTeamShort } from '@/src/graphql/custom-queries';
 
 export default function PlayerProfile() {
-	const [user, setUser] = useState(); // Cognito User
+	const [user, setUser] = useState();
 	const [profileImage, setProfileImage] = useState('');
 	const [sport, setSport] = useState('Soccer');
-	const [players, setPlayers] = useState(); // Player Table
 	const [teams, setTeams] = useState([]);
 	const router = useRouter();
 	const userId = router.query.id;
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	useEffect(() => {
-		if (!userId) {
-			return;
-		}
-		const callMe = async () => {
+		if (!userId) return;
+
+		const getUserDetails = async () => {
 			await fetchPlayerCognito();
-			// await fetchPlayers();
 			await fetchTeams();
-		}
-		callMe();
+		};
+		getUserDetails();
 	}, [userId]);
 
 	useEffect(() => {
-		if (!user) {
-			return;
-		}
+		if (!user) return;
 		getPicture();
 	}, [user]);
-
-	// useEffect(() =>{
-	// 	if(player != undefined){
-	// 		getTeamName();
-	// 	}
-	// }, [player]);
 
 	const fetchPlayerCognito = async () => {
 		var params = {
@@ -61,20 +50,10 @@ export default function PlayerProfile() {
 			Username: userId,
 		};
 		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
-			if (err) console.log(err, err.stack); // an error occurred
-			// successful response
+			if (err) console.log(err, err.stack);
 			else setUser(data);
 		});
 	};
-
-	// GETS ALL PLAYER DATA MODELS FOR THIS USER (Every team they are in)
-	// const fetchPlayers = async () => {
-	// 	const data = await getPlayersByUsername(userId);
-	// 	if (data) {
-	// 		setPlayer(data);
-	// 	}
-	// };
-
 
 	const getPicture = async () => {
 		if (
@@ -89,63 +68,38 @@ export default function PlayerProfile() {
 		}
 	};
 
-	// const getTeamName = async () => {
-	// 	if (player.soccer_stats){
-	// 		const teamId = player.soccer_stats[0].team;
-	// 	const data = await getTeam(teamId);
-	// 	setTeamName(data.name);
-	// 	}
-	// 		else {
-	// 	}
-	// }
-
 	const fetchTeams = async () => {
 		setTeams([]);
 		const variables = {
 			filter: {
-			  user_id: {
-				eq: userId
-			  },
-			  teamID: {
-				attributeExists: true
-			  }
-			}
-		  };
-		const players = await API.graphql({ 
-			query: listPlayers, variables: variables
+				user_id: {
+					eq: userId,
+				},
+				teamID: {
+					attributeExists: true,
+				},
+			},
+		};
+		const players = await API.graphql({
+			query: listPlayers,
+			variables: variables,
 		});
-		// console.log('PLAYERS??', players.data.listPlayers.items);
 		if (!players) { return; }
 
 		players.data.listPlayers.items.map(async (player) => {
-			const apiData = await API.graphql({ query: getTeamQuery, variables: { id: player.teamID }});
+			const apiData = await API.graphql({
+				query: getTeamShort,
+				variables: { id: player.teamID },
+			});
 			let data = await apiData.data.getTeam;
-			console.log('data', data);
 			if (data !== null) {
 				data.player_role = player.role;
 			}
-			setTeams((teams) => 
-			{
-				return uniqueById([...teams, data])
+			setTeams((teams) => {
+				return uniqueById([...teams, data]);
 			});
-			console.log('TEAMS!', data)
-			console.log('PLAYERS!', players.data.listPlayers.items)
 		  })
 	}
-
-	// const getSportFromLeague = async (teamObj) => {
-	// 	//Start with Team -> Division
-	// 	const apiDataDivision = await API.graphql({ query: getDivision, variables: { id: '087b8643-5cef-4078-8b98-34c2e08ff737'}})
-	// 	const dataDivision = await apiDataDivision.data.getDivision;
-	// 	console.log('DATA DIVISION ID',apiDataDivision.data.getDivision.Teams.items.map(item => item.divisionId));
-	// 	// Get Season from division
-	// 	const apiDataSeason = await API.graphql({ query: getSeason, variables: { id: dataDivision.season }})
-	// 	const dataSeason = await apiDataSeason.data.getSeason;
-	// 	// Get League from season
-	// 	const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: dataSeason.league }})
-	// 	const dataLeague = await apiDataLeague.data.getLeague;
-	// 	setSport(dataLeague.sport);
-	// } 
 
 	function uniqueById(items) {
 		const set = new Set();
@@ -156,26 +110,16 @@ export default function PlayerProfile() {
 		});
 	}
 
-	function formatPhoneNumber(phoneNumber) {
-		const cleaned = ('' + phoneNumber).replace(/\D/g, '');
-		const match = cleaned.match(/^(\d{1})(\d{3})(\d{3})(\d{4})$/);
-		if (match) {
-		  return `+1 (${match[2]}) ${match[3]}-${match[4]}`;
-		}
-		return phoneNumber;
-	  }
-
-
 	return (
 		<>
-		 <Head>
-			<title>Ottawa Rec Sports - Player</title>
-			<meta name="description" content="Generated by create next app" />
-			<meta name="viewport" content="width=device-width, initial-scale=1" />
-			<link rel="icon" href="/images/ORS-Logo.png" />
-		</Head>
+			<Head>
+				<title>Ottawa Rec Sports - Player</title>
+				<meta name="description" content="Generated by create next app" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="icon" href="/images/ORS-Logo.png" />
+			</Head>
 
-		{/* Content */}
+			{/* Content */}
 			<main className="w-full h-screen flex flex-col gap-6 p-5">
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
@@ -252,7 +196,7 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div className="col-span-2 md:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Location</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
@@ -262,38 +206,15 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div className="col-span-2 md:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
-										user.UserAttributes.find((o) => o.Name === 'gender')[
-											'Value'
-										]}
+										user.UserAttributes.find(
+											(o) => o.Name === 'gender'
+										)['Value']}
 								</div>
 							</div>
-
-							{/* <div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Email</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium text-sm">
-									{user &&
-										user.UserAttributes.find((o) => o.Name === 'email')[
-											'Value'
-										]}
-								</div>
-							</div> */}
-
-							{/* <div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Phone Number</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
-									{user && user.UserAttributes.find((o) => o.Name === 'phone_number') ? (
-										<p>{formatPhoneNumber(user.UserAttributes.find((o) => o.Name === 'phone_number')[
-											'Value'
-										])}</p>
-									) : (
-										<p>&nbsp;</p>
-									)}
-								</div>
-							</div> */}
 						</div>
 
 						{/* Player Teams */}
@@ -313,70 +234,46 @@ export default function PlayerProfile() {
 									</tr>
 								</thead>
 								<tbody>
-								{teams && teams.map((team) => (
+									{teams &&
+										teams.map((team, index) => (
+											<React.Fragment key={index}>
+												{team !== null && (
+													<tr key={index} className="font-light">
+														<td className="py-2 px-3 text-[.94rem]">{sport}</td>
+														<td className="py-2 text-center">
+															<Link
+																className="text-blue-500 underline text-[.92rem]"
+																href={`/teams/${team?.id}`}
+															>
+																{team && team.name}
+															</Link>
+														</td>
+														<td className="py-2 px-3">
+															{team?.player_role === 'Player' && (
+																<p className="text-[.92rem]">Player</p>
+															)}
+															{team?.player_role === 'Captain' && (
+																<p className="text-[.92rem]">Captain</p>
+															)}
+														</td>
+													</tr>
+												)}
+											</React.Fragment>
+										))}
+									{teams && teams.length === 0 && (
 										<>
-										{team !== null && (
-											<tr className="font-light">
-												<td className="py-2 px-3 text-[.94rem]">{sport}</td>
-												<td className="py-2 text-center">
-													<Link className='text-blue-500 underline text-[.92rem]' href={`/teams/${team?.id}`}>{team && team.name}</Link>
+											<tr className="font-light mx-auto text-center">
+												<td className=""></td>
+												<td className="">
+													<p>This player is currently in no teams.</p>
 												</td>
-												<td className="py-2 px-3">
-													{team?.player_role === 'Player' && (
-														<p className='text-[.92rem]'>Player</p>
-													)}
-													{team?.player_role === 'Captain' && (
-														<p className='text-[.92rem]'>Captain</p>
-													)}
-												</td>
+												<td className=""></td>
 											</tr>
-										)}
-										</>
-									))}
-									{(teams && teams.length === 0) && (
-											<>
-										<tr className="font-light mx-auto text-center">
-											<td className=''></td>
-											<td className=''>
-												<p>This player is currently in no teams.</p>
-											</td>
-											<td className=''></td>
-										</tr>
 										</>
 									)}
 								</tbody>
 							</table>
 						</div>
-
-						{/* Player Game History */}
-						{/* <div className="col-span-3">
-							<h2 className="mb-1 font-light">Games History</h2>
-
-							<div className="col-span-3 border rounded-md border-brand-blue-900/25">
-								<table className="border-collapse table-fixed w-full overflow-hidden rounded-md">
-									<thead className="bg-brand-neutral-100 border-b border-brand-blue-900/25">
-										<tr className="text-left">
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Games Played
-											</th>
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Wins
-											</th>
-											<th className="py-2 px-3 text-sm font-light w-4/12">
-												Losses
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr className="font-light">
-											<td className="py-2 px-3">0</td>
-											<td className="py-2 px-3">0</td>
-											<td className="py-2 px-3">0</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div> */}
 					</div>
 				</div>
 			</main>

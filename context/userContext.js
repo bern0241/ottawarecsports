@@ -1,9 +1,12 @@
 /**
- * Last updated: 2023-03-11
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
  */
+
+// REFERENCES: https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/#update-user-attributes
+// https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
 
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import { Auth, Hub } from 'aws-amplify';
@@ -16,15 +19,12 @@ function UserContextProvider(props) {
 
 	const [user, setUser] = useState('');
 	const [authRoles, setAuthRoles] = useState();
-	const [userList, setUserList] = useState([]);
 
 	useEffect(() => {
 		checkUser();
 		Hub.listen('auth', ({ playload }) => {
 			checkUser();
 		});
-
-		fetchAllUsers();
 	}, []);
 
 	const checkUser = async () => {
@@ -45,19 +45,6 @@ function UserContextProvider(props) {
 		} catch (error) {
 			console.error(error);
 		}
-	};
-
-	const fetchAllUsers = async () => {
-		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
-		};
-		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
-			if (err) {
-				console.log(err, err.stack);
-			} else {
-				setUserList(data.Users);
-			}
-		});
 	};
 
 	return (

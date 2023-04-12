@@ -27,7 +27,7 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
 
     useEffect(()=>{
         getTeamsCount();
-    }, []);
+    }, [selectedSeason, selectedDivision]);
 
     useEffect(() => {
       if (selectedLeague) {
@@ -73,27 +73,26 @@ export default function DivisionCard({ division, selectedDivision, setSelectedDi
             { query: getDivisionWithTeams, 
             variables: { id: division.id }
         });
-        console.log('See here', apiData.data.getDivision);
         setTeamCount(apiData.data.getDivision.Teams.items.length);
     }
 
     return (
     <>
-      <tr onClick={(e) => clickedDivision(e)} class="bg-white border border-gray-400 cursor-pointer">
-        <th scope="row" class="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      <tr onClick={(e) => clickedDivision(e)} className="bg-white border border-gray-400 cursor-pointer">
+        <th scope="row" className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
           {selectedDivision && selectedDivision.id === division.id && (
             <div className='w-[.5rem] h-[100%] top-0 left-0 bg-blue-900 absolute'/>
           )}
           {division.name}
         </th>
-        <td class="text-center px-6 py-3">
+        <td className="text-center px-6 py-3">
           {convertLevelToFull(division.level)}
         </td>
-        <td class="text-center text-lg px-6 py-3">
+        <td className="text-center text-lg px-6 py-3">
           {teamCount}
         </td>
 
-        <td class="flex gap-2 py-3 justify-center pr-5">
+        <td className="flex gap-2 py-3 justify-center pr-5">
               <div className='flex-grow'></div>
               <IconCalendarDue data-tooltip-target="tooltip-default" onClick={(e) => gameScheduleNavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconCalendarDue>
               <IconUsers  onClick={(e) => addTeamsUINavigate(e, division)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="calendar-outline"></IconUsers>

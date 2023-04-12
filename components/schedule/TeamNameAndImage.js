@@ -43,6 +43,10 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 
 	const goToTeamPage = (e) => {
 		e.preventDefault();
+		if (!team?.id) {
+			alert('This team no longer exists');
+			return;
+		}
 		router.push(`/teams/${team.id}`);
 	};
 

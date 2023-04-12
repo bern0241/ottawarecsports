@@ -7,6 +7,11 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://github.com/fengyuanchen/compressorjs/blob/main/README.md
+// https://selectfrom.dev/connecting-aws-s3-buckets-to-next-js-25e903621c70
+
 import { API } from 'aws-amplify';
 import * as queries from '../src/graphql/queries';
 import * as mutations from '../src/graphql/mutations';
@@ -344,7 +349,7 @@ export const deleteImageFromS3 = async (key) => {
 				console.warn(err);
 			} else {
 				// success
-				console.log('Object deleted successfully');
+				// console.log('Object deleted successfully');
 			}
 		});
 	} catch (error) {

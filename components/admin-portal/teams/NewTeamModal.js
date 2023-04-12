@@ -6,9 +6,18 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
+
+// REFERENCES: https://flowbite.com/docs/components/dropdowns/
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://flowbite.com/docs/components/tables/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://flowbite.com/docs/forms/search-input/
+// https://tabler.io/icons
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
+
  import { useState, useEffect } from 'react';
  import DropdownInput from '@/components/common/DropdownInput';
- import { useUser } from '@/context/userContext';
  import { useRouter } from 'next/router';
  import {
    createTeam,
@@ -23,7 +32,6 @@
  const { v4: uuidv4 } = require('uuid');
  
  const NewTeamModal = ({ isVisible, setIsVisible }) => {
-   const [user] = useUser();
    const [maxMembers, setMaxMembers] = useState(0);
    const [teamName, setTeamName] = useState('');
    const [homeColour, setHomeColour] = useState('Red');
@@ -37,8 +45,9 @@
    const router = useRouter();
    const [message, setMessage] = useState(null);
 
-   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+   var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); //Used for calling Cognito methods
 
+   // Hide display message after 5 seconds
    useEffect(() => {
       const timer = setTimeout(() => {
         setMessage(null);
@@ -49,7 +58,8 @@
       useEffect(() => {
         fetchUsers();
     }, [])
-
+    
+    // Get list of users from Cognito backend
    const fetchUsers = (e) => {
     var params = {
         UserPoolId: 'us-east-1_70GCK7G6t', /* required */
@@ -63,12 +73,14 @@
       })
     }
 
+    // Set name of captain when one is set (from drop-down) 
     useEffect(() => {
       if (captain) {
         setCaptainName(`${captain.Attributes.find(o => o.Name === 'name')['Value']} ${captain.Attributes.find(o => o.Name === 'family_name')['Value']}`);
       }
     }, [captain])
  
+    // Creates new team from form data
    const addNewTeam = async () => {
      try {
        if (teamName === '') {
@@ -79,38 +91,30 @@
          setMessage({status: 'error', message: 'There must be a team captain.'});
          return;
        }
-
-       const randomId = uuidv4();
-       let uniqueId = `${teamName}_${makeid(15)}`;
-
-       if (fileSizeCheckOver(teamLogoUpload)) {
+       let uniqueId = '';
+       if (teamLogoUpload !== null) { // If image uploaded exists, set uniqueId key for saving image into S3 Bucket.
+          uniqueId = `${teamName}_${makeid(15)}`;
+        }
+        if (fileSizeCheckOver(teamLogoUpload)) { // Checks if image is less than 5MB
           return;
+        }
+        if (teamLogoUpload) {
+          await uploadNewImageToS3(uniqueId, teamLogoUpload); // Uploads image IF one is uploaded
        }
 
-       await uploadNewImageToS3(uniqueId, teamLogoUpload);
-
-       const teamData = {
+       const teamData = { //Data saved to the backend
          name: teamName,
          founded: new Date(Date.now()),
          home_colour: homeColour,
          away_colour: awayColour,
          team_picture: uniqueId,
          captains: [captain.Username],
-         team_history: [{
-           captains: [captain.Username],
-           teamid: randomId,
-           division: '',
-           roster: teamRoster,
-           goals: 0,
-           assists: 0,
-           yellow_cards: 0,
-           red_cards: 0,
-           games_played: 0,
-         }],
+        //  team_history: [{
+        //  }],
        };
        const resp = await createTeam(teamData); // Creates team
        await createCaptainOnTeam(captain.Username, resp.data.createTeam.id); // Creates initial captain for team!
- 
+       // If response is successful, reset page
        if (resp) {
          setMessage({status: 'success', message: 'Team successfully created!'});
          const timer = setTimeout(() => {
@@ -123,7 +127,8 @@
        setMessage({status: 'error', message: error.message});
      }
    };
- 
+   
+   // Reset data (everytime modal opens)
    const resetData = () => {
      setMaxMembers(0);
      setTeamName('');
@@ -136,6 +141,7 @@
    };
  
    if (!isVisible) return;
+   
    return (
      <>
        <div
@@ -180,11 +186,6 @@
  
              {/* <!-- Modal body --> */}
              <TeamsImage teamLogoUpload={teamLogoUpload} setTeamLogoUpload={setTeamLogoUpload} />
-             {/* <UserProfilePictureEdit
-               profilePic={profilePic}
-               setProfilePic={setProfilePic}
-             /> */}
- 
              <div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
                <div className="w-full ">
                  <label
@@ -214,21 +215,18 @@
                  </label>
                  <input disabled
                    value={captainName}
-                  //  onChange={(e) => setCaptain(e.target.value)}
                    type="text"
                    id="lastName"
                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
                  />
-                 {/* <div className='absolute right-2 top-[2.8rem]'>
-                      <ion-icon style={{fontSize: '25px'}} name="caret-down-circle-outline"></ion-icon>
-                </div> */}
+                
                </div>
                 {openCaptainDrop && (
                   <>
                   <div className='absolute top-[10rem] left-[50%] translate-x-[-50%] z-[500]'>
                   <CaptainDropdown listUsers={listUsers} setOpenCaptainDrop={setOpenCaptainDrop} setCaptain={setCaptain} />
                   </div>
-                  <div onClick={(e) => setOpenCaptainDrop(false)} class='z-[300] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
+                  <div onClick={(e) => setOpenCaptainDrop(false)} className='z-[300] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]' />
                   </>
                 )}
 
