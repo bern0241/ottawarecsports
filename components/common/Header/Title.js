@@ -28,8 +28,7 @@ const HeaderTitle = () => {
 	const getTeamFunc = async () => {
 		const data = await getTeam(teamId);
 		setTeam(data);
-		console.log(data);
-	};
+	}
 
 	useEffect(() => {
 		if (divisionID) {
@@ -101,9 +100,7 @@ const HeaderTitle = () => {
 								{division?.name}
 							</Link>
 						</div>
-						<h1 className="font-semibold text-[1.8rem]">
-							All Teams - {division?.name}
-						</h1>
+						<h1 className="font-semibold text-[1.8rem]">All Teams - {division?.name}</h1>
 					</div>
 				</div>
 			)}
@@ -204,9 +201,7 @@ const HeaderTitle = () => {
 								Soccer
 							</Link>
 						</div>
-						<h1 className="font-semibold text-[1.8rem]">
-							All Divisions - Soccer ⚽
-						</h1>
+						<h1 className="font-semibold text-[1.8rem]">All Divisions - Soccer ⚽</h1>
 					</div>
 				</div>
 			)}
@@ -270,9 +265,7 @@ const HeaderTitle = () => {
 								{division?.name}
 							</Link>
 						</div>
-						<h1 className="font-semibold text-[1.8rem]">
-							All Teams - {division?.name}
-						</h1>
+						<h1 className="font-semibold text-[1.8rem]">All Teams - {division?.name}</h1>
 					</div>
 				</div>
 			)}
@@ -317,28 +310,21 @@ const HeaderTitle = () => {
 						<h1 className="font-semibold text-[1.8rem]">Teams</h1>
 					</div>
 				</div>
-			)}
-			{router.pathname === '/admin-portal/locations' && (
-				<div className="p-1 pt-0 pl-2 lg:pl-7">
-					<div className="flex flex-col gap-2">
-						<div className="flex flex-row">
-							<Link href="/" className="font-light text-[.8rem]">
-								Home
-							</Link>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<p className="font-light text-[.8rem]">Admin Portal</p>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link
-								href="/admin-portal/locations"
-								className="font-light text-[.8rem]"
-							>
-								Locations
-							</Link>
-						</div>
-						<h1 className="font-semibold text-[1.8rem]">Locations</h1>
-					</div>
-				</div>
-			)}
+      )}
+      {router.pathname === '/admin-portal/locations' && (
+        <div className="p-1 pt-0 pl-2 lg:pl-7">
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-row'>
+              <Link href="/" className="font-light text-[.8rem]">Home</Link>
+                <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+              <p className="font-light text-[.8rem]">Admin Portal</p>
+                <p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+              <Link href="/admin-portal/locations" className="font-light text-[.8rem]">Locations</Link>
+            </div>
+            <h1 className="font-semibold text-[1.8rem]">Locations</h1>
+          </div>
+        </div>
+      )}
 			{router.pathname === '/settings' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">

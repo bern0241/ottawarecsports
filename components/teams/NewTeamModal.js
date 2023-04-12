@@ -6,31 +6,25 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
+
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
-import {
-	createTeam,
-	uploadNewImageToS3,
-	updatePlayerSoccer,
-} from '@/utils/graphql.services';
+import {createTeam,uploadNewImageToS3} from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
 import { createCaptainOnTeam } from '@/utils/graphql.services';
 import { fileSizeCheckOver } from '@/utils/graphql.services';
 const { v4: uuidv4 } = require('uuid');
 
-const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
+const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 	const [user] = useUser();
-	const [maxMembers, setMaxMembers] = useState(0);
 	const [teamName, setTeamName] = useState('');
 	const [teamCaptain, setTeamCaptain] = useState();
 	const [homeColour, setHomeColour] = useState('Red');
 	const [awayColour, setAwayColour] = useState('Blue');
-	const [selectedOption, setSelectedOption] = useState('');
 	const [teamLogoUpload, setTeamLogoUpload] = useState('');
-	const [teamRoster, setTeamRoster] = useState([]);
 	const router = useRouter();
 	const [message, setMessage] = useState(null);
 
@@ -51,33 +45,26 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 				setMessage({status: 'error', message: 'Please fillout all required fields'});
 				return;
 			}
-			const randomId = uuidv4();
-			let uniqueId = `${teamName}_${makeid(15)}`;
+			// const randomId = uuidv4();
+			let uniqueId = '';
+			if (teamLogoUpload !== null) {
+				uniqueId = `${teamName}_${makeid(15)}`;
+			}
 
 			if (fileSizeCheckOver(teamLogoUpload)) {
 				return;
 			}
 
-			await uploadNewImageToS3(uniqueId, teamLogoUpload);
+			if (teamLogoUpload) {
+				await uploadNewImageToS3(uniqueId, teamLogoUpload);
+			 }
 			const teamData = {
-				// id: randomId,
 				name: teamName,
 				founded: new Date(Date.now()),
 				home_colour: homeColour,
 				away_colour: awayColour,
 				team_picture: uniqueId,
 				captains: [teamCaptain.username],
-				// team_history: [{
-				// 	captains: [teamCaptain.username],
-				// 	teamid: randomId,
-				// 	division: '',
-				// 	roster: teamRoster,
-				// 	goals: 0,
-				// 	assists: 0,
-				// 	yellow_cards: 0,
-				// 	red_cards: 0,
-				// 	games_played: 0,
-				// }],
 			};
 			const resp = await createTeam(teamData); // Creates team
 			await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!
@@ -86,9 +73,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 				setMessage({status: 'success', message: 'Team successfully created!'});
 				getTeamsData();
 				const timer = setTimeout(() => {
-					// router.reload();
 					router.push(`/teams/${resp.data.createTeam.id}`)
-					// getTeamsData();
 				}, 500);
 				return () => clearTimeout(timer);
 			}
@@ -99,14 +84,10 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 	};
 
 	const resetData = () => {
-		setMaxMembers(0);
 		setTeamName('');
-		// setTeamCaptain('');
 		setHomeColour('');
 		setAwayColour('');
-		setSelectedOption('');
 		setTeamLogoUpload('');
-		setTeamRoster([]);
 	};
 
 	if (!isVisible) return;
@@ -154,10 +135,6 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 
 						{/* <!-- Modal body --> */}
 						<TeamsImage teamLogoUpload={teamLogoUpload} setTeamLogoUpload={setTeamLogoUpload} />
-						{/* <UserProfilePictureEdit
-							profilePic={profilePic}
-							setProfilePic={setProfilePic}
-						/> */}
 
 						<div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 							<div className="w-full ">
@@ -244,34 +221,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, players, getTeamsData }) => {
 									/>
 								</div>
 							</div>
-
-							{/* <div className="w-full col-span-2">
-								<label
-									htmlFor="location"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									Add Members
-								</label>
-								<PlayersTable
-									data={teamRoster}
-									selectPlayer={selectPlayer}
-									setTeamRoster={setTeamRoster}
-								/>
-							</div> */}
 						</div>
-
-						{/* {message && (
-							<p
-								id="standard_error_help"
-								className={`my-4 text-center text-sm ${
-									message.status === 'success'
-										? 'text-green-600 dark:text-green-400'
-										: 'text-red-600 dark:text-red-400'
-								}`}
-							>
-								<span className="font-medium">{message.message}</span>
-							</p>
-						)} */}
 
 						{message && (<p id="standard_error_help" className={`my-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
 

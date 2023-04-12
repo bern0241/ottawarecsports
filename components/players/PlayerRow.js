@@ -185,25 +185,11 @@ export default function PlayerRow({ player, index }) {
 			<td className="p-3 font-light text-center text-[.9rem]">
 				{player.Attributes.find((o) => o.Name === 'custom:location')['Value']}
 			</td>
-			{/* <td className="p-5 font-light">
-				<div className="flex flex-col gap-1">
-					Soccer
-				</div>
-			</td> */}
-			<td className="p-5 font-light w-full">
-				{/* <div className="flex flex-col gap-1 items-start justify-start content-start align-top"> */}
-				{teams &&
-					teams.map((team, index) => (
-						<div
-							key={index}
-							className="flex flex-row items-center py-1 max-w-[15rem] mx-auto"
-						>
-							<p
-								key={team.id}
-								className="text-blue-500 underline text-sm text-left pl-[2rem] w-[9rem]"
-							>
-								{team.name}
-							</p>
+				<td className="p-5 font-light w-full">
+						{teams && teams.map((team, index) => (
+							<>
+							<div key={index} onClick={(e) => goToTeamsPage(e, team)} className='flex flex-row items-center py-1 max-w-[15rem] mx-auto'>
+							<p className='text-blue-500 underline text-sm text-left pl-[2rem] w-[9rem]'>{team.name}</p>
 							{team.captains && team.captains.includes(player.Username) && (
 								<>
 									<IconArrowNarrowRight
@@ -217,19 +203,10 @@ export default function PlayerRow({ player, index }) {
 									</span>
 								</>
 							)}
-						</div>
-					))}
-				{/* </div> */}
-			</td>
-			{/* <td className="p-5 font-light">
-					<div className="flex flex-col gap-1 items-start justify-start content-start align-top">
-						{teams && teams.map((team) => (
-							<span className='text-sm' key={team.id}>
-								{team.captains && team.captains.includes(player.Username) ? "Captain" : "Player"}
-							</span>
+							</div>
+							</>
 						))}
-					</div>
-				</td> */}
+				</td>
 		</tr>
 	);
 }

@@ -9,22 +9,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
- import Layout from '@/components/common/Layout';
- import styles from '@/styles/Home.module.css';
- import { useUser } from '@/context/userContext';
- import { useRouter } from 'next/router';
- 
- // Components
- import SignOutButton from '@/components/common/SignOutButton';
  // Tables
 import LeagueTable from '@/components/sports/LeagueTable';
 import SeasonTable from '@/components/sports/SeasonTable'; 
 import DivisionTable from '@/components/sports/DivisionTable';
 
  export default function Home() {
-     const [user, setUser, authRoles, setAuthRoles] = useUser();
-     const router = useRouter();
-
     const [selectedLeague, setSelectedLeague] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [selectedDivision, setSelectedDivision] = useState(null);

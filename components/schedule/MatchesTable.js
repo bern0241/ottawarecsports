@@ -143,8 +143,9 @@ const MatchesTable = ({
 					<thead className="w-full"></thead>
 					<tbody>
 						{displayedMatches.length > 0 ? (
-							displayedMatches.map((match) => (
+							displayedMatches.map((match, index) => (
 								<MatchRow
+									key={index}
 									match={match}
 									setMatchToEdit={setMatchToEdit}
 									setIsEditing={setIsEditing}
