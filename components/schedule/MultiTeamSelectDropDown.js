@@ -64,7 +64,7 @@ export default function MultiTeamSelectDropDown({
 							{teams &&
 								teams.map((team, index) => (
 									<>
-										<li className="mt-2">
+										<li key={index} className="mt-2">
 											<div className="flex items-center">
 												<input
 													checked={selectedTeams.find(

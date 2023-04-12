@@ -51,14 +51,6 @@ const GeneratedMatchesTable = ({
 						<div>
 							<p>DatePicker</p>
 						</div>
-						// <DropdownInput
-						// 	value={selectedDate}
-						// 	setValue={setSelectedDate}
-						// 	customClass={
-						// 		'w-40 flex items-center justify-between px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900 translate-y-[-1.1rem]'
-						// 	}
-						// 	options={matchDates}
-						// />
 					)}
 				</div>
 				<table className="table-auto w-">

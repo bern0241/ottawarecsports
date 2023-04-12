@@ -6,7 +6,7 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
@@ -467,14 +467,14 @@ const TeamBatchSelect = ({
 										</div>
 										<div className="flex absolute top-[1.9rem]">
 											{referees &&
-												referees.map((referee) => (
-													<>
+												referees.map((referee, index) => (
+													<React.Fragment key={index}>
 														<RefereeChip
 															referee={referee}
 															referees={referees}
 															setReferees={setReferees}
 														/>
-													</>
+													</React.Fragment>
 												))}
 										</div>
 									</div>
@@ -493,7 +493,7 @@ const TeamBatchSelect = ({
 									{/**Date */}
 									<div className="w-full">
 										<label
-											for="name"
+											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
 										>
 											Date
