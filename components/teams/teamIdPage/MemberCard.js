@@ -87,6 +87,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             height={132}
             className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
             src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
+            alt={`Profile image of ${userName}`}
         />
         <div className='text-black ml-3'>
             {userName ? (
@@ -110,7 +111,7 @@ export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains
             )}
             {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
                 <button style={{marginLeft: '0rem'}} className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
-                    <IconX/>
+                    <IconX/> <p className="sr-only"> Button </p>
                 </button>
             )}
     </div>
