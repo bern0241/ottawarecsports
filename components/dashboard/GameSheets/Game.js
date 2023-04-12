@@ -36,7 +36,7 @@ export default function Game({ game }) {
 				setVisible(true);
 			}
 		}
-		
+
 		if (game.location) {
 			setLocationObject(JSON.parse(game.location));
 		}

@@ -4,7 +4,7 @@
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
- * 
+ *
  * Summary:
  * This component displays a list of finished matches that require post-game scores.
  * Admin and owners can see ALL matches; Refereees can only see matches they are assigned to.

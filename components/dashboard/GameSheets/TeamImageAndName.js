@@ -1,19 +1,18 @@
 /**
- * Last updated: 2023-04-06
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  * Greg Coghill <cogh0020@algonquinlive.com>
+ * Verity Stevens <stev0298@algonquinlive.com>
  */
 
 import { getImageFromS3 } from '@/utils/graphql.services';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const TeamImageAndName = ({ src, reverse, teamName, teamId }) => {
 	const [profileImage, setProfileImage] = useState(null);
-	const router = useRouter();
 
 	useEffect(() => {
 		getPicture();

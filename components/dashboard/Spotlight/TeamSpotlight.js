@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-4
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -34,6 +34,7 @@ export default function TeamSpotlight() {
 		getPicture();
 	}, [spotlightTeam]);
 
+	// Fetch team details:
 	const getTeamsData = async () => {
 		try {
 			const response = await getAllTeams();
@@ -43,6 +44,7 @@ export default function TeamSpotlight() {
 		}
 	};
 
+	// Fetch team profile picture from storage:
 	const getPicture = async () => {
 		if (!spotlightTeam || !spotlightTeam.team_picture)
 			return setProfileImage('http://via.placeholder.com/60x60');
@@ -50,6 +52,7 @@ export default function TeamSpotlight() {
 		setProfileImage(url);
 	};
 
+	// Fetch team captains from AWS Cognito to display their full names:
 	const fetchCaptains = async (captains) => {
 		if (captains === null) {
 			setSpotlightTeamCaptains([]);
