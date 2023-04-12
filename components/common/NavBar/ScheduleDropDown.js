@@ -56,19 +56,19 @@ const ScheduleDropDown = ({ openDropdown, toggle, dropdownMenuNames }) => {
 						Soccer
 					</Link>
 					<Link
-						href="/other-sports"
+						href="/schedule/volleyball"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Volleyball
 					</Link>
 					<Link
-						href="/other-sports"
+						href="/schedule/multi-sport"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Multi-Sport
 					</Link>
 					<Link
-						href="/other-sports"
+						href="/schedule/pickup-sport"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Pick-up Sport
