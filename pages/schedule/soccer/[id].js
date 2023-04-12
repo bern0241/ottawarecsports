@@ -19,9 +19,11 @@ import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
+import TeamBatchSelect from '@/components/schedule/TeamBatchSelect';
 import EditMatchModal from '@/components/schedule/EditMatchModal';
 import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
 import { useUser } from '@/context/userContext';
+import GeneratedMatchesTable from '@/components/schedule/GeneratedMatchesTable';
 
 export default function DivisionMatches() {
 	const [division, setDivision] = useState();
@@ -35,6 +37,10 @@ export default function DivisionMatches() {
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [selectedDate, setSelectedDate] = useState('');
+
+	const [isMakingBatch, setIsMakingBatch] = useState(false);
+	const [generatedGames, setGeneratedGames] = useState([]);
+	const [saveBatchGame, setSaveBatchGame] = useState([]);
 
 	const [games, setGames] = useState([]);
 	const [teams, setTeams] = useState([]);
@@ -133,14 +139,24 @@ export default function DivisionMatches() {
 				{(isCoordinator ||
 					(authRoles && authRoles.includes('Admin')) ||
 					(authRoles && authRoles.includes('Owner'))) && (
-					<Button
-						pill={true}
-						className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800 ml-auto"
-						onClick={() => setModalVisible(!modalVisible)}
-					>
-						<IconCirclePlus className="mr-2 h-5 w-5" />
-						Create New Match
-					</Button>
+					<div className="flex flex-row-reverse gap-3">
+						<Button
+							pill={true}
+							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							onClick={() => setModalVisible(!modalVisible)}
+						>
+							<IconCirclePlus className="mr-2 h-5 w-5" />
+							Create New Match
+						</Button>
+						<Button
+							pill={true}
+							className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+							onClick={() => setIsMakingBatch(!isMakingBatch)}
+						>
+							<IconCirclePlus className="mr-2 h-5 w-5" />
+							Create Multiple
+						</Button>
+					</div>
 				)}
 				<MatchesTable
 					matches={games}
@@ -149,6 +165,16 @@ export default function DivisionMatches() {
 					setIsDeleting={setIsDeletingMatch}
 					selectedDate={selectedDate}
 					setSelectedDate={setSelectedDate}
+					isCoordinator={isCoordinator}
+				/>
+				<GeneratedMatchesTable
+					matches={generatedGames}
+					setMatchToEdit={setMatchToEdit}
+					setIsEditing={setIsEditingMatch}
+					setIsDeleting={setIsDeletingMatch}
+					setSaveBatchGame={setSaveBatchGame}
+					// selectedDate={selectedDate}
+					// setSelectedDate={setSelectedDate}
 					isCoordinator={isCoordinator}
 				/>
 			</main>
@@ -162,7 +188,10 @@ export default function DivisionMatches() {
 				<EditMatchModal
 					games={games}
 					setGames={setGames}
+					getGames={getGames}
 					match={matchToEdit}
+					makingNewGame={saveBatchGame}
+					setMakingNewGame={setSaveBatchGame}
 					isVisible={isEditingMatch}
 					setIsVisible={setIsEditingMatch}
 				/>
@@ -172,6 +201,15 @@ export default function DivisionMatches() {
 					match={matchToEdit}
 					openModal={isDeletingMatch}
 					setOpenModal={setIsDeletingMatch}
+				/>
+			)}
+			{isMakingBatch && (
+				<TeamBatchSelect
+					isVisible={isMakingBatch}
+					teams={teams}
+					generatedGames={generatedGames}
+					setGeneratedGames={setGeneratedGames}
+					setIsVisible={setIsMakingBatch}
 				/>
 			)}
 		</>
