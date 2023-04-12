@@ -106,9 +106,9 @@ export default function Setting() {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<link rel="icon" href="/images/ORS-Logo.png" />
 				</Head>
-				<main className="mx-auto w-full m-2 flex justify-center">
-					<div className="bg-white w-80 flex flex-col border-[#c0c0c0] border-[.1px] rounded">
-						<div className="border-b- border-[#c0c0c0] h-[50px] ">
+				<main className="flex justify-center w-full">
+					<div className="bg-white w-80 flex flex-col border-[#c0c0c0] border-[.1px] rounded sm:w-96 lg:w-11/12 xl:w-max">
+						<div className="border-b border-[#c0c0c0] h-[50px] ">
 							<h2 className="font-medium text-base self p-3 ml-3">
 								My Profile
 							</h2>

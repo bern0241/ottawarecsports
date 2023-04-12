@@ -161,7 +161,7 @@ export default function SettingsForm({
 				</div>
 				<div className="my-2 lg:my-3">
 					<button
-						className="bg-brand-blue-800 h-[36px] w-full rounded-[10px] text-white font-regular"
+						className="text-brand-blue-800 border border-brand-blue-800 h-[36px] w-full rounded-[10px] font-regular"
 						type="button"
 						onClick={() => setEmailModal(true)}
 					>
@@ -170,7 +170,7 @@ export default function SettingsForm({
 				</div>
 				<div className="mb-1 lg:my-3">
 					<button
-						className="bg-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] text-white font-regular"
+						className="text-brand-blue-800 border border-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] font-regular"
 						type="button"
 						onClick={() => setPasswordModal(true)}
 					>

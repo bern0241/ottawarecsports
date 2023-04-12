@@ -1,0 +1,128 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-orsapp-dev-154029-authRole",
+      "UnauthRoleArn": "arn:aws:iam::188632207723:role/amplify-orsapp-dev-154029-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::188632207723:role/amplify-orsapp-dev-154029-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-orsapp-dev-154029-deployment",
+      "UnauthRoleName": "amplify-orsapp-dev-154029-unauthRole",
+      "StackName": "amplify-orsapp-dev-154029",
+      "StackId": "arn:aws:cloudformation:us-east-1:188632207723:stack/amplify-orsapp-dev-154029/a1f29ea0-beba-11ed-aeef-12db10b1a56b",
+      "AmplifyAppId": "d3an2jz455khp"
+    }
+  },
+  "api": {
+    "orsapp": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          }
+        },
+        "GraphQLAPIIdOutput": "tlbnprz6zzc4lcf3yuzgn3q7hu",
+        "GraphQLAPIEndpointOutput": "https://4cehdebhkzaebff6usnau2l2j4.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-pbhxd3z4uvcwrhsldeabb4dei4"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "lastPushTimeStamp": "2023-04-11T13:52:44.814Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-orsapp-dev-154029-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiorsapp"
+      },
+      "lastPushDirHash": "GF73lN0LPfFre473e2hVIXuVz/8="
+    }
+  },
+  "auth": {
+    "orsapp00be8bc9": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "UserPoolId": "us-east-1_70GCK7G6t",
+        "AppClientIDWeb": "7n7fsklu2hta13ttodf3a48ug8",
+        "AppClientID": "40c4imoa859dtlo5iveig35dr1",
+        "IdentityPoolId": "us-east-1:034d82e1-14d4-4fd0-ad1a-2af079fe24ef",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:188632207723:userpool/us-east-1_70GCK7G6t",
+        "IdentityPoolName": "orsapp00be8bc9_identitypool_00be8bc9__dev",
+        "UserPoolName": "orsapp00be8bc9_userpool_00be8bc9"
+      },
+      "lastPushTimeStamp": "2023-04-11T13:52:44.815Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-orsapp-dev-154029-deployment/amplify-cfn-templates/auth/orsapp00be8bc9-cloudformation-template.json",
+        "logicalId": "authorsapp00be8bc9"
+      }
+    }
+  },
+  "function": {
+    "sendEmailNotifications": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::188632207723:role/orsappLambdaRole3864b231-dev",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:188632207723:function:sendEmailNotifications-dev",
+        "Name": "sendEmailNotifications-dev",
+        "LambdaExecutionRole": "orsappLambdaRole3864b231-dev"
+      },
+      "lastPushTimeStamp": "2023-04-11T13:52:44.816Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-orsapp-dev-154029-deployment/amplify-cfn-templates/function/sendEmailNotifications-cloudformation-template.json",
+        "logicalId": "functionsendEmailNotifications"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-orsapp-dev-154029-deployment",
+        "s3Key": "amplify-builds/sendEmailNotifications-6c6e3434532f41767835-build.zip"
+      }
+    }
+  },
+  "storage": {
+    "orsresources": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3",
+      "output": {
+        "BucketName": "orsappe5c5a5b29e5b44099d2857189b62061b154029-dev",
+        "Region": "us-east-1"
+      },
+      "lastPushTimeStamp": "2023-04-11T13:52:47.468Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-orsapp-dev-154029-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storageorsresources"
+      }
+    }
+  }
+}
