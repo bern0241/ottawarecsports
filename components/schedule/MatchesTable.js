@@ -49,6 +49,7 @@ const MatchesTable = ({
 			const divisionData = await apiDataDivision.data.getDivision;
 			setDivision(divisionData);
 			// SEASON
+			if (!divisionData?.season) return;
 			const apiDataSeason = await API.graphql({
 				query: getSeasonShort,
 				variables: { id: divisionData.season },
@@ -56,6 +57,7 @@ const MatchesTable = ({
 			const seasonData = await apiDataSeason.data.getSeason;
 			setSeason(seasonData);
 			// LEAGUE
+			if (!seasonData?.league) return;
 			const apiDataLeague = await API.graphql({
 				query: getLeague,
 				variables: { id: seasonData.league },
