@@ -195,7 +195,7 @@ export default function EditSeasonModal({
 						<div className="p-6 space-y-6">
 							<div>
 								<label
-									htmlFor="name"
+									htmlFor="seasonName"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Season Name *
@@ -204,19 +204,20 @@ export default function EditSeasonModal({
 									value={seasonName}
 									onChange={(e) => setSeasonName(e.target.value)}
 									type="text"
-									id="name"
+									id="seasonName"
 									className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
 							<div className="flex gap-2">
 								<div className="w-full">
 									<label
-										htmlFor="name"
+										htmlFor="startDate"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										Start Date
 									</label>
 									<Datepicker
+										id="startDate"
 										options={optionsStart}
 										onChange={handleChangeStart}
 										show={showStarts}
@@ -225,12 +226,13 @@ export default function EditSeasonModal({
 								</div>
 								<div className="w-full">
 									<label
-										htmlFor="name"
+										htmlFor="endDate"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
 										End Date
 									</label>
 									<Datepicker
+										id="endDate"
 										options={optionsEnd}
 										onChange={handleChangeEnd}
 										show={showEnds}
