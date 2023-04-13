@@ -41,8 +41,8 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 			setUiState('verify-state');
 			console.log('a verification code is sent');
 		})
-		.catch((e) => {
-			console.log('failed with error', e);
+		.catch((error) => {
+			console.log('failed with error', error);
 			setMessage({status: 'error', message: error.message});
 		});
 	}
