@@ -87,17 +87,18 @@ export default function Players() {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h1 className="text-lg self-center">All Players</h1>
+						<h2 className="text-lg self-center">All Players</h2>
 					</div>
 
 					<table className="table-auto">
 						<thead className="bg-brand-neutral-100">
-							<tr className="text-left">
-								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-								<th className="py-3 text-center text-sm font-light w-2/12">
+							<tr className="text-center">
+								<th className="py-3 sm:px-5 text-sm font-light sm:w-3/12 md:text-left">Name</th>
+								<th className="py-3 text-sm font-light sm:w-2/12">
 									Location
 								</th>
-								<th className="py-3 px-10 text-sm font-light w-2/12 text-center">
+								<th className="py-3 sm:px-5 text-sm font-light sm:w-2/12">Sports</th>
+								<th className="py-3 sm:px-10 text-sm font-light w-2/12 hidden sm:table-cell ">
 									Teams : Roles
 								</th>
 							</tr>
