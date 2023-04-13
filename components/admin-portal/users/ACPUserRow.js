@@ -47,8 +47,26 @@ export default function ACPUserRow({ user, index }) {
 	};
 
 	return (
-		<React.Fragment key={user.id}>
-			<tr className="border-b border-brand-neutral-300">
+		<>
+			<tr>
+				<td>
+			{editUserModal && (
+				<ACPEditUserModal
+					user1={user}
+					openModal={editUserModal}
+					setOpenModal={setEditUserModal}
+				/>
+			)}
+			{deleteUserModal && (
+				<ACPDeleteUserModal
+					user={user}
+					openModal={deleteUserModal}
+					setOpenModal={setDeleteUserModal}
+				/>
+			)}
+			</td>
+			</tr>
+			<tr key={user.id} className="border-b border-brand-neutral-300">
 				<td className="p-5 font-medium">
 					{user.Attributes.find((o) => o.Name === 'name')['Value'].charAt(0)}.{' '}
 					{user.Attributes.find((o) => o.Name === 'family_name')['Value']}
@@ -56,7 +74,9 @@ export default function ACPUserRow({ user, index }) {
 				<td className="p-5 flex flex-col">
 					{userGroups &&
 						userGroups.map((group, index) => (
-							<p key={index}>{group.GroupName}</p>
+							<React.Fragment key={index}>
+								<p key={index}>{group.GroupName}</p>
+							</React.Fragment>
 						))}
 				</td>
 				<td className="p-5">
@@ -75,20 +95,6 @@ export default function ACPUserRow({ user, index }) {
 					</div>
 				</td>
 			</tr>
-			{editUserModal && (
-				<ACPEditUserModal
-					user1={user}
-					openModal={editUserModal}
-					setOpenModal={setEditUserModal}
-				/>
-			)}
-			{deleteUserModal && (
-				<ACPDeleteUserModal
-					user={user}
-					openModal={deleteUserModal}
-					setOpenModal={setDeleteUserModal}
-				/>
-			)}
-		</React.Fragment>
+		</>
 	);
 }

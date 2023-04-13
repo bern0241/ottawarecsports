@@ -1,40 +1,50 @@
 /**
- * Last updated: 2023-03-22
+ * Last updated: 2023-04-12
  *
  * Author(s):
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
+ * Justin Bernard <bern0241@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+// REFERENCES:
+// https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
+// https://flowbite.com/docs/forms/input-field/
+
+import React, { useState, useEffect } from 'react';
 import ChangePasswordSetup from './ChangePassword';
 import SettingPasswordField from './SettingPasswordField';
 import { changeUserPassword } from '@/utils/graphql.services';
+import { Auth } from 'aws-amplify';
 
 export default function PasswordModal({ passwordModal, setPasswordModal }) {
+	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-	const [errorMessage, setErrorMessage] = useState('');
+	const [message, setMessage] = useState(null);
+	
 	const changePassword = async () => {
-		checkPasswords();
-		if (errorMessage !== '') return;
-		const resp = await changeUserPassword(oldPassword, newPassword);
-		if (resp === 'SUCCESS') return setPasswordModal(false);
-		setErrorMessage('Something went wrong');
+		Auth.currentAuthenticatedUser()
+		.then((user) => {
+			return Auth.changePassword(user, oldPassword, newPassword);
+		})
+		.then((data) => {
+			setMessage({status: 'success', message: data});
+			console.log(data);
+		})
+		.catch((err) => {
+			setMessage({status: 'error', message: err.message});
+			console.log(err);
+		});
 	};
-	const checkPasswords = () => {
-		if (newPassword !== confirmPassword)
-			return setErrorMessage('Passwords do not match');
-		// reference for checking special characters
-		// Answer by Magus
-		// https://stackoverflow.com/a/32311200
-		const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-		if (newPassword.length < 8 || !format.test(newPassword))
-			return setErrorMessage(
-				'Must be 8 or more characters and contain at least 1 number and 1 special character.'
-			);
-		setErrorMessage('');
-	};
+
+	// Hides display message after 5 seconds
+    useEffect(() => {
+		const timer = setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+		return () => clearTimeout(timer);
+}, [message])
+
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
@@ -57,20 +67,20 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 						<div className="p-6 space-y-6">
 							<div className="flex flex-col gap-5">
 								<SettingPasswordField
+									id="oldPassword"
+									placeholder="Old Password"
+									className="h-[40px] w-full"
+									state={oldPassword}
+									setState={setOldPassword}
+								/>
+								<SettingPasswordField
 									id="newPassword"
 									placeholder="New Password"
 									className="h-[40px] w-full"
 									state={newPassword}
 									setState={setNewPassword}
 								/>
-								<SettingPasswordField
-									id="confirmPassword"
-									placeholder="Confirm Password"
-									className="h-[40px] w-full"
-									state={confirmPassword}
-									setState={setConfirmPassword}
-								/>
-								<p className="text-red-700 text-xs">{errorMessage}</p>
+								{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
 							</div>
 						</div>
 						{/* <!-- Modal footer --> */}

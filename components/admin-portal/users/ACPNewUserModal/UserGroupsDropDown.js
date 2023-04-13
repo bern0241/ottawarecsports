@@ -48,8 +48,8 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 
 			<div className="flex absolute">
 				{userGroups &&
-					userGroups.map((name) => (
-						<>
+					userGroups.map((name, index) => (
+						<React.Fragment key={index}>
 							<div className="relative bottom-[2.5rem]">
 								<UserGroupChip
 									name={name}
@@ -57,7 +57,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 									setUserGroups={setUserGroups}
 								/>
 							</div>
-						</>
+						</React.Fragment>
 					))}
 			</div>
 
