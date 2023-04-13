@@ -67,6 +67,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 				htmlFor={`Toggle-${user.Username}`}
 				className="relative inline-flex items-center cursor-pointer"
 			>
+				<span className='hidden'>Toggle Account Status</span>
 				<input
 					id={`Toggle-${user.Username}`}
 					onChange={(e) => {
