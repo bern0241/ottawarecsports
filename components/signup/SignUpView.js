@@ -168,8 +168,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 										placeholder="Last Name *"
 										onChange={(e) => setLastName(e.target.value)}
 										required={true}
-										state={lastName}
-										setState={setLastName}
 										className="w-full"
 									/>
 								</div>

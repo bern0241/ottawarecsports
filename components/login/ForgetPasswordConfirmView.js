@@ -5,7 +5,8 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
+
 // Components
 import OrsLogo from '../common/OrsLogo';
 import OtpField from 'react-otp-field';

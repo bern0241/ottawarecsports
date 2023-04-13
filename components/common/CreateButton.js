@@ -15,7 +15,7 @@ export default function CreateButton({ label, state, setState }) {
 			type="button"
 			className="flex text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 text-sm rounded-full px-4 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800"
 		>
-			<IconCirclePlus className="mr-2 h-5 w-5 hidden sm:contents" />
+			<IconCirclePlus className="mt-[2px] mr-2 h-5 w-5" />
 			{label}
 		</button>
 	);

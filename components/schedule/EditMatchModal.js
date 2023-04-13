@@ -108,7 +108,6 @@ const EditMatchModal = ({
 
 	useEffect(() => {
 		setUiState('main');
-		console.log(makingNewGame);
 		if (makingNewGame === true) {
 			setModalHeader('Create Game');
 		} else {
@@ -120,7 +119,6 @@ const EditMatchModal = ({
 		setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
 		setUiState('main');
 		fetchLocations();
-		console.log('MATCH', match);
 	}, []);
 
 	useEffect(() => {
@@ -148,7 +146,6 @@ const EditMatchModal = ({
 
 	const handleChange = (selectedDate) => {
 		setMatchDate(getConvertedDate(selectedDate));
-		console.log(getConvertedDate(selectedDate));
 	};
 	const handleClose = (state) => {
 		setShowFounded(state);
@@ -156,14 +153,12 @@ const EditMatchModal = ({
 
 	useEffect(() => {
 		if (homeTeam) {
-			console.log(homeTeam);
 			setHomeColour(homeTeam.home_colour);
 		}
 	}, [homeTeam]);
 
 	useEffect(() => {
 		if (awayTeam) {
-			console.log(awayTeam);
 			setAwayColour(awayTeam.away_colour);
 		}
 	}, [awayTeam]);
@@ -260,8 +255,6 @@ const EditMatchModal = ({
 		const myTime = momentTime.format('h:mm a');
 		setMatchDate(myDate);
 		setStartTime(myTime);
-
-		console.log(matchDate, startTime);
 	};
 
 	function getIndex(arr, id) {
@@ -321,15 +314,16 @@ const EditMatchModal = ({
 			});
 			setMessage({ status: 'success', message: 'Game edited successfully' });
 
-			console.log(matchDate);
-
 			const updatedIndex = getIndex(games, match.id);
-			console.log(apiData);
 			let newGames = [...games];
 			newGames[updatedIndex] = apiData.data.updateGame;
 			setGames(newGames);
 			getGames();
 			setMakingNewGame(false);
+			const timer = setTimeout(() => {
+				setIsVisible(false);
+            }, 2500);
+            return () => clearTimeout(timer);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -338,7 +332,6 @@ const EditMatchModal = ({
 
 	const createNewMatch = async (e) => {
 		e.preventDefault();
-		console.log(divisionID);
 		try {
 			if (
 				homeTeam === null ||
@@ -508,8 +501,7 @@ const EditMatchModal = ({
 		await cognitoidentityserviceprovider.adminGetUser(
 			params,
 			function (err, data) {
-				if (err) console.log(err, err.stack); // an error occurred
-				// else     console.log(data);           // successful response
+				if (err) console.log(err, err.stack);
 				let data2 = {};
 				data2.name = `${
 					data?.UserAttributes.find((o) => o.Name === 'name')['Value']
@@ -545,7 +537,6 @@ const EditMatchModal = ({
 				console.log(err, err.stack);
 			} else {
 				setGroupsForEachUser(data.Users);
-				// setListUsers(data.Users);
 			}
 		});
 	};
