@@ -16,14 +16,14 @@ const HeaderTitle = () => {
 	const [team, setTeam] = useState();
 	const [division, setDivision] = useState();
 	const router = useRouter();
-	const {teamId} = router.query;
-	const {divisionID} = router.query;
+	const { teamId } = router.query;
+	const { divisionID } = router.query;
 
 	useEffect(() => {
 		if (teamId) {
 			getTeamFunc();
 		}
-	}, [teamId])
+	}, [teamId]);
 
 	const getTeamFunc = async () => {
 		const data = await getTeam(teamId);
@@ -34,7 +34,7 @@ const HeaderTitle = () => {
 		if (divisionID) {
 			getDivisionFunc();
 		}
-	}, [divisionID])
+	}, [divisionID]);
 
 	const getDivisionFunc = async () => {
 		const apiData = await API.graphql({
@@ -43,15 +43,15 @@ const HeaderTitle = () => {
 		});
 		const data = await apiData.data.getDivision;
 		setDivision(data);
-	}
+	};
 
-  useEffect(() => {
-    if (teamId) {
-      getTeamFunc();
-    }
-  }, [teamId])
+	useEffect(() => {
+		if (teamId) {
+			getTeamFunc();
+		}
+	}, [teamId]);
 
-return (
+	return (
 		<>
 			{router.pathname === '/' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
@@ -93,7 +93,10 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">Sports</p>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/sports/${division?.id}`} className="font-light text-[.8rem]">
+							<Link
+								href={`/sports/${division?.id}`}
+								className="font-light text-[.8rem]"
+							>
 								{division?.name}
 							</Link>
 						</div>
@@ -119,7 +122,7 @@ return (
 					</div>
 				</div>
 			)}
-      {router.pathname === '/players/[id]' && (
+			{router.pathname === '/players/[id]' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -135,7 +138,7 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<Link href="/players/[id]" className="font-light text-[.8rem]">
 								Player Profile
-              </Link>
+							</Link>
 						</div>
 						<h1 className="font-semibold text-[1.8rem]">Player Profile</h1>
 					</div>
@@ -159,7 +162,7 @@ return (
 					</div>
 				</div>
 			)}
-      {router.pathname === '/teams/[teamId]' && (
+			{router.pathname === '/teams/[teamId]' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -173,7 +176,10 @@ return (
 								Teams
 							</Link>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/teams/${teamId}`} className="font-light text-[.8rem]">
+							<Link
+								href={`/teams/${teamId}`}
+								className="font-light text-[.8rem]"
+							>
 								{team && team.name}
 							</Link>
 						</div>
@@ -181,7 +187,7 @@ return (
 					</div>
 				</div>
 			)}
-			{router.pathname === ('/schedule/soccer') && (
+			{router.pathname === '/schedule/soccer' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -199,7 +205,7 @@ return (
 					</div>
 				</div>
 			)}
-			{router.pathname === ('/schedule/soccer/[id]') && (
+			{router.pathname === '/schedule/soccer/[id]' && (
 				<div className="p-1 pt-0 pl-2 lg:pl-7">
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-row">
@@ -250,13 +256,12 @@ return (
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
 							<p className="font-light text-[.8rem]">Admin Portal</p>
 							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<p
+							<p className="font-light text-[.8rem]">Leagues</p>
+							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
+							<Link
+								href={`/admin-portal/leagues/${division?.id}`}
 								className="font-light text-[.8rem]"
 							>
-								Leagues
-							</p>
-							<p className="font-light text-[.8rem]">&nbsp;/&nbsp;</p>
-							<Link href={`/admin-portal/leagues/${division?.id}`} className="font-light text-[.8rem]">
 								{division?.name}
 							</Link>
 						</div>

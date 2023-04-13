@@ -44,6 +44,7 @@ export default function UserProfilePictureEdit({
 					height={132}
 					className="w-[12rem] h-[12rem] hover:opacity-80 rounded-full border"
 					src={profilePic ? URL.createObjectURL(profilePic) : profileImage}
+					alt="profile"
 				/>
 
 				<div className="absolute translate-x-[10.5rem] translate-y-[-1.5rem]">

@@ -13,6 +13,7 @@ import {
 	IconCalendarDue,
 } from '@tabler/icons-react';
 import DatePicker from 'tailwind-datepicker-react';
+import { Label } from 'flowbite-react';
 
 const options = {
 	title: 'Date of Birth',
@@ -22,7 +23,8 @@ const options = {
 	maxDate: new Date('2050-01-01'),
 	minDate: new Date('1950-01-01'),
 	theme: {
-		background: 'bg-white border border-black z-[1000] fixed top-[10rem] left-[50%] translate-x-[-50%]',
+		background:
+			'bg-white border border-black z-[1000] fixed top-[10rem] left-[50%] translate-x-[-50%]',
 		todayBtn: '',
 		clearBtn: '',
 		icons: '',
@@ -60,14 +62,16 @@ export default function DobDatePicker({ state, setState }) {
 	};
 
 	return (
-		<div>
+		<>
+			<Label htmlFor="date" value="Date" className="sr-only" />
 			<DatePicker
-				classNames="w-96 sm:w-44 border border-black rounded-md "
+				id="date"
+				classNames="w-full"
 				options={options}
 				onChange={handleChange}
 				show={show}
 				setShow={handleClose}
 			/>
-		</div>
+		</>
 	);
 }

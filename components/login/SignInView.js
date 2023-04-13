@@ -11,7 +11,7 @@ import { Auth } from 'aws-amplify';
 import Link from 'next/link';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
-import { TextInput } from 'flowbite-react';
+import { Label, TextInput } from 'flowbite-react';
 // Components
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
@@ -51,40 +51,40 @@ export default function SignInView({ setUiState }) {
 	};
 
 	return (
-		<div className="flex flex-col md:flex-row justify-between align-middle bg-white h-screen">
+		<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
-				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center w-96 mt-[13rem]">
-					<div className="">
-						<OrsLogo />
-					</div>
-					<div className="">
-						<p className="text-lg font-semibold my-5 mt-6">Sign In</p>
-						<form className="flex flex-col w-96 gap-3">
+			<div className="flex justify-center items-center h-full w-full">
+				<div className="flex flex-col gap-5 w-80 sm:w-96">
+					<OrsLogo />
+					<h2 className="text-xl font-semibold my-2 sm:text-2xl">Sign In</h2>
+					<div className="flex flex-col justify-center items-center">
+						<form className="flex flex-col gap-3 sm:w-96">
+							<Label htmlFor="email" value="Email" className="sr-only" />
 							<TextInput
 								id="email"
 								type="email"
 								placeholder="Email"
 								onChange={(e) => setEmail(e.target.value)}
 								required={true}
-								className="w-96 border border-black rounded-md "
 								onKeyDown={(e) => {
-									if (e.key === 'Enter' ) {
+									if (e.key === 'Enter') {
 										handleSubmit(e);
 									}
 								}}
 							/>
+							<Label htmlFor="password" value="Password" className="sr-only" />
 							<PasswordField
+								id="password"
 								label="Password"
 								state={password}
 								setState={setPassword}
 								showPassword={showPassword}
 								setShowPassword={setShowPassword}
 								onKeyDown={(e) => {
-									if (e.key === 'Enter' ) {
+									if (e.key === 'Enter') {
 										handleSubmit(e);
 									}
 								}}
@@ -123,19 +123,19 @@ export default function SignInView({ setUiState }) {
 								</button>
 							</div>
 						</form>
-						<p
-							onClick={() => setUiState('forgotPassword')}
-							className="font-normal text-base text-right cursor-pointer"
-						>
-							Forgot your password?
-						</p>
-						<p className="font-normal text-base cursor-pointer">
-							Need an account?{' '}
-							<Link href="/signup" className="font-bold">
-								Sign Up
-							</Link>
-						</p>
 					</div>
+					<p
+						onClick={() => setUiState('forgotPassword')}
+						className="font-normal text-base text-right cursor-pointer"
+					>
+						Forgot your password?
+					</p>
+					<p className="font-normal text-base cursor-pointer mt-8">
+						Need an account?{' '}
+						<Link href="/signup" className="font-bold">
+							Sign Up
+						</Link>
+					</p>
 				</div>
 			</div>
 		</div>

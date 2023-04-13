@@ -51,17 +51,19 @@ export default function ForgetPasswordConfirmView({
 	};
 
 	return (
-		<div className="flex flex-col md:flex-row justify-between align-middle bg-white h-screen">
+		<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden md:block"></div>
-				<div className="hidden w-full h-20 bg-brand-blue-900 top-0 right-0"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="w-full w-96 flex flex-col gap-5 mt-[13rem] justify-center mx-auto text-center">
+			<div className="flex justify-center items-center h-full w-full">
+				<div className="flex flex-col gap-5 w-80 sm:w-96">
 					<OrsLogo />
-					<form className="flex flex-col gap-2">
-						<p className="font-semibold text-2xl">Verification</p>
-						<p className='text-sm my-2'>Enter the OTP that was sent to your email.</p>
+					<h2 className="text-xl font-semibold my-2 sm:text-2xl">
+						Verification
+					</h2>
+					<p>Enter the OTP that was sent to your email.</p>
+					<form className="flex flex-col gap-4">
 						<div>
 							<OtpField
 								value={confirmationCode}
@@ -72,28 +74,26 @@ export default function ForgetPasswordConfirmView({
 								separator={<span> </span>}
 								inputProps={{
 									className:
-										'otp-field__input w-12 h-16 border border-black rounded-md text-center',
+										'otp-field__input w-11 h-14 sm:w-12 sm:h-16 border border-black rounded-md text-center',
 									disabled: false,
 								}}
-								classNames="flex flex-row gap-3 justify-center mx-auto text-center"
+								classNames="flex flex-row gap-3 items-center justify-center"
 							/>
-							<button
-								className="bg-brand-blue-800 h-10 w-full max-w-[23rem] rounded-md text-white font-regular mt-5"
-								type="button"
-								onClick={() => confirmSignUp()}
-							>
-								Submit
-							</button>
 						</div>
-						<div>
-							<button
-								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
-								type="button"
-								onClick={() => setUiState('signIn')}
-							>
-								Cancel
-							</button>
-						</div>
+						<button
+							className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular"
+							type="button"
+							onClick={() => confirmSignUp()}
+						>
+							Submit
+						</button>
+						<button
+							className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular"
+							type="button"
+							onClick={() => setUiState('signIn')}
+						>
+							Cancel
+						</button>
 					</form>
 				</div>
 			</div>

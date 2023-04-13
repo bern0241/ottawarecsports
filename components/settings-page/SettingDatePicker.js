@@ -67,8 +67,8 @@ export default function SettingDatePicker({ state, setState }) {
 	const displayDate = (date) => {
 		let stringDate = date.replaceAll('-', '/');
 		stringDate = new Date(stringDate).toDateString();
-		return (stringDate.substring(stringDate.indexOf(' ') + 1));
-	}
+		return stringDate.substring(stringDate.indexOf(' ') + 1);
+	};
 	return (
 		<div className="relative mb-12">
 			<div className="absolute z-10 w-full">
@@ -88,7 +88,7 @@ export default function SettingDatePicker({ state, setState }) {
 			</div>
 			<div className={show === true ? '' : 'hidden'}>
 				<DatePicker
-					classNames="h-[40px] w-[300px] sm:w-[230px] xl:w-[300px]"
+					classNames=""
 					options={options}
 					onChange={handleChange}
 					show={show}

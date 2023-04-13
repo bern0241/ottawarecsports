@@ -37,7 +37,7 @@ export default function SettingsForm({
 		setLastName(attributes.family_name);
 		setBirthDate(attributes.birthdate);
 		setGender(attributes.gender);
-		setPhone(attributes.phone_number)
+		setPhone(attributes.phone_number);
 		setLocation(attributes['custom:location']);
 		setEmail(attributes.email);
 	};
@@ -101,7 +101,7 @@ export default function SettingsForm({
 				</div>
 				<div>
 					<div className="mb-2 block">
-						<Label htmlFor="" value="Birthdate" />
+						<Label htmlFor="date" value="Birthdate" />
 					</div>
 					{/* <SettingDatePicker state={birthDate} setState={setBirthDate} /> */}
 					<SettingDatePicker state={birthDate} setState={customSetBirthDate} />
@@ -116,12 +116,18 @@ export default function SettingsForm({
 					<div className="mb-2 block">
 						<Label htmlFor="phoneNumber" value="Phone Number" />
 					</div>
-					<PhoneInput 
+					<PhoneInput
+						id="phoneNumber"
 						placeholder=""
 						defaultCountry="CA"
 						value={phone}
 						onChange={setPhone}
-						style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
+						style={{
+							paddingLeft: '10px',
+							opacity: '100%',
+							borderRadius: '9px',
+							borderWidth: '1px',
+						}}
 					/>
 				</div>
 				<div>
@@ -153,18 +159,18 @@ export default function SettingsForm({
 						className="h-[40px] w-full"
 					/> */}
 				</div>
-				<div className='my-2 lg:my-3'>
+				<div className="my-2 lg:my-3">
 					<button
-						className="bg-brand-blue-800 h-[36px] w-full rounded-[10px] text-white font-regular"
+						className="text-brand-blue-800 border border-brand-blue-800 h-[36px] w-full rounded-[10px] font-regular"
 						type="button"
 						onClick={() => setEmailModal(true)}
 					>
 						Change Email
 					</button>
 				</div>
-				<div className='mb-1 lg:my-3'>
+				<div className="mb-1 lg:my-3">
 					<button
-						className="bg-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] text-white font-regular"
+						className="text-brand-blue-800 border border-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] font-regular"
 						type="button"
 						onClick={() => setPasswordModal(true)}
 					>
