@@ -99,7 +99,7 @@ export default function LeagueTable({
 								scope="col"
 								className="font-light py-2 border-r-[1px] text-center border-gray-400"
 							>
-								Action
+								<p className="hidden sm:contents">Action</p>
 							</th>
 						</tr>
 					</thead>
