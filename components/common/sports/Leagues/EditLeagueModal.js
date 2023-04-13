@@ -49,7 +49,7 @@ export default function EditLeagueModal({
 		league.coordinators.map((coordinator) => {
 			const params = {
 				Username: coordinator,
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			};
 			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
@@ -82,7 +82,7 @@ export default function EditLeagueModal({
 	// FETCH USERS (COORDINATORS)
 	const fetchUsers = (e) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 		};
 		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
 			if (err) {
@@ -98,7 +98,7 @@ export default function EditLeagueModal({
 			//Attributes - Groups
 			var params = {
 				Username: user.Username,
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 			};
 			cognitoidentityserviceprovider.adminListGroupsForUser(
 				params,

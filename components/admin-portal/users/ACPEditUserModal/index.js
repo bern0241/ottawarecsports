@@ -127,7 +127,7 @@ export default function ACPEditUserModal({
 		const getGroupsForUser = () => {
 			var params = {
 				Username: user1.Username,
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			};
 			cognitoidentityserviceprovider.adminListGroupsForUser(
 				params,
@@ -313,7 +313,7 @@ export default function ACPEditUserModal({
 			const phoneNumberConverted = await returnEmptyStringPhoneNumber();
 
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 				Username: user1.Username,
 				UserAttributes: [
 					{
@@ -391,7 +391,7 @@ export default function ACPEditUserModal({
 				// if (group !== 'User') 
 				{
 					var params = {
-						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+						UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 						GroupName: group,
 						Username: user1.Username,
 					};
@@ -421,7 +421,7 @@ export default function ACPEditUserModal({
 				// if (group !== 'User') 
 				{
 					var params = {
-						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+						UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 						GroupName: group,
 						Username: user1.Username,
 					};
@@ -455,7 +455,7 @@ export default function ACPEditUserModal({
 			return;
 		}
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: user1.Username,
 			Password: newPassword,
 			Permanent: true,

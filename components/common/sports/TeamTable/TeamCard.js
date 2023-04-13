@@ -39,7 +39,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 		myCaptains.forEach(async (captain) => {
 			const params = {
 				Username: captain,
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			};
 			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 				if (err) console.log(err, err.stack);

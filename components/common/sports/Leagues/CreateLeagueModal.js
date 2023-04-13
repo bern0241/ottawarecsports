@@ -44,7 +44,7 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
 
     const fetchUsers = (e) => {
         var params = {
-            UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+            UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID, /* required */
         };
         cognitoidentityserviceprovider.listUsers(params, function(err, data) {
             if (err) {
@@ -62,7 +62,7 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
             //Attributes - Groups
             var params = {
               Username: user.Username,
-              UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+              UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID, /* required */
             };
               cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
 

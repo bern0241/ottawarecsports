@@ -51,7 +51,7 @@ export default function DivisionMatches() {
 
 	const fetchReferees = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 			GroupName: 'Referee',
 		};
 		cognitoidentityserviceprovider.listUsersInGroup(
