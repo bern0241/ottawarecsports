@@ -542,7 +542,6 @@ export default function ACPEditUserModal({
 	return (
 		<>
 		{uiState === 'adminRemoved' && (
-				
                 <div tabIndex="-1" className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
             	<div className="relative h-full md:h-auto">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -597,7 +596,6 @@ export default function ACPEditUserModal({
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">This user is an <b>existing coordinator</b> on a league. <br/>Are you sure you want to REMOVE them <br/>as coordinators?</h3>
                         <button onClick={(e) => {
                             e.stopPropagation();
-							// setUiState('main');
 							setOpenModal(false);
                         }} data-modal-hide="popup-modal" type="button" className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
                             No thanks
@@ -619,7 +617,6 @@ export default function ACPEditUserModal({
 
 			{uiState === 'main' && (
 				<>
-					{/* // <!-- Main modal --> */}
 					<div
 						id="defaultModal"
 						tabIndex="-1"
@@ -627,9 +624,7 @@ export default function ACPEditUserModal({
 						className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
 						>
 						<div className="relative w-full h-full">
-							{/* <!-- Modal content --> */}
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
-								{/* <!-- Modal header --> */}
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
@@ -657,8 +652,6 @@ export default function ACPEditUserModal({
 									</button>
 								</div>
 
-								{/* <!-- Modal body --> */}
-								{/* <button className='absolute left-0 right-0' onClick={(e) => console.log(user)}>On Click</button> */}
 								<UserProfilePictureEdit
 									user={user1}
 									profilePic={profilePic}
@@ -790,7 +783,6 @@ export default function ACPEditUserModal({
 									</p>
 								)}
 
-								{/* <!-- Modal footer --> */}
 								<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 									<button
 										onClick={() => setOpenModal(false)}
@@ -828,9 +820,7 @@ export default function ACPEditUserModal({
 						className="fixed top-[10rem] left-0 right-0 z-[150] p-4 max-w-[32rem] mx-auto w-full h-[18rem] sm:overflow-visible overflow-auto"
 					>
 						<div className="relative w-full h-full">
-							{/* <!-- Modal content --> */}
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
-								{/* <!-- Modal header --> */}
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
@@ -858,7 +848,6 @@ export default function ACPEditUserModal({
 									</button>
 								</div>
 
-								{/* <!-- Modal body --> */}
 
 								<div className="p-5 grid grid-cols-1 items-center gap-[1.1rem]">
 									<div className="w-full">
@@ -888,7 +877,6 @@ export default function ACPEditUserModal({
 									</p>
 								)}
 
-								{/* <!-- Modal footer --> */}
 								<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 									<button
 										onClick={(e) => setPassword(e)}
