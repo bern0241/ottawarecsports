@@ -8,7 +8,6 @@
 
 import { Label, Modal, TextInput } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
-import ChangeEmailSetup from './ChangeEmail';
 import ChangePasswordSetup from './ChangePassword';
 import SettingDatePicker from './SettingDatePicker';
 import SettingGenderDropDown from './SettingGenderDropDown';

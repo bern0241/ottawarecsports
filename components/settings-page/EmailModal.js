@@ -6,34 +6,50 @@
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 
+// REFERENCES: 
+// https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
+
  import { Modal, TextInput, Label } from 'flowbite-react';
- import React, { useState } from 'react';
+ import React, { useState, useEffect } from 'react';
  import EmailVerification from './EmailVerification';
  import {
 	 changeUserAttributes,
 	 verifyUserAttributes,
  } from '@/utils/graphql.services';
  import { useRouter } from 'next/router';
+ import { Auth } from 'aws-amplify';
 
 export default function EmailModal({ emailModal, setEmailModal }) {
 
 	const router = useRouter();
-	const [currentEmail, setCurrentEmail] = useState('');
-	const [confirmEmail, setConfirmEmail] = useState('');
+	// const [currentEmail, setCurrentEmail] = useState('');
+	const [newEmail, setNewEmail] = useState('');
 	const [verificationModal, setVerificationModal] = useState(false);
+	const [message, setMessage] = useState(null);
 
-	const updateUserEmail = async () => {
-		const resp = changeUserAttributes({
-			email: confirmEmail,
-		});
-	};
-	const confirmNewEmail = async (confirmationCode) => {
-		const resp = await verifyUserAttributes(confirmationCode);
-		if (resp === 'SUCCESS') {
-			setVerificationModal(false);
-			router.reload();
-		}
-	};
+	// Hides display message after 5 seconds
+    useEffect(() => {
+		const timer = setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+		return () => clearTimeout(timer);
+}, [message])
+
+	const updateEmailFunc = async () => {
+		try {
+			const user = await Auth.currentAuthenticatedUser();
+			const attributes = {
+			  email: newEmail,
+			};
+			const result = await Auth.updateUserAttributes(user, attributes);
+			console.log('Email updated successfully', result);
+			setMessage({status: 'success', message: 'Email updated successfully!'});
+		} catch (error) {
+			console.log('Error updating email', error);
+			setMessage({status: 'error', message: error.message});
+		  }
+	}
+
 	return (
 		<>
 			{/* // <!-- Main modal --> */}
@@ -55,7 +71,7 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 						{/* <!-- Modal body --> */}
 						<div className="p-6 space-y-6">
 							<div className="flex flex-col gap-5">
-								<div>
+								{/* <div>
 									<div className="mb-2 block">
 										<Label htmlFor="email" value="Current Email" />
 									</div>
@@ -68,23 +84,26 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 										value={currentEmail}
 										onChange={(e) => setCurrentEmail(e.target.value)}
 									/>
-								</div>
+								</div> */}
 								<div>
 									<div className="mb-2 block">
 										<Label htmlFor="email" value="New Email" />
 									</div>
 									<TextInput
-										id="confirmEmail"
+										id="newEmail"
 										type="email"
-										placeholder="Confirm Email"
+										placeholder=""
 										required={true}
 										className="h-[40px] w-full"
-										value={confirmEmail}
-										onChange={(e) => setConfirmEmail(e.target.value)}
+										value={newEmail}
+										onChange={(e) => setNewEmail(e.target.value)}
 									/>
 								</div>
 							</div>
 						</div>
+
+						{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center gap-3 pb-2">
 							<div>
@@ -101,7 +120,7 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
 									type="button"
 									onClick={() => {
-										updateUserEmail();
+										updateEmailFunc();
 										setVerificationModal(true);
 									}}
 								>
@@ -117,12 +136,12 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 				className="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 
-			{verificationModal && (
+			{/* {verificationModal && (
 				<EmailVerification
 					setVerificationModal={setVerificationModal}
 					confirmNewEmail={confirmNewEmail}
 				/>
-			)}
+			)} */}
 		</>
 	);
 }
