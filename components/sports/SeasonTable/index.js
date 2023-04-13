@@ -77,10 +77,12 @@ export default function SeasonTable({
 								{!selectedLeague && <p className="absolute">{`Season`}</p>}
 								{selectedLeague && (
 									<>
-										<p className="absolute">Seasons</p>
-										<span className="font-semibold underline hidden sm:contents">
-											for {selectedLeague.name}
-										</span>
+										<p className="absolute">
+											Seasons{' '}
+											<span className="font-semibold underline hidden sm:contents">
+												for {selectedLeague.name}
+											</span>
+										</p>
 									</>
 								)}
 							</th>
