@@ -33,6 +33,10 @@ const GeneratedMatchesTable = ({
 				<div className="flex justify-between py-[35px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
 					<h1 className="text-base font-medium">
 						<p className="absolute translate-y-[-38px]">
+							{/* <b>League</b> - {league?.name} <br />
+							<b>Season</b> - {season?.name} <br />
+							<b>Division</b> - {division?.name} <br /> */}
+							{/* <span className='font-light italic'>Matches</span> */}
 						</p>
 					</h1>
 					{displayedMatches.length === 0 ? (

@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Label, TextInput } from 'flowbite-react';
 import { Auth } from 'aws-amplify';

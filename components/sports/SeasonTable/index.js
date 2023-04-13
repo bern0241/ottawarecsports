@@ -161,8 +161,6 @@ export default function SeasonTable({
 								className="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer"
 							>
 								<p className="sr-only">All Seasons </p>
-								{/* All Seasons
-                            <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
 							</th>
 							<td className="px-6 py-4"></td>
 							<td className="px-6 py-4"></td>
