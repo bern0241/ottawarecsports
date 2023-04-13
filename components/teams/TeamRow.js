@@ -53,7 +53,7 @@ export default function TeamRow({ team}) {
 		})
 	}
 
-	const goToPlayerPage = (e, captain) => {
+	const handleClickForLink = (e) => {
 		e.stopPropagation();
 	}
 
@@ -82,7 +82,7 @@ export default function TeamRow({ team}) {
 				<ul className=''>
 				{captains && captains.map((captain, index) => (
                       <li  key={index}>
-                        <Link href={`/players/${captain.Username}`} onClick={(e) => goToPlayerPage(e, captain)} className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center'> {captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</Link>
+                        <Link href={`/players/${captain.Username}`} onClick={(e) => handleClickForLink(e)} className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center'> {captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</Link>
                       </li>
                  ))}
 				 </ul>

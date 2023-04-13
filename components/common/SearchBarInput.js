@@ -11,7 +11,7 @@ export default function SearchBarInput({ id, placeholder, searchFunction }) {
 				<input
 					type="search"
 					id={id}
-					namee={id}
+					name={id}
 					className="w-full pr-10 rounded-3xl border-brand-blue-800 focus:border-brand-blue-800 focus:ring-brand-blue-800"
 					placeholder={placeholder}
 				/>
