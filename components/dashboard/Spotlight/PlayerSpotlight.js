@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-4
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -8,10 +8,10 @@
 import React from 'react';
 import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
-import { useUser } from '@/context/userContext';
 import { useEffect, useState } from 'react';
-import { getTeam, getImageFromS3 } from '@/utils/graphql.services';
-import { listPlayers, getTeam as getTeam2 } from '@/src/graphql/queries';
+import { getImageFromS3 } from '@/utils/graphql.services';
+import { listPlayers} from '@/src/graphql/queries';
+import { getTeamShort } from '@/src/graphql/custom-queries';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -22,15 +22,16 @@ const s3 = new AWS.S3({
 export default function PlayerSpotlight() {
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [userList, setUserList] = useState([]);
 	const [spotlightUser, setSpotlightUser] = useState();
 	const [profileImage, setProfileImage] = useState(null);
 	const [teams, setTeams] = useState([]);
+	const [spotlightUserRole, setSpotlightUserRole] = useState();
+  const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		fetchAllUsers();
-	}, [])
+	}, []);
 
 	useEffect(() => {
 		getRandomUser();
@@ -38,16 +39,40 @@ export default function PlayerSpotlight() {
 
 	useEffect(() => {
 		if (!spotlightUser) {
-			return;
-		}
-
-		const fetchSpotlightInformation = async () => {
-			await fetchTeams();
-		};
-		fetchSpotlightInformation();
+    setIsVisible(false);
+  }
+  else{
+    setIsVisible(true);
+    fetchSpotlightInformation();
 		getPicture();
+  }
 	}, [spotlightUser]);
 
+	useEffect(() => {
+		if (!teams) {
+			setSpotlightUserRole('-');
+			return;
+		}
+		checkPlayerRole(teams[0]);
+	}, [teams]);
+
+	const checkPlayerRole = (team) => {
+		try {
+			if (team.captains.includes(spotlightUser.Username)) {
+				setSpotlightUserRole('Captain');
+			} else {
+				setSpotlightUserRole('Player');
+			}
+		} catch (error) {
+			return;
+		}
+	};
+
+	const fetchSpotlightInformation = async () => {
+		await fetchTeams();
+	};
+
+	// Fetch all users from AWS Cognito:
 	const fetchAllUsers = async () => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
@@ -74,6 +99,7 @@ export default function PlayerSpotlight() {
 		}
 	};
 
+	// Fetch user profile picture from storage:
 	const getPicture = async () => {
 		if (
 			spotlightUser.Attributes.find((o) => o.Name === 'picture')['Value'] ===
@@ -88,6 +114,7 @@ export default function PlayerSpotlight() {
 		}
 	};
 
+	// Fetch all teams the player is on:
 	const fetchTeams = async () => {
 		setTeams([]);
 		const variables = {
@@ -104,17 +131,24 @@ export default function PlayerSpotlight() {
 		if (!players) {
 			return;
 		}
-		players.data.listPlayers.items.map(async (player) => {
-			const apiData = await API.graphql({
-				query: getTeam2,
-				variables: { id: player.teamID },
+		try {
+			players.data.listPlayers.items.map(async (player) => {
+				if(!player.teamID) return;
+				const apiData = await API.graphql({
+					query: getTeamShort,
+					variables: { id: player.teamID },
+				});
+				const data = await apiData.data.getTeam;
+				setTeams((teams) => [...teams, data]);
 			});
-			const data = await apiData.data.getTeam;
-			setTeams((teams) => [...teams, data]);
-		});
+		} catch (error) {
+			console.warn(error);
+		}
 	};
 
 	return (
+    <>
+    {isVisible ? (
 		<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
 			<img
 				src={`${
@@ -122,8 +156,8 @@ export default function PlayerSpotlight() {
 				}`}
 				width="100"
 				height="100"
-				className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
-				alt="N/A"
+				className="object-cover rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
+				alt="Spotlight player profile picture"
 			/>
 			<div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
@@ -146,14 +180,20 @@ export default function PlayerSpotlight() {
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
 					<span className="text-sm font-light col-span-1">Team Name</span>
 					<span className="truncate col-span-1">
-						{teams[0] ? teams[0].name : 'N/A'}
+						{teams[0] ? teams[0].name : '-'}
 					</span>
 				</div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-					<span className="text-sm font-light col-span-1">Position</span>
-					<span className="truncate col-span-1">N/A</span>
+					<span className="text-sm font-light col-span-1">Role</span>
+					<span className="truncate col-span-1">
+						{spotlightUserRole ? spotlightUserRole : '-'}
+					</span>
 				</div>
 			</div>
 		</div>
+    ) : (
+      <p className="text-center align-middle">No Player to show.</p>
+    )}
+    </>
 	);
 }

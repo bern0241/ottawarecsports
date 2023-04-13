@@ -10,22 +10,19 @@ import Image from 'next/image';
 
 const OrsLogo = () => {
 	return (
-		<div className="flex flex-wrap gap-5 sm:justify-between items-center">
-			<div className=" w-auto h-auto">
+		<header className="flex flex-row justify-center items-center gap-0.5 sm:px-px sm:gap-1">
 			<Image
 				src="/Logo.svg"
 				alt="ORS Logo"
 				width={90}
 				height={90}
 				priority
-				className="self-center"
+				className="sm:w-max sm:h-max"
 			/>
-			</div>
-			<p className="text-xl sm:text-3xl font-semibold text-center ">
-				Ottawa Rec Sports <br />
-				League App
-			</p>
-		</div>
+			<h1 className="text-2xl sm:text-3xl font-semibold text-center">
+				Ottawa Rec Sports League App
+			</h1>
+		</header>
 	);
 };
 

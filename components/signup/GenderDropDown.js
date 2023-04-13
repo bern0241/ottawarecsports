@@ -6,19 +6,26 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { Select } from 'flowbite-react';
+import { Label, Select } from 'flowbite-react';
 import React from 'react';
 
 export default function GenderDropDown({ state, setState }) {
 	return (
-		<div>
+		<>
+			<Label htmlFor="gender" value="Gender" className="sr-only" />
 			<Select
 				onChange={(e) => setState(e.target.value)}
 				id="gender"
+				placeholder="Gender"
 				required={true}
-				className="w-96 sm:w-44 border border-black rounded-md "
+				className="w-full placeholder-gray-300"
 			>
-				<option color="red" className="text-slate-400" selected disabled>
+				<option
+					color="red"
+					className="placeholder-gray-900 border"
+					defaultValue
+					disabled
+				>
 					Gender *
 				</option>
 				<option className="text-black" value="Non-Binary">
@@ -34,6 +41,6 @@ export default function GenderDropDown({ state, setState }) {
 					Prefer not to set
 				</option>
 			</Select>
-		</div>
+		</>
 	);
 }

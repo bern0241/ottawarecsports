@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-12
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { TextInput } from 'flowbite-react';
+import { Label, TextInput } from 'flowbite-react';
 import { Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
 import { createPlayer } from '@/utils/graphql.services';
@@ -20,6 +20,10 @@ import LocationDropDown from './LocationDropDown';
 import GenderDropDown from './GenderDropDown';
 import DobDatePicker from './DatePicker';
 import OrsLogo from '../common/OrsLogo';
+
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
 
 export default function SignUpView({ setUiState, email, setEmail }) {
 	// Variable states for signing up
@@ -51,24 +55,31 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	}, [message]);
 
 	const signUp = async () => {
-		console.log(birthDate);
-
-		if (
-			firstName === '' ||
-			lastName === '' ||
-			email === '' ||
-			// phoneNumber === '' ||
-			location === '' ||
-			gender === '' ||
-			birthDate === ''
-		) {
-			setMessage({
-				status: 'error',
-				message: 'Please fillout all required fields.',
-			});
-			return;
-		}
 		try {
+			if (
+				firstName === '' ||
+				lastName === '' ||
+				email === '' ||
+				// phoneNumber === '' ||
+				location === '' ||
+				gender === '' ||
+				birthDate === ''
+			) {
+				setMessage({
+					status: 'error',
+					message: 'Please fillout all required fields.',
+				});
+				return;
+			}
+			if (phoneNumber !== undefined) {
+				if (!ValidatePhoneNumber.validate(phoneNumber)) {
+					setMessage({
+						status: 'error',
+						message: 'Please use a valid phone number.',
+					});
+					return;
+				}
+			}
 			const newUser = await Auth.signUp({
 				username: email,
 				password: password,
@@ -78,7 +89,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					'custom:location': location,
 					phone_number: phoneNumber,
 					gender: gender,
-					role: 'Player',
 					picture: 'none',
 					birthdate: birthDate,
 				},
@@ -96,6 +106,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 		router.push('/');
 	};
 
+	// TO-DO: Remove success message from console.
 	const addUserToGroup = (username, role) => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
@@ -115,106 +126,143 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	};
 
 	return (
-		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
-			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
-			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="mx-1.5 content-center mt-10 w-96 sm:mt-40">
-					<div className="">
+		<div className="h-fit bg-white">
+			<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-full lg:h-screen">
+				<div>
+					<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
+					<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden mb-8"></div>
+				</div>
+				<div className="flex justify-center items-center w-full h-screen mb-5">
+					<div className="flex flex-col gap-3 w-80 sm:w-96 sm:gap-4">
 						<OrsLogo />
-					</div>
-					<form className="">
-						<p className="text-lg sm:text-2xl font-semibold my-5">Sign Up</p>
-						<div className="flex flex-col w-96 gap-3">
-							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
-								<TextInput
-									id="firstname"
-									type="firstname"
-									placeholder="First Name *"
-									onChange={(e) => setFirstName(e.target.value)}
-									required={true}
-									className="w-96 sm:w-44 border border-black rounded-md "
-								/>
-								<TextInput
-									id="lastname"
-									type="lastname"
-									placeholder="Last Name *"
-									onChange={(e) => setLastName(e.target.value)}
-									required={true}
-									className="w-96 sm:w-44 border border-black rounded-md "
-									state={lastName}
-									setState={setLastName}
-								/>
-							</div>
-							<div className="flex sm:flex-row sm:justify-between flex-col w-96 gap-3">
-								<GenderDropDown state={gender} setState={setGender} />
-								<DobDatePicker state={birthDate} setState={setBirthDate} />
-							</div>
-							<LocationDropDown state={location} setState={setLocation} />
-							<TextInput
-								id="email"
-								type="tel"
-								placeholder="Phone Number (optional)"
-								onChange={(e) => setPhoneNumber(e.target.value)}
-								required={false}
-								className="w-96 border border-black rounded-md "
-							/>
-							<TextInput
-								id="email"
-								type="email"
-								placeholder="Email *"
-								onChange={(e) => setEmail(e.target.value)}
-								required={true}
-								className="w-96 border border-black rounded-md "
-							/>
-							<PasswordField
-								label="Password *"
-								// onChange={(e) => setPassword(e.target.value)}
-								state={password}
-								setState={setPassword}
-								showPassword={showPassword}
-								setShowPassword={setShowPassword}
-							/>
-							{message !== null && (
-								<p
-									id="message-notice"
-									className={`ml-1 text-[.87rem] ${
-										message.status === 'error'
-											? 'text-red-600'
-											: 'text-green-500'
-									} relative top-1`}
-								>
-									<span className="font-medium"></span> {message.message}
-								</p>
-							)}
-							<div>
-								<button
-									className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-									type="button"
-									onClick={() => signUp()}
-								>
-									Sign Up
-								</button>
-							</div>
-							<div>
-								<button
-									className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
-									type="button"
-									onClick={() => handleEnterAsGuest()}
-								>
-									Enter as a Guest
-								</button>
-							</div>
+						<div className="flex flex-row items-center">
+							<h2 className="text-xl font-semibold my-2 sm:text-2xl grow">
+								Sign Up
+							</h2>
+							<p className="text-sm">* Required</p>
 						</div>
-						<p className="font-normal text-base cursor-pointer">
+						<div className="flex flex-col justify-center items-center">
+							<form className="flex flex-col gap-2 w-80 sm:w-96">
+								<div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+									<Label
+										htmlFor="firstname"
+										value="First Name"
+										className="sr-only"
+									/>
+									<TextInput
+										id="firstname"
+										type="firstname"
+										placeholder="First Name *"
+										onChange={(e) => setFirstName(e.target.value)}
+										required={true}
+										className="w-full"
+									/>
+									<Label
+										htmlFor="lastname"
+										value="Last Name"
+										className="sr-only"
+									/>
+									<TextInput
+										id="lastname"
+										type="lastname"
+										placeholder="Last Name *"
+										onChange={(e) => setLastName(e.target.value)}
+										required={true}
+										className="w-full"
+									/>
+								</div>
+								<div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+									<GenderDropDown state={gender} setState={setGender} />
+									<DobDatePicker state={birthDate} setState={setBirthDate} />
+								</div>
+								<LocationDropDown state={location} setState={setLocation} />
+								<Label
+									htmlFor="phone"
+									value="Phone Number"
+									className="sr-only"
+								/>
+								{/* <TextInput
+									id="phone"
+									type="tel"
+									placeholder="Phone Number (optional)"
+									onChange={(e) => setPhoneNumber(e.target.value)}
+									required={false}
+								/> */}
+									<PhoneInput
+										id="phoneNumber"
+										placeholder="Phone Number (optional)"
+										defaultCountry="CA"
+										value={phoneNumber}
+										onChange={setPhoneNumber}
+										style={{
+											paddingLeft: '10px',
+											opacity: '100%',
+											borderRadius: '9px',
+											borderWidth: '1px',
+											borderColor: 'lightgray'
+										}}
+									/>
+
+								<Label htmlFor="email" value="Email" className="sr-only" />
+								<TextInput
+									id="email"
+									type="email"
+									placeholder="Email *"
+									onChange={(e) => setEmail(e.target.value)}
+									required={true}
+								/>
+								<Label
+									htmlFor="password"
+									value="Password"
+									className="sr-only"
+								/>
+								<PasswordField
+									label="Password *"
+									// onChange={(e) => setPassword(e.target.value)}
+									state={password}
+									setState={setPassword}
+									showPassword={showPassword}
+									setShowPassword={setShowPassword}
+								/>
+								{message !== null && (
+									<p
+										id="message-notice"
+										className={`ml-1 text-[.87rem] text-center ${
+											message.status === 'error'
+												? 'text-red-600'
+												: 'text-green-500'
+										} relative top-1`}
+									>
+										<span className="font-medium"></span> {message.message}
+									</p>
+								)}
+								<div>
+									<button
+										className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
+										type="button"
+										onClick={() => signUp()}
+									>
+										Sign Up
+									</button>
+								</div>
+								<div>
+									<button
+										className="text-brand-blue-800 border border-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mb-3"
+										type="button"
+										onClick={() => handleEnterAsGuest()}
+									>
+										Enter as a Guest
+									</button>
+								</div>
+							</form>
+						</div>
+						<p className="font-normal text-base cursor-pointer mt-3">
 							Have an account?{' '}
 							<Link href="/login" className="font-bold">
 								Sign In
 							</Link>
 						</p>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

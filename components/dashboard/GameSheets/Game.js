@@ -1,36 +1,48 @@
 /**
- * Last updated: 2023-04-05
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
+ *
+ * Summary:
+ * This component displays game (or match) information.
  */
 
 import React, { useEffect, useState } from 'react';
 import { IconClock, IconCalendarEvent, IconMapPin } from '@tabler/icons-react';
-import TeamImageAndName from '../TeamImageAndName';
+import TeamImageAndName from './TeamImageAndName';
 import { useUser } from '@/context/userContext';
+import Link from 'next/link';
 
 export default function Game({ game }) {
 	const [date, setDate] = useState('');
 	const [time, setTime] = useState('');
 	const [visible, setVisible] = useState(false);
+	const [locationObject, setLocationObject] = useState();
 	const [user, setUser, authRoles] = useUser();
 
-  useEffect(() => {
-    dateOfGame();
-    if(authRoles.includes('Admin') || authRoles.includes('Owner')){
-      setVisible(true)
-    }
-    if (game.referees) {
-      const refereesUsername = game.referees.map(referee => referee)
-      
-      if (refereesUsername.includes(user.username)){
-        setVisible(true)
-      }
-    }
-    }, []);
+	useEffect(() => {
+		dateOfGame();
 
+		// Handle role-based access to viewing games (or matches):
+		if (authRoles.includes('Admin') || authRoles.includes('Owner')) {
+			setVisible(true);
+		}
+		if (game.referees) {
+			const refereesUsername = game.referees.map((referee) => referee);
+
+			if (refereesUsername.includes(user.username)) {
+				setVisible(true);
+			}
+		}
+
+		if (game.location) {
+			setLocationObject(JSON.parse(game.location));
+		}
+	}, []);
+
+	// Format date and time of game:
 	const dateOfGame = () => {
 		const resp = new Date(game.date);
 		const months = [
@@ -49,7 +61,7 @@ export default function Game({ game }) {
 		];
 		var daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
 
-		//For date of game
+		// Format date of game:
 		const date = resp.getDate();
 		const day = daysOfWeek[resp.getDay()];
 		const month = months[resp.getMonth()];
@@ -58,7 +70,7 @@ export default function Game({ game }) {
 		setDate(reqDate);
 
 		//Reference from https://www.geeksforgeeks.org/how-do-you-display-javascript-datetime-in-12-hour-am-pm-format/
-		//For time of game
+		// Format time of game:
 		let hours = resp.getHours();
 
 		const AmOrPm = hours >= 12 ? 'PM' : 'AM';
@@ -74,42 +86,54 @@ export default function Game({ game }) {
 
 	return (
 		<>
-    {visible ? 
-			<div className="w-full p-8 flex flex-col lg:flex-row justify-between items-center gap-4 border-b">
-        <div className="min-w-[0px] flex justify-center hidden xl:contents">
-                <img src="/images/soccerball_orange.png" />
-        </div>
-				<div className="font-medium flex flex-row gap-8 items-center">
-					<TeamImageAndName 
-            teamName={game.HomeTeam.name}
-            src={game.HomeTeam.team_picture}/>
-					<span className="border-2 border-brand-orange-800 rounded-xl px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
-						<p>{game.home_score}</p>
-						<p>:</p>
-						<p>{game.away_score}</p>
-					</span>
-					<TeamImageAndName 
-            teamName={game.AwayTeam.name}
-            src={game.AwayTeam.team_picture}
-            reverse={true} />
-				</div>
-        <div className="mx-8 mt-5">
-					<div className="grid lg:grid-cols-2 grid-cols-3 lg:gap-3 text-sm ">
-						<span className="flex items-center gap-1">
-							<IconCalendarEvent />{date}
+			{visible ? (
+				<div className="w-full p-8 flex flex-col lg:flex-row justify-between items-center gap-4 border-b">
+					<div className="min-w-[0px] flex justify-center hidden xl:contents">
+						<img src="/images/soccerball_orange.png" alt="Soccer ball icon" />
+					</div>
+					<div className="font-medium flex flex-row gap-8 items-center">
+						<TeamImageAndName
+							teamName={game.HomeTeam.name}
+							teamId={game.HomeTeam?.id}
+							src={game.HomeTeam.team_picture}
+						/>
+						<span className="border-2 border-brand-orange-800 rounded-xl px-[47px] py-[10px] flex flex-row items-center h-fit gap-1">
+							<p>{game.home_score}</p>
+							<p>:</p>
+							<p>{game.away_score}</p>
 						</span>
-						<span className="flex items-center gap-1">
-							<IconClock /> {time}
-						</span>
-            <span className="flex gap-1 text-sm lg:col-span-2">
-              <IconMapPin /> Algonquin Dome Field #1
-            </span>
-          </div>
+						<TeamImageAndName
+							teamName={game.AwayTeam?.name}
+							teamId={game.AwayTeam?.id}
+							src={game.AwayTeam?.team_picture}
+							reverse={true}
+						/>
+					</div>
+					<div className="mx-8 mt-5">
+						<div className="grid lg:grid-cols-2 grid-cols-3 lg:gap-3 text-sm ">
+							<span className="flex items-center gap-1">
+								<IconCalendarEvent />
+								{date}
+							</span>
+							<span className="flex items-center gap-1">
+								<IconClock /> {time}
+							</span>
+							<span className="flex gap-1 text-sm lg:col-span-2">
+								<IconMapPin />
+								<Link
+									className="text-blue-800 underline"
+									href={`${locationObject?.weblink}`}
+									target="_blank"
+								>
+									{locationObject?.name}
+								</Link>
+							</span>
+						</div>
+					</div>
 				</div>
-			</div> 
-      :
-      <div></div>
-      }
+			) : (
+				<div></div>
+			)}
 		</>
 	);
 }

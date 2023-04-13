@@ -11,7 +11,7 @@ import { Auth } from 'aws-amplify';
 // Components
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
-import { useRouter } from 'next/router';
+import { Label } from 'flowbite-react';
 
 export default function ForgotPasswordSubmitView({
 	email,
@@ -23,7 +23,6 @@ export default function ForgotPasswordSubmitView({
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [message, setMessage] = useState(null);
-	const router = useRouter();
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -53,8 +52,8 @@ export default function ForgotPasswordSubmitView({
 		if (newPassword)
 			try {
 				await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword);
-				router.push('/');
-				// setUiState('signIn');
+				// router.push('/');
+				setUiState('signIn');
 			} catch (error) {
 				setMessage({ status: 'error', message: error.message });
 				console.log(error);
@@ -62,25 +61,39 @@ export default function ForgotPasswordSubmitView({
 	};
 
 	return (
-		<div className="flex flex-col sm:flex-row justify-between align-middle bg-white h-screen">
+		<div className="flex flex-col lg:flex-row justify-between align-middle bg-white h-screen">
 			<div>
-				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden sm:block"></div>
-				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 sm:hidden"></div>
+				<div className="w-80 h-screen bg-brand-blue-900 top-0 left-0 hidden lg:block"></div>
+				<div className="w-full h-20 bg-brand-blue-900 top-0 right-0 lg:hidden"></div>
 			</div>
-			<div className="flex flex-col pb-5 place-items-center w-full h-full">
-				<div className="flex flex-col gap-5  mt-10 w-96 sm:mt-40">
+			<div className="flex justify-center items-center h-full w-full">
+				<div className="flex flex-col gap-5 w-80 sm:w-96">
 					<OrsLogo />
-					<form className="flex flex-col gap-2">
-						<p className="font-semibold text-2xl">Enter Your New Password</p>
+					<h2 className="text-xl font-semibold my-2 sm:text-2xl">
+						Enter Your New Password
+					</h2>
+					<form className="flex flex-col gap-3">
+						<Label
+							htmlFor="password"
+							value="New Password"
+							className="sr-only"
+						/>
 						<PasswordField
 							label="New Password"
+							id="password"
 							state={newPassword}
 							setState={setNewPassword}
 							showPassword={showPassword}
 							setShowPassword={setShowPassword}
 						/>
+						<Label
+							htmlFor="password"
+							value="Confirm New Password"
+							className="sr-only"
+						/>
 						<PasswordField
-							label="Confirm new Password"
+							label="Confirm New Password"
+							id="password"
 							state={confirmPassword}
 							setState={setConfirmPassword}
 							showPassword={showPassword}
@@ -99,24 +112,21 @@ export default function ForgotPasswordSubmitView({
 								</p>
 							</div>
 						)}
-						<div>
-							<button
-								className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular mt-3"
-								type="button"
-								onClick={(e) => forgotPasswordSubmit(e)}
-							>
-								Submit
-							</button>
-						</div>
-						<div>
-							<button
-								className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular mt-3"
-								type="button"
-								onClick={() => setUiState('signIn')}
-							>
-								Cancel
-							</button>
-						</div>
+						<button
+							className="bg-brand-blue-800 h-10 w-full rounded-3xl text-white font-regular"
+							type="button"
+							onClick={(e) => forgotPasswordSubmit(e)}
+						>
+							Submit
+						</button>
+
+						<button
+							className="text-brand-blue-800 h-10 w-full rounded-3xl bg-white font-regular"
+							type="button"
+							onClick={() => setUiState('signIn')}
+						>
+							Cancel
+						</button>
 					</form>
 				</div>
 			</div>

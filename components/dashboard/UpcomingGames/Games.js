@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-3
+ * Last updated: 2023-04-11
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
@@ -16,8 +16,7 @@ export default function Games() {
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [userId, setUserId] = useState();
 	const [playerData, setPlayerData] = useState();
-	const [teams, setTeams] = useState();
-	const [games, setGames] = useState();
+	const [games, setGames] = useState([]);
 	const [gameSchedule, setGameSchedule] = useState([
 		{ day: 'Sunday', games: [] },
 		{ day: 'Monday', games: [] },
@@ -40,7 +39,7 @@ export default function Games() {
 
 	useEffect(() => {
 		if (!playerData) return;
-		getGames(playerData.teamID);
+		getGames(playerData);
 	}, [playerData]);
 
 	useEffect(() => {
@@ -48,21 +47,28 @@ export default function Games() {
 		sortGamesByDate(games);
 	}, [games]);
 
+	// Fetch all player records belonging to the currently logged-in user:
 	const fetchPlayer = async () => {
 		const data = await getPlayersByUsername(userId);
 		if (data) {
-			setPlayerData(data[0]);
+			setPlayerData(data);
 		}
 	};
 
-	const getGames = async (id) => {
-		const apiData = await API.graphql({
-			query: getGamesByTeam,
-			variables: { teamId: id },
-		});
-		setGames(apiData.data.listGames.items);
+	// Get a list of all teams where the user is a player on either the home or away team:
+	const getGames = async (data) => {
+		let arr = [];
+		for (let i of data) {
+			const apiData = await API.graphql({
+				query: getGamesByTeam,
+				variables: { teamId: i.teamID },
+			});
+			arr = arr.concat(apiData.data.listGames.items);
+		}
+		setGames(arr);
 	};
 
+	// Sort games by day of the week:
 	const sortGamesByDate = (games) => {
 		const arr = [...gameSchedule];
 
@@ -77,7 +83,8 @@ export default function Games() {
 
 	return (
 		<div className="flex flex-row lg:flex-col gap-8 md:gap-4 xl:gap-1">
-			{gameSchedule &&
+			{games && games.length > 0 ? (
+				gameSchedule &&
 				gameSchedule.map(
 					(game, index) =>
 						game.games.length > 0 && (
@@ -89,7 +96,10 @@ export default function Games() {
 								<div className="font-medium">{game.games.length} Matches</div>
 							</div>
 						)
-				)}
+				)
+			) : (
+				<span className="font-light text-sm">No matches.</span>
+			)}
 		</div>
 	);
 }

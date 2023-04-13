@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
 export default function UserProfilePictureEdit({
@@ -15,7 +14,6 @@ export default function UserProfilePictureEdit({
 	profilePic,
 	setProfilePic,
 }) {
-	const defaultPic = '/images/defaultProfilePic.jpeg';
 	const [profileImage, setProfileImage] = useState('');
 	const getPicture = async () => {
 		if (userAttributes?.picture === 'none')
@@ -44,6 +42,7 @@ export default function UserProfilePictureEdit({
 					height={132}
 					className="w-[12rem] h-[12rem] hover:opacity-80 rounded-full border"
 					src={profilePic ? URL.createObjectURL(profilePic) : profileImage}
+					alt="profile"
 				/>
 
 				<div className="absolute translate-x-[10.5rem] translate-y-[-1.5rem]">

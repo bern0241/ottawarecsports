@@ -7,6 +7,10 @@
 import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import MatchRow from './MatchRow';
+import { useRouter } from 'next/router';
+import { API } from 'aws-amplify';
+import { getLeague } from '@/src/graphql/queries';
+import { getSeasonShort, getDivisionShort } from '@/src/graphql/custom-queries';
 
 const MatchesTable = ({
 	title = 'Scheduled matches',
@@ -14,11 +18,54 @@ const MatchesTable = ({
 	setMatchToEdit,
 	setIsEditing,
 	setIsDeleting,
+	setSaveBatchGame,
+	//JUSTIN ADDED
+	selectedDate,
+	setSelectedDate,
+	isCoordinator,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
-	const [selectedDate, setSelectedDate] = useState('');
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);
+
+	const [league, setLeague] = useState();
+	const [season, setSeason] = useState();
+	const [division, setDivision] = useState();
+	const router = useRouter();
+	const { id } = router.query;
+
+	/**
+	 * This useEffect fetches the division -> season -> league (in this order) for this page
+	 */
+	useEffect(() => {
+		if (!id) return;
+		const moveUpLeagueId = async () => {
+			// DIVISION
+			const apiDataDivision = await API.graphql({
+				query: getDivisionShort,
+				variables: { id: id },
+			});
+			const divisionData = await apiDataDivision.data.getDivision;
+			setDivision(divisionData);
+			// SEASON
+			if (!divisionData?.season) return;
+			const apiDataSeason = await API.graphql({
+				query: getSeasonShort,
+				variables: { id: divisionData.season },
+			});
+			const seasonData = await apiDataSeason.data.getSeason;
+			setSeason(seasonData);
+			// LEAGUE
+			if (!seasonData?.league) return;
+			const apiDataLeague = await API.graphql({
+				query: getLeague,
+				variables: { id: seasonData.league },
+			});
+			const leagueData = await apiDataLeague.data.getLeague;
+			setLeague(leagueData);
+		};
+		moveUpLeagueId();
+	}, [id]);
 	// go through the sorted match list, get all the dates and return them as an array
 	const returnDateArray = () => {
 		let dateArray = [];
@@ -36,8 +83,8 @@ const MatchesTable = ({
 			if (!dateArray.includes(dateWithoutWeekday))
 				dateArray.push(dateWithoutWeekday);
 		});
-		setSelectedDate(dateArray[0]);
-		return dateArray;
+		setSelectedDate('All matches');
+		return ['All matches', ...dateArray];
 	};
 	useEffect(() => {
 		if (!matches) return;
@@ -57,6 +104,8 @@ const MatchesTable = ({
 	}, [timeSortedMatches]);
 
 	useEffect(() => {
+		if (selectedDate === 'All matches')
+			return setDisplayedMatches(timeSortedMatches);
 		setDisplayedMatches(
 			timeSortedMatches.map((match) => {
 				const matchDate = match.date
@@ -66,31 +115,44 @@ const MatchesTable = ({
 				if (matchDateString.includes(selectedDate)) return match;
 			})
 		);
-	}, [selectedDate]);
+	}, [selectedDate, timeSortedMatches]);
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-				<div className="flex justify-between py-[15px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
-					<h1 className="text-base self-center font-medium">{title}</h1>
-					<DropdownInput
-						value={selectedDate}
-						setValue={setSelectedDate}
-						customClass={
-							'w-40 flex items-center justify-between py-[6.5px] px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900'
-						}
-						options={matchDates}
-					/>
+				<div className="flex justify-between py-[35px] px-[20px] border-b border-brand-neutral-300 items-center w-12/12">
+					<h1 className="text-base font-medium">
+						<p className="absolute translate-y-[-38px]">
+							<b>League</b> - {league?.name} <br />
+							<b>Season</b> - {season?.name} <br />
+							<b>Division</b> - {division?.name} <br />
+						</p>
+					</h1>
+					{displayedMatches.length === 0 ? (
+						<div className="py-[17px]"></div>
+					) : (
+						<DropdownInput
+							value={selectedDate}
+							setValue={setSelectedDate}
+							customClass={
+								'w-40 flex items-center justify-between px-3 gap-7 font-medium text-sm rounded-3xl border border-brand-blue-900 translate-y-[-1.1rem]'
+							}
+							options={matchDates}
+						/>
+					)}
 				</div>
 				<table className="table-auto w-">
 					<thead className="w-full"></thead>
 					<tbody>
 						{displayedMatches.length > 0 ? (
-							displayedMatches.map((match) => (
+							displayedMatches.map((match, index) => (
 								<MatchRow
+									key={index}
 									match={match}
 									setMatchToEdit={setMatchToEdit}
+									setSaveBatchGame={setSaveBatchGame}
 									setIsEditing={setIsEditing}
 									setIsDeleting={setIsDeleting}
+									isCoordinator={isCoordinator}
 								/>
 							))
 						) : (

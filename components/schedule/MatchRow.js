@@ -3,14 +3,32 @@
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
+ * Greg Coghill <cogh0020@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquincollege.com>
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
-import EditMatchModal from './EditMatchModal';
-import DeleteMatchModal from './DeleteMatchModal';
+import Link from 'next/link';
+import { useUser } from '@/context/userContext';
 
-const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
+const MatchRow = ({
+	match,
+	setMatchToEdit,
+	setIsEditing,
+	setIsDeleting,
+	isCoordinator,
+	setSaveBatchGame,
+}) => {
 	if (!match) return;
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [locationObject, setLocationObject] = useState();
+
+	useEffect(() => {
+		if (match.location) {
+			setLocationObject(JSON.parse(match.location));
+		}
+	}, []);
+
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -87,10 +105,8 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 			<tr
 				key={match.id}
 				className="border-b border-brand-neutral-300 flex flex-col md:flex-row items-stretch py-0 md:py-[26px] px-0 md:px-5 justify-between"
-				// onClick={navigateToProfile}
 			>
-				{/* odd:bg-white even:bg-brand-neutral-100 */}
-				<td className="font-medium flex flex-row gap-7 items-start md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
+				<td className="font-medium flex flex-row gap-1 items-start md:gap-7 md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
 					<TeamNameAndImage
 						jerseyColour={match.home_color?.toLowerCase()}
 						team={match.HomeTeam}
@@ -101,7 +117,7 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 						<p>{match.away_score}</p>
 					</span>
 					<TeamNameAndImage
-						jerseyColour={match.away_colo?.toLowerCase()}
+						jerseyColour={match.away_color?.toLowerCase()}
 						reverse={true}
 						team={match.AwayTeam}
 					/>
@@ -126,32 +142,47 @@ const MatchRow = ({ match, setMatchToEdit, setIsEditing, setIsDeleting }) => {
 							<span>
 								<LocationIcon />
 							</span>
-							{match.location}
-							{/* <lINK href={match.location.weblink}></lINK> */}
+							<Link
+								className="text-blue-500 underline"
+								href={`${locationObject?.weblink}`}
+								target="_blank"
+							>
+								{locationObject?.name}
+							</Link>
 						</p>
 					</span>
 				</td>
-				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
-					<button
-						onClick={() => {
-							setMatchToEdit(match);
-							setIsEditing(true);
-						}}
-					>
-						<span>
-							<EditIcon />
-						</span>
-					</button>
-					<button
-						onClick={() => {
-							setMatchToEdit(match);
-							setIsDeleting(true);
-						}}
-					>
-						<span>
-							<TrashIcon />
-						</span>
-					</button>
+				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center flex">
+					{(isCoordinator ||
+						(authRoles && authRoles.includes('Admin')) ||
+						(authRoles && authRoles.includes('Owner'))) && (
+						<button
+							onClick={() => {
+								setMatchToEdit(match);
+								setIsEditing(true);
+								setSaveBatchGame(false);
+							}}
+						>
+							<span>
+								<EditIcon />
+							</span>
+						</button>
+					)}
+					{(isCoordinator ||
+						(authRoles && authRoles.includes('Admin')) ||
+						(authRoles && authRoles.includes('Owner'))) && (
+						<button
+							onClick={() => {
+								setMatchToEdit(match);
+								setIsDeleting(true);
+								setSaveBatchGame(false);
+							}}
+						>
+							<span>
+								<TrashIcon />
+							</span>
+						</button>
+					)}
 				</td>
 			</tr>
 		</>

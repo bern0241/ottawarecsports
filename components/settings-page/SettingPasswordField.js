@@ -43,7 +43,7 @@ export default function SettingPasswordField({
 				onClick={(e) => showPasswordToggle(e)}
 				className="absolute right-[.5rem] top-[2.2rem] cursor-pointer"
 			>
-				{showPassword ? <IconEyeOff size="32px" /> : <IconEye size="32px" />}
+				{showPassword ? <IconEye size="32px" /> : <IconEyeOff size="32px" />}
 			</div>
 		</div>
 	);

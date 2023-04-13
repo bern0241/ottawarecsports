@@ -1,3 +1,15 @@
+/**
+ * Last updated: 2023-04-11
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
+// REFERENCES:
+// https://flowbite.com/docs/components/modal/
+// https://flowbite.com/docs/components/buttons/
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+
 import React, {useState, useEffect} from 'react'
 import { createLocation } from '@/src/graphql/mutations';
 import { API } from 'aws-amplify';
@@ -8,10 +20,12 @@ export default function NewLocation({ locations, setLocations }) {
     const [weblink, setWeblink] = useState("");
     const [message, setMessage] = useState(null);
 
+    // Hides display message when modal opens
     useEffect(() => {
         setMessage(null);
     }, [openModal])
 
+    // Hides display message after 5 seconds
     useEffect(() => {
             const timer = setTimeout(() => {
                 setMessage(null);
@@ -19,6 +33,7 @@ export default function NewLocation({ locations, setLocations }) {
             return () => clearTimeout(timer);
     }, [message])
 
+    // Creates new location data model
     const CreateLocation = async (e) => {
         e.preventDefault();
         if (name === '' || weblink === '') {
@@ -35,9 +50,8 @@ export default function NewLocation({ locations, setLocations }) {
                 query: createLocation,
                 variables: { input: data },
             });
-            setLocations([...locations, apiData.data.createLocation]);
-            setOpenModal(false);
-            // router.reload();
+            setLocations([...locations, apiData.data.createLocation]); // Updates list of locations (when 1 is created)
+            setOpenModal(false); // Closes modal
         } catch (error) {
             console.log(error);
         }
@@ -61,7 +75,7 @@ export default function NewLocation({ locations, setLocations }) {
                 
                 
                 <div className="px-6 py-6 lg:px-8">
-                    <h3 className="mb-7 text-xl text-center font-medium text-gray-900 dark:text-white">Add a new Location</h3>
+                    <h2 className="mb-7 text-xl text-center font-medium text-gray-900 dark:text-white">Add a new Location</h2>
                     <form className="space-y-6" action="#">
 
                         <div className="">

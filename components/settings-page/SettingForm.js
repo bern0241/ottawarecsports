@@ -8,13 +8,15 @@
 
 import { Label, Modal, TextInput } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
-import ChangeEmailSetup from './ChangeEmail';
 import ChangePasswordSetup from './ChangePassword';
 import SettingDatePicker from './SettingDatePicker';
 import SettingGenderDropDown from './SettingGenderDropDown';
 import SettingLocationDropDown from './SettingLocationDropDown';
 import SettingPasswordField from './SettingPasswordField';
 import { getCurrentUser } from '@/utils/graphql.services';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
 
 export default function SettingsForm({
 	setEmailModal,
@@ -34,7 +36,7 @@ export default function SettingsForm({
 		setLastName(attributes.family_name);
 		setBirthDate(attributes.birthdate);
 		setGender(attributes.gender);
-		setPhone(attributes.phone_number)
+		setPhone(attributes.phone_number);
 		setLocation(attributes['custom:location']);
 		setEmail(attributes.email);
 	};
@@ -98,7 +100,7 @@ export default function SettingsForm({
 				</div>
 				<div>
 					<div className="mb-2 block">
-						<Label htmlFor="" value="Birthdate" />
+						<Label htmlFor="date" value="Birthdate" />
 					</div>
 					{/* <SettingDatePicker state={birthDate} setState={setBirthDate} /> */}
 					<SettingDatePicker state={birthDate} setState={customSetBirthDate} />
@@ -113,14 +115,18 @@ export default function SettingsForm({
 					<div className="mb-2 block">
 						<Label htmlFor="phoneNumber" value="Phone Number" />
 					</div>
-					<TextInput
+					<PhoneInput
 						id="phoneNumber"
-						type="text"
-						placeholder="Phone Number"
-						required={true}
-						className="h-[40px] w-full"
+						placeholder=""
+						defaultCountry="CA"
 						value={phone}
-						onChange={(e) => setPhone(e.target.value)}
+						onChange={setPhone}
+						style={{
+							paddingLeft: '10px',
+							opacity: '100%',
+							borderRadius: '9px',
+							borderWidth: '1px',
+						}}
 					/>
 				</div>
 				<div>
@@ -152,18 +158,18 @@ export default function SettingsForm({
 						className="h-[40px] w-full"
 					/> */}
 				</div>
-				<div className='my-2 lg:my-3'>
+				<div className="my-2 lg:my-3">
 					<button
-						className="bg-brand-blue-800 h-[36px] w-full rounded-[10px] text-white font-regular"
+						className="text-brand-blue-800 border border-brand-blue-800 h-[36px] w-full rounded-[10px] font-regular"
 						type="button"
 						onClick={() => setEmailModal(true)}
 					>
 						Change Email
 					</button>
 				</div>
-				<div className='mb-1 lg:my-3'>
+				<div className="mb-1 lg:my-3">
 					<button
-						className="bg-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] text-white font-regular"
+						className="text-brand-blue-800 border border-brand-blue-800 h-[36px] w-full xl:w--[300px] rounded-[10px] font-regular"
 						type="button"
 						onClick={() => setPasswordModal(true)}
 					>

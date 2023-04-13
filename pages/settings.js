@@ -6,6 +6,9 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
+// REFERENCES: https://amplify.aws/learn/
+// https://www.youtube.com/watch?v=4P2jJRbtTck&t=454s
+
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { IconCameraPlus } from '@tabler/icons-react';
@@ -15,11 +18,14 @@ import { useUser } from '@/context/userContext';
 import {
 	changeUserAttributes,
 	uploadNewImageToS3,
-	deleteImageFromS3
+	deleteImageFromS3,
 } from '@/utils/graphql.services';
 import SettingsProfileImage from '../components/settings-page/SettingsProfileImage';
 import makeid from '@/utils/makeId';
 import StatusMessage from '@/components/common/StatusMessage';
+import { fileSizeCheckOver } from '@/utils/graphql.services';
+import ValidatePhoneNumber from 'validate-phone-number-node-js';
+
 export default function Setting() {
 	const [user] = useUser();
 	const [userAttributes, setUserAttributes] = useState({});
@@ -28,29 +34,49 @@ export default function Setting() {
 	const saveAttributes = async () => {
 		try {
 			if (userAttributes.name === '' || userAttributes.family_name === '') {
-				setMessage({status: 'error', message: "Please fillout all required fields."});
+				setMessage({
+					status: 'error',
+					message: 'Please fillout all required fields.',
+				});
 				return;
+			}
+			if (userAttributes.phone !== undefined && userAttributes.phone !== '') {
+				if (!ValidatePhoneNumber.validate(userAttributes.phone)) {
+					setMessage({
+						status: 'error',
+						message: 'Please use a valid phone number.',
+					});
+					return;
+				}
 			}
 			if (profilePic) {
 				const imageKey = `user_${makeid(15)}`;
-				// const imageKey = await uploadNewImageToS3(profilePic);
 				await changeUserAttributes({
 					...userAttributes,
 					picture: imageKey,
-				})
+				});
 				if (user.attributes.picture !== 'none') {
 					await deleteImageFromS3(user.attributes.picture);
 				}
+				if (fileSizeCheckOver(profilePic)) {
+					return;
+				}
 				await uploadNewImageToS3(imageKey, profilePic);
-				setMessage({status: 'success', message: 'Profile updated successfully.'})
+				setMessage({
+					status: 'success',
+					message: 'Profile updated successfully.',
+				});
 				return;
 			}
 			await changeUserAttributes({
 				...userAttributes,
 			});
-			setMessage({status: 'success', message: 'Profile updated successfully.'})
+			setMessage({
+				status: 'success',
+				message: 'Profile updated successfully.',
+			});
 		} catch (error) {
-			setMessage({status: 'error', message: error.message});
+			setMessage({ status: 'error', message: error.message });
 			console.error(error);
 		}
 	};
@@ -82,42 +108,35 @@ export default function Setting() {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<link rel="icon" href="/images/ORS-Logo.png" />
 				</Head>
-				<main className='mx-auto w-full m-4'>
-					<div className="bg-white lg:max-w-[50em] max-w-[26em] mx-auto border-gray-500 border-[.1px] ">
+				<main className="flex justify-center w-full">
+					<div className="bg-white w-80 flex flex-col border-[#c0c0c0] border-[.1px] rounded sm:w-96 lg:w-11/12 xl:w-max">
 						<div className="border-b border-[#c0c0c0] h-[50px] ">
-							<p className="font-medium text-base self p-3 ml-3">My Profile</p>
+							<h2 className="font-medium text-base self p-3 ml-3">
+								My Profile
+							</h2>
 						</div>
 						<div className="flex flex-col">
 							<div className="flex justify-center w-full">
 								<div className="lg:flex lg:flex-row gap-4 m-5">
 									<div>
 										<div className="w-full h-[200px] rounded-full overflow-hidden">
-												<>
-													<SettingsProfileImage
-														userAttributes={user.attributes}
-														profilePic={profilePic}
-														setProfilePic={setProfilePic}
-													/>
-												</>
+											<>
+												<SettingsProfileImage
+													userAttributes={user.attributes}
+													profilePic={profilePic}
+													setProfilePic={setProfilePic}
+												/>
+											</>
 										</div>
 										<IconCameraPlus className="ml-40" />
 									</div>
-									<div className='flex flex-col'>
-
+									<div className="flex flex-col">
 										<SettingsPage
 											saveAttributes={saveAttributes}
 											setUserAttributes={setUserAttributes}
 										/>
-										<StatusMessage message={message} setMessage={setMessage} />	
+										<StatusMessage message={message} setMessage={setMessage} />
 										<div className="flex justify-center mt-5 lg:mt-2">
-											{/* <div>
-												<button
-													className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-													type="button"
-												>
-													Cancel
-												</button>
-											</div> */}
 											<div>
 												<button
 													className="bg-brand-blue-800 h-[37px] w-[180px] rounded-[10px] text-white font-regular my-4"
@@ -128,29 +147,9 @@ export default function Setting() {
 												</button>
 											</div>
 										</div>
-
 									</div>
 								</div>
 							</div>
-							{/* <div className="flex justify-center">
-								<div>
-									<button
-										className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-										type="button"
-									>
-										Cancel
-									</button>
-								</div>
-								<div>
-									<button
-										className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
-										type="button"
-										onClick={saveAttributes}
-									>
-										Save
-									</button>
-								</div>
-							</div> */}
 						</div>
 					</div>
 				</main>

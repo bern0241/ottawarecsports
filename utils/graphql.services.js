@@ -7,12 +7,23 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
+// REFERENCES:
+// https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://github.com/fengyuanchen/compressorjs/blob/main/README.md
+// https://selectfrom.dev/connecting-aws-s3-buckets-to-next-js-25e903621c70
+
 import { API } from 'aws-amplify';
 import * as queries from '../src/graphql/queries';
 import * as mutations from '../src/graphql/mutations';
 import { Auth } from 'aws-amplify';
 import makeid from '@/utils/makeId';
 import AWS from 'aws-sdk';
+import Compressor from 'compressorjs';
+import {
+	listTeamsShort,
+	listGamesShort,
+	getTeamShort,
+} from '@/src/graphql/custom-queries';
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -82,7 +93,8 @@ export const getAllPlayers = async () => {
 export const getTeam = async (_id) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.getTeam,
+			query: getTeamShort,
+			// query: queries.getTeam,
 			variables: { id: _id },
 		});
 		return resp.data.getTeam;
@@ -98,7 +110,7 @@ export const getTeam = async (_id) => {
 export const getAllTeams = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listTeams,
+			query: listTeamsShort,
 		});
 		return resp.data.listTeams.items;
 	} catch (err) {
@@ -245,21 +257,27 @@ export const updatePlayerSoccer = async (newData) => {
 export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
 	try {
 		if (!image) return;
-		const params = {
-			Bucket: bucketName,
-			Key: imageKey,
-			Body: image,
-			ContentType: image.type,
-		};
-		// Upload the image to S3
-		s3.upload(params, (err, data) => {
-			if (err) {
-				// fail
-				console.warn(err);
-			} else {
-				// success
-				return data.Location;
-			}
+
+		new Compressor(image, {
+			quality: 0.75,
+			success: (compressedResult) => {
+				const params = {
+					Bucket: bucketName,
+					Key: imageKey,
+					Body: compressedResult,
+					ContentType: image.type,
+				};
+				// Upload the image to S3
+				s3.upload(params, (err, data) => {
+					if (err) {
+						// fail
+						console.warn(err);
+					} else {
+						// success
+						return data.Location;
+					}
+				});
+			},
 		});
 		return imageKey;
 	} catch (error) {
@@ -272,6 +290,7 @@ export const uploadNewImageToS3 = async (imageKey = makeid(15), image) => {
  * @returns {String} The file url
  */
 export const getImageFromS3 = async (key) => {
+	if (!key) return;
 	const url = s3.getSignedUrl('getObject', {
 		Bucket: bucketName,
 		Key: key,
@@ -287,7 +306,7 @@ export const getImageFromS3 = async (key) => {
 export const getAllMatches = async () => {
 	try {
 		const resp = await API.graphql({
-			query: queries.listGames,
+			query: listGamesShort,
 		});
 		return resp.data.listGames.items.filter((item) => !item._deleted);
 	} catch (err) {
@@ -330,7 +349,7 @@ export const deleteImageFromS3 = async (key) => {
 				console.warn(err);
 			} else {
 				// success
-				console.log('Object deleted successfully');
+				// console.log('Object deleted successfully');
 			}
 		});
 	} catch (error) {
@@ -384,6 +403,24 @@ export const createPlayerOnTeam = async (username, teamID) => {
 	}
 };
 
+// SAME AS 'createPlayerOnTeam()', but meant for Captains
+export const createCaptainOnTeam = async (username, teamID) => {
+	try {
+		const data = {
+			user_id: username,
+			role: 'Captain',
+			teamID: teamID,
+		};
+		const apiData = await API.graphql({
+			query: mutations.createPlayer,
+			variables: { input: data },
+		});
+		return apiData;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 /**
  * get all leagues in the database
  * @returns {Array} an array of league objects
@@ -398,6 +435,15 @@ export const getLeagues = async () => {
 		console.warn(err);
 	}
 };
+
+export function uniqueByUsername(items) {
+	const set = new Set();
+	return items.filter((item) => {
+		const isDuplicate = set.has(item.Username);
+		set.add(item.Username);
+		return !isDuplicate;
+	});
+}
 /**
  * get all games in a divisions
  * @param {String} divisionID The id of the division to get games for
@@ -406,12 +452,16 @@ export const getLeagues = async () => {
 export const getDivisionGames = async (divisionID) => {
 	try {
 		const resp = await API.graphql({
-			query: queries.gamesByDivision,
+			query: listGamesShort,
 			variables: {
-				division: divisionID,
+				filter: {
+					division: {
+						eq: divisionID,
+					},
+				},
 			},
 		});
-		return resp.data.gamesByDivision.items;
+		return resp.data.listGames.items;
 	} catch (err) {
 		console.warn(err);
 	}
@@ -420,18 +470,56 @@ export const getDivisionGames = async (divisionID) => {
 /**
  * Generate matchups for teams
  * @param {Array} teams The list of teams to generate matches for
+ * @param {Object} matchData The object containing the match data
+ * @example scheduleGamesAutomatically([{...team1}, {...team2}, {...team3}],{
+		division: divisionID,
+		date: Date.not(),
+		location: matchLocation,
+		status: 'NOT_STARTED',
+		home_color: 'Red',
+		away_colo: 'Blue',
+		home_roster: {...homeRoster},
+		away_roster: {...awayRoster},
+		home_score: 0,
+		away_score: 0,
+		goals: [],
+		round: 1,
+		referees: refereeUsernames,
+	})
  * @returns {Array} an array of games objects
  */
-export const scheduleGamesAutomatically = (teams) => {
+export const scheduleGamesAutomatically = (teams, matchData) => {
 	let results = [];
+	let time = 0;
 	// go through the list of teams, match all of them up
 	teams.map((team, index) => {
 		// for each team, go through the list from the end ("reverse loop"), match all of them up
 		for (let i = teams.length - 1; i > -1; i--) {
 			// if the team name is identical or the "reverse loop" has reached the current index position of the loop, don't do anything
 			if (teams.name === teams[i].name || i === index) break;
-			results.push({ home: team, away: teams[i] });
+			//console.log(team[i]);
+			console.log(i);
+			results.push({
+				gameHomeTeamId: team.id,
+				gameAwayTeamId: teams[i].id,
+				HomeTeam: team,
+				AwayTeam: teams[i],
+				home_color: team?.home_colour || 'Red',
+				away_color: team[i]?.away_colour || 'Blue',
+				...matchData,
+			});
 		}
 	});
 	return results;
+};
+
+export const fileSizeCheckOver = (file) => {
+	const maxSize = 5 * 1024 * 1024;
+	if (file === null) return false;
+	if (file.size > maxSize) {
+		alert('Image exceeds 5MB in size!');
+		return true;
+	} else {
+		return false;
+	}
 };

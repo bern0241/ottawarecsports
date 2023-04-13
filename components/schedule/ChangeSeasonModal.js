@@ -1,4 +1,12 @@
-import { TextInput, Label } from 'flowbite-react';
+/**
+ * Last updated: 2023-04-12
+ *
+ * Author(s):
+ * Greg Coghill (cogh0020@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
+import { Label } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 const ChangeSeasonModal = ({
@@ -36,8 +44,8 @@ const ChangeSeasonModal = ({
 	// When changing leagues, automatically select the first season
 	useEffect(() => {
 		setSeasons(selectedLeague?.Seasons?.items || []);
-		if (selectedLeague.Seasons)
-			setSelectedSeason(selectedLeague.Seasons.items[0]);
+		if (selectedLeague?.Seasons)
+			setSelectedSeason(selectedLeague?.Seasons.items[0]);
 	}, [selectedLeague]);
 
 	useEffect(() => {
@@ -70,7 +78,7 @@ const ChangeSeasonModal = ({
 										<Label htmlFor="league" value="League Name" />
 									</div>
 									<DropdownInput
-										value={selectedLeague.name}
+										value={selectedLeague?.name}
 										setValue={customSetLeague}
 										options={leagues.map((league) => league.name)}
 									/>

@@ -6,19 +6,21 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { Select } from 'flowbite-react';
+import { Label, Select } from 'flowbite-react';
 import React from 'react';
 
 export default function LocationDropDown({ state, setState }) {
 	return (
 		<div>
+			<Label htmlFor="location" value="Location" className="sr-only" />
 			<Select
 				onChange={(e) => setState(e.target.value)}
 				id="location"
+				placeholder="Location"
 				required={true}
-				className="w-96 border border-black rounded-md "
+				className="w-80 sm:w-96"
 			>
-				<option color="red" selected disabled>
+				<option color="red" defaultValue disabled>
 					Location *
 				</option>
 				<option className="text-black" value="East/Orleans area">
@@ -27,8 +29,11 @@ export default function LocationDropDown({ state, setState }) {
 				<option className="text-black" value="East/Vanier area">
 					East/Vanier area
 				</option>
-				<option className="text-black" value="West/Westboro to Greenbank">
-					West/Westboro to Greenbank
+				<option className="text-black" value="Westboro">
+					Westboro
+				</option>
+				<option className="text-black" value="Nepean/Barrhaven">
+					Nepean/Barrhaven
 				</option>
 				<option className="text-black" value="West/Kanata">
 					West/Kanata

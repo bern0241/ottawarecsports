@@ -12,8 +12,11 @@ import HeaderTitle from './Title';
 import Image from 'next/image';
 import { IconMenu2 } from '@tabler/icons-react';
 import { IconX } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
 
 const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
+	const router = useRouter();
+
 	return (
 		<>
 			<div className="">
@@ -45,7 +48,11 @@ const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 							width={66}
 							height={66}
 							priority
-							className="mx-auto"
+							className="mx-auto cursor-pointer w-[66px] h-[66px]"
+							onClick={(e) => {
+								e.preventDefault();
+								router.push('/');
+							}}
 						/>
 					</div>
 					<div className="fixed top-[5rem] lg:top-[0rem] w-full grow px-5 py-2 lg:pl-80 flex flex-row justify-between items-stretch border-b border-brand-blue-900/25 right-0 bg-white z-[50]">

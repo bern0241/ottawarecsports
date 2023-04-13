@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 
 export default function SuccessMessage({ title, message, setDisplay }) {
 	useEffect(() => {
-		console.log('Success Message called');
 		const timer = setTimeout(() => {
 			setDisplay(false);
 		}, 5000);
@@ -21,7 +20,7 @@ export default function SuccessMessage({ title, message, setDisplay }) {
 			className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 fixed bottom-0"
 			role="alert"
 		>
-			<span class="font-medium">{title}</span> {message}
+			<span className="font-medium">{title}</span> {message}
 		</div>
 	);
 }
