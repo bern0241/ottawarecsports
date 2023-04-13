@@ -80,8 +80,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 					return;
 				}
 			}
-			console.log(phoneNumber);
-			// return;
 			const newUser = await Auth.signUp({
 				username: email,
 				password: password,
@@ -108,6 +106,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 		router.push('/');
 	};
 
+	// TO-DO: Remove success message from console.
 	const addUserToGroup = (username, role) => {
 		var params = {
 			UserPoolId: 'us-east-1_70GCK7G6t',
