@@ -189,7 +189,7 @@ export default function CreateLeagueModal({
 						<div className="p-6 space-y-6">
 							<div>
 								<label
-									htmlFor="name"
+									htmlFor="league"
 									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									League Name *
@@ -198,7 +198,7 @@ export default function CreateLeagueModal({
 									value={leagueName}
 									onChange={(e) => setLeagueName(e.target.value)}
 									type="text"
-									id="name"
+									id="league"
 									className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								/>
 							</div>
@@ -335,7 +335,7 @@ export default function CreateLeagueModal({
 								onClick={() => setOpenModal(false)}
 								data-modal-hide="defaultModal"
 								type="button"
-								className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+								className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
 							>
 								Cancel
 							</button>
