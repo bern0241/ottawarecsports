@@ -63,8 +63,12 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 
 	return (
 		<>
-			<label className="relative inline-flex items-center cursor-pointer">
+			<label
+				htmlFor={`Toggle-${user.Username}`}
+				className="relative inline-flex items-center cursor-pointer"
+			>
 				<input
+					id={`Toggle-${user.Username}`}
 					onChange={(e) => {
 						e.stopPropagation();
 						setOpenModal(!openModal);

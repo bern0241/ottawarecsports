@@ -76,7 +76,7 @@ export default function AdminPortal() {
 
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h1 className="text-xl self-center">Users</h1>
+						<h2 className="text-xl self-center">Users</h2>
 						<button
 							className="flex items-center justify-between py-2 px-6 text-white font-medium text-sm rounded-3xl bg-blue-900 hover:bg-blue-800"
 							onClick={() => setAddUserModal(true)}
