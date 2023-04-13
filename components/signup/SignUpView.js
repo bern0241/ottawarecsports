@@ -214,7 +214,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								{message !== null && (
 									<p
 										id="message-notice"
-										className={`ml-1 text-[.87rem] ${
+										className={`ml-1 text-[.87rem] text-center ${
 											message.status === 'error'
 												? 'text-red-600'
 												: 'text-green-500'
