@@ -1,26 +1,40 @@
 {
-  "name": "ors-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@tabler/icons-react": "^2.7.0",
-    "eslint": "8.35.0",
-    "eslint-config-next": "13.2.3",
-    "flowbite": "^1.6.3",
-    "flowbite-react": "^0.4.1",
-    "next": "13.2.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7"
-  }
+	"name": "ors-app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"prettier": "prettier --write ."
+	},
+	"dependencies": {
+		"@aws-amplify/ui-react": "^4.3.10",
+		"@tabler/icons-react": "^2.7.0",
+		"aws-amplify": "^5.0.18",
+		"aws-sdk": "^2.1357.0",
+		"compressorjs": "^1.2.1",
+		"dayjs": "^1.11.6",
+		"eslint": "8.35.0",
+		"eslint-config-next": "13.2.3",
+		"flowbite": "^1.6.3",
+		"flowbite-react": "^0.4.1",
+		"moment-timezone": "^0.5.43",
+		"next": "13.2.3",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-otp-field": "^3.0.1",
+		"react-phone-number-input": "^3.2.19",
+		"react-timekeeper": "^2.2.1",
+		"tailwind-datepicker-react": "^1.2.3",
+		"uuidv4": "^6.2.13",
+		"validate-phone-number-node-js": "^0.0.1"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.13",
+		"postcss": "^8.4.21",
+		"prettier": "2.8.4",
+		"tailwindcss": "^3.2.7"
+	}
 }
