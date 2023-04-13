@@ -114,7 +114,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			}
 
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 				Username: email,
 				TemporaryPassword: tempPassword,
 				UserAttributes: [
@@ -181,7 +181,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	const addUserToGroups = async (newUsername, profile_pic_id) => {
 		userGroups.forEach((group) => {
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 				GroupName: group,
 				Username: newUsername,
 			};

@@ -17,7 +17,7 @@ export default function AddMemberDropdown({ fetchPlayersFromTeam, setOpenDropdow
     useEffect(() => {
         const fetchUsers = async () => {
             var params = {
-                UserPoolId: 'us-east-1_70GCK7G6t'
+                UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID
             };
             cognitoidentityserviceprovider.listUsers(params, function (err, data) {
                 if (err) {

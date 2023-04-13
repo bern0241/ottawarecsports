@@ -62,7 +62,7 @@
     // Get list of users from Cognito backend
    const fetchUsers = (e) => {
     var params = {
-        UserPoolId: 'us-east-1_70GCK7G6t', /* required */
+        UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID, /* required */
     };
       cognitoidentityserviceprovider.listUsers(params, function(err, data) {
           if (err) {

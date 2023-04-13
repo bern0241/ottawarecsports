@@ -36,7 +36,7 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 
 	const deleteUserFunc = () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: user.Username,
 		};
 		cognitoidentityserviceprovider.adminDeleteUser(
