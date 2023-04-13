@@ -748,7 +748,7 @@ export default function ACPEditUserModal({
 										onClick={(e) => editUser(e, 'meOther')}
 										data-modal-hide="defaultModal"
 										type="button"
-										className="text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-yellow-800 dark:hover:bg-yellow-900 dark:focus:ring-yellow-800"
+										className="text-white bg-brand-blue-900 hover:bg-brand-blue-800 focus:ring-4 focus:outline-none focus:ring-brand-blue-300 font-medium rounded-lg text-sm px-[2rem] py-2.5 text-center dark:bg-brand-blue-800 dark:hover:bg-brand-blue-900 dark:focus:ring-brand-blue-800"
 									>
 										Save
 									</button>

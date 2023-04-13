@@ -30,6 +30,7 @@ export default function PlayerRow({ player, index }) {
 	const [details, setDetails] = useState();
 	const [teams, setTeams] = useState([]);
 	const router = useRouter();
+	const [teamName, setTeamName] = useState('');
 
 	useEffect(() => {
 		setTeams([]);
