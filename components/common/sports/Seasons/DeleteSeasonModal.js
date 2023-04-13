@@ -10,6 +10,7 @@ import React from 'react';
 import { deleteDivision, deleteSeason } from '@/src/graphql/mutations';
 import { API } from '@aws-amplify/api';
 import { listDivisions } from '@/src/graphql/queries';
+import { deleteTeamDivisionShort, listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 
 export default function DeleteSeasonModal({
 	leagueInfo,
@@ -52,7 +53,38 @@ export default function DeleteSeasonModal({
 					input: { id: object.id },
 				},
 			});
+			deleteTeamDivisionsFunc(object.id);
 		});
+	}
+
+	const deleteTeamDivisionsFunc = async (_divisionID) => {
+		try {
+		  const variables = { 
+			filter: {
+				divisionId: {
+					eq: _divisionID
+				}
+			}
+		}
+		  const teamDivisions = await API.graphql({
+			  query: listTeamDivisionsShort, variables: variables
+		  })
+		  const deleteTheseTeamDivisions = teamDivisions.data.listTeamDivisions.items;
+		  if (deleteTheseTeamDivisions.length !== 0) {
+			  deleteTheseTeamDivisions.map(async (teamDivision) => {
+					const deletedItem = await API.graphql({
+					  query: deleteTeamDivisionShort,
+					  variables: {
+						input: { id: teamDivision.id },
+					  },
+					});
+					console.log('TeamDiv deleted',deletedItem);
+			  })
+		  }
+		  // listDivisionsFunc();
+		} catch (error) {
+		  console.log(error); 
+		}
 	}
 
 	return (

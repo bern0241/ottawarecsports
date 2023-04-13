@@ -1304,225 +1304,225 @@ export const deleteDivision = /* GraphQL */ `
       abbreviation
       teams
       season
-      Games {
-        items {
-          id
-          division
-          date
-          location
-          status
-          home_roster
-          away_roster
-          home_score
-          away_score
-          goals
-          round
-          referees
-          HomeTeam {
-            id
-            name
-            founded
-            home_colour
-            away_colour
-            TeamNotes {
-              items {
-                id
-                date
-                description
-                team_id
-                author_id
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            team_history
-            team_picture
-            Divisions {
-              items {
-                id
-                divisionId
-                teamId
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            Players {
-              items {
-                id
-                user_id
-                teamID
-                role
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            captains
-            sport
-            createdAt
-            updatedAt
-          }
-          AwayTeam {
-            id
-            name
-            founded
-            home_colour
-            away_colour
-            TeamNotes {
-              items {
-                id
-                date
-                description
-                team_id
-                author_id
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            team_history
-            team_picture
-            Divisions {
-              items {
-                id
-                divisionId
-                teamId
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            Players {
-              items {
-                id
-                user_id
-                teamID
-                role
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            captains
-            sport
-            createdAt
-            updatedAt
-          }
-          home_color
-          away_color
-          createdAt
-          updatedAt
-          gameHomeTeamId
-          gameAwayTeamId
-        }
-        nextToken
-      }
+      # Games {
+      #   items {
+      #     id
+      #     division
+      #     date
+      #     location
+      #     status
+      #     home_roster
+      #     away_roster
+      #     home_score
+      #     away_score
+      #     goals
+      #     round
+      #     referees
+      #     HomeTeam {
+      #       id
+      #       name
+      #       founded
+      #       home_colour
+      #       away_colour
+      #       TeamNotes {
+      #         items {
+      #           id
+      #           date
+      #           description
+      #           team_id
+      #           author_id
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       team_history
+      #       team_picture
+      #       Divisions {
+      #         items {
+      #           id
+      #           divisionId
+      #           teamId
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       Players {
+      #         items {
+      #           id
+      #           user_id
+      #           teamID
+      #           role
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       captains
+      #       sport
+      #       createdAt
+      #       updatedAt
+      #     }
+      #     AwayTeam {
+      #       id
+      #       name
+      #       founded
+      #       home_colour
+      #       away_colour
+      #       TeamNotes {
+      #         items {
+      #           id
+      #           date
+      #           description
+      #           team_id
+      #           author_id
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       team_history
+      #       team_picture
+      #       Divisions {
+      #         items {
+      #           id
+      #           divisionId
+      #           teamId
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       Players {
+      #         items {
+      #           id
+      #           user_id
+      #           teamID
+      #           role
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       captains
+      #       sport
+      #       createdAt
+      #       updatedAt
+      #     }
+      #     home_color
+      #     away_color
+      #     createdAt
+      #     updatedAt
+      #     gameHomeTeamId
+      #     gameAwayTeamId
+      #   }
+      #   nextToken
+      # }
       level
       description
       is_playoff
-      Teams {
-        items {
-          id
-          divisionId
-          teamId
-          division {
-            id
-            name
-            abbreviation
-            teams
-            season
-            Games {
-              items {
-                id
-                division
-                date
-                location
-                status
-                home_roster
-                away_roster
-                home_score
-                away_score
-                goals
-                round
-                referees
-                home_color
-                away_color
-                createdAt
-                updatedAt
-                gameHomeTeamId
-                gameAwayTeamId
-              }
-              nextToken
-            }
-            level
-            description
-            is_playoff
-            Teams {
-              items {
-                id
-                divisionId
-                teamId
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            createdAt
-            updatedAt
-          }
-          team {
-            id
-            name
-            founded
-            home_colour
-            away_colour
-            TeamNotes {
-              items {
-                id
-                date
-                description
-                team_id
-                author_id
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            team_history
-            team_picture
-            Divisions {
-              items {
-                id
-                divisionId
-                teamId
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            Players {
-              items {
-                id
-                user_id
-                teamID
-                role
-                createdAt
-                updatedAt
-              }
-              nextToken
-            }
-            captains
-            sport
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      # Teams {
+      #   items {
+      #     id
+      #     divisionId
+      #     teamId
+      #     division {
+      #       id
+      #       name
+      #       abbreviation
+      #       teams
+      #       season
+      #       # Games {
+      #       #   items {
+      #       #     id
+      #       #     division
+      #       #     date
+      #       #     location
+      #       #     status
+      #       #     home_roster
+      #       #     away_roster
+      #       #     home_score
+      #       #     away_score
+      #       #     goals
+      #       #     round
+      #       #     referees
+      #       #     home_color
+      #       #     away_color
+      #       #     createdAt
+      #       #     updatedAt
+      #       #     gameHomeTeamId
+      #       #     gameAwayTeamId
+      #       #   }
+      #       #   nextToken
+      #       # }
+      #       level
+      #       description
+      #       is_playoff
+      #       Teams {
+      #         items {
+      #           id
+      #           divisionId
+      #           teamId
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       createdAt
+      #       updatedAt
+      #     }
+      #     team {
+      #       id
+      #       name
+      #       founded
+      #       home_colour
+      #       away_colour
+      #       TeamNotes {
+      #         items {
+      #           id
+      #           date
+      #           description
+      #           team_id
+      #           author_id
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       team_history
+      #       team_picture
+      #       Divisions {
+      #         items {
+      #           id
+      #           divisionId
+      #           teamId
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       Players {
+      #         items {
+      #           id
+      #           user_id
+      #           teamID
+      #           role
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       captains
+      #       sport
+      #       createdAt
+      #       updatedAt
+      #     }
+      #     createdAt
+      #     updatedAt
+      #   }
+      #   nextToken
+      # }
       createdAt
       updatedAt
     }

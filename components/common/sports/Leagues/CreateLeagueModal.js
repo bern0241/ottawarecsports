@@ -86,7 +86,7 @@ export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, set
 
 	const saveLeague = async (e) => {
 		e.preventDefault();
-		if (leagueName === '') {
+		if (leagueName === '' || numPerPeriod === '') {
 			setMessage({
 				status: 'error',
 				message: 'Please fill out all required field.',

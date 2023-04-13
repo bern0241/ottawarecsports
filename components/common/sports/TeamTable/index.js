@@ -45,7 +45,7 @@ export default function TeamTable() {
 		// SEASON
 		const apiDataSeason = await API.graphql({
 			query: getSeasonShort,
-			variables: { id: divisionData.season },
+			variables: { id: divisionData?.season },
 		});
 		const seasonData = await apiDataSeason.data.getSeason;
 		setSeason(seasonData);

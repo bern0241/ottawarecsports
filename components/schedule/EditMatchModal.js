@@ -11,7 +11,9 @@ import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import { createGame } from '@/src/graphql/mutations';
+import { createGameShort } from '@/src/graphql/custom-queries';
 import { updateGame } from '@/src/graphql/mutations';
+import { updateGameShort } from '@/src/graphql/custom-queries';
 import TeamDropDown from './TeamDropDown';
 import LocationsDropdown from './LocationsDropdown';
 import TeamCardSelected from './TeamCardSelected';
@@ -309,7 +311,8 @@ const EditMatchModal = ({
 			};
 			//console.log(matchData);
 			const apiData = await API.graphql({
-				query: updateGame,
+				query: updateGameShort,
+				// query: updateGame,
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game edited successfully' });
@@ -321,8 +324,9 @@ const EditMatchModal = ({
 			getGames();
 			setMakingNewGame(false);
 			const timer = setTimeout(() => {
-				setIsVisible(false);
-            }, 2500);
+				// setIsVisible(false);
+				router.reload();
+            }, 0);
             return () => clearTimeout(timer);
 		} catch (error) {
 			console.error(error);
@@ -380,7 +384,7 @@ const EditMatchModal = ({
 				gameAwayTeamId: awayTeam.id,
 			};
 			const apiData = await API.graphql({
-				query: createGame,
+				query: createGameShort,
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game created successfully' });

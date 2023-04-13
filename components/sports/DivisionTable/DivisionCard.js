@@ -57,6 +57,7 @@ export default function DivisionCard({
 
 	const clickedDivision = (e) => {
 		e.preventDefault();
+		console.log(division);
 		setSelectedDivision(division);
 	};
 
@@ -85,7 +86,7 @@ export default function DivisionCard({
 			query: getDivisionWithTeams,
 			variables: { id: division.id },
 		});
-		setTeamCount(apiData.data.getDivision.Teams.items.length);
+		setTeamCount(apiData?.data?.getDivision?.Teams.items.length);
 	};
 
 	return (

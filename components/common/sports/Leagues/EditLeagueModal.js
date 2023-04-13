@@ -123,7 +123,7 @@ export default function EditLeagueModal({
 
 	const updateLeagueFunc = async (e) => {
 		e.preventDefault();
-		if (leagueName === '') {
+		if (leagueName === '' || numPerPeriod === '') {
 			setMessage({
 				status: 'error',
 				message: 'Please fill out all required field.',

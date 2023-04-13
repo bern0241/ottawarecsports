@@ -6,7 +6,8 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { deleteDivision } from '@/src/graphql/mutations';
+import { deleteDivision, deleteTeamDivision } from '@/src/graphql/mutations';
+import { listTeamDivisionsShort, deleteTeamDivisionShort } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
 
@@ -25,12 +26,46 @@ export default function DeleteDivisionModal({
 				},
 			});
 			setDeleteModal(false);
+      // deleteTeamDivisionsFunc();
 			listDivisionsFunc();
 		} catch (error) {
 			alert('Problem deleting Division');
 			console.error(error);
 		}
 	};
+
+  // Deletes all teamDivisions corresponding with the deleted Division
+  const deleteTeamDivisionsFunc = async () => {
+      try {
+        const variables = { 
+          filter: {
+              divisionId: {
+                  eq: divisionInfo.id
+              }
+          }
+      }
+        const teamDivisions = await API.graphql({
+            query: listTeamDivisionsShort, variables: variables
+        })
+        const deleteTheseTeamDivisions = teamDivisions.data.listTeamDivisions.items;
+        if (deleteTheseTeamDivisions.length !== 0) {
+            deleteTheseTeamDivisions.map(async (teamDivision) => {
+                  const deletedItem = await API.graphql({
+                    query: deleteTeamDivisionShort,
+                    // query: deleteTeamDivision,
+                    variables: {
+                      input: { id: teamDivision.id },
+                    },
+                  });
+                  console.log('TeamDiv deleted',deletedItem);
+            })
+        }
+        // listDivisionsFunc();
+        deleteDivisionFunc();
+      } catch (error) {
+        console.log(error); 
+      }
+  }
 
 	return (
 		<>
@@ -88,7 +123,7 @@ export default function DeleteDivisionModal({
 							</h3>
 							<div className="flex">
 								<button
-									onClick={() => deleteDivisionFunc()}
+									onClick={() => deleteTeamDivisionsFunc()}
 									data-modal-hide="popup-modal"
 									type="button"
 									className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
