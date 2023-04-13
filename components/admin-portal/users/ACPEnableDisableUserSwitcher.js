@@ -30,7 +30,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 
 	const enableUserFunc = () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: user.Username,
 		};
 		cognitoidentityserviceprovider.adminEnableUser(
@@ -46,7 +46,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 	};
 	const disableUserFunc = () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: user.Username,
 		};
 		cognitoidentityserviceprovider.adminDisableUser(

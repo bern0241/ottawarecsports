@@ -46,7 +46,7 @@ export default function PlayerProfile() {
 
 	const fetchPlayerCognito = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: userId,
 		};
 		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {

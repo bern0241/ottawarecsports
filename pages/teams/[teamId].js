@@ -134,7 +134,7 @@ export default function TeamProfile() {
 		playerUsername.forEach(async (player) => {
 			const params = {
 				Username: player,
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			};
 			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
@@ -153,7 +153,7 @@ export default function TeamProfile() {
 			myCaptains.forEach(async (captain) => {
 				const params = {
 					Username: captain,
-					UserPoolId: 'us-east-1_70GCK7G6t',
+					UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 				};
 				cognitoidentityserviceprovider.adminGetUser(
 					params,

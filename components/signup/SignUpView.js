@@ -109,7 +109,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	// TO-DO: Remove success message from console.
 	const addUserToGroup = (username, role) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			GroupName: role,
 			Username: username,
 		};

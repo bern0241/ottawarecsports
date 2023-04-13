@@ -332,7 +332,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 
 	const adminGetUserEmail = async (state, setState, username) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: username,
 		};
 		await cognitoidentityserviceprovider.adminGetUser(
@@ -368,7 +368,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 		};
 		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
 			if (err) {
@@ -386,7 +386,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			//Attributes - Groups
 			var params = {
 				Username: user.Username,
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 			};
 			cognitoidentityserviceprovider.adminListGroupsForUser(
 				params,

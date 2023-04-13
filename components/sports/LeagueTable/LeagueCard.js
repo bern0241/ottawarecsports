@@ -38,7 +38,7 @@ export default function LeagueCard({
 		setUsers([]);
 		coordinators.forEach((coordinator) => {
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 				Username: coordinator,
 			};
 			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
