@@ -108,9 +108,9 @@ export default function DivisionTable({
 							<th scope="col" className="font-medium px-6 py-4">
 								<p className="sr-only">Col </p>
 							</th>
-							<th scope="col" className="font-medium px-6 py-4">
+							{/* <th scope="col" className="font-medium px-6 py-4">
 								<p className="sr-only">Col </p>
-							</th>
+							</th> */}
 							<th className="absolute right-5 top-2">
 								{(isCoordinator ||
 									(authRoles && authRoles.includes('Admin')) ||
