@@ -20,7 +20,7 @@ export default function LocationDropDown({ state, setState }) {
 				required={true}
 				className="w-80 sm:w-96"
 			>
-				<option color="red" selected disabled>
+				<option color="red" defaultValue disabled>
 					Location *
 				</option>
 				<option className="text-black" value="East/Orleans area">

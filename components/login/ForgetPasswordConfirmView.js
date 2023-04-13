@@ -6,9 +6,6 @@
  */
 
 import React, { useState, useEffect, use } from 'react';
-import { Auth } from 'aws-amplify';
-import { useRouter } from 'next/router';
-import { TextInput } from 'flowbite-react';
 // Components
 import OrsLogo from '../common/OrsLogo';
 import OtpField from 'react-otp-field';
@@ -19,9 +16,7 @@ export default function ForgetPasswordConfirmView({
 	confirmationCode,
 	setConfirmationCode,
 }) {
-	const [otp, setOtp] = useState('');
 	const [message, setMessage] = useState(null);
-	const router = useRouter();
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -36,17 +31,6 @@ export default function ForgetPasswordConfirmView({
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
-		}
-	};
-
-	const resendConfirmationCode = async () => {
-		try {
-			await Auth.resendSignUp(email);
-			setMessage({ status: 'success', message: `Code resent successfully!` });
-			// console.log('code resent successfully');
-		} catch (err) {
-			setMessage({ status: 'error', message: err.message });
-			console.log('error resending code: ', err);
 		}
 	};
 

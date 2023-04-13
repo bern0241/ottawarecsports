@@ -120,17 +120,15 @@ import Link from 'next/link';
                           <Link href={`/players/${captain.Username}`} onClick={(e) => handleClickForLink(e)} className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center'> {captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</Link>
                         </li>
                       ))}
-              </ul>
-            </td>
-            <td className="p-3 text-center">{sport}</td>
-            <td className="flex gap-2 px-6 py-4 text-center justify-center">
-              <div className="hidden sm:contents align-middle ">
-                <IconEdit onClick={(e) => editTeamFunc(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="trash-outline" className="mt-5"></IconEdit>
-                <IconTrash onClick={(e) => deleteTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline" className="mt-5"></IconTrash>
-              </div>
-            </td>
-          </tr>
-          
+                    </ul>
+                  </td>
+                  <td className="text-center px-6 py-3">
+                      {sport}
+                  </td>
+                  <td className="flex gap-2 px-6 py-4 text-center justify-center">
+                      <IconEdit onClick={(e) => editTeamFunc(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconEdit>
+                  </td>
+                  </tr>
           {deleteModal && (
               <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
           )}

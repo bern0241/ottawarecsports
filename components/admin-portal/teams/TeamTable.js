@@ -21,10 +21,18 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 	// Displays table, team cards, and create team button
 	return (
 		<>
-			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
-          <div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 pr-2">
-						<h1 className="text-xl self-center">Teams</h1>
-            <CreateButton
+			<div className="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
+				<table className="w-full text-sm text-left border border-gray-400 border-collapse">
+					<thead className="text-md text-black bg-white">
+						<tr>
+							<th scope="col" className="text-lg font-medium px-6 py-7">
+								<p className="absolute top-4">All Teams</p>
+							</th>
+							<th scope="col" className="font-medium px-6 py-4"></th>
+							<th scope="col" className="font-medium px-6 py-4"></th>
+							<th scope="col" className="font-medium">
+								<div className="absolute top-2 right-1 pr-5 ">
+									<CreateButton
 										label="Create Team"
 										state={createTeamModal}
 										setState={setCreateTeamModal}

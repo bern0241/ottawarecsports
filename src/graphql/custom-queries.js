@@ -725,3 +725,40 @@ export const getTeamShort = /* GraphQL */ `
     }
   }
 `;
+
+
+export const listDivisionsShort = /* GraphQL */ `
+  query ListDivisions(
+    $filter: ModelDivisionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDivisions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+      abbreviation
+      createdAt
+      description
+      is_playoff
+      id
+      level
+      season
+      name
+      teams
+      updatedAt
+      Teams {
+        items {
+          createdAt
+          divisionId
+          id
+          teamId
+          updatedAt
+        }
+      }
+      Games {
+        items
+      }
+    }
+      nextToken
+    }
+  }
+`;

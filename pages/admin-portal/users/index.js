@@ -14,6 +14,7 @@ import SignOutButton from '@/components/common/SignOutButton';
 import { IconCirclePlus } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 //Components
+import SearchBarInput from '@/components/common/SearchBarInput';
 import SuccessMessage from '@/components/common/SuccessMessage';
 import ACPUserRow from '@/components/admin-portal/users/ACPUserRow';
 import ACPNewUserModal from '@/components/admin-portal/users/ACPNewUserModal';
@@ -21,6 +22,7 @@ import ACPSearchUserBar from '@/components/admin-portal/users/ACPSearchUserBar';
 
 export default function AdminPortal() {
 	const [users, setUsers] = useState();
+	const [filteredUsers, filterUsers] = useState();
 	const [addUserModal, setAddUserModal] = useState(false);
 	const [searchResult, setSearchResult] = useState('');
 	// When a user gets created successfully, a message pops up in the browser
@@ -49,9 +51,37 @@ export default function AdminPortal() {
 				console.log(err, err.stack);
 			} else {
 				setUsers(data.Users);
+				filterUsers(data.Users);
 			}
 		});
 	};
+
+	function handleSearch(ev) {
+		ev.preventDefault();
+
+		let searchValue = document
+			.getElementById('user-search')
+			.value.toLowerCase();
+
+		let filteredUsers = users.filter((user) => {
+			const firstName = user.Attributes.find((o) => o.Name === 'name')[
+				'Value'
+			];
+			const lastName = user.Attributes.find((o) => o.Name === 'family_name')[
+				'Value'
+			];
+
+			// Reference: Stack Overflow/zb22 <https://stackoverflow.com/questions/66089303/how-to-filter-full-name-string-properly-in-javascript>
+			const arr = searchValue.split(' ');
+			return arr.some(
+				(el) =>
+					firstName.toLowerCase().includes(el) ||
+					lastName.toLowerCase().includes(el)
+			);
+		});
+
+		filterUsers(filteredUsers);
+	}
 
 	// Only Admins or Owner can access page
 	if (!user || (!authRoles.includes('Admin') && !authRoles.includes('Owner'))) {
@@ -72,7 +102,16 @@ export default function AdminPortal() {
 			</Head>
 
 			<main className="p-8">
-				<ACPSearchUserBar setSearchResult={setSearchResult} />
+				
+				<div className='mb-5'>
+				<SearchBarInput 
+						id='user-search'  
+						setSearchResult={setSearchResult} 
+						placeholder='Search'
+						searchFunction={handleSearch}
+						/>
+				</div>
+				{/* <ACPSearchUserBar setSearchResult={setSearchResult} /> */}
 
 				<section className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
@@ -102,7 +141,18 @@ export default function AdminPortal() {
 							</tr>
 						</thead>
 						<tbody>
-							{users &&
+						{filteredUsers &&
+								filteredUsers.map((user, index) => (
+								<React.Fragment key={index}>
+									<ACPUserRow
+										key={user.Username}
+										user={user}
+										index={index}
+										handleSave={handleSave}
+									/>
+									</React.Fragment>
+							))}
+							{/* {users &&
 								users
 									.filter((user) => {
 										const searchItem = searchResult.toLocaleLowerCase();
@@ -121,7 +171,7 @@ export default function AdminPortal() {
 											index={index}
 											handleSave={handleSave}
 										/>
-									))}
+									))} */}
 						</tbody>
 					</table>
 				</section>

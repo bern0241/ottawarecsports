@@ -192,7 +192,7 @@ export default function TeamProfile() {
 	const isCaptainCheckFunc = () => {
 		if (captains) {
 			const captainUsernames = captains.map((captain) => captain.Username);
-			if (captainUsernames.includes(user.username)) {
+			if (captainUsernames.includes(user?.username)) {
 				setIsCaptain(true);
 			} else {
 				setIsCaptain(false);
