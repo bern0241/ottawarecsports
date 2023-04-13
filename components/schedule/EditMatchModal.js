@@ -307,10 +307,6 @@ const EditMatchModal = ({
 
 			const dateTime = `${matchDate} ${startTime}`;
 			const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
-			// 	console.log(matchDate);
-			// console.log(startTime);
-			// 	console.log(convertedTime);
-			// 	return;
 
 			const refereeUsernames = referees.map((a) => a.username);
 			const matchData = {
@@ -340,7 +336,6 @@ const EditMatchModal = ({
 			setGames(newGames);
 			getGames();
 			setMakingNewGame(false);
-			//router.reload();
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -709,7 +704,6 @@ const EditMatchModal = ({
 													]}
 													value={homeColour}
 													setValue={setHomeColour}
-													// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
 												/>
 											</div>
 										</div>
