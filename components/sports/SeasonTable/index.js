@@ -113,10 +113,10 @@ export default function SeasonTable({
 								Name
 							</th>
 							<th scope="col" className="text-center font-light px-6 py-2">
-								Start
+								<p className="hidden sm:contents">Start</p>
 							</th>
 							<th scope="col" className="text-center font-light px-6 py-2">
-								End
+								<p className="hidden sm:contents">End</p>
 							</th>
 							<th
 								scope="col"
