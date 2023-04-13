@@ -1931,3 +1931,159 @@ export const deleteGameShort = /* GraphQL */ `
     }
   }
 `;
+
+export const updateTeamShort = /* GraphQL */ `
+  mutation UpdateTeam(
+    $input: UpdateTeamInput!
+    $condition: ModelTeamConditionInput
+  ) {
+    updateTeam(input: $input, condition: $condition) {
+      id
+      name
+      founded
+      home_colour
+      away_colour
+      TeamNotes {
+        items {
+          id
+          date
+          description
+          team_id
+          author_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      team_history
+      team_picture
+      # Divisions {
+      #   items {
+      #     id
+      #     divisionId
+      #     teamId
+      #     division {
+      #       id
+      #       name
+      #       abbreviation
+      #       teams
+      #       season
+      #       Games {
+      #         items {
+      #           id
+      #           division
+      #           date
+      #           location
+      #           status
+      #           home_roster
+      #           away_roster
+      #           home_score
+      #           away_score
+      #           goals
+      #           round
+      #           referees
+      #           home_color
+      #           away_color
+      #           createdAt
+      #           updatedAt
+      #           gameHomeTeamId
+      #           gameAwayTeamId
+      #         }
+      #         nextToken
+      #       }
+      #       level
+      #       description
+      #       is_playoff
+      #       Teams {
+      #         items {
+      #           id
+      #           divisionId
+      #           teamId
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       createdAt
+      #       updatedAt
+      #     }
+      #     team {
+      #       id
+      #       name
+      #       founded
+      #       home_colour
+      #       away_colour
+      #       TeamNotes {
+      #         items {
+      #           id
+      #           date
+      #           description
+      #           team_id
+      #           author_id
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       team_history
+      #       team_picture
+      #       Divisions {
+      #         items {
+      #           id
+      #           divisionId
+      #           teamId
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       Players {
+      #         items {
+      #           id
+      #           user_id
+      #           teamID
+      #           role
+      #           createdAt
+      #           updatedAt
+      #         }
+      #         nextToken
+      #       }
+      #       captains
+      #       sport
+      #       createdAt
+      #       updatedAt
+      #     }
+      #     createdAt
+      #     updatedAt
+      #   }
+      #   nextToken
+      # }
+      Players {
+        items {
+          id
+          user_id
+          soccer_stats {
+            id
+            teamid
+            division
+            position
+            goals
+            assists
+            yellow_cards
+            red_cards
+            games_played
+          }
+          teamID
+          role
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      captains
+      sport
+      createdAt
+      updatedAt
+    }
+  }
+`;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getTeam } from '@/src/graphql/queries';
 import { updatePlayer, updateTeam } from '@/src/graphql/mutations';
+import { updateTeamShort, getTeamShort } from '@/src/graphql/custom-queries';
 import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 
@@ -28,7 +29,7 @@ export default function ChangeRoleModal({
 	const getTeamCaptains = async () => {
 		try {
 			const apiData = await API.graphql({
-				query: getTeam,
+				query: getTeamShort,
 				variables: { id: id },
 			});
 			const data = await apiData.data.getTeam;
@@ -85,7 +86,7 @@ export default function ChangeRoleModal({
 				captains: newCaptains,
 			};
 			const teamUpdated = await API.graphql({
-				query: updateTeam,
+				query: updateTeamShort,
 				variables: { input: data },
 			});
 			setOpenModal(false);

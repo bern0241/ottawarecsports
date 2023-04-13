@@ -11,6 +11,7 @@
  import { useRouter } from 'next/router';
  import { deletePlayer, updateTeam } from '@/src/graphql/mutations';
 import { getTeam } from '@/src/graphql/queries';
+import { getTeamShort } from '@/src/graphql/custom-queries';
  
  export default function DeletePlayerModal({ player, fullName, setOpenModal, fetchPlayersFromTeam, fetchCaptains }) {
 
@@ -31,7 +32,7 @@ import { getTeam } from '@/src/graphql/queries';
 
      const getTeamCaptains = async () => {
         try {
-            const apiData = await API.graphql({ query: getTeam, variables: { id: id }});
+            const apiData = await API.graphql({ query: getTeamShort, variables: { id: id }});
             const data = await apiData.data.getTeam;
             setCaptains(data.captains);
         } catch (error) {
