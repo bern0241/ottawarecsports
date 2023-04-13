@@ -32,19 +32,7 @@ export default function ACPDivisionTable({ selectedDivision, setSelectedDivision
 
     // Display all divisions of a parenting season
     const listDivisionsFunc = async () => {
-        const variables = {
-            filter: {
-                season: {
-                    eq: selectedSeason.id
-                }
-            }
-        }
-        const divisions = await API.graphql({
-            query: listDivisions,
-            variables: variables
-        })
-        setDivisions(divisions.data.listDivisions.items);
-        setSelectedDivision(divisions.data.listDivisions.items[0]);
+zd        setSelectedDivision(divisions.data.listDivisions.items[0]);
     }
 
     // When a league or season is clicked, show the division's table.
