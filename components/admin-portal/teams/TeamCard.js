@@ -130,7 +130,6 @@ import Link from 'next/link';
               </div>
             </td>
           </tr>
-
           
           {deleteModal && (
               <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
