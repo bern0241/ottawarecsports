@@ -38,7 +38,6 @@ export default function ProfileDropdown({ openDropdown, setOpenDropdown, user, s
         
         <div id="dropdownAvatar" className="border-gray-300 border-[1px] z-20 fixed top-[4.5rem] right-0 bg-white divide-y divide-gray-300 rounded-lg shadow-form dark:bg-gray-700 dark:divide-gray-600">
         <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-        {/* {user && (<div>{user.attributes.name} {user.attributes.family_name}</div> )} */}
         {!user && (<div>Please sign in</div> )}
         {user && ( <div className="font-medium truncate text-[.8rem]">{user.attributes.email}</div> ) }
         {!user && ( <div className="font-medium truncate">Guest</div> ) }

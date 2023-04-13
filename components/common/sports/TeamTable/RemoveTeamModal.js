@@ -6,7 +6,7 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
- import React, { useState, useEffect } from 'react';
+ import React from 'react';
  import { deleteTeamDivision } from '@/src/graphql/mutations';
  import { API } from '@aws-amplify/api';
  

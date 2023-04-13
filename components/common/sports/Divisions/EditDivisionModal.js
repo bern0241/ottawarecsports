@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { API } from '@aws-amplify/api';
-import { createDivision, updateDivision } from '@/src/graphql/mutations';
+import { updateDivision } from '@/src/graphql/mutations';
 
 export default function EditDivisionModal({
 	division,
@@ -19,7 +19,6 @@ export default function EditDivisionModal({
 }) {
 	const [divisionName, setDivisionName] = useState(division.name);
 	const [level, setLevel] = useState(division.level);
-	const [numOfTeams, setNumOfTeams] = useState(0);
 	const [message, setMessage] = useState(null);
 
 	useEffect(() => {

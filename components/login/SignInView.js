@@ -9,7 +9,6 @@
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import Link from 'next/link';
-import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
 import { Label, TextInput } from 'flowbite-react';
 // Components
@@ -17,7 +16,6 @@ import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
 
 export default function SignInView({ setUiState }) {
-	const [user, setUser] = useUser();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +36,6 @@ export default function SignInView({ setUiState }) {
 				username: email,
 				password: password,
 			});
-			// Succession
 			router.push('/');
 		} catch (error) {
 			console.error(error);

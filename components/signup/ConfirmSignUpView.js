@@ -10,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useUser } from '@/context/userContext';
-import { TextInput } from 'flowbite-react';
 import OtpField from 'react-otp-field';
 // Components
 import OrsLogo from '../common/OrsLogo';
@@ -21,9 +20,7 @@ export default function ConfirmSignUpView({
 	confirmationCode,
 	setConfirmationCode,
 }) {
-	const [otp, setOtp] = useState('');
 	const [message, setMessage] = useState(null);
-	const [user, setUser] = useUser();
 	const router = useRouter();
 
 	useEffect(() => {
@@ -36,9 +33,6 @@ export default function ConfirmSignUpView({
 	const confirmEmailCode = async () => {
 		try {
 			await Auth.confirmSignUp(email, confirmationCode);
-			// const user = await Auth.currentAuthenticatedUser();
-			// setUser(user);
-			// console.log('USER!!', user);
 			router.push('/login');
 		} catch (error) {
 			console.error(error);

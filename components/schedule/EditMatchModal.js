@@ -138,7 +138,6 @@ const EditMatchModal = ({
 	//Convert date input from datepicker into ISOString format
 	function getConvertedDate(date) {
 		let yourDate = date;
-		// let yourDate = new Date()
 		yourDate.toISOString().split('T')[0];
 		const offset = yourDate.getTimezoneOffset();
 		yourDate = new Date(yourDate.getTime() - offset * 60 * 1000);
@@ -223,7 +222,6 @@ const EditMatchModal = ({
 		}, 5000);
 		return () => clearTimeout(timer);
 	}, [message]);
-	//#endregion
 
 	const getCurrentTime = () => {
 		const now = new Date();
@@ -381,7 +379,6 @@ const EditMatchModal = ({
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
-			// console.log(matchData);
 			const apiData = await API.graphql({
 				query: createGame,
 				variables: { input: matchData },
@@ -480,11 +477,9 @@ const EditMatchModal = ({
 				},
 				Subject: {
 					Data: `ORS - ${userTeam.name.toUpperCase()} VS ${otherTeam.name.toUpperCase()} (${matchDateDisplay})`,
-					//   Data:  `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`
 				},
 			},
 			Source: 'justin.bernard320@gmail.com',
-			//   Source: 'ottawaindoorsoccer@gmail.com'
 		};
 
 		ses.sendEmail(params, (err, data) => {

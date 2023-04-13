@@ -14,6 +14,7 @@ import AWS from 'aws-sdk';
 import { createLeague } from '@/src/graphql/mutations';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 
+
 export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, setSelectedLeague }) {
     const [leagueName, setLeagueName] = useState('');
     const [leagueCoordinators, setLeagueCoordinators] = useState([]);

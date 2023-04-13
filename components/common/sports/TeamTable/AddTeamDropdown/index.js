@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { API } from 'aws-amplify';
-import { listTeams } from '@/src/graphql/queries';
-import { createTeamDivision, deleteTeamDivision } from '@/src/graphql/mutations';
+import { createTeamDivision } from '@/src/graphql/mutations';
 import { listTeamsShort } from '@/src/graphql/custom-queries';
 import TeamCardAdd from './TeamCardAdd';
 
@@ -28,7 +27,6 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
         const teams = await API.graphql({
             query: listTeamsShort
         })
-        // console.log('Teams', teams.data.listTeams.items);
         setTeams(teams.data.listTeams.items);
     }
 

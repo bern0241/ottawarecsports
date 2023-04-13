@@ -10,9 +10,8 @@ import React, { useState, useEffect } from 'react';
 import CoordinatorChip from '../../../admin-portal/leagues/LeagueTable/CoordinatorDropdown/CoordinatorChip';
 import CoordinatorDropdown from '../../../admin-portal/leagues/LeagueTable/CoordinatorDropdown';
 import { API } from '@aws-amplify/api';
-import { createLeague, updateLeague } from '@/src/graphql/mutations';
+import { updateLeague } from '@/src/graphql/mutations';
 import { listLeagues } from '@/src/graphql/queries';
-import { listLeaguesLong } from '@/src/graphql/custom-queries';
 
 export default function EditLeagueModal({
 	sport,

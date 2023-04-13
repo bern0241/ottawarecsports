@@ -11,7 +11,7 @@ import AWS from 'aws-sdk';
 import EditLeagueModal from '@/components/common/sports/Leagues/EditLeagueModal';
 import DeleteLeagueModal from '@/components/common/sports/Leagues/DeleteLeagueModal';
 import { useRouter } from 'next/router';
-import { IconUsers, IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
 
 export default function LeagueCard({

@@ -32,7 +32,6 @@ const DivisionRow = ({ key, division }) => {
 			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
 		>
-			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className="p-5 font-medium">
 				<div className="flex items-center underline">
 					<p>{division?.name}</p>

@@ -45,7 +45,6 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 				setMessage({status: 'error', message: 'Please fillout all required fields'});
 				return;
 			}
-			// const randomId = uuidv4();
 			let uniqueId = '';
 			if (teamLogoUpload !== null) {
 				uniqueId = `${teamName}_${makeid(15)}`;

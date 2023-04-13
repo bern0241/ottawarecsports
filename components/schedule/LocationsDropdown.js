@@ -31,7 +31,6 @@
             } else {
                 const timer = setTimeout(() => {
                     let parseLocation = JSON.parse(match.location);
-                    // console.log(parseLocation);
                     if (JSON.stringify(parseLocation) === '{}') {
                         console.log('CALLED')
                         setState(JSON.stringify(listLocations[0]));
@@ -64,9 +63,6 @@
                          {option.name}
                      </option>
                  ))}
-                 {/* <span className="absolute right-2 top-1/2 -translate-y-1/2n z-[1000]">
-                     <CircleArrowDown />
-                 </span> */}
              </select>
          </div>
      );

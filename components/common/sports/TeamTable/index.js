@@ -8,13 +8,12 @@
 
 import React, { useState, useEffect } from 'react';
 import TeamCard from './TeamCard';
-import { listTeamDivisions, getLeague } from '@/src/graphql/queries';
+import { getLeague } from '@/src/graphql/queries';
 import {
 	getDivisionShort,
 	getSeasonShort,
 	listTeamDivisionsShort,
 } from '@/src/graphql/custom-queries';
-// import { listTeamsWithPlayers } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
 import CreateButton from '../../CreateButton';
@@ -196,8 +195,6 @@ export default function TeamTable() {
 								scope="row"
 								className="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer"
 							>
-								{/* All Seasons
-                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
 							</th>
 							<td className="px-6 py-4"></td>
 							<td className="px-6 py-4"></td>

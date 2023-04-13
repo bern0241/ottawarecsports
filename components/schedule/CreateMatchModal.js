@@ -23,18 +23,12 @@ import DatePicker from 'tailwind-datepicker-react';
 import TimeKeeper from 'react-timekeeper';
 import moment from 'moment-timezone';
 import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
-// var AWS = require('aws-sdk');
 const ses = new AWS.SES();
 const lambda = new AWS.Lambda();
 const sns = new AWS.SNS();
 
-//TODO:
-//Get the existing roster of the home/away teams
-//Import date picker
-
 const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 	const { v4: uuidv4 } = require('uuid');
-	//const moment = require('moment-timezone');
 
 	const [homeTeam, setHomeTeam] = useState();
 	const [awayTeam, setAwayTeam] = useState();
@@ -119,7 +113,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 	}, [isVisible, selectedDate]);
 
 	useEffect(() => {
-		// .toISOString().split('T')[0])
 		setUiState('main');
 		fetchLocations();
 	}, []);
@@ -235,15 +228,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				gameHomeTeamId: homeTeam.id,
 				gameAwayTeamId: awayTeam.id,
 			};
-			//console.log(matchData);
 			const apiData = await API.graphql({
 				query: createGame,
 				variables: { input: matchData },
 			});
-			//console.log('New Game', apiData);
 			setMessage({ status: 'success', message: 'Game created successfully' });
 			setUiState('send-emails');
-			// router.reload();
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });

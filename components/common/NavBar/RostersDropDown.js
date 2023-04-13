@@ -7,19 +7,14 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import {
-	IconUsers,
-	IconChevronDown,
-	IconChevronRight,
-} from '@tabler/icons-react';
-const RostersDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
-
+import { IconUsers, IconChevronRight } from '@tabler/icons-react';
+const RostersDropDown = ({ openDropdown, toggle }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
-				onClick={() => toggle("rosters")}
+				onClick={() => toggle('rosters')}
 				className="px-5 py-2 flex ml-2 flex-row justify-between w-full"
 			>
 				<div className="flex flex-row align-middle">
@@ -33,9 +28,7 @@ const RostersDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 						style={{
 							transition: '320ms',
 							transform:
-								openDropdown === "rosters"
-									? 'rotate(90deg)'
-									: 'rotate(0deg)',
+								openDropdown === 'rosters' ? 'rotate(90deg)' : 'rotate(0deg)',
 						}}
 						size={'1.2em'}
 					/>
@@ -44,7 +37,7 @@ const RostersDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
 			<div>
 				<div
 					className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${
-						openDropdown === "rosters" ? 'h-[3.65rem]' : 'h-0'
+						openDropdown === 'rosters' ? 'h-[3.65rem]' : 'h-0'
 					}`}
 				>
 					<Link

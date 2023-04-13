@@ -28,9 +28,9 @@ export default function PlayerRow({ player, index }) {
 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
 	const signedUrlExpireSeconds = 60 * 1;
 	const [details, setDetails] = useState();
-	const [teamName, setTeamName] = useState('');
 	const [teams, setTeams] = useState([]);
 	const router = useRouter();
+	const [teamName, setTeamName] = useState('');
 
 	useEffect(() => {
 		setTeams([]);
@@ -151,7 +151,6 @@ export default function PlayerRow({ player, index }) {
 			className="border-b border-brand-neutral-300 hover:cursor-pointer"
 			onClick={handleClick}
 		>
-			{/* odd:bg-white even:bg-brand-neutral-100 */}
 			<td className=" sm:pl-4 py-3 text-md w-[30%]">
 				<div className="flex flex-col gap-2 md:flex-row items-center mx-auto text-center">
 					<img

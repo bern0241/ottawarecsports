@@ -12,9 +12,7 @@
 // https://flowbite.com/docs/forms/input-field/
 
 import React, { useState, useEffect } from 'react';
-import ChangePasswordSetup from './ChangePassword';
 import SettingPasswordField from './SettingPasswordField';
-import { changeUserPassword } from '@/utils/graphql.services';
 import { Auth } from 'aws-amplify';
 
 export default function PasswordModal({ passwordModal, setPasswordModal }) {

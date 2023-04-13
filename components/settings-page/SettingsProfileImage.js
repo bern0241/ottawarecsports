@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
 export default function UserProfilePictureEdit({
@@ -15,7 +14,6 @@ export default function UserProfilePictureEdit({
 	profilePic,
 	setProfilePic,
 }) {
-	const defaultPic = '/images/defaultProfilePic.jpeg';
 	const [profileImage, setProfileImage] = useState('');
 	const getPicture = async () => {
 		if (userAttributes?.picture === 'none')

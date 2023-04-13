@@ -11,7 +11,6 @@ import { Auth } from 'aws-amplify';
 // Components
 import PasswordField from '../common/PasswordField';
 import OrsLogo from '../common/OrsLogo';
-import { useRouter } from 'next/router';
 import { Label } from 'flowbite-react';
 
 export default function ForgotPasswordSubmitView({
@@ -24,7 +23,6 @@ export default function ForgotPasswordSubmitView({
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [message, setMessage] = useState(null);
-	const router = useRouter();
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
