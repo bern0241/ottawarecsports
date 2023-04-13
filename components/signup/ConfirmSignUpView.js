@@ -64,7 +64,9 @@ export default function ConfirmSignUpView({
 						<p className="mt-2 font-semibold text-2xl text-center">
 							Enter Your Confirmation Code
 						</p>
-						<p className='mb-2'>Enter the confirmation code that was sent to your email.</p>
+						<p className="mb-2">
+							Enter the confirmation code that was sent to your email.
+						</p>
 
 						<OtpField
 							value={confirmationCode}
@@ -88,11 +90,12 @@ export default function ConfirmSignUpView({
 									message.status === 'error' ? 'text-red-600' : 'text-green-500'
 								} relative top-1`}
 							>
-								<span className="font-medium text-center"></span> {message.message}
+								<span className="font-medium text-center"></span>{' '}
+								{message.message}
 							</p>
 						)}
 
-						<div className='flex justify-center'>
+						<div className="flex justify-center">
 							<button
 								className="bg-brand-blue-800 h-10 w-full max-w-[23rem] rounded-md text-white font-regular mt-3"
 								type="button"

@@ -259,7 +259,9 @@ export default function TeamProfile() {
 							className="sm:py-0.5 sm:pr-3 bg-blue-900 hover:bg-blue-800"
 							onClick={() => router.back()}
 						>
-							<div className="hidden sm:contents"><IconChevronLeft className="mr-2 h-5 w-5" /></div>
+							<div className="hidden sm:contents">
+								<IconChevronLeft className="mr-2 h-5 w-5" />
+							</div>
 							Back
 						</Button>
 					</div>
@@ -309,14 +311,18 @@ export default function TeamProfile() {
 						{/* Player Information */}
 						<div className="col-span-3 sm:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">Team Name</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									Team Name
+								</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{team && team.name}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">Team Captain (s)</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									Team Captain (s)
+								</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{captains &&
 										captains.map((captain, index) => (
@@ -348,14 +354,18 @@ export default function TeamProfile() {
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">Members</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									Members
+								</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{team && team.Players.items.length}
 								</div>
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">Home Colours</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									Home Colours
+								</h3>
 								<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									<div
 										style={{ backgroundColor: team?.home_colour }}
@@ -366,7 +376,9 @@ export default function TeamProfile() {
 							</div>
 
 							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-ligh text-sm sm:text-baset">Away Colours</h3>
+								<h3 className="mb-1 font-ligh text-sm sm:text-baset">
+									Away Colours
+								</h3>
 								<div className="flex flex-wrap gap-4 py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									<div
 										style={{ backgroundColor: team?.away_colour }}

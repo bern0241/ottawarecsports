@@ -322,8 +322,8 @@ const EditMatchModal = ({
 			setMakingNewGame(false);
 			const timer = setTimeout(() => {
 				setIsVisible(false);
-            }, 2500);
-            return () => clearTimeout(timer);
+			}, 2500);
+			return () => clearTimeout(timer);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });

@@ -19,32 +19,35 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [message, setMessage] = useState(null);
-	
+
 	const changePassword = async () => {
 		Auth.currentAuthenticatedUser()
-		.then((user) => {
-			return Auth.changePassword(user, oldPassword, newPassword);
-		})
-		.then((data) => {
-			setMessage({status: 'success', message: 'You password has been successfully changed.'});
-			const timer = setTimeout(() => {
-				setPasswordModal(false);
-            }, 2500);
-            return () => clearTimeout(timer);
-		})
-		.catch((err) => {
-			setMessage({status: 'error', message: err.message});
-			console.log(err);
-		});
+			.then((user) => {
+				return Auth.changePassword(user, oldPassword, newPassword);
+			})
+			.then((data) => {
+				setMessage({
+					status: 'success',
+					message: 'You password has been successfully changed.',
+				});
+				const timer = setTimeout(() => {
+					setPasswordModal(false);
+				}, 2500);
+				return () => clearTimeout(timer);
+			})
+			.catch((err) => {
+				setMessage({ status: 'error', message: err.message });
+				console.log(err);
+			});
 	};
 
 	// Hides display message after 5 seconds
-    useEffect(() => {
+	useEffect(() => {
 		const timer = setTimeout(() => {
 			setMessage(null);
 		}, 5000);
 		return () => clearTimeout(timer);
-}, [message])
+	}, [message]);
 
 	return (
 		<>
@@ -81,7 +84,18 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 									state={newPassword}
 									setState={setNewPassword}
 								/>
-								{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+								{message && (
+									<p
+										id="standard_error_help"
+										className={`mt-4 text-center text-sm ${
+											message.status === 'success'
+												? 'text-green-600 dark:text-green-400'
+												: 'text-red-600 dark:text-red-400'
+										}`}
+									>
+										<span className="font-medium">{message.message}</span>
+									</p>
+								)}
 							</div>
 						</div>
 						{/* <!-- Modal footer --> */}

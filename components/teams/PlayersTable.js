@@ -59,26 +59,27 @@ const PlayersTable = ({ data, selectPlayer = () => {}, setTeamRoster }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{roster && roster.map((item, index) => (
-						<tr
-							className={
-								// Make every odd row dark
-								index % 2 === 0 ? `` : `bg-brand-neutral-100`
-							}
-						>
-							<div className={'relative'}>
-								<p className="px-5 py-2">{item.user}</p>
-								<span
-									className="absolute right-4 top-1/2 -translate-y-1/2"
-									onClick={() => {
-										removePlayerFromRoster(item.id);
-									}}
-								>
-									<DeleteIcon />
-								</span>
-							</div>
-						</tr>
-					))}
+					{roster &&
+						roster.map((item, index) => (
+							<tr
+								className={
+									// Make every odd row dark
+									index % 2 === 0 ? `` : `bg-brand-neutral-100`
+								}
+							>
+								<div className={'relative'}>
+									<p className="px-5 py-2">{item.user}</p>
+									<span
+										className="absolute right-4 top-1/2 -translate-y-1/2"
+										onClick={() => {
+											removePlayerFromRoster(item.id);
+										}}
+									>
+										<DeleteIcon />
+									</span>
+								</div>
+							</tr>
+						))}
 				</tbody>
 			</table>
 		</div>

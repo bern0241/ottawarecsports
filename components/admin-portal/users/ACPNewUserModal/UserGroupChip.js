@@ -22,7 +22,9 @@ export default function UserGroupChip({ name, userGroups, setUserGroups }) {
 			<div>
 				<p type="button">{name}</p>
 			</div>
-			<div>{(name !== 'User' && name !== 'Owner') && <IconX size={'12px'} />}</div>
+			<div>
+				{name !== 'User' && name !== 'Owner' && <IconX size={'12px'} />}
+			</div>
 		</div>
 	);
 }

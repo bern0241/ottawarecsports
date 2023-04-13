@@ -95,7 +95,10 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			}
 			if (phoneNumber !== undefined && phoneNumber !== '') {
 				if (!ValidatePhoneNumber.validate(phoneNumber)) {
-					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					setMessage({
+						status: 'error',
+						message: 'Please use a valid phone number.',
+					});
 					return;
 				}
 			}
@@ -199,7 +202,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		});
 	};
 
-	// Automatically sets new user to CONFIRMED 
+	// Automatically sets new user to CONFIRMED
 	// REFERENCE: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RespondToAuthChallenge.html
 	const confirmTempUserPassword = async (username, profile_pic_id) => {
 		// FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
@@ -409,12 +412,17 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 								>
 									Phone Number
 								</label>
-								<PhoneInput 
+								<PhoneInput
 									placeholder=""
 									defaultCountry="CA"
 									value={phoneNumber}
 									onChange={setPhoneNumber}
-									style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
+									style={{
+										paddingLeft: '10px',
+										opacity: '100%',
+										borderRadius: '9px',
+										borderWidth: '1px',
+									}}
 								/>
 								{/* <input
 									value={phoneNumber}
