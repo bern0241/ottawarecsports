@@ -124,7 +124,7 @@ export default function PlayerProfile() {
 				{/* Results */}
 				<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 					<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300">
-						<h2 className="text-lg self-center font-medium">
+						<h2 className="text-xl sm:text-2xl self-center font-medium">
 							{user &&
 								user.UserAttributes.find((o) => o.Name === 'name')[
 									'Value'
@@ -136,10 +136,10 @@ export default function PlayerProfile() {
 						</h2>
 						<Button
 							pill={true}
-							className="py-0.5 pr-3 bg-blue-900 hover:bg-blue-800"
+							className="sm:py-0.5 sm:pr-3 bg-blue-900 hover:bg-blue-800"
 							onClick={() => router.back()}
 						>
-							<IconChevronLeft className="mr-2 h-5 w-5" />
+							<div className="hidden sm:contents"><IconChevronLeft className="mr-2 h-5 w-5" /></div>
 							Back
 						</Button>
 					</div>
@@ -178,16 +178,16 @@ export default function PlayerProfile() {
 
 						{/* Player Information */}
 						<div className="col-span-3 md:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">
-							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">First Name</h3>
+							<div className="col-span-2 sm:col-span-1 flex flex-col">
+								<h3 className="mb-1 font-light text-sm sm:text-base">First Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find((o) => o.Name === 'name')['Value']}
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Last Name</h3>
+							<div className="col-span-2 sm:col-span-1 flex flex-col">
+								<h3 className="mb-1 font-light text-sm sm:text-base">Last Name</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find((o) => o.Name === 'family_name')[
@@ -196,8 +196,8 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-2 md:col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Location</h3>
+							<div className="col-span-2 sm:col-span-1 flex flex-col">
+								<h3 className="mb-1 font-light text-sm sm:text-base">Location</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find(
@@ -206,8 +206,8 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-2 md:col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light">Gender</h3>
+							<div className="col-span-2 sm:col-span-1 flex flex-col">
+								<h3 className="mb-1 font-light text-sm sm:text-base">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find(
