@@ -61,8 +61,6 @@ const TeamBatchSelect = ({
 
 	const [listUsers, setListUsers] = useState([]);
 	const [listLocations, setListLocations] = useState([]);
-	const [homeEmails, setHomeEmails] = useState([]); //Meant for sending emails out
-	const [awayEmails, setAwayEmails] = useState([]); //Meant for sending emails out
 	const [homeDisplayColour, setHomeDisplayColour] = useState('Red');
 	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 
@@ -547,7 +545,7 @@ const TeamBatchSelect = ({
 				</>
 			)}
 
-			{uiState === 'send-emails' && (
+			{/* {uiState === 'send-emails' && (
 				<>
 					<div
 						tabIndex="-1"
@@ -640,7 +638,7 @@ const TeamBatchSelect = ({
 						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
-			)}
+			)} */}
 		</>
 	);
 };
