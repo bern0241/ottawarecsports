@@ -3,6 +3,8 @@
  *
  * Author(s):
  * Son Tran <tran0460@algonquinlive.com>
+ * Greg Coghill <cogh0020@algonquinlive.com>
+ * Justin Bernard <bern0241@algonquincollege.com>
  */
 import React, { useState, useEffect } from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
@@ -154,7 +156,7 @@ const MatchRow = ({
 						</p>
 					</span>
 				</td>
-				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center md:flex">
+				<td className="p-5 min-w-1/12 flex-row items-center gap-8 justify-center flex">
 					{(isCoordinator ||
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
