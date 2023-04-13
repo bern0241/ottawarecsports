@@ -18,9 +18,9 @@ const soccer = () => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedDivision, setSelectedDivision] = useState();
 	const router = useRouter();
-	const {leagueID} = router.query;
-	const {seasonID} = router.query;
-	
+	const { leagueID } = router.query;
+	const { seasonID } = router.query;
+
 	const getAllLeagues = async () => {
 		const listOfLeagues = await getLeagues();
 		setLeagues(listOfLeagues);
@@ -41,49 +41,57 @@ const soccer = () => {
 		if (seasonID) {
 			getLeagueSeasonFromSportsPage();
 		}
-	}, [seasonID])
-	
+	}, [seasonID]);
+
 	const getLeagueSeasonLocalStorage = async () => {
 		const storedIds = JSON.parse(localStorage.getItem('schedule-season-id'));
 		if (storedIds !== null) {
-			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: storedIds.leagueId }})
-			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: storedIds.seasonId }})
+			const apiDataLeague = await API.graphql({
+				query: getLeague,
+				variables: { id: storedIds.leagueId },
+			});
+			const apiDataSeason = await API.graphql({
+				query: getSeasonShort,
+				variables: { id: storedIds.seasonId },
+			});
 			const dataLeague = await apiDataLeague.data.getLeague;
 			const dataSeason = await apiDataSeason.data.getSeason;
 			setCurrentLeague(dataLeague);
 			setCurrentSeason(dataSeason);
 		}
-	}
+	};
 
 	const getLeagueSeasonFromSportsPage = async () => {
-			const apiDataLeague = await API.graphql({ query: getLeague, variables: { id: leagueID }})
-			const apiDataSeason = await API.graphql({ query: getSeasonShort, variables: { id: seasonID }})
-			const dataLeague = await apiDataLeague.data.getLeague;
-			const dataSeason = await apiDataSeason.data.getSeason;
-			setCurrentLeague(dataLeague);
-			setCurrentSeason(dataSeason);
+		const apiDataLeague = await API.graphql({
+			query: getLeague,
+			variables: { id: leagueID },
+		});
+		const apiDataSeason = await API.graphql({
+			query: getSeasonShort,
+			variables: { id: seasonID },
+		});
+		const dataLeague = await apiDataLeague.data.getLeague;
+		const dataSeason = await apiDataSeason.data.getSeason;
+		setCurrentLeague(dataLeague);
+		setCurrentSeason(dataSeason);
 
-			// const timer = setTimeout(() => {
-			// 	setCurrentSeason(dataSeason);
-			// 	console.log(dataSeason);
-			// }, 1000);
-			// return () => clearTimeout(timer);
-		}
-	
-
+		// const timer = setTimeout(() => {
+		// 	setCurrentSeason(dataSeason);
+		// 	console.log(dataSeason);
+		// }, 1000);
+		// return () => clearTimeout(timer);
+	};
 
 	useEffect(() => {
 		if (!currentSeason?.Divisions) return setDivisions([]);
-			setDivisions(currentSeason?.Divisions.items);
-			//Save currentSeason.id in LocalStorage (for convenience when reloading page)
-			const dataIds = {
-				leagueId: currentLeague.id,
-				seasonId: currentSeason.id,
-			}
-			localStorage.setItem('schedule-season-id', JSON.stringify(dataIds));
-			
+		setDivisions(currentSeason?.Divisions.items);
+		//Save currentSeason.id in LocalStorage (for convenience when reloading page)
+		const dataIds = {
+			leagueId: currentLeague.id,
+			seasonId: currentSeason.id,
+		};
+		localStorage.setItem('schedule-season-id', JSON.stringify(dataIds));
 	}, [currentSeason]);
-
 
 	return (
 		<>
@@ -110,8 +118,11 @@ const soccer = () => {
 					<div className="flex justify-between py-3 px-3 border-b border-brand-neutral-300 top-4">
 						<h2 className="text-[1rem] self-center">
 							{currentSeason ? (
-								<p><b>League</b> - {currentLeague?.name} <br/><b>Season</b> - {currentSeason?.name}<br/>
-								{/* <span className='italic text-light'>All Divisions</span> */}
+								<p>
+									<b>League</b> - {currentLeague?.name} <br />
+									<b>Season</b> - {currentSeason?.name}
+									<br />
+									{/* <span className='italic text-light'>All Divisions</span> */}
 								</p>
 							) : (
 								<p>Choose Season for Divisions</p>
@@ -131,22 +142,26 @@ const soccer = () => {
 						<thead className="bg-brand-neutral-100 border-b-[1px] border-gray-600">
 							<tr className="text-left">
 								<th className="py-3 px-5 text-sm font-light w-4/12">Name</th>
-								<th className="py-3 text-center px-5 text-sm font-light w-4/12">Level</th>
+								<th className="py-3 text-center px-5 text-sm font-light w-4/12">
+									Level
+								</th>
 								<th className="hidden md:table-cell py-3 px-5 text-sm font-light w-3/12">
 									Description
 								</th>
-								<th className="py-3 text-center px-5 text-sm font-light w-2/12">Action </th>
+								<th className="py-3 text-center px-5 text-sm font-light w-2/12">
+									Action{' '}
+								</th>
 							</tr>
 						</thead>
 						<tbody>
 							{divisions.length > 0 ? (
 								divisions.map((division, index) => (
 									<React.Fragment key={index}>
-									<DivisionRow
-										division={division}
-										selectedDivision={selectedDivision}
-										setSelectedDivision={setSelectedDivision}
-									/>
+										<DivisionRow
+											division={division}
+											selectedDivision={selectedDivision}
+											setSelectedDivision={setSelectedDivision}
+										/>
 									</React.Fragment>
 								))
 							) : (

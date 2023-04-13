@@ -188,20 +188,20 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									onChange={(e) => setPhoneNumber(e.target.value)}
 									required={false}
 								/> */}
-									<PhoneInput
-										id="phoneNumber"
-										placeholder="Phone Number (optional)"
-										defaultCountry="CA"
-										value={phoneNumber}
-										onChange={setPhoneNumber}
-										style={{
-											paddingLeft: '10px',
-											opacity: '100%',
-											borderRadius: '9px',
-											borderWidth: '1px',
-											borderColor: 'lightgray'
-										}}
-									/>
+								<PhoneInput
+									id="phoneNumber"
+									placeholder="Phone Number (optional)"
+									defaultCountry="CA"
+									value={phoneNumber}
+									onChange={setPhoneNumber}
+									style={{
+										paddingLeft: '10px',
+										opacity: '100%',
+										borderRadius: '9px',
+										borderWidth: '1px',
+										borderColor: 'lightgray',
+									}}
+								/>
 
 								<Label htmlFor="email" value="Email" className="sr-only" />
 								<TextInput
