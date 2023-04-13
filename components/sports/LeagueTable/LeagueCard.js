@@ -121,7 +121,7 @@ export default function LeagueCard({
 							))}
 					</ul>
 				</td>
-				<td className="flex gap-2 py-3 items-center pr-5 ">
+				<td className="flex gap-2 py-3 justify-center items-center pr-5 ">
 					<div className="hidden sm:contents">
 						{((authRoles && authRoles.includes('Admin')) ||
 							(authRoles && authRoles.includes('Owner'))) && (
