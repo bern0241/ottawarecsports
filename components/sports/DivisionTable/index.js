@@ -136,11 +136,8 @@ export default function DivisionTable({
 							<th scope="col" className="text-center font-light px-6 py-2">
 								<p className="hidden sm:contents">Level</p>
 							</th>
-							<th
-								scope="col"
-								className="text-center font-light px-6 py-2 hidden sm:contents"
-							>
-								<p className="hidden sm:contents">Team Count</p>
+							<th scope="col" className="text-center font-light px-6 py-2">
+								<p className="hidden sm:contents">Team</p>
 							</th>
 							<th
 								scope="col"

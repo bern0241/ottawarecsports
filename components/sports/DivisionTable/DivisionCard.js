@@ -103,7 +103,7 @@ export default function DivisionCard({
 					)}
 					{division.name}
 				</th>
-				<td className="text-center px-6 py-3 hidden sm:contents">
+				<td className="text-center px-6 py-3">
 					<p className="hidden sm:contents">
 						{convertLevelToFull(division.level)}
 					</p>
