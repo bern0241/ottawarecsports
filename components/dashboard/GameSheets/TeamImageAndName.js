@@ -38,6 +38,7 @@ const TeamImageAndName = ({ src, reverse, teamName, teamId }) => {
 							height={72}
 							className="rounded-full border w-[72px] h-[72px] cursor-pointer"
 							src={profileImage}
+							alt={`${teamName}'s profile picture`}
 						/>
 						<p className="w-12 md:w-24 cursor-pointer">
 							{teamName || 'SuperTeam'}
@@ -54,6 +55,7 @@ const TeamImageAndName = ({ src, reverse, teamName, teamId }) => {
 							height={72}
 							className="rounded-full border w-[72px] h-[72px] cursor-pointer"
 							src={profileImage}
+							alt={`${teamName}'s profile picture`}
 						/>
 					</>
 				)}

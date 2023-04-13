@@ -33,6 +33,8 @@ import TempPasswordField from '../ACPNewUserModal/TempPasswordField';
 import ChangePasswordModal from './ChangePasswordModal';
 import { listLeagues } from '@/src/graphql/queries';
 import { updateLeague } from '@/src/graphql/mutations';
+import { fileSizeCheckOver } from '@/utils/graphql.services';
+import { uploadNewImageToS3, deleteImageFromS3 } from '@/utils/graphql.services';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import ValidatePhoneNumber from 'validate-phone-number-node-js';
@@ -285,8 +287,12 @@ export default function ACPEditUserModal({
 					return;
 				}
 			}
-			
-			let uniqueId = makeid(15); //Meant for making random imageURI
+
+			// Check to see if the file is too big
+			if (fileSizeCheckOver(profilePic)) {
+				return;
+			}
+
 			let profile_pic_id = 'none';
 
 			// If picture exists, use that one!
@@ -294,10 +300,16 @@ export default function ACPEditUserModal({
 				profile_pic_id = user1.Attributes.find((o) => o.Name === 'picture')['Value'];
 			}
 
-			// If profile picture is NOT null, set the ID to it's newly generated id
+			// UPDATES PROFILE PIC
 			if (profilePic !== null) {
-				profile_pic_id = 'user_' + uniqueId;
+				profile_pic_id = `${'user'}_${makeid(15)}`;
+				await uploadNewImageToS3(profile_pic_id, profilePic);
+				  
+				if (user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none') {
+					await deleteImageFromS3(user1.Attributes.find((o) => o.Name === 'picture')['Value']);
+				}
 			}
+
 			const phoneNumberConverted = await returnEmptyStringPhoneNumber();
 
 			var params = {
@@ -419,79 +431,19 @@ export default function ACPEditUserModal({
 							if (err) {
 								console.log(err, err.stack);
 							} else {
-								deleteCurrentProfileImageS3(profile_pic_id, userStatus);
-								// console.log({ status: 'success', data: data });
+								setMessage({ status: 'success', message: 'User updated!' });
+								resetPage(userStatus);
 							}
 						}
 						);
 					}
 				});
 
-				deleteCurrentProfileImageS3(profile_pic_id, userStatus);
+				setMessage({ status: 'success', message: 'User updated!' });
+				resetPage(userStatus);
 			} catch (error) {
 				setMessage({status: 'error', message: error.message});
 				console.error(error);
-		}
-	};
-
-	// Deletes current profile image in backend (S3 Bucket)
-	const deleteCurrentProfileImageS3 = async (profile_pic_id, userStatus) => {
-		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-
-		try {
-			if (profilePic === null) {
-				setMessage({ status: 'success', message: 'User updated!' });
-				resetPage(userStatus);
-				return;
-			}
-
-			const params = {
-				Bucket: bucketName,
-				Key: user1.Attributes.find((o) => o.Name === 'picture')['Value'],
-			};
-			s3.deleteObject(params, function (err, data) {
-				if (err) {
-					console.log('Error deleting object: ', err);
-				} else {
-					uploadNewProfileImageToS3(profile_pic_id, userStatus);
-					// console.log('Object deleted successfully');
-				}
-			});
-		} catch (error) {
-			setMessage({ status: 'error', message: error });
-			console.error(error);
-		}
-	};
-
-	// Uploads new profile image to backend (S3 Bucket)
-	const uploadNewProfileImageToS3 = async (profile_pic_id, userStatus) => {
-		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-		const signedUrlExpireSeconds = 60 * 1;
-
-		try {
-			if (profilePic === null) {
-				setMessage({ status: 'success', message: 'User updated!' });
-				resetPage(userStatus);
-				return;
-			}
-
-			const params = {
-				Bucket: bucketName,
-				Key: profile_pic_id,
-				Body: profilePic,
-				ContentType: profilePic.type,
-			};
-			// Upload the image to S3
-			s3.upload(params, (err, data) => {
-				if (err) {
-				} else {
-					console.log('Image uploaded successfully!');
-					setMessage({ status: 'success', message: 'User updated!' });
-					resetPage(userStatus);
-				}
-			});
-		} catch (error) {
-			console.error(error);
 		}
 	};
 

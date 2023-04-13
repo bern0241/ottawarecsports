@@ -24,14 +24,6 @@ export default function EditLocation({ location, openModal, setOpenModal, fetchL
         setMessage(null);
     }, [openModal])
 
-    // Hides the display message after 5 seconds.
-    useEffect(() => {
-            const timer = setTimeout(() => {
-                setMessage(null);
-            }, 5000);
-            return () => clearTimeout(timer);
-    }, [message])
-
     // Updates the location by name and weblink
     const UpdateLocation = async (e) => {
         e.preventDefault();
@@ -70,7 +62,7 @@ export default function EditLocation({ location, openModal, setOpenModal, fetchL
                 
                 
                 <div className="px-6 py-6 lg:px-8">
-                    <h3 className="mb-7 text-xl text-center font-medium text-gray-900 dark:text-white">Edit Location</h3>
+                    <h2 className="mb-7 text-xl text-center font-medium text-gray-900 dark:text-white">Edit Location</h2>
                     <form className="space-y-6" action="#">
 
                         <div className="">

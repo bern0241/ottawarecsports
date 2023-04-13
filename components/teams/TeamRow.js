@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
 import AWS from 'aws-sdk';
+import Link from 'next/link';
 
 export default function TeamRow({ team}) {
 	const router = useRouter();
@@ -52,9 +53,8 @@ export default function TeamRow({ team}) {
 		})
 	}
 
-	const goToPlayerPage = (e, captain) => {
+	const handleClickForLink = (e) => {
 		e.stopPropagation();
-		router.push(`/players/${captain.Username}`)
 	}
 
 	const navigateToProfile = () => {
@@ -81,14 +81,16 @@ export default function TeamRow({ team}) {
 			<td className="p-5 mx-auto">
 				<ul className=''>
 				{captains && captains.map((captain, index) => (
-                     <li className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</li>
+                      <li  key={index}>
+                        <Link href={`/players/${captain.Username}`} onClick={(e) => handleClickForLink(e)} className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center'> {captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</Link>
+                      </li>
                  ))}
 				 </ul>
 			</td>
 			<td className="p-3 text-center">{team.sports || 'Soccer'}</td>
       <td className="p-3 mx-auto text-center">
         <div className="hidden sm:contents align-middle">
-          <p className='text-[1.4rem]'>{team ? team.Players.items.length : 0}</p>
+          <p className='text-base'>{team ? team.Players.items.length : 0}</p>
         </div>
       </td>
 		</tr>

@@ -21,26 +21,16 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 	// Displays table, team cards, and create team button
 	return (
 		<>
-			<div className="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
-				<table className="w-full text-sm text-left border border-gray-400">
-					<thead className="text-md text-black bg-white">
-						<tr>
-							<th scope="col" className="text-lg font-medium px-6 py-7">
-								<p className="absolute top-4">All Teams</p>
-							</th>
-							<th scope="col" className="font-medium px-6 py-4"></th>
-							<th scope="col" className="font-medium px-6 py-4"></th>
-							<th scope="col" className="font-medium">
-								<div className="absolute top-2 right-1 pr-5 ">
-									<CreateButton
+			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
+          <div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 pr-2">
+						<h1 className="text-xl self-center">Teams</h1>
+            <CreateButton
 										label="Create Team"
 										state={createTeamModal}
 										setState={setCreateTeamModal}
 									/>
-								</div>
-							</th>
-						</tr>
-					</thead>
+					</div>
+				<table className="w-full text-sm text-left border border-gray-400">
 					<thead className="text-xs border border-gray-300 text-black bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
 							<th
@@ -76,7 +66,7 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 							))}
 
 						<tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-							<th
+							{/* <th
 								scope="row"
 								className="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer"
 							>
@@ -84,10 +74,13 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 									style={{ fontSize: '20px', color: 'blue' }}
 									name="chevron-forward-outline"
 								></ion-icon>
-							</th>
-							<td className="px-6 py-4"></td>
-							<td className="px-6 py-4"></td>
-							<td className="flex gap-4 px-6 py-4 text-center"></td>
+							</th> */}
+							<td
+									colSpan={6}
+									className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
+								>
+									End
+								</td>
 						</tr>
 					</tbody>
 				</table>

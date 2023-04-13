@@ -96,11 +96,11 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 							</div>
 							<div>
 								<button
-									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
+									className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
 									type="button"
 									onClick={changePassword}
 								>
-									Update
+									Update Password
 								</button>
 							</div>
 						</div>

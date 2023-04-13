@@ -9,6 +9,7 @@
 // https://flowbite.com/docs/components/modal/
 // https://flowbite.com/docs/components/buttons/
 // https://www.youtube.com/watch?v=GsObT64SRhA&t=474s
+// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RespondToAuthChallenge.html
 // https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
 // https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html
 // https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminAddUserToGroup.html
@@ -28,11 +29,11 @@ import LocationDropDown from './LocationDropDown';
 import UserGroupsDropDown from './UserGroupsDropDown';
 import UserProfilePicture from './UserProfilePicture';
 import TempPasswordField from './TempPasswordField';
-import { createPlayer } from '@/utils/graphql.services';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import ValidatePhoneNumber from 'validate-phone-number-node-js';
-import { uploadNewImageToS3 } from '@/utils/graphql.services';
+import { fileSizeCheckOver } from '@/utils/graphql.services';
+import { uploadNewImageToS3, createPlayer } from '@/utils/graphql.services';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -98,12 +99,18 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					return;
 				}
 			}
-			let uniqueId = makeid(15); //Meant for making random imageURI
+
+			// Check to see if the file is too big
+			if (fileSizeCheckOver(profilePic)) {
+				return;
+			}
+
+			// UPLOADS NEW PROFILE PIC
 			let profile_pic_id = 'none';
 
-			// If profile picture is NOT null, set the ID to it's newly generated id
 			if (profilePic !== null) {
-				profile_pic_id = 'user_' + uniqueId;
+				profile_pic_id = `${'user'}_${makeid(15)}`;
+				await uploadNewImageToS3(profile_pic_id, profilePic);
 			}
 
 			var params = {
@@ -185,7 +192,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 						console.log(err, err.stack);
 					} else {
 						// console.log({ status: 'success', data: data });
-						await confirmTempUserPassword(newUsername, profile_pic_id); // Calls upload S3 image
+						await confirmTempUserPassword(newUsername, profile_pic_id); // Sets user to CONFIRMED (In Cognito)
 					}
 				}
 			);
@@ -225,11 +232,12 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 						async function (err, data) {
 							if (err) console.log(err, err.stack); // an error occurred
 							else {
-								await uploadNewProfileImageToS3(profile_pic_id);
+								// await uploadNewProfileImageToS3(profile_pic_id);
 								setMessage({
 									status: 'success',
 									message: 'New user has been created!',
 								});
+								router.reload();
 							} // successful response
 						}
 					);
@@ -239,33 +247,33 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	};
 
 	// Uploads new profile image to the backend (S3 Bucket)
-	const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-		const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-		try {
-			if (profilePic === null) {
-				router.reload();
-				return;
-			}
+	// const uploadNewProfileImageToS3 = async (newProfilePicId) => {
+	// 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+	// 	try {
+	// 		if (profilePic === null) {
+	// 			router.reload();
+	// 			return;
+	// 		}
 
-			const params = {
-				Bucket: bucketName,
-				Key: newProfilePicId,
-				Body: profilePic,
-				ContentType: profilePic.type,
-			};
-			// Upload the image to S3
-			s3.upload(params, (err, data) => {
-				if (err) {
-					console.log('Error uploading image: ', err);
-				} else {
-					// console.log('Image uploaded successfully!');
-					router.reload();
-				}
-			});
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	// 		const params = {
+	// 			Bucket: bucketName,
+	// 			Key: newProfilePicId,
+	// 			Body: profilePic,
+	// 			ContentType: profilePic.type,
+	// 		};
+	// 		// Upload the image to S3
+	// 		s3.upload(params, (err, data) => {
+	// 			if (err) {
+	// 				console.log('Error uploading image: ', err);
+	// 			} else {
+	// 				// console.log('Image uploaded successfully!');
+	// 				router.reload();
+	// 			}
+	// 		});
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
 
 	return (
 		<>

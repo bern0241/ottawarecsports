@@ -19,7 +19,7 @@ export default function UpcomingGames() {
 		>
 			<div className="bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex items-center justify-between border-b border-brand-neutral-300 px-3 py-2">
-					<h1 className="text-md font-medium">Upcoming Games</h1>
+					<h2 className="text-md font-medium">Upcoming Games</h2>
 					<span className="font-light text-sm">View All</span>
 				</div>
 				<div className="grid grid-cols-1 lg:grid-cols-2 min-h-[300px]">

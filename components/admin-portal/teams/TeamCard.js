@@ -21,6 +21,7 @@
  import { getImageFromS3, uniqueByUsername } from '@/utils/graphql.services';
  import AWS from 'aws-sdk';
 import DeleteTeamModal from './DeleteTeamModal';
+import Link from 'next/link';
   
   export default function TeamCard({ team, fetchTeams, filterTeams }) {
       const [deleteModal, setDeleteModal] = useState(false);
@@ -88,9 +89,8 @@ import DeleteTeamModal from './DeleteTeamModal';
           router.push(`/teams/${team.id}`)
       }
       // Go to captain's player profile page
-      const goToPlayerPage = (e, captain) => {
+      const handleClickForLink = (e, captain) => {
           e.stopPropagation();
-          router.push(`/players/${captain.Username}`)
       }
   
       return (
@@ -104,14 +104,19 @@ import DeleteTeamModal from './DeleteTeamModal';
                             height={132}
                             className="w-[4.2rem] h-[4.2rem] rounded-full shadow-md border border-black mx-auto sm:mx-0"
                             src={`${teamImage ? teamImage : "/images/defaultProfilePic.jpeg"}`}
+                            alt={`Teams profile image for ${team.name}`}
                         />
                         <p className='text-center'>{team.name}</p>
                         </div>
                   </th>
                   <td className="text-center py-3">
-                  {captains && captains.map((captain, index) => (
-                     <p className='cursor-pointer text-blue-500 underline' onClick={(e) => goToPlayerPage(e, captain)} key={index}>{captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
-                 ))}
+                    <ul className=''>
+                      {captains && captains.map((captain, index) => (
+                        <li  key={index}>
+                          <Link href={`/players/${captain.Username}`} onClick={(e) => handleClickForLink(e)} className='my-1 cursor-pointer text-blue-700 underline sm:w-[8rem] text-[.91rem] text-center'> {captain.UserAttributes.find(o => o.Name === 'name')['Value']} {captain.UserAttributes.find(o => o.Name === 'family_name')['Value']}</Link>
+                        </li>
+                      ))}
+                    </ul>
                   </td>
                   <td className="text-center px-6 py-3">
                       {sport}

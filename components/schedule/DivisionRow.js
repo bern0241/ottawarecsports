@@ -1,3 +1,11 @@
+/**
+ * Last updated: 2023-04-12
+ *
+ * Author(s):
+ * Justin Bernard (bern0241@algonquinlive.com)
+ * Son Tran <tran0460@algonquinlive.com>
+ */
+
 import React from 'react';
 import { useRouter } from 'next/router';
 import { convertLevelToFull } from '@/utils/handy-dandy-functions';
@@ -16,7 +24,6 @@ const DivisionRow = ({ key, division }) => {
 	const navigateToProfile = () => {
 		router.push({
 			pathname: `/schedule/soccer/${division.id}`,
-			// query: { divisionID: division.id },
 		});
 	};
 	return (
