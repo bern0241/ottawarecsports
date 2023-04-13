@@ -6,13 +6,8 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import React, { useState, useEffect } from 'react';
-import DropdownInput from '../common/DropdownInput';
-import MatchRow from './MatchRow';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { API } from 'aws-amplify';
-import { getLeague } from '@/src/graphql/queries';
-import { getSeasonShort, getDivisionShort } from '@/src/graphql/custom-queries';
 import GeneratedMatchRow from './GeneratedMatchRow';
 
 const GeneratedMatchesTable = ({
@@ -32,7 +27,6 @@ const GeneratedMatchesTable = ({
 	const router = useRouter();
 	const { id } = router.query;
 
-	// console.log(matches);
 	return (
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
