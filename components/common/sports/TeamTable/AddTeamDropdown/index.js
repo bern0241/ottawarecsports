@@ -105,7 +105,7 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
                 return v.startsWith(searchItem);
             })
             .map((team, index) => (
-                <>
+                <React.Fragment key={index}>
                 {(returnTeamExists(team)) ? (
                   <li key={index}>
                       {/* <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} /> */}
@@ -115,7 +115,7 @@ export default function AddTeamDropdown({ listTeamDivisionsFunc, setOpenDropdown
                       <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} />
                   </li>
                 )}
-                </>
+                </React.Fragment>
             ))}
       
             

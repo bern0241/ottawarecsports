@@ -82,13 +82,14 @@ export default function DivisionMatches() {
 		getTeams();
 		fetchReferees();
 		moveUpLeagueId();
-	}, [router]);
+	}, [router.query.id]);
 
 	/**
 	 * This useEffect fetches the division -> season -> league (in this order) for this page
 	 */
 	const moveUpLeagueId = async () => {
 		// DIVISION
+		if (!router.query.id) return;
 		const apiDataDivision = await API.graphql({
 			query: getDivisionShort,
 			variables: { id: router.query.id },
@@ -96,18 +97,18 @@ export default function DivisionMatches() {
 		const divisionData = await apiDataDivision.data.getDivision;
 		setDivision(divisionData);
 		// SEASON
-		if (!divisionData?.season) return;
+		if (!divisionData.season) return;
 		const apiDataSeason = await API.graphql({
 			query: getSeasonShort,
-			variables: { id: divisionData?.season },
+			variables: { id: divisionData.season },
 		});
 		const seasonData = await apiDataSeason.data.getSeason;
 		setSeason(seasonData);
 		// LEAGUE
-		if (!seasonData?.league) return;
+		if (!seasonData.league) return;
 		const apiDataLeague = await API.graphql({
 			query: getLeague,
-			variables: { id: seasonData?.league },
+			variables: { id: seasonData.league },
 		});
 		const leagueData = await apiDataLeague.data.getLeague;
 		setLeague(leagueData);

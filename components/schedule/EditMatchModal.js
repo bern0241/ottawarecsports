@@ -323,6 +323,10 @@ const EditMatchModal = ({
 			getGames();
 			setMakingNewGame(false);
 			//router.reload();
+			const timer = setTimeout(() => {
+				setIsVisible(false);
+            }, 2500);
+            return () => clearTimeout(timer);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });

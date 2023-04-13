@@ -118,16 +118,11 @@ import DeleteTeamModal from './DeleteTeamModal';
                   </td>
                   <td className="flex gap-2 px-6 py-4 text-center justify-center">
                       <IconEdit onClick={(e) => editTeamFunc(e)} style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconEdit>
-                      <IconTrash onClick={(e) => deleteTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                   </td>
                   </tr>
-          <tr>
-            <td>
           {deleteModal && (
               <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
           )}
-          </td>
-          </tr>
       </>
       )
   }

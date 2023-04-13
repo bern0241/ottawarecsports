@@ -102,14 +102,21 @@ export default function LeagueCard({ league, sport, selectedLeague, setSelectedL
                 <IconTrash onClick={(e) => deleteLeagueFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconTrash>
             </td>
         </tr>
-
+        <tr>
+        <td>
         {editModal && (
             <EditLeagueModal league={league} setOpenModal={setEditModal} sport={sport} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} getUserListByNames={getUserListByNames} />
-        )}
+            )}
+        </td>
+        </tr>
+        
+        <tr>
+        <td>
         {deleteModal && (
             <DeleteLeagueModal leagueInfo={league} setDeleteModal={setDeleteModal} listLeaguesFunc={listLeaguesFunc} />
         )}
-        
+        </td>
+        </tr>
     </>
     )
 }

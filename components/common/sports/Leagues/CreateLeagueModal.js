@@ -17,8 +17,8 @@ import { listLeaguesLong } from '@/src/graphql/custom-queries';
 export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, setSelectedLeague }) {
     const [leagueName, setLeagueName] = useState('');
     const [leagueCoordinators, setLeagueCoordinators] = useState([]);
-    const [numPerPeriod, setNumPerPeriod] = useState();
-    const [timePerPeriod, setTimePerPeriod] = useState();
+    const [numPerPeriod, setNumPerPeriod] = useState('');
+    const [timePerPeriod, setTimePerPeriod] = useState('');
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [founded, setFounded] = useState(null);
