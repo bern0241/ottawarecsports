@@ -28,8 +28,11 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 			return Auth.changePassword(user, oldPassword, newPassword);
 		})
 		.then((data) => {
-			setMessage({status: 'success', message: data});
-			console.log(data);
+			setMessage({status: 'success', message: 'You password has been successfully changed.'});
+			const timer = setTimeout(() => {
+				setPasswordModal(false);
+            }, 2500);
+            return () => clearTimeout(timer);
 		})
 		.catch((err) => {
 			setMessage({status: 'error', message: err.message});

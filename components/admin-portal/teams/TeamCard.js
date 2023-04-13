@@ -121,10 +121,13 @@ import DeleteTeamModal from './DeleteTeamModal';
                       <IconTrash onClick={(e) => deleteTeamFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="trash-outline"></IconTrash>
                   </td>
                   </tr>
-          
+          <tr>
+            <td>
           {deleteModal && (
               <DeleteTeamModal team={team} fetchTeams={fetchTeams} setDeleteModal={setDeleteModal} />
           )}
+          </td>
+          </tr>
       </>
       )
   }

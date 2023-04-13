@@ -23,7 +23,7 @@ export default function GenderDropDown({ state, setState }) {
 				<option
 					color="red"
 					className="placeholder-gray-900 border"
-					selected
+					defaultValue
 					disabled
 				>
 					Gender *

@@ -22,7 +22,7 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 	return (
 		<>
 			<div className="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
-				<table className="w-full text-sm text-left border border-gray-400">
+				<table className="w-full text-sm text-left border border-gray-400 border-collapse">
 					<thead className="text-md text-black bg-white">
 						<tr>
 							<th scope="col" className="text-lg font-medium px-6 py-7">

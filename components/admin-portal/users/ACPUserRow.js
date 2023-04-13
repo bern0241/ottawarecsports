@@ -85,7 +85,7 @@ export default function ACPUserRow({ user, index }) {
 				<td className="p-5">
 					<div className="flex">
 						<IconEdit
-							className="text-brand-blue-900 hover:bg-blue-400 mr-3 cursor-pointer"
+							className="text-brand-blue-900 mr-3 cursor-pointer"
 							onClick={(e) => {
 								e.stopPropagation();
 								setEditUserModal(true);
