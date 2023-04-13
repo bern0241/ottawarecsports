@@ -87,6 +87,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 						<div className="relative w-full h-full max-w-md md:h-auto">
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 								<button
+									aria-label="Close Modal"
 									onClick={(e) => setOpenModal(false)}
 									type="button"
 									className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
@@ -128,6 +129,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 										<b>{fullName}</b>?
 									</h3>
 									<button
+										aria-label="Confirm"
 										onClick={() => disableUserFunc()}
 										data-modal-hide="popup-modal"
 										type="button"
@@ -136,6 +138,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 										Yes, I'm sure
 									</button>
 									<button
+										aria-label="Cancel"
 										onClick={() => setOpenModal(false)}
 										data-modal-hide="popup-modal"
 										type="button"
