@@ -20,8 +20,12 @@ export default function GenderDropDown({ state, setState }) {
 				required={true}
 				className=""
 			>
-				<option color="red" className="text-slate-400" defaultValue disabled>
-				</option>
+				<option
+					color="red"
+					className="text-slate-400"
+					defaultValue
+					disabled
+				></option>
 				<option className="text-black" value="Non-Binary">
 					Non-Binary
 				</option>

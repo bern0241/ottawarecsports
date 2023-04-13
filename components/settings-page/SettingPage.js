@@ -24,17 +24,14 @@ export default function SettingsPage({ setUserAttributes, saveAttributes }) {
 			<div>
 				{/* Email Change */}
 				{emailModal && (
-					<EmailModal
-						emailModal={emailModal}
-						setEmailModal={setEmailModal}
-					/>
+					<EmailModal emailModal={emailModal} setEmailModal={setEmailModal} />
 				)}
 				{/* Password Change */}
 				{passwordModal && (
-					<PasswordModal 
+					<PasswordModal
 						passwordModal={passwordModal}
-						setPasswordModal={setPasswordModal} 
-						/>
+						setPasswordModal={setPasswordModal}
+					/>
 				)}
 			</div>
 		</div>

@@ -18,8 +18,11 @@ export default function ViewUserGroups() {
 				<div className="border">
 					<p>User Groups of current user:</p>
 					<ul className="list-disc">
-						{authRoles && authRoles.map((role, index) => <li key={index}>{role}</li>)}
-						{authRoles && authRoles.length === 0 && <li>No user groups for this user.</li>}
+						{authRoles &&
+							authRoles.map((role, index) => <li key={index}>{role}</li>)}
+						{authRoles && authRoles.length === 0 && (
+							<li>No user groups for this user.</li>
+						)}
 					</ul>
 				</div>
 			)}

@@ -8,11 +8,7 @@
 
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import {
-	IconEdit,
-	IconTrash,
-	IconListDetails,
-} from '@tabler/icons-react';
+import { IconEdit, IconTrash, IconListDetails } from '@tabler/icons-react';
 import EditSeasonModal from '@/components/common/sports/Seasons/EditSeasonModal';
 import DeleteSeasonModal from '@/components/common/sports/Seasons/DeleteSeasonModal';
 import { useUser } from '@/context/userContext';

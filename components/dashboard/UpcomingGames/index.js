@@ -3,7 +3,7 @@
  *
  * Author(s):
  * Verity Stevens <stev0298@algonquinlive.com>
- * 
+ *
  * * Summary:
  * This component displays the number of upcoming matches a user has and what days they're on (Sun-Sat).
  */

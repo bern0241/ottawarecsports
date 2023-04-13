@@ -10,9 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import LocationsDropdown from './LocationsDropdown';
 import { useRouter } from 'next/router';
-import {
-	listLocations as listLocationsQuery,
-} from '@/src/graphql/queries';
+import { listLocations as listLocationsQuery } from '@/src/graphql/queries';
 import { listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';

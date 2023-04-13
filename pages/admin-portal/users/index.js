@@ -64,9 +64,7 @@ export default function AdminPortal() {
 			.value.toLowerCase();
 
 		let filteredUsers = users.filter((user) => {
-			const firstName = user.Attributes.find((o) => o.Name === 'name')[
-				'Value'
-			];
+			const firstName = user.Attributes.find((o) => o.Name === 'name')['Value'];
 			const lastName = user.Attributes.find((o) => o.Name === 'family_name')[
 				'Value'
 			];
@@ -102,14 +100,13 @@ export default function AdminPortal() {
 			</Head>
 
 			<main className="p-8">
-				
-				<div className='mb-5'>
-				<SearchBarInput 
-						id='user-search'  
-						setSearchResult={setSearchResult} 
-						placeholder='Search'
+				<div className="mb-5">
+					<SearchBarInput
+						id="user-search"
+						setSearchResult={setSearchResult}
+						placeholder="Search"
 						searchFunction={handleSearch}
-						/>
+					/>
 				</div>
 				{/* <ACPSearchUserBar setSearchResult={setSearchResult} /> */}
 
@@ -141,17 +138,17 @@ export default function AdminPortal() {
 							</tr>
 						</thead>
 						<tbody>
-						{filteredUsers &&
+							{filteredUsers &&
 								filteredUsers.map((user, index) => (
-								<React.Fragment key={index}>
-									<ACPUserRow
-										key={user.Username}
-										user={user}
-										index={index}
-										handleSave={handleSave}
-									/>
+									<React.Fragment key={index}>
+										<ACPUserRow
+											key={user.Username}
+											user={user}
+											index={index}
+											handleSave={handleSave}
+										/>
 									</React.Fragment>
-							))}
+								))}
 							{/* {users &&
 								users
 									.filter((user) => {

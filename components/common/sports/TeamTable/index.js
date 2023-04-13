@@ -194,8 +194,7 @@ export default function TeamTable() {
 							<th
 								scope="row"
 								className="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer"
-							>
-							</th>
+							></th>
 							<td className="px-6 py-4"></td>
 							<td className="px-6 py-4"></td>
 							<td className="flex gap-4 px-6 py-4 text-center"></td>

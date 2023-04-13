@@ -6,27 +6,26 @@
  * Verity Stevens <stev0298@algonquinlive.com> (resolved console errors/warnings)
  */
 
-// REFERENCES: 
+// REFERENCES:
 // https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/#updating-and-verifying-a-cognito-user-email-address
 
 import React, { useState, useEffect } from 'react';
 import { TextInput, Label } from 'flowbite-react';
- import { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 export default function EmailModal({ emailModal, setEmailModal }) {
-
 	const [newEmail, setNewEmail] = useState('');
 	const [verificationCode, setVerificationCode] = useState('');
 	const [uiState, setUiState] = useState('change-state');
 	const [message, setMessage] = useState(null);
-	
+
 	// Hides display message after 5 seconds
-    useEffect(() => {
-			const timer = setTimeout(() => {
-				setMessage(null);
-			}, 5000);
-			return () => clearTimeout(timer);
-	}, [message])
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+		return () => clearTimeout(timer);
+	}, [message]);
 
 	/**
 	 * Update email function
@@ -34,35 +33,33 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 	const updateEmailFunc = async () => {
 		const user = await Auth.currentAuthenticatedUser();
 		await Auth.updateUserAttributes(user, {
-			email: newEmail
+			email: newEmail,
 		})
-		.then(() => {
-			setMessage({status: 'success', message: 'Verification code sent!'});
-			setUiState('verify-state');
-			console.log('a verification code is sent');
-		})
-		.catch((error) => {
-			console.log('failed with error', error);
-			setMessage({status: 'error', message: error.message});
-		});
-	}
+			.then(() => {
+				setMessage({ status: 'success', message: 'Verification code sent!' });
+				setUiState('verify-state');
+				console.log('a verification code is sent');
+			})
+			.catch((error) => {
+				console.log('failed with error', error);
+				setMessage({ status: 'error', message: error.message });
+			});
+	};
 
 	/**
 	 * Verify email from sent code
 	 */
 	const verifyEmailValidationCode = async () => {
 		await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode)
-		  .then(() => {
-			setMessage({status: 'success', message: 'Email verified!'});
-			console.log('email verified');
-		  })
-		  .catch((error) => {
-			setMessage({status: 'error', message: error.message});
-			console.log('failed with error', error);
-		  });
-	  }
-
-
+			.then(() => {
+				setMessage({ status: 'success', message: 'Email verified!' });
+				console.log('email verified');
+			})
+			.catch((error) => {
+				setMessage({ status: 'error', message: error.message });
+				console.log('failed with error', error);
+			});
+	};
 
 	return (
 		<>
@@ -85,103 +82,124 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 
 						{/* <!-- Modal body --> */}
 						{uiState === 'change-state' && (
-						<>
-							<div className="p-6 space-y-6">
-								<div className="flex flex-col gap-5">
-									<div>
-										<div className="mb-2 block">
-											<Label htmlFor="email" value="New Email" />
+							<>
+								<div className="p-6 space-y-6">
+									<div className="flex flex-col gap-5">
+										<div>
+											<div className="mb-2 block">
+												<Label htmlFor="email" value="New Email" />
+											</div>
+											<TextInput
+												id="newEmail"
+												type="email"
+												placeholder=""
+												required={true}
+												className="h-[40px] w-full"
+												value={newEmail}
+												onChange={(e) => setNewEmail(e.target.value)}
+											/>
 										</div>
-										<TextInput
-											id="newEmail"
-											type="email"
-											placeholder=""
-											required={true}
-											className="h-[40px] w-full"
-											value={newEmail}
-											onChange={(e) => setNewEmail(e.target.value)}
-										/>
 									</div>
 								</div>
-							</div>
 
-							{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+								{message && (
+									<p
+										id="standard_error_help"
+										className={`mt-4 text-center text-sm ${
+											message.status === 'success'
+												? 'text-green-600 dark:text-green-400'
+												: 'text-red-600 dark:text-red-400'
+										}`}
+									>
+										<span className="font-medium">{message.message}</span>
+									</p>
+								)}
 
-							{/* <!-- Modal footer --> */}
-							<div className="flex justify-center items-center gap-3 pb-2">
-								<div>
-									<button
-										className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-										type="button"
-										onClick={() => setEmailModal(false)}
-									>
-										Cancel
-									</button>
+								{/* <!-- Modal footer --> */}
+								<div className="flex justify-center items-center gap-3 pb-2">
+									<div>
+										<button
+											className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+											type="button"
+											onClick={() => setEmailModal(false)}
+										>
+											Cancel
+										</button>
+									</div>
+									<div>
+										<button
+											className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
+											type="button"
+											onClick={() => {
+												updateEmailFunc();
+											}}
+										>
+											Send Verification Code
+										</button>
+									</div>
 								</div>
-								<div>
-									<button
-										className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
-										type="button"
-										onClick={() => {
-											updateEmailFunc();
-										}}
-									>
-										Send Verification Code
-									</button>
-								</div>
-							</div>
 							</>
 						)}
 
 						{uiState === 'verify-state' && (
-						<>
-							<div className="p-6 space-y-6">
-								<div className="flex flex-col gap-5">
-									<div>
-										<div className="mb-2 block">
-											<Label htmlFor="email" value="Verification Code" />
+							<>
+								<div className="p-6 space-y-6">
+									<div className="flex flex-col gap-5">
+										<div>
+											<div className="mb-2 block">
+												<Label htmlFor="email" value="Verification Code" />
+											</div>
+											<TextInput
+												id="verificationCode"
+												type="text"
+												placeholder=""
+												required={true}
+												className="h-[40px] w-full"
+												value={verificationCode}
+												onChange={(e) => setVerificationCode(e.target.value)}
+											/>
 										</div>
-										<TextInput
-											id="verificationCode"
-											type="text"
-											placeholder=""
-											required={true}
-											className="h-[40px] w-full"
-											value={verificationCode}
-											onChange={(e) => setVerificationCode(e.target.value)}
-										/>
 									</div>
 								</div>
-							</div>
 
-							{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+								{message && (
+									<p
+										id="standard_error_help"
+										className={`mt-4 text-center text-sm ${
+											message.status === 'success'
+												? 'text-green-600 dark:text-green-400'
+												: 'text-red-600 dark:text-red-400'
+										}`}
+									>
+										<span className="font-medium">{message.message}</span>
+									</p>
+								)}
 
-							{/* <!-- Modal footer --> */}
-							<div className="flex justify-center items-center gap-3 pb-2">
-								<div>
-									<button
-										className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-										type="button"
-										onClick={() => setEmailModal(false)}
-									>
-										Cancel
-									</button>
+								{/* <!-- Modal footer --> */}
+								<div className="flex justify-center items-center gap-3 pb-2">
+									<div>
+										<button
+											className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+											type="button"
+											onClick={() => setEmailModal(false)}
+										>
+											Cancel
+										</button>
+									</div>
+									<div>
+										<button
+											className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
+											type="button"
+											onClick={() => {
+												verifyEmailValidationCode();
+											}}
+										>
+											Confirm Email
+										</button>
+									</div>
 								</div>
-								<div>
-									<button
-										className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
-										type="button"
-										onClick={() => {
-											verifyEmailValidationCode();
-										}}
-									>
-										Confirm Email
-									</button>
-								</div>
-							</div>
 							</>
 						)}
-
 					</div>
 				</div>
 			</div>
