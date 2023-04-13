@@ -8,14 +8,14 @@
  */
 
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	IconShieldChevron,
 	IconChevronRight,
 } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
 
-const AdminPortalDropDown = ({openDropdown, toggle, dropdownMenuNames}) => {
+const AdminPortalDropDown = ({openDropdown, toggle}) => {
 	const [user, setUser, authRoles] = useUser();
 	
 	return (

@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { IconEye } from '@tabler/icons-react';
 import { IconEyeOff } from '@tabler/icons-react';
-import { Label, TextInput } from 'flowbite-react';
+import { TextInput } from 'flowbite-react';
 
 export default function PasswordField({ label, state, setState }) {
 	const [showPassword, setShowPassword] = useState(false);

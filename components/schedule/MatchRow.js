@@ -8,8 +8,6 @@
  */
 import React, { useState, useEffect } from 'react';
 import TeamNameAndImage from './TeamNameAndImage';
-import EditMatchModal from './EditMatchModal';
-import DeleteMatchModal from './DeleteMatchModal';
 import Link from 'next/link';
 import { useUser } from '@/context/userContext';
 
@@ -107,9 +105,7 @@ const MatchRow = ({
 			<tr
 				key={match.id}
 				className="border-b border-brand-neutral-300 flex flex-col md:flex-row items-stretch py-0 md:py-[26px] px-0 md:px-5 justify-between"
-				// onClick={navigateToProfile}
 			>
-				{/* odd:bg-white even:bg-brand-neutral-100 */}
 				<td className="font-medium flex flex-row gap-1 items-start md:gap-7 md:items-center pt-5 md:pt-0 pb-2 md:pb-0">
 					<TeamNameAndImage
 						jerseyColour={match.home_color?.toLowerCase()}

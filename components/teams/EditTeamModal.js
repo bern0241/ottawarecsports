@@ -1,3 +1,10 @@
+/**
+ * Last updated: 2023-03-30
+ *
+ * Author(s):
+ * Justin Bernard <bern0241@algonquinlive.com>
+ */
+
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';

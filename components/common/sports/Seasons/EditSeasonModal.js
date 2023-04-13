@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from '@aws-amplify/api';
 import Datepicker from 'tailwind-datepicker-react';
-import { createSeason, updateSeason } from '@/src/graphql/mutations';
+import { updateSeason } from '@/src/graphql/mutations';
 
 export default function EditSeasonModal({
 	season,
@@ -74,7 +74,6 @@ export default function EditSeasonModal({
 		},
 		datepickerClassNames: 'top-12',
 		defaultDate: new Date(season.start_date.replaceAll('-', '/')),
-		// defaultDate: new Date(),
 		language: 'en',
 	};
 
@@ -105,7 +104,6 @@ export default function EditSeasonModal({
 		},
 		datepickerClassNames: 'top-12',
 		defaultDate: new Date(season.end_date.replaceAll('-', '/')),
-		// defaultDate: new Date(),
 		language: 'en',
 	};
 

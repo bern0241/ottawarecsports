@@ -20,7 +20,6 @@ export default function MultiTeamSelectDropDown({
 
 	const router = useRouter();
 	const [showTeams, setShowTeams] = useState(false);
-	// const [selectedTeams, setSelectedTeams] = useState([]);
 	const divisionID = router.query.id;
 	return (
 		<>
@@ -76,7 +75,6 @@ export default function MultiTeamSelectDropDown({
 															console.log(team);
 															let arr = selectedTeams;
 															arr.push(team);
-															// console.log(selectedTeams);
 															setSelectedTeams(arr);
 														} else {
 															//Untoggle

@@ -8,14 +8,10 @@
  */
 
 import Link from 'next/link';
-import React, { useState } from 'react';
-import {
-	IconBallFootball,
-	IconChevronDown,
-	IconChevronRight,
-} from '@tabler/icons-react';
+import React from 'react';
+import { IconBallFootball, IconChevronRight } from '@tabler/icons-react';
 
-const SportsDropDown = ({ openDropdown, toggle, dropdownMenuNames }) => {
+const SportsDropDown = ({ openDropdown, toggle }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button

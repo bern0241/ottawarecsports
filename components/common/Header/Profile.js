@@ -6,11 +6,9 @@
  * Justin Bernard <bern0241@algonquinlive.com>
  */
 
-import { Avatar } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import ProfileDropdown from './ProfileDropdown';
-import Image from 'next/image';
-import { getCurrentUser, getImageFromS3 } from '@/utils/graphql.services';
+import { getImageFromS3 } from '@/utils/graphql.services';
 import { useUser } from '@/context/userContext';
 
 const Profile = () => {

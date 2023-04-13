@@ -10,12 +10,10 @@
 
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import { Auth, Hub } from 'aws-amplify';
-import AWS from 'aws-sdk';
 
 const UserContext = createContext();
 
 function UserContextProvider(props) {
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	const [user, setUser] = useState('');
 	const [authRoles, setAuthRoles] = useState();

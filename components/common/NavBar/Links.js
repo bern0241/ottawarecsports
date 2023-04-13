@@ -61,22 +61,18 @@ const NavbarSetup = () => {
 				<SportsDropDown
 					openDropdown={openDropdown}
 					toggle={toggle}
-					dropdownMenuNames={dropdownMenuNames}
 				/>
 				<ScheduleDropDown
 					openDropdown={openDropdown}
 					toggle={toggle}
-					dropdownMenuNames={dropdownMenuNames}
 				/>
 				<RostersDropDown
 					openDropdown={openDropdown}
 					toggle={toggle}
-					dropdownMenuNames={dropdownMenuNames}
 				/>
 				<AdminPortalDropDown
 					openDropdown={openDropdown}
 					toggle={toggle}
-					dropdownMenuNames={dropdownMenuNames}
 				/>
 				{user ? (
 					<Link

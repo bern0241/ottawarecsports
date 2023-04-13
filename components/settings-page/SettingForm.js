@@ -6,7 +6,7 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import { Label, Modal, TextInput } from 'flowbite-react';
+import { Label, TextInput } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import ChangePasswordSetup from './ChangePassword';
 import SettingDatePicker from './SettingDatePicker';

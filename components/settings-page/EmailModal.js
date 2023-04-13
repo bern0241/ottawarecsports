@@ -10,7 +10,7 @@
 // https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/#updating-and-verifying-a-cognito-user-email-address
 
 import React, { useState, useEffect } from 'react';
-import { Modal, TextInput, Label } from 'flowbite-react';
+import { TextInput, Label } from 'flowbite-react';
  import { Auth } from 'aws-amplify';
 
 export default function EmailModal({ emailModal, setEmailModal }) {

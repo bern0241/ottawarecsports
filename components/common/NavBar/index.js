@@ -8,7 +8,7 @@
  */
 
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import NavbarSetup from './Links';
 import { useRouter } from 'next/router';
@@ -17,7 +17,7 @@ import SignOutButton from '../SignOutButton';
 const NavbarMenu = ({ openMenu, setOpenMenu, laptopSize, laptopHeight }) => {
 	const router = useRouter();
 
-	// Hide sidebar menu everytime new page loads (in mobile screen mode)
+	// Hide sidebar menu every time new page loads (in mobile screen mode)
 	useEffect(() => {
 		if (!laptopSize) {
 			setOpenMenu(false);

@@ -24,12 +24,9 @@ export default function CreateLeagueModal({
 	const [leagueCoordinators, setLeagueCoordinators] = useState([]);
 	const [numPerPeriod, setNumPerPeriod] = useState();
 	const [timePerPeriod, setTimePerPeriod] = useState();
-	const [type, setType] = useState('');
 	const [description, setDescription] = useState('');
-	const [founded, setFounded] = useState(null);
 
 	const [openCoordinatorDrop, setOpenCoordinatorDrop] = useState(false);
-	const [listUsers, setListUsers] = useState([]);
 	// Users with their respective Groups attached to each object
 	const [listUsersGroups, setListUsersGroups] = useState([]);
 	const [message, setMessage] = useState(null);

@@ -25,7 +25,6 @@ const MatchesTable = ({
 	isCoordinator,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
-	// const [selectedDate, setSelectedDate] = useState('');
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);
 
@@ -126,7 +125,6 @@ const MatchesTable = ({
 							<b>League</b> - {league?.name} <br />
 							<b>Season</b> - {season?.name} <br />
 							<b>Division</b> - {division?.name} <br />
-							{/* <span className='font-light italic'>Matches</span> */}
 						</p>
 					</h1>
 					{displayedMatches.length === 0 ? (

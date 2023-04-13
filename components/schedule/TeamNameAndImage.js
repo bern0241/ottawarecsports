@@ -10,7 +10,6 @@
 import { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
-import { convertColorsDisplay } from '@/utils/handy-dandy-functions';
 
 const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 	const [profileImage, setProfileImage] = useState('');

@@ -7,15 +7,11 @@
  * Verity Stevens <stev0298@algonquinlive.com>
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import {
-	IconCalendarEvent,
-	IconChevronDown,
-	IconChevronRight,
-} from '@tabler/icons-react';
+import { IconCalendarEvent, IconChevronRight } from '@tabler/icons-react';
 
-const ScheduleDropDown = ({ openDropdown, toggle, dropdownMenuNames }) => {
+const ScheduleDropDown = ({ openDropdown, toggle }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
@@ -39,11 +35,7 @@ const ScheduleDropDown = ({ openDropdown, toggle, dropdownMenuNames }) => {
 					/>
 				</div>
 			</button>
-			<div
-			// style={{
-			// 	display: showMe ? 'block' : 'none',
-			// }}
-			>
+			<div>
 				<div
 					className={`border-x-[1px] border-black flex flex-col font-regular text-sm pl-12 bg-blue-100 text-black/70 transition-all duration-[320ms] overflow-hidden ${
 						openDropdown === 'schedule' ? 'h-[7.3rem]' : 'h-0'

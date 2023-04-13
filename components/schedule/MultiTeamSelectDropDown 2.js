@@ -16,35 +16,8 @@ export default function MultiTeamSelectDropDown({
 
 	const router = useRouter();
 	const [showTeams, setShowTeams] = useState(false);
-	// const [selectedTeams, setSelectedTeams] = useState([]);
 	const divisionID = router.query.id;
 
-	// useEffect(() => {
-	// 	if (!divisionID) return;
-	// 	const callMeAsync = async () => {
-	// 		await fetchTeamsDivisions();
-	// 	};
-	// 	callMeAsync();
-	// }, [divisionID]);
-
-	// const fetchTeamsDivisions = async () => {
-	// 	const variables = {
-	// 		filter: {
-	// 			divisionId: {
-	// 				eq: divisionID,
-	// 			},
-	// 		},
-	// 	};
-	// 	const teamDivisions = await API.graphql({
-	// 		query: listTeamDivisionsShort,
-	// 		variables: variables,
-	// 	});
-	// 	// console.log('My Teams from Divisions', teamDivisions.data.listTeamDivisions);
-	// 	setTeams(
-	// 		teamDivisions.data.listTeamDivisions.items.map((team) => team.team)
-	// 	);
-	// };
-	// console.log(selectedTeams);
 	return (
 		<>
 			<button
@@ -93,14 +66,12 @@ export default function MultiTeamSelectDropDown({
 														(e) => e.name == team.name
 													)}
 													onChange={(e) => {
-														// console.log(e.target.checked);
 														if (e.target.checked == true) {
 															//Toggle
 															//Add team object to array
 															console.log(team);
 															let arr = selectedTeams;
 															arr.push(team);
-															// console.log(selectedTeams);
 															setSelectedTeams(arr);
 														} else {
 															//Untoggle

@@ -6,7 +6,7 @@
  * Son Tran <tran0460@algonquinlive.com>
  */
 
-import { TextInput, Label } from 'flowbite-react';
+import { Label } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 const ChangeSeasonModal = ({

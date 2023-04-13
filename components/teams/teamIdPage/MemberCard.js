@@ -10,7 +10,6 @@ import { getImageFromS3 } from '@/utils/graphql.services';
 
 export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains, isCaptain, isCoordinator }) {
     const [user, setUser, authRoles, setAuthRoles] = useUser();
-    const [userCognito, setUserCognito] = useState();
     const [userName, setUserName] = useState();
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [newRole, setNewRole] = useState('');
