@@ -157,7 +157,7 @@ export default function PlayerSpotlight() {
 				width="100"
 				height="100"
 				className="object-cover rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
-				alt="N/A"
+				alt="Spotlight player profile picture"
 			/>
 			<div>
 				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
