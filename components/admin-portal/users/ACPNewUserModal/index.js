@@ -258,7 +258,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				if (err) {
 					console.log('Error uploading image: ', err);
 				} else {
-					// console.log('Image uploaded successfully!');
 					router.reload();
 				}
 			});
