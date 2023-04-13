@@ -71,18 +71,13 @@ export default function ACPTeamsPage() {
                 <link rel="icon" href="/images/ORS-Logo.png" />
             </Head>
 
-            <main className='w-full flex justify-center max-w-[70em] mx-auto'>
-                <div className="flex flex-col w-full mt-[2.4rem]">
-                
-                <div className='ml-3'>
+            <main  className="w-full flex flex-col gap-6 p-8">
                 <SearchBarInput
-					id={'team-search'}
-					placeholder={'Search'}
-					searchFunction={handleSearch}
-				/>
-                </div>
-                      <TeamTable filterTeams={filterTeams} fetchTeams={fetchTeams} />
-                </div>
+                  id={'team-search'}
+                  placeholder={'Search'}
+                  searchFunction={handleSearch}
+                />
+                <TeamTable filterTeams={filterTeams} fetchTeams={fetchTeams} />
             </main>
         </>
     );
