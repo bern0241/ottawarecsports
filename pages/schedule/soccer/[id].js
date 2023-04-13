@@ -139,7 +139,7 @@ export default function DivisionMatches() {
 			{!division ? (
 				<div className="w-full flex justify-center">
 					<p>
-						Sorry - That Data for that Division was not found in our database!
+						Sorry - Data for that Division was not found in our database!
 					</p>
 				</div>
 			) : (
