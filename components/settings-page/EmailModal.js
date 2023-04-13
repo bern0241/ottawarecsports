@@ -7,48 +7,62 @@
  */
 
 // REFERENCES: 
-// https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/
+// https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/#updating-and-verifying-a-cognito-user-email-address
 
- import { Modal, TextInput, Label } from 'flowbite-react';
- import React, { useState, useEffect } from 'react';
- import EmailVerification from './EmailVerification';
- import {
-	 changeUserAttributes,
-	 verifyUserAttributes,
- } from '@/utils/graphql.services';
- import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
+import { Modal, TextInput, Label } from 'flowbite-react';
  import { Auth } from 'aws-amplify';
 
 export default function EmailModal({ emailModal, setEmailModal }) {
 
-	const router = useRouter();
-	// const [currentEmail, setCurrentEmail] = useState('');
 	const [newEmail, setNewEmail] = useState('');
-	const [verificationModal, setVerificationModal] = useState(false);
+	const [verificationCode, setVerificationCode] = useState('');
+	const [uiState, setUiState] = useState('change-state');
 	const [message, setMessage] = useState(null);
-
+	
 	// Hides display message after 5 seconds
     useEffect(() => {
-		const timer = setTimeout(() => {
-			setMessage(null);
-		}, 5000);
-		return () => clearTimeout(timer);
-}, [message])
+			const timer = setTimeout(() => {
+				setMessage(null);
+			}, 5000);
+			return () => clearTimeout(timer);
+	}, [message])
 
+	/**
+	 * Update email function
+	 */
 	const updateEmailFunc = async () => {
-		try {
-			const user = await Auth.currentAuthenticatedUser();
-			const attributes = {
-			  email: newEmail,
-			};
-			const result = await Auth.updateUserAttributes(user, attributes);
-			console.log('Email updated successfully', result);
-			setMessage({status: 'success', message: 'Email updated successfully!'});
-		} catch (error) {
-			console.log('Error updating email', error);
+		const user = await Auth.currentAuthenticatedUser();
+		await Auth.updateUserAttributes(user, {
+			email: newEmail
+		})
+		.then(() => {
+			setMessage({status: 'success', message: 'Verification code sent!'});
+			setUiState('verify-state');
+			console.log('a verification code is sent');
+		})
+		.catch((e) => {
+			console.log('failed with error', e);
 			setMessage({status: 'error', message: error.message});
-		  }
+		});
 	}
+
+	/**
+	 * Verify email from sent code
+	 */
+	const verifyEmailValidationCode = async () => {
+		await Auth.verifyCurrentUserAttributeSubmit('email', verificationCode)
+		  .then(() => {
+			setMessage({status: 'success', message: 'Email verified!'});
+			console.log('email verified');
+		  })
+		  .catch((error) => {
+			setMessage({status: 'error', message: error.message});
+			console.log('failed with error', error);
+		  });
+	  }
+
+
 
 	return (
 		<>
@@ -68,66 +82,106 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 								Change Email
 							</h3>
 						</div>
+
 						{/* <!-- Modal body --> */}
-						<div className="p-6 space-y-6">
-							<div className="flex flex-col gap-5">
-								{/* <div>
-									<div className="mb-2 block">
-										<Label htmlFor="email" value="Current Email" />
+						{uiState === 'change-state' && (
+						<>
+							<div className="p-6 space-y-6">
+								<div className="flex flex-col gap-5">
+									<div>
+										<div className="mb-2 block">
+											<Label htmlFor="email" value="New Email" />
+										</div>
+										<TextInput
+											id="newEmail"
+											type="email"
+											placeholder=""
+											required={true}
+											className="h-[40px] w-full"
+											value={newEmail}
+											onChange={(e) => setNewEmail(e.target.value)}
+										/>
 									</div>
-									<TextInput
-										id="email"
-										type="email"
-										placeholder="Current Email"
-										required={true}
-										className="h-[40px] w-full"
-										value={currentEmail}
-										onChange={(e) => setCurrentEmail(e.target.value)}
-									/>
-								</div> */}
-								<div>
-									<div className="mb-2 block">
-										<Label htmlFor="email" value="New Email" />
-									</div>
-									<TextInput
-										id="newEmail"
-										type="email"
-										placeholder=""
-										required={true}
-										className="h-[40px] w-full"
-										value={newEmail}
-										onChange={(e) => setNewEmail(e.target.value)}
-									/>
 								</div>
 							</div>
-						</div>
 
-						{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+							{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
 
-						{/* <!-- Modal footer --> */}
-						<div className="flex justify-center gap-3 pb-2">
-							<div>
-								<button
-									className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
-									type="button"
-									onClick={() => setEmailModal(false)}
-								>
-									Cancel
-								</button>
+							{/* <!-- Modal footer --> */}
+							<div className="flex justify-center items-center gap-3 pb-2">
+								<div>
+									<button
+										className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+										type="button"
+										onClick={() => setEmailModal(false)}
+									>
+										Cancel
+									</button>
+								</div>
+								<div>
+									<button
+										className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
+										type="button"
+										onClick={() => {
+											updateEmailFunc();
+										}}
+									>
+										Send Verification Code
+									</button>
+								</div>
 							</div>
-							<div>
-								<button
-									className="bg-brand-blue-800 h-[30px] w-[90px] rounded-[50px] text-white font-regular my-4"
-									type="button"
-									onClick={() => {
-										updateEmailFunc();
-										setVerificationModal(true);
-									}}
-								>
-									Ok
-								</button>
+							</>
+						)}
+
+						{uiState === 'verify-state' && (
+						<>
+							<div className="p-6 space-y-6">
+								<div className="flex flex-col gap-5">
+									<div>
+										<div className="mb-2 block">
+											<Label htmlFor="email" value="Verification Code" />
+										</div>
+										<TextInput
+											id="verificationCode"
+											type="text"
+											placeholder=""
+											required={true}
+											className="h-[40px] w-full"
+											value={verificationCode}
+											onChange={(e) => setVerificationCode(e.target.value)}
+										/>
+									</div>
+								</div>
 							</div>
-						</div>
+
+							{message && (<p id="standard_error_help" className={`mt-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+
+							{/* <!-- Modal footer --> */}
+							<div className="flex justify-center items-center gap-3 pb-2">
+								<div>
+									<button
+										className="bg-white h-[30px] w-[90px] rounded-[50px] text-brand-blue-800 font-regular my-4"
+										type="button"
+										onClick={() => setEmailModal(false)}
+									>
+										Cancel
+									</button>
+								</div>
+								<div>
+									<button
+										className="bg-brand-blue-800 px-4 py-2 rounded-[5px] text-white font-regular my-4"
+										type="button"
+										onClick={() => {
+											verifyEmailValidationCode();
+										}}
+									>
+										Confirm Email
+									</button>
+								</div>
+							</div>
+							</>
+						)}
+
 					</div>
 				</div>
 			</div>
@@ -135,13 +189,6 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 				onClick={(e) => setEmailModal(false)}
 				className="z-[125] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
-
-			{/* {verificationModal && (
-				<EmailVerification
-					setVerificationModal={setVerificationModal}
-					confirmNewEmail={confirmNewEmail}
-				/>
-			)} */}
 		</>
 	);
 }
