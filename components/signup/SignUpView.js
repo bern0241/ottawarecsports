@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-03-14
+ * Last updated: 2023-03-12
  *
  * Author(s):
  * Justin Bernard <bern0241@algonquinlive.com>
@@ -94,7 +94,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				},
 			});
 			addUserToGroup(newUser.userSub, 'User');
-			// const apiData = await createPlayer(newUser.userSub);
+			const apiData = await createPlayer(newUser.userSub);
 			setUiState('confirmSignUp');
 		} catch (error) {
 			console.error(error);
@@ -183,13 +183,28 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									value="Phone Number"
 									className="sr-only"
 								/>
-								<TextInput
+								{/* <TextInput
 									id="phone"
 									type="tel"
 									placeholder="Phone Number (optional)"
 									onChange={(e) => setPhoneNumber(e.target.value)}
 									required={false}
-								/>
+								/> */}
+									<PhoneInput
+										id="phoneNumber"
+										placeholder="Phone Number (optional)"
+										defaultCountry="CA"
+										value={phoneNumber}
+										onChange={setPhoneNumber}
+										style={{
+											paddingLeft: '10px',
+											opacity: '100%',
+											borderRadius: '9px',
+											borderWidth: '1px',
+											borderColor: 'lightgray'
+										}}
+									/>
+
 								<Label htmlFor="email" value="Email" className="sr-only" />
 								<TextInput
 									id="email"
@@ -214,7 +229,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 								{message !== null && (
 									<p
 										id="message-notice"
-										className={`ml-1 text-[.87rem] ${
+										className={`ml-1 text-[.87rem] text-center ${
 											message.status === 'error'
 												? 'text-red-600'
 												: 'text-green-500'
