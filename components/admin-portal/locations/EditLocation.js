@@ -62,7 +62,7 @@ export default function EditLocation({ location, openModal, setOpenModal, fetchL
                 
                 
                 <div className="px-6 py-6 lg:px-8">
-                    <h3 className="mb-7 text-xl text-center font-medium text-gray-900 dark:text-white">Edit Location</h3>
+                    <h2 className="mb-7 text-xl text-center font-medium text-gray-900 dark:text-white">Edit Location</h2>
                     <form className="space-y-6" action="#">
 
                         <div className="">

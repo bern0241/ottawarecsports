@@ -8,17 +8,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
 import { useRouter } from 'next/router';
-import makeid from '@/utils/makeId';
-import { createGame } from '@/src/graphql/mutations';
 import {
 	listPlayers,
 	listLocations as listLocationsQuery,
 } from '@/src/graphql/queries';
-import TeamDropDown from './TeamDropDown';
-import TeamCardSelected from './TeamCardSelected';
+import { listTeamDivisionsShort } from '@/src/graphql/custom-queries';
 import RefereeSearchBar from './RefereeSearchBar';
 import RefereeChip from './RefereeChip';
 import AWS from 'aws-sdk';
@@ -71,6 +67,7 @@ const TeamBatchSelect = ({
 	const [awayDisplayColour, setAwayDisplayColour] = useState('Blue');
 
 	const [selectedTeams, setSelectedTeams] = useState([]);
+	const [teamsInDivision, setTeamsInDivision] = useState([]);
 	const [batchResults, setBatchResults] = useState([]);
 
 	const [message, setMessage] = useState(null);
@@ -112,6 +109,23 @@ const TeamBatchSelect = ({
 		language: 'en',
 	};
 
+	const fetchTeamsDivisions = async () => {
+		const variables = {
+			filter: {
+				divisionId: {
+					eq: divisionID,
+				},
+			},
+		};
+		const teamDivisions = await API.graphql({
+			query: listTeamDivisionsShort,
+			variables: variables,
+		});
+		setTeamsInDivision(
+			teamDivisions.data.listTeamDivisions.items.map((team) => team.team)
+		);
+	};
+
 	useEffect(() => {
 		setUiState('main');
 		if (selectedDate) {
@@ -125,12 +139,6 @@ const TeamBatchSelect = ({
 			setMatchDate(new Date().toLocaleString('en-CA').split(',')[0]);
 		}
 	}, [isVisible, selectedDate]);
-
-	useEffect(() => {
-		// .toISOString().split('T')[0])
-		setUiState('main');
-		fetchLocations();
-	}, []);
 
 	const fetchLocations = async () => {
 		const _locations = await API.graphql({
@@ -155,6 +163,11 @@ const TeamBatchSelect = ({
 	};
 
 	useEffect(() => {
+		setUiState('main');
+		fetchLocations();
+	}, []);
+
+	useEffect(() => {
 		const timer = setTimeout(() => {
 			setMessage(null);
 		}, 5000);
@@ -177,6 +190,18 @@ const TeamBatchSelect = ({
 		fetchRefereeList();
 		setStartTime(getCurrentTime());
 	}, []);
+
+	useEffect(() => {
+		if (!divisionID) return;
+		const callMeAsync = async () => {
+			await fetchTeamsDivisions();
+		};
+		callMeAsync();
+	}, [divisionID]);
+
+	useEffect(() => {
+		if (batchResults) setGeneratedGames(batchResults);
+	}, [batchResults]);
 
 	const getCurrentTime = () => {
 		const now = new Date();
@@ -226,96 +251,92 @@ const TeamBatchSelect = ({
 		return () => clearTimeout(timer);
 	};
 
-	useEffect(() => {
-		if (batchResults) setGeneratedGames(batchResults);
-	}, [batchResults]);
+	// useEffect(() => {
+	// 	if (uiState === 'send-emails') {
+	// 		setEmailsToAllPlayers();
+	// 	}
+	// }, [uiState]);
 
-	useEffect(() => {
-		if (uiState === 'send-emails') {
-			setEmailsToAllPlayers();
-		}
-	}, [uiState]);
+	// const setEmailsToAllPlayers = async () => {
+	// 	if (homeTeam === undefined) return;
+	// 	if (awayTeam === undefined) return;
+	// 	console.log('HOME', homeTeam.Players.items);
+	// 	console.log('AWAY', awayTeam.Players.items);
 
-	const setEmailsToAllPlayers = async () => {
-		if (homeTeam === undefined) return;
-		if (awayTeam === undefined) return;
-		console.log('HOME', homeTeam.Players.items);
-		console.log('AWAY', awayTeam.Players.items);
+	// 	if (homeTeam.Players.items.length !== 0) {
+	// 		homeTeam.Players.items.map(async (player) => {
+	// 			await adminGetUserEmail(homeEmails, setHomeEmails, player.user_id);
+	// 		});
+	// 	}
 
-		if (homeTeam.Players.items.length !== 0) {
-			homeTeam.Players.items.map(async (player) => {
-				await adminGetUserEmail(homeEmails, setHomeEmails, player.user_id);
-			});
-		}
+	// 	if (awayTeam.Players.items.length !== 0) {
+	// 		awayTeam.Players.items.map(async (player) => {
+	// 			await adminGetUserEmail(awayEmails, setAwayEmails, player.user_id);
+	// 		});
+	// 	}
+	// };
 
-		if (awayTeam.Players.items.length !== 0) {
-			awayTeam.Players.items.map(async (player) => {
-				await adminGetUserEmail(awayEmails, setAwayEmails, player.user_id);
-			});
-		}
-	};
+	// const sendEmails = () => {
+	// 	if (homeTeam && homeEmails) {
+	// 		sendEmailsMessage(homeTeam, awayTeam, homeEmails);
+	// 	}
+	// 	if (awayTeam && awayEmails) {
+	// 		sendEmailsMessage(awayTeam, homeTeam, awayEmails);
+	// 	}
+	// };
 
-	const sendEmails = () => {
-		if (homeTeam && homeEmails) {
-			sendEmailsMessage(homeTeam, awayTeam, homeEmails);
-		}
-		if (awayTeam && awayEmails) {
-			sendEmailsMessage(awayTeam, homeTeam, awayEmails);
-		}
-	};
+	// const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
+	// 	let matchDateConvert = matchDate.replaceAll('-', '/');
+	// 	let matchDateDisplay = new Date(matchDateConvert).toDateString();
+	// 	let parseLocation = JSON.parse(matchLocation);
 
-	const sendEmailsMessage = async (userTeam, otherTeam, emails) => {
-		let matchDateConvert = matchDate.replaceAll('-', '/');
-		let matchDateDisplay = new Date(matchDateConvert).toDateString();
-		let parseLocation = JSON.parse(matchLocation);
+	// 	const params = {
+	// 		Destination: {
+	// 			ToAddresses: emails,
+	// 		},
+	// 		Message: {
+	// 			Body: {
+	// 				Text: {
+	// 					Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`,
+	// 				},
+	// 			},
+	// 			Subject: {
+	// 				Data: `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`,
+	// 			},
+	// 		},
+	// 		Source: 'justin.bernard320@gmail.com',
+	// 	};
 
-		const params = {
-			Destination: {
-				ToAddresses: emails,
-			},
-			Message: {
-				Body: {
-					Text: {
-						Data: `Your team (${userTeam.name}) will be facing team ${otherTeam.name} on ${matchDateDisplay} at ${startTime}! You will be playing at the ${parseLocation.name}. You can find the address here: ${parseLocation.weblink}. Be there on time!`,
-					},
-				},
-				Subject: {
-					Data: `You have an upcoming game on ${matchDateDisplay} at the ${parseLocation.name}`,
-				},
-			},
-			Source: 'justin.bernard320@gmail.com',
-		};
+	// 	ses.sendEmail(params, (err, data) => {
+	// 		if (err) {
+	// 			alert('Error sending emails to all');
+	// 			console.log(err, err.stack);
+	// 		} else {
+	// 			router.reload();
+	// 			console.log('Email sent successfully:', data);
+	// 		}
+	// 	});
+	// };
 
-		ses.sendEmail(params, (err, data) => {
-			if (err) {
-				alert('Error sending emails to all');
-				console.log(err, err.stack);
-			} else {
-				router.reload();
-				console.log('Email sent successfully:', data);
-			}
-		});
-	};
-
-	const adminGetUserEmail = async (state, setState, username) => {
-		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
-			Username: username,
-		};
-		await cognitoidentityserviceprovider.adminGetUser(
-			params,
-			function (err, data) {
-				if (err) console.log(err, err.stack); // an error occurred
-				// else     console.log(data);           // successful response
-				let data2 = data.UserAttributes.find((o) => o.Name === 'email')[
-					'Value'
-				];
-				setState((state) => {
-					return uniqueBySelf([...state, data2]);
-				});
-			}
-		);
-	};
+	// const adminGetUserEmail = async (state, setState, username) => {
+	// 	var params = {
+	// 		UserPoolId: 'us-east-1_70GCK7G6t',
+	// 		Username: username,
+	// 	};
+	// 	await cognitoidentityserviceprovider.adminGetUser(
+	// 		params,
+	// 		function (err, data) {
+	// 			if (err) console.log(err, err.stack); // an error occurred
+	// 			// else     console.log(data);           // successful response
+	// 			let data2 = data.UserAttributes.find((o) => o.Name === 'email')[
+	// 				'Value'
+	// 			];
+	// 			setState((state) => {
+	// 				return uniqueBySelf([...state, data2]);
+	// 			});
+	// 		}
+	// 	);
+	// };
 
 	function uniqueBySelf(items) {
 		const set = new Set();
@@ -435,7 +456,7 @@ const TeamBatchSelect = ({
 									<div className="relative cursor-pointer">
 										{/* <MultiTeamSelectDropDown /> */}
 										<MultiTeamSelectDropDown
-											teams={teams}
+											teams={teamsInDivision}
 											selectedTeams={selectedTeams}
 											setSelectedTeams={setSelectedTeams}
 										/>

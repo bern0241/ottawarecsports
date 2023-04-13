@@ -106,7 +106,7 @@ export default function TeamSpotlight() {
           width="100"
           height="100"
           className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px] object-cover"
-          alt="N/A"
+          alt="Spotlight team profile picture"
         />
         <div>
           <div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">

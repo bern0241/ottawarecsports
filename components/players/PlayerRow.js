@@ -15,6 +15,7 @@ import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { getTeamShort } from '@/src/graphql/custom-queries';
 import { getPlayersByUsername, getTeam } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
+import Link from 'next/link';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
 	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
@@ -140,9 +141,8 @@ export default function PlayerRow({ player, index }) {
 	}
 
 	// TO-DO: Implement or remove this functionality.
-	const goToTeamsPage = (e, team) => {
+	const handleClickForLink = (e) => {
 		e.stopPropagation();
-		router.push(`/teams/${team.id}`);
 	};
 
 	return (
@@ -152,24 +152,25 @@ export default function PlayerRow({ player, index }) {
 			onClick={handleClick}
 		>
 			{/* odd:bg-white even:bg-brand-neutral-100 */}
-			<td className="pl-2 sm:pl-4 py-3 text-md w-[40%]">
-				<div className="flex flex-col gap-2 min-[585px]:flex-row items-center mx-auto text-center">
+			<td className=" sm:pl-4 py-3 text-md w-[30%]">
+				<div className="flex flex-col gap-2 md:flex-row items-center mx-auto text-center">
 					<img
 						src={`${
 							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
 						}`}
 						className="rounded-full text-center w-[4.5rem] h-[4.5rem] border border-gray-500 object-cover"
-					></img>
+            alt={`Teams profile image for ${player.Attributes.find((o) => o.Name === 'name')['Value']}`}
+					/>
 					<div className="flex flex-col gap-1 pl-1">
-						<h1 className="font-medium">
+						<h3 className="font-medium">
 							{player.Attributes.find((o) => o.Name === 'name')['Value'].slice(
 								0,
 								1
 							)}
 							{'. '}
 							{player.Attributes.find((o) => o.Name === 'family_name')['Value']}
-						</h1>
-						<div className="flex font-light text-left hidden sm:block">
+						</h3>
+						<div className="flex font-light text-left hidden md:block">
 							<span className="text-sm font-medium mr-2">
 								{calculateAge(
 									player.Attributes.find((o) => o.Name === 'birthdate')['Value']
@@ -185,18 +186,20 @@ export default function PlayerRow({ player, index }) {
 			<td className="p-3 font-light text-center text-[.9rem]">
 				{player.Attributes.find((o) => o.Name === 'custom:location')['Value']}
 			</td>
-			<td className="p-5 font-light w-full">
+			<td className="sm:pl-3 pr-3 py-3 font-light text-center text-[.9rem]">
+				<p>Soccer</p>
+			</td>
+			<td className="sm:px-5 py-5 font-light w-full hidden sm:table-cell align-middle">
 				{teams &&
 					teams.map((team, index) => (
 						<React.Fragment key={index}>
 							<div
 								key={index}
-								onClick={(e) => goToTeamsPage(e, team)}
 								className="flex flex-row items-center py-1 max-w-[15rem] mx-auto"
 							>
-								<p className="text-blue-500 underline text-sm text-left pl-[2rem] w-[9rem]">
+								<Link onClick={(e) => handleClickForLink(e)} href={`/teams/${team.id}`} className="text-blue-700 underline text-sm text-left sm:pl-[2rem] w-[9rem]">
 									{team.name}
-								</p>
+								</Link>
 								{team.captains && team.captains.includes(player.Username) && (
 									<>
 										<IconArrowNarrowRight
