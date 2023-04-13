@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function LocationUpdateForm(props) {
   const {
     id: idProp,
-    location,
+    location: locationModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -38,16 +38,16 @@ export default function LocationUpdateForm(props) {
     setWeblink(cleanValues.weblink);
     setErrors({});
   };
-  const [locationRecord, setLocationRecord] = React.useState(location);
+  const [locationRecord, setLocationRecord] = React.useState(locationModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? await DataStore.query(Location, idProp)
-        : location;
+        : locationModelProp;
       setLocationRecord(record);
     };
     queryData();
-  }, [idProp, location]);
+  }, [idProp, locationModelProp]);
   React.useEffect(resetStateValues, [locationRecord]);
   const validations = {
     name: [],
@@ -188,7 +188,7 @@ export default function LocationUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || location)}
+          isDisabled={!(idProp || locationModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -200,7 +200,7 @@ export default function LocationUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || location) ||
+              !(idProp || locationModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
