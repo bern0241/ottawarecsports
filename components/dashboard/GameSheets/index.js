@@ -28,11 +28,10 @@ export default function GameSheets() {
 	const fetchGames = async () => {
 		const response = await getAllMatches();
 		if (response) {
-			// const finishedGames = response.filter(
-			// 	(object) => object.status === 'FINISHED'
-			// );
-			// setGames(finishedGames);
-			setGames(response);
+			const finishedGames = response.filter(
+				(object) => object.status === 'FINISHED'
+			);
+			setGames(finishedGames);
 		}
 	};
 
