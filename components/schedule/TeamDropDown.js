@@ -50,7 +50,6 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 
 	const setTeamFunc = (e, team) => {
 		e.preventDefault();
-		console.log(team);
 		setState(team);
 		setOpenDropDown(false);
 	};
