@@ -73,7 +73,7 @@ export default function LeagueTable({
 		<>
 			<div className="relative overflow-x-auto mx-auto px-4 w-full my-[1rem]">
 				<div className="flex justify-between items-center py-3 px-5 border-l border-t border-r border-gray-400 pr-2 bg-white">
-					<h2 className="text-md">League</h2>
+					<h2 className="text-xl">League</h2>
 					{((authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<CreateButton
@@ -93,13 +93,13 @@ export default function LeagueTable({
 								Name
 							</th>
 							<th scope="col" className="font-light py-2 text-center w-[15rem]">
-								Coordinator (s)
+								<p className="hidden sm:contents">Coordinator (s)</p>
 							</th>
 							<th
 								scope="col"
 								className="font-light py-2 border-r-[1px] text-center border-gray-400"
 							>
-								<p className="hidden sm:contents">Action</p>
+								Action
 							</th>
 						</tr>
 					</thead>

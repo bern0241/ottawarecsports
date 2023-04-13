@@ -96,7 +96,7 @@ export default function LeagueCard({
 					{league.name}
 				</th>
 				<td className="py-3">
-					<ul className="text-center">
+					<ul className="text-center hidden sm:contents">
 						{users &&
 							users.map((coordinator, index) => (
 								<React.Fragment key={index}>
@@ -122,28 +122,26 @@ export default function LeagueCard({
 					</ul>
 				</td>
 				<td className="flex gap-2 py-3 justify-center items-center pr-5 ">
-					<div className="hidden sm:contents">
-						{((authRoles && authRoles.includes('Admin')) ||
-							(authRoles && authRoles.includes('Owner'))) && (
-							<>
-								{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
-								<IconEdit
-									onClick={(e) => editLeagueFunc(e)}
-									style={{
-										color: 'darkblue',
-										fontSize: '21px',
-										cursor: 'pointer',
-									}}
-									name="create-outline"
-								></IconEdit>
-								<IconTrash
-									onClick={(e) => deleteLeagueFunc(e)}
-									style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
-									name="create-outline"
-								></IconTrash>
-							</>
-						)}
-					</div>
+					{((authRoles && authRoles.includes('Admin')) ||
+						(authRoles && authRoles.includes('Owner'))) && (
+						<>
+							{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
+							<IconEdit
+								onClick={(e) => editLeagueFunc(e)}
+								style={{
+									color: 'darkblue',
+									fontSize: '21px',
+									cursor: 'pointer',
+								}}
+								name="create-outline"
+							></IconEdit>
+							<IconTrash
+								onClick={(e) => deleteLeagueFunc(e)}
+								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
+								name="create-outline"
+							></IconTrash>
+						</>
+					)}
 				</td>
 			</tr>
 
