@@ -322,7 +322,6 @@ const EditMatchModal = ({
 			setGames(newGames);
 			getGames();
 			setMakingNewGame(false);
-			//router.reload();
 			const timer = setTimeout(() => {
 				setIsVisible(false);
             }, 2500);
@@ -692,7 +691,6 @@ const EditMatchModal = ({
 													]}
 													value={homeColour}
 													setValue={setHomeColour}
-													// setValue={(color) => convertColorsDisplay(color, setHomeColour, setHomeDisplayColour)}
 												/>
 											</div>
 										</div>

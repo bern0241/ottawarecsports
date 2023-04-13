@@ -22,7 +22,6 @@ export default function MultiTeamSelectDropDown({
 	const [showTeams, setShowTeams] = useState(false);
 	// const [selectedTeams, setSelectedTeams] = useState([]);
 	const divisionID = router.query.id;
-	console.log(teams);
 	return (
 		<>
 			<button
@@ -71,7 +70,6 @@ export default function MultiTeamSelectDropDown({
 														(e) => e.name == team.name
 													)}
 													onChange={(e) => {
-														// console.log(e.target.checked);
 														if (e.target.checked == true) {
 															//Toggle
 															//Add team object to array

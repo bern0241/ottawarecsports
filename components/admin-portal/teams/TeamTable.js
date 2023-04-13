@@ -37,10 +37,8 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 										state={createTeamModal}
 										setState={setCreateTeamModal}
 									/>
-								</div>
-							</th>
-						</tr>
-					</thead>
+					</div>
+				<table className="w-full text-sm text-left border border-gray-400">
 					<thead className="text-xs border border-gray-300 text-black bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
 							<th
@@ -76,7 +74,7 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 							))}
 
 						<tr className="bg-white border-b-[1px] border-t-[1px] border-gray-500">
-							<th
+							{/* <th
 								scope="row"
 								className="px-6 py-4 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer"
 							>
@@ -84,10 +82,13 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 									style={{ fontSize: '20px', color: 'blue' }}
 									name="chevron-forward-outline"
 								></ion-icon>
-							</th>
-							<td className="px-6 py-4"></td>
-							<td className="px-6 py-4"></td>
-							<td className="flex gap-4 px-6 py-4 text-center"></td>
+							</th> */}
+							<td
+									colSpan={6}
+									className="pt-8 pb-4 text-center text-sm text-brand-neutral-800"
+								>
+									End
+								</td>
 						</tr>
 					</tbody>
 				</table>
