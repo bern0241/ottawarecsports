@@ -89,7 +89,7 @@ export default function Game({ game }) {
 			{visible ? (
 				<div className="w-full p-8 flex flex-col lg:flex-row justify-between items-center gap-4 border-b">
 					<div className="min-w-[0px] flex justify-center hidden xl:contents">
-						<img src="/images/soccerball_orange.png" />
+						<img src="/images/soccerball_orange.png" alt="Soccer ball icon" />
 					</div>
 					<div className="font-medium flex flex-row gap-8 items-center">
 						<TeamImageAndName
@@ -121,7 +121,7 @@ export default function Game({ game }) {
 							<span className="flex gap-1 text-sm lg:col-span-2">
 								<IconMapPin />
 								<Link
-									className="text-blue-500 underline"
+									className="text-blue-800 underline"
 									href={`${locationObject?.weblink}`}
 									target="_blank"
 								>
