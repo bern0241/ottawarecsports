@@ -18,6 +18,7 @@ const MatchRow = ({
 	setIsDeleting,
 	isCoordinator,
 	setSaveBatchGame,
+	generatedGames
 }) => {
 	if (!match) return;
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
@@ -110,6 +111,7 @@ const MatchRow = ({
 					<TeamNameAndImage
 						jerseyColour={match.home_color?.toLowerCase()}
 						team={match.HomeTeam}
+						generatedGames={generatedGames}
 					/>
 					<span className="border border-brand-orange-800 md:border-black rounded-lg md:rounded px-5 md:px-[47px] py-1 md:py-[10px] flex flex-row items-center h-fit gap-1 self-center md:self-auto">
 						<p>{match.home_score}</p>
@@ -120,6 +122,7 @@ const MatchRow = ({
 						jerseyColour={match.away_color?.toLowerCase()}
 						reverse={true}
 						team={match.AwayTeam}
+						generatedGames={generatedGames}
 					/>
 				</td>
 				<td className="min-w-3/12 flex flex-col justify-center md:justify-items-stretch bg-brand-neutral-50 md:bg-white py-2 md:py-0">

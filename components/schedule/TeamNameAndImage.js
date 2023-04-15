@@ -39,10 +39,12 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 	useEffect(() => {
 		getPicture();
 	}, []);
+	// useEffect(() => {
+	// 	getPicture();
+	// }, [generatedGames]);
 	useEffect(() => {
 		getPicture();
-		console.log('CALLED!!!!!!!!');
-	}, [generatedGames]);
+	}, [team]);
 
 	const goToTeamPage = (e) => {
 		e.preventDefault();

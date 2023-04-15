@@ -193,7 +193,6 @@ export default function DivisionMatches() {
 							</Button>
 						</div>
 					)}
-					<button onClick={(e) => console.log(generatedGames)}>ON CLICK</button>
 					<MatchesTable
 						matches={games}
 						setMatchToEdit={setMatchToEdit}
@@ -203,6 +202,7 @@ export default function DivisionMatches() {
 						selectedDate={selectedDate}
 						setSelectedDate={setSelectedDate}
 						isCoordinator={isCoordinator}
+						generatedGames={generatedGames}
 					/>
 					{generatedGames.length > 0 && (
 						<GeneratedMatchesTable
