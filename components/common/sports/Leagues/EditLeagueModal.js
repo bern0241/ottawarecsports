@@ -173,7 +173,6 @@ export default function EditLeagueModal({
 				query: listLeagues,
 				variables: variables,
 			});
-			//   console.log('Leagues', leagues.data.listLeagues.items);
 
 			setLeagues(leagues.data.listLeagues.items);
 			getUserListByNames(updateLeague.coordinators);

@@ -18,7 +18,7 @@ const MatchRow = ({
 	setIsDeleting,
 	isCoordinator,
 	setSaveBatchGame,
-	generatedGames
+	generatedGames,
 }) => {
 	if (!match) return;
 	const [user, setUser, authRoles, setAuthRoles] = useUser();

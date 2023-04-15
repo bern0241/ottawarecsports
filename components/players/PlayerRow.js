@@ -158,7 +158,9 @@ export default function PlayerRow({ player, index }) {
 							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
 						}`}
 						className="rounded-full text-center w-[4.5rem] h-[4.5rem] border border-gray-500 object-cover"
-            alt={`Teams profile image for ${player.Attributes.find((o) => o.Name === 'name')['Value']}`}
+						alt={`Teams profile image for ${
+							player.Attributes.find((o) => o.Name === 'name')['Value']
+						}`}
 					/>
 					<div className="flex flex-col gap-1 pl-1">
 						<h3 className="font-medium">
@@ -196,7 +198,11 @@ export default function PlayerRow({ player, index }) {
 								key={index}
 								className="flex flex-row items-center py-1 max-w-[15rem] mx-auto"
 							>
-								<Link onClick={(e) => handleClickForLink(e)} href={`/teams/${team.id}`} className="text-blue-700 underline text-sm text-left sm:pl-[2rem] w-[9rem]">
+								<Link
+									onClick={(e) => handleClickForLink(e)}
+									href={`/teams/${team.id}`}
+									className="text-blue-700 underline text-sm text-left sm:pl-[2rem] w-[9rem]"
+								>
 									{team.name}
 								</Link>
 								{team.captains && team.captains.includes(player.Username) && (

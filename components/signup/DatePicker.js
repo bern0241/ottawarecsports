@@ -7,10 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-	IconChevronLeft,
-	IconChevronRight,
-} from '@tabler/icons-react';
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import DatePicker from 'tailwind-datepicker-react';
 import { Label } from 'flowbite-react';
 

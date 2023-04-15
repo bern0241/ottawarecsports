@@ -101,7 +101,10 @@ export default function MultiTeamSelectDropDown({
 								))}
 						</ul>
 					</div>
-					<div onClick={(e) => setShowTeams(false)} className='z-[150] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%] cursor-default' />
+					<div
+						onClick={(e) => setShowTeams(false)}
+						className="z-[150] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%] cursor-default"
+					/>
 				</>
 			)}
 		</>

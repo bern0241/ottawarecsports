@@ -14,66 +14,70 @@ import AWS from 'aws-sdk';
 import { createLeague } from '@/src/graphql/mutations';
 import { listLeaguesLong } from '@/src/graphql/custom-queries';
 
+export default function CreateLeagueModal({
+	sport,
+	setOpenModal,
+	setLeagues,
+	setSelectedLeague,
+}) {
+	const [leagueName, setLeagueName] = useState('');
+	const [leagueCoordinators, setLeagueCoordinators] = useState([]);
+	const [numPerPeriod, setNumPerPeriod] = useState('');
+	const [timePerPeriod, setTimePerPeriod] = useState('');
+	const [type, setType] = useState('');
+	const [description, setDescription] = useState('');
+	const [founded, setFounded] = useState(null);
 
-export default function CreateLeagueModal({ sport, setOpenModal, setLeagues, setSelectedLeague }) {
-    const [leagueName, setLeagueName] = useState('');
-    const [leagueCoordinators, setLeagueCoordinators] = useState([]);
-    const [numPerPeriod, setNumPerPeriod] = useState('');
-    const [timePerPeriod, setTimePerPeriod] = useState('');
-    const [type, setType] = useState('');
-    const [description, setDescription] = useState('');
-    const [founded, setFounded] = useState(null);
+	const [openCoordinatorDrop, setOpenCoordinatorDrop] = useState(false);
+	const [listUsers, setListUsers] = useState([]);
+	// Users with their respective Groups attached to each object
+	const [listUsersGroups, setListUsersGroups] = useState([]);
+	const [message, setMessage] = useState(null);
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-    const [openCoordinatorDrop, setOpenCoordinatorDrop] = useState(false);
-    const [listUsers, setListUsers] = useState([]);
-    // Users with their respective Groups attached to each object
-    const [listUsersGroups, setListUsersGroups] = useState([]);
-    const [message, setMessage] = useState(null);
-    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+		return () => clearTimeout(timer);
+	}, [message]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setMessage(null);
-        }, 5000);
-        return () => clearTimeout(timer);
-    }, [message]);
+	useEffect(() => {
+		fetchUsers();
+	}, []);
 
-    useEffect(() => {
-        fetchUsers();
-    }, [])
+	const fetchUsers = (e) => {
+		var params = {
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
+		};
+		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
+			if (err) {
+				console.log(err, err.stack);
+			} else {
+				setGroupsForEachUser(data.Users);
+			}
+		});
+	};
 
-    const fetchUsers = (e) => {
-        var params = {
-            UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID, /* required */
-        };
-        cognitoidentityserviceprovider.listUsers(params, function(err, data) {
-            if (err) {
-                console.log(err, err.stack);
-            } else {
-                setGroupsForEachUser(data.Users);
-            }
-        })
-    }
-
-
-    const setGroupsForEachUser = (_users) => {
-        let users = _users;
-        users.map((user) => {
-            //Attributes - Groups
-            var params = {
-              Username: user.Username,
-              UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID, /* required */
-            };
-              cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
-
-              user.Groups = data.Groups.map(group => group.GroupName);
-              setListUsersGroups((listUsersGroups) => 
-              {
-                  return uniqueByUsername([...listUsersGroups, user])
-              });
-            });
-        })
-    }
+	const setGroupsForEachUser = (_users) => {
+		let users = _users;
+		users.map((user) => {
+			//Attributes - Groups
+			var params = {
+				Username: user.Username,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
+			};
+			cognitoidentityserviceprovider.adminListGroupsForUser(
+				params,
+				function (err, data) {
+					user.Groups = data.Groups.map((group) => group.GroupName);
+					setListUsersGroups((listUsersGroups) => {
+						return uniqueByUsername([...listUsersGroups, user]);
+					});
+				}
+			);
+		});
+	};
 
 	function uniqueByUsername(items) {
 		const set = new Set();

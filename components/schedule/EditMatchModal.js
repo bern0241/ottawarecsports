@@ -326,8 +326,8 @@ const EditMatchModal = ({
 			const timer = setTimeout(() => {
 				// setIsVisible(false);
 				router.reload();
-            }, 0);
-            return () => clearTimeout(timer);
+			}, 0);
+			return () => clearTimeout(timer);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });

@@ -17,7 +17,7 @@ export default function TeamSpotlight() {
 	const [spotlightTeam, setSpotlightTeam] = useState();
 	const [profileImage, setProfileImage] = useState(null);
 	const [spotlightTeamCaptains, setSpotlightTeamCaptains] = useState();
-  const [isVisible, setIsVisible] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		getTeamsData();
@@ -29,15 +29,13 @@ export default function TeamSpotlight() {
 	}, [teams]);
 
 	useEffect(() => {
-		if (!spotlightTeam){
-      setIsVisible(false);
-    }
-    else{
-      setIsVisible(true);
-      fetchCaptains(spotlightTeam.captains);
-      getPicture();
-    }
-
+		if (!spotlightTeam) {
+			setIsVisible(false);
+		} else {
+			setIsVisible(true);
+			fetchCaptains(spotlightTeam.captains);
+			getPicture();
+		}
 	}, [spotlightTeam]);
 
 	// Fetch team details:
@@ -96,62 +94,66 @@ export default function TeamSpotlight() {
 	};
 
 	return (
-    <>
-    {isVisible ? (
-      <div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
-        <img
-          src={`${
-            profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
-          }`}
-          width="100"
-          height="100"
-          className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px] object-cover"
-          alt="Spotlight team profile picture"
-        />
-        <div>
-          <div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-            <span className="text-sm font-light col-span-1">Team Name</span>
-            <span className="col-span-1 truncate">
-              {spotlightTeam ? spotlightTeam.name : 'Unknown'}
-            </span>
-          </div>
-          <div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-            <span className="text-sm font-light col-span-1">Sport</span>
-            <span className="truncate">Soccer</span>
-          </div>
-          <div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-            <span className="text-sm font-light col-span-1">Team Captain(s)</span>
-            <span className="col-span-1">
-              <ul>
-                {spotlightTeamCaptains &&
-                  spotlightTeamCaptains.map((captain, index) => (
-                    <li key={index} className="truncate">
-                      {
-                        captain.UserAttributes.find((o) => o.Name === 'name')[
-                          'Value'
-                        ]
-                      }{' '}
-                      {
-                        captain.UserAttributes.find(
-                          (o) => o.Name === 'family_name'
-                        )['Value']
-                      }
-                    </li>
-                  ))}
-              </ul>
-            </span>
-          </div>
-          <div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-            <span className="text-sm font-light col-span-1">Team Members</span>
-            <span className="truncate col-span-1">
-              {spotlightTeam ? spotlightTeam.Players.items.length : '0'}
-            </span>
-          </div>
-        </div>
-      </div>
-    ) : (
-      <p className="text-center align-middle">No Team to show.</p>
-    )}
-    </>
+		<>
+			{isVisible ? (
+				<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
+					<img
+						src={`${
+							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
+						}`}
+						width="100"
+						height="100"
+						className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px] object-cover"
+						alt="Spotlight team profile picture"
+					/>
+					<div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">Team Name</span>
+							<span className="col-span-1 truncate">
+								{spotlightTeam ? spotlightTeam.name : 'Unknown'}
+							</span>
+						</div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">Sport</span>
+							<span className="truncate">Soccer</span>
+						</div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">
+								Team Captain(s)
+							</span>
+							<span className="col-span-1">
+								<ul>
+									{spotlightTeamCaptains &&
+										spotlightTeamCaptains.map((captain, index) => (
+											<li key={index} className="truncate">
+												{
+													captain.UserAttributes.find((o) => o.Name === 'name')[
+														'Value'
+													]
+												}{' '}
+												{
+													captain.UserAttributes.find(
+														(o) => o.Name === 'family_name'
+													)['Value']
+												}
+											</li>
+										))}
+								</ul>
+							</span>
+						</div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">
+								Team Members
+							</span>
+							<span className="truncate col-span-1">
+								{spotlightTeam ? spotlightTeam.Players.items.length : '0'}
+							</span>
+						</div>
+					</div>
+				</div>
+			) : (
+				<p className="text-center align-middle">No Team to show.</p>
+			)}
+		</>
 	);
 }

@@ -38,7 +38,7 @@ export default function DivisionMatches() {
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [selectedDate, setSelectedDate] = useState('');
-	
+
 	const [isDeletingGenerated, setIsDeletingGenerated] = useState(false);
 	const [deleteArrayIndex, setDeleteArrayIndex] = useState(0);
 
@@ -139,8 +139,7 @@ export default function DivisionMatches() {
 		});
 		console.log(filteredArray);
 		setGeneratedGames(filteredArray);
-
-	}
+	};
 
 	return (
 		<>
@@ -153,9 +152,7 @@ export default function DivisionMatches() {
 
 			{!division ? (
 				<div className="w-full flex justify-center">
-					<p>
-						Sorry - Data for that Division was not found in our database!
-					</p>
+					<p>Sorry - Data for that Division was not found in our database!</p>
 				</div>
 			) : (
 				// )}

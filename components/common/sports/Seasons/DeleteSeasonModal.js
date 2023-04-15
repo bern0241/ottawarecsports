@@ -10,7 +10,12 @@ import React from 'react';
 import { deleteDivision, deleteSeason } from '@/src/graphql/mutations';
 import { API } from '@aws-amplify/api';
 import { listDivisions } from '@/src/graphql/queries';
-import { deleteTeamDivisionShort, listTeamDivisionsShort, listGamesShort, deleteGameShort } from '@/src/graphql/custom-queries';
+import {
+	deleteTeamDivisionShort,
+	listTeamDivisionsShort,
+	listGamesShort,
+	deleteGameShort,
+} from '@/src/graphql/custom-queries';
 
 export default function DeleteSeasonModal({
 	leagueInfo,
@@ -54,72 +59,75 @@ export default function DeleteSeasonModal({
 				},
 			});
 			deleteTeamDivisionsFunc(object.id); // This function deletes all the TeamDivision records belonging to the division
-			deleteGamesFunc(object.id);	// This function deletes all the Game records belonging to the division
+			deleteGamesFunc(object.id); // This function deletes all the Game records belonging to the division
 		});
 	}
 
 	const deleteTeamDivisionsFunc = async (_divisionID) => {
 		try {
-		  const variables = { 
-			filter: {
-				divisionId: {
-					eq: _divisionID
-				}
-			}
-		}
-		  const teamDivisions = await API.graphql({
-			  query: listTeamDivisionsShort, variables: variables
-		  })
-		  const deleteTheseTeamDivisions = teamDivisions.data.listTeamDivisions.items;
-		  if (deleteTheseTeamDivisions.length !== 0) {
-			  deleteTheseTeamDivisions.map(async (teamDivision) => {
+			const variables = {
+				filter: {
+					divisionId: {
+						eq: _divisionID,
+					},
+				},
+			};
+			const teamDivisions = await API.graphql({
+				query: listTeamDivisionsShort,
+				variables: variables,
+			});
+			const deleteTheseTeamDivisions =
+				teamDivisions.data.listTeamDivisions.items;
+			if (deleteTheseTeamDivisions.length !== 0) {
+				deleteTheseTeamDivisions.map(async (teamDivision) => {
 					const deletedItem = await API.graphql({
-					  query: deleteTeamDivisionShort,
-					  variables: {
-						input: { id: teamDivision.id },
-					  },
+						query: deleteTeamDivisionShort,
+						variables: {
+							input: { id: teamDivision.id },
+						},
 					});
-					console.log('TeamDiv deleted',deletedItem);
-			  })
-		  }
-		  // listDivisionsFunc();
+					console.log('TeamDiv deleted', deletedItem);
+				});
+			}
+			// listDivisionsFunc();
 		} catch (error) {
-		  console.log(error); 
+			console.log(error);
 		}
-	}
+	};
 
 	/**
 	 * Delete all Game records by division
-	 * @param {*} _division 
+	 * @param {*} _division
 	 */
-	 const deleteGamesFunc = async (_division) => {
+	const deleteGamesFunc = async (_division) => {
 		try {
-			const variables = { 
-			  filter: {
-				  division: {
-					  eq: _division
-				  }
-			  }
-		  }
+			const variables = {
+				filter: {
+					division: {
+						eq: _division,
+					},
+				},
+			};
 			const games = await API.graphql({
-				query: listGamesShort, variables: variables
-			})
+				query: listGamesShort,
+				variables: variables,
+			});
 			const deleteTheseGames = games.data.listGames.items;
 			if (deleteTheseGames.length !== 0) {
 				deleteTheseGames.map(async (game) => {
-					  const deletedItem = await API.graphql({
+					const deletedItem = await API.graphql({
 						query: deleteGameShort,
 						variables: {
-						  input: { id: game.id },
+							input: { id: game.id },
 						},
-					  });
-					  console.log('Game deleted',deletedItem);
-				})
+					});
+					console.log('Game deleted', deletedItem);
+				});
 			}
-		  } catch (error) {
-			console.log(error); 
-		  }
-	}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<>

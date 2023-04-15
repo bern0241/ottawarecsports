@@ -38,11 +38,11 @@ export default function App({ Component, pageProps }) {
 	if (router.pathname === '/signup' || router.pathname === '/login') {
 		return (
 			<>
-			<style jsx global>{`
-				html {
-					font-family: ${barlow.style.fontFamily};
-				}
-			`}</style>
+				<style jsx global>{`
+					html {
+						font-family: ${barlow.style.fontFamily};
+					}
+				`}</style>
 				<UserContextProvider>
 					<Component {...pageProps} />
 				</UserContextProvider>

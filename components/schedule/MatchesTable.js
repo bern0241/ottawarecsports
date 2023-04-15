@@ -23,7 +23,7 @@ const MatchesTable = ({
 	selectedDate,
 	setSelectedDate,
 	isCoordinator,
-	generatedGames
+	generatedGames,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);

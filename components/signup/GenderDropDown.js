@@ -21,11 +21,7 @@ export default function GenderDropDown({ state, setState }) {
 				required={true}
 				className="w-full placeholder-gray-300"
 			>
-				<option
-					className="placeholder-gray-900 border"
-					selected
-					value=""
-				>
+				<option className="placeholder-gray-900 border" selected value="">
 					Gender *
 				</option>
 				<option className="text-black" value="Non-Binary">

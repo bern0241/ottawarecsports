@@ -29,7 +29,7 @@ export default function SeasonTable({
 			listSeasonsFunc();
 			isCoordinatorOfLeagueCheck();
 		}
-		if ((selectedLeague === null)) {
+		if (selectedLeague === null) {
 			setSeasons([]);
 			setSelectedSeason(null);
 		}

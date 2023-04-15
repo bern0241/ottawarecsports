@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { IconX } from '@tabler/icons-react';
 import AWS from 'aws-sdk';
 import { useRouter } from 'next/router';
@@ -8,124 +8,167 @@ import ChangeRoleModal from './ChangeRoleModal';
 import { useUser } from '@/context/userContext';
 import { getImageFromS3 } from '@/utils/graphql.services';
 
-export default function MemberCard({ member, fetchPlayersFromTeam, fetchCaptains, isCaptain, isCoordinator }) {
-    const [user, setUser, authRoles, setAuthRoles] = useUser();
-    const [userCognito, setUserCognito] = useState();
-    const [userName, setUserName] = useState();
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [newRole, setNewRole] = useState('');
-    const [changeRoleModal, setChangeRoleModal] = useState(false);
-    const [userImage, setUserImage] = useState(null);
-    const [currentRole, setCurrentRole] = useState(member.role)
-    const router = useRouter();
-    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+export default function MemberCard({
+	member,
+	fetchPlayersFromTeam,
+	fetchCaptains,
+	isCaptain,
+	isCoordinator,
+}) {
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
+	const [userCognito, setUserCognito] = useState();
+	const [userName, setUserName] = useState();
+	const [openDeleteModal, setOpenDeleteModal] = useState(false);
+	const [newRole, setNewRole] = useState('');
+	const [changeRoleModal, setChangeRoleModal] = useState(false);
+	const [userImage, setUserImage] = useState(null);
+	const [currentRole, setCurrentRole] = useState(member.role);
+	const router = useRouter();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
+	useEffect(() => {
+		getUser();
+	}, []);
 
-    useEffect(() => {
-        getUser();
-    }, [])
+	const getUser = () => {
+		var params = {
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
+			Username: member.user_id,
+		};
+		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			setUserCognito(data); // successful response
+			getImage(data);
+		});
+	};
 
-    const getUser = () => {
-        var params = {
-            UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
-            Username: member.user_id, 
-            };
-            cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-            if (err) console.log(err, err.stack); // an error occurred
-            setUserCognito(data);                 // successful response
-            getImage(data);
-        });
-    }
+	const getImage = async (_user) => {
+		if (
+			_user?.UserAttributes.find((o) => o.Name === 'picture')['Value'] !==
+			'none'
+		) {
+			let url = await getImageFromS3(
+				_user?.UserAttributes.find((o) => o.Name === 'picture')['Value']
+			);
+			setUserImage(url);
+		} else {
+			setUserImage(null);
+		}
+	};
 
-    const getImage = async (_user) => {
-        if (_user?.UserAttributes.find(o => o.Name === 'picture')['Value'] !== 'none') {
-            let url = await getImageFromS3(_user?.UserAttributes.find(o => o.Name === 'picture')['Value']);
-            setUserImage(url);
-        } else {
-            setUserImage(null);
-        }
-    }
+	useEffect(() => {
+		if (member) {
+			if (member.role === null) {
+				setCurrentRole('Player');
+			}
+			const params = {
+				Username: member.user_id,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
+			};
+			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else {
+					setUserCognito(data);
+					setUserName(`${
+						data.UserAttributes.find((o) => o.Name === 'name')['Value']
+					}
+                    ${
+											data.UserAttributes.find((o) => o.Name === 'family_name')[
+												'Value'
+											]
+										}`);
+				} // successful response
+			});
+		}
+	}, [member]);
 
-    useEffect(() => {
-        if (member) {
-            if (member.role === null) {
-                setCurrentRole('Player');
-            }
-            const params = {
-                Username: member.user_id,
-                UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID
-            }
-            cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-                if (err) console.log(err, err.stack); // an error occurred
-                else     {
-                    setUserCognito(data);
-                    setUserName(`${data.UserAttributes.find(o => o.Name === 'name')['Value']}
-                    ${data.UserAttributes.find(o => o.Name === 'family_name')['Value']}`);
-                }          // successful response
-            });
-        }
-    }, [member])
+	const goToPlayerPage = (e) => {
+		e.stopPropagation();
+		router.push(`/players/${member.user_id}`);
+	};
 
+	const deletePlayerModal = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+		setOpenDeleteModal(!openDeleteModal);
+	};
 
-    const goToPlayerPage = (e) => {
-        e.stopPropagation();
-        router.push(`/players/${member.user_id}`)
-    }
+	return (
+		<>
+			<div
+				onClick={(e) => goToPlayerPage(e)}
+				className="flex flex-row justify-between w-full items-center cursor-pointer"
+			>
+				<div className=" hidden sm:contents">
+					<img
+						style={{ objectFit: 'cover' }}
+						width={132}
+						height={132}
+						className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
+						src={`${userImage ? userImage : '/images/defaultProfilePic.jpeg'}`}
+						alt={`Profile image of ${userName}`}
+					/>
+				</div>
+				<div className="text-black ml-3  text-sm sm:text-base">
+					{userName ? (
+						<p>{userName}</p>
+					) : (
+						<p className="font-light italic">User doesn't exist</p>
+					)}
+				</div>
+				<div className="flex-grow"></div>
+				{isCaptain ||
+				isCoordinator ||
+				(authRoles && authRoles.includes('Admin')) ||
+				(authRoles && authRoles.includes('Owner')) ? (
+					<ChoosePlayerRole
+						clickStopPropagationFunc={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+						}}
+						currentRole={currentRole}
+						setNewRole={setNewRole}
+						setChangeRoleModal={setChangeRoleModal}
+					/>
+				) : (
+					<>
+						<p>{currentRole}</p>
+					</>
+				)}
+				{(isCaptain ||
+					isCoordinator ||
+					(authRoles && authRoles.includes('Admin')) ||
+					(authRoles && authRoles.includes('Owner'))) && (
+					<button
+						style={{ marginLeft: '0rem' }}
+						className="text-brand-orange-800"
+						onClick={(e) => deletePlayerModal(e)}
+					>
+						<IconX /> <p className="sr-only"> Button </p>
+					</button>
+				)}
+			</div>
 
-    const deletePlayerModal = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setOpenDeleteModal(!openDeleteModal);
-    }
-
-  return (
-    <>
-    <div onClick={(e) => goToPlayerPage(e)} className='flex flex-row justify-between w-full items-center cursor-pointer'>
-        <div className=" hidden sm:contents">
-          <img
-              style={{ objectFit: 'cover' }}
-              width={132}
-              height={132}
-              className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
-              src={`${userImage ? userImage : "/images/defaultProfilePic.jpeg"}`}
-              alt={`Profile image of ${userName}`}
-          />
-        </div>
-        <div className='text-black ml-3  text-sm sm:text-base'>
-            {userName ? (
-                <p>{userName}</p>
-            ) : (
-                <p className='font-light italic'>User doesn't exist</p>
-            )}
-        </div>
-        <div className='flex-grow'></div>
-            {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) ? (
-                <ChoosePlayerRole clickStopPropagationFunc={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }} 
-                    currentRole={currentRole}
-                    setNewRole={setNewRole}
-                    setChangeRoleModal={setChangeRoleModal}
-                />
-            ) : (
-              <>
-                <p>{currentRole}</p>
-              </>
-            )}
-            {(isCaptain || isCoordinator || (authRoles && authRoles.includes('Admin')) || (authRoles && authRoles.includes('Owner'))) && (
-                <button style={{marginLeft: '0rem'}} className="text-brand-orange-800" onClick={(e) => deletePlayerModal(e)}>
-                    <IconX/> <p className="sr-only"> Button </p>
-                </button>
-            )}
-    </div>
-    
-    {openDeleteModal && (
-        <DeletePlayerModal player={member} fullName={userName} openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} fetchPlayersFromTeam={fetchPlayersFromTeam} fetchCaptains={fetchCaptains} />
-    )}
-    {changeRoleModal && (
-        <ChangeRoleModal setOpenModal={setChangeRoleModal} member={member} userName={userName} newRole={newRole} setCurrentRole={setCurrentRole} fetchCaptains={fetchCaptains} />
-    )}
-    </>
-  )
+			{openDeleteModal && (
+				<DeletePlayerModal
+					player={member}
+					fullName={userName}
+					openModal={openDeleteModal}
+					setOpenModal={setOpenDeleteModal}
+					fetchPlayersFromTeam={fetchPlayersFromTeam}
+					fetchCaptains={fetchCaptains}
+				/>
+			)}
+			{changeRoleModal && (
+				<ChangeRoleModal
+					setOpenModal={setChangeRoleModal}
+					member={member}
+					userName={userName}
+					newRole={newRole}
+					setCurrentRole={setCurrentRole}
+					fetchCaptains={fetchCaptains}
+				/>
+			)}
+		</>
+	);
 }

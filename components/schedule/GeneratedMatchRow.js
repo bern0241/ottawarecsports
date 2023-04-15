@@ -21,7 +21,7 @@ const GeneratedMatchRow = ({
 	isCoordinator,
 	deleteMatchFromArray,
 	generatedGames,
-	setDeleteArrayIndex
+	setDeleteArrayIndex,
 }) => {
 	if (!match) return;
 
@@ -182,7 +182,7 @@ const GeneratedMatchRow = ({
 							onClick={(e) => {
 								e.preventDefault();
 								// deleteMatchFromArray(index);
-								setDeleteArrayIndex={index}
+								setDeleteArrayIndex = { index };
 								setIsDeletingGenerated(true);
 							}}
 						>

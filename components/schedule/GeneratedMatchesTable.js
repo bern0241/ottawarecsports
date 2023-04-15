@@ -22,8 +22,7 @@ const GeneratedMatchesTable = ({
 	setGeneratedGames,
 	deleteMatchFromArray,
 	generatedGames,
-	setDeleteArrayIndex
-
+	setDeleteArrayIndex,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [displayedMatches, setDisplayedMatches] = useState([]);

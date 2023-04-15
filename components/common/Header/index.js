@@ -27,7 +27,11 @@ const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 							className="visible center mt-4 mr-2"
 						>
 							{openMenu ? (
-								<IconX color="white" size={'2.7rem'} aria-label="Close Menu Button" />
+								<IconX
+									color="white"
+									size={'2.7rem'}
+									aria-label="Close Menu Button"
+								/>
 							) : (
 								<IconMenu2
 									color="white"
