@@ -57,7 +57,6 @@ export default function AddTeamDropdown({
 			};
 			let newTeamDivision = await API.graphql({
 				query: createTeamDivisionShort,
-				// query: createTeamDivision,
 				variables: { input: data },
 			});
 		});
