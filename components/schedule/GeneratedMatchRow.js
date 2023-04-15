@@ -13,11 +13,14 @@ import { useUser } from '@/context/userContext';
 
 const GeneratedMatchRow = ({
 	match,
+	index,
 	setMatchToEdit,
 	setSaveBatchGame,
 	setIsEditing,
 	setIsDeleting,
 	isCoordinator,
+	deleteMatchFromArray,
+	generatedGames
 }) => {
 	if (!match) return;
 
@@ -28,6 +31,7 @@ const GeneratedMatchRow = ({
 		if (match.location) {
 			setLocationObject(JSON.parse(match.location));
 		}
+		console.log('INDEX', index);
 	}, []);
 
 	const CalendarIcon = () => (
@@ -113,6 +117,7 @@ const GeneratedMatchRow = ({
 					<TeamNameAndImage
 						jerseyColour={match.home_color?.toLowerCase()}
 						team={match.HomeTeam}
+						generatedGames={generatedGames}
 					/>
 					<span className="border border-brand-orange-800 md:border-black rounded-lg md:rounded px-5 md:px-[47px] py-1 md:py-[10px] flex flex-row items-center h-fit gap-1 self-center md:self-auto">
 						<p>{match.home_score}</p>
@@ -123,6 +128,7 @@ const GeneratedMatchRow = ({
 						jerseyColour={match.away_color?.toLowerCase()}
 						reverse={true}
 						team={match.AwayTeam}
+						generatedGames={generatedGames}
 					/>
 				</td>
 				<td className="min-w-3/12 flex flex-col justify-center md:justify-items-stretch bg-brand-neutral-50 md:bg-white py-2 md:py-0">
@@ -174,9 +180,11 @@ const GeneratedMatchRow = ({
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<button
-							onClick={() => {
-								setMatchToEdit(match);
-								setIsDeleting(true);
+							onClick={(e) => {
+								e.preventDefault();
+								// setMatchToEdit(match)
+								deleteMatchFromArray(index);
+								// setIsDeleting(true);
 							}}
 						>
 							<span>

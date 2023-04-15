@@ -73,6 +73,16 @@ export default function DivisionMatches() {
 		// const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};
+
+	const getGamesWithId = async () => {
+		
+		
+		// game.id = ;
+		// setListUsers((listUsers) => {
+		// 	return uniqueByUsername([...listUsers, user]);
+		// });
+	}
+
 	const getTeams = async () => {
 		const resp = await getAllTeams();
 		setTeams(resp);
@@ -128,6 +138,20 @@ export default function DivisionMatches() {
 		}
 	};
 
+	const deleteMatchFromArray = (indexOfMatch) => {
+		// let myArray = generatedGames;
+        // myArray.splice(indexOfMatch, 1);
+        // setGeneratedGames(myArray);
+
+		
+		const filteredArray = generatedGames.filter((value, index) => {
+			return index !== indexOfMatch;
+		});
+		console.log(filteredArray);
+		setGeneratedGames(filteredArray);
+
+	}
+
 	return (
 		<>
 			<Head>
@@ -169,6 +193,7 @@ export default function DivisionMatches() {
 							</Button>
 						</div>
 					)}
+					<button onClick={(e) => console.log(generatedGames)}>ON CLICK</button>
 					<MatchesTable
 						matches={games}
 						setMatchToEdit={setMatchToEdit}
@@ -190,6 +215,8 @@ export default function DivisionMatches() {
 							// selectedDate={selectedDate}
 							// setSelectedDate={setSelectedDate}
 							isCoordinator={isCoordinator}
+							deleteMatchFromArray={deleteMatchFromArray}
+							generatedGames={generatedGames}
 						/>
 					)}
 				</main>

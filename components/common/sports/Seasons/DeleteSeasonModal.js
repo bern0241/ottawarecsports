@@ -53,7 +53,8 @@ export default function DeleteSeasonModal({
 					input: { id: object.id },
 				},
 			});
-			deleteTeamDivisionsFunc(object.id);
+			deleteTeamDivisionsFunc(object.id); // This function deletes all the TeamDivision records belonging to the division
+			deleteGamesFunc(object.id);	// This function deletes all the Game records belonging to the division
 		});
 	}
 
@@ -85,6 +86,39 @@ export default function DeleteSeasonModal({
 		} catch (error) {
 		  console.log(error); 
 		}
+	}
+
+	/**
+	 * Delete all Game records by division
+	 * @param {*} _division 
+	 */
+	 const deleteGamesFunc = async (_division) => {
+		try {
+			const variables = { 
+			  filter: {
+				  division: {
+					  eq: _division.id
+				  }
+			  }
+		  }
+			const games = await API.graphql({
+				query: listGamesShort, variables: variables
+			})
+			const deleteTheseGames = games.data.listGames.items;
+			if (deleteTheseGames.length !== 0) {
+				deleteTheseGames.map(async (game) => {
+					  const deletedItem = await API.graphql({
+						query: deleteGameShort,
+						variables: {
+						  input: { id: game.id },
+						},
+					  });
+					  console.log('Game deleted',deletedItem);
+				})
+			}
+		  } catch (error) {
+			console.log(error); 
+		  }
 	}
 
 	return (

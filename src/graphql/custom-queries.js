@@ -1748,56 +1748,6 @@ export const deleteGameShort = /* GraphQL */ `
         }
         team_history
         team_picture
-        # Divisions {
-        #   items {
-        #     id
-        #     divisionId
-        #     teamId
-        #     division {
-        #       id
-        #       name
-        #       abbreviation
-        #       teams
-        #       season
-        #       Games {
-        #         nextToken
-        #       }
-        #       level
-        #       description
-        #       is_playoff
-        #       Teams {
-        #         nextToken
-        #       }
-        #       createdAt
-        #       updatedAt
-        #     }
-        #     team {
-        #       id
-        #       name
-        #       founded
-        #       home_colour
-        #       away_colour
-        #       TeamNotes {
-        #         nextToken
-        #       }
-        #       team_history
-        #       team_picture
-        #       Divisions {
-        #         nextToken
-        #       }
-        #       Players {
-        #         nextToken
-        #       }
-        #       captains
-        #       sport
-        #       createdAt
-        #       updatedAt
-        #     }
-        #     createdAt
-        #     updatedAt
-        #   }
-        #   nextToken
-        # }
         Players {
           items {
             id
