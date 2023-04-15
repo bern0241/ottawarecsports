@@ -208,7 +208,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		// FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
 		const authParams = {
 			AuthFlow: 'USER_PASSWORD_AUTH',
-			ClientId: '40c4imoa859dtlo5iveig35dr1',
+			ClientId: '6i8cjdv48g4lf997hdov2pj9ho',
 			AuthParameters: {
 				USERNAME: username,
 				PASSWORD: tempPassword,
@@ -223,7 +223,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					// Second layer deep - uses Session provided from above
 					var params = {
 						ChallengeName: 'NEW_PASSWORD_REQUIRED',
-						ClientId: '40c4imoa859dtlo5iveig35dr1',
+						ClientId: '6i8cjdv48g4lf997hdov2pj9ho',
 						ChallengeResponses: {
 							USERNAME: username,
 							NEW_PASSWORD: tempPassword,
@@ -248,35 +248,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			}
 		);
 	};
-
-	// Uploads new profile image to the backend (S3 Bucket)
-	// const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-	// 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-	// 	try {
-	// 		if (profilePic === null) {
-	// 			router.reload();
-	// 			return;
-	// 		}
-
-	// 		const params = {
-	// 			Bucket: bucketName,
-	// 			Key: newProfilePicId,
-	// 			Body: profilePic,
-	// 			ContentType: profilePic.type,
-	// 		};
-	// 		// Upload the image to S3
-	// 		s3.upload(params, (err, data) => {
-	// 			if (err) {
-	// 				console.log('Error uploading image: ', err);
-	// 			} else {
-	// 				// console.log('Image uploaded successfully!');
-	// 				router.reload();
-	// 			}
-	// 		});
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
 
 	return (
 		<>

@@ -23,6 +23,7 @@ const MatchesTable = ({
 	selectedDate,
 	setSelectedDate,
 	isCoordinator,
+	generatedGames,
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
 	const [timeSortedMatches, setTimeSortedMatches] = useState([]);
@@ -153,6 +154,7 @@ const MatchesTable = ({
 									setIsEditing={setIsEditing}
 									setIsDeleting={setIsDeleting}
 									isCoordinator={isCoordinator}
+									generatedGames={generatedGames}
 								/>
 							))
 						) : (

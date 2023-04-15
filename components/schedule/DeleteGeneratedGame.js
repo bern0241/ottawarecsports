@@ -1,5 +1,5 @@
 /**
- * Last updated: 2023-04-05
+ * Last updated: 2023-04-15
  *
  * Author(s):
  * Greg Coghill (cogh0020@algonquinlive.com)
@@ -11,21 +11,18 @@ import { API } from 'aws-amplify';
 import { deleteGameShort } from '@/src/graphql/custom-queries';
 import { useRouter } from 'next/router';
 
-export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
+export default function DeleteGeneratedGame({
+	match,
+	openModal,
+	setOpenModal,
+	deleteMatchFromArray,
+	index,
+}) {
 	const router = useRouter();
 
 	const deleteMatchFunc = async () => {
-		try {
-			const deletedGame = await API.graphql({
-				query: deleteGameShort,
-				variables: {
-					input: { id: match.id },
-				},
-			});
-			router.reload();
-		} catch (error) {
-			console.error(error);
-		}
+		deleteMatchFromArray(index);
+		setOpenModal(false);
 	};
 	if (!openModal) {
 		return;
@@ -77,7 +74,7 @@ export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
 								></path>
 							</svg>
 							<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-								Are you sure you want to delete this match?
+								Are you sure you want to delete this generated match?
 							</h3>
 							<button
 								onClick={() => deleteMatchFunc()}

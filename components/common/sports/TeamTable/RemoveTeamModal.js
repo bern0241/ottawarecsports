@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { deleteTeamDivision } from '@/src/graphql/mutations';
+import { deleteTeamDivisionShort } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 
 export default function RemoveTeamModal({
@@ -18,7 +19,7 @@ export default function RemoveTeamModal({
 	const deleteTeamDivisionFunc = async (e) => {
 		try {
 			const deletedTeamDivision = await API.graphql({
-				query: deleteTeamDivision,
+				query: deleteTeamDivisionShort,
 				variables: {
 					input: { id: teamDivision.id },
 				},

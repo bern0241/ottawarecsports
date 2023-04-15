@@ -117,7 +117,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 								{/* <!-- Modal header --> */}
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
-										{`Edit ${team.name}`}
+										{`Edit ${team?.name}`}
 									</h3>
 									<button
 										onClick={() => {

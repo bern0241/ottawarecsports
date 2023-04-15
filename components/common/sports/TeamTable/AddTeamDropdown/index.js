@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { API } from 'aws-amplify';
 import { createTeamDivision } from '@/src/graphql/mutations';
+import { createTeamDivisionShort } from '@/src/graphql/custom-queries';
 import { listTeamsShort } from '@/src/graphql/custom-queries';
 import TeamCardAdd from './TeamCardAdd';
 
@@ -55,8 +56,7 @@ export default function AddTeamDropdown({
 				teamId: teamID,
 			};
 			let newTeamDivision = await API.graphql({
-				// query: createTeamDivisionShort,
-				query: createTeamDivision,
+				query: createTeamDivisionShort,
 				variables: { input: data },
 			});
 		});

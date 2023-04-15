@@ -13,6 +13,7 @@ import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
 import { useRouter } from 'next/router';
 import { createGame } from '@/src/graphql/mutations';
+import { createGameShort } from '@/src/graphql/custom-queries';
 import { listLocations as listLocationsQuery } from '@/src/graphql/queries';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
@@ -229,7 +230,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				gameAwayTeamId: awayTeam.id,
 			};
 			const apiData = await API.graphql({
-				query: createGame,
+				query: createGameShort,
+				// query: createGame,
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game created successfully' });
