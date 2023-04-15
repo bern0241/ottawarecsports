@@ -31,7 +31,7 @@ const s3 = new AWS.S3({
 	signatureVersion: 'v4',
 	region: 'us-east-1',
 });
-const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+const bucketName = process.env.NEXT_PUBLIC_STORAGEBUCKET;
 const signedUrlExpireSeconds = 60 * 1;
 var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 

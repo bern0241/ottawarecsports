@@ -25,7 +25,7 @@ const s3 = new AWS.S3({
 
 export default function PlayerRow({ player, index }) {
 	const [profileImage, setProfileImage] = useState(null);
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+	const bucketName = process.env.NEXT_PUBLIC_STORAGEBUCKET;
 	const signedUrlExpireSeconds = 60 * 1;
 	const [details, setDetails] = useState();
 	const [teams, setTeams] = useState([]);
