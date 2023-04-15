@@ -7,6 +7,13 @@
  */
 
 import { deleteDivision } from '@/src/graphql/mutations';
+import { listGames } from '@/src/graphql/queries';
+import {
+	listTeamDivisionsShort,
+	deleteTeamDivisionShort,
+	listGamesShort,
+	deleteGameShort,
+} from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
 
@@ -16,6 +23,69 @@ export default function DeleteDivisionModal({
 	setDeleteModal,
 	listDivisionsFunc,
 }) {
+	// Deletes all teamDivisions corresponding with the deleted Division
+	const deleteTeamDivisionsFunc = async () => {
+		try {
+			const variables = {
+				filter: {
+					divisionId: {
+						eq: divisionInfo.id,
+					},
+				},
+			};
+			const teamDivisions = await API.graphql({
+				query: listTeamDivisionsShort,
+				variables: variables,
+			});
+			const deleteTheseTeamDivisions =
+				teamDivisions.data.listTeamDivisions.items;
+			if (deleteTheseTeamDivisions.length !== 0) {
+				deleteTheseTeamDivisions.map(async (teamDivision) => {
+					const deletedItem = await API.graphql({
+						query: deleteTeamDivisionShort,
+						// query: deleteTeamDivision,
+						variables: {
+							input: { id: teamDivision.id },
+						},
+					});
+				});
+			}
+			deleteGamesFunc();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const deleteGamesFunc = async () => {
+		try {
+			const variables = {
+				filter: {
+					division: {
+						eq: divisionInfo.id,
+					},
+				},
+			};
+			const games = await API.graphql({
+				query: listGamesShort,
+				variables: variables,
+			});
+			const deleteTheseGames = games.data.listGames.items;
+			if (deleteTheseGames.length !== 0) {
+				deleteTheseGames.map(async (game) => {
+					const deletedItem = await API.graphql({
+						query: deleteGameShort,
+						variables: {
+							input: { id: game.id },
+						},
+					});
+				});
+			}
+			deleteDivisionFunc();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const deleteDivisionFunc = async (e) => {
 		try {
 			const deletedDivision = await API.graphql({
@@ -25,6 +95,7 @@ export default function DeleteDivisionModal({
 				},
 			});
 			setDeleteModal(false);
+			// deleteTeamDivisionsFunc();
 			listDivisionsFunc();
 		} catch (error) {
 			alert('Problem deleting Division');
@@ -88,7 +159,7 @@ export default function DeleteDivisionModal({
 							</h3>
 							<div className="flex">
 								<button
-									onClick={() => deleteDivisionFunc()}
+									onClick={() => deleteTeamDivisionsFunc()}
 									data-modal-hide="popup-modal"
 									type="button"
 									className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"

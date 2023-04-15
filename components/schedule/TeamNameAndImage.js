@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import { useRouter } from 'next/router';
 
-const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
+const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 	const [profileImage, setProfileImage] = useState('');
 	const router = useRouter();
 
@@ -39,6 +39,9 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour }) => {
 	useEffect(() => {
 		getPicture();
 	}, []);
+	useEffect(() => {
+		getPicture();
+	}, [team]);
 
 	const goToTeamPage = (e) => {
 		e.preventDefault();

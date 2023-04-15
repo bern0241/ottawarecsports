@@ -65,7 +65,7 @@ export default function DivisionCard({
 			variables: { id: division.id },
 		});
 		if (apiData.data.getDivision)
-			setTeamCount(apiData.data.getDivision.Teams.items.length);
+			setTeamCount(apiData?.data?.getDivision?.Teams.items.length);
 	};
 
 	return (

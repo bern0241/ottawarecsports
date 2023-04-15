@@ -13,12 +13,20 @@ import {
 	deleteSeason,
 } from '@/src/graphql/mutations';
 import { listDivisions, listSeasons } from '@/src/graphql/queries';
+import {
+	listTeamDivisionsShort,
+	deleteTeamDivisionShort,
+	listGamesShort,
+	deleteGameShort,
+} from '@/src/graphql/custom-queries';
+import { useRouter } from 'next/router';
 
 export default function DeleteLeagueModal({
 	leagueInfo,
 	setDeleteModal,
 	listLeaguesFunc,
 }) {
+	const router = useRouter();
 	const deleteLeagueFunc = async (e) => {
 		try {
 			const DeleteLeague = await API.graphql({
@@ -60,6 +68,8 @@ export default function DeleteLeagueModal({
 			const deleteTheseDivisions = divisions.data.listDivisions.items;
 
 			deleteTheseDivisions.forEach(async (object) => {
+				await deleteTeamDivisionsFunc(object.id); // This function deletes all the TeamDivision records belonging to the division
+				await deleteGamesFunc(object.id); // This function deletes all the Game records belonging to the division
 				await API.graphql({
 					query: deleteDivision,
 					variables: { input: { id: object.id } },
@@ -70,6 +80,75 @@ export default function DeleteLeagueModal({
 				variables: { input: { id: object.id } },
 			});
 		});
+	};
+
+	/**
+	 * Delete all TeamDivision records by divisionID
+	 * @param {*} _divisionID
+	 */
+	const deleteTeamDivisionsFunc = async (_divisionID) => {
+		try {
+			const variables = {
+				filter: {
+					divisionId: {
+						eq: _divisionID,
+					},
+				},
+			};
+			const teamDivisions = await API.graphql({
+				query: listTeamDivisionsShort,
+				variables: variables,
+			});
+			const deleteTheseTeamDivisions =
+				teamDivisions.data.listTeamDivisions.items;
+			if (deleteTheseTeamDivisions.length !== 0) {
+				deleteTheseTeamDivisions.map(async (teamDivision) => {
+					const deletedItem = await API.graphql({
+						query: deleteTeamDivisionShort,
+						//   query: deleteTeamDivision,
+						variables: {
+							input: { id: teamDivision.id },
+						},
+					});
+				});
+			}
+			// listDivisionsFunc();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	/**
+	 * Delete all Game records by division
+	 * @param {*} _division
+	 */
+	const deleteGamesFunc = async (_division) => {
+		try {
+			const variables = {
+				filter: {
+					division: {
+						eq: _division,
+					},
+				},
+			};
+			const games = await API.graphql({
+				query: listGamesShort,
+				variables: variables,
+			});
+			const deleteTheseGames = games.data.listGames.items;
+			if (deleteTheseGames.length !== 0) {
+				deleteTheseGames.map(async (game) => {
+					const deletedItem = await API.graphql({
+						query: deleteGameShort,
+						variables: {
+							input: { id: game.id },
+						},
+					});
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

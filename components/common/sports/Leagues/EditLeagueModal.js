@@ -123,7 +123,7 @@ export default function EditLeagueModal({
 
 	const updateLeagueFunc = async (e) => {
 		e.preventDefault();
-		if (leagueName === '') {
+		if (leagueName === '' || numPerPeriod === '') {
 			setMessage({
 				status: 'error',
 				message: 'Please fill out all required field.',
@@ -173,7 +173,6 @@ export default function EditLeagueModal({
 				query: listLeagues,
 				variables: variables,
 			});
-			//   console.log('Leagues', leagues.data.listLeagues.items);
 
 			setLeagues(leagues.data.listLeagues.items);
 			getUserListByNames(updateLeague.coordinators);

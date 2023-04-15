@@ -10,6 +10,7 @@ import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { deletePlayer, updateTeam } from '@/src/graphql/mutations';
 import { getTeam } from '@/src/graphql/queries';
+import { getTeamShort } from '@/src/graphql/custom-queries';
 
 export default function DeletePlayerModal({
 	player,
@@ -35,7 +36,7 @@ export default function DeletePlayerModal({
 	const getTeamCaptains = async () => {
 		try {
 			const apiData = await API.graphql({
-				query: getTeam,
+				query: getTeamShort,
 				variables: { id: id },
 			});
 			const data = await apiData.data.getTeam;
