@@ -10,7 +10,7 @@ import React from 'react';
 import { deleteDivision, deleteSeason } from '@/src/graphql/mutations';
 import { API } from '@aws-amplify/api';
 import { listDivisions } from '@/src/graphql/queries';
-import { deleteTeamDivisionShort, listTeamDivisionsShort } from '@/src/graphql/custom-queries';
+import { deleteTeamDivisionShort, listTeamDivisionsShort, listGamesShort, deleteGameShort } from '@/src/graphql/custom-queries';
 
 export default function DeleteSeasonModal({
 	leagueInfo,
@@ -97,7 +97,7 @@ export default function DeleteSeasonModal({
 			const variables = { 
 			  filter: {
 				  division: {
-					  eq: _division.id
+					  eq: _division
 				  }
 			  }
 		  }

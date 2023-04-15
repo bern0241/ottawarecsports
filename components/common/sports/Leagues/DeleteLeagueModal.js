@@ -14,7 +14,7 @@ import {
 	deleteTeamDivision
 } from '@/src/graphql/mutations';
 import { listDivisions, listSeasons } from '@/src/graphql/queries';
-import { listTeamDivisionsShort, deleteTeamDivisionShort } from '@/src/graphql/custom-queries';
+import { listTeamDivisionsShort, deleteTeamDivisionShort, listGamesShort, deleteGameShort } from '@/src/graphql/custom-queries';
 import { useRouter } from 'next/router';
 
 export default function DeleteLeagueModal({
@@ -64,12 +64,12 @@ export default function DeleteLeagueModal({
 			const deleteTheseDivisions = divisions.data.listDivisions.items;
 
 			deleteTheseDivisions.forEach(async (object) => {
+				await deleteTeamDivisionsFunc(object.id); // This function deletes all the TeamDivision records belonging to the division
+				await deleteGamesFunc(object.id);	// This function deletes all the Game records belonging to the division
 				await API.graphql({
 					query: deleteDivision,
 					variables: { input: { id: object.id } },
 				});
-				deleteTeamDivisionsFunc(object.id); // This function deletes all the TeamDivision records belonging to the division
-				deleteGamesFunc(object.id);	// This function deletes all the Game records belonging to the division
 			});
 			await API.graphql({
 				query: deleteSeason,
@@ -122,7 +122,7 @@ export default function DeleteLeagueModal({
 			const variables = { 
 			  filter: {
 				  division: {
-					  eq: _division.id
+					  eq: _division
 				  }
 			  }
 		  }

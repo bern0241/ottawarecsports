@@ -57,7 +57,6 @@ export default function DivisionCard({
 
 	const clickedDivision = (e) => {
 		e.preventDefault();
-		console.log(division);
 		setSelectedDivision(division);
 	};
 

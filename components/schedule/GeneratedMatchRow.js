@@ -32,7 +32,6 @@ const GeneratedMatchRow = ({
 		if (match.location) {
 			setLocationObject(JSON.parse(match.location));
 		}
-		console.log('INDEX', index);
 	}, []);
 
 	const CalendarIcon = () => (
@@ -107,7 +106,6 @@ const GeneratedMatchRow = ({
 		.substring(0, matchDateString.length - 4)
 		.replace(matchDateString.charAt(2), `${matchDateString.charAt(2)},`);
 
-	console.log(match);
 	return (
 		<>
 			<tr
