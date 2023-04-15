@@ -208,7 +208,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		// FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
 		const authParams = {
 			AuthFlow: 'USER_PASSWORD_AUTH',
-			ClientId: '6i8cjdv48g4lf997hdov2pj9ho',
+			ClientId: process.env.NEXT_PUBLIC_CLIENTID,
 			AuthParameters: {
 				USERNAME: username,
 				PASSWORD: tempPassword,
@@ -223,7 +223,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					// Second layer deep - uses Session provided from above
 					var params = {
 						ChallengeName: 'NEW_PASSWORD_REQUIRED',
-						ClientId: '6i8cjdv48g4lf997hdov2pj9ho',
+						ClientId: process.env.NEXT_PUBLIC_CLIENTID,
 						ChallengeResponses: {
 							USERNAME: username,
 							NEW_PASSWORD: tempPassword,
