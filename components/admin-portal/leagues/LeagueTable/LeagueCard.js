@@ -16,100 +16,144 @@ import DeleteLeagueModal from '../../../common/sports/Leagues/DeleteLeagueModal'
 import { useRouter } from 'next/router';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 
-export default function LeagueCard({ league, sport, selectedLeague, setSelectedLeague, setLeagues, listLeaguesFunc }) {
-    const [users, setUsers] = useState([]);
-    const [editModal, setEditModal] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
-    const router = useRouter();
-    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+export default function LeagueCard({
+	league,
+	sport,
+	selectedLeague,
+	setSelectedLeague,
+	setLeagues,
+	listLeaguesFunc,
+}) {
+	const [users, setUsers] = useState([]);
+	const [editModal, setEditModal] = useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
+	const router = useRouter();
+	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-    useEffect(()=> {
-      getUserListByNames(league.coordinators);
-  }, [])
-  
-  const getUserListByNames = (coordinators) => {
-      setUsers([]);
-      coordinators.forEach((coordinator) => {
-          var params = {
-              UserPoolId: 'us-east-1_70GCK7G6t',
-              Username: coordinator 
-              };
-              cognitoidentityserviceprovider.adminGetUser(params, function(err, data) {
-              if (err) console.log(err, err.stack); // an error occurred
-              // else     console.log(data);           // successful response
-                  setUsers((users) => {
-                      return uniqueByUsername([...users, data]);
-                  });
-          });
-      });
-  }
+	useEffect(() => {
+		getUserListByNames(league.coordinators);
+	}, []);
 
-    function uniqueByUsername(items) {
-        const set = new Set();
-        return items.filter((item) => {
-          const isDuplicate = set.has(item.Username);
-          set.add(item.Username);
-          return !isDuplicate;
-        });
-    }
+	const getUserListByNames = (coordinators) => {
+		setUsers([]);
+		coordinators.forEach((coordinator) => {
+			var params = {
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
+				Username: coordinator,
+			};
+			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				// else     console.log(data);           // successful response
+				setUsers((users) => {
+					return uniqueByUsername([...users, data]);
+				});
+			});
+		});
+	};
 
-    const goToUserPage = (e, username) => {
-        e.stopPropagation();
-        router.push(`/players/${username}`)
-    }
+	function uniqueByUsername(items) {
+		const set = new Set();
+		return items.filter((item) => {
+			const isDuplicate = set.has(item.Username);
+			set.add(item.Username);
+			return !isDuplicate;
+		});
+	}
 
-    const clickedLeague = (e) => {
-        e.preventDefault();
-        setSelectedLeague(league);
-    }
+	const goToUserPage = (e, username) => {
+		e.stopPropagation();
+		router.push(`/players/${username}`);
+	};
 
-    const editLeagueFunc = (e) => {
-        e.stopPropagation();
-        setEditModal(!editModal);
-    }
+	const clickedLeague = (e) => {
+		e.preventDefault();
+		setSelectedLeague(league);
+	};
 
-    const deleteLeagueFunc = (e) => {
-      e.stopPropagation();
-      setDeleteModal(!deleteModal);
-    }
+	const editLeagueFunc = (e) => {
+		e.stopPropagation();
+		setEditModal(!editModal);
+	};
 
-    return (
-        <>
-        <tr onClick={(e) => clickedLeague(e)} className="bg-white border border-gray-400 cursor-pointer">
-            <th scope="row" className="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {selectedLeague && selectedLeague.id === league.id && (
-                    <div className='w-[.5rem] h-[100%] top-0 left-0 bg-blue-900 absolute'/>
-                )}
-                {league.name}
-            </th>
-            <td className="px-6 py-3">
-                <ul className='text-center'>
-                    {users && users.map((coordinator, index) => (
-                        <React.Fragment key={index}>
-                        <li key={index} className="text-blue-700 text-sm underline py-[.2rem]">
-                        <p onClick={(e) => goToUserPage(e, coordinator.Username)}>{coordinator.UserAttributes.find(o => o.Name === 'name')['Value']} {coordinator.UserAttributes.find(o => o.Name === 'family_name')['Value']}</p>
-                        </li>
-                        </React.Fragment>
-                    ))}
-                </ul>
-            </td>
-            <td className="px-6 py-3 text-center">
-                {league.sport}
-            </td>
-            <td className="flex gap-4 px-6 py-3 text-center justify-center">
-                <div className='flex-grow'></div>
-                <IconEdit onClick={(e) => editLeagueFunc(e)} style={{color: 'darkblue', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconEdit>
-                <IconTrash onClick={(e) => deleteLeagueFunc(e)} style={{color: 'red', fontSize: '21px', cursor: 'pointer'}} name="create-outline"></IconTrash>
-            </td>
-        </tr>
+	const deleteLeagueFunc = (e) => {
+		e.stopPropagation();
+		setDeleteModal(!deleteModal);
+	};
 
-        {editModal && (
-            <EditLeagueModal league={league} setOpenModal={setEditModal} sport={sport} setLeagues={setLeagues} setSelectedLeague={setSelectedLeague} getUserListByNames={getUserListByNames} />
-        )}
-        {deleteModal && (
-            <DeleteLeagueModal leagueInfo={league} setDeleteModal={setDeleteModal} listLeaguesFunc={listLeaguesFunc} />
-        )}
-        
-    </>
-    )
+	return (
+		<>
+			<tr
+				onClick={(e) => clickedLeague(e)}
+				className="bg-white border border-gray-400 cursor-pointer"
+			>
+				<th
+					scope="row"
+					className="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+				>
+					{selectedLeague && selectedLeague.id === league.id && (
+						<div className="w-[.5rem] h-[100%] top-0 left-0 bg-blue-900 absolute" />
+					)}
+					{league.name}
+				</th>
+				<td className="px-6 py-3">
+					<ul className="text-center">
+						{users &&
+							users.map((coordinator, index) => (
+								<React.Fragment key={index}>
+									<li
+										key={index}
+										className="text-blue-700 text-sm underline py-[.2rem]"
+									>
+										<p onClick={(e) => goToUserPage(e, coordinator.Username)}>
+											{
+												coordinator.UserAttributes.find(
+													(o) => o.Name === 'name'
+												)['Value']
+											}{' '}
+											{
+												coordinator.UserAttributes.find(
+													(o) => o.Name === 'family_name'
+												)['Value']
+											}
+										</p>
+									</li>
+								</React.Fragment>
+							))}
+					</ul>
+				</td>
+				<td className="px-6 py-3 text-center">{league.sport}</td>
+				<td className="flex gap-4 px-6 py-3 text-center justify-center">
+					<div className="flex-grow"></div>
+					<IconEdit
+						onClick={(e) => editLeagueFunc(e)}
+						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
+						name="create-outline"
+					></IconEdit>
+					<IconTrash
+						onClick={(e) => deleteLeagueFunc(e)}
+						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
+						name="create-outline"
+					></IconTrash>
+				</td>
+			</tr>
+
+			{editModal && (
+				<EditLeagueModal
+					league={league}
+					setOpenModal={setEditModal}
+					sport={sport}
+					setLeagues={setLeagues}
+					setSelectedLeague={setSelectedLeague}
+					getUserListByNames={getUserListByNames}
+				/>
+			)}
+			{deleteModal && (
+				<DeleteLeagueModal
+					leagueInfo={league}
+					setDeleteModal={setDeleteModal}
+					listLeaguesFunc={listLeaguesFunc}
+				/>
+			)}
+		</>
+	);
 }

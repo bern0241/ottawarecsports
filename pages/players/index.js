@@ -24,7 +24,7 @@ export default function Players() {
 	// Fetch all users from AWS Cognito:
 	const fetchUsers = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 		};
 		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
 			if (err) {
@@ -93,11 +93,13 @@ export default function Players() {
 					<table className="table-auto">
 						<thead className="bg-brand-neutral-100">
 							<tr className="text-center">
-								<th className="py-3 sm:px-5 text-sm font-light sm:w-3/12 md:text-left">Name</th>
-								<th className="py-3 text-sm font-light sm:w-2/12">
-									Location
+								<th className="py-3 sm:px-5 text-sm font-light sm:w-3/12 md:text-left">
+									Name
 								</th>
-								<th className="py-3 sm:px-5 text-sm font-light sm:w-2/12">Sports</th>
+								<th className="py-3 text-sm font-light sm:w-2/12">Location</th>
+								<th className="py-3 sm:px-5 text-sm font-light sm:w-2/12">
+									Sports
+								</th>
 								<th className="py-3 sm:px-10 text-sm font-light w-2/12 hidden sm:table-cell ">
 									Teams : Roles
 								</th>
@@ -106,12 +108,12 @@ export default function Players() {
 						<tbody>
 							{filteredPlayers &&
 								filteredPlayers.map((player, index) => (
-								<React.Fragment key={index}>
-									<PlayerRow
-										key={player.Username}
-										player={player}
-										index={player.Username}
-									/>
+									<React.Fragment key={index}>
+										<PlayerRow
+											key={player.Username}
+											player={player}
+											index={player.Username}
+										/>
 									</React.Fragment>
 								))}
 							<tr>

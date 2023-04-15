@@ -14,7 +14,6 @@ import { Auth, Hub } from 'aws-amplify';
 const UserContext = createContext();
 
 function UserContextProvider(props) {
-
 	const [user, setUser] = useState('');
 	const [authRoles, setAuthRoles] = useState();
 

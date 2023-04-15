@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import DropdownInput from '../common/DropdownInput';
 import { useUser } from '@/context/userContext';
 import { useRouter } from 'next/router';
-import {createTeam,uploadNewImageToS3} from '@/utils/graphql.services';
+import { createTeam, uploadNewImageToS3 } from '@/utils/graphql.services';
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
 import { createCaptainOnTeam } from '@/utils/graphql.services';
@@ -30,7 +30,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 
 	useEffect(() => {
 		setTeamCaptain(user);
-	}, [user])
+	}, [user]);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -42,7 +42,10 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 	const addNewTeam = async () => {
 		try {
 			if (teamName === '') {
-				setMessage({status: 'error', message: 'Please fillout all required fields'});
+				setMessage({
+					status: 'error',
+					message: 'Please fillout all required fields',
+				});
 				return;
 			}
 			let uniqueId = '';
@@ -56,7 +59,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 
 			if (teamLogoUpload) {
 				await uploadNewImageToS3(uniqueId, teamLogoUpload);
-			 }
+			}
 			const teamData = {
 				name: teamName,
 				founded: new Date(Date.now()),
@@ -69,16 +72,19 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 			await createCaptainOnTeam(teamCaptain.username, resp.data.createTeam.id); // Creates initial captain for team!
 
 			if (resp) {
-				setMessage({status: 'success', message: 'Team successfully created!'});
+				setMessage({
+					status: 'success',
+					message: 'Team successfully created!',
+				});
 				getTeamsData();
 				const timer = setTimeout(() => {
-					router.push(`/teams/${resp.data.createTeam.id}`)
+					router.push(`/teams/${resp.data.createTeam.id}`);
 				}, 500);
 				return () => clearTimeout(timer);
 			}
 		} catch (error) {
 			console.error(error);
-			setMessage({status: 'error', message: error.message});
+			setMessage({ status: 'error', message: error.message });
 		}
 	};
 
@@ -133,7 +139,10 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 						</div>
 
 						{/* <!-- Modal body --> */}
-						<TeamsImage teamLogoUpload={teamLogoUpload} setTeamLogoUpload={setTeamLogoUpload} />
+						<TeamsImage
+							teamLogoUpload={teamLogoUpload}
+							setTeamLogoUpload={setTeamLogoUpload}
+						/>
 
 						<div className="p-5 grid grid-cols-1 sm:grid-cols-2 items-center gap-[1.1rem]">
 							<div className="w-full ">
@@ -159,8 +168,14 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 								>
 									Captain
 								</label>
-								<input disabled
-									value={teamCaptain && (teamCaptain.attributes.name + " " + teamCaptain.attributes.family_name)}
+								<input
+									disabled
+									value={
+										teamCaptain &&
+										teamCaptain.attributes.name +
+											' ' +
+											teamCaptain.attributes.family_name
+									}
 									onChange={(e) => setTeamCaptain(e.target.value)}
 									type="text"
 									id="lastName"
@@ -222,7 +237,18 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 							</div>
 						</div>
 
-						{message && (<p id="standard_error_help" className={`my-4 text-center text-sm ${message.status === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}><span className="font-medium">{message.message}</span></p>)}
+						{message && (
+							<p
+								id="standard_error_help"
+								className={`my-4 text-center text-sm ${
+									message.status === 'success'
+										? 'text-green-600 dark:text-green-400'
+										: 'text-red-600 dark:text-red-400'
+								}`}
+							>
+								<span className="font-medium">{message.message}</span>
+							</p>
+						)}
 
 						{/* <!-- Modal footer --> */}
 						<div className="flex justify-center items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">

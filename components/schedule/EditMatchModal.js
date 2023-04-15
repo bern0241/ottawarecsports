@@ -11,7 +11,9 @@ import { API } from 'aws-amplify';
 import DropdownInput from '../common/DropdownInput';
 import { useRouter } from 'next/router';
 import { createGame } from '@/src/graphql/mutations';
+import { createGameShort } from '@/src/graphql/custom-queries';
 import { updateGame } from '@/src/graphql/mutations';
+import { updateGameShort } from '@/src/graphql/custom-queries';
 import TeamDropDown from './TeamDropDown';
 import LocationsDropdown from './LocationsDropdown';
 import TeamCardSelected from './TeamCardSelected';
@@ -186,7 +188,7 @@ const EditMatchModal = ({
 		match.referees.map((referee) => {
 			const params = {
 				Username: referee,
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			};
 			cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
@@ -309,7 +311,8 @@ const EditMatchModal = ({
 			};
 			//console.log(matchData);
 			const apiData = await API.graphql({
-				query: updateGame,
+				query: updateGameShort,
+				// query: updateGame,
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game edited successfully' });
@@ -321,9 +324,10 @@ const EditMatchModal = ({
 			getGames();
 			setMakingNewGame(false);
 			const timer = setTimeout(() => {
-				setIsVisible(false);
-            }, 2500);
-            return () => clearTimeout(timer);
+				// setIsVisible(false);
+				router.reload();
+			}, 0);
+			return () => clearTimeout(timer);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -380,7 +384,7 @@ const EditMatchModal = ({
 				gameAwayTeamId: awayTeam.id,
 			};
 			const apiData = await API.graphql({
-				query: createGame,
+				query: createGameShort,
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game created successfully' });
@@ -495,7 +499,7 @@ const EditMatchModal = ({
 
 	const adminGetUserEmail = async (state, setState, username) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: username,
 		};
 		await cognitoidentityserviceprovider.adminGetUser(
@@ -530,7 +534,7 @@ const EditMatchModal = ({
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 		};
 		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
 			if (err) {
@@ -547,7 +551,7 @@ const EditMatchModal = ({
 			//Attributes - Groups
 			var params = {
 				Username: user.Username,
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 			};
 			cognitoidentityserviceprovider.adminListGroupsForUser(
 				params,

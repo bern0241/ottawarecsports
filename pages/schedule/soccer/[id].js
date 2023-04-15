@@ -22,6 +22,7 @@ import AWS from 'aws-sdk';
 import TeamBatchSelect from '@/components/schedule/TeamBatchSelect';
 import EditMatchModal from '@/components/schedule/EditMatchModal';
 import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
+import DeleteGeneratedGame from '@/components/schedule/DeleteGeneratedGame';
 import { useUser } from '@/context/userContext';
 import GeneratedMatchesTable from '@/components/schedule/GeneratedMatchesTable';
 
@@ -38,6 +39,9 @@ export default function DivisionMatches() {
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [selectedDate, setSelectedDate] = useState('');
 
+	const [isDeletingGenerated, setIsDeletingGenerated] = useState(false);
+	const [deleteArrayIndex, setDeleteArrayIndex] = useState(0);
+
 	const [isMakingBatch, setIsMakingBatch] = useState(false);
 	const [generatedGames, setGeneratedGames] = useState([]);
 	const [saveBatchGame, setSaveBatchGame] = useState([]);
@@ -51,7 +55,7 @@ export default function DivisionMatches() {
 
 	const fetchReferees = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 			GroupName: 'Referee',
 		};
 		cognitoidentityserviceprovider.listUsersInGroup(
@@ -73,6 +77,7 @@ export default function DivisionMatches() {
 		// const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};
+
 	const getTeams = async () => {
 		const resp = await getAllTeams();
 		setTeams(resp);
@@ -128,6 +133,14 @@ export default function DivisionMatches() {
 		}
 	};
 
+	const deleteMatchFromArray = (indexOfMatch) => {
+		const filteredArray = generatedGames.filter((value, index) => {
+			return index !== indexOfMatch;
+		});
+		console.log(filteredArray);
+		setGeneratedGames(filteredArray);
+	};
+
 	return (
 		<>
 			<Head>
@@ -139,9 +152,7 @@ export default function DivisionMatches() {
 
 			{!division ? (
 				<div className="w-full flex justify-center">
-					<p>
-						Sorry - Data for that Division was not found in our database!
-					</p>
+					<p>Sorry - Data for that Division was not found in our database!</p>
 				</div>
 			) : (
 				// )}
@@ -178,6 +189,7 @@ export default function DivisionMatches() {
 						selectedDate={selectedDate}
 						setSelectedDate={setSelectedDate}
 						isCoordinator={isCoordinator}
+						generatedGames={generatedGames}
 					/>
 					{generatedGames.length > 0 && (
 						<GeneratedMatchesTable
@@ -185,11 +197,14 @@ export default function DivisionMatches() {
 							setGeneratedGames={setGeneratedGames}
 							setMatchToEdit={setMatchToEdit}
 							setIsEditing={setIsEditingMatch}
-							setIsDeleting={setIsDeletingMatch}
+							setIsDeletingGenerated={setIsDeletingGenerated}
 							setSaveBatchGame={setSaveBatchGame}
 							// selectedDate={selectedDate}
 							// setSelectedDate={setSelectedDate}
 							isCoordinator={isCoordinator}
+							generatedGames={generatedGames}
+							setDeleteArrayIndex={setDeleteArrayIndex}
+							deleteMatchFromArray={deleteMatchFromArray}
 						/>
 					)}
 				</main>
@@ -219,6 +234,15 @@ export default function DivisionMatches() {
 					match={matchToEdit}
 					openModal={isDeletingMatch}
 					setOpenModal={setIsDeletingMatch}
+				/>
+			)}
+			{isDeletingGenerated && (
+				<DeleteGeneratedGame
+					index={deleteArrayIndex}
+					deleteMatchFromArray={deleteMatchFromArray}
+					match={matchToEdit}
+					openModal={isDeletingGenerated}
+					setOpenModal={setIsDeletingGenerated}
 				/>
 			)}
 			{isMakingBatch && (

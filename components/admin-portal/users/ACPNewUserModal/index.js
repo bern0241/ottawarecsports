@@ -95,7 +95,10 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			}
 			if (phoneNumber !== undefined && phoneNumber !== '') {
 				if (!ValidatePhoneNumber.validate(phoneNumber)) {
-					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					setMessage({
+						status: 'error',
+						message: 'Please use a valid phone number.',
+					});
 					return;
 				}
 			}
@@ -114,7 +117,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			}
 
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 				Username: email,
 				TemporaryPassword: tempPassword,
 				UserAttributes: [
@@ -181,7 +184,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 	const addUserToGroups = async (newUsername, profile_pic_id) => {
 		userGroups.forEach((group) => {
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 				GroupName: group,
 				Username: newUsername,
 			};
@@ -199,13 +202,13 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 		});
 	};
 
-	// Automatically sets new user to CONFIRMED 
+	// Automatically sets new user to CONFIRMED
 	// REFERENCE: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RespondToAuthChallenge.html
 	const confirmTempUserPassword = async (username, profile_pic_id) => {
 		// FIRST you must get auth (InitiateAuth) to retrieve the "Session"!
 		const authParams = {
 			AuthFlow: 'USER_PASSWORD_AUTH',
-			ClientId: '40c4imoa859dtlo5iveig35dr1',
+			ClientId: process.env.NEXT_PUBLIC_CLIENTID,
 			AuthParameters: {
 				USERNAME: username,
 				PASSWORD: tempPassword,
@@ -220,7 +223,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 					// Second layer deep - uses Session provided from above
 					var params = {
 						ChallengeName: 'NEW_PASSWORD_REQUIRED',
-						ClientId: '40c4imoa859dtlo5iveig35dr1',
+						ClientId: process.env.NEXT_PUBLIC_CLIENTID,
 						ChallengeResponses: {
 							USERNAME: username,
 							NEW_PASSWORD: tempPassword,
@@ -245,35 +248,6 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 			}
 		);
 	};
-
-	// Uploads new profile image to the backend (S3 Bucket)
-	// const uploadNewProfileImageToS3 = async (newProfilePicId) => {
-	// 	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
-	// 	try {
-	// 		if (profilePic === null) {
-	// 			router.reload();
-	// 			return;
-	// 		}
-
-	// 		const params = {
-	// 			Bucket: bucketName,
-	// 			Key: newProfilePicId,
-	// 			Body: profilePic,
-	// 			ContentType: profilePic.type,
-	// 		};
-	// 		// Upload the image to S3
-	// 		s3.upload(params, (err, data) => {
-	// 			if (err) {
-	// 				console.log('Error uploading image: ', err);
-	// 			} else {
-	// 				// console.log('Image uploaded successfully!');
-	// 				router.reload();
-	// 			}
-	// 		});
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
 
 	return (
 		<>
@@ -409,12 +383,17 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 								>
 									Phone Number
 								</label>
-								<PhoneInput 
+								<PhoneInput
 									placeholder=""
 									defaultCountry="CA"
 									value={phoneNumber}
 									onChange={setPhoneNumber}
-									style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
+									style={{
+										paddingLeft: '10px',
+										opacity: '100%',
+										borderRadius: '9px',
+										borderWidth: '1px',
+									}}
 								/>
 								{/* <input
 									value={phoneNumber}

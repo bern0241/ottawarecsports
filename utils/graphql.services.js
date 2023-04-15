@@ -360,7 +360,7 @@ export const deleteImageFromS3 = async (key) => {
 export const getUser = async (username, setState) => {
 	const params = {
 		Username: username,
-		UserPoolId: 'us-east-1_70GCK7G6t',
+		UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 	};
 	cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
 		if (err) console.log(err, err.stack); // an error occurred

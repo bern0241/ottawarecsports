@@ -46,7 +46,7 @@ export default function PlayerProfile() {
 
 	const fetchPlayerCognito = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: userId,
 		};
 		cognitoidentityserviceprovider.adminGetUser(params, function (err, data) {
@@ -84,7 +84,9 @@ export default function PlayerProfile() {
 			query: listPlayers,
 			variables: variables,
 		});
-		if (!players) { return; }
+		if (!players) {
+			return;
+		}
 
 		players.data.listPlayers.items.map(async (player) => {
 			const apiData = await API.graphql({
@@ -98,8 +100,8 @@ export default function PlayerProfile() {
 			setTeams((teams) => {
 				return uniqueById([...teams, data]);
 			});
-		  })
-	}
+		});
+	};
 
 	function uniqueById(items) {
 		const set = new Set();
@@ -139,7 +141,9 @@ export default function PlayerProfile() {
 							className="sm:py-0.5 sm:pr-3 bg-blue-900 hover:bg-blue-800"
 							onClick={() => router.back()}
 						>
-							<div className="hidden sm:contents"><IconChevronLeft className="mr-2 h-5 w-5" /></div>
+							<div className="hidden sm:contents">
+								<IconChevronLeft className="mr-2 h-5 w-5" />
+							</div>
 							Back
 						</Button>
 					</div>
@@ -179,7 +183,9 @@ export default function PlayerProfile() {
 						{/* Player Information */}
 						<div className="col-span-3 md:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">
 							<div className="col-span-2 sm:col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">First Name</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									First Name
+								</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find((o) => o.Name === 'name')['Value']}
@@ -187,7 +193,9 @@ export default function PlayerProfile() {
 							</div>
 
 							<div className="col-span-2 sm:col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">Last Name</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									Last Name
+								</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find((o) => o.Name === 'family_name')[
@@ -197,7 +205,9 @@ export default function PlayerProfile() {
 							</div>
 
 							<div className="col-span-2 sm:col-span-1 flex flex-col">
-								<h3 className="mb-1 font-light text-sm sm:text-base">Location</h3>
+								<h3 className="mb-1 font-light text-sm sm:text-base">
+									Location
+								</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
 										user.UserAttributes.find(
@@ -210,9 +220,9 @@ export default function PlayerProfile() {
 								<h3 className="mb-1 font-light text-sm sm:text-base">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
-										user.UserAttributes.find(
-											(o) => o.Name === 'gender'
-										)['Value']}
+										user.UserAttributes.find((o) => o.Name === 'gender')[
+											'Value'
+										]}
 								</div>
 							</div>
 						</div>

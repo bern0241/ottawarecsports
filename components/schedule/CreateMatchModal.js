@@ -13,6 +13,7 @@ import DropdownInput from '../common/DropdownInput';
 import LocationsDropdown from './LocationsDropdown';
 import { useRouter } from 'next/router';
 import { createGame } from '@/src/graphql/mutations';
+import { createGameShort } from '@/src/graphql/custom-queries';
 import { listLocations as listLocationsQuery } from '@/src/graphql/queries';
 import TeamDropDown from './TeamDropDown';
 import TeamCardSelected from './TeamCardSelected';
@@ -229,7 +230,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				gameAwayTeamId: awayTeam.id,
 			};
 			const apiData = await API.graphql({
-				query: createGame,
+				query: createGameShort,
+				// query: createGame,
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game created successfully' });
@@ -332,7 +334,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 
 	const adminGetUserEmail = async (state, setState, username) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: username,
 		};
 		await cognitoidentityserviceprovider.adminGetUser(
@@ -368,7 +370,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 	//Fetch our referees in advance
 	const fetchRefereeList = (e) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 		};
 		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
 			if (err) {
@@ -386,7 +388,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 			//Attributes - Groups
 			var params = {
 				Username: user.Username,
-				UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 			};
 			cognitoidentityserviceprovider.adminListGroupsForUser(
 				params,

@@ -34,7 +34,10 @@ import ChangePasswordModal from './ChangePasswordModal';
 import { listLeagues } from '@/src/graphql/queries';
 import { updateLeague } from '@/src/graphql/mutations';
 import { fileSizeCheckOver } from '@/utils/graphql.services';
-import { uploadNewImageToS3, deleteImageFromS3 } from '@/utils/graphql.services';
+import {
+	uploadNewImageToS3,
+	deleteImageFromS3,
+} from '@/utils/graphql.services';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import ValidatePhoneNumber from 'validate-phone-number-node-js';
@@ -65,7 +68,7 @@ export default function ACPEditUserModal({
 		user1.Attributes.find((o) => o.Name === 'family_name')['Value'] // Last name of user being edited
 	);
 	const [birthDate, setBirthDate] = useState(
-		user1.Attributes.find((o) => o.Name === 'birthdate')['Value'].replaceAll( 
+		user1.Attributes.find((o) => o.Name === 'birthdate')['Value'].replaceAll(
 			'-',
 			'/'
 		) // Birthdate of user being edited
@@ -82,11 +85,11 @@ export default function ACPEditUserModal({
 	);
 
 	const [userGroups, setUserGroups] = useState([]); // The groups that the user is part of
-	
+
 	const [isAdmin, setIsAdmin] = useState(false); // Checks if admin chip exists when modal opens
 	const [isCoordinator, setIsCoordinator] = useState(false); // Checks if coordinator chip exists when modal opens
 	const [isReferee, setIsReferee] = useState(false); // Checks if referee chip exists when modal opens
-	
+
 	const [yesLogout, setYesLogout] = useState(false); // Checks if user accepts to remove themselves as Admin
 	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const router = useRouter();
@@ -115,7 +118,6 @@ export default function ACPEditUserModal({
 		}
 	}, [userGroups]);
 
-
 	useEffect(() => {
 		// Set phone number IF phone number attribute exists on user (in Cognito)
 		if (user1.Attributes.find((o) => o.Name === 'phone_number')) {
@@ -127,7 +129,7 @@ export default function ACPEditUserModal({
 		const getGroupsForUser = () => {
 			var params = {
 				Username: user1.Username,
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			};
 			cognitoidentityserviceprovider.adminListGroupsForUser(
 				params,
@@ -154,9 +156,9 @@ export default function ACPEditUserModal({
 	}, []);
 
 	/**
-	 * 
+	 *
 	 * @returns Checks if user being edited has Coordinator role that exists in every league!
-	 *  TODO: Referees! (Phase 2) 
+	 *  TODO: Referees! (Phase 2)
 	 */
 	const checkIfCoordinatorsOrRefereesExist = async () => {
 		let coordOrRefLive = [];
@@ -165,84 +167,84 @@ export default function ACPEditUserModal({
 				filter: {
 					coordinators: {
 						size: {
-							ne: 0
-						}
-					}
-				}
-			}
+							ne: 0,
+						},
+					},
+				},
+			};
 			const leagues = await API.graphql({
 				query: listLeagues,
-				variables: variables
-			})
-			// loop through and filter username 
+				variables: variables,
+			});
+			// loop through and filter username
 			let coordinatorAliveLeague = false;
 			leagues.data.listLeagues.items.forEach((league) => {
 				league.coordinators.forEach((coordinator) => {
 					if (coordinator === user1.Username) {
 						coordinatorAliveLeague = true;
 					}
-				})
-			})
+				});
+			});
 			if (coordinatorAliveLeague) {
 				coordOrRefLive.push('coordinator');
 			}
 			// CHECK FOR REF
 			return coordOrRefLive;
-			
 		} catch (error) {
-			alert('Error checking for Coordinators or Referees')
+			alert('Error checking for Coordinators or Referees');
 			console.log(error);
 		}
-	}
+	};
 
 	// Removes user as Coordinator in ALL leagues (if user removes their Coordinator role)
 	const removeAllCoordinatorRolesInLeagues = async () => {
 		const variables = {
-            filter: {
-                coordinators: {
-                    size: {
-						ne: 0
-					}
-                }
-            }
-        }
-        const leagues = await API.graphql({
-            query: listLeagues,
-            variables: variables
-        })
-		// loop through and filter username 
+			filter: {
+				coordinators: {
+					size: {
+						ne: 0,
+					},
+				},
+			},
+		};
+		const leagues = await API.graphql({
+			query: listLeagues,
+			variables: variables,
+		});
+		// loop through and filter username
 		try {
 			leagues.data.listLeagues.items.forEach(async (league) => {
 				league.coordinators.forEach(async (coordinator) => {
 					if (coordinator === user1.Username) {
-						let newCoordinators = league.coordinators.filter(coordinator2 => coordinator2 !== user1.Username);
+						let newCoordinators = league.coordinators.filter(
+							(coordinator2) => coordinator2 !== user1.Username
+						);
 						const data = {
 							id: league.id,
 							coordinators: newCoordinators,
-						}
+						};
 						const apiData = await API.graphql({
 							query: updateLeague,
-							variables: { input: data},
+							variables: { input: data },
 						});
 					}
-				})
-			})
+				});
+			});
 			return;
 		} catch (error) {
 			alert('Error trying to delete all coordinators from user');
 			console.log(error);
 		}
-	}
+	};
 
 	// If phone number is empty (null), return empty string
 	const returnEmptyStringPhoneNumber = async () => {
 		if (phoneNumber === undefined) {
 			return '';
 		} else {
-			return phoneNumber
+			return phoneNumber;
 		}
-	}
-
+	};
 
 	/**
 	 *
@@ -254,13 +256,18 @@ export default function ACPEditUserModal({
 			// DO CHECK FIRST
 			if (isAdmin && userStatus === 'meOther') {
 				if (!userGroups.includes('Admin')) {
-					setUiState('adminRemoved')
+					setUiState('adminRemoved');
 					return;
 				}
 			}
 			const check = await checkIfCoordinatorsOrRefereesExist();
-			if (check.includes('coordinator') && isCoordinator && userStatus !== 'meCoordinator') {
-				if (!userGroups.includes('Coordinator')) { //removed authrole
+			if (
+				check.includes('coordinator') &&
+				isCoordinator &&
+				userStatus !== 'meCoordinator'
+			) {
+				if (!userGroups.includes('Coordinator')) {
+					//removed authrole
 					setUiState('coordinatorRemoved');
 					return;
 				}
@@ -283,7 +290,10 @@ export default function ACPEditUserModal({
 			}
 			if (phoneNumber !== undefined && phoneNumber !== '') {
 				if (!ValidatePhoneNumber.validate(phoneNumber)) {
-					setMessage({status: 'error', message: 'Please use a valid phone number.'})
+					setMessage({
+						status: 'error',
+						message: 'Please use a valid phone number.',
+					});
 					return;
 				}
 			}
@@ -296,24 +306,32 @@ export default function ACPEditUserModal({
 			let profile_pic_id = 'none';
 
 			// If picture exists, use that one!
-			if (user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none') {
-				profile_pic_id = user1.Attributes.find((o) => o.Name === 'picture')['Value'];
+			if (
+				user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none'
+			) {
+				profile_pic_id = user1.Attributes.find((o) => o.Name === 'picture')[
+					'Value'
+				];
 			}
 
 			// UPDATES PROFILE PIC
 			if (profilePic !== null) {
 				profile_pic_id = `${'user'}_${makeid(15)}`;
 				await uploadNewImageToS3(profile_pic_id, profilePic);
-				  
-				if (user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none') {
-					await deleteImageFromS3(user1.Attributes.find((o) => o.Name === 'picture')['Value']);
+
+				if (
+					user1.Attributes.find((o) => o.Name === 'picture')['Value'] !== 'none'
+				) {
+					await deleteImageFromS3(
+						user1.Attributes.find((o) => o.Name === 'picture')['Value']
+					);
 				}
 			}
 
 			const phoneNumberConverted = await returnEmptyStringPhoneNumber();
 
 			var params = {
-				UserPoolId: 'us-east-1_70GCK7G6t',
+				UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 				Username: user1.Username,
 				UserAttributes: [
 					{
@@ -354,7 +372,7 @@ export default function ACPEditUserModal({
 					},
 				],
 				// KEEP JUST IN CASE - Meant for delivering message to email or sms
-				// DesiredDeliveryMediums: [  
+				// DesiredDeliveryMediums: [
 				//     SMS | EMAIL,
 				// ]
 			};
@@ -365,7 +383,6 @@ export default function ACPEditUserModal({
 						console.log(err, err.stack);
 						setMessage({ status: 'error', message: err.message });
 					} else {
-
 						await deleteUserGroups(profile_pic_id, userStatus);
 					}
 				}
@@ -388,10 +405,10 @@ export default function ACPEditUserModal({
 				// 'Owner',
 			];
 			await removeTheseGroups.forEach((group) => {
-				// if (group !== 'User') 
+				// if (group !== 'User')
 				{
 					var params = {
-						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+						UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 						GroupName: group,
 						Username: user1.Username,
 					};
@@ -409,19 +426,19 @@ export default function ACPEditUserModal({
 				}
 			});
 		} catch (error) {
-			setMessage({status: 'error', message: error.message});
+			setMessage({ status: 'error', message: error.message });
 			console.error(error);
 		}
-	}
-	
+	};
+
 	// Adds new user groups to user! (using Cognito)
 	const addUserToGroups = async (profile_pic_id, userStatus) => {
 		try {
 			await userGroups.forEach((group) => {
-				// if (group !== 'User') 
+				// if (group !== 'User')
 				{
 					var params = {
-						UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+						UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 						GroupName: group,
 						Username: user1.Username,
 					};
@@ -435,15 +452,15 @@ export default function ACPEditUserModal({
 								resetPage(userStatus);
 							}
 						}
-						);
-					}
-				});
+					);
+				}
+			});
 
-				setMessage({ status: 'success', message: 'User updated!' });
-				resetPage(userStatus);
-			} catch (error) {
-				setMessage({status: 'error', message: error.message});
-				console.error(error);
+			setMessage({ status: 'success', message: 'User updated!' });
+			resetPage(userStatus);
+		} catch (error) {
+			setMessage({ status: 'error', message: error.message });
+			console.error(error);
 		}
 	};
 
@@ -455,7 +472,7 @@ export default function ACPEditUserModal({
 			return;
 		}
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			Username: user1.Username,
 			Password: newPassword,
 			Permanent: true,
@@ -481,7 +498,12 @@ export default function ACPEditUserModal({
 	 * Page resets - If current user edits himself and removes Admin role, this function will logout the user
 	 */
 	const resetPage = async (userStatus) => {
-		if (userStatus === 'meOther' || userStatus === 'meCoordinator' || userStatus === 'meReferee' || userStatus === 'meRefCoord') {
+		if (
+			userStatus === 'meOther' ||
+			userStatus === 'meCoordinator' ||
+			userStatus === 'meReferee' ||
+			userStatus === 'meRefCoord'
+		) {
 			router.reload();
 		} else if (userStatus === 'meAdmin') {
 			await Auth.signOut();
@@ -489,83 +511,170 @@ export default function ACPEditUserModal({
 			setAuthRoles(null);
 			router.push('/login');
 		}
-	}
+	};
 
 	return (
 		<>
-		{uiState === 'adminRemoved' && (
-                <div tabIndex="-1" className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
-            	<div className="relative h-full md:h-auto">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <button onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenModal(false);
-                        }}
-                        type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
-                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                        <span className="sr-only">Close modal</span>
-                    </button>
-                    <div className="p-6 text-center">
-                        <svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">You are about to remove yourself as Admin! You will be <b>logged out immediately.</b></h3>
-                        <button onClick={(e) => {
-                            e.stopPropagation();
-							// setUiState('main');
-							setOpenModal(false);
-                        }} data-modal-hide="popup-modal" type="button" className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
-                            No thanks
-                        </button>
-                        <button 
-						onClick={async (e) => {
-                            e.stopPropagation();
-							editUser(e, 'meAdmin')
-                        }}
-						 data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                            Yes, I understand
-                        </button>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-		)}
+			{uiState === 'adminRemoved' && (
+				<div
+					tabIndex="-1"
+					className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto "
+				>
+					<div className="relative h-full md:h-auto">
+						<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+							<button
+								onClick={(e) => {
+									e.stopPropagation();
+									setOpenModal(false);
+								}}
+								type="button"
+								className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+								data-modal-hide="popup-modal"
+							>
+								<svg
+									aria-hidden="true"
+									className="w-5 h-5"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										fillRule="evenodd"
+										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+										clipRule="evenodd"
+									></path>
+								</svg>
+								<span className="sr-only">Close modal</span>
+							</button>
+							<div className="p-6 text-center">
+								<svg
+									aria-hidden="true"
+									className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="2"
+										d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									></path>
+								</svg>
+								<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+									You are about to remove yourself as Admin! You will be{' '}
+									<b>logged out immediately.</b>
+								</h3>
+								<button
+									onClick={(e) => {
+										e.stopPropagation();
+										// setUiState('main');
+										setOpenModal(false);
+									}}
+									data-modal-hide="popup-modal"
+									type="button"
+									className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
+								>
+									No thanks
+								</button>
+								<button
+									onClick={async (e) => {
+										e.stopPropagation();
+										editUser(e, 'meAdmin');
+									}}
+									data-modal-hide="popup-modal"
+									type="button"
+									className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+								>
+									Yes, I understand
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 
 			{uiState === 'coordinatorRemoved' && (
-				
-                <div tabIndex="-1" className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto ">
-            	<div className="relative h-full md:h-auto">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <button onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenModal(false);
-                        }}
-                        type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
-                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                        <span className="sr-only">Close modal</span>
-                    </button>
-                    <div className="p-6 text-center">
-                        <svg aria-hidden="true" className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">This user is an <b>existing coordinator</b> on a league. <br/>Are you sure you want to REMOVE them <br/>as coordinators?</h3>
-                        <button onClick={(e) => {
-                            e.stopPropagation();
-							setOpenModal(false);
-                        }} data-modal-hide="popup-modal" type="button" className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border">
-                            No thanks
-                        </button>
-                        <button 
-						onClick={async (e) => {
-                            e.stopPropagation();
-							editUser(e, 'meCoordinator')
-                        }}
-						 data-modal-hide="popup-modal" type="button" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                            Yes, I understand
-                        </button>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-		)}
+				<div
+					tabIndex="-1"
+					className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto "
+				>
+					<div className="relative h-full md:h-auto">
+						<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+							<button
+								onClick={(e) => {
+									e.stopPropagation();
+									setOpenModal(false);
+								}}
+								type="button"
+								className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+								data-modal-hide="popup-modal"
+							>
+								<svg
+									aria-hidden="true"
+									className="w-5 h-5"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										fillRule="evenodd"
+										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+										clipRule="evenodd"
+									></path>
+								</svg>
+								<span className="sr-only">Close modal</span>
+							</button>
+							<div className="p-6 text-center">
+								<svg
+									aria-hidden="true"
+									className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="2"
+										d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									></path>
+								</svg>
+								<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+									This user is an <b>existing coordinator</b> on a league.{' '}
+									<br />
+									Are you sure you want to REMOVE them <br />
+									as coordinators?
+								</h3>
+								<button
+									onClick={(e) => {
+										e.stopPropagation();
+										setOpenModal(false);
+									}}
+									data-modal-hide="popup-modal"
+									type="button"
+									className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 border"
+								>
+									No thanks
+								</button>
+								<button
+									onClick={async (e) => {
+										e.stopPropagation();
+										editUser(e, 'meCoordinator');
+									}}
+									data-modal-hide="popup-modal"
+									type="button"
+									className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+								>
+									Yes, I understand
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 
 			{uiState === 'main' && (
 				<>
@@ -574,7 +683,7 @@ export default function ACPEditUserModal({
 						tabIndex="-1"
 						aria-hidden="true"
 						className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
-						>
+					>
 						<div className="relative w-full h-full">
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
@@ -586,14 +695,14 @@ export default function ACPEditUserModal({
 										type="button"
 										className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 										data-modal-hide="defaultModal"
-										>
+									>
 										<svg
 											aria-hidden="true"
 											className="w-5 h-5"
 											fill="currentColor"
 											viewBox="0 0 20 20"
 											xmlns="http://www.w3.org/2000/svg"
-											>
+										>
 											<path
 												fillRule="evenodd"
 												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -689,12 +798,17 @@ export default function ACPEditUserModal({
 										>
 											Phone Number
 										</label>
-										<PhoneInput 
+										<PhoneInput
 											placeholder=""
 											defaultCountry="CA"
 											value={phoneNumber}
 											onChange={setPhoneNumber}
-											style={{paddingLeft: '10px', opacity: '100%', borderRadius: '9px', borderWidth: '1px'}}
+											style={{
+												paddingLeft: '10px',
+												opacity: '100%',
+												borderRadius: '9px',
+												borderWidth: '1px',
+											}}
 										/>
 									</div>
 
@@ -799,7 +913,6 @@ export default function ACPEditUserModal({
 										<span className="sr-only">Close modal</span>
 									</button>
 								</div>
-
 
 								<div className="p-5 grid grid-cols-1 items-center gap-[1.1rem]">
 									<div className="w-full">

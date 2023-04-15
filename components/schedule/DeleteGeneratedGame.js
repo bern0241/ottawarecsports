@@ -1,82 +1,38 @@
 /**
- * Last updated: 2023-03-19
+ * Last updated: 2023-04-15
  *
  * Author(s):
- * Justin Bernard <bern0241@algonquinlive.com>
+ * Greg Coghill (cogh0020@algonquinlive.com)
  */
 
-// REFERENCES: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDeleteUser.html
-// https://www.youtube.com/watch?v=GsObT64SRhA&t=477s
-// https://flowbite.com/docs/components/buttons/
-// https://flowbite.com/docs/components/dropdowns/
-
-import React, { useState } from 'react';
+import React from 'react';
+import { API } from 'aws-amplify';
+// import { deleteGame } from '@/src/graphql/mutations';
+import { deleteGameShort } from '@/src/graphql/custom-queries';
 import { useRouter } from 'next/router';
-import AWS from 'aws-sdk';
-// Need S3 for deleting profile image when user gets deleted
-const s3 = new AWS.S3({
-	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
-	secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
-	signatureVersion: 'v4',
-	region: 'us-east-1',
-});
 
-export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
-	// Retrieve name of user to display in modal
-	const [fullName, setFullName] = useState(
-		`${user.Attributes.find((o) => o.Name === 'name')['Value']} ${
-			user.Attributes.find((o) => o.Name === 'family_name')['Value']
-		}`
-	);
-	// Restart page after user gets deleted
+export default function DeleteGeneratedGame({
+	match,
+	openModal,
+	setOpenModal,
+	deleteMatchFromArray,
+	index,
+}) {
 	const router = useRouter();
-	// Variable used for deleting Cognito User
-	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev'; // For deleting image in S3 Bucket when user gets deleted
 
-	const deleteUserFunc = () => {
-		var params = {
-			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
-			Username: user.Username,
-		};
-		cognitoidentityserviceprovider.adminDeleteUser(
-			params,
-			async function (err, data) {
-				if (err) {
-					console.log(err, err.stack);
-				} else {
-					setOpenModal(false);
-					await deleteProfilePic();
-					router.reload();
-				}
-			}
-		);
+	const deleteMatchFunc = async () => {
+		deleteMatchFromArray(index);
+		setOpenModal(false);
 	};
-
-	const deleteProfilePic = async () => {
-		const pictureAttribute = user.Attributes.find((o) => o.Name === 'picture')[
-			'Value'
-		];
-		if (pictureAttribute === 'none') return;
-		const params = {
-			Bucket: bucketName,
-			Key: pictureAttribute,
-		};
-		// Delete the image from the S3 bucket
-		s3.deleteObject(params, function (err, data) {
-			if (err) {
-				console.log('Error deleting image: ', err);
-			} else {
-				// console.log('Image deleted successfully.');
-			}
-		});
-	};
+	if (!openModal) {
+		return;
+	}
 
 	return (
 		<>
 			<div
 				tabIndex="-1"
-				className="z-[150] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 overflow-x-hidden overflow-y-auto "
+				className="z-[400] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 overflow-x-hidden overflow-y-auto "
 			>
 				<div className="relative w-full h-full max-w-md md:h-auto">
 					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -118,10 +74,10 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 								></path>
 							</svg>
 							<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-								Are you sure you want to delete user <b>{fullName}</b>?
+								Are you sure you want to delete this generated match?
 							</h3>
 							<button
-								onClick={() => deleteUserFunc()}
+								onClick={() => deleteMatchFunc()}
 								data-modal-hide="popup-modal"
 								type="button"
 								className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
@@ -142,7 +98,7 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 			</div>
 			<div
 				onClick={(e) => setOpenModal(false)}
-				className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[320] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);

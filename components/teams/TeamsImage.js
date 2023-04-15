@@ -7,18 +7,23 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {getImageFromS3} from '@/utils/graphql.services';
+import { getImageFromS3 } from '@/utils/graphql.services';
 
-export default function TeamsImage({team,isVisible,teamLogoUpload,setTeamLogoUpload}) {
+export default function TeamsImage({
+	team,
+	isVisible,
+	teamLogoUpload,
+	setTeamLogoUpload,
+}) {
 	const [teamLogo, setTeamLogo] = useState('');
 	const getPicture = async () => {
 		if (team && team.team_picture) {
 			const url = await getImageFromS3(team.team_picture);
 			setTeamLogo(url);
 			return;
-		};
+		}
 		setTeamLogo('/images/defaultProfilePic.jpeg');
-	}
+	};
 	useEffect(() => {
 		getPicture();
 		setTeamLogoUpload(null);

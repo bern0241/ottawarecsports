@@ -7,7 +7,8 @@
 
 import React from 'react';
 import { API } from 'aws-amplify';
-import { deleteGame } from '@/src/graphql/mutations';
+// import { deleteGame } from '@/src/graphql/mutations';
+import { deleteGameShort } from '@/src/graphql/custom-queries';
 import { useRouter } from 'next/router';
 
 export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
@@ -16,7 +17,7 @@ export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
 	const deleteMatchFunc = async () => {
 		try {
 			const deletedGame = await API.graphql({
-				query: deleteGame,
+				query: deleteGameShort,
 				variables: {
 					input: { id: match.id },
 				},

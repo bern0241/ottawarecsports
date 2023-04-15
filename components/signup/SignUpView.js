@@ -31,7 +31,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	const [lastName, setLastName] = useState('');
 	const [password, setPassword] = useState('');
 	const [location, setLocation] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState(undefined);
 	const [gender, setGender] = useState('');
 	// const [currentDate, setCurrentDate] = useState({}); //Delete if not used later
 	// Birthdate variables/states
@@ -60,7 +60,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				firstName === '' ||
 				lastName === '' ||
 				email === '' ||
-				// phoneNumber === '' ||
 				location === '' ||
 				gender === '' ||
 				birthDate === ''
@@ -109,7 +108,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	// TO-DO: Remove success message from console.
 	const addUserToGroup = (username, role) => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t',
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID,
 			GroupName: role,
 			Username: username,
 		};
@@ -188,20 +187,20 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 									onChange={(e) => setPhoneNumber(e.target.value)}
 									required={false}
 								/> */}
-									<PhoneInput
-										id="phoneNumber"
-										placeholder="Phone Number (optional)"
-										defaultCountry="CA"
-										value={phoneNumber}
-										onChange={setPhoneNumber}
-										style={{
-											paddingLeft: '10px',
-											opacity: '100%',
-											borderRadius: '9px',
-											borderWidth: '1px',
-											borderColor: 'lightgray'
-										}}
-									/>
+								<PhoneInput
+									id="phoneNumber"
+									placeholder="Phone Number (optional)"
+									defaultCountry="CA"
+									value={phoneNumber}
+									onChange={setPhoneNumber}
+									style={{
+										paddingLeft: '10px',
+										opacity: '100%',
+										borderRadius: '9px',
+										borderWidth: '1px',
+										borderColor: 'lightgray',
+									}}
+								/>
 
 								<Label htmlFor="email" value="Email" className="sr-only" />
 								<TextInput

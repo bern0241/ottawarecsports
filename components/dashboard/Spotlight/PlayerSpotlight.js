@@ -10,7 +10,7 @@ import { API } from 'aws-amplify';
 import AWS from 'aws-sdk';
 import { useEffect, useState } from 'react';
 import { getImageFromS3 } from '@/utils/graphql.services';
-import { listPlayers} from '@/src/graphql/queries';
+import { listPlayers } from '@/src/graphql/queries';
 import { getTeamShort } from '@/src/graphql/custom-queries';
 const s3 = new AWS.S3({
 	accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
@@ -27,7 +27,7 @@ export default function PlayerSpotlight() {
 	const [profileImage, setProfileImage] = useState(null);
 	const [teams, setTeams] = useState([]);
 	const [spotlightUserRole, setSpotlightUserRole] = useState();
-  const [isVisible, setIsVisible] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		fetchAllUsers();
@@ -39,13 +39,12 @@ export default function PlayerSpotlight() {
 
 	useEffect(() => {
 		if (!spotlightUser) {
-    setIsVisible(false);
-  }
-  else{
-    setIsVisible(true);
-    fetchSpotlightInformation();
-		getPicture();
-  }
+			setIsVisible(false);
+		} else {
+			setIsVisible(true);
+			fetchSpotlightInformation();
+			getPicture();
+		}
 	}, [spotlightUser]);
 
 	useEffect(() => {
@@ -75,7 +74,7 @@ export default function PlayerSpotlight() {
 	// Fetch all users from AWS Cognito:
 	const fetchAllUsers = async () => {
 		var params = {
-			UserPoolId: 'us-east-1_70GCK7G6t' /* required */,
+			UserPoolId: process.env.NEXT_PUBLIC_USERPOOLID /* required */,
 		};
 		cognitoidentityserviceprovider.listUsers(params, function (err, data) {
 			if (err) {
@@ -133,7 +132,7 @@ export default function PlayerSpotlight() {
 		}
 		try {
 			players.data.listPlayers.items.map(async (player) => {
-				if(!player.teamID) return;
+				if (!player.teamID) return;
 				const apiData = await API.graphql({
 					query: getTeamShort,
 					variables: { id: player.teamID },
@@ -147,53 +146,53 @@ export default function PlayerSpotlight() {
 	};
 
 	return (
-    <>
-    {isVisible ? (
-		<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
-			<img
-				src={`${
-					profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
-				}`}
-				width="100"
-				height="100"
-				className="object-cover rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
-				alt="Spotlight player profile picture"
-			/>
-			<div>
-				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-					<span className="text-sm font-light col-span-1">Name</span>
-					<span className="col-span-1 truncate">
-						{spotlightUser &&
-							spotlightUser.Attributes.find((o) => o.Name === 'name')[
-								'Value'
-							]}{' '}
-						{spotlightUser &&
-							spotlightUser.Attributes.find((o) => o.Name === 'family_name')[
-								'Value'
-							]}
-					</span>
+		<>
+			{isVisible ? (
+				<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
+					<img
+						src={`${
+							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
+						}`}
+						width="100"
+						height="100"
+						className="object-cover rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
+						alt="Spotlight player profile picture"
+					/>
+					<div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">Name</span>
+							<span className="col-span-1 truncate">
+								{spotlightUser &&
+									spotlightUser.Attributes.find((o) => o.Name === 'name')[
+										'Value'
+									]}{' '}
+								{spotlightUser &&
+									spotlightUser.Attributes.find(
+										(o) => o.Name === 'family_name'
+									)['Value']}
+							</span>
+						</div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">Sport</span>
+							<span className="truncate">Soccer</span>
+						</div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">Team Name</span>
+							<span className="truncate col-span-1">
+								{teams[0] ? teams[0].name : '-'}
+							</span>
+						</div>
+						<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
+							<span className="text-sm font-light col-span-1">Role</span>
+							<span className="truncate col-span-1">
+								{spotlightUserRole ? spotlightUserRole : '-'}
+							</span>
+						</div>
+					</div>
 				</div>
-				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-					<span className="text-sm font-light col-span-1">Sport</span>
-					<span className="truncate">Soccer</span>
-				</div>
-				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-					<span className="text-sm font-light col-span-1">Team Name</span>
-					<span className="truncate col-span-1">
-						{teams[0] ? teams[0].name : '-'}
-					</span>
-				</div>
-				<div className="w-full grid grid-cols-2 gap-2 text-sm font-medium">
-					<span className="text-sm font-light col-span-1">Role</span>
-					<span className="truncate col-span-1">
-						{spotlightUserRole ? spotlightUserRole : '-'}
-					</span>
-				</div>
-			</div>
-		</div>
-    ) : (
-      <p className="text-center align-middle">No Player to show.</p>
-    )}
-    </>
+			) : (
+				<p className="text-center align-middle">No Player to show.</p>
+			)}
+		</>
 	);
 }

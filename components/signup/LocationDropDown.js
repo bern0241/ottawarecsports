@@ -15,12 +15,13 @@ export default function LocationDropDown({ state, setState }) {
 			<Label htmlFor="location" value="Location" className="sr-only" />
 			<Select
 				onChange={(e) => setState(e.target.value)}
+				value={state}
 				id="location"
 				placeholder="Location"
 				required={true}
 				className="w-80 sm:w-96"
 			>
-				<option color="red" defaultValue disabled>
+				<option value="" selected defaultValue>
 					Location *
 				</option>
 				<option className="text-black" value="East/Orleans area">
