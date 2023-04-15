@@ -32,7 +32,7 @@ export default function ACPDeleteUserModal({ user, openModal, setOpenModal }) {
 	const router = useRouter();
 	// Variable used for deleting Cognito User
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev'; // For deleting image in S3 Bucket when user gets deleted
+	const bucketName = process.env.NEXT_PUBLIC_STORAGEBUCKET; // For deleting image in S3 Bucket when user gets deleted
 
 	const deleteUserFunc = () => {
 		var params = {

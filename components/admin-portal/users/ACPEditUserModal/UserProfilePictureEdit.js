@@ -27,7 +27,7 @@ export default function UserProfilePictureEdit({
 	const [defaultPic, setDefaultPic] = useState(
 		'/images/defaultProfilePic.jpeg'
 	); // Default picture - on startup
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev'; //S3 Bucket name
+	const bucketName = process.env.NEXT_PUBLIC_STORAGEBUCKET; //S3 Bucket name
 	const signedUrlExpireSeconds = 60 * 1; // Expires after set time
 
 	/**

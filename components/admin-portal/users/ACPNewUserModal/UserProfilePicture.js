@@ -26,9 +26,8 @@ export default function UserProfilePicture({
 	setProfilePic,
 	autoCenter = true,
 }) {
-	const bucketName = 'orsappe5c5a5b29e5b44099d2857189b62061b154029-dev';
+	const bucketName = process.env.NEXT_PUBLIC_STORAGEBUCKET;
 	const signedUrlExpireSeconds = 60 * 1;
-	// const imageKey = 'pantocrator-dome.jpg';
 
 	useEffect(() => {
 		if (
@@ -46,7 +45,7 @@ export default function UserProfilePicture({
 			Expires: signedUrlExpireSeconds,
 		});
 		setProfilePic(
-			'https://orsappe5c5a5b29e5b44099d2857189b62061b154029-dev.s3.amazonaws.com/user_yZJLxVEDZudioKJ'
+			'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
 		);
 	};
 
@@ -61,7 +60,6 @@ export default function UserProfilePicture({
 					onChange={(e) => setProfilePic(e.target.files[0])}
 				/>
 
-				{/* <img style={{objectFit: 'cover'}} width={132} height={132} className="w-[10rem] h-[10rem] hover:opacity-80 rounded-full shadow-lg border border-black" src={URL.createObjectURL(new File(profilePic, {type: "application/zip"}))} /> */}
 				<Image
 					style={{ objectFit: 'cover' }}
 					width={132}
