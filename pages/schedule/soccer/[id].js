@@ -22,6 +22,7 @@ import AWS from 'aws-sdk';
 import TeamBatchSelect from '@/components/schedule/TeamBatchSelect';
 import EditMatchModal from '@/components/schedule/EditMatchModal';
 import DeleteMatchModal from '@/components/schedule/DeleteMatchModal';
+import DeleteGeneratedGame from '@/components/schedule/DeleteGeneratedGame';
 import { useUser } from '@/context/userContext';
 import GeneratedMatchesTable from '@/components/schedule/GeneratedMatchesTable';
 
@@ -37,6 +38,9 @@ export default function DivisionMatches() {
 	const [isDeletingMatch, setIsDeletingMatch] = useState(false);
 	const [isCoordinator, setIsCoordinator] = useState(false);
 	const [selectedDate, setSelectedDate] = useState('');
+	
+	const [isDeletingGenerated, setIsDeletingGenerated] = useState(false);
+	const [deleteArrayIndex, setDeleteArrayIndex] = useState(0);
 
 	const [isMakingBatch, setIsMakingBatch] = useState(false);
 	const [generatedGames, setGeneratedGames] = useState([]);
@@ -73,15 +77,6 @@ export default function DivisionMatches() {
 		// const resp = await getDivisionGames(router.query.divisionID);
 		setGames(resp);
 	};
-
-	const getGamesWithId = async () => {
-		
-		
-		// game.id = ;
-		// setListUsers((listUsers) => {
-		// 	return uniqueByUsername([...listUsers, user]);
-		// });
-	}
 
 	const getTeams = async () => {
 		const resp = await getAllTeams();
@@ -139,11 +134,6 @@ export default function DivisionMatches() {
 	};
 
 	const deleteMatchFromArray = (indexOfMatch) => {
-		// let myArray = generatedGames;
-        // myArray.splice(indexOfMatch, 1);
-        // setGeneratedGames(myArray);
-
-		
 		const filteredArray = generatedGames.filter((value, index) => {
 			return index !== indexOfMatch;
 		});
@@ -210,13 +200,14 @@ export default function DivisionMatches() {
 							setGeneratedGames={setGeneratedGames}
 							setMatchToEdit={setMatchToEdit}
 							setIsEditing={setIsEditingMatch}
-							setIsDeleting={setIsDeletingMatch}
+							setIsDeletingGenerated={setIsDeletingGenerated}
 							setSaveBatchGame={setSaveBatchGame}
 							// selectedDate={selectedDate}
 							// setSelectedDate={setSelectedDate}
 							isCoordinator={isCoordinator}
-							deleteMatchFromArray={deleteMatchFromArray}
 							generatedGames={generatedGames}
+							setDeleteArrayIndex={setDeleteArrayIndex}
+							deleteMatchFromArray={deleteMatchFromArray}
 						/>
 					)}
 				</main>
@@ -246,6 +237,15 @@ export default function DivisionMatches() {
 					match={matchToEdit}
 					openModal={isDeletingMatch}
 					setOpenModal={setIsDeletingMatch}
+				/>
+			)}
+			{isDeletingGenerated && (
+				<DeleteGeneratedGame
+					index={deleteArrayIndex}
+					deleteMatchFromArray={deleteMatchFromArray}
+					match={matchToEdit}
+					openModal={isDeletingGenerated}
+					setOpenModal={setIsDeletingGenerated}
 				/>
 			)}
 			{isMakingBatch && (

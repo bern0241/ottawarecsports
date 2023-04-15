@@ -17,10 +17,11 @@ const GeneratedMatchRow = ({
 	setMatchToEdit,
 	setSaveBatchGame,
 	setIsEditing,
-	setIsDeleting,
+	setIsDeletingGenerated,
 	isCoordinator,
 	deleteMatchFromArray,
-	generatedGames
+	generatedGames,
+	setDeleteArrayIndex
 }) => {
 	if (!match) return;
 
@@ -182,9 +183,9 @@ const GeneratedMatchRow = ({
 						<button
 							onClick={(e) => {
 								e.preventDefault();
-								// setMatchToEdit(match)
-								deleteMatchFromArray(index);
-								// setIsDeleting(true);
+								// deleteMatchFromArray(index);
+								setDeleteArrayIndex={index}
+								setIsDeletingGenerated(true);
 							}}
 						>
 							<span>

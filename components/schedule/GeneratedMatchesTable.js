@@ -14,14 +14,15 @@ const GeneratedMatchesTable = ({
 	matches,
 	setMatchToEdit,
 	setIsEditing,
-	setIsDeleting,
+	setIsDeletingGenerated,
 	setSaveBatchGame,
 	selectedDate,
 	setSelectedDate,
 	isCoordinator,
 	setGeneratedGames,
 	deleteMatchFromArray,
-	generatedGames
+	generatedGames,
+	setDeleteArrayIndex
 
 }) => {
 	const [matchDates, setMatchDates] = useState([]);
@@ -61,11 +62,12 @@ const GeneratedMatchesTable = ({
 										match={match}
 										setMatchToEdit={setMatchToEdit}
 										setIsEditing={setIsEditing}
-										setIsDeleting={setIsDeleting}
+										setIsDeletingGenerated={setIsDeletingGenerated}
 										isCoordinator={isCoordinator}
 										setSaveBatchGame={setSaveBatchGame}
 										deleteMatchFromArray={deleteMatchFromArray}
 										generatedGames={generatedGames}
+										setDeleteArrayIndex={setDeleteArrayIndex}
 									/>
 								</React.Fragment>
 							))

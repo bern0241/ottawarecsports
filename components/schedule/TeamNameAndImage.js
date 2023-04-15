@@ -39,9 +39,6 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 	useEffect(() => {
 		getPicture();
 	}, []);
-	// useEffect(() => {
-	// 	getPicture();
-	// }, [generatedGames]);
 	useEffect(() => {
 		getPicture();
 	}, [team]);
