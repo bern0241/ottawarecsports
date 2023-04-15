@@ -31,7 +31,7 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 	const [lastName, setLastName] = useState('');
 	const [password, setPassword] = useState('');
 	const [location, setLocation] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState(undefined);
 	const [gender, setGender] = useState('');
 	// const [currentDate, setCurrentDate] = useState({}); //Delete if not used later
 	// Birthdate variables/states
@@ -60,7 +60,6 @@ export default function SignUpView({ setUiState, email, setEmail }) {
 				firstName === '' ||
 				lastName === '' ||
 				email === '' ||
-				// phoneNumber === '' ||
 				location === '' ||
 				gender === '' ||
 				birthDate === ''

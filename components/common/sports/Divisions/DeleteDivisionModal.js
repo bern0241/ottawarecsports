@@ -6,7 +6,8 @@
  * Ghazaldeep Kaur <kaur0762@algonquinlive.com>
  */
 
-import { deleteDivision, deleteTeamDivision } from '@/src/graphql/mutations';
+import { deleteDivision, deleteTeamDivision , deleteGame} from '@/src/graphql/mutations';
+import { listGames } from '@/src/graphql/queries';
 import { listTeamDivisionsShort, deleteTeamDivisionShort } from '@/src/graphql/custom-queries';
 import { API } from '@aws-amplify/api';
 import React, { useState, useEffect } from 'react';
@@ -58,6 +59,38 @@ export default function DeleteDivisionModal({
                     },
                   });
                   console.log('TeamDiv deleted',deletedItem);
+            })
+        }
+        // listDivisionsFunc();
+        deleteDivisionFunc();
+      } catch (error) {
+        console.log(error); 
+      }
+  }
+
+  const deleteGamesFunc = async () => {
+	try {
+        const variables = { 
+          filter: {
+              division: {
+                  eq: divisionInfo.id
+              }
+          }
+      }
+        const games = await API.graphql({
+            query: listGames, variables: variables
+        })
+        const deleteTheseGames = games.data.listGames.items;
+        if (deleteTheseGames.length !== 0) {
+            deleteTheseGames.map(async (game) => {
+                  const deletedItem = await API.graphql({
+                    query: deleteGame,
+                    // query: deleteTeamDivision,
+                    variables: {
+                      input: { id: game.id },
+                    },
+                  });
+                  console.log('Game deleted',deletedItem);
             })
         }
         // listDivisionsFunc();
