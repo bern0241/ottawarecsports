@@ -46,6 +46,7 @@ export default function DivisionTable({
 		}
 	};
 
+	// Display all divisions of a parenting season
 	const listDivisionsFunc = async () => {
 		const variables = {
 			filter: {
