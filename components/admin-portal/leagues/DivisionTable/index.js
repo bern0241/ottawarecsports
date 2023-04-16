@@ -37,6 +37,18 @@ export default function ACPDivisionTable({
 
 	// Display all divisions of a parenting season
 	const listDivisionsFunc = async () => {
+		const variables = {
+			filter: {
+				season: {
+					eq: selectedSeason.id,
+				},
+			},
+		};
+		const divisions = await API.graphql({
+			query: listDivisions,
+			variables: variables,
+		});
+		setDivisions(divisions.data.listDivisions.items);
 		setSelectedDivision(divisions.data.listDivisions.items[0]);
 	};
 
