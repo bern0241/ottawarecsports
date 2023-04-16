@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import DeleteSeasonModal from '../../../common/sports/Seasons/DeleteSeasonModal';
 import EditSeasonModal from '../../../common/sports/Seasons/EditSeasonModal';
-import { IconTrash, IconEdit, IconUsers } from '@tabler/icons-react';
+import { IconTrash, IconEdit, IconUsers, IconListDetails } from '@tabler/icons-react';
 
 export default function SeasonCard({
 	season,
@@ -86,11 +86,11 @@ export default function SeasonCard({
 				</td>
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
-					<IconUsers
+					<IconListDetails
 						onClick={(e) => goToSchedulePage(e)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="people"
-					></IconUsers>
+					></IconListDetails>
 					<IconEdit
 						onClick={(e) => editSeasonFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
