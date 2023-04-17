@@ -8,11 +8,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function MultiTeamSelectDropDown({
 	teams,
 	selectedTeams,
 	setSelectedTeams,
+	noTeamsMessage
 }) {
 	//Functions
 	//Get a list of teams in the current division (which should be passed)
@@ -21,8 +23,10 @@ export default function MultiTeamSelectDropDown({
 	const router = useRouter();
 	const [showTeams, setShowTeams] = useState(false);
 	const divisionID = router.query.id;
+
 	return (
 		<>
+			<div className='flex gap-3'>
 			<button
 				id="dropdownCheckboxButton"
 				onClick={() => setShowTeams(!showTeams)}
@@ -46,6 +50,18 @@ export default function MultiTeamSelectDropDown({
 					></path>
 				</svg>
 			</button>
+			{noTeamsMessage && (
+				<p className={`my-4 text-center text-sm`}>
+					<span className="font-medium text-red-600">{"No teams in this division. "}</span>
+					<Link href={`/sports/${divisionID}`} className="font-medium text-blue-500 underline">{"Add teams?"}</Link>
+				</p>
+			)}
+			{!noTeamsMessage && (
+				<p className={`my-4 text-center text-sm`}>
+					<Link href={`/sports/${divisionID}`} className="font-medium text-blue-500 underline">{"Add teams?"}</Link>
+				</p>
+			)}
+			</div>
 
 			{/* <!-- Dropdown menu --> */}
 			{showTeams && (

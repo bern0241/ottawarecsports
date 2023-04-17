@@ -45,6 +45,7 @@ const TeamBatchSelect = ({
 	const [startTime, setStartTime] = useState('');
 	const [matchLocation, setMatchLocation] = useState('');
 	const [uiState, setUiState] = useState('main');
+	const [noTeamsMessage, setNoTeamsMessage] = useState(false);
 
 	const [openRefDrop, setOpenRefDrop] = useState(false);
 
@@ -194,6 +195,16 @@ const TeamBatchSelect = ({
 		if (batchResults) setGeneratedGames(batchResults);
 	}, [batchResults]);
 
+	useEffect(() => {
+		if (teamsInDivision.length === 0) {
+			console.log('TEAMS', teamsInDivision);
+			// setMessage({status: 'error', message: 'There are currently no teams in this division'})
+			setNoTeamsMessage(true);
+		} else {
+			setNoTeamsMessage(false);
+		}
+	}, [teamsInDivision])
+
 	const getCurrentTime = () => {
 		const now = new Date();
 		let hours = now.getHours();
@@ -212,6 +223,11 @@ const TeamBatchSelect = ({
 
 	const generateMatchFunc = (e) => {
 		e.preventDefault();
+
+		if (selectedTeams.length < 2) {
+			setMessage({status: 'error', message: 'There must be at least 2 teams selected'})
+			return;
+		}
 		const dateTime = `${matchDate} ${startTime}`;
 		const convertedTime = moment(dateTime, 'YYYY-MM-DD HH:mm A');
 		const refereeUsernames = referees.map((a) => a.username);
@@ -357,6 +373,7 @@ const TeamBatchSelect = ({
 									<div className="relative cursor-pointer">
 										{/* <MultiTeamSelectDropDown /> */}
 										<MultiTeamSelectDropDown
+											noTeamsMessage={noTeamsMessage}
 											teams={teamsInDivision}
 											selectedTeams={selectedTeams}
 											setSelectedTeams={setSelectedTeams}
@@ -492,7 +509,7 @@ const TeamBatchSelect = ({
 								{message && (
 									<p
 										id="standard_error_help"
-										className={`mt-4 text-center text-sm ${
+										className={`my-4 text-center text-sm ${
 											message.status === 'success'
 												? 'text-green-600 dark:text-green-400'
 												: 'text-red-600 dark:text-red-400'
