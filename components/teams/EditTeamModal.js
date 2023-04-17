@@ -18,6 +18,7 @@ import {
 import makeid from '@/utils/makeId';
 import TeamsImage from './TeamsImage';
 import { updateTeam } from '@/src/graphql/mutations';
+import { updateTeamShort } from '@/src/graphql/custom-queries';
 
 const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 	const [user] = useUser();
@@ -76,7 +77,8 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 				team_picture: uniqueId,
 			};
 			await API.graphql({
-				query: updateTeam,
+				query: updateTeamShort,
+				// query: updateTeam,
 				variables: { input: data },
 			});
 			setMessage({
