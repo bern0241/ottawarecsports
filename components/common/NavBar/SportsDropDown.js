@@ -11,10 +11,11 @@ import Link from 'next/link';
 import React from 'react';
 import { IconBallFootball, IconChevronRight } from '@tabler/icons-react';
 
-const SportsDropDown = ({ openDropdown, toggle }) => {
+const SportsDropDown = ({ openDropdown, toggle, setMenu }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
+				on
 				onClick={() => toggle('sports')}
 				className="px-5 py-2 flex flex-row ml-2 justify-between w-full"
 			>
@@ -42,24 +43,28 @@ const SportsDropDown = ({ openDropdown, toggle }) => {
 					}`}
 				>
 					<Link
+						onFocus={() => setMenu('sports')}
 						href="/sports/soccer"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Soccer
 					</Link>
 					<Link
+						onFocus={() => setMenu('sports')}
 						href="/sports/volleyball"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Volleyball
 					</Link>
 					<Link
+						onFocus={() => setMenu('sports')}
 						href="/sports/multi-sport"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Multi-Sport
 					</Link>
 					<Link
+						onFocus={() => setMenu('sports')}
 						href="/sports/pickup-sport"
 						className="my-1 hover:font-bold focus:font-bold"
 					>

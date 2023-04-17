@@ -38,6 +38,9 @@ const NavbarSetup = () => {
 			changeOpenMenu(menu);
 		}
 	}
+	function setMenu(menu) {
+		changeOpenMenu(menu);
+	}
 
 	const dropdownMenuNames = {
 		sports: 'sports',
@@ -58,10 +61,10 @@ const NavbarSetup = () => {
 					</div>
 					<p className="pl-2">Home</p>
 				</Link>
-				<SportsDropDown openDropdown={openDropdown} toggle={toggle} />
-				<ScheduleDropDown openDropdown={openDropdown} toggle={toggle} />
-				<RostersDropDown openDropdown={openDropdown} toggle={toggle} />
-				<AdminPortalDropDown openDropdown={openDropdown} toggle={toggle} />
+				<SportsDropDown openDropdown={openDropdown} toggle={toggle} setMenu={setMenu} />
+				<ScheduleDropDown openDropdown={openDropdown} toggle={toggle} setMenu={setMenu} />
+				<RostersDropDown openDropdown={openDropdown} toggle={toggle} setMenu={setMenu} />
+				<AdminPortalDropDown openDropdown={openDropdown} toggle={toggle} setMenu={setMenu} />
 				{user ? (
 					<Link
 						href="/settings"
