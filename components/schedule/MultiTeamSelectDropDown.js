@@ -51,13 +51,13 @@ export default function MultiTeamSelectDropDown({
 				</svg>
 			</button>
 			{noTeamsMessage && (
-				<p className={`my-4 text-center text-sm`}>
+				<p className={`my-2 text-center text-sm`}>
 					<span className="font-medium text-red-600">{"No teams in this division. "}</span>
 					<Link href={`/sports/${divisionID}`} className="font-medium text-blue-500 underline">{"Add teams?"}</Link>
 				</p>
 			)}
 			{!noTeamsMessage && (
-				<p className={`my-4 text-center text-sm`}>
+				<p className={`my-2 text-center text-sm`}>
 					<Link href={`/sports/${divisionID}`} className="font-medium text-blue-500 underline">{"Add teams?"}</Link>
 				</p>
 			)}
