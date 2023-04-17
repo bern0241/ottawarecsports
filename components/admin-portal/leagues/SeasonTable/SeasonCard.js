@@ -66,6 +66,12 @@ export default function SeasonCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						clickedSeason(e);
+					}
+				}}
 				onClick={(e) => clickedSeason(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -87,16 +93,34 @@ export default function SeasonCard({
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
 					<IconListDetails
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								goToSchedulePage(e);
+							}
+						}}
 						onClick={(e) => goToSchedulePage(e)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="people"
 					></IconListDetails>
 					<IconEdit
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								editSeasonFunc(e);
+							}
+						}}
 						onClick={(e) => editSeasonFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
 					<IconTrash
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								deleteSeasonFunc(e);
+							}
+						}}
 						onClick={(e) => deleteSeasonFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"

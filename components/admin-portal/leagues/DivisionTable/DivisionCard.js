@@ -70,7 +70,13 @@ export default function DivisionCard({
 
 	return (
 		<>
-			<tr
+			<tr	
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						clickedDivision(e);
+					}
+				}}
 				onClick={(e) => clickedDivision(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -93,16 +99,34 @@ export default function DivisionCard({
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">
 					<div className="flex-grow"></div>
 					<IconUsers
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								teamsUINavigate(e, division);
+							}
+						}}
 						onClick={(e) => teamsUINavigate(e, division)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
 					<IconEdit
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								editDivisionFunc(e);
+							}
+						}}
 						onClick={(e) => editDivisionFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
 					<IconTrash
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								deleteDivisionFunc(e);
+							}
+						}}
 						onClick={(e) => deleteDivisionFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"

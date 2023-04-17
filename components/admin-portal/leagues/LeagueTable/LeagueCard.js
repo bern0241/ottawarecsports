@@ -83,6 +83,12 @@ export default function LeagueCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						clickedLeague(e)
+					}
+				}}
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -125,11 +131,23 @@ export default function LeagueCard({
 				<td className="flex gap-4 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
 					<IconEdit
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								editLeagueFunc(e);
+							}
+						}}
 						onClick={(e) => editLeagueFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
 					<IconTrash
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								deleteLeagueFunc(e);
+							}
+						}}
 						onClick={(e) => deleteLeagueFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
