@@ -105,7 +105,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 							height={132}
 							className="w-[3.4rem] h-[3.4rem] rounded-full shadow-md border border-black"
 							src={`${
-								teamImage ? teamImage : '/images/defaultProfilePic.jpeg'
+								teamImage ? teamImage : '/Logo.svg'
 							}`}
 						/>
 						<p>{teamDivision.team.name}</p>

@@ -104,7 +104,7 @@ export default function TeamCard({ team, fetchTeams, filterTeams }) {
 					<div className="flex flex-col min-[590px]:flex-row sm:w-[80%] items-center pl-2 gap-2">
 						<img
 							src={`${
-								teamImage ? teamImage : '/images/defaultProfilePic.jpeg'
+								teamImage ? teamImage : '/Logo.svg'
 							}`}
 							width={132}
 							height={132}

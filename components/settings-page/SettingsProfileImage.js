@@ -17,7 +17,7 @@ export default function UserProfilePictureEdit({
 	const [profileImage, setProfileImage] = useState('');
 	const getPicture = async () => {
 		if (userAttributes?.picture === 'none')
-			return setProfileImage('/images/defaultProfilePic.jpeg');
+			return setProfileImage('/images/image-placeholder.png');
 		const url = await getImageFromS3(userAttributes?.picture);
 		setProfileImage(url);
 	};
