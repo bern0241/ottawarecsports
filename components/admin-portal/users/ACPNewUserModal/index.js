@@ -85,7 +85,8 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				birthDate === '' ||
 				tempPassword === '' ||
 				email === '' ||
-				location === ''
+				location === '' ||
+				gender === ''
 			) {
 				setMessage({
 					status: 'error',

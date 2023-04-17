@@ -280,7 +280,8 @@ export default function ACPEditUserModal({
 				lastName === '' ||
 				birthDate === '' ||
 				email === '' ||
-				location === ''
+				location === '' ||
+				gender === ''
 			) {
 				setMessage({
 					status: 'error',

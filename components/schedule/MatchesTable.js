@@ -89,6 +89,7 @@ const MatchesTable = ({
 	};
 	useEffect(() => {
 		if (!matches) return;
+		console.log('MATCHES!!', matches);
 		// sort matches by time, small to large
 		setTimeSortedMatches(
 			matches.sort((matchA, matchB) => {

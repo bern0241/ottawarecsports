@@ -219,10 +219,10 @@ export default function DivisionMatches() {
 				<EditMatchModal
 					games={games}
 					match={matchToEdit}
-					makingNewGame={saveBatchGame}
-					isVisible={isEditingMatch}
 					setGames={setGames}
 					getGames={getGames}
+					makingNewGame={saveBatchGame}
+					isVisible={isEditingMatch}
 					setMakingNewGame={setSaveBatchGame}
 					generatedGames={generatedGames}
 					setGeneratedGames={setGeneratedGames}
@@ -232,6 +232,8 @@ export default function DivisionMatches() {
 			{isDeletingMatch && (
 				<DeleteMatchModal
 					match={matchToEdit}
+					matches={games}
+					setMatches={setGames}
 					openModal={isDeletingMatch}
 					setOpenModal={setIsDeletingMatch}
 				/>
