@@ -197,7 +197,7 @@ export default function DivisionCreateForm(props) {
     name: "",
     abbreviation: "",
     teams: [],
-    level: undefined,
+    level: "",
     description: "",
     is_playoff: false,
   };
