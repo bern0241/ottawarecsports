@@ -126,6 +126,7 @@ const EditMatchModal = ({
 	useEffect(() => {
 		if (listLocations) {
 			let parseLocation = JSON.parse(match.location);
+			console.log(parseLocation)
 			setMatchLocation(parseLocation);
 		}
 	}, [listLocations]);
