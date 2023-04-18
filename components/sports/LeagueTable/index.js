@@ -97,7 +97,7 @@ export default function LeagueTable({
 							</th>
 							<th
 								scope="col"
-								className="font-light py-2 border-r-[1px] text-center border-gray-400"
+								className="font-light py-2 border-r-[1px] text-right pr-10 border-gray-400"
 							>
 								Action
 							</th>

@@ -127,10 +127,11 @@ export default function LeagueCard({
 							))}
 					</ul>
 				</td>
-				<td className="flex gap-2 py-3 justify-center items-center pr-5 ">
+				<td className="flex gap-4 py-3 justify-center items-center pr-5 ">
 					{((authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
-						<>
+							<>
+							<div className="flex-grow"></div>
 							{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
 							<IconEdit
 								tabIndex='0'
