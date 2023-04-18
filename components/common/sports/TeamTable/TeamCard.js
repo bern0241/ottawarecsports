@@ -98,7 +98,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 					scope="row"
 					className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 				>
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 pr-20">
 						<img
 							style={{ objectFit: 'cover' }}
 							width={132}
@@ -116,7 +116,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						captains.map((captain, index) => (
 							// <>
 							<p
-								className="cursor-pointer text-blue-500 underline text-center"
+								className="cursor-pointer text-blue-500 underline text-center "
 								onClick={(e) => goToPlayerPage(e, captain)}
 								key={index}
 							>
