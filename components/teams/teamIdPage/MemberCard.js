@@ -149,6 +149,12 @@ export default function MemberCard({
 						style={{ marginLeft: '0rem' }}
 						className="text-brand-orange-800"
 						onClick={(e) => deletePlayerModal(e)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								e.stopPropagation();
+								deletePlayerModal(e);
+							}
+						}}
 					>
 						<IconX /> <p className="sr-only"> Button </p>
 					</button>

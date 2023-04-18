@@ -382,6 +382,12 @@ const TeamBatchSelect = ({
 									</div>
 									{/**Referees */}
 									<div
+										tabIndex='0'
+										onKeyDown={(e) => {
+											if (e.key === 'Enter') {
+												setOpenRefDrop(!openRefDrop);
+											}
+										}}
 										className="relative cursor-pointer"
 										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
@@ -430,7 +436,9 @@ const TeamBatchSelect = ({
 									)}
 
 									{/**Date */}
-									<div className="w-full">
+									<div tabIndex='0' 
+										className="w-full"
+										>
 										<label
 											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
@@ -446,7 +454,10 @@ const TeamBatchSelect = ({
 									</div>
 
 									{/**Start Time */}
-									<div className="relative">
+									<div 
+										tabIndex='0' 
+										className="relative"
+									>
 										{openStartTimeDrop && (
 											<>
 												<div

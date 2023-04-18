@@ -662,7 +662,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 									)}
 
 									{/**Date */}
-									<div tabIndex='0' onFocus={(e) => setShowFounded(false)} className="w-full">
+									<div tabIndex='0' className="w-full">
 										<label
 											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"

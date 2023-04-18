@@ -54,6 +54,12 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 
 	return (
 		<span
+			tabIndex='0'
+			onKeyDown={(e) => {
+				if (e.key === 'Enter') {
+					goToTeamPage(e);
+				}
+			}}
 			className={`flex flex-col md:flex-row grow  items-center gap-3 justify-items-stretch`}
 		>
 			{reverse === true ? (
