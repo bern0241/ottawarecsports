@@ -128,7 +128,7 @@ export default function LeagueCard({
 					</ul>
 				</td>
 				<td className="px-6 py-3 text-center">{league.sport}</td>
-				<td className="flex gap-4 px-6 py-3 text-center justify-center">
+				<td className="flex gap-3 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
 					<IconEdit
 						tabIndex='0'
