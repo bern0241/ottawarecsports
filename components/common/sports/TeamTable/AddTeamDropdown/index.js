@@ -85,7 +85,7 @@ export default function AddTeamDropdown({
 			{/* <!-- Dropdown menu --> */}
 			<div
 				id="dropdownSearch"
-				className="z-[300] border border-gray-500 absolute bg-white rounded-lg shadow-md w-[27rem] dark:bg-gray-700 right-0 top-[7rem]"
+				className="z-[300] bg-white rounded-lg mx-4 fixed border border-gray-200 max-w-[42rem] h-[35rem] shadow-md sm:right-5rem sm:right-[1rem] sm:top-[20rem] lg:right-[1rem] lg:top-[15rem] xl:right-[10rem]"
 			>
 				<div className="p-3">
 					<label htmlFor="input-group-search" className="sr-only">
