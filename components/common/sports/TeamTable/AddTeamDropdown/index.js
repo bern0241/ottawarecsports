@@ -150,6 +150,12 @@ export default function AddTeamDropdown({
 									) : (
 										<li
 											className="cursor-pointer"
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													setTeamFunc(e, team);
+												}
+											}}
 											onClick={(e) => setTeamFunc(e, team)}
 										>
 											<TeamCardAdd

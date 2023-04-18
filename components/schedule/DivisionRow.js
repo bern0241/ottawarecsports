@@ -28,6 +28,12 @@ const DivisionRow = ({ key, division }) => {
 	};
 	return (
 		<tr
+			tabIndex='0'
+			onKeyDown={(e) => {
+				if (e.key === 'Enter') {
+					navigateToProfile();
+				}
+			}}
 			key={division?.id}
 			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
