@@ -242,6 +242,12 @@ export default function EditLeagueModal({
 
 							<div
 								className="relative cursor-pointer"
+								tabIndex="0"
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										setOpenCoordinatorDrop(!openCoordinatorDrop);
+									}
+								}}
 								onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}
 							>
 								<label

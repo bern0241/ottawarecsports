@@ -83,6 +83,12 @@ export default function LeagueCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						clickedLeague(e);
+					}
+				}}
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -127,6 +133,12 @@ export default function LeagueCard({
 						<>
 							{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
 							<IconEdit
+								tabIndex='0'
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										editLeagueFunc(e);
+									}
+								}}
 								onClick={(e) => editLeagueFunc(e)}
 								style={{
 									color: 'darkblue',
@@ -136,6 +148,12 @@ export default function LeagueCard({
 								name="create-outline"
 							></IconEdit>
 							<IconTrash
+								 tabIndex='0'
+								 onKeyDown={(e) => {
+									 if (e.key === 'Enter') {
+										deleteLeagueFunc(e);
+									 }
+								 }}
 								onClick={(e) => deleteLeagueFunc(e)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"

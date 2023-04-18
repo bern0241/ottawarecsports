@@ -92,6 +92,12 @@ export default function DivisionCard({
 		<>
 			<tr
 				onClick={(e) => clickedDivision(e)}
+				tabIndex="0"
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						clickedDivision(e);
+					}
+				}}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
 				<th
@@ -115,13 +121,25 @@ export default function DivisionCard({
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
 					<IconCalendarDue
-						data-tooltip-target="tooltip-default"
 						onClick={(e) => gameScheduleNavigate(e, division)}
+						tabIndex="0"
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								gameScheduleNavigate(e, division);
+							}
+						}}
+						data-tooltip-target="tooltip-default"
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconCalendarDue>
 					<IconUsers
 						onClick={(e) => addTeamsUINavigate(e, division)}
+						tabIndex="0"
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								addTeamsUINavigate(e, division);
+							}
+						}}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
@@ -132,6 +150,12 @@ export default function DivisionCard({
 						<>
 							<IconEdit
 								onClick={(e) => editDivisionFunc(e)}
+								tabIndex="0"
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										editDivisionFunc(e);
+									}
+								}}
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -141,6 +165,12 @@ export default function DivisionCard({
 							></IconEdit>
 							<IconTrash
 								onClick={(e) => deleteDivisionFunc(e)}
+								tabIndex="0"
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										deleteDivisionFunc(e);
+									}
+								}}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
