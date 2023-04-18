@@ -81,6 +81,12 @@ export default function RefereeSearchBar({
 								<React.Fragment key={index}>
 									{user && user.Groups.includes('Referee') && (
 										<li
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													addReferee(e, user);
+												}
+											}}
 											className="cursor-pointer"
 											onClick={(e) => addReferee(e, user)}
 										>

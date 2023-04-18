@@ -91,8 +91,14 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 							.map((team, index) => (
 								<React.Fragment key={index}>
 									<li
-										className="cursor-pointer"
+										tabIndex='0'
+										onKeyDown={(e) => {
+											if (e.key === 'Enter') {
+												setTeamFunc(e, team);
+											}
+										}}
 										onClick={(e) => setTeamFunc(e, team)}
+										className="cursor-pointer"
 									>
 										<TeamCard search={search} team={team} />
 									</li>

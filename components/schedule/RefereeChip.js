@@ -22,6 +22,12 @@ export default function RefereeChip({ referee, referees, setReferees }) {
 			>
 				{referee.name}
 				<IconX
+					tabIndex='0'
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') {
+							removeChip(e);
+						}
+					}}
 					onClick={(e) => removeChip(e)}
 					style={{
 						paddingLeft: '0.3rem',

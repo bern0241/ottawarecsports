@@ -479,6 +479,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 									{/**Home Team */}
 									<div className="w-full">
 										<div
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													setOpenHomeTeamDrop(!openHomeTeamDrop);
+												}
+											}}
 											onClick={(e) => setOpenHomeTeamDrop(!openHomeTeamDrop)}
 										>
 											<label
@@ -489,7 +495,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 											</label>
 											{homeTeam && <TeamCardSelected team={homeTeam} />}
 											{!homeTeam && (
-												<div
+												<div 
 													type="text"
 													id="hometeam"
 													className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer py-5"
@@ -537,6 +543,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 									{/**Away Team */}
 									<div className="w-full">
 										<div
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													setOpenAwayTeamDrop(!openAwayTeamDrop);
+												}
+											}}
 											onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop)}
 										>
 											<label
@@ -596,8 +608,14 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 
 									{/**Referee */}
 									<div
-										className="relative cursor-pointer"
+										tabIndex='0'
+										onKeyDown={(e) => {
+											if (e.key === 'Enter') {
+												setOpenRefDrop(!openRefDrop);
+											}
+										}}
 										onClick={() => setOpenRefDrop(!openRefDrop)}
+										className="relative cursor-pointer"
 									>
 										<label
 											htmlFor="name"
@@ -676,6 +694,13 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 											</>
 										)}
 										<div
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													e.preventDefault();
+													setOpenStartTimeDrop(!openStartTimeDrop);
+												}
+											}}
 											onClick={(e) => {
 												e.preventDefault();
 												setOpenStartTimeDrop(!openStartTimeDrop);
