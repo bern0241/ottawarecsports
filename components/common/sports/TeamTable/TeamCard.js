@@ -98,15 +98,13 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 					scope="row"
 					className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 				>
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 pr-20">
 						<img
 							style={{ objectFit: 'cover' }}
 							width={132}
 							height={132}
 							className="w-[3.4rem] h-[3.4rem] rounded-full shadow-md border border-black"
-							src={`${
-								teamImage ? teamImage : '/Logo.svg'
-							}`}
+							src={`${teamImage ? teamImage : '/Logo.svg'}`}
 						/>
 						<p>{teamDivision.team.name}</p>
 					</div>
@@ -116,7 +114,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						captains.map((captain, index) => (
 							// <>
 							<Link
-                href={`/players/${captain.Username}`}
+								href={`/players/${captain.Username}`}
 								className="cursor-pointer text-blue-500 underline text-center"
 								onClick={(e) => handleClick(e)}
 								key={index}
@@ -132,20 +130,20 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 				</td>
 				<td className="px-6 py-3 text-center text-lg">{membersCount}</td>
 				<td className="text-center">
-          <button>
-					<IconTrash
-						onClick={(e) => removeTeamFunc(e)}
-						style={{
-							color: 'red',
-							fontSize: '21px',
-							cursor: 'pointer',
-							textAlign: 'center',
-							marginLeft: 'auto',
-							marginRight: 'auto',
-						}}
-						name="trash-outline"
-					></IconTrash>
-          </button>
+					<button>
+						<IconTrash
+							onClick={(e) => removeTeamFunc(e)}
+							style={{
+								color: 'red',
+								fontSize: '21px',
+								cursor: 'pointer',
+								textAlign: 'center',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+							}}
+							name="trash-outline"
+						></IconTrash>
+					</button>
 				</td>
 			</tr>
 
