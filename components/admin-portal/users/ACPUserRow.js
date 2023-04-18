@@ -66,7 +66,15 @@ export default function ACPUserRow({ user, index }) {
 					)}
 				</td>
 			</tr>
-			<tr key={user.id} className="border-b border-brand-neutral-300">
+			<tr 
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						
+					}
+				}}
+				key={user.id} 
+				className="border-b border-brand-neutral-300">
 				<td className="p-5 font-medium">
 					{user.Attributes.find((o) => o.Name === 'name')['Value'].charAt(0)}.{' '}
 					{user.Attributes.find((o) => o.Name === 'family_name')['Value']}
@@ -86,6 +94,13 @@ export default function ACPUserRow({ user, index }) {
 					<div className="flex">
 						<IconEdit
 							className="text-brand-blue-900 mr-3 cursor-pointer"
+							tabIndex='0'
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									e.stopPropagation();
+									setEditUserModal(true);
+								}
+							}}
 							onClick={(e) => {
 								e.stopPropagation();
 								setEditUserModal(true);

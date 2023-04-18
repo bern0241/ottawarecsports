@@ -16,9 +16,6 @@ import { API } from 'aws-amplify';
 import { useUser } from '@/context/userContext';
 import Link from 'next/link';
 //Components
-import SuccessMessage from '@/components/common/SuccessMessage';
-import ACPUserRow from '@/components/admin-portal/users/ACPUserRow';
-import ACPNewUserModal from '@/components/admin-portal/users/ACPNewUserModal';
 import ACPSearchUserBar from '@/components/admin-portal/users/ACPSearchUserBar';
 import NewLocation from '@/components/admin-portal/locations/NewLocation';
 import EditLocation from '@/components/admin-portal/locations/EditLocation';
@@ -83,6 +80,12 @@ export default function LocationsPage() {
 						<React.Fragment key={index}>
 							<div className="flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md">
 								<IconEdit
+									tabIndex='0'
+									onKeyDown={(e) => {
+										if (e.key === 'Enter') {
+											editLocationClicked(e, location);
+										}
+									}}
 									onClick={(e) => editLocationClicked(e, location)}
 									style={{
 										position: 'absolute',
@@ -93,6 +96,12 @@ export default function LocationsPage() {
 									name="create-outline"
 								></IconEdit>
 								<IconTrash
+									tabIndex='0'
+									onKeyDown={(e) => {
+										if (e.key === 'Enter') {
+											deleteLocationClicked(e, location);
+										}
+									}}
 									onClick={(e) => {
 										deleteLocationClicked(e, location);
 									}}
@@ -106,7 +115,7 @@ export default function LocationsPage() {
 									name="trash-outline"
 								></IconTrash>
 								<div>
-									<p className="text-lg">{location.name}</p>
+									<p tabIndex='0' className="text-lg">{location.name}</p>
 									<Link
 										style={{
 											fontSize: '0.9rem',

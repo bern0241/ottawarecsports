@@ -753,7 +753,7 @@ export default function ACPEditUserModal({
 										/>
 									</div>
 
-									<div className="w-full">
+									<div className="w-full" tabIndex='-1'>
 										<label
 											htmlFor="birthdate"
 											className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
