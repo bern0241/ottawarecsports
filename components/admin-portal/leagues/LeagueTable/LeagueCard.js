@@ -110,7 +110,7 @@ export default function LeagueCard({
 										key={index}
 										className="text-blue-700 text-sm underline py-[.2rem]"
 									>
-										<p onClick={(e) => goToUserPage(e, coordinator.Username)}>
+										<button className='underline' tabIndex='0' onClick={(e) => goToUserPage(e, coordinator.Username)}>
 											{
 												coordinator.UserAttributes.find(
 													(o) => o.Name === 'name'
@@ -121,7 +121,7 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</p>
+										</button>
 									</li>
 								</React.Fragment>
 							))}

@@ -107,8 +107,8 @@ export default function LeagueCard({
 							users.map((coordinator, index) => (
 								<React.Fragment key={index}>
 									<li className="text-blue-700 text-sm underline py-[.2rem]">
-										<p
-											className="no-underline"
+										<button
+											className="underline"
 											onClick={(e) => goToUserPage(e, coordinator.Username)}
 										>
 											{
@@ -121,7 +121,7 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</p>
+										</button>
 									</li>
 								</React.Fragment>
 							))}
