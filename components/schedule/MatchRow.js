@@ -93,14 +93,24 @@ const MatchRow = ({
 		? new Date(Date.parse(match?.date))
 		: new Date(Date.parse(match?.createdAt));
 	const matchDateString = matchDate.toDateString();
-	// remove the seconds
-	const matchTime = `${matchDate.toLocaleTimeString().slice(0, 4)}${matchDate
-		.toLocaleTimeString()
-		.slice(7)}`;
 	// remove the year and add a comma after the day of week
 	const dateWithoutYear = matchDateString
 		.substring(0, matchDateString.length - 4)
 		.replace(matchDateString.charAt(2), `${matchDateString.charAt(2)},`);
+
+    		//Reference from https://www.geeksforgeeks.org/how-do-you-display-javascript-datetime-in-12-hour-am-pm-format/
+		// Format time of game:
+		let hours = matchDate.getHours();
+
+		const AmOrPm = hours >= 12 ? 'PM' : 'AM';
+
+		hours = hours % 12 || 12;
+		hours = (hours < 10 ? '0' : '') + hours;
+
+		const minutes = (matchDate.getMinutes() < 10 ? '0' : '') + matchDate.getMinutes();
+
+		const matchTime = hours + ':' + minutes + ' ' + AmOrPm;
+
 	return (
 		<>
 			<tr

@@ -99,7 +99,7 @@ export default function AdminPortal() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="p-8">
+			<main className="p-5">
 				<div className="mb-5">
 					<SearchBarInput
 						id="user-search"
@@ -149,26 +149,6 @@ export default function AdminPortal() {
 										/>
 									</React.Fragment>
 								))}
-							{/* {users &&
-								users
-									.filter((user) => {
-										const searchItem = searchResult.toLocaleLowerCase();
-										const v = `${user.Attributes.find((o) => o.Name === 'name')[
-											'Value'
-										].toLocaleLowerCase()} ${user.Attributes.find(
-											(o) => o.Name === 'family_name'
-										)['Value'].toLocaleLowerCase()}`;
-										if (!searchItem) return true;
-										return v.startsWith(searchItem);
-									})
-									.map((user, index) => (
-										<ACPUserRow
-											key={user.Username}
-											user={user}
-											index={index}
-											handleSave={handleSave}
-										/>
-									))} */}
 						</tbody>
 					</table>
 				</section>

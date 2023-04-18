@@ -125,16 +125,20 @@ export default function LeagueCard({
 				<td className="px-6 py-3 text-center">{league.sport}</td>
 				<td className="flex gap-4 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
+          <button>
 					<IconEdit
 						onClick={(e) => editLeagueFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+          </button>
+          <button>
 					<IconTrash
 						onClick={(e) => deleteLeagueFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 

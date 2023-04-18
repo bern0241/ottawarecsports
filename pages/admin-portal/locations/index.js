@@ -82,29 +82,33 @@ export default function LocationsPage() {
 					locations.map((location, index) => (
 						<React.Fragment key={index}>
 							<div className="flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md">
-								<IconEdit
-									onClick={(e) => editLocationClicked(e, location)}
-									style={{
-										position: 'absolute',
-										fontSize: '20px',
-										cursor: 'pointer',
-										transform: 'translate(-0px, -15px)',
-									}}
-									name="create-outline"
-								></IconEdit>
-								<IconTrash
-									onClick={(e) => {
-										deleteLocationClicked(e, location);
-									}}
-									style={{
-										position: 'absolute',
-										fontSize: '20px',
-										cursor: 'pointer',
-										transform: 'translate(25px, -15px)',
-										color: 'red',
-									}}
-									name="trash-outline"
-								></IconTrash>
+                <button className="">
+                  <IconEdit
+                    onClick={(e) => editLocationClicked(e, location)}
+                    style={{
+                      position: 'absolute',
+                      fontSize: '20px',
+                      cursor: 'pointer',
+                      transform: 'translate(-0px, -15px)',
+                    }}
+                    name="create-outline"
+                  ></IconEdit>
+                </button>
+                <button>
+                  <IconTrash
+                    onClick={(e) => {
+                      deleteLocationClicked(e, location);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      fontSize: '20px',
+                      cursor: 'pointer',
+                      transform: 'translate(25px, -15px)',
+                      color: 'red',
+                    }}
+                    name="trash-outline"
+                  ></IconTrash>
+                </button>
 								<div>
 									<p className="text-lg">{location.name}</p>
 									<Link

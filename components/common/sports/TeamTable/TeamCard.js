@@ -132,6 +132,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 				</td>
 				<td className="px-6 py-3 text-center text-lg">{membersCount}</td>
 				<td className="text-center">
+          <button>
 					<IconTrash
 						onClick={(e) => removeTeamFunc(e)}
 						style={{
@@ -144,6 +145,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						}}
 						name="trash-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 
