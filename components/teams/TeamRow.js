@@ -32,7 +32,6 @@ export default function TeamRow({ team }) {
 	};
 
 	const fetchCaptains = async (myCaptains) => {
-    console.log(myCaptains);
 		if (myCaptains === null) {
 			setCaptains([]);
 			return;

@@ -152,7 +152,7 @@ export default function TeamTable() {
 							>
 								Name
 							</th>
-							<th scope="col" className="font-light px-6 py-2 text-center">
+							<th scope="col" className="font-light px-6 py-2 text-left">
 								Captain (s)
 							</th>
 							<th scope="col" className="font-light px-6 py-2 text-center">

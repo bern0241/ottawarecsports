@@ -12,6 +12,7 @@ import { IconTrash } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
+import Link from 'next/link';
 
 export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 	const [removeModal, setRemoveModal] = useState(false);
@@ -83,9 +84,8 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 		router.push(`/teams/${teamDivision.team.id}`);
 	};
 
-	const goToPlayerPage = (e, captain) => {
+	const handleClick = (e) => {
 		e.stopPropagation();
-		router.push(`/players/${captain.Username}`);
 	};
 
 	return (
@@ -115,9 +115,10 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 					{captains &&
 						captains.map((captain, index) => (
 							// <>
-							<p
+							<Link
+                href={`/players/${captain.Username}`}
 								className="cursor-pointer text-blue-500 underline text-center"
-								onClick={(e) => goToPlayerPage(e, captain)}
+								onClick={(e) => handleClick(e)}
 								key={index}
 							>
 								{captain.UserAttributes.find((o) => o.Name === 'name')['Value']}{' '}
@@ -126,7 +127,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 										'Value'
 									]
 								}
-							</p>
+							</Link>
 						))}
 				</td>
 				<td className="px-6 py-3 text-center text-lg">{membersCount}</td>
