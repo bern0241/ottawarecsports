@@ -143,7 +143,13 @@ export default function AddMemberDropdown({
 										<li key={index}></li>
 									) : (
 										<li
-											kye={index}
+											key={index}
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													setUserFunc(e, user);
+												}
+											}}
 											className="cursor-pointer"
 											onClick={(e) => setUserFunc(e, user)}
 										>

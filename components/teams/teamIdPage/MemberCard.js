@@ -96,6 +96,12 @@ export default function MemberCard({
 	return (
 		<>
 			<div
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						goToPlayerPage(e);
+					}
+				}}
 				onClick={(e) => goToPlayerPage(e)}
 				className="flex flex-row justify-between w-full items-center cursor-pointer"
 			>

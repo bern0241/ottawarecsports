@@ -97,6 +97,12 @@ export default function TeamCard({ team, fetchTeams, filterTeams }) {
 		<>
 			<tr
 				key={team.id}
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						goToTeamPage(e);
+					}
+				}}
 				className="border-b border-brand-neutral-300 cursor-pointer"
 				onClick={(e) => goToTeamPage(e)}
 			>
@@ -146,6 +152,12 @@ export default function TeamCard({ team, fetchTeams, filterTeams }) {
 				<td className="text-center px-6 py-3">{sport}</td>
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">
 					<IconEdit
+						tabIndex='0'
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								editTeamFunc(e);
+							}
+ 						}}
 						onClick={(e) => editTeamFunc(e)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
