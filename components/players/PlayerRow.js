@@ -155,7 +155,7 @@ export default function PlayerRow({ player, index }) {
 				<div className="flex flex-col gap-2 md:flex-row items-center mx-auto text-center">
 					<img
 						src={`${
-							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
+							profileImage ? profileImage : '/images/image-placeholder.png'
 						}`}
 						className="rounded-full text-center w-[4.5rem] h-[4.5rem] border border-gray-500 object-cover"
 						alt={`Teams profile image for ${

@@ -35,7 +35,7 @@ export default function ACPLeaguesDivisionPage() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="w-full flex justify-center max-w-[70em] mx-auto">
+			<main className="w-full flex justify-center p-5 mx-auto">
 				<div className="absolute right-2 translate-y-[0px]">
 					<button
 						onClick={(e) => router.push(`/admin-portal/leagues`)}

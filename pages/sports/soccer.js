@@ -28,7 +28,7 @@ export default function Home() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="w-full flex justify-center max-w-[70em] mx-auto">
+			<main className="w-full flex justify-center p-5 mx-auto">
 				<div className="flex flex-col w-full">
 					<LeagueTable
 						sport="Soccer"

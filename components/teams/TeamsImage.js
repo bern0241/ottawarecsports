@@ -22,7 +22,7 @@ export default function TeamsImage({
 			setTeamLogo(url);
 			return;
 		}
-		setTeamLogo('/images/defaultProfilePic.jpeg');
+		setTeamLogo('/Logo.svg');
 	};
 	useEffect(() => {
 		getPicture();

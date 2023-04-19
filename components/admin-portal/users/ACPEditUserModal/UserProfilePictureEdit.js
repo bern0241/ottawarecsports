@@ -25,7 +25,7 @@ export default function UserProfilePictureEdit({
 	setProfilePic,
 }) {
 	const [defaultPic, setDefaultPic] = useState(
-		'/images/defaultProfilePic.jpeg'
+		'/images/image-placeholder.png'
 	); // Default picture - on startup
 	const bucketName = process.env.NEXT_PUBLIC_STORAGEBUCKET; //S3 Bucket name
 	const signedUrlExpireSeconds = 60 * 1; // Expires after set time
@@ -84,7 +84,7 @@ export default function UserProfilePictureEdit({
 						src={
 							profilePic
 								? URL.createObjectURL(profilePic)
-								: '/../public/images/image-placeholder.png'
+								: '/images/image-placeholder.png'
 						}
 						alt="user photo"
 					/>

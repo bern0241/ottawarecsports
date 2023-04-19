@@ -15,6 +15,7 @@ import EditLeagueModal from '../../../common/sports/Leagues/EditLeagueModal';
 import DeleteLeagueModal from '../../../common/sports/Leagues/DeleteLeagueModal';
 import { useRouter } from 'next/router';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
+import Link from 'next/link';
 
 export default function LeagueCard({
 	league,
@@ -60,9 +61,8 @@ export default function LeagueCard({
 		});
 	}
 
-	const goToUserPage = (e, username) => {
+	const handleClick = (e) => {
 		e.stopPropagation();
-		router.push(`/players/${username}`);
 	};
 
 	const clickedLeague = (e) => {
@@ -104,7 +104,8 @@ export default function LeagueCard({
 										key={index}
 										className="text-blue-700 text-sm underline py-[.2rem]"
 									>
-										<p onClick={(e) => goToUserPage(e, coordinator.Username)}>
+										<Link href={`/players/${coordinator.Username}`}
+                    onClick={(e) => handleClick(e)}>
 											{
 												coordinator.UserAttributes.find(
 													(o) => o.Name === 'name'
@@ -115,7 +116,7 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</p>
+										</Link>
 									</li>
 								</React.Fragment>
 							))}
@@ -124,16 +125,20 @@ export default function LeagueCard({
 				<td className="px-6 py-3 text-center">{league.sport}</td>
 				<td className="flex gap-4 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
+          <button>
 					<IconEdit
 						onClick={(e) => editLeagueFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+          </button>
+          <button>
 					<IconTrash
 						onClick={(e) => deleteLeagueFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 

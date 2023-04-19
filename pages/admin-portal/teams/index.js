@@ -71,7 +71,7 @@ export default function ACPTeamsPage() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="w-full flex flex-col gap-6 p-8">
+			<main className="w-full h-screen flex flex-col gap-6 p-5">
 				<SearchBarInput
 					id={'team-search'}
 					placeholder={'Search'}

@@ -77,7 +77,7 @@ export default function ACPDivisionTable({
 
 	return (
 		<>
-			<div className="relative overflow-x-auto mx-auto px-4 w-full my-[1.3rem]">
+			<div className="relative overflow-x-auto mx-auto w-full my-[1.3rem]">
 				<table className="w-full text-sm text-left border border-gray-400">
 					<thead className="text-md text-black bg-white">
 						<tr>

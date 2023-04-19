@@ -92,21 +92,27 @@ export default function DivisionCard({
 				</td>
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">
 					<div className="flex-grow"></div>
+          <button>
 					<IconUsers
 						onClick={(e) => teamsUINavigate(e, division)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
+          </button>
+          <button>
 					<IconEdit
 						onClick={(e) => editDivisionFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+          </button>
+          <button>
 					<IconTrash
 						onClick={(e) => deleteDivisionFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 

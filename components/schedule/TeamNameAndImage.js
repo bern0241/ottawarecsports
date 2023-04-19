@@ -32,7 +32,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 	);
 	const getPicture = async () => {
 		if (!team?.team_picture)
-			return setProfileImage('/images/defaultProfilePic.jpeg');
+			return setProfileImage('/Logo.svg');
 		const url = await getImageFromS3(team?.team_picture);
 		setProfileImage(url);
 	};

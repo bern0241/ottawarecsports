@@ -40,7 +40,9 @@ const DivisionRow = ({ key, division }) => {
 			<td className="p-5 text-center">{convertLevelToFull(division?.level)}</td>
 			<td className="hidden md:table-cell p-5">{division?.abbreviation}</td>
 			<td className="p-5 flex justify-center text-center">
-				<CalendarIcon />
+        <button>
+				  <CalendarIcon />
+        </button>
 			</td>
 		</tr>
 	);

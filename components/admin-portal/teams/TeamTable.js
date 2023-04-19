@@ -21,7 +21,7 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 		<>
 			<div className="flex flex-col w-full h-auto bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 pr-2">
-					<h1 className="text-xl self-center">Teams</h1>
+          <h2 className="text-lg self-center">Teams</h2>
 					<CreateButton
 						label="Create Team"
 						state={createTeamModal}

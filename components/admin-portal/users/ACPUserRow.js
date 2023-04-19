@@ -84,6 +84,7 @@ export default function ACPUserRow({ user, index }) {
 				</td>
 				<td className="p-5">
 					<div className="flex">
+            <button>
 						<IconEdit
 							className="text-brand-blue-900 mr-3 cursor-pointer"
 							onClick={(e) => {
@@ -91,6 +92,7 @@ export default function ACPUserRow({ user, index }) {
 								setEditUserModal(true);
 							}}
 						/>
+            </button>
 						<ACPDEnableDisableUserSwitcher user={user} />
 					</div>
 				</td>
