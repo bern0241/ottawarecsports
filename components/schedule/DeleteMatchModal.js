@@ -11,7 +11,7 @@ import { API } from 'aws-amplify';
 import { deleteGameShort } from '@/src/graphql/custom-queries';
 import { useRouter } from 'next/router';
 
-export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
+export default function DeleteMatchModal({ match, openModal, setOpenModal, matches, setMatches }) {
 	const router = useRouter();
 
 	const deleteMatchFunc = async () => {
@@ -22,7 +22,12 @@ export default function DeleteMatchModal({ match, openModal, setOpenModal }) {
 					input: { id: match.id },
 				},
 			});
-			router.reload();
+			const array = matches.filter(
+				(item) => item.id !== match.id
+			);
+			setMatches(array);
+			setOpenModal(false);
+			// router.reload();
 		} catch (error) {
 			console.error(error);
 		}

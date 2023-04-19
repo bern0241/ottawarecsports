@@ -240,7 +240,7 @@ const NewTeamModal = ({ isVisible, setIsVisible, getTeamsData }) => {
 						{message && (
 							<p
 								id="standard_error_help"
-								className={`my-4 text-center text-sm ${
+								className={`my-2 text-center text-sm ${
 									message.status === 'success'
 										? 'text-green-600 dark:text-green-400'
 										: 'text-red-600 dark:text-red-400'

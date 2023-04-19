@@ -63,7 +63,7 @@ export default function SportDropdown({ sport, setSport, listLeaguesFunc }) {
 								Soccer
 							</p>
 						</li>
-						<li onClick={(e) => switchSport(e, 'Volleyball')}>
+						{/* <li onClick={(e) => switchSport(e, 'Volleyball')}>
 							<p className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
 								Volleyball
 							</p>
@@ -77,7 +77,7 @@ export default function SportDropdown({ sport, setSport, listLeaguesFunc }) {
 							<p className="cursor-pointer first-line:block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
 								Pickup-Sport
 							</p>
-						</li>
+						</li> */}
 					</ul>
 				</div>
 			)}

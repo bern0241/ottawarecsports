@@ -28,7 +28,7 @@ const MatchRow = ({
 		if (match.location) {
 			setLocationObject(JSON.parse(match.location));
 		}
-	}, []);
+	}, [match.location]);
 
 	const CalendarIcon = () => (
 		<svg width={14} height={17} fill="none" xmlns="http://www.w3.org/2000/svg">
