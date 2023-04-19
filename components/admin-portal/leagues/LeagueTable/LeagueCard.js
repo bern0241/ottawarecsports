@@ -15,6 +15,7 @@ import EditLeagueModal from '../../../common/sports/Leagues/EditLeagueModal';
 import DeleteLeagueModal from '../../../common/sports/Leagues/DeleteLeagueModal';
 import { useRouter } from 'next/router';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
+import Link from 'next/link';
 
 export default function LeagueCard({
 	league,
@@ -60,7 +61,11 @@ export default function LeagueCard({
 		});
 	}
 
-	const goToUserPage = (e, username) => {
+	const handleClick = (e) => {
+		e.stopPropagation();
+	};
+  
+  const goToUserPage = (e, username) => {
 		e.stopPropagation();
 		router.push(`/players/${username}`);
 	};
@@ -130,6 +135,7 @@ export default function LeagueCard({
 				<td className="px-6 py-3 text-center">{league.sport}</td>
 				<td className="flex gap-3 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
+          <button>
 					<IconEdit
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -141,6 +147,8 @@ export default function LeagueCard({
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+          </button>
+          <button>
 					<IconTrash
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -152,6 +160,7 @@ export default function LeagueCard({
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 

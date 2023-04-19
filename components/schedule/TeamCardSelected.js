@@ -38,7 +38,7 @@ export default function TeamCardSelected({ team }) {
 					width={132}
 					height={132}
 					className="w-[3rem] h-[3rem] rounded-md shadow-md border border-black"
-					src={`${teamImage ? teamImage : '/images/defaultProfilePic.jpeg'}`}
+					src={`${teamImage ? teamImage : '/Logo.svg'}`}
 				/>
 				{team && team.name}
 			</div>

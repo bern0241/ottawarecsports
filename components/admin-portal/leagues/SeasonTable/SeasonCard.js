@@ -92,6 +92,7 @@ export default function SeasonCard({
 				</td>
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
+          <button>
 					<IconListDetails
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -103,6 +104,8 @@ export default function SeasonCard({
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="people"
 					></IconListDetails>
+          </button>
+          <button>
 					<IconEdit
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -114,6 +117,8 @@ export default function SeasonCard({
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+          </button>
+          <button>
 					<IconTrash
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -125,6 +130,7 @@ export default function SeasonCard({
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 			{/* Delete modal - Meant for deleting seasons */}

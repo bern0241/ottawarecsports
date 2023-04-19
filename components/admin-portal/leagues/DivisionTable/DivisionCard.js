@@ -98,6 +98,7 @@ export default function DivisionCard({
 				</td>
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">
 					<div className="flex-grow"></div>
+          <button>
 					<IconUsers
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -109,6 +110,8 @@ export default function DivisionCard({
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
+          </button>
+          <button>
 					<IconEdit
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -120,6 +123,8 @@ export default function DivisionCard({
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+          </button>
+          <button>
 					<IconTrash
 						tabIndex='0'
 						onKeyDown={(e) => {
@@ -131,6 +136,7 @@ export default function DivisionCard({
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 

@@ -20,7 +20,7 @@ export default function Home() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="w-full grid grid-cols-4 grid-flow-row gap-4 p-8 pt-4">
+			<main className="w-full grid grid-cols-4 grid-flow-row gap-4 p-5 pt-4">
 				<Dashboard />
 			</main>
 		</>

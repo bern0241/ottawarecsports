@@ -127,6 +127,7 @@ export default function SeasonCard({
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
+            <button>
 							<IconEdit
 								onClick={(e) => editSeasonFunc(e)}
 								tabIndex="0"
@@ -142,6 +143,8 @@ export default function SeasonCard({
 								}}
 								name="create-outline"
 							></IconEdit>
+              </button>
+              <button>
 							<IconTrash
 								tabIndex="0"
 								onKeyDown={(e) => {
@@ -153,6 +156,7 @@ export default function SeasonCard({
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
+              </button>
 						</>
 					)}
 				</td>

@@ -68,7 +68,7 @@ export default function UserProfilePicture({
 					src={
 						profilePic
 							? URL.createObjectURL(profilePic)
-							: '/../public/images/image-placeholder.png'
+							: '/images/image-placeholder.png'
 					}
 					alt="user photo"
 				/>

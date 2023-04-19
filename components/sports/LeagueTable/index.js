@@ -71,7 +71,7 @@ export default function LeagueTable({
 
 	return (
 		<>
-			<div className="relative overflow-x-auto mx-auto px-4 w-full my-[1rem]">
+			<div className="relative overflow-x-auto mx-auto w-full my-[1rem]">
 				<div className="flex justify-between items-center py-3 px-5 border-l border-t border-r border-gray-400 pr-2 bg-white">
 					<h2 className="text-xl">League</h2>
 					{((authRoles && authRoles.includes('Admin')) ||
@@ -92,7 +92,7 @@ export default function LeagueTable({
 							>
 								Name
 							</th>
-							<th scope="col" className="font-light py-2 text-center w-[15rem]">
+							<th scope="col" className="font-light py-2 text-center">
 								<p className="hidden sm:contents">Coordinator (s)</p>
 							</th>
 							<th

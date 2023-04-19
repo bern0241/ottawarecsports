@@ -148,6 +148,8 @@ export default function LeagueCard({
 								}}
 								name="create-outline"
 							></IconEdit>
+              </button>
+              <button>
 							<IconTrash
 								 tabIndex='0'
 								 onKeyDown={(e) => {
@@ -159,6 +161,7 @@ export default function LeagueCard({
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"
 							></IconTrash>
+              </button>
 						</>
 					)}
 				</td>

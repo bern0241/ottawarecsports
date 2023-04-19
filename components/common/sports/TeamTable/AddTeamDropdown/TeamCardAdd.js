@@ -46,7 +46,7 @@ export default function TeamCardAdd({
 				width={132}
 				height={132}
 				className="w-[3rem] h-[3rem] rounded-full shadow-md border border-black"
-				src={`${teamImage ? teamImage : '/images/defaultProfilePic.jpeg'}`}
+				src={`${teamImage ? teamImage : '/Logo.svg'}`}
 			/>
 			<p className="text-sm">{team.name}</p>
 		</div>

@@ -12,6 +12,7 @@ import { IconTrash } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
+import Link from 'next/link';
 
 export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 	const [removeModal, setRemoveModal] = useState(false);
@@ -83,9 +84,8 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 		router.push(`/teams/${teamDivision.team.id}`);
 	};
 
-	const goToPlayerPage = (e, captain) => {
+	const handleClick = (e) => {
 		e.stopPropagation();
-		router.push(`/players/${captain.Username}`);
 	};
 
 	return (
@@ -105,7 +105,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 							height={132}
 							className="w-[3.4rem] h-[3.4rem] rounded-full shadow-md border border-black"
 							src={`${
-								teamImage ? teamImage : '/images/defaultProfilePic.jpeg'
+								teamImage ? teamImage : '/Logo.svg'
 							}`}
 						/>
 						<p>{teamDivision.team.name}</p>
@@ -115,9 +115,10 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 					{captains &&
 						captains.map((captain, index) => (
 							// <>
-							<p
+							<Link
+                href={`/players/${captain.Username}`}
 								className="cursor-pointer text-blue-500 underline text-center"
-								onClick={(e) => goToPlayerPage(e, captain)}
+								onClick={(e) => handleClick(e)}
 								key={index}
 							>
 								{captain.UserAttributes.find((o) => o.Name === 'name')['Value']}{' '}
@@ -126,11 +127,12 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 										'Value'
 									]
 								}
-							</p>
+							</Link>
 						))}
 				</td>
 				<td className="px-6 py-3 text-center text-lg">{membersCount}</td>
 				<td className="text-center">
+          <button>
 					<IconTrash
 						onClick={(e) => removeTeamFunc(e)}
 						style={{
@@ -143,6 +145,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						}}
 						name="trash-outline"
 					></IconTrash>
+          </button>
 				</td>
 			</tr>
 

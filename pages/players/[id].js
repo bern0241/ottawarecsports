@@ -153,7 +153,7 @@ export default function PlayerProfile() {
 						<div className="col-span-3 md:col-span-1 row-span-2 flex flex-col gap-4">
 							<img
 								src={`${
-									profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
+									profileImage ? profileImage : '/images/image-placeholder.png'
 								}`}
 								className="rounded-full self-center w-[200px] h-[200px] object-cover"
 								alt="Player profile image."

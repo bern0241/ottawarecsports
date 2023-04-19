@@ -120,6 +120,7 @@ export default function DivisionCard({
 
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
+          <button>
 					<IconCalendarDue
 						onClick={(e) => gameScheduleNavigate(e, division)}
 						tabIndex="0"
@@ -132,6 +133,8 @@ export default function DivisionCard({
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconCalendarDue>
+          </button>
+          <button>
 					<IconUsers
 						onClick={(e) => addTeamsUINavigate(e, division)}
 						tabIndex="0"
@@ -143,11 +146,13 @@ export default function DivisionCard({
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
+          </button>
 
 					{(isCoordinator ||
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
+            <button>
 							<IconEdit
 								onClick={(e) => editDivisionFunc(e)}
 								tabIndex="0"
@@ -163,6 +168,8 @@ export default function DivisionCard({
 								}}
 								name="create-outline"
 							></IconEdit>
+              </button>
+              <button>
 							<IconTrash
 								onClick={(e) => deleteDivisionFunc(e)}
 								tabIndex="0"
@@ -174,6 +181,7 @@ export default function DivisionCard({
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
+              </button>
 						</>
 					)}
 				</td>

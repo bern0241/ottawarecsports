@@ -204,7 +204,7 @@ export default function TeamProfile() {
 
 	const getPicture = async () => {
 		if (!team.team_picture)
-			return setProfileImage('http://via.placeholder.com/200x200');
+			return setProfileImage('/Logo.svg');
 		const url = await getImageFromS3(team.team_picture);
 		setProfileImage(url);
 	};

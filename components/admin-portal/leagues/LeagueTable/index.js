@@ -115,7 +115,7 @@ export default function ACPLeagueTable({
 
 	return (
 		<>
-			<div className="relative mx-auto px-4 w-full my-[1rem]">
+			<div className="relative mx-auto w-full my-[1rem]">
 				<SportDropdown sport={sport} setSport={setSport} />
 				<table className="w-full text-sm text-left border border-gray-400">
 					<thead className="text-md text-black bg-white">
