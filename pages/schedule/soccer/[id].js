@@ -51,6 +51,7 @@ export default function DivisionMatches() {
 	const [referees, setReferees] = useState([]);
 	const router = useRouter();
 	const { id } = useRouter();
+	const [successMessage, setSuccessMessage] = useState(false);
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 	const fetchReferees = async () => {
@@ -219,10 +220,10 @@ export default function DivisionMatches() {
 				<EditMatchModal
 					games={games}
 					match={matchToEdit}
-					makingNewGame={saveBatchGame}
-					isVisible={isEditingMatch}
 					setGames={setGames}
 					getGames={getGames}
+					makingNewGame={saveBatchGame}
+					isVisible={isEditingMatch}
 					setMakingNewGame={setSaveBatchGame}
 					generatedGames={generatedGames}
 					setGeneratedGames={setGeneratedGames}
@@ -232,6 +233,8 @@ export default function DivisionMatches() {
 			{isDeletingMatch && (
 				<DeleteMatchModal
 					match={matchToEdit}
+					matches={games}
+					setMatches={setGames}
 					openModal={isDeletingMatch}
 					setOpenModal={setIsDeletingMatch}
 				/>
@@ -254,6 +257,9 @@ export default function DivisionMatches() {
 					setIsVisible={setIsMakingBatch}
 				/>
 			)}
+			{/* {successMessage && (
+				<SuccessMessage title="Success!" message="Game has been created." setDisplay={setSuccessMessage}/>
+			)} */}
 		</>
 	);
 }

@@ -28,7 +28,7 @@ const ses = new AWS.SES();
 const lambda = new AWS.Lambda();
 const sns = new AWS.SNS();
 
-const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
+const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) => {
 	const { v4: uuidv4 } = require('uuid');
 
 	const [homeTeam, setHomeTeam] = useState();
@@ -235,6 +235,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				variables: { input: matchData },
 			});
 			setMessage({ status: 'success', message: 'Game created successfully' });
+			getGames();
 			setUiState('send-emails');
 		} catch (error) {
 			console.error(error);
@@ -327,7 +328,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 				console.log(err, err.stack);
 			} else {
 				console.log('Email sent successfully:', data);
-				router.reload();
+				setIsVisible(false);
+				// router.reload();
 			}
 		});
 	};
@@ -722,7 +724,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 								{message && (
 									<p
 										id="standard_error_help"
-										className={`mt-4 text-center text-sm ${
+										className={`my-2 text-center text-sm ${
 											message.status === 'success'
 												? 'text-green-600 dark:text-green-400'
 												: 'text-red-600 dark:text-red-400'
@@ -777,7 +779,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 									onClick={(e) => {
 										e.stopPropagation();
 										setOpenModal(false);
-										router.reload();
+										// router.reload();
 									}}
 									type="button"
 									className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
@@ -826,7 +828,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 										onClick={(e) => {
 											e.stopPropagation();
 											setIsVisible(false);
-											router.reload();
+											// router.reload();
 										}}
 										data-modal-hide="popup-modal"
 										type="button"
@@ -853,7 +855,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate }) => {
 					<div
 						onClick={(e) => {
 							setIsVisible(false);
-							router.reload();
+							// router.reload();
 						}}
 						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>

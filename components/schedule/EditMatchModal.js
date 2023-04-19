@@ -126,6 +126,7 @@ const EditMatchModal = ({
 	useEffect(() => {
 		if (listLocations) {
 			let parseLocation = JSON.parse(match.location);
+			console.log(parseLocation)
 			setMatchLocation(parseLocation);
 		}
 	}, [listLocations]);
@@ -323,11 +324,7 @@ const EditMatchModal = ({
 			setGames(newGames);
 			getGames();
 			setMakingNewGame(false);
-			const timer = setTimeout(() => {
-				// setIsVisible(false);
-				router.reload();
-			}, 0);
-			return () => clearTimeout(timer);
+			setIsVisible(false);
 		} catch (error) {
 			console.error(error);
 			setMessage({ status: 'error', message: error.message });
@@ -885,7 +882,7 @@ const EditMatchModal = ({
 								{message && (
 									<p
 										id="standard_error_help"
-										className={`mt-4 text-center text-sm ${
+										className={`my-2 text-center text-sm ${
 											message.status === 'success'
 												? 'text-green-600 dark:text-green-400'
 												: 'text-red-600 dark:text-red-400'
