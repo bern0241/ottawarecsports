@@ -39,12 +39,12 @@ export default function SettingPasswordField({
 				value={state}
 				onChange={(e) => setState(e.target.value)}
 			/>
-			<div
+			<button
 				onClick={(e) => showPasswordToggle(e)}
 				className="absolute right-[.5rem] top-[2.2rem] cursor-pointer"
 			>
 				{showPassword ? <IconEye size="32px" /> : <IconEyeOff size="32px" />}
-			</div>
+			</button>
 		</div>
 	);
 }

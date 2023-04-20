@@ -115,6 +115,7 @@ export default function NewLocation({ locations, setLocations }) {
 												Location name
 											</label>
 											<input
+												autoFocus
 												value={name}
 												onChange={(e) => setName(e.target.value)}
 												type="text"

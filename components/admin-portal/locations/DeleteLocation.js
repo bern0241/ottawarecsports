@@ -98,6 +98,7 @@ export default function DeleteLocation({
 								Yes, I'm sure
 							</button>
 							<button
+								autoFocus
 								onClick={() => setOpenModal(false)}
 								data-modal-hide="popup-modal"
 								type="button"
