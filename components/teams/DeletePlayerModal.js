@@ -10,7 +10,7 @@ import { API } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { deletePlayer, updateTeam } from '@/src/graphql/mutations';
 import { getTeam } from '@/src/graphql/queries';
-import { getTeamShort } from '@/src/graphql/custom-queries';
+import { getTeamShort, updateTeamShort } from '@/src/graphql/custom-queries';
 
 export default function DeletePlayerModal({
 	player,
@@ -81,7 +81,8 @@ export default function DeletePlayerModal({
 				captains: newCaptains,
 			};
 			const teamUpdated = await API.graphql({
-				query: updateTeam,
+				query: updateTeamShort,
+				// query: updateTeam,
 				variables: { input: data },
 			});
 			setOpenModal(false);

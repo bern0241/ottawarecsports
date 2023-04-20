@@ -23,7 +23,8 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 				<div className="flex justify-between py-3 px-5 border-b border-brand-neutral-300 pr-2">
           <h2 className="text-lg self-center">Teams</h2>
 					<CreateButton
-						label="Create Team"
+						autoFocus={true}
+						label="Create A Team"
 						state={createTeamModal}
 						setState={setCreateTeamModal}
 					/>
@@ -40,7 +41,7 @@ export default function TeamTable({ filterTeams, fetchTeams }) {
 							<th className="py-3 px-5 text-sm font-light sm:w-2/12 text-center">
 								Sport
 							</th>
-							<th className="py-3 pr-2 text-center text-sm font-light w-2/12 ">
+							<th className="py-3 pr-2 text-center text-sm font-light w-2/12 hidden sm:table-cell">
 								<div className="hidden sm:contents">Action</div>
 							</th>
 						</tr>
