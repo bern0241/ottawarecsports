@@ -200,7 +200,7 @@ export default function TeamProfile() {
 		}
 	};
 
-	//Function for gettin profile image.
+	// Function for getting profile image.
 
 	const getPicture = async () => {
 		if (!team.team_picture)
