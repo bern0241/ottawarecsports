@@ -120,47 +120,26 @@ export default function DivisionCard({
 
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
-          <button>
+          			<button onClick={(e) => gameScheduleNavigate(e, division)}>
 					<IconCalendarDue
-						onClick={(e) => gameScheduleNavigate(e, division)}
-						tabIndex="0"
-						onKeyDown={(e) => {
-							if (e.key === 'Enter') {
-								gameScheduleNavigate(e, division);
-							}
-						}}
 						data-tooltip-target="tooltip-default"
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconCalendarDue>
-          </button>
-          <button>
+					</button>
+					<button onClick={(e) => addTeamsUINavigate(e, division)}>
 					<IconUsers
-						onClick={(e) => addTeamsUINavigate(e, division)}
-						tabIndex="0"
-						onKeyDown={(e) => {
-							if (e.key === 'Enter') {
-								addTeamsUINavigate(e, division);
-							}
-						}}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
-          </button>
+          			</button>
 
 					{(isCoordinator ||
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
-            <button>
+            			<button onClick={(e) => editDivisionFunc(e)}>
 							<IconEdit
-								onClick={(e) => editDivisionFunc(e)}
-								tabIndex="0"
-								onKeyDown={(e) => {
-									if (e.key === 'Enter') {
-										editDivisionFunc(e);
-									}
-								}}
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -168,20 +147,13 @@ export default function DivisionCard({
 								}}
 								name="create-outline"
 							></IconEdit>
-              </button>
-              <button>
+						</button>
+						<button onClick={(e) => deleteDivisionFunc(e)}>
 							<IconTrash
-								onClick={(e) => deleteDivisionFunc(e)}
-								tabIndex="0"
-								onKeyDown={(e) => {
-									if (e.key === 'Enter') {
-										deleteDivisionFunc(e);
-									}
-								}}
-								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
+									style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
-              </button>
+              			</button>
 						</>
 					)}
 				</td>

@@ -132,15 +132,9 @@ export default function LeagueCard({
 						(authRoles && authRoles.includes('Owner'))) && (
 							<>
 							<div className="flex-grow"></div>
-							{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
+							
+							<button onClick={(e) => editLeagueFunc(e)}>
 							<IconEdit
-								tabIndex='0'
-								onKeyDown={(e) => {
-									if (e.key === 'Enter') {
-										editLeagueFunc(e);
-									}
-								}}
-								onClick={(e) => editLeagueFunc(e)}
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -148,17 +142,14 @@ export default function LeagueCard({
 								}}
 								name="create-outline"
 							></IconEdit>
+							</button>
+
+							<button onClick={(e) => deleteLeagueFunc(e)}>
 							<IconTrash
-								 tabIndex='0'
-								 onKeyDown={(e) => {
-									 if (e.key === 'Enter') {
-										deleteLeagueFunc(e);
-									 }
-								 }}
-								onClick={(e) => deleteLeagueFunc(e)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"
 							></IconTrash>
+							</button>
 						</>
 					)}
 				</td>
