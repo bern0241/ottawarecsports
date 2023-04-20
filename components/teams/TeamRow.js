@@ -66,7 +66,7 @@ export default function TeamRow({ team }) {
 			key={team.id}
 			tabIndex='0'
 			onKeyDown={(e) => {
-				if (e.key === 'Enter') {
+				if (e.key === ' ') {
 					navigateToProfile();
 				}
 			}}

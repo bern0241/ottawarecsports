@@ -79,41 +79,31 @@ export default function LocationsPage() {
 					locations.map((location, index) => (
 						<React.Fragment key={index}>
 							<div className="flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md">
+								<button onClick={(e) => editLocationClicked(e, location)}>
 								<IconEdit
-									tabIndex='0'
-									onKeyDown={(e) => {
-										if (e.key === 'Enter') {
-											editLocationClicked(e, location);
-										}
-									}}
-									onClick={(e) => editLocationClicked(e, location)}
 									style={{
 										position: 'absolute',
 										fontSize: '20px',
 										cursor: 'pointer',
-										transform: 'translate(-0px, -15px)',
+										transform: 'translate(-0px, 0px)',
 									}}
 									name="create-outline"
 								></IconEdit>
-								<IconTrash
-									tabIndex='0'
-									onKeyDown={(e) => {
-										if (e.key === 'Enter') {
-											deleteLocationClicked(e, location);
-										}
-									}}
-									onClick={(e) => {
+								</button>
+								<button onClick={(e) => {
 										deleteLocationClicked(e, location);
-									}}
+									}}>
+								<IconTrash
 									style={{
 										position: 'absolute',
 										fontSize: '20px',
 										cursor: 'pointer',
-										transform: 'translate(25px, -15px)',
+										transform: 'translate(25px, 0px)',
 										color: 'red',
 									}}
 									name="trash-outline"
 								></IconTrash>
+								</button>
 								<div>
 									<p tabIndex='0' className="text-lg">{location.name}</p>
 									<Link

@@ -68,7 +68,7 @@ export default function SeasonCard({
 			<tr
 				tabIndex='0'
 				onKeyDown={(e) => {
-					if (e.key === 'Enter') {
+					if (e.key === ' ') {
 						clickedSeason(e);
 					}
 				}}
@@ -92,45 +92,24 @@ export default function SeasonCard({
 				</td>
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
-          <button>
+          		<button onClick={(e) => goToSchedulePage(e)}>
 					<IconListDetails
-						tabIndex='0'
-						onKeyDown={(e) => {
-							if (e.key === 'Enter') {
-								goToSchedulePage(e);
-							}
-						}}
-						onClick={(e) => goToSchedulePage(e)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="people"
 					></IconListDetails>
-          </button>
-          <button>
+				</button>
+				<button onClick={(e) => editSeasonFunc(e)}>
 					<IconEdit
-						tabIndex='0'
-						onKeyDown={(e) => {
-							if (e.key === 'Enter') {
-								editSeasonFunc(e);
-							}
-						}}
-						onClick={(e) => editSeasonFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
-          </button>
-          <button>
+				</button>
+				<button onClick={(e) => deleteSeasonFunc(e)}>
 					<IconTrash
-						tabIndex='0'
-						onKeyDown={(e) => {
-							if (e.key === 'Enter') {
-								deleteSeasonFunc(e);
-							}
-						}}
-						onClick={(e) => deleteSeasonFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
 					></IconTrash>
-          </button>
+          		</button>
 				</td>
 			</tr>
 			{/* Delete modal - Meant for deleting seasons */}

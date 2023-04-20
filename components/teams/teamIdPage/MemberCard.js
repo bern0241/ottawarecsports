@@ -111,7 +111,7 @@ export default function MemberCard({
 						width={132}
 						height={132}
 						className="w-[3.3rem] h-[3.3rem] rounded-sm shadow-md object-cover border border-gray-700 border-[1px]"
-						src={`${userImage ? userImage : '/images/image-placeholder.png'}`}
+						src={`${userImage ? userImage : '/images/defaultProfilePic.jpeg'}`}
 						alt={`Profile image of ${userName}`}
 					/>
 				</div>

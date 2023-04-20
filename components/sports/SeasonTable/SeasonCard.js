@@ -83,7 +83,7 @@ export default function SeasonCard({
 				onClick={(e) => clickedSeason(e)}
 				tabIndex="0"
 				onKeyDown={(e) => {
-					if (e.key === 'Enter') {
+					if (e.key === ' ') {
 						clickedSeason(e);
 					}
 				}}

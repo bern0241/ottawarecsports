@@ -384,7 +384,7 @@ const TeamBatchSelect = ({
 									<div
 										tabIndex='0'
 										onKeyDown={(e) => {
-											if (e.key === 'Enter') {
+											if (e.key === ' ') {
 												setOpenRefDrop(!openRefDrop);
 											}
 										}}

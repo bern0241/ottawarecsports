@@ -94,7 +94,7 @@ export default function DivisionCard({
 				onClick={(e) => clickedDivision(e)}
 				tabIndex="0"
 				onKeyDown={(e) => {
-					if (e.key === 'Enter') {
+					if (e.key === ' ') {
 						clickedDivision(e);
 					}
 				}}

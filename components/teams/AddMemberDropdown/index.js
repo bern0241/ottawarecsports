@@ -142,15 +142,10 @@ export default function AddMemberDropdown({
 									{returnUserExists(user) ? (
 										<li key={index}></li>
 									) : (
-										<li
+										<button
 											key={index}
 											tabIndex='0'
-											onKeyDown={(e) => {
-												if (e.key === 'Enter') {
-													setUserFunc(e, user);
-												}
-											}}
-											className="cursor-pointer"
+											className="cursor-pointer w-full"
 											onClick={(e) => setUserFunc(e, user)}
 										>
 											<MemberCardAdd
@@ -160,7 +155,7 @@ export default function AddMemberDropdown({
 												setSelectedUsers={setSelectedUsers}
 												members={members}
 											/>
-										</li>
+										</button>
 									)}
 								</React.Fragment>
 							))}

@@ -92,22 +92,14 @@ export default function ACPUserRow({ user, index }) {
 				</td>
 				<td className="p-5">
 					<div className="flex">
-            <button>
-						<IconEdit
-							className="text-brand-blue-900 mr-3 cursor-pointer"
-							tabIndex='0'
-							onKeyDown={(e) => {
-								if (e.key === 'Enter') {
-									e.stopPropagation();
-									setEditUserModal(true);
-								}
-							}}
-							onClick={(e) => {
+            			<button onClick={(e) => {
 								e.stopPropagation();
 								setEditUserModal(true);
-							}}
+							}}>
+						<IconEdit
+							className="text-brand-blue-900 mr-3 cursor-pointer"
 						/>
-            </button>
+            			</button>
 						<ACPDEnableDisableUserSwitcher user={user} />
 					</div>
 				</td>
