@@ -53,16 +53,16 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 	};
 
 	return (
-		<span
-			className={`flex flex-col md:flex-row grow  items-center gap-3 justify-items-stretch`}
+		<button
+			onClick={(e) => {
+				goToTeamPage(e);
+			}}
+			className={`flex flex-col md:flex-row grow  text-left items-center gap-3 justify-items-stretch`}
 		>
 			{reverse === true ? (
 				<>
 					<span
-						onClick={(e) => {
-							goToTeamPage(e);
-						}}
-						className="w-[4.5rem] h-[4.5rem] rounded-full relative cursor-pointer"
+						className="w-[4.5rem] h-[4.5rem] text-left rounded-full relative cursor-pointer"
 					>
 						<img
 							style={{ objectFit: 'cover' }}
@@ -78,9 +78,6 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 						/>
 					</span>
 					<p
-						onClick={(e) => {
-							goToTeamPage(e);
-						}}
 						className="w-12 md:w-24 cursor-pointer"
 					>
 						{team?.name || 'SuperTeam'}
@@ -117,7 +114,7 @@ const TeamNameAndImage = ({ reverse, team, jerseyColour, generatedGames }) => {
 					</span>
 				</>
 			)}
-		</span>
+		</button>
 	);
 };
 

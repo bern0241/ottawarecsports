@@ -133,6 +133,7 @@ export default function ACPLeagueTable({
 									label="Create New League"
 									state={newLeagueModal}
 									setState={setNewLeagueModal}
+									autoFocus={true}
 								/>
 							</th>
 						</tr>

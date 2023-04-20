@@ -12,7 +12,7 @@ import React from 'react';
 import { IconShieldChevron, IconChevronRight } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
 
-const AdminPortalDropDown = ({ openDropdown, toggle }) => {
+const AdminPortalDropDown = ({ openDropdown, toggle, setMenu }) => {
 	const [user, setUser, authRoles] = useUser();
 
 	return (
@@ -49,24 +49,28 @@ const AdminPortalDropDown = ({ openDropdown, toggle }) => {
 								}`}
 							>
 								<Link
+									onFocus={(e) => setMenu('acp')}
 									href="/admin-portal/leagues"
 									className="my-1 hover:font-bold focus:font-bold"
 								>
 									Leagues
 								</Link>
 								<Link
+									onFocus={(e) => setMenu('acp')}
 									href="/admin-portal/users"
 									className="my-1 hover:font-bold focus:font-bold"
 								>
 									Users
 								</Link>
 								<Link
+									onFocus={(e) => setMenu('acp')}
 									href="/admin-portal/teams"
 									className="my-1 hover:font-bold focus:font-bold"
 								>
 									Teams
 								</Link>
 								<Link
+									onFocus={(e) => setMenu('acp')}
 									href="/admin-portal/locations"
 									className="my-1 hover:font-bold focus:font-bold"
 								>

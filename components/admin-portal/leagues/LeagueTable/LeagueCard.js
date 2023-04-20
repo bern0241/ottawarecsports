@@ -64,6 +64,11 @@ export default function LeagueCard({
 	const handleClick = (e) => {
 		e.stopPropagation();
 	};
+  
+  const goToUserPage = (e, username) => {
+		e.stopPropagation();
+		router.push(`/players/${username}`);
+	};
 
 	const clickedLeague = (e) => {
 		e.preventDefault();
@@ -83,6 +88,12 @@ export default function LeagueCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						clickedLeague(e)
+					}
+				}}
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -104,8 +115,7 @@ export default function LeagueCard({
 										key={index}
 										className="text-blue-700 text-sm underline py-[.2rem]"
 									>
-										<Link href={`/players/${coordinator.Username}`}
-                    onClick={(e) => handleClick(e)}>
+										<button className='underline' tabIndex='0' onClick={(e) => goToUserPage(e, coordinator.Username)}>
 											{
 												coordinator.UserAttributes.find(
 													(o) => o.Name === 'name'
@@ -116,29 +126,28 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</Link>
+										</button>
 									</li>
 								</React.Fragment>
 							))}
 					</ul>
 				</td>
 				<td className="px-6 py-3 text-center">{league.sport}</td>
-				<td className="flex gap-4 px-6 py-3 text-center justify-center">
+				<td className="flex gap-3 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
-          <button>
+          			<button onClick={(e) => editLeagueFunc(e)}>
 					<IconEdit
-						onClick={(e) => editLeagueFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
-          </button>
-          <button>
+					</button>
+					<button onClick={(e) => deleteLeagueFunc(e)}>
 					<IconTrash
 						onClick={(e) => deleteLeagueFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconTrash>
-          </button>
+					</button>
 				</td>
 			</tr>
 

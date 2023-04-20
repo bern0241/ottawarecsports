@@ -165,7 +165,8 @@ export default function DivisionMatches() {
 						<div className="flex flex-row-reverse gap-3">
 							<Button
 								pill={true}
-								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800
+								focus:ring-blue-500 focus:border-blue-500 focus:outline-4"
 								onClick={() => setModalVisible(!modalVisible)}
 							>
 								<IconCirclePlus className="mr-2 h-5 w-5" />
@@ -173,7 +174,8 @@ export default function DivisionMatches() {
 							</Button>
 							<Button
 								pill={true}
-								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800"
+								className="py-0.5 px-3 bg-blue-900 hover:bg-blue-800
+								focus:ring-blue-500 focus:border-blue-500 focus:outline-4"
 								onClick={() => setIsMakingBatch(!isMakingBatch)}
 							>
 								<IconCirclePlus className="mr-2 h-5 w-5" />

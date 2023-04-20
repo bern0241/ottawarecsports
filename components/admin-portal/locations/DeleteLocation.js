@@ -45,7 +45,7 @@ export default function DeleteLocation({
 				<div className="relative w-full h-full max-w-md md:h-auto">
 					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 						<button
-							onClick={(e) => setDeleteModal(false)}
+							onClick={(e) => setOpenModal(false)}
 							type="button"
 							className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
 							data-modal-hide="popup-modal"
@@ -98,6 +98,7 @@ export default function DeleteLocation({
 								Yes, I'm sure
 							</button>
 							<button
+								autoFocus
 								onClick={() => setOpenModal(false)}
 								data-modal-hide="popup-modal"
 								type="button"
