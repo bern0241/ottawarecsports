@@ -117,7 +117,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 							// <>
 							<Link
                 href={`/players/${captain.Username}`}
-								className="cursor-pointer text-blue-500 underline text-center"
+								className="cursor-pointer text-blue-500 underline block text-left"
 								onClick={(e) => handleClick(e)}
 								key={index}
 							>

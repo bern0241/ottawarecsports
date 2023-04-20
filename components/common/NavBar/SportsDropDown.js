@@ -15,7 +15,6 @@ const SportsDropDown = ({ openDropdown, toggle, setMenu }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
-				on
 				onClick={() => toggle('sports')}
 				className="px-5 py-2 flex flex-row ml-2 justify-between w-full"
 			>

@@ -96,7 +96,7 @@ export default function TeamSpotlight() {
 	return (
 		<>
 			{isVisible ? (
-				<div tabIndex={0} className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
+				<div tabIndex='0' className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
 					<img
 						src={`${
 							profileImage ? profileImage : '/Logo.svg'
