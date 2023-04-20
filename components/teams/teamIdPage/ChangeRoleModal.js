@@ -158,6 +158,7 @@ export default function ChangeRoleModal({
 									to <b>{newRole}</b>?
 								</h3>
 								<button
+									autoFocus
 									onClick={() => acceptNewRole()}
 									data-modal-hide="popup-modal"
 									type="button"

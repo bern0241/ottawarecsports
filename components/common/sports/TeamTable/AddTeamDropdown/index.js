@@ -85,7 +85,7 @@ export default function AddTeamDropdown({
 			{/* <!-- Dropdown menu --> */}
 			<div
 				id="dropdownSearch"
-				className="z-[300] bg-white rounded-lg mx-4 fixed border border-gray-200 max-w-[42rem] h-[35rem] shadow-md sm:right-5rem sm:right-[1rem] sm:top-[20rem] lg:right-[1rem] lg:top-[15rem] xl:right-[10rem]"
+				className="z-[300] bg-white rounded-lg mx-4 fixed border border-gray-200 max-w-[42rem] shadow-md sm:right-5rem sm:right-[1rem] sm:top-[20rem] lg:right-[1rem] lg:top-[15rem] xl:right-[10rem]"
 			>
 				<div className="p-3">
 					<label htmlFor="input-group-search" className="sr-only">
@@ -108,6 +108,7 @@ export default function AddTeamDropdown({
 							</svg>
 						</div>
 						<input
+							autoFocus
 							onKeyDown={(e) => {
 								if (e.key === 'Enter') {
 									setSearchClicked(e.target.value);
@@ -148,8 +149,8 @@ export default function AddTeamDropdown({
 											{/* <TeamCardAdd search={searchClicked} team={team} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} teamDivisions={teamDivisions} /> */}
 										</li>
 									) : (
-										<li
-											className="cursor-pointer"
+										<button
+											className="cursor-pointer block w-full"
 											onClick={(e) => setTeamFunc(e, team)}
 										>
 											<TeamCardAdd
@@ -159,7 +160,7 @@ export default function AddTeamDropdown({
 												setSelectedTeams={setSelectedTeams}
 												teamDivisions={teamDivisions}
 											/>
-										</li>
+										</button>
 									)}
 								</React.Fragment>
 							))}
@@ -175,7 +176,7 @@ export default function AddTeamDropdown({
 
 				<div className="flex flex-row justify-between items-center bg-gray-50 border-t dark:border-gray-600 ">
 					<a
-						href="/admin-portal/teams"
+						href="/teams"
 						className="flex items-center p-3 text-sm font-medium text-blue-600"
 					>
 						<svg

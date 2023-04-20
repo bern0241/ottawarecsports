@@ -135,6 +135,7 @@ export default function TeamTable() {
 										(authRoles && authRoles.includes('Admin')) ||
 										(authRoles && authRoles.includes('Owner'))) && (
 										<CreateButton
+											autoFocus={true}
 											label="Add Any Team"
 											state={addTeamModal}
 											setState={setAddTeamModal}
@@ -152,17 +153,20 @@ export default function TeamTable() {
 							>
 								Name
 							</th>
-							<th scope="col" className="font-light px-6 py-2 text-left">
+							<th scope="col" className="font-light px-6 py-2 text-center hidden sm:block">
 								Captain (s)
 							</th>
-							<th scope="col" className="font-light px-6 py-2 text-center">
+							<th scope="col" className="font-light px-3 py-2 text-center">
 								Members
 							</th>
 							<th
 								scope="col"
-								className="font-light py-2 border-r-[1px] text-center border-gray-400"
+								className="font-light py-2 text-center border-gray-400"
 							>
 								Remove
+							</th>
+							<th className='block sm:hidden'>
+
 							</th>
 						</tr>
 					</thead>

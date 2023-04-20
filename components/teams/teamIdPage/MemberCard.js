@@ -95,7 +95,7 @@ export default function MemberCard({
 
 	return (
 		<>
-			<div
+			<button
 				onClick={(e) => goToPlayerPage(e)}
 				className="flex flex-row justify-between w-full items-center cursor-pointer"
 			>
@@ -147,7 +147,7 @@ export default function MemberCard({
 						<IconX /> <p className="sr-only"> Button </p>
 					</button>
 				)}
-			</div>
+			</button>
 
 			{openDeleteModal && (
 				<DeletePlayerModal

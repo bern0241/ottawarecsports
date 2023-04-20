@@ -162,6 +162,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 											Team Name
 										</label>
 										<input
+											autoFocus
 											value={teamName}
 											onChange={(e) => setTeamName(e.target.value)}
 											type="text"

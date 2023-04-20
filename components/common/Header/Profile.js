@@ -59,12 +59,11 @@ const Profile = () => {
 						</p>
 					)}
 				</div>
-				<div>
-					<img
-						onClick={(e) => {
+				<button onClick={(e) => {
 							e.preventDefault();
 							setOpenDropdown(!openDropdown);
-						}}
+						}}>
+					<img
 						style={{ objectFit: 'cover' }}
 						width={132}
 						height={132}
@@ -79,7 +78,7 @@ const Profile = () => {
 						setOpenDropdown={setOpenDropdown}
 						setProfileImage={setProfileImage}
 					/>
-				</div>
+				</button>
 			</div>
 		</>
 	);
