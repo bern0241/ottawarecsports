@@ -30,6 +30,7 @@ export default function Teams() {
 	};
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
+		response.sort((a, b) => a.name.localeCompare(b.name)); //Sorts response alphabetically - overwrites array
 		setTeams(response);
 		filterTeams(response);
 	};
