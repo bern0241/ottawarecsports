@@ -51,7 +51,8 @@ export default function AdminPortal() {
 				console.log(err, err.stack);
 			} else {
 				setUsers(data.Users);
-				filterUsers(data.Users);
+				const sortedArray = data.Users.sort((a, b) => a.Attributes.find(o => o.Name === 'name')['Value'].localeCompare(b.Attributes.find(o => o.Name === 'name')['Value']))
+				filterUsers(sortedArray);
 			}
 		});
 	};
