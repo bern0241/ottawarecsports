@@ -91,6 +91,12 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						goToTeamPage(e);
+					}
+				}}
 				onClick={(e) => goToTeamPage(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -98,7 +104,6 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 					scope="row"
 					className="relative px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 				>
-					<div className="flex items-center gap-2 pr-20">
 					<div className="flex items-center gap-2 pr-20">
 						<img
 							style={{ objectFit: 'cover' }}
@@ -117,7 +122,10 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 							<Link
 								href={`/players/${captain.Username}`}
 								className="cursor-pointer text-blue-500 underline text-center"
-								onClick={(e) => handleClick(e)}
+								onClick={(e) => {
+									e.stopPropagation();
+									handleClick(e);
+								}}
 								key={index}
 							>
 								{captain.UserAttributes.find((o) => o.Name === 'name')['Value']}{' '}
