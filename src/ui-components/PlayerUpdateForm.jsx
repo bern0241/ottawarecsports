@@ -14,7 +14,7 @@ import { DataStore } from "aws-amplify";
 export default function PlayerUpdateForm(props) {
   const {
     id: idProp,
-    player,
+    player: playerModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -38,14 +38,16 @@ export default function PlayerUpdateForm(props) {
     setRole(cleanValues.role);
     setErrors({});
   };
-  const [playerRecord, setPlayerRecord] = React.useState(player);
+  const [playerRecord, setPlayerRecord] = React.useState(playerModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Player, idProp) : player;
+      const record = idProp
+        ? await DataStore.query(Player, idProp)
+        : playerModelProp;
       setPlayerRecord(record);
     };
     queryData();
-  }, [idProp, player]);
+  }, [idProp, playerModelProp]);
   React.useEffect(resetStateValues, [playerRecord]);
   const validations = {
     user_id: [],
@@ -186,7 +188,7 @@ export default function PlayerUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || player)}
+          isDisabled={!(idProp || playerModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -198,7 +200,7 @@ export default function PlayerUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || player) ||
+              !(idProp || playerModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

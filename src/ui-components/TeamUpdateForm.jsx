@@ -184,7 +184,7 @@ function ArrayField({
 export default function TeamUpdateForm(props) {
   const {
     id: idProp,
-    team,
+    team: teamModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -236,14 +236,16 @@ export default function TeamUpdateForm(props) {
     setSport(cleanValues.sport);
     setErrors({});
   };
-  const [teamRecord, setTeamRecord] = React.useState(team);
+  const [teamRecord, setTeamRecord] = React.useState(teamModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Team, idProp) : team;
+      const record = idProp
+        ? await DataStore.query(Team, idProp)
+        : teamModelProp;
       setTeamRecord(record);
     };
     queryData();
-  }, [idProp, team]);
+  }, [idProp, teamModelProp]);
   React.useEffect(resetStateValues, [teamRecord]);
   const [currentTeam_historyValue, setCurrentTeam_historyValue] =
     React.useState("");
@@ -656,7 +658,7 @@ export default function TeamUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || team)}
+          isDisabled={!(idProp || teamModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -668,7 +670,7 @@ export default function TeamUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || team) ||
+              !(idProp || teamModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
