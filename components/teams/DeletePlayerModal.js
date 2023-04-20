@@ -222,6 +222,7 @@ export default function DeletePlayerModal({
 									<b>1 Captain</b> per team!
 								</h3>
 								<button
+									autoFocus
 									onClick={(e) => {
 										e.stopPropagation();
 										setOpenModal(false);

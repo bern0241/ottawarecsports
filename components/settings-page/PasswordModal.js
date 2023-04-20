@@ -56,9 +56,9 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-[10rem] bottom-0 left-0 right-0 z-[150] p-4 max-w-[33rem] mx-auto w-full h-[26rem]"
+				className="fixed my-auto top-[10rem] left-0 right-0 z-[500] p-4 max-w-[33rem] mx-auto w-full"
 			>
-				<div className="relative w-full h-full">
+				<div className="relative w-full">
 					{/* <!-- Modal content --> */}
 					<div className="relative bg-white shadow dark:bg-gray-700 rounded-md">
 						{/* <!-- Modal header --> */}

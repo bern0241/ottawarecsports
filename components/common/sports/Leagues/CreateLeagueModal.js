@@ -152,7 +152,7 @@ export default function CreateLeagueModal({
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-10 sm:top-0 sm:bottom-0 left-0 right-0 z-[2000] p-4 max-w-[42rem] overflow-y-visible mx-auto w-full sm:overflow-visible overflow-y-hidden my-auto"
+				className="fixed top-10 top-0 left-0 right-0 z-[2000] p-4 max-w-[42rem] overflow-y-visible mx-auto w-full sm:overflow-visible overflow-y-hidden my-auto"
 			>
 				<div className="relative w-full h-full overflow-y-auto sm:overflow-y-visible">
 					{/* <!-- Modal content --> */}

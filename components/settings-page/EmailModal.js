@@ -68,7 +68,7 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-[10rem] left-0 right-0 z-[150] max-w-[33rem] mx-auto w-full h-[20rem]"
+				className="fixed my-auto top-[10rem] left-0 right-0 z-[500] max-w-[33rem] mx-auto w-full"
 			>
 				<div className="relative w-full h-full p-5">
 					{/* <!-- Modal content --> */}
