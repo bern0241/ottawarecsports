@@ -72,9 +72,17 @@ export default function AddMemberDropdown({
 		return founded;
 	};
 
+	// Search for a player on-click of "Search" button:
 	const searchClickedFunc = (e) => {
 		e.preventDefault();
 		setSearchClicked(search);
+	};
+
+	// Search for a player on press of "Enter" key:
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter') {
+			searchClickedFunc(e);
+		}
 	};
 
 	return (
@@ -107,6 +115,7 @@ export default function AddMemberDropdown({
 						<input
 							value={search}
 							onChange={(e) => setSearch(e.target.value)}
+							onKeyDown={handleKeyDown}
 							type="text"
 							id="input-group-search"
 							className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
