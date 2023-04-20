@@ -97,7 +97,7 @@ export default function ACPDivisionTable({
 							</th>
 							<th scope="col" className="font-medium px-6 py-4"></th>
 							<th scope="col" className="font-medium px-6 py-4"></th>
-							<th scope="col" className="font-medium px-6 py-4"></th>
+							<th scope="col" className="font-medium px-6 py-4 hidden sm:table-cell"></th>
 							<th className="absolute right-5 top-2">
 								<CreateButton
 									label="Create New Division"
@@ -119,7 +119,7 @@ export default function ACPDivisionTable({
 							<th scope="col" className="text-center font-light px-6 py-2">
 								Level
 							</th>
-							<th scope="col" className="text-center font-light px-6 py-2">
+							<th scope="col" className="text-center font-light px-6 py-2 hidden sm:table-cell">
 								Team Count
 							</th>
 							<th
@@ -166,7 +166,7 @@ export default function ACPDivisionTable({
                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
 							</th>
 							<td className="px-6 py-4"></td>
-							<td className="px-6 py-4"></td>
+							<td className="px-6 py-4 hidden sm:table-cell"></td>
 							<td className="flex gap-4 px-6 py-4 text-center"></td>
 						</tr>
 					</tbody>
