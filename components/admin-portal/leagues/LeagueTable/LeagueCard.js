@@ -64,6 +64,11 @@ export default function LeagueCard({
 	const handleClick = (e) => {
 		e.stopPropagation();
 	};
+  
+  const goToUserPage = (e, username) => {
+		e.stopPropagation();
+		router.push(`/players/${username}`);
+	};
 
 	const clickedLeague = (e) => {
 		e.preventDefault();
@@ -82,8 +87,13 @@ export default function LeagueCard({
 
 	return (
 		<>
-			<tr	
+			<tr
 				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						clickedLeague(e)
+					}
+				}}
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -124,22 +134,21 @@ export default function LeagueCard({
 					</ul>
 				</td>
 				<td className="px-6 py-3 text-center">{league.sport}</td>
-				<td className="flex gap-4 px-6 py-3 text-center justify-center">
+				<td className="flex gap-3 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
-          <button>
+          			<button onClick={(e) => editLeagueFunc(e)}>
 					<IconEdit
-						onClick={(e) => editLeagueFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
-          </button>
-          <button>
+					</button>
+					<button onClick={(e) => deleteLeagueFunc(e)}>
 					<IconTrash
 						onClick={(e) => deleteLeagueFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconTrash>
-          </button>
+					</button>
 				</td>
 			</tr>
 

@@ -10,7 +10,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { IconUsers, IconChevronRight } from '@tabler/icons-react';
-const RostersDropDown = ({ openDropdown, toggle }) => {
+const RostersDropDown = ({ openDropdown, toggle, setMenu }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
@@ -41,12 +41,16 @@ const RostersDropDown = ({ openDropdown, toggle }) => {
 					}`}
 				>
 					<Link
+						onFocus={(e) => setMenu('rosters')}
 						href="/players"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Players
 					</Link>
-					<Link href="/teams" className="my-1 hover:font-bold focus:font-bold">
+					<Link
+						onFocus={(e) => setMenu('rosters')} 
+						href="/teams" 
+						className="my-1 hover:font-bold focus:font-bold">
 						Teams
 					</Link>
 				</div>

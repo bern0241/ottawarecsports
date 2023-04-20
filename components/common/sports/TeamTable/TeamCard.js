@@ -92,6 +92,11 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 		<>
 			<tr
 				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						goToTeamPage(e);
+					}
+				}}
 				onClick={(e) => goToTeamPage(e)}
 				onKeyDown={(e) => {
 					if (e.key === ' ') {

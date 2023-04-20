@@ -127,13 +127,14 @@ export default function LeagueCard({
 							))}
 					</ul>
 				</td>
-				<td className="flex gap-2 py-3 justify-center pr-5">
-					<div className="flex-grow"></div>
+				<td className="flex gap-3 py-3 justify-center items-center pr-5 ">
 					{((authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
-						<>
+							<>
+							<div className="flex-grow"></div>
+							
 							<button onClick={(e) => editLeagueFunc(e)}>
-              				<IconEdit
+							<IconEdit
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -147,7 +148,7 @@ export default function LeagueCard({
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"
 							></IconTrash>
-              </button>
+							</button>
 						</>
 					)}
 				</td>

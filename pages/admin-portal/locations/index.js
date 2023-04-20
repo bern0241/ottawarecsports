@@ -16,9 +16,6 @@ import { API } from 'aws-amplify';
 import { useUser } from '@/context/userContext';
 import Link from 'next/link';
 //Components
-import SuccessMessage from '@/components/common/SuccessMessage';
-import ACPUserRow from '@/components/admin-portal/users/ACPUserRow';
-import ACPNewUserModal from '@/components/admin-portal/users/ACPNewUserModal';
 import ACPSearchUserBar from '@/components/admin-portal/users/ACPSearchUserBar';
 import NewLocation from '@/components/admin-portal/locations/NewLocation';
 import EditLocation from '@/components/admin-portal/locations/EditLocation';
@@ -82,6 +79,7 @@ export default function LocationsPage() {
 					locations.map((location, index) => (
 						<React.Fragment key={index}>
 							<div className="flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md">
+<<<<<<< HEAD
                 <button onClick={(e) => editLocationClicked(e, location)} className="absolute translate-y-[-15px]">
                   <IconEdit
                     style={{
@@ -103,8 +101,31 @@ export default function LocationsPage() {
                     name="trash-outline"
                   ></IconTrash>
                 </button>
+=======
+								<button className='absolute translate-x-[0px] translate-y-[-14px]' onClick={(e) => editLocationClicked(e, location)}>
+								<IconEdit
+									style={{
+										fontSize: '20px',
+										cursor: 'pointer',
+									}}
+									name="create-outline"
+								></IconEdit>
+								</button>
+								<button className='absolute translate-x-[25px] translate-y-[-14px]' onClick={(e) => {
+										deleteLocationClicked(e, location);
+									}}>
+								<IconTrash
+									style={{
+										fontSize: '20px',
+										cursor: 'pointer',
+										color: 'red',
+									}}
+									name="trash-outline"
+								></IconTrash>
+								</button>
+>>>>>>> 1f201865765626be5b7b1de0492ba8288281cb30
 								<div>
-									<p className="text-lg">{location.name}</p>
+									<p tabIndex='0' className="text-lg">{location.name}</p>
 									<Link
 										style={{
 											fontSize: '0.9rem',

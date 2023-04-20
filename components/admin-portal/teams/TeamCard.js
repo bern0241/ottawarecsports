@@ -97,6 +97,12 @@ export default function TeamCard({ team, fetchTeams, filterTeams }) {
 		<>
 			<tr
 				key={team.id}
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						goToTeamPage(e);
+					}
+				}}
 				className="border-b border-brand-neutral-300 cursor-pointer"
 				onClick={(e) => goToTeamPage(e)}
 			>
@@ -145,13 +151,12 @@ export default function TeamCard({ team, fetchTeams, filterTeams }) {
 				</td>
 				<td className="text-center px-6 py-3">{sport}</td>
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">
-          <button className="align-middle pt-5">
-            <IconEdit
-              onClick={(e) => editTeamFunc(e)}
-              style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
-              name="trash-outline"
-            ></IconEdit>
-          </button>
+					<button onClick={(e) => editTeamFunc(e)}>
+					<IconEdit
+						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
+						name="trash-outline"
+					></IconEdit>
+					</button>
 				</td>
 			</tr>
 			{deleteModal && (

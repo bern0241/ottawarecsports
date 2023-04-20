@@ -138,7 +138,7 @@ export default function DivisionCard({
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
-           			 <button onClick={(e) => editDivisionFunc(e)}>
+            			<button onClick={(e) => editDivisionFunc(e)}>
 							<IconEdit
 								style={{
 									color: 'darkblue',

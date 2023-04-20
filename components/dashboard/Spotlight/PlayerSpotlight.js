@@ -148,14 +148,14 @@ export default function PlayerSpotlight() {
 	return (
 		<>
 			{isVisible ? (
-				<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
+				<div tabIndex='0' className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
 					<img
 						src={`${
 							profileImage ? profileImage : '/images/image-placeholder.png'
 						}`}
 						width="100"
 						height="100"
-						className="object-cover rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
+						className="object-cover rounded-full self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px]"
 						alt="Spotlight player profile picture"
 					/>
 					<div>

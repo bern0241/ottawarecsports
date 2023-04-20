@@ -81,6 +81,7 @@ export default function LeagueTable({
 							label="Create New League"
 							state={newLeagueModal}
 							setState={setNewLeagueModal}
+							autoFocus={true}
 						/>
 					)}
 				</div>

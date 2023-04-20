@@ -112,8 +112,8 @@ export default function CoordinatorDropdown({
 							.map((user, index) => (
 								<React.Fragment key={index}>
 									{user && user.Groups.includes('Coordinator') && (
-										<button
-											className="cursor-pointer w-full"
+										<button	
+															className="cursor-pointer w-full"
 											onClick={(e) => addCoordinator(e, user)}
 										>
 											<UserCard searchUser={searchUser} user={user} />

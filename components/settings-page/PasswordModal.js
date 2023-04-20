@@ -71,6 +71,7 @@ export default function PasswordModal({ passwordModal, setPasswordModal }) {
 						<div className="p-6 space-y-6">
 							<div className="flex flex-col gap-5">
 								<SettingPasswordField
+									autoFocus={true}
 									id="oldPassword"
 									placeholder="Old Password"
 									className="h-[40px] w-full"

@@ -47,7 +47,7 @@ export default function ProfileDropdown({
 
 					<div
 						id="dropdownAvatar"
-						className="border-gray-300 border-[1px] z-20 fixed top-[4.5rem] right-0 bg-white divide-y divide-gray-300 rounded-lg shadow-form dark:bg-gray-700 dark:divide-gray-600"
+						className="border-gray-300 border-[1px] z-20 fixed top-[4.5rem] right-0 bg-white divide-y text-left divide-gray-300 rounded-lg shadow-form dark:bg-gray-700 dark:divide-gray-600"
 					>
 						<div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
 							{!user && <div>Please sign in</div>}

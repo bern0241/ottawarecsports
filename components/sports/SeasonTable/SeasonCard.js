@@ -122,7 +122,7 @@ export default function SeasonCard({
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
-           	 			<button onClick={(e) => editSeasonFunc(e)}>
+            			<button onClick={(e) => editSeasonFunc(e)}>
 							<IconEdit
 								style={{
 									color: 'darkblue',

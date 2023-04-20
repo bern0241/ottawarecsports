@@ -90,6 +90,7 @@ export default function EmailModal({ emailModal, setEmailModal }) {
 												<Label htmlFor="email" value="New Email" />
 											</div>
 											<TextInput
+												autoFocus
 												id="newEmail"
 												type="email"
 												placeholder=""

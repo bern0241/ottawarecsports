@@ -66,7 +66,7 @@ export default function DobDatePicker({ state, setState }) {
 	};
 
 	return (
-		<div className="">
+		<div tabIndex='0' className="">
 			<DatePicker
 				classNames=""
 				options={options}

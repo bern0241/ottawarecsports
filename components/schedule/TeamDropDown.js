@@ -90,12 +90,12 @@ export default function TeamDropDown({ state, setState, setOpenDropDown }) {
 							})
 							.map((team, index) => (
 								<React.Fragment key={index}>
-									<li
-										className="cursor-pointer"
+									<button
 										onClick={(e) => setTeamFunc(e, team)}
+										className="cursor-pointer w-full"
 									>
 										<TeamCard search={search} team={team} />
-									</li>
+									</button>
 								</React.Fragment>
 							))}
 					{teams.length === 0 && (

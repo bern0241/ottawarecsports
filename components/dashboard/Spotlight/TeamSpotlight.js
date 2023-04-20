@@ -50,8 +50,7 @@ export default function TeamSpotlight() {
 
 	// Fetch team profile picture from storage:
 	const getPicture = async () => {
-		if (!spotlightTeam || !spotlightTeam.team_picture)
-			return setProfileImage('http://via.placeholder.com/60x60');
+		if (!spotlightTeam || !spotlightTeam.team_picture) return setProfileImage('/images/ORS-Logo.png');
 		const url = await getImageFromS3(spotlightTeam.team_picture);
 		setProfileImage(url);
 	};
@@ -96,14 +95,12 @@ export default function TeamSpotlight() {
 	return (
 		<>
 			{isVisible ? (
-				<div className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
+				<div tabIndex='0' className="flex flex-row lg:flex-col col-span-1 items-center justify-start lg:justify-center border-b lg:border-b-0 lg:border-r border-brand-neutral-300 p-8 gap-4 lg:gap-2">
 					<img
-						src={`${
-							profileImage ? profileImage : '/Logo.svg'
-						}`}
+						src={profileImage}
 						width="100"
 						height="100"
-						className="rounded-full bg-red-500 self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px] object-cover"
+						className="rounded-full self-center mr-3 lg:mr-0 lg:mb-3 w-[100px] h-[100px] object-cover"
 						alt="Spotlight team profile picture"
 					/>
 					<div>

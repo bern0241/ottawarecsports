@@ -41,7 +41,7 @@ export default function DivisionCard({
 	const clickedDivision = (e) => {
 		e.preventDefault();
 		setSelectedDivision(division);
-		teamsUINavigate(e, division);
+		// teamsUINavigate(e, division);
 	};
 	// Open edit modal
 	const editDivisionFunc = (e) => {
@@ -70,7 +70,13 @@ export default function DivisionCard({
 
 	return (
 		<>
-			<tr
+			<tr	
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						clickedDivision(e);
+					}
+				}}
 				onClick={(e) => clickedDivision(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -92,27 +98,24 @@ export default function DivisionCard({
 				</td>
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">
 					<div className="flex-grow"></div>
-          <button>
+          		<button onClick={(e) => teamsUINavigate(e, division)}>
 					<IconUsers
-						onClick={(e) => teamsUINavigate(e, division)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
-          </button>
-          <button>
+				</button>
+				<button onClick={(e) => editDivisionFunc(e)}>
 					<IconEdit
-						onClick={(e) => editDivisionFunc(e)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
-          </button>
-          <button>
+				</button>
+				<button onClick={(e) => deleteDivisionFunc(e)}>
 					<IconTrash
-						onClick={(e) => deleteDivisionFunc(e)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
 					></IconTrash>
-          </button>
+          		</button>
 				</td>
 			</tr>
 

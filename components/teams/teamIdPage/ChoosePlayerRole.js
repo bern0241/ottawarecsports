@@ -21,6 +21,14 @@ export default function ChoosePlayerRole({
 	return (
 		<div>
 			<button
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						clickStopPropagationFunc(e);
+						e.stopPropagation();
+						e.preventDefault();
+						setOpen(!open);
+					}
+				}}
 				onClick={(e) => {
 					clickStopPropagationFunc(e);
 					e.stopPropagation();

@@ -24,23 +24,23 @@ export default function UpcomingGames() {
 					<span className="font-light text-sm">View All</span>
 				</div>
 				<div className="grid grid-cols-1 lg:grid-cols-2 min-h-[300px]">
-					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 lg:border-r border-b border-brand-neutral-300">
+					<div tabIndex='0' className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 lg:border-r border-b border-brand-neutral-300">
 						<img src="/images/volleyball.png" alt="volleyball" />
 						<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
 							<span className="font-light text-sm">No matches.</span>
 						</div>
 					</div>
-					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 border-b border-brand-neutral-300">
+					<div tabIndex='0' className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 border-b border-brand-neutral-300">
 						<img src="/images/soccerball.png" alt="soccer" />
 						<Games />
 					</div>
-					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 border-b lg:border-b-0 lg:border-r border-brand-neutral-300">
+					<div tabIndex='0' className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8 border-b lg:border-b-0 lg:border-r border-brand-neutral-300">
 						<img src="/images/pick-up_sport.png" alt="pick-up-sports" />
 						<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
 							<span className="font-light text-sm">No matches.</span>
 						</div>
 					</div>
-					<div className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8">
+					<div tabIndex='0' className="flex items-center gap-8 col-span-2 lg:col-span-1 p-8">
 						<img src="/images/handball.png" alt="multi-sports" />
 						<div className="flex flex-col xl:flex-row justify-between xl:gap-3">
 							<span className="font-light text-sm">No matches.</span>
