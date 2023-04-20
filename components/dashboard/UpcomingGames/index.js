@@ -13,7 +13,8 @@ import Games from './Games';
 
 export default function UpcomingGames() {
 	return (
-		<section
+		<section autoFocus
+			tabIndex='0'
 			id="upcoming-games"
 			className="col-span-4 lg:col-span-2 row-span-2"
 		>

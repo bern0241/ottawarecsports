@@ -199,6 +199,7 @@ export default function EditSeasonModal({
 									Season Name *
 								</label>
 								<input
+									autoFocus
 									value={seasonName}
 									onChange={(e) => setSeasonName(e.target.value)}
 									type="text"

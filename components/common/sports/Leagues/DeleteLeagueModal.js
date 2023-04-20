@@ -215,6 +215,7 @@ export default function DeleteLeagueModal({
 									Yes, I'm sure
 								</button>
 								<button
+									autoFocus
 									onClick={() => setDeleteModal(false)}
 									data-modal-hide="popup-modal"
 									type="button"

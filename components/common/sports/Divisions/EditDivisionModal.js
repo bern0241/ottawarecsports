@@ -110,6 +110,7 @@ export default function EditDivisionModal({
 									Division Name *
 								</label>
 								<input
+									autoFocus
 									value={divisionName}
 									onChange={(e) => setDivisionName(e.target.value)}
 									type="text"

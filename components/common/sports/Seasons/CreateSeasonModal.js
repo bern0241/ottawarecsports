@@ -203,6 +203,7 @@ export default function CreateSeasonModal({
 									Season Name *
 								</label>
 								<input
+									autoFocus
 									value={seasonName}
 									onChange={(e) => setSeasonName(e.target.value)}
 									type="text"

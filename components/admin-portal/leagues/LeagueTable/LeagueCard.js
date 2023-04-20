@@ -82,7 +82,8 @@ export default function LeagueCard({
 
 	return (
 		<>
-			<tr
+			<tr	
+				tabIndex='0'
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -105,7 +106,7 @@ export default function LeagueCard({
 										className="text-blue-700 text-sm underline py-[.2rem]"
 									>
 										<Link href={`/players/${coordinator.Username}`}
-                    onClick={(e) => handleClick(e)}>
+                   						onClick={(e) => handleClick(e)}>
 											{
 												coordinator.UserAttributes.find(
 													(o) => o.Name === 'name'

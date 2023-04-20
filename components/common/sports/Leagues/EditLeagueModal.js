@@ -232,6 +232,7 @@ export default function EditLeagueModal({
 									League Name *
 								</label>
 								<input
+									autoFocus
 									value={leagueName}
 									onChange={(e) => setLeagueName(e.target.value)}
 									type="text"
@@ -240,13 +241,13 @@ export default function EditLeagueModal({
 								/>
 							</div>
 
-							<div
-								className="relative cursor-pointer"
+							<button
+								className="relative cursor-pointer w-full"
 								onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}
 							>
 								<label
 									htmlFor="name"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Coordinator
 								</label>
@@ -275,7 +276,7 @@ export default function EditLeagueModal({
 											</React.Fragment>
 										))}
 								</div>
-							</div>
+							</button>
 							{openCoordinatorDrop && (
 								<>
 									<CoordinatorDropdown

@@ -13,6 +13,7 @@ import DeleteLeagueModal from '@/components/common/sports/Leagues/DeleteLeagueMo
 import { useRouter } from 'next/router';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
+import Link from 'next/link';
 
 export default function LeagueCard({
 	league,
@@ -60,10 +61,10 @@ export default function LeagueCard({
 		});
 	}
 
-	const goToUserPage = (e, username) => {
-		e.stopPropagation();
-		router.push(`/players/${username}`);
-	};
+	// const goToUserPage = (e, username) => {
+	// 	e.stopPropagation();
+	// 	router.push(`/players/${username}`);
+	// };
 
 	const clickedLeague = (e) => {
 		e.preventDefault();
@@ -83,6 +84,12 @@ export default function LeagueCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						clickedLeague(e);
+					}
+				}}
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -100,10 +107,10 @@ export default function LeagueCard({
 						{users &&
 							users.map((coordinator, index) => (
 								<React.Fragment key={index}>
-									<li className="text-blue-700 text-sm underline py-[.2rem]">
-										<p
-											className="no-underline"
-											onClick={(e) => goToUserPage(e, coordinator.Username)}
+										<Link
+											className="underline text-blue-700 py-[.2rem] block"
+											// onClick={(e) => goToUserPage(e, coordinator.Username)}
+											href={`/players/${coordinator.Username}`}
 										>
 											{
 												coordinator.UserAttributes.find(
@@ -115,8 +122,7 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</p>
-									</li>
+										</Link>
 								</React.Fragment>
 							))}
 					</ul>
@@ -126,10 +132,8 @@ export default function LeagueCard({
 					{((authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
-							{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
-							<button>
-              <IconEdit
-								onClick={(e) => editLeagueFunc(e)}
+							<button onClick={(e) => editLeagueFunc(e)}>
+              				<IconEdit
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -137,10 +141,9 @@ export default function LeagueCard({
 								}}
 								name="create-outline"
 							></IconEdit>
-              </button>
-              <button>
+							</button>
+							<button onClick={(e) => deleteLeagueFunc(e)}>
 							<IconTrash
-								onClick={(e) => deleteLeagueFunc(e)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"
 							></IconTrash>
