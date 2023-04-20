@@ -143,6 +143,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 										Yes, I'm sure
 									</button>
 									<button
+										autoFocus
 										aria-label="Cancel"
 										onClick={() => setOpenModal(false)}
 										data-modal-hide="popup-modal"
@@ -220,6 +221,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 										Yes, I'm sure
 									</button>
 									<button
+										autoFocus
 										onClick={() => setOpenModal(false)}
 										data-modal-hide="popup-modal"
 										type="button"
