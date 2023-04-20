@@ -158,6 +158,7 @@ export default function ChangeRoleModal({
 									to <b>{newRole}</b>?
 								</h3>
 								<button
+									autoFocus
 									onClick={() => acceptNewRole()}
 									data-modal-hide="popup-modal"
 									type="button"
@@ -234,6 +235,7 @@ export default function ChangeRoleModal({
 									<b>1 Captain</b> per team!
 								</h3>
 								<button
+									autoFocus
 									onClick={(e) => {
 										e.stopPropagation();
 										setOpenModal(false);

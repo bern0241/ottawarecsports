@@ -87,7 +87,7 @@ export default function TeamRow({ team }) {
 				</div>
 			</td>
 			<td className="p-5 mx-auto">
-				<ul className="">
+				<ul className="text-center">
 					{captains &&
 						captains.map((captain, index) => (
 							<li key={index}>
@@ -112,9 +112,9 @@ export default function TeamRow({ team }) {
 						))}
 				</ul>
 			</td>
-			<td className="p-3 text-center">{team.sports || 'Soccer'}</td>
-			<td className="p-3 mx-auto text-center">
-				<div className="hidden sm:contents align-middle">
+			<td className="p-3 text-center pr-4">{team.sports || 'Soccer'}</td>
+			<td className="p-3 mx-auto text-center hidden sm:table-cell">
+				<div className="align-middle">
 					<p className="text-base">{team ? team.Players.items.length : 0}</p>
 				</div>
 			</td>

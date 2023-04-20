@@ -31,6 +31,7 @@ export default function Players() {
 				console.log(err, err.stack);
 			} else {
 				setPlayers(data.Users);
+				data.Users.sort((a, b) => a.Attributes.find(o => o.Name === 'name')['Value'].localeCompare(b.Attributes.find(o => o.Name === 'name')['Value'])); //Sorts response alphabetically - overwrites array
 				filterPlayers(data.Users);
 			}
 		});

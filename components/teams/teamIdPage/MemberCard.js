@@ -95,13 +95,7 @@ export default function MemberCard({
 
 	return (
 		<>
-			<div
-				tabIndex='0'
-				onKeyDown={(e) => {
-					if (e.key === 'Enter') {
-						goToPlayerPage(e);
-					}
-				}}
+			<button
 				onClick={(e) => goToPlayerPage(e)}
 				className="flex flex-row justify-between w-full items-center cursor-pointer"
 			>
@@ -159,7 +153,7 @@ export default function MemberCard({
 						<IconX /> <p className="sr-only"> Button </p>
 					</button>
 				)}
-			</div>
+			</button>
 
 			{openDeleteModal && (
 				<DeletePlayerModal

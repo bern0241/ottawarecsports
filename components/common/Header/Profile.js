@@ -59,8 +59,7 @@ const Profile = () => {
 						</p>
 					)}
 				</div>
-				<div>
-					<button onClick={(e) => {
+				<button onClick={(e) => {
 							e.preventDefault();
 							setOpenDropdown(!openDropdown);
 						}}>
@@ -80,7 +79,6 @@ const Profile = () => {
 						setOpenDropdown={setOpenDropdown}
 						setProfileImage={setProfileImage}
 					/>
-				</div>
 			</div>
 		</>
 	);

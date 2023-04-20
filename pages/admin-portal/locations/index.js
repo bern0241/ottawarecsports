@@ -79,27 +79,27 @@ export default function LocationsPage() {
 					locations.map((location, index) => (
 						<React.Fragment key={index}>
 							<div className="flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md">
-								<button className='absolute translate-x-[0px] translate-y-[-14px]' onClick={(e) => editLocationClicked(e, location)}>
-								<IconEdit
-									style={{
-										fontSize: '20px',
-										cursor: 'pointer',
-									}}
-									name="create-outline"
-								></IconEdit>
-								</button>
-								<button className='absolute translate-x-[25px] translate-y-[-14px]' onClick={(e) => {
-										deleteLocationClicked(e, location);
-									}}>
-								<IconTrash
-									style={{
-										fontSize: '20px',
-										cursor: 'pointer',
-										color: 'red',
-									}}
-									name="trash-outline"
-								></IconTrash>
-								</button>
+                <button onClick={(e) => editLocationClicked(e, location)} className="absolute translate-y-[-15px]">
+                  <IconEdit
+                    style={{
+                      fontSize: '20px',
+                      cursor: 'pointer',
+                    }}
+                    name="create-outline"
+                  ></IconEdit>
+                </button>
+                <button onClick={(e) => {
+                      deleteLocationClicked(e, location);
+                    }} className='absolute translate-x-[25px] translate-y-[-15px]'>
+                  <IconTrash
+                    style={{
+                      fontSize: '20px',
+                      cursor: 'pointer',
+                      color: 'red',
+                    }}
+                    name="trash-outline"
+                  ></IconTrash>
+                </button>
 								<div>
 									<p tabIndex='0' className="text-lg">{location.name}</p>
 									<Link

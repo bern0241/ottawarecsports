@@ -15,6 +15,7 @@ export default function SettingPasswordField({
 	placeholder,
 	className,
 	state = '',
+	autoFocus=false,
 	setState = () => {},
 }) {
 	const [showPassword, setShowPassword] = useState(false);
@@ -30,6 +31,7 @@ export default function SettingPasswordField({
 				<Label htmlFor={id} value={placeholder} />
 			</div>
 			<TextInput
+				autoFocus={autoFocus}
 				type={showPassword ? 'text' : 'password'}
 				name="password"
 				id={id}

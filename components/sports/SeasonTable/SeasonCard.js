@@ -80,8 +80,8 @@ export default function SeasonCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
 				onClick={(e) => clickedSeason(e)}
-				tabIndex="0"
 				onKeyDown={(e) => {
 					if (e.key === ' ') {
 						clickedSeason(e);
@@ -131,10 +131,9 @@ export default function SeasonCard({
 								}}
 								name="create-outline"
 							></IconEdit>
-						</button>
-						<button onClick={(e) => deleteSeasonFunc(e)}>
+              			</button>
+              			<button onClick={(e) => deleteSeasonFunc(e)}>
 							<IconTrash
-								onClick={(e) => deleteSeasonFunc(e)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>

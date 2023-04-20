@@ -96,6 +96,7 @@ export default function RemoveTeamModal({
 								Yes, I'm sure
 							</button>
 							<button
+								autoFocus
 								onClick={() => setRemoveModal(false)}
 								data-modal-hide="popup-modal"
 								type="button"

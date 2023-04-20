@@ -92,8 +92,7 @@ export default function DivisionCard({
 				<td className="px-6 py-3 text-center">
 					{convertLevelToFull(division.level)}
 				</td>
-				<td className="px-6 text-lg py-3 text-center">
-					{/* {division.gender} */}
+				<td className="px-6 text-lg py-3 text-center hidden sm:table-cell">
 					{teamCount}
 				</td>
 				<td className="flex gap-2 px-6 py-4 text-center justify-center">

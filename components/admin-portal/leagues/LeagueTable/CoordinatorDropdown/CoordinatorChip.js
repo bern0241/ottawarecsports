@@ -32,14 +32,8 @@ export default function CoordinatorChip({
 				className="text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm pl-3 pr-2 py-2.5 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 flex flex-row "
 			>
 				{coordinator.name}
+				<button onClick={(e) => removeChip(e)}>
 				<IconX
-					tabIndex='0'
-					onKeyDown={(e) => {
-						if (e.key === 'Enter') {
-							removeChip(e);
-						}
-					}}
-					onClick={(e) => removeChip(e)}
 					style={{
 						paddingLeft: '0.3rem',
 						fontSize: '15px',
@@ -47,6 +41,7 @@ export default function CoordinatorChip({
 					}}
 					name="close-outline"
 				></IconX>
+				</button>
 			</button>
 		</div>
 	);

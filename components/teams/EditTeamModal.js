@@ -111,7 +111,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed top-[10rem] bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
+						className="fixed top-[5rem] left-0 right-0 z-[500] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
 					>
 						<div className="relative w-full h-full">
 							{/* <!-- Modal content --> */}
@@ -162,6 +162,7 @@ const EditTeamModal = ({ isVisible, setIsVisible, teamId, team }) => {
 											Team Name
 										</label>
 										<input
+											autoFocus
 											value={teamName}
 											onChange={(e) => setTeamName(e.target.value)}
 											type="text"

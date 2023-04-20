@@ -77,6 +77,7 @@ export default function LeagueTable({
 					{((authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<CreateButton
+							autoFocus={true}
 							label="Create New League"
 							state={newLeagueModal}
 							setState={setNewLeagueModal}

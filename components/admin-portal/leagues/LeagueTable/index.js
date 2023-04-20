@@ -127,7 +127,7 @@ export default function ACPLeagueTable({
 								League
 							</th>
 							<th scope="col" className="font-medium px-6 py-4"></th>
-							<th scope="col" className="font-medium"></th>
+							<th scope="col" className="font-medium hidden sm:table-cell"></th>
 							<th className="absolute right-5 top-2">
 								<CreateButton
 									label="Create New League"
@@ -154,7 +154,7 @@ export default function ACPLeagueTable({
 							</th>
 							<th
 								scope="col"
-								className="w-[15rem] text-center font-light px-6 py-2"
+								className="w-[15rem] text-center font-light px-6 py-2 hidden sm:block"
 							>
 								Sport
 							</th>
@@ -196,7 +196,7 @@ export default function ACPLeagueTable({
                             <ion-icon style={{fontSize: '20px', color: 'blue'}} name="chevron-forward-outline"></ion-icon> */}
 							</th>
 							<td className="px-6 py-4"></td>
-							<td className="px-6 py-4"></td>
+							<td className="px-6 py-4 hidden sm:table-cell"></td>
 							<td className="flex gap-4 px-6 py-4 text-center"></td>
 						</tr>
 					</tbody>
