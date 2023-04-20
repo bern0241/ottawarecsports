@@ -11,7 +11,7 @@ import React from 'react';
 import Link from 'next/link';
 import { IconCalendarEvent, IconChevronRight } from '@tabler/icons-react';
 
-const ScheduleDropDown = ({ openDropdown, toggle }) => {
+const ScheduleDropDown = ({ openDropdown, toggle, setMenu }) => {
 	return (
 		<div className="text-white/70 hover:text-white focus:text-white">
 			<button
@@ -42,24 +42,28 @@ const ScheduleDropDown = ({ openDropdown, toggle }) => {
 					}`}
 				>
 					<Link
+						onFocus={(e) => setMenu('schedule')}
 						href="/schedule/soccer"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Soccer
 					</Link>
 					<Link
+						onFocus={(e) => setMenu('schedule')}
 						href="/schedule/volleyball"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Volleyball
 					</Link>
 					<Link
+						onFocus={(e) => setMenu('schedule')}
 						href="/schedule/multi-sport"
 						className="my-1 hover:font-bold focus:font-bold"
 					>
 						Multi-Sport
 					</Link>
 					<Link
+						onFocus={(e) => setMenu('schedule')}
 						href="/schedule/pickup-sport"
 						className="my-1 hover:font-bold focus:font-bold"
 					>

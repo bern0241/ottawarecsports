@@ -28,6 +28,12 @@ const DivisionRow = ({ key, division }) => {
 	};
 	return (
 		<tr
+			tabIndex='0'
+			onKeyDown={(e) => {
+				if (e.key === 'Enter') {
+					navigateToProfile();
+				}
+			}}
 			key={division?.id}
 			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
@@ -40,7 +46,7 @@ const DivisionRow = ({ key, division }) => {
 			<td className="p-5 text-center">{convertLevelToFull(division?.level)}</td>
 			<td className="hidden md:table-cell p-5">{division?.abbreviation}</td>
 			<td className="p-5 flex justify-center text-center">
-        <button>
+        <button tabIndex='-1'>
 				  <CalendarIcon />
         </button>
 			</td>

@@ -130,7 +130,8 @@ const soccer = () => {
 						</h2>
 						<Button
 							pill={true}
-							className="px-[.9rem] bg-blue-900 hover:bg-blue-800"
+							tabIndex='0'
+							className="px-[.9rem] bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
 							onClick={() => setModalVisible(true)}
 						>
 							<IconRepeat className="mr-2 h-5 w-5" />

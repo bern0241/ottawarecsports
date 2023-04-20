@@ -64,6 +64,12 @@ export default function TeamRow({ team }) {
 	return (
 		<tr
 			key={team.id}
+			tabIndex='0'
+			onKeyDown={(e) => {
+				if (e.key === ' ') {
+					navigateToProfile();
+				}
+			}}
 			className="border-b border-brand-neutral-300 cursor-pointer"
 			onClick={navigateToProfile}
 		>

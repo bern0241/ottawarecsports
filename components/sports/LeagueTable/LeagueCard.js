@@ -83,6 +83,12 @@ export default function LeagueCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						clickedLeague(e);
+					}
+				}}
 				onClick={(e) => clickedLeague(e)}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
@@ -101,8 +107,8 @@ export default function LeagueCard({
 							users.map((coordinator, index) => (
 								<React.Fragment key={index}>
 									<li className="text-blue-700 text-sm underline py-[.2rem]">
-										<p
-											className="no-underline"
+										<button
+											className="underline"
 											onClick={(e) => goToUserPage(e, coordinator.Username)}
 										>
 											{
@@ -115,21 +121,20 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</p>
+										</button>
 									</li>
 								</React.Fragment>
 							))}
 					</ul>
 				</td>
-				<td className="flex gap-2 py-3 justify-center pr-5">
-					<div className="flex-grow"></div>
+				<td className="flex gap-3 py-3 justify-center items-center pr-5 ">
 					{((authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
-						<>
-							{/* <IconUsers style={{color: 'black', fontSize: '21px', cursor: 'pointer'}} name="people"></IconUsers> */}
-							<button>
-              <IconEdit
-								onClick={(e) => editLeagueFunc(e)}
+							<>
+							<div className="flex-grow"></div>
+							
+							<button onClick={(e) => editLeagueFunc(e)}>
+							<IconEdit
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -137,14 +142,14 @@ export default function LeagueCard({
 								}}
 								name="create-outline"
 							></IconEdit>
-              </button>
-              <button>
+							</button>
+
+							<button onClick={(e) => deleteLeagueFunc(e)}>
 							<IconTrash
-								onClick={(e) => deleteLeagueFunc(e)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"
 							></IconTrash>
-              </button>
+							</button>
 						</>
 					)}
 				</td>

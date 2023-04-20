@@ -148,6 +148,13 @@ export default function PlayerRow({ player, index }) {
 	return (
 		<tr
 			key={player.Username}
+			tabIndex='0'
+			onKeyDown={(e) => {
+				if (e.key === ' ') {
+					e.stopPropagation();
+					handleClick();
+				}
+			}}
 			className="border-b border-brand-neutral-300 hover:cursor-pointer"
 			onClick={handleClick}
 		>
@@ -155,7 +162,7 @@ export default function PlayerRow({ player, index }) {
 				<div className="flex flex-col gap-2 md:flex-row items-center mx-auto text-center">
 					<img
 						src={`${
-							profileImage ? profileImage : '/images/image-placeholder.png'
+							profileImage ? profileImage : '/images/defaultProfilePic.jpeg'
 						}`}
 						className="rounded-full text-center w-[4.5rem] h-[4.5rem] border border-gray-500 object-cover"
 						alt={`Teams profile image for ${
@@ -199,7 +206,10 @@ export default function PlayerRow({ player, index }) {
 								className="flex flex-row items-center py-1 max-w-[15rem] mx-auto"
 							>
 								<Link
-									onClick={(e) => handleClickForLink(e)}
+									onClick={(e) => {
+										e.stopPropagation();
+										handleClickForLink(e);
+									}}
 									href={`/teams/${team.id}`}
 									className="text-blue-700 underline text-sm text-left sm:pl-[2rem] w-[9rem]"
 								>

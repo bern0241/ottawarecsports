@@ -126,7 +126,6 @@ const EditMatchModal = ({
 	useEffect(() => {
 		if (listLocations) {
 			let parseLocation = JSON.parse(match.location);
-			console.log(parseLocation)
 			setMatchLocation(parseLocation);
 		}
 	}, [listLocations]);
@@ -393,7 +392,6 @@ const EditMatchModal = ({
 				(e) =>
 					e.gameHomeTeamId === homeTeam.id && e.gameAwayTeamId === awayTeam.id
 			);
-			console.log(index);
 			let tempArray = generatedGames;
 			tempArray.splice(index, 1);
 			setGeneratedGames(tempArray);
@@ -412,8 +410,8 @@ const EditMatchModal = ({
 	const setEmailsToAllPlayers = async () => {
 		if (homeTeam === undefined) return;
 		if (awayTeam === undefined) return;
-		console.log('HOME', homeTeam.Players.items);
-		console.log('AWAY', awayTeam.Players.items);
+		// console.log('HOME', homeTeam.Players.items);
+		// console.log('AWAY', awayTeam.Players.items);
 
 		if (homeTeam.Players.items.length !== 0) {
 			homeTeam.Players.items.map(async (player) => {
@@ -442,7 +440,6 @@ const EditMatchModal = ({
 		let matchDateDisplay = new Date(matchDateConvert).toDateString();
 		let parseLocation = JSON.parse(matchLocation);
 
-		console.log(userTeam.name.toUpperCase());
 		const params = {
 			Destination: {
 				ToAddresses: people?.map((person) => person.email),
@@ -636,6 +633,12 @@ const EditMatchModal = ({
 									{/**Home Team */}
 									<div className="w-full">
 										<div
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													setOpenHomeTeamDrop(!openHomeTeamDrop);
+												}
+											}}
 											onClick={(e) => setOpenHomeTeamDrop(!openHomeTeamDrop)}
 										>
 											<label
@@ -694,6 +697,12 @@ const EditMatchModal = ({
 									{/**Away Team */}
 									<div className="w-full">
 										<div
+											tabIndex='0'
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													setOpenAwayTeamDrop(!openAwayTeamDrop);
+												}
+											}}
 											onClick={(e) => setOpenAwayTeamDrop(!openAwayTeamDrop)}
 										>
 											<label
@@ -753,6 +762,12 @@ const EditMatchModal = ({
 
 									{/**Referee */}
 									<div
+										tabIndex='0'
+										onKeyDown={(e) => {
+											if (e.key === ' ') {
+												setOpenRefDrop(!openRefDrop);
+											}
+										}}
 										className="relative cursor-pointer"
 										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
@@ -801,7 +816,9 @@ const EditMatchModal = ({
 									)}
 
 									{/**Date */}
-									<div className="w-full">
+									<div 
+										tabIndex='0'
+										className="w-full">
 										<label
 											htmlFor="name"
 											className="block mt-2 mb-1 text-sm font-medium text-gray-900 dark:text-white"
@@ -817,10 +834,10 @@ const EditMatchModal = ({
 									</div>
 
 									{/**Start Time */}
-									<div className="relative">
+									<div tabIndex='0' className="relative">
 										{openStartTimeDrop && (
 											<>
-												<div
+												<div	
 													onClick={(e) => setOpenStartTimeDrop(false)}
 													className="z-[25] opacity-0 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 												/>

@@ -81,6 +81,12 @@ export default function SeasonCard({
 		<>
 			<tr
 				onClick={(e) => clickedSeason(e)}
+				tabIndex="0"
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						clickedSeason(e);
+					}
+				}}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
 				<th
@@ -105,19 +111,19 @@ export default function SeasonCard({
 
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
+					<button onClick={(e) => goToSchedulePage(e)}>
 					<IconListDetails
-						onClick={(e) => goToSchedulePage(e)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="people"
 					></IconListDetails>
+					</button>
 
 					{(isCoordinator ||
 						(authRoles && authRoles.includes('Admin')) ||
 						(authRoles && authRoles.includes('Owner'))) && (
 						<>
-            <button>
+            			<button onClick={(e) => editSeasonFunc(e)}>
 							<IconEdit
-								onClick={(e) => editSeasonFunc(e)}
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -125,14 +131,14 @@ export default function SeasonCard({
 								}}
 								name="create-outline"
 							></IconEdit>
-              </button>
-              <button>
+						</button>
+						<button onClick={(e) => deleteSeasonFunc(e)}>
 							<IconTrash
 								onClick={(e) => deleteSeasonFunc(e)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
-              </button>
+              			</button>
 						</>
 					)}
 				</td>

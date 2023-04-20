@@ -32,12 +32,12 @@ export default function PasswordField({ label, state, setState }) {
 				sizing="md"
 				required
 			/>
-			<div
+			<button
 				onClick={(e) => showPasswordToggle(e)}
 				className="absolute right-[.5rem] top-[.4rem] cursor-pointer"
 			>
 				{showPassword ? <IconEye size="32px" /> : <IconEyeOff size="32px" />}
-			</div>
+			</button>
 		</div>
 	);
 }

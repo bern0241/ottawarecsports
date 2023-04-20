@@ -121,12 +121,12 @@ export default function SignInView({ setUiState }) {
 							</div>
 						</form>
 					</div>
-					<p
+					<button
 						onClick={() => setUiState('forgotPassword')}
 						className="font-normal text-base text-right cursor-pointer"
 					>
 						Forgot your password?
-					</p>
+					</button>
 					<p className="font-normal text-base cursor-pointer mt-8">
 						Need an account?{' '}
 						<Link href="/signup" className="font-bold">

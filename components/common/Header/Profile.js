@@ -50,7 +50,7 @@ const Profile = () => {
 			<div className="flex flex-wrap gap-4 p-1 mr-2 items-center">
 				<div className="text-black text-right hidden lg:block">
 					{user && (
-						<p className="font-medium text-base">{`${user?.attributes?.name} ${user?.attributes?.family_name} `}</p>
+						<p tabIndex='0' className="font-medium text-base">{`${user?.attributes?.name} ${user?.attributes?.family_name} `}</p>
 					)}
 					{!user && <p className="font-medium text-base">{`Guest`}</p>}
 					{user && (
@@ -60,11 +60,11 @@ const Profile = () => {
 					)}
 				</div>
 				<div>
-					<img
-						onClick={(e) => {
+					<button onClick={(e) => {
 							e.preventDefault();
 							setOpenDropdown(!openDropdown);
-						}}
+						}}>
+					<img
 						style={{ objectFit: 'cover' }}
 						width={132}
 						height={132}
@@ -72,6 +72,7 @@ const Profile = () => {
 						src={profileImage ? profileImage : '/images/image-placeholder.png'}
 						alt="profile"
 					/>
+					</button>
 					<ProfileDropdown
 						user={user}
 						setUser={setUser}
