@@ -102,6 +102,7 @@ export default function EditLocation({
 											Location name
 										</label>
 										<input
+											autoFocus
 											value={name}
 											onChange={(e) => setName(e.target.value)}
 											type="text"

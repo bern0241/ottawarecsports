@@ -82,28 +82,22 @@ export default function LocationsPage() {
 					locations.map((location, index) => (
 						<React.Fragment key={index}>
 							<div className="flex flex-col justify-center text-center p-3 max-w-[50em] my-2 mx-auto bg-white border border-black shadow-md">
-                <button className="">
+                <button onClick={(e) => editLocationClicked(e, location)} className="absolute translate-y-[-15px]">
                   <IconEdit
-                    onClick={(e) => editLocationClicked(e, location)}
                     style={{
-                      position: 'absolute',
                       fontSize: '20px',
                       cursor: 'pointer',
-                      transform: 'translate(-0px, -15px)',
                     }}
                     name="create-outline"
                   ></IconEdit>
                 </button>
-                <button>
-                  <IconTrash
-                    onClick={(e) => {
+                <button onClick={(e) => {
                       deleteLocationClicked(e, location);
-                    }}
+                    }} className='absolute translate-x-[25px] translate-y-[-15px]'>
+                  <IconTrash
                     style={{
-                      position: 'absolute',
                       fontSize: '20px',
                       cursor: 'pointer',
-                      transform: 'translate(25px, -15px)',
                       color: 'red',
                     }}
                     name="trash-outline"
