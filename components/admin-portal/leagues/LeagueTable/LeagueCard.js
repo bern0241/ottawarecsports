@@ -113,7 +113,7 @@ export default function LeagueCard({
 								<React.Fragment key={index}>
 									<li
 										key={index}
-										className="text-blue-700 text-sm underline py-[.2rem]"
+										className="text-blue-700 text-sm underline py-[.3rem]"
 									>
 										<Link href={`/players/${coordinator.Username}`}
                    						onClick={(e) => handleClick(e)}>
@@ -133,7 +133,7 @@ export default function LeagueCard({
 							))}
 					</ul>
 				</td>
-				<td className="px-6 py-3 text-center">{league.sport}</td>
+				<td className="px-6 py-3 text-center hidden sm:table-cell">{league.sport}</td>
 				<td className="flex gap-3 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
           			<button onClick={(e) => editLeagueFunc(e)}>
