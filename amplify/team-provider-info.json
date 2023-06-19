@@ -25,5 +25,52 @@
         "orsresources": {}
       }
     }
+  },
+  "myenv": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-orsapp-myenv-180237-authRole",
+      "UnauthRoleArn": "arn:aws:iam::259106213492:role/amplify-orsapp-myenv-180237-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::259106213492:role/amplify-orsapp-myenv-180237-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-orsapp-myenv-180237-deployment",
+      "UnauthRoleName": "amplify-orsapp-myenv-180237-unauthRole",
+      "StackName": "amplify-orsapp-myenv-180237",
+      "StackId": "arn:aws:cloudformation:us-east-1:259106213492:stack/amplify-orsapp-myenv-180237/01524170-0eed-11ee-9167-0a8f609f8807",
+      "AmplifyAppId": "d1knahwxc0etzp"
+    },
+    "categories": {
+      "auth": {
+        "orsapp00be8bc9": {},
+        "orsapp09e98252": {}
+      },
+      "function": {
+        "sendEmailNotifications": {}
+      }
+    }
+  },
+  "myenvtwo": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-orsapp-myenvtwo-183134-authRole",
+      "UnauthRoleArn": "arn:aws:iam::259106213492:role/amplify-orsapp-myenvtwo-183134-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::259106213492:role/amplify-orsapp-myenvtwo-183134-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-orsapp-myenvtwo-183134-deployment",
+      "UnauthRoleName": "amplify-orsapp-myenvtwo-183134-unauthRole",
+      "StackName": "amplify-orsapp-myenvtwo-183134",
+      "StackId": "arn:aws:cloudformation:us-east-1:259106213492:stack/amplify-orsapp-myenvtwo-183134/0ccf3f40-0ef1-11ee-a4a5-0ef5d582eca7",
+      "AmplifyAppId": "d1knahwxc0etzp"
+    },
+    "categories": {
+      "auth": {
+        "orsapp09e98252": {},
+        "orsapp1da7471f": {}
+      },
+      "api": {
+        "orsapp": {}
+      },
+      "storage": {
+        "s36d726d9f": {}
+      }
+    }
   }
 }

@@ -159,12 +159,14 @@ export default function TeamTable() {
 							<th scope="col" className="font-light px-3 py-2 text-center">
 								Members
 							</th>
+							{(authRoles && authRoles.includes('User') && (
 							<th
 								scope="col"
 								className="font-light py-2 text-center border-gray-400"
 							>
 								Remove
 							</th>
+							))}
 							<th className='block sm:hidden'>
 
 							</th>
@@ -199,9 +201,11 @@ export default function TeamTable() {
 								scope="row"
 								className="px-6 py-6 font-medium whitespace-nowrap dark:text-white flex items-center gap-1 text-blue-700 cursor-pointer"
 							></th>
-							<td className="px-6 py-4"></td>
-							<td className="px-6 py-4"></td>
-							<td className="flex gap-4 px-6 py-4 text-center"></td>
+								<td className="px-6 py-4"></td>
+								<td className="px-6 py-4"></td>
+							{(authRoles && authRoles.includes('User') && (
+								<td className="flex gap-4 px-6 py-4 text-center"></td>
+							))}
 						</tr>
 					</tbody>
 				</table>

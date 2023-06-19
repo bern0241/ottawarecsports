@@ -1,0 +1,16 @@
+{
+  "resourceName": "s36d726d9f",
+  "policyUUID": "6d726d9f",
+  "bucketName": "orsapp85f2c7cbe0574cb686d19e96d2fe5a1d",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

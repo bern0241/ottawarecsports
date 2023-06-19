@@ -4,15 +4,12 @@
       "dependsOn": [],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            }
-          ],
+          "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "api key description"
+              "apiKeyExpirationDate": "2024-06-18T22:33:17.918Z",
+              "apiKeyExpirationDays": 365,
+              "description": ""
             },
             "authenticationType": "API_KEY"
           }
@@ -23,7 +20,7 @@
     }
   },
   "auth": {
-    "orsapp00be8bc9": {
+    "orsapp1da7471f": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -50,33 +47,8 @@
       "service": "Cognito"
     }
   },
-  "function": {
-    "sendEmailNotifications": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_sendEmailNotifications_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "sendEmailNotifications"
-        }
-      ]
-    },
-    "AMPLIFY_function_sendEmailNotifications_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "sendEmailNotifications"
-        }
-      ]
-    }
-  },
   "storage": {
-    "orsresources": {
+    "s36d726d9f": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

@@ -13,8 +13,10 @@ import { useRouter } from 'next/router';
 import { getImageFromS3 } from '@/utils/graphql.services';
 import AWS from 'aws-sdk';
 import Link from 'next/link';
+import { useUser } from '@/context/userContext';
 
 export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
+	const [user, setUser, authRoles, setAuthRoles] = useUser();
 	const [removeModal, setRemoveModal] = useState(false);
 	const [captains, setCaptains] = useState([]);
 	const [membersCount, setMembersCount] = useState(0);
@@ -140,6 +142,8 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						))}
 				</td>
 				<td className="px-6 py-3 text-center text-lg">{membersCount}</td>
+
+				{(authRoles && authRoles.includes('User') && (
 				<td className="text-center">
 					<button onClick={(e) => removeTeamFunc(e)}>
 						<IconTrash
@@ -155,6 +159,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						></IconTrash>
 					</button>
 				</td>
+				))}
 				<td className='block sm:hidden'></td>
 			</tr>
 
