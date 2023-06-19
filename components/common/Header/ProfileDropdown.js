@@ -61,7 +61,7 @@ export default function ProfileDropdown({
 
 						{user && (
 							<ul
-								className="py-2 text-sm text-gray-700 dark:text-gray-200"
+								className="py-2 text-left text-sm text-gray-700 dark:text-gray-200"
 								aria-labelledby="dropdownUserAvatarButton"
 							>
 								<li>
@@ -87,7 +87,7 @@ export default function ProfileDropdown({
 							<div onClick={() => signOut()} className="py-2">
 								<a
 									href="#"
-									className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+									className="text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
 								>
 									Sign Out
 								</a>
@@ -96,7 +96,7 @@ export default function ProfileDropdown({
 							<div onClick={() => signIn()} className="py-2">
 								<a
 									href="#"
-									className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+									className="text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
 								>
 									Sign In
 								</a>

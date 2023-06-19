@@ -30,6 +30,7 @@ export default function Teams() {
 	};
 	const getTeamsData = async () => {
 		const response = await getAllTeams();
+		response.sort((a, b) => a.name.localeCompare(b.name)); //Sorts response alphabetically - overwrites array
 		setTeams(response);
 		filterTeams(response);
 	};
@@ -103,14 +104,14 @@ export default function Teams() {
 								<th className="py-3 px-1 px-5 text-sm font-light sm:w-4/12">
 									Name
 								</th>
-								<th className="text-left px-10 text-sm font-light sm:w-2/12">
+								<th className="text-center px-10 text-sm font-light sm:w-2/12">
 									Captain (s)
 								</th>
-								<th className="py-3 px-5 text-sm font-light sm:w-2/12 text-center">
+								<th className="py-3 px-5 pr-5 text-sm font-light sm:w-2/12 text-center">
 									Sport
 								</th>
-								<th className="py-3 pr-2 text-center text-sm font-light w-2/12 ">
-									<div className="hidden sm:contents">Members</div>
+								<th className="py-3 pr-2 text-center text-sm font-light w-2/12 hidden sm:table-cell">
+									<div className="">Members</div>
 								</th>
 							</tr>
 						</thead>

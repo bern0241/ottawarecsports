@@ -90,7 +90,7 @@ export default function CreateLeagueModal({
 
 	const saveLeague = async (e) => {
 		e.preventDefault();
-		if (leagueName === '' || numPerPeriod === '') {
+		if (leagueName === '' || numPerPeriod === '' || timePerPeriod === '') {
 			setMessage({
 				status: 'error',
 				message: 'Please fill out all required field.',
@@ -152,7 +152,7 @@ export default function CreateLeagueModal({
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-10 sm:top-0 sm:bottom-0 left-0 right-0 z-[2000] p-4 max-w-[42rem] overflow-y-visible mx-auto w-full h-[35rem] sm:overflow-visible overflow-y-hidden my-auto"
+				className="fixed top-10 top-0 left-0 right-0 z-[2000] p-4 max-w-[42rem] overflow-y-visible mx-auto w-full sm:overflow-visible overflow-y-hidden my-auto"
 			>
 				<div className="relative w-full h-full overflow-y-auto sm:overflow-y-visible">
 					{/* <!-- Modal content --> */}
@@ -195,6 +195,7 @@ export default function CreateLeagueModal({
 									League Name *
 								</label>
 								<input
+									autoFocus
 									value={leagueName}
 									onChange={(e) => setLeagueName(e.target.value)}
 									type="text"
@@ -203,19 +204,13 @@ export default function CreateLeagueModal({
 								/>
 							</div>
 
-							<div
-								className="relative cursor-pointer"
-								tabIndex="0"
-								onKeyDown={(e) => {
-									if (e.key === 'Enter') {
-										setOpenCoordinatorDrop(!openCoordinatorDrop);
-									}
-								}}
+							<button
+								className="relative cursor-pointer w-full"
 								onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}
 							>
 								<label
 									htmlFor="name"
-									className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white"
 								>
 									Coordinator
 								</label>
@@ -244,7 +239,7 @@ export default function CreateLeagueModal({
 											</React.Fragment>
 										))}
 								</div>
-							</div>
+							</button>
 							{openCoordinatorDrop && (
 								<>
 									<CoordinatorDropdown

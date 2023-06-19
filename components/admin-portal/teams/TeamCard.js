@@ -150,7 +150,7 @@ export default function TeamCard({ team, fetchTeams, filterTeams }) {
 					</ul>
 				</td>
 				<td className="text-center px-6 py-3">{sport}</td>
-				<td className="flex gap-2 px-6 py-4 text-center justify-center">
+				<td className="flex gap-2 px-6 py-4 text-center justify-center hidden sm:table-cell">
 					<button onClick={(e) => editTeamFunc(e)}>
 					<IconEdit
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}

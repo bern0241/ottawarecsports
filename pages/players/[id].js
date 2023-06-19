@@ -182,7 +182,7 @@ export default function PlayerProfile() {
 
 						{/* Player Information */}
 						<div className="col-span-3 md:col-span-2 grid grid-cols-2 gap-y-4 gap-x-8">
-							<div className="col-span-2 sm:col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-2 sm:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									First Name
 								</h3>
@@ -192,7 +192,7 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-2 sm:col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-2 sm:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									Last Name
 								</h3>
@@ -204,7 +204,7 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-2 sm:col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-2 sm:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									Location
 								</h3>
@@ -216,7 +216,7 @@ export default function PlayerProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-2 sm:col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-2 sm:col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light text-sm sm:text-base">Gender</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{user &&
@@ -228,7 +228,7 @@ export default function PlayerProfile() {
 						</div>
 
 						{/* Player Teams */}
-						<div className="col-span-3 md:col-span-2 border rounded-md border-brand-blue-900/25">
+						<div tabIndex='0' className="col-span-3 md:col-span-2 border rounded-md border-brand-blue-900/25">
 							<table className="border-collapse table-fixed w-full overflow-hidden rounded-md">
 								<thead className="bg-brand-neutral-100 border-b border-brand-blue-900/25">
 									<tr className="text-left">

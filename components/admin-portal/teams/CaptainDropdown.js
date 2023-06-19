@@ -93,12 +93,12 @@ export default function CaptainDropdown({
 							})
 							.map((user, index) => (
 								<React.Fragment key={index}>
-									<li
-										className="cursor-pointer"
+									<button
+										className="cursor-pointer w-full"
 										onClick={(e) => addCaptain(e, user)}
 									>
 										<UserCard searchUser={searchUser} user={user} />
-									</li>
+									</button>
 								</React.Fragment>
 							))}
 				</ul>

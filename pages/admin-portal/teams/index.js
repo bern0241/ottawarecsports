@@ -29,7 +29,7 @@ export default function ACPTeamsPage() {
 		const teams = await API.graphql({
 			query: listTeamsShort,
 		});
-		// console.log('Teams', teams.data.listTeams.items);
+		teams.data.listTeams.items.sort((a, b) => a.name.localeCompare(b.name)); //Sorts response alphabetically - overwrites array
 		setTeams(teams.data.listTeams.items);
 		setFilterTeams(teams.data.listTeams.items);
 	};

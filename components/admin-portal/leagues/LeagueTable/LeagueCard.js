@@ -113,9 +113,10 @@ export default function LeagueCard({
 								<React.Fragment key={index}>
 									<li
 										key={index}
-										className="text-blue-700 text-sm underline py-[.2rem]"
+										className="text-blue-700 text-sm underline py-[.3rem]"
 									>
-										<button className='underline' tabIndex='0' onClick={(e) => goToUserPage(e, coordinator.Username)}>
+										<Link href={`/players/${coordinator.Username}`}
+                   						onClick={(e) => handleClick(e)}>
 											{
 												coordinator.UserAttributes.find(
 													(o) => o.Name === 'name'
@@ -126,13 +127,13 @@ export default function LeagueCard({
 													(o) => o.Name === 'family_name'
 												)['Value']
 											}
-										</button>
+										</Link>
 									</li>
 								</React.Fragment>
 							))}
 					</ul>
 				</td>
-				<td className="px-6 py-3 text-center">{league.sport}</td>
+				<td className="px-6 py-3 text-center hidden sm:table-cell">{league.sport}</td>
 				<td className="flex gap-3 px-6 py-3 text-center justify-center">
 					<div className="flex-grow"></div>
           			<button onClick={(e) => editLeagueFunc(e)}>

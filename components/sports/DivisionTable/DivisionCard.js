@@ -91,8 +91,8 @@ export default function DivisionCard({
 	return (
 		<>
 			<tr
+				tabIndex='0'
 				onClick={(e) => clickedDivision(e)}
-				tabIndex="0"
 				onKeyDown={(e) => {
 					if (e.key === ' ') {
 						clickedDivision(e);
@@ -119,15 +119,15 @@ export default function DivisionCard({
 				</td>
 
 				<td className="flex gap-2 py-3 justify-center pr-5">
-					<div className="flex-grow"></div>
-          			<button onClick={(e) => gameScheduleNavigate(e, division)}>
+				<div className="flex-grow"></div>
+          		<button onClick={(e) => gameScheduleNavigate(e, division)}>
 					<IconCalendarDue
 						data-tooltip-target="tooltip-default"
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconCalendarDue>
-					</button>
-					<button onClick={(e) => addTeamsUINavigate(e, division)}>
+				</button>
+				<button onClick={(e) => addTeamsUINavigate(e, division)}>
 					<IconUsers
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
@@ -150,7 +150,7 @@ export default function DivisionCard({
 						</button>
 						<button onClick={(e) => deleteDivisionFunc(e)}>
 							<IconTrash
-									style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
+								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
               			</button>

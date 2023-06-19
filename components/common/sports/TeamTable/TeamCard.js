@@ -98,6 +98,11 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 					}
 				}}
 				onClick={(e) => goToTeamPage(e)}
+				onKeyDown={(e) => {
+					if (e.key === ' ') {
+						goToTeamPage(e);
+					}
+				}}
 				className="bg-white border border-gray-400 cursor-pointer"
 			>
 				<th
@@ -115,17 +120,14 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						<p>{teamDivision.team.name}</p>
 					</div>
 				</th>
-				<td className="px-6 py-3">
+				<td className="px-6 py-3 hidden sm:block">
 					{captains &&
 						captains.map((captain, index) => (
 							// <>
 							<Link
 								href={`/players/${captain.Username}`}
-								className="cursor-pointer text-blue-500 underline text-center"
-								onClick={(e) => {
-									e.stopPropagation();
-									handleClick(e);
-								}}
+								className="cursor-pointer text-blue-700 underline text-center block py-[.2rem]" 
+								onClick={(e) => handleClick(e)}
 								key={index}
 							>
 								{captain.UserAttributes.find((o) => o.Name === 'name')['Value']}{' '}
@@ -139,9 +141,8 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 				</td>
 				<td className="px-6 py-3 text-center text-lg">{membersCount}</td>
 				<td className="text-center">
-					<button>
+					<button onClick={(e) => removeTeamFunc(e)}>
 						<IconTrash
-							onClick={(e) => removeTeamFunc(e)}
 							style={{
 								color: 'red',
 								fontSize: '21px',
@@ -154,6 +155,7 @@ export default function TeamCard({ teamDivision, listTeamDivisionsFunc }) {
 						></IconTrash>
 					</button>
 				</td>
+				<td className='block sm:hidden'></td>
 			</tr>
 
 			{removeModal && (

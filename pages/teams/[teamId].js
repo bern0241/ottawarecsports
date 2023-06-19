@@ -21,6 +21,7 @@ import { listPlayers } from '@/src/graphql/queries';
 import MemberCard from '@/components/teams/teamIdPage/MemberCard';
 import { getDivisionShort, getSeasonShort } from '@/src/graphql/custom-queries';
 import { getLeague } from '@/src/graphql/queries';
+import Link from 'next/link';
 
 export default function TeamProfile() {
 	const [team, setTeam] = useState();
@@ -200,7 +201,7 @@ export default function TeamProfile() {
 		}
 	};
 
-	//Function for gettin profile image.
+	// Function for getting profile image.
 
 	const getPicture = async () => {
 		if (!team.team_picture)
@@ -227,10 +228,10 @@ export default function TeamProfile() {
 		return () => clearTimeout(timer);
 	};
 
-	const goToPlayerPage = (e, user) => {
-		e.preventDefault();
-		router.push(`/players/${user.Username}`);
-	};
+	// const goToPlayerPage = (e, user) => {
+	// 	e.preventDefault();
+	// 	router.push(`/players/${user.Username}`);
+	// };
 
 	return (
 		<>
@@ -314,7 +315,7 @@ export default function TeamProfile() {
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									Team Name
 								</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div tabIndex='0' className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{team && team.name}
 								</div>
 							</div>
@@ -323,13 +324,14 @@ export default function TeamProfile() {
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									Team Captain (s)
 								</h3>
-								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
+								<div tabIndex='0' className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									{captains &&
 										captains.map((captain, index) => (
 											// <>
-											<p
-												className="cursor-pointer"
-												onClick={(e) => goToPlayerPage(e, captain)}
+											<Link
+												className="cursor-pointer block"
+												href={`/players/${captain.Username}`}
+												// onClick={(e) => goToPlayerPage(e, captain)}
 												key={index}
 											>
 												{
@@ -342,18 +344,18 @@ export default function TeamProfile() {
 														(o) => o.Name === 'family_name'
 													)['Value']
 												}
-											</p>
+											</Link>
 										))}
 								</div>
 							</div>
-							<div className="col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-ligh text-sm sm:text-baset">Sport</h3>
 								<div className="py-2 px-3 border rounded-md border-brand-blue-900/25 font-medium">
 									Soccer
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									Members
 								</h3>
@@ -362,7 +364,7 @@ export default function TeamProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-light text-sm sm:text-base">
 									Home Colours
 								</h3>
@@ -375,7 +377,7 @@ export default function TeamProfile() {
 								</div>
 							</div>
 
-							<div className="col-span-1 flex flex-col">
+							<div tabIndex='0' className="col-span-1 flex flex-col">
 								<h3 className="mb-1 font-ligh text-sm sm:text-baset">
 									Away Colours
 								</h3>

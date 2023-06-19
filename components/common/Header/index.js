@@ -49,7 +49,8 @@ const Header = ({ openMenu, setOpenMenu, laptopSize }) => {
 						<button onClick={(e) => {
 								e.preventDefault();
 								router.push('/');
-							}} className="mx-auto cursor-pointer w-[66px] h-[66px]">
+							}} 
+							className='mx-auto cursor-pointer w-[66px] h-[66px]'>
 						<Image
 							src="/Logo.svg"
 							alt="ORS Logo"

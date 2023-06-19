@@ -683,10 +683,10 @@ export default function ACPEditUserModal({
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed top-0 bottom-0 left-0 right-0 z-[150] p-4 max-w-[42rem] mx-auto w-full h-[40rem] sm:overflow-visible overflow-auto"
+						className="fixed top-0 bottom-0 left-0 right-0 z-[500] p-4 max-w-[42rem] mx-auto w-full sm:overflow-visible overflow-auto"
 					>
 						<div className="relative w-full h-full">
-							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] pb-[7rem] ">
+							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] ">
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
@@ -729,6 +729,7 @@ export default function ACPEditUserModal({
 											First Name *
 										</label>
 										<input
+											autoFocus
 											value={firstName}
 											onChange={(e) => setFirstName(e.target.value)}
 											type="text"

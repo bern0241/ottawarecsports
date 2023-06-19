@@ -51,7 +51,8 @@ export default function AdminPortal() {
 				console.log(err, err.stack);
 			} else {
 				setUsers(data.Users);
-				filterUsers(data.Users);
+				const sortedArray = data.Users.sort((a, b) => a.Attributes.find(o => o.Name === 'name')['Value'].localeCompare(b.Attributes.find(o => o.Name === 'name')['Value']))
+				filterUsers(sortedArray);
 			}
 		});
 	};
@@ -99,7 +100,7 @@ export default function AdminPortal() {
 				<link rel="icon" href="/images/ORS-Logo.png" />
 			</Head>
 
-			<main className="p-5">
+			<main className="p-5 mx-auto sm:m-0">
 				<div className="mb-5">
 					<SearchBarInput
 						id="user-search"
@@ -131,8 +132,8 @@ export default function AdminPortal() {
 								<th className="py-3 px-5 text-sm font-light w-2/6">
 									<div className="flex">Role</div>
 								</th>
-								<th className="py-3 px-5 text-sm font-light w-2/6">
-									<div className="flex">Leagues</div>
+								<th className="py-3 px-5 text-sm font-light w-2/6 hidden sm:block">
+									<div className="flex">Email</div>
 								</th>
 								<th className="py-3 px-5 text-sm font-light">Action</th>
 							</tr>

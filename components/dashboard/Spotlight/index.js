@@ -14,7 +14,7 @@ import PlayerSpotlight from './PlayerSpotlight';
 
 export default function Spotlight() {
 	return (
-		<section id="spotlight" className="col-span-4 lg:col-span-2">
+		<section tabIndex='0' id="spotlight" className="col-span-4 lg:col-span-2">
 			<div className="bg-white border border-brand-neutral-300 rounded-md">
 				<div className="flex items-center justify-between border-b border-brand-neutral-300 px-3 py-2">
 					<h2 className="text-md font-medium">Team and Player Spotlight</h2>

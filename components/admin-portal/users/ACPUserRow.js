@@ -87,7 +87,7 @@ export default function ACPUserRow({ user, index }) {
 							</React.Fragment>
 						))}
 				</td>
-				<td className="p-5">
+				<td className="p-5 sm:table-cell hidden">
 					{user.Attributes.find((o) => o.Name === 'email')['Value']}
 				</td>
 				<td className="p-5">
