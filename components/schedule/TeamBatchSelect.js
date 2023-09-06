@@ -332,7 +332,7 @@ const TeamBatchSelect = ({
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
+						className="fixed left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
 					>
 						<div className="relative w-full h-full">
 							{/* <!-- Modal content --> */}
@@ -456,7 +456,7 @@ const TeamBatchSelect = ({
 									{/**Start Time */}
 									<div 
 										tabIndex='0' 
-										className="relative"
+										className="relative mt-2"
 									>
 										{openStartTimeDrop && (
 											<>

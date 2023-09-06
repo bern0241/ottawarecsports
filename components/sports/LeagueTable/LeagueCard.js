@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { useUser } from '@/context/userContext';
 import Link from 'next/link';
+import { Tooltip, useTooltip } from '@/utils/handy-dandy-functions';
 
 export default function LeagueCard({
 	league,
@@ -29,6 +30,14 @@ export default function LeagueCard({
 	const [deleteModal, setDeleteModal] = useState(false);
 	const router = useRouter();
 	var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+	const {
+		tooltipX,
+		tooltipY,
+		handleMouseEnterTooltip,
+		handleMouseLeaveTooltip,
+	} = useTooltip();
+	const [editTP, setEditTP] = useState(false);
+	const [trashTP, setTrashTP] = useState(false);
 
 	useEffect(() => {
 		setUsers([]);
@@ -135,6 +144,8 @@ export default function LeagueCard({
 							
 							<button onClick={(e) => editLeagueFunc(e)}>
 							<IconEdit
+								onMouseEnter={(e) => handleMouseEnterTooltip(e, setEditTP)}
+								onMouseLeave={(e) => handleMouseLeaveTooltip(setEditTP)}
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -142,12 +153,18 @@ export default function LeagueCard({
 								}}
 								name="create-outline"
 							></IconEdit>
+							{editTP && <Tooltip text="Edit league" 
+											style={{ left: tooltipX, top: tooltipY }} />}
 							</button>
 							<button onClick={(e) => deleteLeagueFunc(e)}>
 							<IconTrash
+								onMouseEnter={(e) => handleMouseEnterTooltip(e, setTrashTP)}
+								onMouseLeave={(e) => handleMouseLeaveTooltip(setTrashTP)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="create-outline"
 							></IconTrash>
+							{trashTP && <Tooltip text="Delete league" 
+											style={{ left: tooltipX, top: tooltipY }} />}
 							</button>
 						</>
 					)}

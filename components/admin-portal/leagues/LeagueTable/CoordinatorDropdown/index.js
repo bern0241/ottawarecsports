@@ -64,7 +64,7 @@ export default function CoordinatorDropdown({
 			{/* <!-- Dropdown menu --> */}
 			<div
 				id="dropdownSearch"
-				className="z-[300] border fixed bg-white rounded-lg shadow-md w-[17rem] dark:bg-gray-700"
+				className="z-[300] border absolute bg-white rounded-lg shadow-md w-[17rem] dark:bg-gray-700"
 			>
 				<div className="p-3">
 					<label htmlFor="input-group-search" className="sr-only">

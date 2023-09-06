@@ -12,6 +12,7 @@ import { IconEdit, IconTrash, IconListDetails } from '@tabler/icons-react';
 import EditSeasonModal from '@/components/common/sports/Seasons/EditSeasonModal';
 import DeleteSeasonModal from '@/components/common/sports/Seasons/DeleteSeasonModal';
 import { useUser } from '@/context/userContext';
+import { Tooltip, useTooltip } from '@/utils/handy-dandy-functions';
 
 export default function SeasonCard({
 	season,
@@ -25,6 +26,15 @@ export default function SeasonCard({
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const router = useRouter();
+	const {
+		tooltipX,
+		tooltipY,
+		handleMouseEnterTooltip,
+		handleMouseLeaveTooltip,
+	} = useTooltip();
+	const [scheduleTP, setScheduleTP] = useState(false);
+	const [editTP, setEditTP] = useState(false);
+	const [trashTP, setTrashTP] = useState(false);
 
 	useEffect(() => {
 		if (selectedLeague) {
@@ -108,14 +118,20 @@ export default function SeasonCard({
 						{convertDateReadable(season.end_date)}
 					</p>
 				</td>
-
 				<td className="flex gap-2 py-3 justify-center pr-5">
 					<div className="flex-grow"></div>
 					<button onClick={(e) => goToSchedulePage(e)}>
-					<IconListDetails
-						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
-						name="people"
-					></IconListDetails>
+					<div className='relative'>
+						<IconListDetails
+							onMouseEnter={(e) => handleMouseEnterTooltip(e, setScheduleTP)}
+          					onMouseLeave={(e) => handleMouseLeaveTooltip(setScheduleTP)}
+							style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
+							name="people"
+							>
+						</IconListDetails>
+						{scheduleTP && <Tooltip text="Schedule page" 
+												style={{ left: tooltipX, top: tooltipY }} />}
+					</div>
 					</button>
 
 					{(isCoordinator ||
@@ -124,6 +140,8 @@ export default function SeasonCard({
 						<>
             			<button onClick={(e) => editSeasonFunc(e)}>
 							<IconEdit
+								onMouseEnter={(e) => handleMouseEnterTooltip(e, setEditTP)}
+								onMouseLeave={(e) => handleMouseLeaveTooltip(setEditTP)}
 								style={{
 									color: 'darkblue',
 									fontSize: '21px',
@@ -131,12 +149,18 @@ export default function SeasonCard({
 								}}
 								name="create-outline"
 							></IconEdit>
+							{editTP && <Tooltip text="Edit season" 
+											style={{ left: tooltipX, top: tooltipY }} />}
               			</button>
               			<button onClick={(e) => deleteSeasonFunc(e)}>
 							<IconTrash
+								onMouseEnter={(e) => handleMouseEnterTooltip(e, setTrashTP)}
+								onMouseLeave={(e) => handleMouseLeaveTooltip(setTrashTP)}
 								style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 								name="trash-outline"
 							></IconTrash>
+							{trashTP && <Tooltip text="Delete season" 
+											style={{ left: tooltipX, top: tooltipY }} />}
               			</button>
 						</>
 					)}

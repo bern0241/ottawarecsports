@@ -206,7 +206,6 @@ export default function CreateLeagueModal({
 
 							<button
 								className="relative cursor-pointer w-full"
-								onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}
 							>
 								<label
 									htmlFor="name"
@@ -215,9 +214,8 @@ export default function CreateLeagueModal({
 									Coordinator
 								</label>
 								<input
-									value=""
-									disabled
-									type="text"
+									onClick={() => setOpenCoordinatorDrop(!openCoordinatorDrop)}
+									type="button"
 									id="name"
 									className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
 								/>
@@ -227,7 +225,7 @@ export default function CreateLeagueModal({
 										name="caret-down-circle-outline"
 									></ion-icon>
 								</div>
-								<div className="flex absolute top-[2.3rem]">
+								<div className="flex absolute top-[2rem]">
 									{leagueCoordinators &&
 										leagueCoordinators.map((coordinator, index) => (
 											<React.Fragment key={index}>

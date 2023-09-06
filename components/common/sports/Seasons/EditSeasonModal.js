@@ -56,7 +56,7 @@ export default function EditSeasonModal({
 		minDate: new Date('1950-01-01'),
 		theme: {
 			background:
-				'border border-[1px] border-gray-500 shadow-lg relative right-[3rem]  translate-y-[20%]',
+				'border border-[1px] border-gray-500 shadow-lg relative right-[1.7rem]  translate-y-[20%]',
 		},
 		icons: {
 			prev: () => (
@@ -86,7 +86,7 @@ export default function EditSeasonModal({
 		minDate: new Date('1950-01-01'),
 		theme: {
 			background:
-				'border border-[1px] border-gray-500 shadow-lg relative right-[3rem]  translate-y-[20%]',
+				'border border-[1px] border-gray-500 shadow-lg relative right-[6.1rem]  translate-y-[20%]',
 		},
 		icons: {
 			prev: () => (
@@ -156,9 +156,9 @@ export default function EditSeasonModal({
 				id="defaultModal"
 				tabIndex="-1"
 				aria-hidden="true"
-				className="fixed top-10 sm:top-0 sm:bottom-0 left-0 right-0 z-[2000] p-4 max-w-[42rem] overflow-y-visible mx-auto w-full sm:overflow-visible overflow-y-hidden my-auto"
+				className="fixed top-0 bottom-0 left-0 right-0 z-[2000] p-4 max-w-[42rem] overflow-y-visible mx-auto w-full sm:overflow-visible overflow-y-hidden my-auto"
 			>
-				<div className="relative w-full h-full">
+				<div className="relative w-full  top-[50%] translate-y-[-50%]">
 					{/* <!-- Modal content --> */}
 					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 						{/* <!-- Modal header --> */}
