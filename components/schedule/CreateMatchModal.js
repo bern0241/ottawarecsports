@@ -74,7 +74,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 		minDate: new Date('2009-01-01'),
 		theme: {
 			background:
-				'border border-[1px] border-gray-500 shadow-lg relative right-0',
+				'border border-[1px] border-gray-500 shadow-lg relative top-[10rem] right-0',
 		},
 		icons: {
 			prev: () => (
@@ -439,9 +439,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto my-auto w-full h-full overflow-y-auto"
+						className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto my-auto  h-full overflow-y-auto"
 					>
-						<div className="relative w-full h-full overflow-y-auto">
+						<div className="relative w-full h-full">
 							{/* <!-- Modal content --> */}
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 								{/* <!-- Modal header --> */}
@@ -612,7 +612,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 												setOpenRefDrop(!openRefDrop);
 											}
 										}}
-										onClick={() => setOpenRefDrop(!openRefDrop)}
 										className="relative cursor-pointer"
 									>
 										<label
@@ -622,9 +621,8 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 											Referee (s)
 										</label>
 										<input
-											value=""
-											disabled
-											type="text"
+											onClick={() => setOpenRefDrop(!openRefDrop)}
+											type="button"
 											id="name"
 											className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
 										/>
@@ -701,7 +699,6 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 											}}
 											onClick={(e) => {
 												e.preventDefault();
-												setOpenStartTimeDrop(!openStartTimeDrop);
 											}}
 											className="cursor-pointer"
 										>
@@ -712,12 +709,12 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 												Start Time
 											</label>
 											<input
-												disabled
+												onClick={() => setOpenStartTimeDrop(!openStartTimeDrop)}
 												value={startTime}
 												onChange={(e) => setStartTime(e.target.value)}
-												type="text"
+												type="button"
 												id="startTime"
-												className="cursor-pointer block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+												className="cursor-pointer text-left block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											/>
 											<div className="absolute right-2 top-[2.55rem]">
 												<ion-icon
@@ -794,7 +791,7 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 				<>
 					<div
 						tabIndex="-1"
-						className="z-[200] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto "
+						className="z-[200] w-[32rem] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 my-auto mx-auto overflow-x-hidden overflow-y-auto "
 					>
 						<div className="relative h-full md:h-auto">
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">

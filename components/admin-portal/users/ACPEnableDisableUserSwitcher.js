@@ -87,9 +87,9 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 				<>
 					<div
 						tabIndex="-1"
-						className="z-[200] fixed left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 overflow-x-hidden overflow-y-auto "
+						className="z-[200] fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] p-4 overflow-x-hidden overflow-y-auto "
 					>
-						<div className="relative w-full h-full max-w-md md:h-auto">
+						<div className=" w-full h-full max-w-md ">
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 								<button
 									aria-label="Close Modal"
@@ -158,7 +158,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 					</div>
 					<div
 						onClick={(e) => setOpenModal(false)}
-						className="z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
 			)}
@@ -167,7 +167,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 				<>
 					<div
 						tabIndex="-1"
-						className="z-[200] fixed left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 overflow-x-hidden overflow-y-auto "
+						className="z-[200] fixed left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] p-4 overflow-x-hidden overflow-y-auto "
 					>
 						<div className="relative w-full h-full max-w-md md:h-auto">
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -235,7 +235,7 @@ export default function ACPDEnableDisableUserSwitcher({ user }) {
 					</div>
 					<div
 						onClick={(e) => setOpenModal(false)}
-						className="z-[100] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+						className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 					/>
 				</>
 			)}

@@ -463,7 +463,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				</div>
 			<div
 				onClick={(e) => setOpenModal(false)}
-				className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				className="z-[150] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
 			/>
 		</>
 	);

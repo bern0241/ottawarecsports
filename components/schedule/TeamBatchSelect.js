@@ -332,7 +332,7 @@ const TeamBatchSelect = ({
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem]"
+						className="fixed top-[50%] translate-y-[-50%] my-auto left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full"
 					>
 						<div className="relative w-full h-full">
 							{/* <!-- Modal content --> */}
@@ -389,7 +389,6 @@ const TeamBatchSelect = ({
 											}
 										}}
 										className="relative cursor-pointer"
-										onClick={() => setOpenRefDrop(!openRefDrop)}
 									>
 										<label
 											htmlFor="name"
@@ -398,9 +397,8 @@ const TeamBatchSelect = ({
 											Referee (s)
 										</label>
 										<input
-											value=""
-											disabled
-											type="text"
+											onClick={() => setOpenRefDrop(!openRefDrop)}
+											type="button"
 											id="name"
 											className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
 										/>
@@ -475,7 +473,6 @@ const TeamBatchSelect = ({
 										<div
 											onClick={(e) => {
 												e.preventDefault();
-												setOpenStartTimeDrop(!openStartTimeDrop);
 											}}
 											className="cursor-pointer"
 										>
@@ -486,12 +483,12 @@ const TeamBatchSelect = ({
 												Start Time
 											</label>
 											<input
-												disabled
+												onClick={(e) => setOpenStartTimeDrop(!openStartTimeDrop)}
 												value={startTime}
 												onChange={(e) => setStartTime(e.target.value)}
-												type="text"
+												type="button"
 												id="startTime"
-												className="cursor-pointer block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+												className="text-left cursor-pointer block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											/>
 											<div className="absolute right-2 top-[2.55rem]">
 												<ion-icon

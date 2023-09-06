@@ -119,7 +119,7 @@ export default function TeamTable() {
 				<table className="w-full text-sm text-left border border-gray-400">
 					<thead className="text-md text-black bg-white">
 						<tr>
-							<th scope="col" className="text-lg font-medium px-6 py-[4.4rem]">
+							<th scope="col" className="text-lg font-medium px-5 py-[4.4rem]">
 								<p className="absolute translate-y-[-57px]">
 									<b>League</b> - {league?.name} <br />
 									<b>Season</b> - {season?.name} <br />
@@ -130,7 +130,7 @@ export default function TeamTable() {
 							<th scope="col" className="font-medium px-6 py-4"></th>
 							<th scope="col" className="font-medium px-6 py-4"></th>
 							<th scope="col" className="font-medium">
-								<div className="absolute top-4 right-8 ">
+								<div className="absolute top-2 right-2 ">
 									{(isCoordinator ||
 										(authRoles && authRoles.includes('Admin')) ||
 										(authRoles && authRoles.includes('Owner'))) && (
