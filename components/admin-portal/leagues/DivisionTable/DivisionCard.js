@@ -21,6 +21,7 @@ import { getDivisionWithTeams } from '@/src/graphql/custom-queries';
 import { IconTrash, IconEdit, IconUsers } from '@tabler/icons-react';
 import { API } from '@aws-amplify/api';
 import { convertLevelToFull } from '@/utils/handy-dandy-functions';
+import { Tooltip, useTooltip } from '@/utils/handy-dandy-functions';
 
 export default function DivisionCard({
 	division,
@@ -33,6 +34,15 @@ export default function DivisionCard({
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [teamCount, setTeamCount] = useState(0);
 	const router = useRouter();
+	const {
+		tooltipX,
+		tooltipY,
+		handleMouseEnterTooltip,
+		handleMouseLeaveTooltip,
+	} = useTooltip();
+	const [teamsTP, setTeamsTP] = useState(false);
+	const [editTP, setEditTP] = useState(false);
+	const [trashTP, setTrashTP] = useState(false);
 
 	useEffect(() => {
 		getTeamsCount();
@@ -99,21 +109,33 @@ export default function DivisionCard({
 					<div className="flex-grow"></div>
           		<button onClick={(e) => teamsUINavigate(e, division)}>
 					<IconUsers
+						onMouseEnter={(e) => handleMouseEnterTooltip(e, setTeamsTP)}
+						onMouseLeave={(e) => handleMouseLeaveTooltip(setTeamsTP)}
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="calendar-outline"
 					></IconUsers>
+					{teamsTP && <Tooltip text="All teams on division"
+											style={{ left: tooltipX, top: tooltipY }} />}
 				</button>
 				<button onClick={(e) => editDivisionFunc(e)}>
 					<IconEdit
+						onMouseEnter={(e) => handleMouseEnterTooltip(e, setEditTP)}
+						onMouseLeave={(e) => handleMouseLeaveTooltip(setEditTP)}
 						style={{ color: 'darkblue', fontSize: '21px', cursor: 'pointer' }}
 						name="create-outline"
 					></IconEdit>
+					{editTP && <Tooltip text="Edit division" 
+											style={{ left: tooltipX, top: tooltipY }} />}
 				</button>
 				<button onClick={(e) => deleteDivisionFunc(e)}>
 					<IconTrash
+						onMouseEnter={(e) => handleMouseEnterTooltip(e, setTrashTP)}
+						onMouseLeave={(e) => handleMouseLeaveTooltip(setTrashTP)}
 						style={{ color: 'red', fontSize: '21px', cursor: 'pointer' }}
 						name="trash-outline"
 					></IconTrash>
+					{trashTP && <Tooltip text="Delete division" 
+											style={{ left: tooltipX, top: tooltipY }} />}
           		</button>
 				</td>
 			</tr>

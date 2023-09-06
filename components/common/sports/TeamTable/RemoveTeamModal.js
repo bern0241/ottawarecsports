@@ -37,7 +37,7 @@ export default function RemoveTeamModal({
 		<>
 			<div
 				tabIndex="-1"
-				className="z-[200] fixed top-[10rem] right-0 left-[0] p-4 overflow-x-hidden overflow-y-auto w-[32rem] mx-auto"
+				className="z-[200] fixed top-[50%] translate-y-[-50%] right-0 left-[0] p-4 overflow-x-hidden w-[32rem] mx-auto my-auto"
 			>
 				<div className="relative w-full h-full max-w-md mx-auto w-[25rem]">
 					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">

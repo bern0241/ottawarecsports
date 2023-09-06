@@ -62,23 +62,24 @@ export default function NewLocation({ locations, setLocations }) {
 
 	return (
 		<>
-			<button
-				autoFocus
-				onClick={() => setOpenModal(true)}
-				type="button"
-				className="text-gray-900 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 text-[0.89rem] dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-			>
+		<button
+		autoFocus
+		onClick={() => setOpenModal(true)}
+		type="button"
+		className="text-gray-900 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 text-[0.89rem] dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+		>
 				New Location
-			</button>
+		</button>
 
 			{openModal && (
+				<>
 				<div
 					id="authentication-modal"
 					tabIndex="-1"
 					aria-hidden="true"
-					className="z-[100] fixed top-[15%] left-[50%] ml-[-240px] z-[150] w-full p-4 overflow-x-hidden overflow-y-auto"
+					className="fixed left-0 right-0 top-[50%] translate-y-[-50%] z-[200] w-[28rem] mx-auto my-auto"
 				>
-					<div className="w-full h-full max-w-md md:h-auto">
+					<div className="max-w-md  ">
 						<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 ">
 							<button
 								onClick={() => setOpenModal(!openModal)}
@@ -170,12 +171,13 @@ export default function NewLocation({ locations, setLocations }) {
 								</form>
 							</div>
 						</div>
-						<div
-							onClick={(e) => setOpenModal(false)}
-							className="z-[-100] opacity-50 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
-						/>
 					</div>
 				</div>
+				<div
+					onClick={(e) => setOpenModal(false)}
+					className="z-[150] opacity-50 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"
+				/>
+				</>
 			)}
 		</>
 	);

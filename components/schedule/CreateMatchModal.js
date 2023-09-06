@@ -439,9 +439,9 @@ const CreateMatchModal = ({ isVisible, setIsVisible, selectedDate, getGames }) =
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto w-full h-[40rem] overflow-y-auto sm:overflow-y-visible"
+						className="fixed top-0 bottom-0 left-0 right-0 z-[200] p-4 max-w-[42rem] mx-auto my-auto w-full h-full overflow-y-auto"
 					>
-						<div className="relative w-full h-full">
+						<div className="relative w-full h-full overflow-y-auto">
 							{/* <!-- Modal content --> */}
 							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 								{/* <!-- Modal header --> */}

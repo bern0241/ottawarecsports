@@ -109,7 +109,7 @@ export default function SeasonCard({
 						style={{ color: 'black', fontSize: '21px', cursor: 'pointer' }}
 						name="people"
 					></IconListDetails>
-					{scheduleTP && <Tooltip text="Schedule page" 
+					{scheduleTP && <Tooltip text="Schedule (divisions)" 
 												style={{ left: tooltipX, top: tooltipY }} />}
 				</button>
 				<button onClick={(e) => editSeasonFunc(e)}>

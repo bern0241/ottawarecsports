@@ -40,7 +40,7 @@ export default function DeleteLocation({
 		<>
 			<div
 				tabIndex="-1"
-				className="z-[200] fixed top-[40%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto "
+				className="z-[200] fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]  "
 			>
 				<div className="relative w-full h-full max-w-md md:h-auto">
 					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">

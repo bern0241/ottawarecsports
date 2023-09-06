@@ -129,7 +129,7 @@ export default function SeasonCard({
 							name="people"
 							>
 						</IconListDetails>
-						{scheduleTP && <Tooltip text="Schedule page" 
+						{scheduleTP && <Tooltip text="Schedule (divisions)" 
 												style={{ left: tooltipX, top: tooltipY }} />}
 					</div>
 					</button>
