@@ -8,9 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { PlayerNote } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getPlayerNote } from "../graphql/queries";
+import { updatePlayerNote } from "../graphql/mutations";
 export default function PlayerNoteUpdateForm(props) {
   const {
     id: idProp,
@@ -51,7 +52,12 @@ export default function PlayerNoteUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(PlayerNote, idProp)
+        ? (
+            await API.graphql({
+              query: getPlayerNote,
+              variables: { id: idProp },
+            })
+          )?.data?.getPlayerNote
         : playerNoteModelProp;
       setPlayerNoteRecord(record);
     };
@@ -107,10 +113,10 @@ export default function PlayerNoteUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          player_id,
-          date,
-          description,
-          author_id,
+          player_id: player_id ?? null,
+          date: date ?? null,
+          description: description ?? null,
+          author_id: author_id ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -136,21 +142,26 @@ export default function PlayerNoteUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            PlayerNote.copyOf(playerNoteRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updatePlayerNote,
+            variables: {
+              input: {
+                id: playerNoteRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}

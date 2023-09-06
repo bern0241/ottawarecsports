@@ -521,7 +521,6 @@ export default function ACPEditUserModal({
 					tabIndex="-1"
 					className="z-[400] w-[32rem] fixed top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 overflow-x-hidden overflow-y-auto "
 				>
-					<div className="relative h-full md:h-auto">
 						<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 							<button
 								onClick={(e) => {
@@ -593,7 +592,6 @@ export default function ACPEditUserModal({
 							</div>
 						</div>
 					</div>
-				</div>
 			)}
 
 			{uiState === 'coordinatorRemoved' && (
@@ -683,10 +681,9 @@ export default function ACPEditUserModal({
 						id="defaultModal"
 						tabIndex="-1"
 						aria-hidden="true"
-						className="fixed top-0 bottom-0 left-0 right-0 z-[500] p-4 max-w-[42rem] mx-auto w-full sm:overflow-visible overflow-auto"
+						className="fixed bottom-0 top-0 left-0 right-0 z-[500] p-4 max-w-[42rem] mx-auto my-auto w-full overflow-visible overflow-y-auto"
 					>
-						<div className="relative w-full h-full">
-							<div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] ">
+							<div className="bg-white rounded-lg shadow dark:bg-gray-700 sm:pb-[0rem] ">
 								<div className="flex items-start justify-between p-4 pb-0 border-b rounded-t dark:border-gray-600">
 									<h3 className="text-md font-semibold text-gray-900 dark:text-white">
 										Edit A User
@@ -871,7 +868,6 @@ export default function ACPEditUserModal({
 								</div>
 							</div>
 						</div>
-					</div>
 					<div
 						onClick={(e) => setOpenModal(false)}
 						className="z-[20] opacity-70 bg-gray-500 fixed top-0 left-0 w-[100%] h-[100%]"

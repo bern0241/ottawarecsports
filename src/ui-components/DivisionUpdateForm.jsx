@@ -21,9 +21,10 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Division } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getDivision } from "../graphql/queries";
+import { updateDivision } from "../graphql/mutations";
 function ArrayField({
   items = [],
   onChange,
@@ -36,6 +37,7 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -59,6 +61,7 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
+    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -168,12 +171,7 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
+          <Button size="small" variation="link" onClick={addItem}>
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -230,7 +228,12 @@ export default function DivisionUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Division, idProp)
+        ? (
+            await API.graphql({
+              query: getDivision,
+              variables: { id: idProp },
+            })
+          )?.data?.getDivision
         : divisionModelProp;
       setDivisionRecord(record);
     };
@@ -273,12 +276,12 @@ export default function DivisionUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          abbreviation,
-          teams,
-          level,
-          description,
-          is_playoff,
+          name: name ?? null,
+          abbreviation: abbreviation ?? null,
+          teams: teams ?? null,
+          level: level ?? null,
+          description: description ?? null,
+          is_playoff: is_playoff ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -304,21 +307,26 @@ export default function DivisionUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Division.copyOf(divisionRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateDivision,
+            variables: {
+              input: {
+                id: divisionRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -405,6 +413,9 @@ export default function DivisionUpdateForm(props) {
         label={"Teams"}
         items={teams}
         hasError={errors?.teams?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("teams", currentTeamsValue)
+        }
         errorMessage={errors?.teams?.errorMessage}
         setFieldValue={setCurrentTeamsValue}
         inputFieldRef={teamsRef}

@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { SportsmanshipPoint } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -28,7 +27,7 @@ export declare type SportsmanshipPointUpdateFormProps = React.PropsWithChildren<
     overrides?: SportsmanshipPointUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    sportsmanshipPoint?: SportsmanshipPoint;
+    sportsmanshipPoint?: any;
     onSubmit?: (fields: SportsmanshipPointUpdateFormInputValues) => SportsmanshipPointUpdateFormInputValues;
     onSuccess?: (fields: SportsmanshipPointUpdateFormInputValues) => void;
     onError?: (fields: SportsmanshipPointUpdateFormInputValues, errorMessage: string) => void;

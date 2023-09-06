@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { PlayerNote } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -37,7 +36,7 @@ export declare type PlayerNoteUpdateFormProps = React.PropsWithChildren<{
     overrides?: PlayerNoteUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    playerNote?: PlayerNote;
+    playerNote?: any;
     onSubmit?: (fields: PlayerNoteUpdateFormInputValues) => PlayerNoteUpdateFormInputValues;
     onSuccess?: (fields: PlayerNoteUpdateFormInputValues) => void;
     onError?: (fields: PlayerNoteUpdateFormInputValues, errorMessage: string) => void;

@@ -47,6 +47,9 @@ export default function LeagueTable({
 			if (leagues.data.listLeagues.items.length === 0) {
 				setSelectedLeague(null);
 			}
+			if (leagues.data.listLeagues.items[0]) {
+				setSelectedLeague(leagues.data.listLeagues.items[0]);
+			}
 
 			if (localStorage.getItem('lastSelectedLeague') !== null) {
 				const league = await API.graphql({

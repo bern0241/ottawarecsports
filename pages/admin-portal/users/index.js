@@ -161,8 +161,6 @@ export default function AdminPortal() {
 					setSuccessMessage={setSuccessMessage}
 				/>
 			)}
-			{/* Delete User modal */}
-			{addUserModal && <ACPNewUserModal setOpenModal={setAddUserModal} />}
 			{/* Success Message */}
 			{successMessage && (
 				<SuccessMessage

@@ -10,12 +10,10 @@ import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { getLocation } from "../graphql/queries";
-import { updateLocation } from "../graphql/mutations";
-export default function LocationUpdateForm(props) {
+import { createPost } from "../graphql/mutations";
+export default function PostCreateForm(props) {
   const {
-    id: idProp,
-    location: locationModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -25,39 +23,16 @@ export default function LocationUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    weblink: "",
+    title: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [weblink, setWeblink] = React.useState(initialValues.weblink);
+  const [title, setTitle] = React.useState(initialValues.title);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = locationRecord
-      ? { ...initialValues, ...locationRecord }
-      : initialValues;
-    setName(cleanValues.name);
-    setWeblink(cleanValues.weblink);
+    setTitle(initialValues.title);
     setErrors({});
   };
-  const [locationRecord, setLocationRecord] = React.useState(locationModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? (
-            await API.graphql({
-              query: getLocation,
-              variables: { id: idProp },
-            })
-          )?.data?.getLocation
-        : locationModelProp;
-      setLocationRecord(record);
-    };
-    queryData();
-  }, [idProp, locationModelProp]);
-  React.useEffect(resetStateValues, [locationRecord]);
   const validations = {
-    name: [],
-    weblink: [],
+    title: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,8 +60,7 @@ export default function LocationUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          weblink: weblink ?? null,
+          title,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -117,16 +91,18 @@ export default function LocationUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateLocation,
+            query: createPost,
             variables: {
               input: {
-                id: locationRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -135,72 +111,45 @@ export default function LocationUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "LocationUpdateForm")}
+      {...getOverrideProps(overrides, "PostCreateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={false}
+        label="Title"
+        isRequired={true}
         isReadOnly={false}
-        value={name}
+        value={title}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              weblink,
+              title: value,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.title ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.title?.hasError) {
+            runValidationTasks("title", value);
           }
-          setName(value);
+          setTitle(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Weblink"
-        isRequired={false}
-        isReadOnly={false}
-        value={weblink}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              weblink: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.weblink ?? value;
-          }
-          if (errors.weblink?.hasError) {
-            runValidationTasks("weblink", value);
-          }
-          setWeblink(value);
-        }}
-        onBlur={() => runValidationTasks("weblink", weblink)}
-        errorMessage={errors.weblink?.errorMessage}
-        hasError={errors.weblink?.hasError}
-        {...getOverrideProps(overrides, "weblink")}
+        onBlur={() => runValidationTasks("title", title)}
+        errorMessage={errors.title?.errorMessage}
+        hasError={errors.title?.hasError}
+        {...getOverrideProps(overrides, "title")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || locationModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -210,10 +159,7 @@ export default function LocationUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || locationModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

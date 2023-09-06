@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Team } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -49,7 +48,7 @@ export declare type TeamUpdateFormProps = React.PropsWithChildren<{
     overrides?: TeamUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    team?: Team;
+    team?: any;
     onSubmit?: (fields: TeamUpdateFormInputValues) => TeamUpdateFormInputValues;
     onSuccess?: (fields: TeamUpdateFormInputValues) => void;
     onError?: (fields: TeamUpdateFormInputValues, errorMessage: string) => void;

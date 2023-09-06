@@ -12,29 +12,26 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type LocationUpdateFormInputValues = {
+export declare type BlogUpdateFormInputValues = {
     name?: string;
-    weblink?: string;
 };
-export declare type LocationUpdateFormValidationValues = {
+export declare type BlogUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
-    weblink?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type LocationUpdateFormOverridesProps = {
-    LocationUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type BlogUpdateFormOverridesProps = {
+    BlogUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    weblink?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type LocationUpdateFormProps = React.PropsWithChildren<{
-    overrides?: LocationUpdateFormOverridesProps | undefined | null;
+export declare type BlogUpdateFormProps = React.PropsWithChildren<{
+    overrides?: BlogUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    location?: any;
-    onSubmit?: (fields: LocationUpdateFormInputValues) => LocationUpdateFormInputValues;
-    onSuccess?: (fields: LocationUpdateFormInputValues) => void;
-    onError?: (fields: LocationUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: LocationUpdateFormInputValues) => LocationUpdateFormInputValues;
-    onValidate?: LocationUpdateFormValidationValues;
+    blog?: any;
+    onSubmit?: (fields: BlogUpdateFormInputValues) => BlogUpdateFormInputValues;
+    onSuccess?: (fields: BlogUpdateFormInputValues) => void;
+    onError?: (fields: BlogUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: BlogUpdateFormInputValues) => BlogUpdateFormInputValues;
+    onValidate?: BlogUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function LocationUpdateForm(props: LocationUpdateFormProps): React.ReactElement;
+export default function BlogUpdateForm(props: BlogUpdateFormProps): React.ReactElement;

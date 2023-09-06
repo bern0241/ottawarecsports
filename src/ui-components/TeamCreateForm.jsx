@@ -20,9 +20,9 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Team } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createTeam } from "../graphql/mutations";
 function ArrayField({
   items = [],
   onChange,
@@ -35,6 +35,7 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -58,6 +59,7 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
+    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -167,12 +169,7 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
+          <Button size="small" variation="link" onClick={addItem}>
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -323,11 +320,18 @@ export default function TeamCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Team(modelFields));
+          await API.graphql({
+            query: createTeam,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -336,7 +340,8 @@ export default function TeamCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -493,6 +498,9 @@ export default function TeamCreateForm(props) {
         label={"Team history"}
         items={team_history}
         hasError={errors?.team_history?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("team_history", currentTeam_historyValue)
+        }
         errorMessage={errors?.team_history?.errorMessage}
         setFieldValue={setCurrentTeam_historyValue}
         inputFieldRef={team_historyRef}
@@ -575,6 +583,9 @@ export default function TeamCreateForm(props) {
         label={"Captains"}
         items={captains}
         hasError={errors?.captains?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("captains", currentCaptainsValue)
+        }
         errorMessage={errors?.captains?.errorMessage}
         setFieldValue={setCurrentCaptainsValue}
         inputFieldRef={captainsRef}

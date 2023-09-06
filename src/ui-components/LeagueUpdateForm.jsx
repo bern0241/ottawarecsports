@@ -19,9 +19,10 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { League } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getLeague } from "../graphql/queries";
+import { updateLeague } from "../graphql/mutations";
 function ArrayField({
   items = [],
   onChange,
@@ -34,6 +35,7 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -57,6 +59,7 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
+    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -166,12 +169,7 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
+          <Button size="small" variation="link" onClick={addItem}>
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -247,7 +245,12 @@ export default function LeagueUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(League, idProp)
+        ? (
+            await API.graphql({
+              query: getLeague,
+              variables: { id: idProp },
+            })
+          )?.data?.getLeague
         : leagueModelProp;
       setLeagueRecord(record);
     };
@@ -311,15 +314,15 @@ export default function LeagueUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          sport,
-          date_founded,
-          cost_per_individual,
-          cost_per_team,
-          coordinators,
-          description,
-          number_of_periods,
-          time_per_period,
+          name: name ?? null,
+          sport: sport ?? null,
+          date_founded: date_founded ?? null,
+          cost_per_individual: cost_per_individual ?? null,
+          cost_per_team: cost_per_team ?? null,
+          coordinators: coordinators ?? null,
+          description: description ?? null,
+          number_of_periods: number_of_periods ?? null,
+          time_per_period: time_per_period ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -345,21 +348,26 @@ export default function LeagueUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            League.copyOf(leagueRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateLeague,
+            variables: {
+              input: {
+                id: leagueRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -563,6 +571,9 @@ export default function LeagueUpdateForm(props) {
         label={"Coordinators"}
         items={coordinators}
         hasError={errors?.coordinators?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("coordinators", currentCoordinatorsValue)
+        }
         errorMessage={errors?.coordinators?.errorMessage}
         setFieldValue={setCurrentCoordinatorsValue}
         inputFieldRef={coordinatorsRef}

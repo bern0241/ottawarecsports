@@ -1,53 +1,4 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-orsapp-dev-154029-authRole",
-      "UnauthRoleArn": "arn:aws:iam::188632207723:role/amplify-orsapp-dev-154029-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::188632207723:role/amplify-orsapp-dev-154029-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-orsapp-dev-154029-deployment",
-      "UnauthRoleName": "amplify-orsapp-dev-154029-unauthRole",
-      "StackName": "amplify-orsapp-dev-154029",
-      "StackId": "arn:aws:cloudformation:us-east-1:188632207723:stack/amplify-orsapp-dev-154029/a1f29ea0-beba-11ed-aeef-12db10b1a56b",
-      "AmplifyAppId": "d3an2jz455khp"
-    },
-    "categories": {
-      "function": {
-        "sendEmailNotifications": {
-          "deploymentBucketName": "amplify-orsapp-dev-154029-deployment",
-          "s3Key": "amplify-builds/sendEmailNotifications-6c6e3434532f41767835-build.zip"
-        }
-      },
-      "auth": {
-        "orsapp00be8bc9": {}
-      },
-      "storage": {
-        "orsresources": {}
-      }
-    }
-  },
-  "myenv": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-orsapp-myenv-180237-authRole",
-      "UnauthRoleArn": "arn:aws:iam::259106213492:role/amplify-orsapp-myenv-180237-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::259106213492:role/amplify-orsapp-myenv-180237-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-orsapp-myenv-180237-deployment",
-      "UnauthRoleName": "amplify-orsapp-myenv-180237-unauthRole",
-      "StackName": "amplify-orsapp-myenv-180237",
-      "StackId": "arn:aws:cloudformation:us-east-1:259106213492:stack/amplify-orsapp-myenv-180237/01524170-0eed-11ee-9167-0a8f609f8807",
-      "AmplifyAppId": "d1knahwxc0etzp"
-    },
-    "categories": {
-      "auth": {
-        "orsapp00be8bc9": {},
-        "orsapp09e98252": {}
-      },
-      "function": {
-        "sendEmailNotifications": {}
-      }
-    }
-  },
   "myenvtwo": {
     "awscloudformation": {
       "AuthRoleName": "amplify-orsapp-myenvtwo-183134-authRole",
@@ -62,11 +13,7 @@
     },
     "categories": {
       "auth": {
-        "orsapp09e98252": {},
         "orsapp1da7471f": {}
-      },
-      "api": {
-        "orsapp": {}
       },
       "storage": {
         "s36d726d9f": {}

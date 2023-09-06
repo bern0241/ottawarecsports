@@ -8,9 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { SportsmanshipPoint } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getSportsmanshipPoint } from "../graphql/queries";
+import { updateSportsmanshipPoint } from "../graphql/mutations";
 export default function SportsmanshipPointUpdateForm(props) {
   const {
     id: idProp,
@@ -40,7 +41,12 @@ export default function SportsmanshipPointUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(SportsmanshipPoint, idProp)
+        ? (
+            await API.graphql({
+              query: getSportsmanshipPoint,
+              variables: { id: idProp },
+            })
+          )?.data?.getSportsmanshipPoint
         : sportsmanshipPointModelProp;
       setSportsmanshipPointRecord(record);
     };
@@ -76,7 +82,7 @@ export default function SportsmanshipPointUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          points,
+          points: points ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -102,21 +108,26 @@ export default function SportsmanshipPointUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            SportsmanshipPoint.copyOf(sportsmanshipPointRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateSportsmanshipPoint,
+            variables: {
+              input: {
+                id: sportsmanshipPointRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}

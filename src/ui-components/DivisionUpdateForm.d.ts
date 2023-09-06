@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Division } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -43,7 +42,7 @@ export declare type DivisionUpdateFormProps = React.PropsWithChildren<{
     overrides?: DivisionUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    division?: Division;
+    division?: any;
     onSubmit?: (fields: DivisionUpdateFormInputValues) => DivisionUpdateFormInputValues;
     onSuccess?: (fields: DivisionUpdateFormInputValues) => void;
     onError?: (fields: DivisionUpdateFormInputValues, errorMessage: string) => void;

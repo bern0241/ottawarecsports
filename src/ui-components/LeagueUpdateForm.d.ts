@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { League } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -52,7 +51,7 @@ export declare type LeagueUpdateFormProps = React.PropsWithChildren<{
     overrides?: LeagueUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    league?: League;
+    league?: any;
     onSubmit?: (fields: LeagueUpdateFormInputValues) => LeagueUpdateFormInputValues;
     onSuccess?: (fields: LeagueUpdateFormInputValues) => void;
     onError?: (fields: LeagueUpdateFormInputValues, errorMessage: string) => void;

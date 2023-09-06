@@ -37,10 +37,11 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 
 	return (
 		<>
-			<div onClick={(e) => setOpenModal(!openModal)}>
+			<div>
 				<input
+					onClick={(e) => setOpenModal(!openModal)}
 					type="text"
-					disabled
+					// disabled
 					id="authRoles"
 					className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer w-full"
 				/>
@@ -65,7 +66,7 @@ export default function UserGroupsDropDown({ userGroups, setUserGroups }) {
 				<>
 					<div
 						id="dropdown"
-						className="z-[100] absolute bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44  border border-gray-400"
+						className="z-[100] relative bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44  border border-gray-400"
 					>
 						<ul
 							className="py-2 text-sm text-gray-700 dark:text-gray-200"
