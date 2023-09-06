@@ -221,6 +221,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 				if (err) {
 					console.log('Error authenticating user: ', err);
 				} else {
+					// console.log("InitiateAuth Successful!")
 					// Second layer deep - uses Session provided from above
 					var params = {
 						ChallengeName: 'NEW_PASSWORD_REQUIRED',
@@ -236,6 +237,7 @@ export default function ACPNewUserModal({ setOpenModal, setSuccessMessage }) {
 						async function (err, data) {
 							if (err) console.log(err, err.stack); // an error occurred
 							else {
+								// console.log("RespondToAuthChallenge Successful!")
 								// await uploadNewProfileImageToS3(profile_pic_id);
 								setMessage({
 									status: 'success',
